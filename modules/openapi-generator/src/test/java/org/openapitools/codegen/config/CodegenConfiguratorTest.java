@@ -16,10 +16,7 @@
 
 package org.openapitools.codegen.config;
 
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.testng.annotations.Test;
+import static org.testng.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,8 +24,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.testng.Assert.*;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.testng.annotations.Test;
 
 public class CodegenConfiguratorTest {
     private void want(Map<String, Object> additionalProperties, String key, Object expected) {
@@ -37,53 +36,58 @@ public class CodegenConfiguratorTest {
 
     @Test
     public void shouldSetConfigProperties() throws IOException {
-        // This tests that properties we set on CodegenConfigurator make it down into generator properties,
+        // This tests that properties we set on CodegenConfigurator make it down into generator
+        // properties,
         // limiting to those managed in DefaultCodegen.
-        Map<String, Object> properties = new HashMap<String, Object>() {{
-           put("foo", "bar");
-           put("baz", "quux");
-           put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, true);
-           put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, true);
-           put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, false);
-           put(CodegenConstants.ENSURE_UNIQUE_PARAMS, true);
-           put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, true);
-           put(CodegenConstants.REMOVE_OPERATION_ID_PREFIX, false);
-           put(CodegenConstants.DOCEXTENSION, "D");
-           put(CodegenConstants.ENABLE_POST_PROCESS_FILE, false);
-           put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
-        }};
+        Map<String, Object> properties =
+                new HashMap<String, Object>() {
+                    {
+                        put("foo", "bar");
+                        put("baz", "quux");
+                        put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, true);
+                        put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, true);
+                        put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, false);
+                        put(CodegenConstants.ENSURE_UNIQUE_PARAMS, true);
+                        put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, true);
+                        put(CodegenConstants.REMOVE_OPERATION_ID_PREFIX, false);
+                        put(CodegenConstants.DOCEXTENSION, "D");
+                        put(CodegenConstants.ENABLE_POST_PROCESS_FILE, false);
+                        put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
+                    }
+                };
 
         File output = Files.createTempDirectory("test").toFile();
         File template = Files.createTempDirectory("test").toFile();
         String outDir = Paths.get(output.toURI()).toAbsolutePath().toString();
         String templateDir = Paths.get(template.toURI()).toAbsolutePath().toString();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
-                .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/3_0/ping.yaml")
-                .addImportMapping("one", "two")
-                .addInstantiationType("three", "four")
-                .addLanguageSpecificPrimitive("five")
-                .addGlobalProperty("six", "seven")
-                .addTypeMapping("eight", "nine")
-                .setApiPackage("test-api")
-                .setArtifactId("test-artifactId")
-                .setArtifactVersion("test-artifactVersion")
-                .setAuth("test-auth")
-                .setGitRepoId("git")
-                .setGitUserId("user")
-                .setGitHost("test.com")
-                .setGroupId("group")
-                .setHttpUserAgent("agent")
-                .setApiNameSuffix("api-suffix")
-                .setModelNamePrefix("model-prefix")
-                .setModelNameSuffix("model-suffix")
-                .setModelPackage("model-package")
-                .setPackageName("package-name")
-                .setReleaseNote("release-note")
-                .setTemplateDir(templateDir)
-                .setOutputDir(outDir);
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("java")
+                        .setAdditionalProperties(properties)
+                        .setInputSpec("src/test/resources/3_0/ping.yaml")
+                        .addImportMapping("one", "two")
+                        .addInstantiationType("three", "four")
+                        .addLanguageSpecificPrimitive("five")
+                        .addGlobalProperty("six", "seven")
+                        .addTypeMapping("eight", "nine")
+                        .setApiPackage("test-api")
+                        .setArtifactId("test-artifactId")
+                        .setArtifactVersion("test-artifactVersion")
+                        .setAuth("test-auth")
+                        .setGitRepoId("git")
+                        .setGitUserId("user")
+                        .setGitHost("test.com")
+                        .setGroupId("group")
+                        .setHttpUserAgent("agent")
+                        .setApiNameSuffix("api-suffix")
+                        .setModelNamePrefix("model-prefix")
+                        .setModelNameSuffix("model-suffix")
+                        .setModelPackage("model-package")
+                        .setPackageName("package-name")
+                        .setReleaseNote("release-note")
+                        .setTemplateDir(templateDir)
+                        .setOutputDir(outDir);
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
@@ -92,7 +96,8 @@ public class CodegenConfiguratorTest {
 
         Map<String, Object> props = config.additionalProperties();
 
-        // This verifies that things we expect to make it into the template will, as a result of this CodegenConfigurator.
+        // This verifies that things we expect to make it into the template will, as a result of
+        // this CodegenConfigurator.
         want(props, CodegenConstants.MODEL_PACKAGE, "model_package"); // * mutated by codegen
         want(props, CodegenConstants.API_PACKAGE, "test_api"); // * mutated by codegen
         want(props, CodegenConstants.HIDE_GENERATION_TIMESTAMP, true);

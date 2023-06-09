@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -24,22 +27,18 @@ import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     protected static final String LIBRARY_JERSEY1 = "jersey1";
     protected static final String LIBRARY_JERSEY2 = "jersey2";
-
 
     public static final String DEFAULT_MSF4J_LIBRARY = LIBRARY_JERSEY2;
 
     public JavaMSF4JServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(
+                features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         outputFolder = "generated-code/JavaJaxRS-MSF4J";
         apiTemplateFiles.put("apiService.mustache", ".java");
@@ -55,7 +54,6 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
         library.setEnum(supportedLibraries);
         library.setDefault(DEFAULT_MSF4J_LIBRARY);
         cliOptions.add(library);
-
     }
 
     @Override
@@ -75,7 +73,7 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
             property.example = null;
         }
 
-        //Add imports for Jackson
+        // Add imports for Jackson
         if (!BooleanUtils.toBoolean(model.isEnum)) {
             model.imports.add("JsonProperty");
 
@@ -99,34 +97,83 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
 
         if ("joda".equals(dateLibrary)) {
-            supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));
-            supportingFiles.add(new SupportingFile("JodaLocalDateProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaLocalDateProvider.java"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "JodaDateTimeProvider.mustache",
+                            (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                            "JodaDateTimeProvider.java"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "JodaLocalDateProvider.mustache",
+                            (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                            "JodaLocalDateProvider.java"));
         } else if (dateLibrary.startsWith("java8")) {
-            supportingFiles.add(new SupportingFile("OffsetDateTimeProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "OffsetDateTimeProvider.java"));
-            supportingFiles.add(new SupportingFile("LocalDateProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateProvider.java"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "OffsetDateTimeProvider.mustache",
+                            (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                            "OffsetDateTimeProvider.java"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "LocalDateProvider.mustache",
+                            (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                            "LocalDateProvider.java"));
         }
 
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("ApiException.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiException.java"));
-        supportingFiles.add(new SupportingFile("ApiOriginFilter.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiOriginFilter.java"));
-        supportingFiles.add(new SupportingFile("ApiResponseMessage.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiResponseMessage.java"));
-        supportingFiles.add(new SupportingFile("NotFoundException.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "NotFoundException.java"));
-        supportingFiles.add(new SupportingFile("jacksonJsonProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JacksonJsonProvider.java"));
-        supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "RFC3339DateFormat.java"));
-        // supportingFiles.add(new SupportingFile("bootstrap.mustache", (implFolder + '/' + apiPackage).replace(".", "/"), "Bootstrap.java").doNotOverwrite());
-        // supportingFiles.add(new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml").doNotOverwrite());
-        supportingFiles.add(new SupportingFile("StringUtil.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "StringUtil.java"));
-        supportingFiles.add(new SupportingFile("Application.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "Application.java"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile(
+                        "ApiException.mustache",
+                        (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                        "ApiException.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ApiOriginFilter.mustache",
+                        (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                        "ApiOriginFilter.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ApiResponseMessage.mustache",
+                        (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                        "ApiResponseMessage.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "NotFoundException.mustache",
+                        (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                        "NotFoundException.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "jacksonJsonProvider.mustache",
+                        (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                        "JacksonJsonProvider.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "RFC3339DateFormat.mustache",
+                        (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                        "RFC3339DateFormat.java"));
+        // supportingFiles.add(new SupportingFile("bootstrap.mustache", (implFolder + '/' +
+        // apiPackage).replace(".", "/"), "Bootstrap.java").doNotOverwrite());
+        // supportingFiles.add(new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"),
+        // "web.xml").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile(
+                        "StringUtil.mustache",
+                        (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                        "StringUtil.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "Application.mustache",
+                        (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                        "Application.java"));
     }
 
     @Override
     public ModelsMap postProcessModelsEnum(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
 
-        //Add imports for Jackson
+        // Add imports for Jackson
         List<Map<String, String>> imports = objs.getImports();
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
@@ -141,5 +188,4 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         return objs;
     }
-
 }

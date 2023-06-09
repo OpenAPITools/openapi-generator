@@ -29,18 +29,22 @@ public class Context<TSpecDocument> {
     /**
      * Instantiates a new Context.
      *
-     * @param specDocument      the spec document
+     * @param specDocument the spec document
      * @param generatorSettings the generator settings
-     * @param workflowSettings  the workflow settings
+     * @param workflowSettings the workflow settings
      */
-    public Context(TSpecDocument specDocument, GeneratorSettings generatorSettings, WorkflowSettings workflowSettings) {
+    public Context(
+            TSpecDocument specDocument,
+            GeneratorSettings generatorSettings,
+            WorkflowSettings workflowSettings) {
         this.specDocument = specDocument;
         this.generatorSettings = generatorSettings;
         this.workflowSettings = workflowSettings;
     }
 
     /**
-     * Gets the generator settings. These options are specific to "what" gets generated (language, framework).
+     * Gets the generator settings. These options are specific to "what" gets generated (language,
+     * framework).
      *
      * @return the generator settings
      */
@@ -58,7 +62,8 @@ public class Context<TSpecDocument> {
     }
 
     /**
-     * Gets the workflow settings. These options are specific to "how" code gets generated (input, output directory, ignore files, template engine, etc).
+     * Gets the workflow settings. These options are specific to "how" code gets generated (input,
+     * output directory, ignore files, template engine, etc).
      *
      * @return the workflow settings
      */

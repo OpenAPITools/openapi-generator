@@ -17,12 +17,20 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
 import joptsimple.internal.Strings;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -34,15 +42,6 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class RustClientCodegen extends AbstractRustCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
@@ -86,31 +85,29 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public RustClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.BasePath,
-                        ClientModificationFeature.UserAgent
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(
+                                                WireFormatFeature.JSON,
+                                                WireFormatFeature.XML,
+                                                WireFormatFeature.Custom))
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.BasicAuth,
+                                                SecurityFeature.ApiKey,
+                                                SecurityFeature.OAuth2_Implicit))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath,
+                                        ClientModificationFeature.UserAgent));
 
         outputFolder = "generated-code/rust";
         modelTemplateFiles.put("model.mustache", ".rs");
@@ -123,19 +120,13 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
         embeddedTemplateDir = templateDir = "rust";
 
-        defaultIncludes = new HashSet<>(
-                Arrays.asList(
-                        "map",
-                        "array")
-        );
+        defaultIncludes = new HashSet<>(Arrays.asList("map", "array"));
 
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
-                        "i8", "i16", "i32", "i64",
-                        "u8", "u16", "u32", "u64",
-                        "f32", "f64", "isize", "usize",
-                        "char", "bool", "str", "String")
-        );
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "i8", "i16", "i32", "i64", "u8", "u16", "u32", "u64", "f32", "f64",
+                                "isize", "usize", "char", "bool", "str", "String"));
 
         instantiationTypes.clear();
         /*instantiationTypes.put("array", "GoArray");
@@ -155,8 +146,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         typeMapping.put("DateTime", "String");
         typeMapping.put("password", "String");
         // TODO(bcourtine): review file mapping.
-        // I tried to map as "std::io::File", but Reqwest multipart file requires a "AsRef<Path>" param.
-        // Getting a file from a Path is simple, but the opposite is difficult. So I map as "std::path::Path".
+        // I tried to map as "std::io::File", but Reqwest multipart file requires a "AsRef<Path>"
+        // param.
+        // Getting a file from a Path is simple, but the opposite is difficult. So I map as
+        // "std::path::Path".
         typeMapping.put("file", "std::path::PathBuf");
         typeMapping.put("binary", "crate::models::File");
         typeMapping.put("ByteArray", "String");
@@ -164,35 +157,75 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         typeMapping.put("AnyType", "serde_json::Value");
 
         // no need for rust
-        //importMapping = new HashMap<String, String>();
+        // importMapping = new HashMap<String, String>();
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Rust package name (convention: lowercase).")
-                .defaultValue("openapi"));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Rust package version.")
-                .defaultValue("1.0.0"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
-                .defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, CodegenConstants.USE_SINGLE_REQUEST_PARAMETER_DESC, SchemaTypeUtil.BOOLEAN_TYPE)
-                .defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(SUPPORT_ASYNC, "If set, generate async function call instead. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
-                .defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(SUPPORT_MIDDLEWARE, "If set, add support for reqwest-middleware. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
-                .defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
-                .defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
-        cliOptions.add(new CliOption(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT_DESC, SchemaTypeUtil.BOOLEAN_TYPE)
-                .defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(PREFER_UNSIGNED_INT, "Prefer unsigned integers where minimum value is >= 0", SchemaTypeUtil.BOOLEAN_TYPE)
-                .defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(BEST_FIT_INT, "Use best fitting integer type where minimum or maximum is set", SchemaTypeUtil.BOOLEAN_TYPE)
-                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.PACKAGE_NAME,
+                                "Rust package name (convention: lowercase).")
+                        .defaultValue("openapi"));
+        cliOptions.add(
+                new CliOption(CodegenConstants.PACKAGE_VERSION, "Rust package version.")
+                        .defaultValue("1.0.0"));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
+                        .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.USE_SINGLE_REQUEST_PARAMETER,
+                                CodegenConstants.USE_SINGLE_REQUEST_PARAMETER_DESC,
+                                SchemaTypeUtil.BOOLEAN_TYPE)
+                        .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                SUPPORT_ASYNC,
+                                "If set, generate async function call instead. This option is for 'reqwest' library only",
+                                SchemaTypeUtil.BOOLEAN_TYPE)
+                        .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                SUPPORT_MIDDLEWARE,
+                                "If set, add support for reqwest-middleware. This option is for 'reqwest' library only",
+                                SchemaTypeUtil.BOOLEAN_TYPE)
+                        .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                SUPPORT_MULTIPLE_RESPONSES,
+                                "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only",
+                                SchemaTypeUtil.BOOLEAN_TYPE)
+                        .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.ENUM_NAME_SUFFIX,
+                                CodegenConstants.ENUM_NAME_SUFFIX_DESC)
+                        .defaultValue(this.enumSuffix));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT,
+                                CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT_DESC,
+                                SchemaTypeUtil.BOOLEAN_TYPE)
+                        .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                PREFER_UNSIGNED_INT,
+                                "Prefer unsigned integers where minimum value is >= 0",
+                                SchemaTypeUtil.BOOLEAN_TYPE)
+                        .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                BEST_FIT_INT,
+                                "Use best fitting integer type where minimum or maximum is set",
+                                SchemaTypeUtil.BOOLEAN_TYPE)
+                        .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
         supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
 
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use.");
+        CliOption libraryOption =
+                new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use.");
         libraryOption.setEnum(supportedLibraries);
         // set reqwest as the default
         libraryOption.setDefault(REQWEST_LIBRARY);
@@ -226,7 +259,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 CodegenModel cm = mo.getModel();
                 if (cm.discriminator != null) {
                     List<Object> discriminatorVars = new ArrayList<>();
-                    for (CodegenDiscriminator.MappedModel mappedModel : cm.discriminator.getMappedModels()) {
+                    for (CodegenDiscriminator.MappedModel mappedModel :
+                            cm.discriminator.getMappedModels()) {
                         CodegenModel model = allModels.get(mappedModel.getModelName());
                         Map<String, Object> mas = new HashMap<>();
                         mas.put("modelName", camelize(mappedModel.getModelName()));
@@ -240,7 +274,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                         mas.put("vars", vars);
                         discriminatorVars.add(mas);
                     }
-                    // TODO: figure out how to properly have the original property type that didn't go through toVarName
+                    // TODO: figure out how to properly have the original property type that didn't
+                    // go through toVarName
                     String vendorExtensionTagName = cm.discriminator.getPropertyName();
                     cm.vendorExtensions.put("x-tag-name", vendorExtensionTagName);
                     cm.vendorExtensions.put("x-mapped-models", discriminatorVars);
@@ -255,7 +290,11 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         super.processOpts();
 
         if (additionalProperties.containsKey(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT)) {
-            withAWSV4Signature = Boolean.parseBoolean(additionalProperties.get(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT).toString());
+            withAWSV4Signature =
+                    Boolean.parseBoolean(
+                            additionalProperties
+                                    .get(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT)
+                                    .toString());
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_NAME_SUFFIX)) {
@@ -268,18 +307,23 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             setPackageName("openapi");
         }
 
-        // If no version is provided in additional properties, version from API specification is used.
+        // If no version is provided in additional properties, version from API specification is
+        // used.
         // If none of them is provided then fallback to default version
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        } else if (openAPI != null && openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
+        } else if (openAPI != null
+                && openAPI.getInfo() != null
+                && openAPI.getInfo().getVersion() != null) {
             setPackageVersion(openAPI.getInfo().getVersion());
         }
 
         if (additionalProperties.containsKey(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER)) {
-            this.setUseSingleRequestParameter(convertPropertyToBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER));
+            this.setUseSingleRequestParameter(
+                    convertPropertyToBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER));
         }
-        writePropertyBack(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
+        writePropertyBack(
+                CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
 
         if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
             this.setSupportAsync(convertPropertyToBoolean(SUPPORT_ASYNC));
@@ -333,25 +377,31 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
         supportingFiles.add(new SupportingFile("Cargo.mustache", "", "Cargo.toml"));
 
-        supportingFiles.add(new SupportingFile(getLibrary() + "/api_mod.mustache", apiFolder, "mod.rs"));
-        supportingFiles.add(new SupportingFile(getLibrary() + "/configuration.mustache", apiFolder, "configuration.rs"));
+        supportingFiles.add(
+                new SupportingFile(getLibrary() + "/api_mod.mustache", apiFolder, "mod.rs"));
+        supportingFiles.add(
+                new SupportingFile(
+                        getLibrary() + "/configuration.mustache", apiFolder, "configuration.rs"));
         if (HYPER_LIBRARY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("request.rs", apiFolder, "request.rs"));
-            supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
+            supportingFiles.add(
+                    new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
         }
 
         // add lambda for sanitize version (e.g. v1.2.3-beta => 1.2.3-beta)
-        additionalProperties.put("lambdaVersion", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                String content = fragment.execute();
-                // remove v or V
-                content = content.trim().replace("v", "");
-                content = content.replace("V", "");
-                writer.write(content);
-            }
-        });
-
+        additionalProperties.put(
+                "lambdaVersion",
+                new Mustache.Lambda() {
+                    @Override
+                    public void execute(Template.Fragment fragment, Writer writer)
+                            throws IOException {
+                        String content = fragment.execute();
+                        // remove v or V
+                        content = content.trim().replace("v", "");
+                        content = content.replace("V", "");
+                        writer.write(content);
+                    }
+                });
     }
 
     private boolean getSupportAsync() {
@@ -429,16 +479,23 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             ArraySchema ap = (ArraySchema) unaliasSchema;
             Schema inner = ap.getItems();
             if (inner == null) {
-                LOGGER.warn("{}(array property) does not have a proper inner type defined.Default to string",
+                LOGGER.warn(
+                        "{}(array property) does not have a proper inner type defined.Default to string",
                         ap.getName());
-                inner = new StringSchema().description("TODO default missing array inner type to string");
+                inner =
+                        new StringSchema()
+                                .description("TODO default missing array inner type to string");
             }
             return "Vec<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(unaliasSchema)) {
             Schema inner = getAdditionalProperties(unaliasSchema);
             if (inner == null) {
-                LOGGER.warn("{}(map property) does not have a proper inner type defined. Default to string", unaliasSchema.getName());
-                inner = new StringSchema().description("TODO default missing map inner type to string");
+                LOGGER.warn(
+                        "{}(map property) does not have a proper inner type defined. Default to string",
+                        unaliasSchema.getName());
+                inner =
+                        new StringSchema()
+                                .description("TODO default missing map inner type to string");
             }
             return "::std::collections::HashMap<String, " + getTypeDeclaration(inner) + ">";
         }
@@ -473,7 +530,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             boolean bestFit = convertPropertyToBoolean(BEST_FIT_INT);
             boolean preferUnsigned = convertPropertyToBoolean(PREFER_UNSIGNED_INT);
 
-            BigInteger minimum = Optional.ofNullable(p.getMinimum()).map(BigDecimal::toBigInteger).orElse(null);
+            BigInteger minimum =
+                    Optional.ofNullable(p.getMinimum()).map(BigDecimal::toBigInteger).orElse(null);
             boolean exclusiveMinimum = Optional.ofNullable(p.getExclusiveMinimum()).orElse(false);
 
             boolean unsigned = preferUnsigned && canFitIntoUnsigned(minimum, exclusiveMinimum);
@@ -483,7 +541,9 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                     return bestFittingIntegerType(
                             minimum,
                             exclusiveMinimum,
-                            Optional.ofNullable(p.getMaximum()).map(BigDecimal::toBigInteger).orElse(null),
+                            Optional.ofNullable(p.getMaximum())
+                                    .map(BigDecimal::toBigInteger)
+                                    .orElse(null),
                             Optional.ofNullable(p.getExclusiveMaximum()).orElse(false),
                             preferUnsigned);
                 } else {
@@ -506,7 +566,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
-        // If a property is both nullable and non-required then we represent this using a double Option
+        // If a property is both nullable and non-required then we represent this using a double
+        // Option
         // which requires the `serde_with` extension crate for deserialization.
         // See: https://docs.rs/serde_with/latest/serde_with/rust/double_option/index.html
         if (property.isNullable && !property.required) {
@@ -515,19 +576,23 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
-            // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
+            // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put,
+            // Reqwest: PUT => put)
             if (HYPER_LIBRARY.equals(getLibrary())) {
-                operation.httpMethod = StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
+                operation.httpMethod =
+                        StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
             } else if (REQWEST_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = operation.httpMethod.toUpperCase(Locale.ROOT);
             }
 
             // add support for single request parameter using x-group-parameters
-            if (!operation.vendorExtensions.containsKey("x-group-parameters") && useSingleRequestParameter) {
+            if (!operation.vendorExtensions.containsKey("x-group-parameters")
+                    && useSingleRequestParameter) {
                 operation.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
             }
 
@@ -601,5 +666,4 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             return null;
         }
     }
-
 }

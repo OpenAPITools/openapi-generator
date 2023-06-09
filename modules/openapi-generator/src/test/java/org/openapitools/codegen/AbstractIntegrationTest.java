@@ -17,16 +17,15 @@
 
 package org.openapitools.codegen;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import org.openapitools.codegen.testutils.IntegrationTestPathsConfig;
-import org.testng.annotations.Test;
-import org.testng.reporters.Files;
+import static org.openapitools.codegen.testutils.AssertFile.assertPathEqualsRecursively;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.openapitools.codegen.testutils.AssertFile.assertPathEqualsRecursively;
+import org.openapitools.codegen.testutils.IntegrationTestPathsConfig;
+import org.testng.annotations.Test;
+import org.testng.reporters.Files;
 
 public abstract class AbstractIntegrationTest {
 
@@ -46,7 +45,8 @@ public abstract class AbstractIntegrationTest {
         DefaultGenerator codeGen = new DefaultGenerator();
         codeGen.setGenerateMetadata(generateMetadata);
         for (Map.Entry<String, String> propertyOverride : globalPropertyOverrides.entrySet()) {
-            codeGen.setGeneratorPropertyDefault(propertyOverride.getKey(), propertyOverride.getValue());
+            codeGen.setGeneratorPropertyDefault(
+                    propertyOverride.getKey(), propertyOverride.getValue());
         }
 
         IntegrationTestPathsConfig integrationTestPathsConfig = getIntegrationTestPathsConfig();
@@ -54,18 +54,18 @@ public abstract class AbstractIntegrationTest {
         String specContent = Files.readFile(integrationTestPathsConfig.getSpecPath().toFile());
         OpenAPI openAPI = TestUtils.parseContent(specContent);
 
-
         CodegenConfig codegenConfig = getCodegenConfig();
         codegenConfig.setOutputDir(integrationTestPathsConfig.getOutputPath().toString());
-        codegenConfig.setIgnoreFilePathOverride(integrationTestPathsConfig.getIgnoreFilePath().toFile().toString());
-        ClientOptInput opts = new ClientOptInput()
-                .config(codegenConfig)
-                .openAPI(openAPI);
+        codegenConfig.setIgnoreFilePathOverride(
+                integrationTestPathsConfig.getIgnoreFilePath().toFile().toString());
+        ClientOptInput opts = new ClientOptInput().config(codegenConfig).openAPI(openAPI);
 
         codegenConfig.additionalProperties().putAll(configProperties());
 
         codeGen.opts(opts).generate();
 
-        assertPathEqualsRecursively(integrationTestPathsConfig.getExpectedPath(), integrationTestPathsConfig.getOutputPath());
+        assertPathEqualsRecursively(
+                integrationTestPathsConfig.getExpectedPath(),
+                integrationTestPathsConfig.getOutputPath());
     }
 }

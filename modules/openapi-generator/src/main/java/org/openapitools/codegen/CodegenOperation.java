@@ -19,22 +19,54 @@ package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.tags.Tag;
-
 import java.util.*;
 
 public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
-    public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
-            returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
-            isArray, isMultipart, isVoid = false,
-            hasVersionHeaders = false, hasVersionQueryParams = false,
-            isResponseBinary = false, isResponseFile = false, isResponseOptional = false, hasReference = false, defaultReturnType = false,
-            isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful, isDeprecated, isCallbackRequest, uniqueItems, hasDefaultResponse = false,
+    public boolean hasAuthMethods,
+            hasConsumes,
+            hasProduces,
+            hasParams,
+            hasOptionalParams,
+            hasRequiredParams,
+            returnTypeIsPrimitive,
+            returnSimpleType,
+            subresourceOperation,
+            isMap,
+            isArray,
+            isMultipart,
+            isVoid = false,
+            hasVersionHeaders = false,
+            hasVersionQueryParams = false,
+            isResponseBinary = false,
+            isResponseFile = false,
+            isResponseOptional = false,
+            hasReference = false,
+            defaultReturnType = false,
+            isRestfulIndex,
+            isRestfulShow,
+            isRestfulCreate,
+            isRestfulUpdate,
+            isRestfulDestroy,
+            isRestful,
+            isDeprecated,
+            isCallbackRequest,
+            uniqueItems,
+            hasDefaultResponse = false,
             hasErrorResponseObject; // if 4xx, 5xx responses have at least one error object defined
     public CodegenProperty returnProperty;
-    public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
-            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
+    public String path,
+            operationId,
+            returnType,
+            returnFormat,
+            httpMethod,
+            returnBaseType,
+            returnContainer,
+            summary,
+            unescapedNotes,
+            notes,
+            baseName,
+            defaultResponse;
     public CodegenDiscriminator discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
     public List<CodegenServer> servers = new ArrayList<CodegenServer>();
@@ -102,7 +134,9 @@ public class CodegenOperation {
      * @return true if query parameter exists or passing API keys in query, false otherwise
      */
     public boolean getHasQueryParamsOrAuth() {
-        return getHasQueryParams() || (authMethods != null && authMethods.stream().anyMatch(authMethod -> authMethod.isKeyInQuery));
+        return getHasQueryParams()
+                || (authMethods != null
+                        && authMethods.stream().anyMatch(authMethod -> authMethod.isKeyInQuery));
     }
 
     /**
@@ -204,9 +238,9 @@ public class CodegenOperation {
     }
 
     /**
-     * @return contentTypeToOperation
-     * returns a map where the key is the request body content type and the value is the current CodegenOperation
-     * this is needed by templates when a different signature is needed for each request body content type
+     * @return contentTypeToOperation returns a map where the key is the request body content type
+     *     and the value is the current CodegenOperation this is needed by templates when a
+     *     different signature is needed for each request body content type
      */
     public Map<String, CodegenOperation> contentTypeToOperation() {
         LinkedHashMap<String, CodegenOperation> contentTypeToOperation = new LinkedHashMap<>();
@@ -214,7 +248,7 @@ public class CodegenOperation {
             return null;
         }
         LinkedHashMap<String, CodegenMediaType> content = bodyParam.getContent();
-        for (String contentType: content.keySet()) {
+        for (String contentType : content.keySet()) {
             contentTypeToOperation.put(contentType, this);
         }
         return contentTypeToOperation;
@@ -262,7 +296,8 @@ public class CodegenOperation {
      * @return true if act as Restful update method, false otherwise
      */
     public boolean isRestfulUpdate() {
-        return Arrays.asList("PUT", "PATCH").contains(httpMethod.toUpperCase(Locale.ROOT)) && isMemberPath();
+        return Arrays.asList("PUT", "PATCH").contains(httpMethod.toUpperCase(Locale.ROOT))
+                && isMemberPath();
     }
 
     /**
@@ -289,7 +324,11 @@ public class CodegenOperation {
      * @return true if Restful-style, false otherwise
      */
     public boolean isRestful() {
-        return isRestfulIndex() || isRestfulShow() || isRestfulCreate() || isRestfulUpdate() || isRestfulDestroy();
+        return isRestfulIndex()
+                || isRestfulShow()
+                || isRestfulCreate()
+                || isRestfulUpdate()
+                || isRestfulDestroy();
     }
 
     /**
@@ -395,92 +434,153 @@ public class CodegenOperation {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CodegenOperation that = (CodegenOperation) o;
-        return hasAuthMethods == that.hasAuthMethods &&
-                hasConsumes == that.hasConsumes &&
-                hasProduces == that.hasProduces &&
-                hasParams == that.hasParams &&
-                hasOptionalParams == that.hasOptionalParams &&
-                hasRequiredParams == that.hasRequiredParams &&
-                returnTypeIsPrimitive == that.returnTypeIsPrimitive &&
-                returnSimpleType == that.returnSimpleType &&
-                subresourceOperation == that.subresourceOperation &&
-                isMap == that.isMap &&
-                isArray == that.isArray &&
-                isMultipart == that.isMultipart &&
-                isVoid == that.isVoid &&
-                isResponseBinary == that.isResponseBinary &&
-                isResponseFile == that.isResponseFile &&
-                isResponseOptional == that.isResponseOptional &&
-                hasReference == that.hasReference &&
-                hasDefaultResponse == that.hasDefaultResponse &&
-                hasErrorResponseObject == that.hasErrorResponseObject &&
-                isRestfulIndex == that.isRestfulIndex &&
-                isRestfulShow == that.isRestfulShow &&
-                isRestfulCreate == that.isRestfulCreate &&
-                isRestfulUpdate == that.isRestfulUpdate &&
-                isRestfulDestroy == that.isRestfulDestroy &&
-                isRestful == that.isRestful &&
-                isDeprecated == that.isDeprecated &&
-                isCallbackRequest == that.isCallbackRequest &&
-                uniqueItems == that.uniqueItems &&
-                Objects.equals(returnProperty, that.returnProperty) &&
-                Objects.equals(responseHeaders, that.responseHeaders) &&
-                Objects.equals(path, that.path) &&
-                Objects.equals(operationId, that.operationId) &&
-                Objects.equals(returnType, that.returnType) &&
-                Objects.equals(httpMethod, that.httpMethod) &&
-                Objects.equals(returnBaseType, that.returnBaseType) &&
-                Objects.equals(returnContainer, that.returnContainer) &&
-                Objects.equals(summary, that.summary) &&
-                Objects.equals(unescapedNotes, that.unescapedNotes) &&
-                Objects.equals(notes, that.notes) &&
-                Objects.equals(baseName, that.baseName) &&
-                Objects.equals(defaultResponse, that.defaultResponse) &&
-                Objects.equals(discriminator, that.discriminator) &&
-                Objects.equals(consumes, that.consumes) &&
-                Objects.equals(produces, that.produces) &&
-                Objects.equals(prioritizedContentTypes, that.prioritizedContentTypes) &&
-                Objects.equals(servers, that.servers) &&
-                Objects.equals(bodyParam, that.bodyParam) &&
-                Objects.equals(allParams, that.allParams) &&
-                Objects.equals(bodyParams, that.bodyParams) &&
-                Objects.equals(pathParams, that.pathParams) &&
-                Objects.equals(queryParams, that.queryParams) &&
-                Objects.equals(headerParams, that.headerParams) &&
-                Objects.equals(formParams, that.formParams) &&
-                Objects.equals(cookieParams, that.cookieParams) &&
-                Objects.equals(requiredParams, that.requiredParams) &&
-                Objects.equals(optionalParams, that.optionalParams) &&
-                Objects.equals(requiredAndNotNullableParams, that.requiredAndNotNullableParams) &&
-                Objects.equals(authMethods, that.authMethods) &&
-                Objects.equals(tags, that.tags) &&
-                Objects.equals(responses, that.responses) &&
-                Objects.equals(callbacks, that.callbacks) &&
-                Objects.equals(imports, that.imports) &&
-                Objects.equals(examples, that.examples) &&
-                Objects.equals(requestBodyExamples, that.requestBodyExamples) &&
-                Objects.equals(externalDocs, that.externalDocs) &&
-                Objects.equals(vendorExtensions, that.vendorExtensions) &&
-                Objects.equals(nickname, that.nickname) &&
-                Objects.equals(operationIdOriginal, that.operationIdOriginal) &&
-                Objects.equals(operationIdLowerCase, that.operationIdLowerCase) &&
-                Objects.equals(operationIdCamelCase, that.operationIdCamelCase) &&
-                Objects.equals(operationIdSnakeCase, that.operationIdSnakeCase);
+        return hasAuthMethods == that.hasAuthMethods
+                && hasConsumes == that.hasConsumes
+                && hasProduces == that.hasProduces
+                && hasParams == that.hasParams
+                && hasOptionalParams == that.hasOptionalParams
+                && hasRequiredParams == that.hasRequiredParams
+                && returnTypeIsPrimitive == that.returnTypeIsPrimitive
+                && returnSimpleType == that.returnSimpleType
+                && subresourceOperation == that.subresourceOperation
+                && isMap == that.isMap
+                && isArray == that.isArray
+                && isMultipart == that.isMultipart
+                && isVoid == that.isVoid
+                && isResponseBinary == that.isResponseBinary
+                && isResponseFile == that.isResponseFile
+                && isResponseOptional == that.isResponseOptional
+                && hasReference == that.hasReference
+                && hasDefaultResponse == that.hasDefaultResponse
+                && hasErrorResponseObject == that.hasErrorResponseObject
+                && isRestfulIndex == that.isRestfulIndex
+                && isRestfulShow == that.isRestfulShow
+                && isRestfulCreate == that.isRestfulCreate
+                && isRestfulUpdate == that.isRestfulUpdate
+                && isRestfulDestroy == that.isRestfulDestroy
+                && isRestful == that.isRestful
+                && isDeprecated == that.isDeprecated
+                && isCallbackRequest == that.isCallbackRequest
+                && uniqueItems == that.uniqueItems
+                && Objects.equals(returnProperty, that.returnProperty)
+                && Objects.equals(responseHeaders, that.responseHeaders)
+                && Objects.equals(path, that.path)
+                && Objects.equals(operationId, that.operationId)
+                && Objects.equals(returnType, that.returnType)
+                && Objects.equals(httpMethod, that.httpMethod)
+                && Objects.equals(returnBaseType, that.returnBaseType)
+                && Objects.equals(returnContainer, that.returnContainer)
+                && Objects.equals(summary, that.summary)
+                && Objects.equals(unescapedNotes, that.unescapedNotes)
+                && Objects.equals(notes, that.notes)
+                && Objects.equals(baseName, that.baseName)
+                && Objects.equals(defaultResponse, that.defaultResponse)
+                && Objects.equals(discriminator, that.discriminator)
+                && Objects.equals(consumes, that.consumes)
+                && Objects.equals(produces, that.produces)
+                && Objects.equals(prioritizedContentTypes, that.prioritizedContentTypes)
+                && Objects.equals(servers, that.servers)
+                && Objects.equals(bodyParam, that.bodyParam)
+                && Objects.equals(allParams, that.allParams)
+                && Objects.equals(bodyParams, that.bodyParams)
+                && Objects.equals(pathParams, that.pathParams)
+                && Objects.equals(queryParams, that.queryParams)
+                && Objects.equals(headerParams, that.headerParams)
+                && Objects.equals(formParams, that.formParams)
+                && Objects.equals(cookieParams, that.cookieParams)
+                && Objects.equals(requiredParams, that.requiredParams)
+                && Objects.equals(optionalParams, that.optionalParams)
+                && Objects.equals(requiredAndNotNullableParams, that.requiredAndNotNullableParams)
+                && Objects.equals(authMethods, that.authMethods)
+                && Objects.equals(tags, that.tags)
+                && Objects.equals(responses, that.responses)
+                && Objects.equals(callbacks, that.callbacks)
+                && Objects.equals(imports, that.imports)
+                && Objects.equals(examples, that.examples)
+                && Objects.equals(requestBodyExamples, that.requestBodyExamples)
+                && Objects.equals(externalDocs, that.externalDocs)
+                && Objects.equals(vendorExtensions, that.vendorExtensions)
+                && Objects.equals(nickname, that.nickname)
+                && Objects.equals(operationIdOriginal, that.operationIdOriginal)
+                && Objects.equals(operationIdLowerCase, that.operationIdLowerCase)
+                && Objects.equals(operationIdCamelCase, that.operationIdCamelCase)
+                && Objects.equals(operationIdSnakeCase, that.operationIdSnakeCase);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams,
-                hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
-                isArray, isMultipart, isVoid, isResponseBinary, isResponseFile, isResponseOptional, hasReference,
-                hasDefaultResponse, isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-                isRestful, isDeprecated, isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod,
-                returnBaseType, returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse,
-                discriminator, consumes, produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams,
-                pathParams, queryParams, headerParams, formParams, cookieParams, requiredParams, returnProperty, optionalParams,
-                authMethods, tags, responses, callbacks, imports, examples, requestBodyExamples, externalDocs,
-                vendorExtensions, nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase,
-                operationIdSnakeCase, hasErrorResponseObject, requiredAndNotNullableParams);
+        return Objects.hash(
+                responseHeaders,
+                hasAuthMethods,
+                hasConsumes,
+                hasProduces,
+                hasParams,
+                hasOptionalParams,
+                hasRequiredParams,
+                returnTypeIsPrimitive,
+                returnSimpleType,
+                subresourceOperation,
+                isMap,
+                isArray,
+                isMultipart,
+                isVoid,
+                isResponseBinary,
+                isResponseFile,
+                isResponseOptional,
+                hasReference,
+                hasDefaultResponse,
+                isRestfulIndex,
+                isRestfulShow,
+                isRestfulCreate,
+                isRestfulUpdate,
+                isRestfulDestroy,
+                isRestful,
+                isDeprecated,
+                isCallbackRequest,
+                uniqueItems,
+                path,
+                operationId,
+                returnType,
+                httpMethod,
+                returnBaseType,
+                returnContainer,
+                summary,
+                unescapedNotes,
+                notes,
+                baseName,
+                defaultResponse,
+                discriminator,
+                consumes,
+                produces,
+                prioritizedContentTypes,
+                servers,
+                bodyParam,
+                allParams,
+                bodyParams,
+                pathParams,
+                queryParams,
+                headerParams,
+                formParams,
+                cookieParams,
+                requiredParams,
+                returnProperty,
+                optionalParams,
+                authMethods,
+                tags,
+                responses,
+                callbacks,
+                imports,
+                examples,
+                requestBodyExamples,
+                externalDocs,
+                vendorExtensions,
+                nickname,
+                operationIdOriginal,
+                operationIdLowerCase,
+                operationIdCamelCase,
+                operationIdSnakeCase,
+                hasErrorResponseObject,
+                requiredAndNotNullableParams);
     }
 }

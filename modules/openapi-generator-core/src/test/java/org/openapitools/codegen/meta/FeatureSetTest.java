@@ -1,22 +1,22 @@
 package org.openapitools.codegen.meta;
 
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.meta.features.annotations.AnnotationType;
-import org.testng.annotations.Test;
+import static org.testng.Assert.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static org.testng.Assert.*;
+import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.meta.features.annotations.AnnotationType;
+import org.testng.annotations.Test;
 
 public class FeatureSetTest {
 
     @Test
     public void flattOnUnspecified() {
         List<FeatureSet.FeatureSetFlattened> flattened = FeatureSet.UNSPECIFIED.flatten();
-        // There are 73 features at the time of writing this test. This makes sure we get a "Full" flat representation.
+        // There are 73 features at the time of writing this test. This makes sure we get a "Full"
+        // flat representation.
         int knownFeatureCount = 73;
         int checkedCount = 0;
         assertTrue(flattened.size() >= knownFeatureCount);
@@ -31,42 +31,61 @@ public class FeatureSetTest {
 
     @Test
     public void flattenOnMultipleFeatures() {
-        FeatureSet featureSet = FeatureSet.newBuilder()
-                .includeClientModificationFeatures(ClientModificationFeature.BasePath)
-                .includeDataTypeFeatures(DataTypeFeature.Int32, DataTypeFeature.Array)
-                .includeGlobalFeatures(GlobalFeature.Consumes, GlobalFeature.Examples)
-                .includeParameterFeatures(ParameterFeature.Body, ParameterFeature.Query)
-                .includeSecurityFeatures(SecurityFeature.BearerToken, SecurityFeature.BasicAuth, SecurityFeature.OAuth2_Implicit)
-                .includeDocumentationFeatures(DocumentationFeature.Model)
-                .includeSchemaSupportFeatures(SchemaSupportFeature.Composite)
-                .build();
+        FeatureSet featureSet =
+                FeatureSet.newBuilder()
+                        .includeClientModificationFeatures(ClientModificationFeature.BasePath)
+                        .includeDataTypeFeatures(DataTypeFeature.Int32, DataTypeFeature.Array)
+                        .includeGlobalFeatures(GlobalFeature.Consumes, GlobalFeature.Examples)
+                        .includeParameterFeatures(ParameterFeature.Body, ParameterFeature.Query)
+                        .includeSecurityFeatures(
+                                SecurityFeature.BearerToken,
+                                SecurityFeature.BasicAuth,
+                                SecurityFeature.OAuth2_Implicit)
+                        .includeDocumentationFeatures(DocumentationFeature.Model)
+                        .includeSchemaSupportFeatures(SchemaSupportFeature.Composite)
+                        .build();
 
         List<FeatureSet.FeatureSetFlattened> flattened = featureSet.flatten();
         List<FeatureSet.FeatureSetFlattened> supported = new ArrayList<>();
-        flattened.forEach(f -> {
-            if (f.isSupported) {
-                supported.add(f);
-            }
-        });
+        flattened.forEach(
+                f -> {
+                    if (f.isSupported) {
+                        supported.add(f);
+                    }
+                });
 
-        // note that the order of these checks is deterministic, but unrelated to feature inclusion order in this test.
+        // note that the order of these checks is deterministic, but unrelated to feature inclusion
+        // order in this test.
         assertEquals(supported.size(), 12);
 
-        Set<AnnotationType> toolingOnly = new HashSet<AnnotationType>() {{
-            add(AnnotationType.ToolingExtension);
-        }};
-        Set<AnnotationType> oas2Only = new HashSet<AnnotationType>() {{
-            add(AnnotationType.OAS2);
-        }};
-        Set<AnnotationType> oas3Only = new HashSet<AnnotationType>() {{
-            add(AnnotationType.OAS3);
-        }};
-        Set<AnnotationType> bothSpecs = new HashSet<AnnotationType>() {{
-            add(AnnotationType.OAS2);
-            add(AnnotationType.OAS3);
-        }};
+        Set<AnnotationType> toolingOnly =
+                new HashSet<AnnotationType>() {
+                    {
+                        add(AnnotationType.ToolingExtension);
+                    }
+                };
+        Set<AnnotationType> oas2Only =
+                new HashSet<AnnotationType>() {
+                    {
+                        add(AnnotationType.OAS2);
+                    }
+                };
+        Set<AnnotationType> oas3Only =
+                new HashSet<AnnotationType>() {
+                    {
+                        add(AnnotationType.OAS3);
+                    }
+                };
+        Set<AnnotationType> bothSpecs =
+                new HashSet<AnnotationType>() {
+                    {
+                        add(AnnotationType.OAS2);
+                        add(AnnotationType.OAS3);
+                    }
+                };
 
-        assertEquals(supported.get(0).featureCategory, ClientModificationFeature.class.getSimpleName());
+        assertEquals(
+                supported.get(0).featureCategory, ClientModificationFeature.class.getSimpleName());
         assertEquals(supported.get(0).featureName, ClientModificationFeature.BasePath.name());
         assertEquals(new HashSet<>(supported.get(0).source), toolingOnly);
 
@@ -117,20 +136,29 @@ public class FeatureSetTest {
 
     @Test
     public void flattenOnSingleFeatures() {
-        FeatureSet featureSet = FeatureSet.newBuilder().includeClientModificationFeatures(ClientModificationFeature.BasePath).build();
+        FeatureSet featureSet =
+                FeatureSet.newBuilder()
+                        .includeClientModificationFeatures(ClientModificationFeature.BasePath)
+                        .build();
         List<FeatureSet.FeatureSetFlattened> flattened = featureSet.flatten();
         List<FeatureSet.FeatureSetFlattened> supported = new ArrayList<>();
-        flattened.forEach(f -> {
-            if (f.isSupported) {
-                supported.add(f);
-            }
-        });
+        flattened.forEach(
+                f -> {
+                    if (f.isSupported) {
+                        supported.add(f);
+                    }
+                });
 
         assertEquals(supported.size(), 1);
-        assertEquals(supported.get(0).featureCategory, ClientModificationFeature.class.getSimpleName());
+        assertEquals(
+                supported.get(0).featureCategory, ClientModificationFeature.class.getSimpleName());
         assertEquals(supported.get(0).featureName, ClientModificationFeature.BasePath.name());
-        assertEquals(new HashSet<>(supported.get(0).source), new HashSet<AnnotationType>() {{
-            add(AnnotationType.ToolingExtension);
-        }});
+        assertEquals(
+                new HashSet<>(supported.get(0).source),
+                new HashSet<AnnotationType>() {
+                    {
+                        add(AnnotationType.ToolingExtension);
+                    }
+                });
     }
 }

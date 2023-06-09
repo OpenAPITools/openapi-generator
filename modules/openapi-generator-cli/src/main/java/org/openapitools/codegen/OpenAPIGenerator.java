@@ -17,20 +17,20 @@
 
 package org.openapitools.codegen;
 
+import static org.openapitools.codegen.Constants.CLI_NAME;
+
 import io.airlift.airline.Cli;
 import io.airlift.airline.ParseArgumentsUnexpectedException;
 import io.airlift.airline.ParseOptionMissingException;
 import io.airlift.airline.ParseOptionMissingValueException;
-import org.openapitools.codegen.cmd.*;
-
 import java.util.Locale;
-
-import static org.openapitools.codegen.Constants.CLI_NAME;
+import org.openapitools.codegen.cmd.*;
 
 /**
  * User: lanwen Date: 24.03.15 Time: 17:56
- * <p>
- * Command line interface for OpenAPI Generator use `openapi-generator-cli.jar help` for more info
+ *
+ * <p>Command line interface for OpenAPI Generator use `openapi-generator-cli.jar help` for more
+ * info
  */
 public class OpenAPIGenerator {
 
@@ -54,8 +54,7 @@ public class OpenAPIGenerator {
                                 Validate.class,
                                 Version.class,
                                 CompletionCommand.class,
-                                GenerateBatch.class
-                        );
+                                GenerateBatch.class);
 
         builder.withGroup("author")
                 .withDescription("Utilities for authoring generators or customizing templates.")
@@ -65,18 +64,27 @@ public class OpenAPIGenerator {
         try {
             builder.build().parse(args).run();
 
-            // If CLI runs without a command, consider this an error. This exists after initial parse/run
+            // If CLI runs without a command, consider this an error. This exists after initial
+            // parse/run
             // so we can present the configured "default command".
-            // We can check against empty args because unrecognized arguments/commands result in an exception.
-            // This is useful to exit with status 1, for example, so that misconfigured scripts fail fast.
-            // We don't want the default command to exit internally with status 1 because when the default command is something like "list",
+            // We can check against empty args because unrecognized arguments/commands result in an
+            // exception.
+            // This is useful to exit with status 1, for example, so that misconfigured scripts fail
+            // fast.
+            // We don't want the default command to exit internally with status 1 because when the
+            // default command is something like "list",
             // it would prevent scripting using the command directly. Example:
-            //     java -jar cli.jar list --short | tr ',' '\n' | xargs -I{} echo "Doing something with {}"
+            //     java -jar cli.jar list --short | tr ',' '\n' | xargs -I{} echo "Doing something
+            // with {}"
             if (args.length == 0) {
                 System.exit(1);
             }
         } catch (ParseArgumentsUnexpectedException e) {
-            System.err.printf(Locale.ROOT, "[error] %s%n%nSee '%s help' for usage.%n", e.getMessage(), CLI_NAME);
+            System.err.printf(
+                    Locale.ROOT,
+                    "[error] %s%n%nSee '%s help' for usage.%n",
+                    e.getMessage(),
+                    CLI_NAME);
             System.exit(1);
         } catch (ParseOptionMissingException | ParseOptionMissingValueException e) {
             System.err.printf(Locale.ROOT, "[error] %s%n", e.getMessage());

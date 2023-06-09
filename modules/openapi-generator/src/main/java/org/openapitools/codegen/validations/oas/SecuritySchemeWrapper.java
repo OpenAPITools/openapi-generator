@@ -3,9 +3,7 @@ package org.openapitools.codegen.validations.oas;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 
-/**
- * Encapsulates an OAS parameter.
- */
+/** Encapsulates an OAS parameter. */
 public class SecuritySchemeWrapper {
     OpenAPI specification;
     private SecurityScheme securityScheme;

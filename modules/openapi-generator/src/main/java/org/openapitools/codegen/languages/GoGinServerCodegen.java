@@ -16,6 +16,10 @@
 
 package org.openapitools.codegen.languages;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.List;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
@@ -27,12 +31,6 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
 
 public class GoGinServerCodegen extends AbstractGoCodegen {
 
@@ -46,25 +44,19 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
     public GoGinServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.noneOf(
-                        SecurityFeature.class
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie));
 
         // set the output folder here
         outputFolder = "generated-code/go";
@@ -75,9 +67,7 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
          * for multiple files for model, just put another entry in the `modelTemplateFiles` with
          * a different extension
          */
-        modelTemplateFiles.put(
-                "model.mustache",
-                ".go");
+        modelTemplateFiles.put("model.mustache", ".go");
 
         /*
          * Api classes.  You can write classes for each Api file with the apiTemplateFiles map.
@@ -85,8 +75,8 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
          * class
          */
         apiTemplateFiles.put(
-                "controller-api.mustache",   // the template to use
-                ".go");       // the extension for each file to write
+                "controller-api.mustache", // the template to use
+                ".go"); // the extension for each file to write
 
         /*
          * Template Location.  This is the location which templates will be read from.  The generator
@@ -100,31 +90,74 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // data type
-                        "string", "bool", "uint", "uint8", "uint16", "uint32", "uint64",
-                        "int", "int8", "int16", "int32", "int64", "float32", "float64",
-                        "complex64", "complex128", "rune", "byte", "uintptr",
-
-                        "break", "default", "func", "interface", "select",
-                        "case", "defer", "go", "map", "struct",
-                        "chan", "else", "goto", "package", "switch",
-                        "const", "fallthrough", "if", "range", "type",
-                        "continue", "for", "import", "return", "var", "error", "nil")
+                        "string",
+                        "bool",
+                        "uint",
+                        "uint8",
+                        "uint16",
+                        "uint32",
+                        "uint64",
+                        "int",
+                        "int8",
+                        "int16",
+                        "int32",
+                        "int64",
+                        "float32",
+                        "float64",
+                        "complex64",
+                        "complex128",
+                        "rune",
+                        "byte",
+                        "uintptr",
+                        "break",
+                        "default",
+                        "func",
+                        "interface",
+                        "select",
+                        "case",
+                        "defer",
+                        "go",
+                        "map",
+                        "struct",
+                        "chan",
+                        "else",
+                        "goto",
+                        "package",
+                        "switch",
+                        "const",
+                        "fallthrough",
+                        "if",
+                        "range",
+                        "type",
+                        "continue",
+                        "for",
+                        "import",
+                        "return",
+                        "var",
+                        "error",
+                        "nil")
                 // Added "error" as it's used so frequently that it may as well be a keyword
-        );
+                );
 
-        cliOptions.add(new CliOption("apiPath", "Name of the folder that contains the Go source code")
-                .defaultValue(apiPath));
+        cliOptions.add(
+                new CliOption("apiPath", "Name of the folder that contains the Go source code")
+                        .defaultValue(apiPath));
 
-        CliOption optServerPort = new CliOption("serverPort", "The network port the generated server binds to");
+        CliOption optServerPort =
+                new CliOption("serverPort", "The network port the generated server binds to");
         optServerPort.setType("int");
         optServerPort.defaultValue(Integer.toString(serverPort));
         cliOptions.add(optServerPort);
 
-        cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_CLASS_PREFIX, CodegenConstants.ENUM_CLASS_PREFIX_DESC));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        CodegenConstants.ENUM_CLASS_PREFIX,
+                        CodegenConstants.ENUM_CLASS_PREFIX_DESC));
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
         OperationMap operations = objs.getOperations();
@@ -171,7 +204,11 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_CLASS_PREFIX)) {
-            setEnumClassPrefix(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.ENUM_CLASS_PREFIX).toString()));
+            setEnumClassPrefix(
+                    Boolean.parseBoolean(
+                            additionalProperties
+                                    .get(CodegenConstants.ENUM_CLASS_PREFIX)
+                                    .toString()));
             if (enumClassPrefix) {
                 additionalProperties.put(CodegenConstants.ENUM_CLASS_PREFIX, true);
             }
@@ -189,8 +226,8 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
         supportingFiles.add(new SupportingFile("routers.mustache", apiPath, "routers.go"));
-        supportingFiles.add(new SupportingFile("README.mustache", apiPath, "README.md")
-                .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("README.mustache", apiPath, "README.md").doNotOverwrite());
         supportingFiles.add(new SupportingFile("go.mod.mustache", "go.mod"));
     }
 
@@ -211,8 +248,8 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
     }
 
     /**
-     * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -g flag.
+     * Configures a friendly name for the generator. This will be used by the generator to select
+     * the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -222,19 +259,19 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
     }
 
     /**
-     * Returns human-friendly help for the generator.  Provide the consumer with help
-     * tips, parameters here
+     * Returns human-friendly help for the generator. Provide the consumer with help tips,
+     * parameters here
      *
      * @return A string value for the help message
      */
     @Override
     public String getHelp() {
-        return "Generates a Go server library with the gin framework using OpenAPI-Generator." +
-                "By default, it will also generate service classes.";
+        return "Generates a Go server library with the gin framework using OpenAPI-Generator."
+                + "By default, it will also generate service classes.";
     }
 
     /**
-     * Location to write api files.  You can use the apiPackage() as defined when the class is
+     * Location to write api files. You can use the apiPackage() as defined when the class is
      * instantiated
      */
     @Override
@@ -246,5 +283,4 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
     public String modelFileFolder() {
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
-
 }

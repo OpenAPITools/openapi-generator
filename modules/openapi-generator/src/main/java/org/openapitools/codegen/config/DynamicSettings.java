@@ -5,23 +5,23 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.lang.reflect.Field;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.api.TemplateDefinition;
 import org.openapitools.codegen.api.TemplateFileType;
 
-import java.lang.reflect.Field;
-import java.util.*;
-import java.util.stream.Collectors;
-
 /**
- * Represents a serialization helper of {@link org.openapitools.codegen.config.GeneratorSettings} and {@link org.openapitools.codegen.config.WorkflowSettings}. When used to deserialize any available Jackson binding input,
- * this will accumulate any "unknown properties" into {@link org.openapitools.codegen.config.GeneratorSettings#getAdditionalProperties()} as a side effect of calling
- * {@link org.openapitools.codegen.config.DynamicSettings#getGeneratorSettings()}.
+ * Represents a serialization helper of {@link org.openapitools.codegen.config.GeneratorSettings}
+ * and {@link org.openapitools.codegen.config.WorkflowSettings}. When used to deserialize any
+ * available Jackson binding input, this will accumulate any "unknown properties" into {@link
+ * org.openapitools.codegen.config.GeneratorSettings#getAdditionalProperties()} as a side effect of
+ * calling {@link org.openapitools.codegen.config.DynamicSettings#getGeneratorSettings()}.
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class DynamicSettings {
-    @JsonAnySetter
-    private Map<String, Object> dynamicProperties = new HashMap<>();
+    @JsonAnySetter private Map<String, Object> dynamicProperties = new HashMap<>();
 
     @JsonUnwrapped
     @JsonDeserialize(builder = GeneratorSettings.Builder.class)
@@ -39,18 +39,24 @@ public class DynamicSettings {
     public List<TemplateDefinition> getFiles() {
         if (files == null) return new ArrayList<>();
 
-        return files.entrySet().stream().map(kvp -> {
-            TemplateDefinition file = kvp.getValue();
-            String templateFile = kvp.getKey();
-            String destination = file.getDestinationFilename();
-            if (TemplateFileType.SupportingFiles.equals(file.getTemplateType()) && StringUtils.isBlank(destination)) {
-                // this special case allows definitions such as LICENSE:{}
-                destination = templateFile;
-            }
-            TemplateDefinition definition = new TemplateDefinition(templateFile, file.getFolder(), destination);
-            definition.setTemplateType(file.getTemplateType());
-            return definition;
-        }).collect(Collectors.toList());
+        return files.entrySet().stream()
+                .map(
+                        kvp -> {
+                            TemplateDefinition file = kvp.getValue();
+                            String templateFile = kvp.getKey();
+                            String destination = file.getDestinationFilename();
+                            if (TemplateFileType.SupportingFiles.equals(file.getTemplateType())
+                                    && StringUtils.isBlank(destination)) {
+                                // this special case allows definitions such as LICENSE:{}
+                                destination = templateFile;
+                            }
+                            TemplateDefinition definition =
+                                    new TemplateDefinition(
+                                            templateFile, file.getFolder(), destination);
+                            definition.setTemplateType(file.getTemplateType());
+                            return definition;
+                        })
+                .collect(Collectors.toList());
     }
 
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
@@ -58,7 +64,8 @@ public class DynamicSettings {
     private Map<String, TemplateDefinition> files;
 
     /**
-     * Gets the {@link org.openapitools.codegen.config.GeneratorSettings} included in the config object.
+     * Gets the {@link org.openapitools.codegen.config.GeneratorSettings} included in the config
+     * object.
      *
      * @return A new instance of settings
      */
@@ -66,7 +73,8 @@ public class DynamicSettings {
         excludeSettingsFromDynamicProperties();
         GeneratorSettings.Builder builder = GeneratorSettings.newBuilder(generatorSettings);
 
-        // This allows us to put any unknown top-level properties into additionalProperties of the generator object.
+        // This allows us to put any unknown top-level properties into additionalProperties of the
+        // generator object.
         for (Map.Entry<String, Object> entry : dynamicProperties.entrySet()) {
             builder.withAdditionalProperty(entry.getKey(), entry.getValue());
         }
@@ -75,21 +83,19 @@ public class DynamicSettings {
     }
 
     /**
-     * Gets the {@link org.openapitools.codegen.config.WorkflowSettings} included in the config object.
+     * Gets the {@link org.openapitools.codegen.config.WorkflowSettings} included in the config
+     * object.
      *
      * @return A new instance of settings
      */
     public WorkflowSettings getWorkflowSettings() {
         excludeSettingsFromDynamicProperties();
-        return WorkflowSettings.newBuilder(workflowSettings)
-                .build();
+        return WorkflowSettings.newBuilder(workflowSettings).build();
     }
 
-    /**
-     * <p>Constructor for DynamicSettings.</p>
-     */
+    /** Constructor for DynamicSettings. */
     @JsonCreator
-    public DynamicSettings() { }
+    public DynamicSettings() {}
 
     /**
      * Gets all "custom" properties included in the config object.
@@ -100,7 +106,7 @@ public class DynamicSettings {
         return dynamicProperties;
     }
 
-    private void excludeSettingsFromDynamicProperties(){
+    private void excludeSettingsFromDynamicProperties() {
         Set<String> fieldNames = new HashSet<>();
         for (Field field : GeneratorSettings.class.getDeclaredFields()) {
             fieldNames.add(field.getName());

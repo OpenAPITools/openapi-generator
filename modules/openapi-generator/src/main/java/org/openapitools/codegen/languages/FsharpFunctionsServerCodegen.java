@@ -16,12 +16,11 @@
 
 package org.openapitools.codegen.languages;
 
+import java.io.File;
+import java.util.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import java.io.File;
-import java.util.*;
-
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +28,7 @@ import org.slf4j.LoggerFactory;
 public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
     public static final String PROJECT_NAME = "projectName";
 
-     final Logger LOGGER = LoggerFactory.getLogger(FsharpFunctionsServerCodegen.class);
+    final Logger LOGGER = LoggerFactory.getLogger(FsharpFunctionsServerCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -47,68 +46,58 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
         super();
 
         // TODO: There's a README.mustache, but it doesn't seem to be referenced…
-        modifyFeatureSet(features -> features
-//                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-                .securityFeatures(EnumSet.noneOf(
-                        SecurityFeature.class
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling,
-                        GlobalFeature.BasePath,
-                        GlobalFeature.Host
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .includeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features
+                                //
+                                // .includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling,
+                                        GlobalFeature.BasePath,
+                                        GlobalFeature.Host)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .includeParameterFeatures(ParameterFeature.Cookie));
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         // CLI options
-        addOption(CodegenConstants.LICENSE_URL,
-                CodegenConstants.LICENSE_URL_DESC,
-                licenseUrl);
+        addOption(CodegenConstants.LICENSE_URL, CodegenConstants.LICENSE_URL_DESC, licenseUrl);
 
-        addOption(CodegenConstants.LICENSE_NAME,
-                CodegenConstants.LICENSE_NAME_DESC,
-                licenseName);
+        addOption(CodegenConstants.LICENSE_NAME, CodegenConstants.LICENSE_NAME_DESC, licenseName);
 
-        addOption(CodegenConstants.PACKAGE_COPYRIGHT,
+        addOption(
+                CodegenConstants.PACKAGE_COPYRIGHT,
                 CodegenConstants.PACKAGE_COPYRIGHT_DESC,
                 packageCopyright);
 
-        addOption(CodegenConstants.PACKAGE_AUTHORS,
+        addOption(
+                CodegenConstants.PACKAGE_AUTHORS,
                 CodegenConstants.PACKAGE_AUTHORS_DESC,
                 packageAuthors);
 
-        addOption(CodegenConstants.PACKAGE_TITLE,
-                CodegenConstants.PACKAGE_TITLE_DESC,
-                packageTitle);
+        addOption(
+                CodegenConstants.PACKAGE_TITLE, CodegenConstants.PACKAGE_TITLE_DESC, packageTitle);
 
-        addOption(CodegenConstants.PACKAGE_NAME,
+        addOption(
+                CodegenConstants.PACKAGE_NAME,
                 "F# module name (convention: Title.Case).",
                 packageName);
 
-        addOption(CodegenConstants.PACKAGE_VERSION,
-                "F# package version.",
-                packageVersion);
+        addOption(CodegenConstants.PACKAGE_VERSION, "F# package version.", packageVersion);
 
-        addOption(CodegenConstants.OPTIONAL_PROJECT_GUID,
+        addOption(
+                CodegenConstants.OPTIONAL_PROJECT_GUID,
                 CodegenConstants.OPTIONAL_PROJECT_GUID_DESC,
                 null);
 
-        addOption(CodegenConstants.SOURCE_FOLDER,
-                CodegenConstants.SOURCE_FOLDER_DESC,
-                sourceFolder);
+        addOption(
+                CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
     }
 
     @Override
@@ -131,7 +120,9 @@ public class FsharpFunctionsServerCodegen extends AbstractFSharpCodegen {
         supportingFiles.add(new SupportingFile("build.bat.mustache", projectFolder, "build.bat"));
         supportingFiles.add(new SupportingFile("host.json", "", "host.json"));
         supportingFiles.add(new SupportingFile("local.settings.json", "", "local.settings.json"));
-        supportingFiles.add(new SupportingFile("Project.fsproj.mustache", projectFolder, packageName + ".fsproj"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "Project.fsproj.mustache", projectFolder, packageName + ".fsproj"));
     }
 
     @Override

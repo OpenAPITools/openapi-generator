@@ -16,7 +16,13 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.*;
+
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.util.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -28,13 +34,6 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.*;
-
-import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNestjsClientCodegen.class);
@@ -52,7 +51,8 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
     public static final String MODEL_FILE_SUFFIX = "modelFileSuffix";
     public static final String FILE_NAMING = "fileNaming";
     public static final String STRING_ENUMS = "stringEnums";
-    public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
+    public static final String STRING_ENUMS_DESC =
+            "Generate string enums instead of objects for enum values.";
 
     protected String nestVersion = "8.0.0";
     protected String npmRepository = null;
@@ -68,9 +68,10 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
     public TypeScriptNestjsClientCodegen() {
         super();
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-            .stability(Stability.EXPERIMENTAL)
-            .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata)
+                        .stability(Stability.EXPERIMENTAL)
+                        .build();
 
         this.outputFolder = "generated-code/typescript-nestjs";
 
@@ -84,21 +85,46 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         apiPackage = "api";
         modelPackage = "model";
 
-        this.cliOptions.add(new CliOption(NPM_REPOSITORY,
-                "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(CliOption.newBoolean(WITH_INTERFACES,
-                "Setting this property to true will generate interfaces next to the default class implementations.",
-                false));
-        this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
-                "Use discriminators to create tagged unions instead of extending interfaces.",
-                this.taggedUnions));
-        this.cliOptions.add(new CliOption(NEST_VERSION, "The version of Nestjs.").addEnum("8.0.0","Use new HttpModule and HttpService from @nestjs/axios.").addEnum("6.0.0","Use old HttpModule and HttpService from @nestjs/common.").defaultValue(this.nestVersion));
-        this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
-        this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts).").defaultValue(this.serviceFileSuffix));
+        this.cliOptions.add(
+                new CliOption(
+                        NPM_REPOSITORY,
+                        "Use this property to set an url your private npmRepo in the package.json"));
+        this.cliOptions.add(
+                CliOption.newBoolean(
+                        WITH_INTERFACES,
+                        "Setting this property to true will generate interfaces next to the default class implementations.",
+                        false));
+        this.cliOptions.add(
+                CliOption.newBoolean(
+                        TAGGED_UNIONS,
+                        "Use discriminators to create tagged unions instead of extending interfaces.",
+                        this.taggedUnions));
+        this.cliOptions.add(
+                new CliOption(NEST_VERSION, "The version of Nestjs.")
+                        .addEnum("8.0.0", "Use new HttpModule and HttpService from @nestjs/axios.")
+                        .addEnum("6.0.0", "Use old HttpModule and HttpService from @nestjs/common.")
+                        .defaultValue(this.nestVersion));
+        this.cliOptions.add(
+                new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.")
+                        .defaultValue(this.serviceSuffix));
+        this.cliOptions.add(
+                new CliOption(
+                                SERVICE_FILE_SUFFIX,
+                                "The suffix of the file of the generated service (service<suffix>.ts).")
+                        .defaultValue(this.serviceFileSuffix));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
-        this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts)."));
-        this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
-        this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
+        this.cliOptions.add(
+                new CliOption(
+                        MODEL_FILE_SUFFIX,
+                        "The suffix of the file of the generated model (model<suffix>.ts)."));
+        this.cliOptions.add(
+                new CliOption(
+                                FILE_NAMING,
+                                "Naming convention for the output files: 'camelCase', 'kebab-case'.")
+                        .defaultValue(this.fileNaming));
+        this.cliOptions.add(
+                new CliOption(STRING_ENUMS, STRING_ENUMS_DESC)
+                        .defaultValue(String.valueOf(this.stringEnums)));
     }
 
     @Override
@@ -121,17 +147,27 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
     public void processOpts() {
         super.processOpts();
         supportingFiles.add(
-                new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
-        supportingFiles
-                .add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
+                new SupportingFile(
+                        "models.mustache",
+                        modelPackage().replace('.', File.separatorChar),
+                        "models.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
-        supportingFiles.add(new SupportingFile("api.module.mustache", getIndexDirectory(), "api.module.ts"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", getIndexDirectory(), "configuration.ts"));
-        supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
-        //supportingFiles.add(new SupportingFile("encoder.mustache", getIndexDirectory(), "encoder.ts"));
+        supportingFiles.add(
+                new SupportingFile("api.module.mustache", getIndexDirectory(), "api.module.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "configuration.mustache", getIndexDirectory(), "configuration.ts"));
+        supportingFiles.add(
+                new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
+        // supportingFiles.add(new SupportingFile("encoder.mustache", getIndexDirectory(),
+        // "encoder.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
+        supportingFiles.add(
+                new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
 
         // determine Nestjs version
         SemVer nestVersion;
@@ -140,7 +176,8 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         } else {
             nestVersion = new SemVer(this.nestVersion);
             LOGGER.info("generating code for Nestjs {} ...", nestVersion);
-            LOGGER.info("  (you can select the nestjs version by setting the additionalProperty nestVersion)");
+            LOGGER.info(
+                    "  (you can select the nestjs version by setting the additionalProperty nestVersion)");
         }
 
         if (additionalProperties.containsKey(NPM_NAME)) {
@@ -157,7 +194,8 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         }
 
         if (additionalProperties.containsKey(WITH_INTERFACES)) {
-            boolean withInterfaces = Boolean.parseBoolean(additionalProperties.get(WITH_INTERFACES).toString());
+            boolean withInterfaces =
+                    Boolean.parseBoolean(additionalProperties.get(WITH_INTERFACES).toString());
             if (withInterfaces) {
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
@@ -168,7 +206,8 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         }
 
         additionalProperties.put(NEST_VERSION, nestVersion);
-        additionalProperties.put("injectionToken", nestVersion.atLeast("4.0.0") ? "InjectionToken" : "OpaqueToken");
+        additionalProperties.put(
+                "injectionToken", nestVersion.atLeast("4.0.0") ? "InjectionToken" : "OpaqueToken");
         additionalProperties.put("injectionTokenTyped", nestVersion.atLeast("4.0.0"));
         additionalProperties.put("useHttpClient", nestVersion.atLeast("4.3.0"));
         additionalProperties.put("useAxiosHttpModule", nestVersion.atLeast("8.0.0"));
@@ -200,11 +239,16 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         }
 
         additionalProperties.put("tsVersion", ">=3.6.0. <4.0.0");
-        //Files for building our lib
-        supportingFiles.add(new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
-        supportingFiles.add(new SupportingFile("tsconfig.build.mustache", getIndexDirectory(), "tsconfig.build.json"));
-        supportingFiles.add(new SupportingFile("tsconfig.mustache", getIndexDirectory(), "tsconfig.json"));
-        supportingFiles.add(new SupportingFile("tslint.mustache", getIndexDirectory(), "tslint.json"));
+        // Files for building our lib
+        supportingFiles.add(
+                new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "tsconfig.build.mustache", getIndexDirectory(), "tsconfig.build.json"));
+        supportingFiles.add(
+                new SupportingFile("tsconfig.mustache", getIndexDirectory(), "tsconfig.json"));
+        supportingFiles.add(
+                new SupportingFile("tslint.mustache", getIndexDirectory(), "tslint.json"));
     }
 
     private String getIndexDirectory() {
@@ -271,7 +315,8 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap operations, List<ModelMap> allModels) {
         OperationMap objs = operations.getOperations();
 
         // Add filename information for api imports
@@ -305,7 +350,8 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
                         insideCurly--;
 
                         // Add the more complicated component instead of just the brace.
-                        CodegenParameter parameter = findPathParameterByName(op, parameterName.toString());
+                        CodegenParameter parameter =
+                                findPathParameterByName(op, parameterName.toString());
                         pathBuffer.append(toVarName(parameterName.toString()));
                         if (parameter != null && parameter.isDateTime) {
                             pathBuffer.append(".toISOString()");
@@ -343,11 +389,12 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
     /**
      * Finds and returns a path parameter of an operation by its name
      *
-     * @param operation     the operation
+     * @param operation the operation
      * @param parameterName the name of the parameter
      * @return param
      */
-    private CodegenParameter findPathParameterByName(CodegenOperation operation, String parameterName) {
+    private CodegenParameter findPathParameterByName(
+            CodegenOperation operation, String parameterName) {
         for (CodegenParameter param : operation.pathParams) {
             if (param.baseName.equals(parameterName)) {
                 return param;
@@ -387,9 +434,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         return result;
     }
 
-    /**
-     * Parse imports
-     */
+    /** Parse imports */
     private Set<String> parseImports(CodegenModel cm) {
         Set<String> newImports = new HashSet<>();
         if (cm.imports.size() > 0) {
@@ -493,29 +538,35 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
      * Validates that the given string value only contains '-', '.' and alpha numeric characters.
      * Throws an IllegalArgumentException, if the string contains any other characters.
      *
-     * @param argument The name of the argument being validated. This is only used for displaying an error message.
-     * @param value    The value that is being validated.
+     * @param argument The name of the argument being validated. This is only used for displaying an
+     *     error message.
+     * @param value The value that is being validated.
      */
     private void validateFileSuffixArgument(String argument, String value) {
         if (!value.matches(FILE_NAME_SUFFIX_PATTERN)) {
             throw new IllegalArgumentException(
-                    String.format(Locale.ROOT, "%s file suffix only allows '.', '-' and alphanumeric characters.", argument)
-            );
+                    String.format(
+                            Locale.ROOT,
+                            "%s file suffix only allows '.', '-' and alphanumeric characters.",
+                            argument));
         }
     }
 
     /**
-     * Validates that the given string value only contains alpha numeric characters.
-     * Throws an IllegalArgumentException, if the string contains any other characters.
+     * Validates that the given string value only contains alpha numeric characters. Throws an
+     * IllegalArgumentException, if the string contains any other characters.
      *
-     * @param argument The name of the argument being validated. This is only used for displaying an error message.
-     * @param value    The value that is being validated.
+     * @param argument The name of the argument being validated. This is only used for displaying an
+     *     error message.
+     * @param value The value that is being validated.
      */
     private void validateClassSuffixArgument(String argument, String value) {
         if (!value.matches(CLASS_NAME_SUFFIX_PATTERN)) {
             throw new IllegalArgumentException(
-                    String.format(Locale.ROOT, "%s class suffix only allows alphanumeric characters.", argument)
-            );
+                    String.format(
+                            Locale.ROOT,
+                            "%s class suffix only allows alphanumeric characters.",
+                            argument));
         }
     }
 
@@ -528,8 +579,10 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         if ("camelCase".equals(fileNaming) || "kebab-case".equals(fileNaming)) {
             this.fileNaming = fileNaming;
         } else {
-            throw new IllegalArgumentException("Invalid file naming '" +
-                    fileNaming + "'. Must be 'camelCase' or 'kebab-case'");
+            throw new IllegalArgumentException(
+                    "Invalid file naming '"
+                            + fileNaming
+                            + "'. Must be 'camelCase' or 'kebab-case'");
         }
     }
 
@@ -548,6 +601,4 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         }
         return name;
     }
-
 }
-

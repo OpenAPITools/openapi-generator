@@ -21,6 +21,9 @@ import com.google.common.annotations.VisibleForTesting;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import java.io.File;
+import java.net.URL;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -31,32 +34,41 @@ import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.net.URL;
-import java.util.*;
-
-public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
+public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
+        implements BeanValidationFeatures {
     public static final String SERVER_PORT = "serverPort";
     public static final String USE_TAGS = "useTags";
 
     /**
-     * Name of the sub-directory in "src/main/resource" where to find the
-     * Mustache template for the JAX-RS Codegen.
+     * Name of the sub-directory in "src/main/resource" where to find the Mustache template for the
+     * JAX-RS Codegen.
      */
     protected static final String JAXRS_TEMPLATE_DIRECTORY_NAME = "JavaJaxRS";
-    protected static final String X_MICROPROFILE_OPEN_API_RETURN_SCHEMA_CONTAINER = "x-microprofile-open-api-return-schema-container";
-    protected static final String X_MICROPROFILE_OPEN_API_RETURN_UNIQUE_ITEMS = "x-microprofile-open-api-return-unique-items";
-    protected static final String X_MICROPROFILE_OPEN_API_SCHEMA_TYPE = "x-microprofile-open-api-schema-type";
-    protected static final String SCHEMA_TYPE_ARRAY = "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY";
-    protected static final Map<String,String> ARRAY_OF_MICROPROFILE_OPEN_API_SCHEMA_TYPES;
+
+    protected static final String X_MICROPROFILE_OPEN_API_RETURN_SCHEMA_CONTAINER =
+            "x-microprofile-open-api-return-schema-container";
+    protected static final String X_MICROPROFILE_OPEN_API_RETURN_UNIQUE_ITEMS =
+            "x-microprofile-open-api-return-unique-items";
+    protected static final String X_MICROPROFILE_OPEN_API_SCHEMA_TYPE =
+            "x-microprofile-open-api-schema-type";
+    protected static final String SCHEMA_TYPE_ARRAY =
+            "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY";
+    protected static final Map<String, String> ARRAY_OF_MICROPROFILE_OPEN_API_SCHEMA_TYPES;
+
     static {
         final Map<String, String> schemaTypes = new HashMap<>();
-        schemaTypes.put("integer", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.INTEGER");
-        schemaTypes.put("number", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.NUMBER");
-        schemaTypes.put("boolean", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.BOOLEAN");
-        schemaTypes.put("string", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.STRING");
-        schemaTypes.put("object", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.OBJECT");
-        schemaTypes.put("array", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY");
+        schemaTypes.put(
+                "integer", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.INTEGER");
+        schemaTypes.put(
+                "number", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.NUMBER");
+        schemaTypes.put(
+                "boolean", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.BOOLEAN");
+        schemaTypes.put(
+                "string", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.STRING");
+        schemaTypes.put(
+                "object", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.OBJECT");
+        schemaTypes.put(
+                "array", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY");
         ARRAY_OF_MICROPROFILE_OPEN_API_SCHEMA_TYPES = Collections.unmodifiableMap(schemaTypes);
     }
 
@@ -76,7 +88,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         sourceFolder = "src/gen/java";
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-jaxrs-server";
-        dateLibrary = "legacy"; //TODO: add joda support to all jax-rs
+        dateLibrary = "legacy"; // TODO: add joda support to all jax-rs
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
 
@@ -92,13 +104,23 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         // java inflector uses the jackson lib
         additionalProperties.put(JACKSON, "true");
 
-        cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC).defaultValue(implFolder));
-        cliOptions.add(new CliOption("title", "a title describing the application").defaultValue(title));
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
-        cliOptions.add(new CliOption(SERVER_PORT, "The port on which the server should be started").defaultValue(serverPort));
-        cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames"));
+        cliOptions.add(
+                new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC)
+                        .defaultValue(implFolder));
+        cliOptions.add(
+                new CliOption("title", "a title describing the application").defaultValue(title));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_BEANVALIDATION,
+                        "Use BeanValidation API annotations",
+                        useBeanValidation));
+        cliOptions.add(
+                new CliOption(SERVER_PORT, "The port on which the server should be started")
+                        .defaultValue(serverPort));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_TAGS, "use tags for creating interface and controller classnames"));
     }
-
 
     // ===============
     // COMMONS METHODS
@@ -129,8 +151,14 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        final String basePath = StringUtils.substringBefore(StringUtils.removeStart(resourcePath, "/"), "/");
+    public void addOperationToGroup(
+            String tag,
+            String resourcePath,
+            Operation operation,
+            CodegenOperation co,
+            Map<String, List<CodegenOperation>> operations) {
+        final String basePath =
+                StringUtils.substringBefore(StringUtils.removeStart(resourcePath, "/"), "/");
         if (!StringUtils.isEmpty(basePath)) {
             co.subresourceOperation = !co.path.isEmpty();
         }
@@ -138,10 +166,12 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
             super.addOperationToGroup(tag, resourcePath, operation, co, operations);
         } else {
             co.baseName = basePath;
-            if (StringUtils.isEmpty(co.baseName) || StringUtils.containsAny(co.baseName, "{", "}")) {
+            if (StringUtils.isEmpty(co.baseName)
+                    || StringUtils.containsAny(co.baseName, "{", "}")) {
                 co.baseName = "default";
             }
-            final List<CodegenOperation> opList = operations.computeIfAbsent(co.baseName, k -> new ArrayList<>());
+            final List<CodegenOperation> opList =
+                    operations.computeIfAbsent(co.baseName, k -> new ArrayList<>());
             opList.add(co);
         }
     }
@@ -187,7 +217,8 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationsMap updatedObjs = jaxrsPostProcessOperations(objs);
         OperationMap operations = updatedObjs.getOperations();
         if (operations != null) {
@@ -243,17 +274,23 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
                         if (resp.baseType == null) {
                             resp.dataType = "void";
                             resp.baseType = "Void";
-                            // set vendorExtensions.x-java-is-response-void to true as baseType is set to "Void"
+                            // set vendorExtensions.x-java-is-response-void to true as baseType is
+                            // set to "Void"
                             resp.vendorExtensions.put("x-java-is-response-void", true);
                         }
 
                         if ("array".equals(resp.containerType)) {
                             resp.containerType = "List";
-                            resp.vendorExtensions.put(X_MICROPROFILE_OPEN_API_RETURN_SCHEMA_CONTAINER, SCHEMA_TYPE_ARRAY);
+                            resp.vendorExtensions.put(
+                                    X_MICROPROFILE_OPEN_API_RETURN_SCHEMA_CONTAINER,
+                                    SCHEMA_TYPE_ARRAY);
                         } else if ("set".equals(resp.containerType)) {
                             resp.containerType = "Set";
-                            resp.vendorExtensions.put(X_MICROPROFILE_OPEN_API_RETURN_SCHEMA_CONTAINER, SCHEMA_TYPE_ARRAY);
-                            resp.vendorExtensions.put(X_MICROPROFILE_OPEN_API_RETURN_UNIQUE_ITEMS, true);
+                            resp.vendorExtensions.put(
+                                    X_MICROPROFILE_OPEN_API_RETURN_SCHEMA_CONTAINER,
+                                    SCHEMA_TYPE_ARRAY);
+                            resp.vendorExtensions.put(
+                                    X_MICROPROFILE_OPEN_API_RETURN_UNIQUE_ITEMS, true);
                         } else if ("map".equals(resp.containerType)) {
                             resp.containerType = "Map";
                         }
@@ -267,7 +304,8 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
                 if (operation.returnBaseType == null) {
                     operation.returnType = "void";
                     operation.returnBaseType = "Void";
-                    // set vendorExtensions.x-java-is-response-void to true as returnBaseType is set to "Void"
+                    // set vendorExtensions.x-java-is-response-void to true as returnBaseType is set
+                    // to "Void"
                     operation.vendorExtensions.put("x-java-is-response-void", true);
                 }
 
@@ -297,7 +335,9 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     private static void handleHeaders(List<CodegenParameter> headers) {
         for (CodegenParameter header : headers) {
             if (header.getSchema() != null && header.getSchema().getOpenApiType() != null) {
-                final String schemaType = ARRAY_OF_MICROPROFILE_OPEN_API_SCHEMA_TYPES.get(header.getSchema().getOpenApiType());
+                final String schemaType =
+                        ARRAY_OF_MICROPROFILE_OPEN_API_SCHEMA_TYPES.get(
+                                header.getSchema().getOpenApiType());
                 if (schemaType != null) {
                     header.vendorExtensions.put(X_MICROPROFILE_OPEN_API_SCHEMA_TYPE, schemaType);
                 }
@@ -320,11 +360,19 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
         if (templateName.endsWith("Impl.mustache")) {
             int ix = result.lastIndexOf(File.separator);
-            result = result.substring(0, ix) + "/impl" + result.substring(ix, result.length() - 5) + "ServiceImpl.java";
+            result =
+                    result.substring(0, ix)
+                            + "/impl"
+                            + result.substring(ix, result.length() - 5)
+                            + "ServiceImpl.java";
             result = result.replace(apiFileFolder(), implFileFolder(implFolder));
         } else if (templateName.endsWith("Factory.mustache")) {
             int ix = result.lastIndexOf(File.separator);
-            result = result.substring(0, ix) + "/factories" + result.substring(ix, result.length() - 5) + "ServiceFactory.java";
+            result =
+                    result.substring(0, ix)
+                            + "/factories"
+                            + result.substring(ix, result.length() - 5)
+                            + "ServiceFactory.java";
             result = result.replace(apiFileFolder(), implFileFolder(implFolder));
         } else if (templateName.endsWith("Service.mustache")) {
             int ix = result.lastIndexOf('.');

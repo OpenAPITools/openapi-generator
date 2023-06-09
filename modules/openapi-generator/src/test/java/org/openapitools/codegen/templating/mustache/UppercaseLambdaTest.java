@@ -1,7 +1,6 @@
 package org.openapitools.codegen.templating.mustache;
 
 import java.util.Map;
-
 import org.testng.annotations.Test;
 
 public class UppercaseLambdaTest extends LambdaTest {
@@ -14,5 +13,4 @@ public class UppercaseLambdaTest extends LambdaTest {
         // When & Then
         test("INPUT TEXT", "{{#uppercase}}InPut Text{{/uppercase}}", ctx);
     }
-
 }

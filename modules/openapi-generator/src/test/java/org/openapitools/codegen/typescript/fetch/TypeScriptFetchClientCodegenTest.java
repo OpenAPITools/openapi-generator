@@ -1,5 +1,7 @@
 package org.openapitools.codegen.typescript.fetch;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MapSchema;
@@ -13,8 +15,6 @@ import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_FETCH})
 public class TypeScriptFetchClientCodegenTest {
@@ -39,7 +39,6 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.preprocessOpenAPI(api);
 
         Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1-SNAPSHOT.[0-9]{12}$"));
-
     }
 
     @Test
@@ -63,7 +62,6 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.preprocessOpenAPI(api);
 
         Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
-
     }
 
     @Test
@@ -89,9 +87,8 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.setOpenAPI(api);
 
         // Cf. issue #4968: Array of Alias of Array
-        Schema<?> parentSchema = new ArraySchema().items(
-            new Schema().$ref("#/components/schemas/Child")
-        );
+        Schema<?> parentSchema =
+                new ArraySchema().items(new Schema().$ref("#/components/schemas/Child"));
 
         ModelUtils.setGenerateAliasAsModel(false);
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "Array<Array<string>>");
@@ -100,10 +97,13 @@ public class TypeScriptFetchClientCodegenTest {
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "Array<Child>");
 
         // Same for Map
-        parentSchema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/Child"));
+        parentSchema =
+                new MapSchema()
+                        .additionalProperties(new Schema().$ref("#/components/schemas/Child"));
 
         ModelUtils.setGenerateAliasAsModel(false);
-        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Array<string>; }");
+        Assert.assertEquals(
+                codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Array<string>; }");
 
         ModelUtils.setGenerateAliasAsModel(true);
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Child; }");
@@ -120,8 +120,10 @@ public class TypeScriptFetchClientCodegenTest {
 
         codegen.processOpts();
 
-        assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
-        assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
+        assertThat(codegen.supportingFiles())
+                .contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        assertThat(codegen.supportingFiles())
+                .contains(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
     }
 
     @Test
@@ -135,7 +137,10 @@ public class TypeScriptFetchClientCodegenTest {
 
         codegen.processOpts();
 
-        assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
-        assertThat(codegen.supportingFiles()).doesNotContain(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
+        assertThat(codegen.supportingFiles())
+                .contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        assertThat(codegen.supportingFiles())
+                .doesNotContain(
+                        new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
     }
 }

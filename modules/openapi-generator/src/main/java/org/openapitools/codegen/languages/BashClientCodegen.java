@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.*;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -26,18 +29,14 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.servers.Server;
-import org.apache.commons.text.StringEscapeUtils;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.*;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(BashClientCodegen.class);
@@ -60,16 +59,13 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String CURL_OPTIONS = "curlOptions";
     public static final String PROCESS_MARKDOWN = "processMarkdown";
     public static final String SCRIPT_NAME = "scriptName";
-    public static final String
-            GENERATE_BASH_COMPLETION = "generateBashCompletion";
-    public static final String
-            GENERATE_ZSH_COMPLETION = "generateZshCompletion";
-    public static final String
-            HOST_ENVIRONMENT_VARIABLE_NAME = "hostEnvironmentVariable";
-    public static final String
-            BASIC_AUTH_ENVIRONMENT_VARIABLE_NAME = "basicAuthEnvironmentVariable";
-    public static final String
-            APIKEY_AUTH_ENVIRONMENT_VARIABLE_NAME = "apiKeyAuthEnvironmentVariable";
+    public static final String GENERATE_BASH_COMPLETION = "generateBashCompletion";
+    public static final String GENERATE_ZSH_COMPLETION = "generateZshCompletion";
+    public static final String HOST_ENVIRONMENT_VARIABLE_NAME = "hostEnvironmentVariable";
+    public static final String BASIC_AUTH_ENVIRONMENT_VARIABLE_NAME =
+            "basicAuthEnvironmentVariable";
+    public static final String APIKEY_AUTH_ENVIRONMENT_VARIABLE_NAME =
+            "apiKeyAuthEnvironmentVariable";
 
     /**
      * Configures the type of generator.
@@ -82,8 +78,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Configures a friendly name for the generator.  This will be used by
-     * the generator to select the library with the -g flag.
+     * Configures a friendly name for the generator. This will be used by the generator to select
+     * the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -93,8 +89,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Returns human-friendly help for the generator.  Provide the consumer with
-     * help tips, parameters here
+     * Returns human-friendly help for the generator. Provide the consumer with help tips,
+     * parameters here
      *
      * @return A string value for the help message
      */
@@ -107,29 +103,23 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         super();
 
         // TODO: Bash maintainer review
-        modifyFeatureSet(features -> features
-                .documentationFeatures(EnumSet.of(
-                        DocumentationFeature.Readme
-                ))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.BearerToken,
-                        SecurityFeature.ApiKey
-                ))
-                .includeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-                .includeWireFormatFeatures(
-                        WireFormatFeature.JSON,
-                        WireFormatFeature.XML,
-                        WireFormatFeature.Custom
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism,
-                        SchemaSupportFeature.Union
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.documentationFeatures(EnumSet.of(DocumentationFeature.Readme))
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.OAuth2_Implicit,
+                                                SecurityFeature.BasicAuth,
+                                                SecurityFeature.BearerToken,
+                                                SecurityFeature.ApiKey))
+                                .includeParameterFeatures(ParameterFeature.Cookie)
+                                .includeWireFormatFeatures(
+                                        WireFormatFeature.JSON,
+                                        WireFormatFeature.XML,
+                                        WireFormatFeature.Custom)
+                                .excludeSchemaSupportFeatures(
+                                        SchemaSupportFeature.Polymorphism,
+                                        SchemaSupportFeature.Union));
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -147,88 +137,76 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "select",
                         "then",
                         "until",
-                        "while"
-                )
-        );
+                        "while"));
 
-        /**
-         * Set the output folder here
-         */
+        /** Set the output folder here */
         outputFolder = "generated-code/bash";
 
-        /**
-         * No model files.
-         */
+        /** No model files. */
         modelTemplateFiles.clear();
 
-
-        /**
-         * No API files.
-         */
+        /** No API files. */
         apiTemplateFiles.clear();
 
-
-        /**
-         * docs files.
-         */
+        /** docs files. */
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
-
-        /**
-         * Templates location for client script and bash completion template.
-         */
+        /** Templates location for client script and bash completion template. */
         embeddedTemplateDir = templateDir = "bash";
 
-
-        /**
-         * Allow the user to force the script to always include certain cURL
-         * commands
-         */
+        /** Allow the user to force the script to always include certain cURL commands */
         cliOptions.add(CliOption.newString(CURL_OPTIONS, "Default cURL options"));
-        cliOptions.add(CliOption.newBoolean(PROCESS_MARKDOWN,
-                "Convert all Markdown Markup into terminal formatting"));
-        cliOptions.add(CliOption.newString(SCRIPT_NAME,
-                "The name of the script that will be generated " +
-                        "(e.g. petstore-cli)"));
-        cliOptions.add(CliOption.newBoolean(GENERATE_BASH_COMPLETION,
-                "Whether to generate the Bash completion script"));
-        cliOptions.add(CliOption.newBoolean(GENERATE_ZSH_COMPLETION,
-                "Whether to generate the Zsh completion script"));
-        cliOptions.add(CliOption.newString(HOST_ENVIRONMENT_VARIABLE_NAME,
-                "Name of environment variable where host can be defined " +
-                        "(e.g. PETSTORE_HOST='http://api.openapitools.org:8080')"));
-        cliOptions.add(CliOption.newString(BASIC_AUTH_ENVIRONMENT_VARIABLE_NAME,
-                "Name of environment variable where username and password "
-                        +
-                        "can be defined (e.g. PETSTORE_CREDS='username:password')"));
-        cliOptions.add(CliOption.newBoolean(APIKEY_AUTH_ENVIRONMENT_VARIABLE_NAME,
-                "Name of environment variable where API key "
-                        +
-                        "can be defined (e.g. PETSTORE_APIKEY='kjhasdGASDa5asdASD')"));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        PROCESS_MARKDOWN, "Convert all Markdown Markup into terminal formatting"));
+        cliOptions.add(
+                CliOption.newString(
+                        SCRIPT_NAME,
+                        "The name of the script that will be generated " + "(e.g. petstore-cli)"));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        GENERATE_BASH_COMPLETION,
+                        "Whether to generate the Bash completion script"));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        GENERATE_ZSH_COMPLETION, "Whether to generate the Zsh completion script"));
+        cliOptions.add(
+                CliOption.newString(
+                        HOST_ENVIRONMENT_VARIABLE_NAME,
+                        "Name of environment variable where host can be defined "
+                                + "(e.g. PETSTORE_HOST='http://api.openapitools.org:8080')"));
+        cliOptions.add(
+                CliOption.newString(
+                        BASIC_AUTH_ENVIRONMENT_VARIABLE_NAME,
+                        "Name of environment variable where username and password "
+                                + "can be defined (e.g. PETSTORE_CREDS='username:password')"));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        APIKEY_AUTH_ENVIRONMENT_VARIABLE_NAME,
+                        "Name of environment variable where API key "
+                                + "can be defined (e.g. PETSTORE_APIKEY='kjhasdGASDa5asdASD')"));
 
-        /**
-         * Bash reserved words.
-         */
-        reservedWords = new HashSet<>(
-                Arrays.asList(
-                        "case",
-                        "do",
-                        "done",
-                        "elif",
-                        "else",
-                        "esac",
-                        "fi",
-                        "for",
-                        "function",
-                        "if",
-                        "in",
-                        "select",
-                        "then",
-                        "time",
-                        "until",
-                        "while")
-        );
+        /** Bash reserved words. */
+        reservedWords =
+                new HashSet<>(
+                        Arrays.asList(
+                                "case",
+                                "do",
+                                "done",
+                                "elif",
+                                "else",
+                                "esac",
+                                "fi",
+                                "for",
+                                "function",
+                                "if",
+                                "in",
+                                "select",
+                                "then",
+                                "time",
+                                "until",
+                                "while"));
 
         typeMapping.clear();
         typeMapping.put("array", "array");
@@ -254,8 +232,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("URI", "string");
 
         /**
-         * Additional Properties.  These values can be passed to the templates and
-         * are available in models, apis, and supporting files.
+         * Additional Properties. These values can be passed to the templates and are available in
+         * models, apis, and supporting files.
          */
         additionalProperties.put("apiVersion", apiVersion);
         // make api and model doc path available in mustache template
@@ -263,8 +241,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("modelDocPath", modelDocPath);
 
         /**
-         * Language Specific Primitives.  These types will not trigger imports by
-         * the client generator
+         * Language Specific Primitives. These types will not trigger imports by the client
+         * generator
          */
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("array");
@@ -275,7 +253,6 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         languageSpecificPrimitives.add("string");
         languageSpecificPrimitives.add("binary");
     }
-
 
     @Override
     public void processOpts() {
@@ -291,7 +268,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if (additionalProperties.containsKey(GENERATE_BASH_COMPLETION)) {
-            setGenerateBashCompletion(convertPropertyToBooleanAndWriteBack(GENERATE_BASH_COMPLETION));
+            setGenerateBashCompletion(
+                    convertPropertyToBooleanAndWriteBack(GENERATE_BASH_COMPLETION));
         }
 
         if (additionalProperties.containsKey(GENERATE_ZSH_COMPLETION)) {
@@ -321,16 +299,13 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put("x-codegen-apikey-env", apiKeyAuthEnvironmentVariable);
         }
 
-        supportingFiles.add(new SupportingFile(
-                "client.mustache", "", scriptName));
-        supportingFiles.add(new SupportingFile(
-                "bash-completion.mustache", "", scriptName + ".bash-completion"));
-        supportingFiles.add(new SupportingFile(
-                "zsh-completion.mustache", "", "_" + scriptName));
-        supportingFiles.add(new SupportingFile(
-                "README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile(
-                "Dockerfile.mustache", "", "Dockerfile"));
+        supportingFiles.add(new SupportingFile("client.mustache", "", scriptName));
+        supportingFiles.add(
+                new SupportingFile(
+                        "bash-completion.mustache", "", scriptName + ".bash-completion"));
+        supportingFiles.add(new SupportingFile("zsh-completion.mustache", "", "_" + scriptName));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
     }
 
     public void setCurlOptions(String curlOptions) {
@@ -357,32 +332,28 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         this.hostEnvironmentVariable = hostEnvironmentVariable;
     }
 
-    public void setBasicAuthEnvironmentVariable(String
-                                                        basicAuthEnvironmentVariable) {
+    public void setBasicAuthEnvironmentVariable(String basicAuthEnvironmentVariable) {
         this.basicAuthEnvironmentVariable = basicAuthEnvironmentVariable;
     }
 
-    public void setApiKeyAuthEnvironmentVariable(String
-                                                         apiKeyAuthEnvironmentVariable) {
+    public void setApiKeyAuthEnvironmentVariable(String apiKeyAuthEnvironmentVariable) {
         this.apiKeyAuthEnvironmentVariable = apiKeyAuthEnvironmentVariable;
     }
 
-
     /**
-     * Escapes a reserved word as defined in the `reservedWords` array. Handle
-     * escaping those terms here. This logic is only called if a variable
-     * matches the reserved words.
+     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping those terms
+     * here. This logic is only called if a variable matches the reserved words.
      *
      * @return the escaped term
      */
     @Override
     public String escapeReservedWord(String name) {
-        return "_" + name;  // add an underscore to the name
+        return "_" + name; // add an underscore to the name
     }
 
     /**
-     * Location to write model files.  You can use the modelPackage() as defined
-     * when the class is instantiated.
+     * Location to write model files. You can use the modelPackage() as defined when the class is
+     * instantiated.
      */
     @Override
     public String modelFileFolder() {
@@ -390,8 +361,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Location to write api files.  You can use the apiPackage() as defined when
-     * the class is instantiated.
+     * Location to write api files. You can use the apiPackage() as defined when the class is
+     * instantiated.
      */
     @Override
     public String apiFileFolder() {
@@ -419,12 +390,11 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Optional - type declaration. This is a String which is used by the
-     * templates to instantiate your types. There is typically special handling
-     * for different property types
+     * Optional - type declaration. This is a String which is used by the templates to instantiate
+     * your types. There is typically special handling for different property types
      *
-     * @return a string value used as the `dataType` field for model templates,
-     * `returnType` for api templates
+     * @return a string value used as the `dataType` field for model templates, `returnType` for api
+     *     templates
      */
     @Override
     public String getTypeDeclaration(Schema p) {
@@ -440,9 +410,9 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Optional - schema type conversion. This is used to map OpenAPI types in
-     * a `Property` into either language specific types via `typeMapping` or into
-     * complex models if there is not a mapping.
+     * Optional - schema type conversion. This is used to map OpenAPI types in a `Property` into
+     * either language specific types via `typeMapping` or into complex models if there is not a
+     * mapping.
      *
      * @return a string value of the type or complex model for this property
      * @see io.swagger.v3.oas.models.media.Schema
@@ -453,20 +423,18 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         String type = null;
         if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
-            if (languageSpecificPrimitives.contains(type))
-                return type;
+            if (languageSpecificPrimitives.contains(type)) return type;
         } else {
             type = schemaType;
         }
         return toModelName(type);
     }
 
-
     /**
      * Convert OpenAPI Parameter object to Codegen Parameter object
      *
      * @param imports set of imports for library/package/module
-     * @param param   OpenAPI parameter object
+     * @param param OpenAPI parameter object
      * @return Codegen Parameter object
      */
     @Override
@@ -476,22 +444,20 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (p.isContainer) { // array or map
             /**
-             * Currently it's not possible to specify in the codegen other collection
-             * formats than 'multi'
+             * Currently it's not possible to specify in the codegen other collection formats than
+             * 'multi'
              */
             if (!StringUtils.isEmpty(p.collectionFormat)) {
                 if (Boolean.TRUE.equals(p.exclusiveMaximum)) {
-                    p.vendorExtensions.put("x-codegen-collection-max-items",
-                            p.maxItems);
+                    p.vendorExtensions.put("x-codegen-collection-max-items", p.maxItems);
                 }
 
                 if (Boolean.TRUE.equals(p.exclusiveMinimum)) {
-                    p.vendorExtensions.put("x-codegen-collection-min-items",
-                            p.minItems);
+                    p.vendorExtensions.put("x-codegen-collection-min-items", p.minItems);
                 }
 
                 if ("multi".equals(p.collectionFormat) && Boolean.TRUE.equals(p.isQueryParam)) {
-                    //'multi' is only supported for query parameters
+                    // 'multi' is only supported for query parameters
                     p.vendorExtensions.put("x-codegen-collection-multi", true);
                 } else if ("csv".equals(p.collectionFormat)) {
                     p.vendorExtensions.put("x-codegen-collection-csv", true);
@@ -502,18 +468,17 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
                 } else if ("pipes".equals(p.collectionFormat)) {
                     p.vendorExtensions.put("x-codegen-collection-pipes", true);
                 } else {
-                    LOGGER.warn("Unsupported collection format in Bash generator: {}", p.collectionFormat);
+                    LOGGER.warn(
+                            "Unsupported collection format in Bash generator: {}",
+                            p.collectionFormat);
                 }
             }
         }
 
         return p;
-
     }
 
-    /**
-     * Override with any special text escaping logic
-     */
+    /** Override with any special text escaping logic */
     @Override
     @SuppressWarnings("static-method")
     public String escapeText(String input) {
@@ -521,78 +486,74 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
             return input;
         }
 
-        /**
-         * Trim the input text always.
-         */
+        /** Trim the input text always. */
         String result = input.trim();
 
         /**
          * remove standalone '\'
          *
-         * replace " with \"
-         * outer unescape to retain the original multi-byte characters
+         * <p>replace " with \" outer unescape to retain the original multi-byte characters
          */
-        result = escapeUnsafeCharacters(
-                StringEscapeUtils.unescapeJava(
-                        StringEscapeUtils.escapeJava(result).replace("\\/", "/"))
-                        .replace("\\", "\\\\")
-                        .replace("\"", "\\\""));
+        result =
+                escapeUnsafeCharacters(
+                        StringEscapeUtils.unescapeJava(
+                                        StringEscapeUtils.escapeJava(result).replace("\\/", "/"))
+                                .replace("\\", "\\\\")
+                                .replace("\"", "\\\""));
 
         if (this.processMarkdown) {
 
             /**
-             * Convert markdown strong **Bold text**  and __Bold text__
-             * to bash bold control sequences (tput bold)
+             * Convert markdown strong **Bold text** and __Bold text__ to bash bold control
+             * sequences (tput bold)
              */
-            result = result.replaceAll("(?m)(^|\\s)\\*{2}([\\w\\d ]+)\\*{2}($|\\s)",
-                    "\\$\\(tput bold\\) $2 \\$\\(tput sgr0\\)");
+            result =
+                    result.replaceAll(
+                            "(?m)(^|\\s)\\*{2}([\\w\\d ]+)\\*{2}($|\\s)",
+                            "\\$\\(tput bold\\) $2 \\$\\(tput sgr0\\)");
 
-            result = result.replaceAll("(?m)(^|\\s)_{2}([\\w\\d ]+)_{2}($|\\s)",
-                    "\\$\\(tput bold\\) $2 \\$\\(tput sgr0\\)");
+            result =
+                    result.replaceAll(
+                            "(?m)(^|\\s)_{2}([\\w\\d ]+)_{2}($|\\s)",
+                            "\\$\\(tput bold\\) $2 \\$\\(tput sgr0\\)");
             /**
-             * Convert markdown *Italics text* and _Italics text_ to bash dim
-             * control sequences (tput dim)
+             * Convert markdown *Italics text* and _Italics text_ to bash dim control sequences
+             * (tput dim)
              */
-            result = result.replaceAll("(?m)(^|\\s)\\*{1}([\\w\\d ]+)\\*{1}($|\\s)",
-                    "\\$\\(tput dim\\) $2 \\$\\(tput sgr0\\)");
+            result =
+                    result.replaceAll(
+                            "(?m)(^|\\s)\\*{1}([\\w\\d ]+)\\*{1}($|\\s)",
+                            "\\$\\(tput dim\\) $2 \\$\\(tput sgr0\\)");
 
-            result = result.replaceAll("(?m)(^|\\s)_{1}([\\w\\d ]+)_{1}($|\\s)",
-                    "\\$\\(tput dim\\) $2 \\$\\(tput sgr0\\)");
+            result =
+                    result.replaceAll(
+                            "(?m)(^|\\s)_{1}([\\w\\d ]+)_{1}($|\\s)",
+                            "\\$\\(tput dim\\) $2 \\$\\(tput sgr0\\)");
 
+            /** Convert all markdown section 1 level headers with bold */
+            result =
+                    result.replaceAll(
+                            "(?m)^\\#\\s+(.+)$",
+                            "\n\\$\\(tput bold\\)\\$\\(tput setaf 7\\)" + "$1\\$\\(tput sgr0\\)");
 
-            /**
-             * Convert all markdown section 1 level headers with bold
-             */
-            result = result.replaceAll("(?m)^\\#\\s+(.+)$",
-                    "\n\\$\\(tput bold\\)\\$\\(tput setaf 7\\)"
-                            + "$1\\$\\(tput sgr0\\)");
+            /** Convert all markdown section 2 level headers with bold */
+            result =
+                    result.replaceAll(
+                            "(?m)^\\#\\#\\s+(.+)$",
+                            "\n\\$\\(tput bold\\)\\$\\(tput setaf 7\\)" + "$1\\$\\(tput sgr0\\)");
 
-            /**
-             * Convert all markdown section 2 level headers with bold
-             */
-            result = result.replaceAll("(?m)^\\#\\#\\s+(.+)$",
-                    "\n\\$\\(tput bold\\)\\$\\(tput setaf 7\\)"
-                            + "$1\\$\\(tput sgr0\\)");
+            /** Convert all markdown section 3 level headers with bold */
+            result =
+                    result.replaceAll(
+                            "(?m)^\\#\\#\\#\\s+(.+)$",
+                            "\n\\$\\(tput bold\\)\\$\\(tput setaf 7\\)" + "$1\\$\\(tput sgr0\\)");
 
-            /**
-             * Convert all markdown section 3 level headers with bold
-             */
-            result = result.replaceAll("(?m)^\\#\\#\\#\\s+(.+)$",
-                    "\n\\$\\(tput bold\\)\\$\\(tput setaf 7\\)"
-                            + "$1\\$\\(tput sgr0\\)");
+            /** Convert all markdown code blocks into --- delimited sections */
+            result = result.replaceAll("(?m)\\s*```.*$", "\n---");
 
-            /**
-             * Convert all markdown code blocks into --- delimited sections
-             */
-            result = result.replaceAll("(?m)\\s*```.*$",
-                    "\n---");
+            result = result.replaceAll("(?m)\\s*\\'\\'\\'.*$", "\n---");
 
-            result = result.replaceAll("(?m)\\s*\\'\\'\\'.*$",
-                    "\n---");
-
-            /**
-             * Remove any trailing new line at the end of the string
-             */
+            /** Remove any trailing new line at the end of the string */
             result = result.replaceAll("\\s+$", "");
         }
 
@@ -605,8 +566,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Override with any special text escaping logic to handle unsafe
-     * characters so as to avoid code injection.
+     * Override with any special text escaping logic to handle unsafe characters so as to avoid code
+     * injection.
      *
      * @param input String to be cleaned up
      * @return string with unsafe characters removed or escaped
@@ -614,37 +575,27 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String escapeUnsafeCharacters(String input) {
 
-        /**
-         * Replace backticks with normal single quotes.
-         */
+        /** Replace backticks with normal single quotes. */
         String result = input.replaceAll("`", "'");
 
         return result;
     }
 
-
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod,
-                                          Operation operation, List<Server> servers) {
+    public CodegenOperation fromOperation(
+            String path, String httpMethod, Operation operation, List<Server> servers) {
         Map<String, Schema> definitions = ModelUtils.getSchemas(this.openAPI);
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
-        /**
-         * Check if the operation has a Bash codegen specific description
-         * for help
-         */
+        /** Check if the operation has a Bash codegen specific description for help */
         if (op.vendorExtensions.containsKey("x-bash-codegen-description")) {
-            String bash_description
-                    = (String) op.vendorExtensions.get("x-bash-codegen-description");
+            String bash_description =
+                    (String) op.vendorExtensions.get("x-bash-codegen-description");
 
-            op.vendorExtensions.put("x-bash-codegen-description",
-                    escapeText(bash_description));
+            op.vendorExtensions.put("x-bash-codegen-description", escapeText(bash_description));
         }
 
-        /**
-         * Check if operation has an 'x-code-samples' vendor extension with
-         * Shell example
-         */
+        /** Check if operation has an 'x-code-samples' vendor extension with Shell example */
         if (op.vendorExtensions.containsKey("x-code-samples")) {
 
             List codesamples = (List) op.vendorExtensions.get("x-code-samples");
@@ -655,10 +606,9 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                     if ((codesample_object.get("lang").asText()).equals("Shell")) {
 
-                        op.vendorExtensions.put("x-bash-codegen-sample",
-                                escapeUnsafeCharacters(
-                                        codesample_object.get("source").asText()));
-
+                        op.vendorExtensions.put(
+                                "x-bash-codegen-sample",
+                                escapeUnsafeCharacters(codesample_object.get("source").asText()));
                     }
                 }
             }
@@ -666,10 +616,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         for (CodegenParameter p : op.bodyParams) {
             if (p.dataType != null && definitions.get(p.dataType) != null) {
-                /**
-                 * If the operation produces Json and has nonempty example
-                 * try to reformat it.
-                 */
+                /** If the operation produces Json and has nonempty example try to reformat it. */
                 if (getConsumesInfo(this.openAPI, operation) != null
                         && getConsumesInfo(this.openAPI, operation).contains("application/json")
                         && definitions.get(p.dataType).getExample() != null) {
@@ -678,24 +625,21 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
                     try {
                         p.vendorExtensions.put(
                                 "x-codegen-body-example",
-                                mapper.writerWithDefaultPrettyPrinter().writeValueAsString(
-                                        definitions.get(p.dataType).getExample()));
+                                mapper.writerWithDefaultPrettyPrinter()
+                                        .writeValueAsString(
+                                                definitions.get(p.dataType).getExample()));
                     } catch (JsonProcessingException e) {
                         LOGGER.warn(e.getMessage(), e);
                     }
                 } else {
-                    /**
-                     * Otherwise present whatever is provided as example
-                     */
+                    /** Otherwise present whatever is provided as example */
                     p.vendorExtensions.put(
-                            "x-codegen-body-example",
-                            definitions.get(p.dataType).getExample());
+                            "x-codegen-body-example", definitions.get(p.dataType).getExample());
                 }
             }
         }
 
         return op;
-
     }
 
     /**
@@ -707,28 +651,28 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
 
-      /* TODO need to revise the logic below
-      if ("/".equals(openAPI.getServers())) {
-          openAPI.setBasePath("");
-      }
-      */
-
-      /* there should not be a need to get the vendor extension this way
-      if(openAPI.getInfo() != null
-         && openAPI.getInfo().getVendorExtensions()!=null) {
-        String bash_codegen_app_description
-          = (String)openAPI.getInfo().getVendorExtensions()
-                                            .get("x-bash-codegen-description");
-
-        if (bash_codegen_app_description != null) {
-          bash_codegen_app_description
-            = escapeText(bash_codegen_app_description);
-
-          additionalProperties.put("x-bash-codegen-app-description",
-            bash_codegen_app_description);
-
+        /* TODO need to revise the logic below
+        if ("/".equals(openAPI.getServers())) {
+            openAPI.setBasePath("");
         }
-      }*/
+        */
+
+        /* there should not be a need to get the vendor extension this way
+        if(openAPI.getInfo() != null
+           && openAPI.getInfo().getVendorExtensions()!=null) {
+          String bash_codegen_app_description
+            = (String)openAPI.getInfo().getVendorExtensions()
+                                              .get("x-bash-codegen-description");
+
+          if (bash_codegen_app_description != null) {
+            bash_codegen_app_description
+              = escapeText(bash_codegen_app_description);
+
+            additionalProperties.put("x-bash-codegen-app-description",
+              bash_codegen_app_description);
+
+          }
+        }*/
     }
 
     @Override
@@ -808,7 +752,10 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toOperationId(String operationId) {
         // rename to empty_method_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
-            operationId = camelize("empty_method_name_" + emptyMethodNameCounter++, LOWERCASE_FIRST_LETTER);
+            operationId =
+                    camelize(
+                            "empty_method_name_" + emptyMethodNameCounter++,
+                            LOWERCASE_FIRST_LETTER);
             LOGGER.warn("Empty method name (operationId) found. Renamed to {}", operationId);
             return operationId;
         }
@@ -816,13 +763,19 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = underscore("call" + camelize(operationId));
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn(
+                    "{} (starting with a number) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -830,5 +783,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.BASH; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.BASH;
+    }
 }

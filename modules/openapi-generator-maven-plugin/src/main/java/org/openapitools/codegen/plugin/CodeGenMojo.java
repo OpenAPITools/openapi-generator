@@ -20,7 +20,12 @@ package org.openapitools.codegen.plugin;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 
+import com.google.common.hash.Hashing;
+import com.google.common.io.ByteSource;
+import com.google.common.io.CharSource;
+import com.google.common.io.Files;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
+import io.swagger.v3.parser.util.ClasspathHelper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -37,21 +42,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.common.io.ByteSource;
-import com.google.common.io.CharSource;
-import io.swagger.v3.parser.util.ClasspathHelper;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.project.MavenProject;
-
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
@@ -61,17 +61,12 @@ import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.config.MergedSpecBuilder;
-import org.sonatype.plexus.build.incremental.BuildContext;
-import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonatype.plexus.build.incremental.BuildContext;
+import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 
-import com.google.common.hash.Hashing;
-import com.google.common.io.Files;
-
-/**
- * Goal which generates client/server code from a OpenAPI json/yaml definition.
- */
+/** Goal which generates client/server code from a OpenAPI json/yaml definition. */
 @SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection"})
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
 public class CodeGenMojo extends AbstractMojo {
@@ -79,82 +74,77 @@ public class CodeGenMojo extends AbstractMojo {
     private final Logger LOGGER = LoggerFactory.getLogger(CodeGenMojo.class);
 
     /**
-     * The build context is only avail when running from within eclipse.
-     * It is used to update the eclipse-m2e-layer when the plugin is executed inside the IDE.
+     * The build context is only avail when running from within eclipse. It is used to update the
+     * eclipse-m2e-layer when the plugin is executed inside the IDE.
      */
-    @Component
-    private BuildContext buildContext = new DefaultBuildContext();
+    @Component private BuildContext buildContext = new DefaultBuildContext();
 
     @Parameter(name = "verbose", defaultValue = "false")
     private boolean verbose;
 
-    /**
-     * The name of the generator to use.
-     */
+    /** The name of the generator to use. */
     @Parameter(name = "generatorName", property = "openapi.generator.maven.plugin.generatorName")
     private String generatorName;
 
-    /**
-     * Location of the output directory.
-     */
+    /** Location of the output directory. */
     @Parameter(name = "output", property = "openapi.generator.maven.plugin.output")
     private File output;
 
-    @Parameter(name = "cleanupOutput", property = "openapi.generator.maven.plugin.cleanupOutput", defaultValue = "false")
+    @Parameter(
+            name = "cleanupOutput",
+            property = "openapi.generator.maven.plugin.cleanupOutput",
+            defaultValue = "false")
     private boolean cleanupOutput;
 
-    /**
-     * Location of the OpenAPI spec, as URL or file.
-     */
-    @Parameter(name = "inputSpec", property = "openapi.generator.maven.plugin.inputSpec", required = true)
+    /** Location of the OpenAPI spec, as URL or file. */
+    @Parameter(
+            name = "inputSpec",
+            property = "openapi.generator.maven.plugin.inputSpec",
+            required = true)
     private String inputSpec;
 
-    /**
-     * Local root folder with spec files
-     */
-    @Parameter(name = "inputSpecRootDirectory", property = "openapi.generator.maven.plugin.inputSpecRootDirectory")
+    /** Local root folder with spec files */
+    @Parameter(
+            name = "inputSpecRootDirectory",
+            property = "openapi.generator.maven.plugin.inputSpecRootDirectory")
     private String inputSpecRootDirectory;
 
-    /**
-     * Name of the file that will contain all merged specs
-     */
-    @Parameter(name = "mergedFileName", property = "openapi.generator.maven.plugin.mergedFileName", defaultValue = "_merged_spec")
+    /** Name of the file that will contain all merged specs */
+    @Parameter(
+            name = "mergedFileName",
+            property = "openapi.generator.maven.plugin.mergedFileName",
+            defaultValue = "_merged_spec")
     private String mergedFileName;
 
-    /**
-     * Git host, e.g. gitlab.com.
-     */
+    /** Git host, e.g. gitlab.com. */
     @Parameter(name = "gitHost", property = "openapi.generator.maven.plugin.gitHost")
     private String gitHost;
 
-    /**
-     * Git user ID, e.g. swagger-api.
-     */
+    /** Git user ID, e.g. swagger-api. */
     @Parameter(name = "gitUserId", property = "openapi.generator.maven.plugin.gitUserId")
     private String gitUserId;
 
-    /**
-     * Git repo ID, e.g. openapi-generator.
-     */
+    /** Git repo ID, e.g. openapi-generator. */
     @Parameter(name = "gitRepoId", property = "openapi.generator.maven.plugin.gitRepoId")
     private String gitRepoId;
 
-    /**
-     * Folder containing the template files.
-     */
-    @Parameter(name = "templateDirectory", property = "openapi.generator.maven.plugin.templateDirectory")
+    /** Folder containing the template files. */
+    @Parameter(
+            name = "templateDirectory",
+            property = "openapi.generator.maven.plugin.templateDirectory")
     private File templateDirectory;
 
-    /**
-     * Resource path containing template files.
-     */
-    @Parameter(name = "templateResourcePath", property = "openapi.generator.maven.plugin.templateResourcePath")
+    /** Resource path containing template files. */
+    @Parameter(
+            name = "templateResourcePath",
+            property = "openapi.generator.maven.plugin.templateResourcePath")
     private String templateResourcePath;
 
-    /**
-     * The name of templating engine to use, "mustache" (default) or "handlebars" (beta)
-     */
-    @Parameter(name = "engine", defaultValue = "mustache", property="openapi.generator.maven.plugin.engine")
+    /** The name of templating engine to use, "mustache" (default) or "handlebars" (beta) */
+    @Parameter(
+            name = "engine",
+            defaultValue = "mustache",
+            property = "openapi.generator.maven.plugin.engine")
     private String engine;
 
     /**
@@ -164,308 +154,271 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(name = "auth", property = "openapi.generator.maven.plugin.auth")
     private String auth;
 
-    /**
-     * Path to separate json configuration file.
-     */
-    @Parameter(name = "configurationFile", property = "openapi.generator.maven.plugin.configurationFile")
+    /** Path to separate json configuration file. */
+    @Parameter(
+            name = "configurationFile",
+            property = "openapi.generator.maven.plugin.configurationFile")
     private String configurationFile;
 
-    /**
-     * Specifies if the existing files should be overwritten during the generation.
-     */
+    /** Specifies if the existing files should be overwritten during the generation. */
     @Parameter(name = "skipOverwrite", property = "openapi.generator.maven.plugin.skipOverwrite")
     private Boolean skipOverwrite;
 
-    /**
-     * The package to use for generated api objects/classes
-     */
+    /** The package to use for generated api objects/classes */
     @Parameter(name = "apiPackage", property = "openapi.generator.maven.plugin.apiPackage")
     private String apiPackage;
 
-    /**
-     * The package to use for generated model objects/classes
-     */
+    /** The package to use for generated model objects/classes */
     @Parameter(name = "modelPackage", property = "openapi.generator.maven.plugin.modelPackage")
     private String modelPackage;
 
-    /**
-     * The package to use for the generated invoker objects
-     */
+    /** The package to use for the generated invoker objects */
     @Parameter(name = "invokerPackage", property = "openapi.generator.maven.plugin.invokerPackage")
     private String invokerPackage;
 
-    /**
-     * The default package to use for the generated objects
-     */
+    /** The default package to use for the generated objects */
     @Parameter(name = "packageName", property = "openapi.generator.maven.plugin.packageName")
     private String packageName;
 
-    /**
-     * groupId in generated pom.xml
-     */
+    /** groupId in generated pom.xml */
     @Parameter(name = "groupId", property = "openapi.generator.maven.plugin.groupId")
     private String groupId;
 
-    /**
-     * artifactId in generated pom.xml
-     */
+    /** artifactId in generated pom.xml */
     @Parameter(name = "artifactId", property = "openapi.generator.maven.plugin.artifactId")
     private String artifactId;
 
-    /**
-     * artifact version in generated pom.xml
-     */
-    @Parameter(name = "artifactVersion", property = "openapi.generator.maven.plugin.artifactVersion")
+    /** artifact version in generated pom.xml */
+    @Parameter(
+            name = "artifactVersion",
+            property = "openapi.generator.maven.plugin.artifactVersion")
     private String artifactVersion;
 
-    /**
-     * Sets the library
-     */
+    /** Sets the library */
     @Parameter(name = "library", property = "openapi.generator.maven.plugin.library")
     private String library;
 
-    /**
-     * Sets the prefix for model enums and classes
-     */
-    @Parameter(name = "modelNamePrefix", property = "openapi.generator.maven.plugin.modelNamePrefix")
+    /** Sets the prefix for model enums and classes */
+    @Parameter(
+            name = "modelNamePrefix",
+            property = "openapi.generator.maven.plugin.modelNamePrefix")
     private String modelNamePrefix;
 
-    /**
-     * Sets the suffix for model enums and classes
-     */
-    @Parameter(name = "modelNameSuffix", property = "openapi.generator.maven.plugin.modelNameSuffix")
+    /** Sets the suffix for model enums and classes */
+    @Parameter(
+            name = "modelNameSuffix",
+            property = "openapi.generator.maven.plugin.modelNameSuffix")
     private String modelNameSuffix;
 
-    /**
-     * Sets the suffix for api classes
-     */
+    /** Sets the suffix for api classes */
     @Parameter(name = "apiNameSuffix", property = "openapi.generator.maven.plugin.apiNameSuffix")
     private String apiNameSuffix;
 
-    /**
-     * Sets an optional ignoreFileOverride path
-     */
-    @Parameter(name = "ignoreFileOverride", property = "openapi.generator.maven.plugin.ignoreFileOverride")
+    /** Sets an optional ignoreFileOverride path */
+    @Parameter(
+            name = "ignoreFileOverride",
+            property = "openapi.generator.maven.plugin.ignoreFileOverride")
     private String ignoreFileOverride;
 
-    /**
-     * Sets custom User-Agent header value
-     */
+    /** Sets custom User-Agent header value */
     @Parameter(name = "httpUserAgent", property = "openapi.generator.maven.plugin.httpUserAgent")
     private String httpUserAgent;
 
-    /**
-     * To remove operationId prefix (e.g. user_getName => getName)
-     */
-    @Parameter(name = "removeOperationIdPrefix", property = "openapi.generator.maven.plugin.removeOperationIdPrefix")
+    /** To remove operationId prefix (e.g. user_getName => getName) */
+    @Parameter(
+            name = "removeOperationIdPrefix",
+            property = "openapi.generator.maven.plugin.removeOperationIdPrefix")
     private Boolean removeOperationIdPrefix;
 
-    /**
-     * To skip examples defined in the operation
-     */
-    @Parameter(name = "skipOperationExample", property = "openapi.generator.maven.plugin.skipOperationExample")
+    /** To skip examples defined in the operation */
+    @Parameter(
+            name = "skipOperationExample",
+            property = "openapi.generator.maven.plugin.skipOperationExample")
     private Boolean skipOperationExample;
 
-    /**
-     * To write all log messages (not just errors) to STDOUT
-     */
+    /** To write all log messages (not just errors) to STDOUT */
     @Parameter(name = "logToStderr", property = "openapi.generator.maven.plugin.logToStderr")
     private Boolean logToStderr;
 
-    /**
-     * To file post-processing hook
-     */
-    @Parameter(name = "enablePostProcessFile", property = "openapi.generator.maven.plugin.enablePostProcessFile")
+    /** To file post-processing hook */
+    @Parameter(
+            name = "enablePostProcessFile",
+            property = "openapi.generator.maven.plugin.enablePostProcessFile")
     private Boolean enablePostProcessFile;
 
-    /**
-     * To skip spec validation
-     */
-    @Parameter(name = "skipValidateSpec", property = "openapi.generator.maven.plugin.skipValidateSpec")
+    /** To skip spec validation */
+    @Parameter(
+            name = "skipValidateSpec",
+            property = "openapi.generator.maven.plugin.skipValidateSpec")
     private Boolean skipValidateSpec;
 
-    /**
-     * To treat a document strictly against the spec.
-     */
+    /** To treat a document strictly against the spec. */
     @Parameter(name = "strictSpec", property = "openapi.generator.maven.plugin.strictSpec")
     private Boolean strictSpec;
 
-    /**
-     * To generate alias (array, map) as model
-     */
-    @Parameter(name = "generateAliasAsModel", property = "openapi.generator.maven.plugin.generateAliasAsModel")
+    /** To generate alias (array, map) as model */
+    @Parameter(
+            name = "generateAliasAsModel",
+            property = "openapi.generator.maven.plugin.generateAliasAsModel")
     private Boolean generateAliasAsModel;
 
-    /**
-     * A map of language-specific parameters as passed with the -c option to the command line
-     */
+    /** A map of language-specific parameters as passed with the -c option to the command line */
     @Parameter(name = "configOptions")
     private Map<?, ?> configOptions;
 
-    /**
-     * A map of types and the types they should be instantiated as
-     */
-    @Parameter(name = "instantiationTypes", property = "openapi.generator.maven.plugin.instantiationTypes")
+    /** A map of types and the types they should be instantiated as */
+    @Parameter(
+            name = "instantiationTypes",
+            property = "openapi.generator.maven.plugin.instantiationTypes")
     private List<String> instantiationTypes;
 
-    /**
-     * A map of classes and the import that should be used for that class
-     */
+    /** A map of classes and the import that should be used for that class */
     @Parameter(name = "importMappings", property = "openapi.generator.maven.plugin.importMappings")
     private List<String> importMappings;
 
-    /**
-     * A map of scheme and the new one
-     */
+    /** A map of scheme and the new one */
     @Parameter(name = "schemaMappings", property = "openapi.generator.maven.plugin.schemaMappings")
     private List<String> schemaMappings;
 
-    /**
-     * A map of inline scheme names and the new names
-     */
-    @Parameter(name = "inlineSchemaNameMappings", property = "openapi.generator.maven.plugin.inlineSchemaNameMappings")
+    /** A map of inline scheme names and the new names */
+    @Parameter(
+            name = "inlineSchemaNameMappings",
+            property = "openapi.generator.maven.plugin.inlineSchemaNameMappings")
     private List<String> inlineSchemaNameMappings;
 
-    /**
-     * A map of inline scheme naming convention and the value
-     */
-    @Parameter(name = "inlineSchemaNameDefaults", property = "openapi.generator.maven.plugin.inlineSchemaNameDefaults")
+    /** A map of inline scheme naming convention and the value */
+    @Parameter(
+            name = "inlineSchemaNameDefaults",
+            property = "openapi.generator.maven.plugin.inlineSchemaNameDefaults")
     private List<String> inlineSchemaNameDefaults;
 
-    /**
-     * A set of rules for OpenAPI normalizer
-     */
-    @Parameter(name = "openapiNormalizer", property = "openapi.generator.maven.plugin.openapiNormalizer")
+    /** A set of rules for OpenAPI normalizer */
+    @Parameter(
+            name = "openapiNormalizer",
+            property = "openapi.generator.maven.plugin.openapiNormalizer")
     private List<String> openapiNormalizer;
 
-    /**
-     * A map of swagger spec types and the generated code types to use for them
-     */
+    /** A map of swagger spec types and the generated code types to use for them */
     @Parameter(name = "typeMappings", property = "openapi.generator.maven.plugin.typeMappings")
     private List<String> typeMappings;
 
-    /**
-     * A map of additional language specific primitive types
-     */
-    @Parameter(name = "languageSpecificPrimitives", property = "openapi.generator.maven.plugin.languageSpecificPrimitives")
+    /** A map of additional language specific primitive types */
+    @Parameter(
+            name = "languageSpecificPrimitives",
+            property = "openapi.generator.maven.plugin.languageSpecificPrimitives")
     private List<String> languageSpecificPrimitives;
 
-    /**
-     * A map of additional properties that can be referenced by the mustache templates
-     */
-    @Parameter(name = "additionalProperties", property = "openapi.generator.maven.plugin.additionalProperties")
+    /** A map of additional properties that can be referenced by the mustache templates */
+    @Parameter(
+            name = "additionalProperties",
+            property = "openapi.generator.maven.plugin.additionalProperties")
     private List<String> additionalProperties;
 
-    /**
-     * A map of server variable overrides for specs that support server URL templating
-     */
-    @Parameter(name = "serverVariableOverrides", property = "openapi.generator.maven.plugin.serverVariableOverrides")
+    /** A map of server variable overrides for specs that support server URL templating */
+    @Parameter(
+            name = "serverVariableOverrides",
+            property = "openapi.generator.maven.plugin.serverVariableOverrides")
     private List<String> serverVariableOverrides;
 
-    /**
-     * A map of reserved names and how they should be escaped
-     */
-    @Parameter(name = "reservedWordsMappings", property = "openapi.generator.maven.plugin.reservedWordsMappings")
+    /** A map of reserved names and how they should be escaped */
+    @Parameter(
+            name = "reservedWordsMappings",
+            property = "openapi.generator.maven.plugin.reservedWordsMappings")
     private List<String> reservedWordsMappings;
 
-    /**
-     * Generate the apis
-     */
+    /** Generate the apis */
     @Parameter(name = "generateApis", property = "openapi.generator.maven.plugin.generateApis")
     private Boolean generateApis = true;
 
-    /**
-     * A comma separated list of apis to generate. All apis is the default.
-     */
+    /** A comma separated list of apis to generate. All apis is the default. */
     @Parameter(name = "apisToGenerate", property = "openapi.generator.maven.plugin.apisToGenerate")
     private String apisToGenerate = "";
 
-    /**
-     * Generate the models
-     */
+    /** Generate the models */
     @Parameter(name = "generateModels", property = "openapi.generator.maven.plugin.generateModels")
     private Boolean generateModels = true;
 
-    /**
-     * A comma separated list of models to generate. All models is the default.
-     */
-    @Parameter(name = "modelsToGenerate", property = "openapi.generator.maven.plugin.modelsToGenerate")
+    /** A comma separated list of models to generate. All models is the default. */
+    @Parameter(
+            name = "modelsToGenerate",
+            property = "openapi.generator.maven.plugin.modelsToGenerate")
     private String modelsToGenerate = "";
 
-    /**
-     * Generate the supporting files
-     */
-    @Parameter(name = "generateSupportingFiles", property = "openapi.generator.maven.plugin.generateSupportingFiles")
+    /** Generate the supporting files */
+    @Parameter(
+            name = "generateSupportingFiles",
+            property = "openapi.generator.maven.plugin.generateSupportingFiles")
     private Boolean generateSupportingFiles = true;
 
-    /**
-     * A comma separated list of models to generate. All models is the default.
-     */
-    @Parameter(name = "supportingFilesToGenerate", property = "openapi.generator.maven.plugin.supportingFilesToGenerate")
+    /** A comma separated list of models to generate. All models is the default. */
+    @Parameter(
+            name = "supportingFilesToGenerate",
+            property = "openapi.generator.maven.plugin.supportingFilesToGenerate")
     private String supportingFilesToGenerate = "";
 
-    /**
-     * Generate the model tests
-     */
-    @Parameter(name = "generateModelTests", property = "openapi.generator.maven.plugin.generateModelTests")
+    /** Generate the model tests */
+    @Parameter(
+            name = "generateModelTests",
+            property = "openapi.generator.maven.plugin.generateModelTests")
     private Boolean generateModelTests = true;
 
-    /**
-     * Generate the model documentation
-     */
-    @Parameter(name = "generateModelDocumentation", property = "openapi.generator.maven.plugin.generateModelDocumentation")
+    /** Generate the model documentation */
+    @Parameter(
+            name = "generateModelDocumentation",
+            property = "openapi.generator.maven.plugin.generateModelDocumentation")
     private Boolean generateModelDocumentation = true;
 
-    /**
-     * Generate the api tests
-     */
-    @Parameter(name = "generateApiTests", property = "openapi.generator.maven.plugin.generateApiTests")
+    /** Generate the api tests */
+    @Parameter(
+            name = "generateApiTests",
+            property = "openapi.generator.maven.plugin.generateApiTests")
     private Boolean generateApiTests = true;
 
-    /**
-     * Generate the api documentation
-     */
-    @Parameter(name = "generateApiDocumentation", property = "openapi.generator.maven.plugin.generateApiDocumentation")
+    /** Generate the api documentation */
+    @Parameter(
+            name = "generateApiDocumentation",
+            property = "openapi.generator.maven.plugin.generateApiDocumentation")
     private Boolean generateApiDocumentation = true;
 
-    /**
-     * Generate the api documentation
-     */
+    /** Generate the api documentation */
     @Parameter(name = "withXml", property = "openapi.generator.maven.plugin.withXml")
     private Boolean withXml = false;
 
-    /**
-     * Skip the execution.
-     */
+    /** Skip the execution. */
     @Parameter(name = "skip", property = "codegen.skip", defaultValue = "false")
     private Boolean skip;
 
-    /**
-     * Skip the execution if the source file is older than the output folder.
-     */
-    @Parameter(name = "skipIfSpecIsUnchanged", property = "codegen.skipIfSpecIsUnchanged", defaultValue = "false")
+    /** Skip the execution if the source file is older than the output folder. */
+    @Parameter(
+            name = "skipIfSpecIsUnchanged",
+            property = "codegen.skipIfSpecIsUnchanged",
+            defaultValue = "false")
     private Boolean skipIfSpecIsUnchanged;
 
     /**
      * Add the output directory to the project as a source root, so that the generated java types
-     * are compiled and included in the project artifact. Mutually exclusive with {@link #addTestCompileSourceRoot}.
+     * are compiled and included in the project artifact. Mutually exclusive with {@link
+     * #addTestCompileSourceRoot}.
      */
-    @Parameter(defaultValue = "true", property = "openapi.generator.maven.plugin.addCompileSourceRoot")
+    @Parameter(
+            defaultValue = "true",
+            property = "openapi.generator.maven.plugin.addCompileSourceRoot")
     private boolean addCompileSourceRoot = true;
 
     /**
-     * Add the output directory to the project as a test source root, so that the generated java types
-     * are compiled only for the test classpath of the project. Mutually exclusive with {@link #addCompileSourceRoot}.
+     * Add the output directory to the project as a test source root, so that the generated java
+     * types are compiled only for the test classpath of the project. Mutually exclusive with {@link
+     * #addCompileSourceRoot}.
      */
-    @Parameter(defaultValue = "false", property = "openapi.generator.maven.plugin.addTestCompileSourceRoot")
+    @Parameter(
+            defaultValue = "false",
+            property = "openapi.generator.maven.plugin.addTestCompileSourceRoot")
     private boolean addTestCompileSourceRoot = false;
 
     // TODO: Rename to global properties in version 5.1
-    @Parameter
-    protected Map<String, String> environmentVariables = new HashMap<>();
+    @Parameter protected Map<String, String> environmentVariables = new HashMap<>();
 
-    @Parameter
-    protected Map<String, String> globalProperties = new HashMap<>();
+    @Parameter protected Map<String, String> globalProperties = new HashMap<>();
 
     @Parameter(property = "codegen.configHelp")
     private boolean configHelp = false;
@@ -473,9 +426,7 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(defaultValue = "${mojoExecution}", readonly = true)
     private MojoExecution mojo;
 
-    /**
-     * The project being built.
-     */
+    /** The project being built. */
     @Parameter(readonly = true, required = true, defaultValue = "${project}")
     private MavenProject project;
 
@@ -486,17 +437,22 @@ public class CodeGenMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
         if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
-            inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName)
-                .buildMergedSpec();
+            inputSpec =
+                    new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName).buildMergedSpec();
             LOGGER.info("Merge input spec would be used - {}", inputSpec);
         }
 
         File inputSpecFile = new File(inputSpec);
 
         if (output == null) {
-            output = new File(project.getBuild().getDirectory(),
-                    LifecyclePhase.GENERATE_TEST_SOURCES.id().equals(mojo.getLifecyclePhase()) ?
-                            "generated-test-sources/openapi" : "generated-sources/openapi");
+            output =
+                    new File(
+                            project.getBuild().getDirectory(),
+                            LifecyclePhase.GENERATE_TEST_SOURCES
+                                            .id()
+                                            .equals(mojo.getLifecyclePhase())
+                                    ? "generated-test-sources/openapi"
+                                    : "generated-sources/openapi");
         }
 
         if (cleanupOutput) {
@@ -516,12 +472,12 @@ public class CodeGenMojo extends AbstractMojo {
                 return;
             }
 
-            if (buildContext != null && inputSpec != null ) {
-                if (buildContext.isIncremental() &&
-                        inputSpecFile.exists() &&
-                        !buildContext.hasDelta(inputSpecFile)) {
+            if (buildContext != null && inputSpec != null) {
+                if (buildContext.isIncremental()
+                        && inputSpecFile.exists()
+                        && !buildContext.hasDelta(inputSpecFile)) {
                     getLog().info(
-                            "Code generation is skipped in delta-build because source-json was not modified.");
+                                    "Code generation is skipped in delta-build because source-json was not modified.");
                     return;
                 }
             }
@@ -536,10 +492,11 @@ public class CodeGenMojo extends AbstractMojo {
                         ex.printStackTrace();
                     }
                     @SuppressWarnings("UnstableApiUsage")
-                    String storedInputSpecHash = Files.asCharSource(storedInputSpecHashFile, StandardCharsets.UTF_8).read();
+                    String storedInputSpecHash =
+                            Files.asCharSource(storedInputSpecHashFile, StandardCharsets.UTF_8)
+                                    .read();
                     if (storedInputSpecHash.equals(inputSpecHash)) {
-                        getLog().info(
-                                "Code generation is skipped because input was unchanged");
+                        getLog().info("Code generation is skipped because input was unchanged");
                         return;
                     }
                 }
@@ -607,7 +564,7 @@ public class CodeGenMojo extends AbstractMojo {
                 configurator.setEnablePostProcessFile(enablePostProcessFile);
             }
 
-            if (generateAliasAsModel  != null) {
+            if (generateAliasAsModel != null) {
                 configurator.setGenerateAliasAsModel(generateAliasAsModel);
             }
 
@@ -615,7 +572,8 @@ public class CodeGenMojo extends AbstractMojo {
                 configurator.setGeneratorName(generatorName);
             } else {
                 LOGGER.error("A generator name (generatorName) is required.");
-                throw new MojoExecutionException("The generator requires 'generatorName'. Refer to documentation for a list of options.");
+                throw new MojoExecutionException(
+                        "The generator requires 'generatorName'. Refer to documentation for a list of options.");
             }
 
             configurator.setOutputDir(output.getAbsolutePath());
@@ -674,7 +632,8 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (StringUtils.isNotEmpty(templateResourcePath)) {
                 if (null != templateDirectory) {
-                    LOGGER.warn("Both templateDirectory and templateResourcePath were configured. templateResourcePath overwrites templateDirectory.");
+                    LOGGER.warn(
+                            "Both templateDirectory and templateResourcePath were configured. templateResourcePath overwrites templateDirectory.");
                 }
                 configurator.setTemplateDir(templateResourcePath);
             }
@@ -697,134 +656,170 @@ public class CodeGenMojo extends AbstractMojo {
             }
 
             if (null != generateSupportingFiles && generateSupportingFiles) {
-                GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesToGenerate);
+                GlobalSettings.setProperty(
+                        CodegenConstants.SUPPORTING_FILES, supportingFilesToGenerate);
             } else {
                 GlobalSettings.clearProperty(CodegenConstants.SUPPORTING_FILES);
             }
 
             GlobalSettings.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.toString());
-            GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.toString());
+            GlobalSettings.setProperty(
+                    CodegenConstants.MODEL_DOCS, generateModelDocumentation.toString());
             GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.toString());
-            GlobalSettings.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.toString());
+            GlobalSettings.setProperty(
+                    CodegenConstants.API_DOCS, generateApiDocumentation.toString());
             GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.toString());
 
             if (configOptions != null) {
                 // Retained for backwards-compatibility with configOptions -> instantiation-types
-                if (instantiationTypes == null && configOptions.containsKey("instantiation-types")) {
-                    applyInstantiationTypesKvp(configOptions.get("instantiation-types").toString(),
-                            configurator);
+                if (instantiationTypes == null
+                        && configOptions.containsKey("instantiation-types")) {
+                    applyInstantiationTypesKvp(
+                            configOptions.get("instantiation-types").toString(), configurator);
                 }
 
                 // Retained for backwards-compatibility with configOptions -> import-mappings
                 if (importMappings == null && configOptions.containsKey("import-mappings")) {
-                    applyImportMappingsKvp(configOptions.get("import-mappings").toString(),
-                            configurator);
+                    applyImportMappingsKvp(
+                            configOptions.get("import-mappings").toString(), configurator);
                 }
 
                 // Retained for backwards-compatibility with configOptions -> schema-mappings
                 if (schemaMappings == null && configOptions.containsKey("schema-mappings")) {
-                    applySchemaMappingsKvp(configOptions.get("schema-mappings").toString(),
+                    applySchemaMappingsKvp(
+                            configOptions.get("schema-mappings").toString(), configurator);
+                }
+
+                // Retained for backwards-compatibility with configOptions ->
+                // inline-schema-name-mappings
+                if (inlineSchemaNameMappings == null
+                        && configOptions.containsKey("inline-schema-name-mappings")) {
+                    applyInlineSchemaNameMappingsKvp(
+                            configOptions.get("inline-schema-name-mappings").toString(),
                             configurator);
                 }
 
-                // Retained for backwards-compatibility with configOptions -> inline-schema-name-mappings
-                if (inlineSchemaNameMappings == null && configOptions.containsKey("inline-schema-name-mappings")) {
-                    applyInlineSchemaNameMappingsKvp(configOptions.get("inline-schema-name-mappings").toString(),
-                            configurator);
-                }
-
-                // Retained for backwards-compatibility with configOptions -> inline-schema-name-defaults
-                if (inlineSchemaNameDefaults == null && configOptions.containsKey("inline-schema-name-defaults")) {
-                    applyInlineSchemaNameDefaultsKvp(configOptions.get("inline-schema-name-defaults").toString(),
+                // Retained for backwards-compatibility with configOptions ->
+                // inline-schema-name-defaults
+                if (inlineSchemaNameDefaults == null
+                        && configOptions.containsKey("inline-schema-name-defaults")) {
+                    applyInlineSchemaNameDefaultsKvp(
+                            configOptions.get("inline-schema-name-defaults").toString(),
                             configurator);
                 }
 
                 // Retained for backwards-compatibility with configOptions -> openapi-normalizer
                 if (openapiNormalizer == null && configOptions.containsKey("openapi-normalizer")) {
-                    applyOpenAPINormalizerKvp(configOptions.get("openapi-normalizer").toString(),
-                            configurator);
+                    applyOpenAPINormalizerKvp(
+                            configOptions.get("openapi-normalizer").toString(), configurator);
                 }
 
                 // Retained for backwards-compatibility with configOptions -> type-mappings
                 if (typeMappings == null && configOptions.containsKey("type-mappings")) {
-                    applyTypeMappingsKvp(configOptions.get("type-mappings").toString(), configurator);
+                    applyTypeMappingsKvp(
+                            configOptions.get("type-mappings").toString(), configurator);
                 }
 
-                // Retained for backwards-compatibility with configOptions -> language-specific-primitives
-                if (languageSpecificPrimitives == null && configOptions.containsKey("language-specific-primitives")) {
-                    applyLanguageSpecificPrimitivesCsv(configOptions
-                            .get("language-specific-primitives").toString(), configurator);
-                }
-
-                // Retained for backwards-compatibility with configOptions -> additional-properties
-                if (additionalProperties == null && configOptions.containsKey("additional-properties")) {
-                    applyAdditionalPropertiesKvp(configOptions.get("additional-properties").toString(),
+                // Retained for backwards-compatibility with configOptions ->
+                // language-specific-primitives
+                if (languageSpecificPrimitives == null
+                        && configOptions.containsKey("language-specific-primitives")) {
+                    applyLanguageSpecificPrimitivesCsv(
+                            configOptions.get("language-specific-primitives").toString(),
                             configurator);
                 }
 
-                if (serverVariableOverrides == null && configOptions.containsKey("server-variables")) {
-                    applyServerVariablesKvp(configOptions.get("server-variables").toString(), configurator);
+                // Retained for backwards-compatibility with configOptions -> additional-properties
+                if (additionalProperties == null
+                        && configOptions.containsKey("additional-properties")) {
+                    applyAdditionalPropertiesKvp(
+                            configOptions.get("additional-properties").toString(), configurator);
                 }
 
-                // Retained for backwards-compatibility with configOptions -> reserved-words-mappings
-                if (reservedWordsMappings == null && configOptions.containsKey("reserved-words-mappings")) {
-                    applyReservedWordsMappingsKvp(configOptions.get("reserved-words-mappings")
-                            .toString(), configurator);
+                if (serverVariableOverrides == null
+                        && configOptions.containsKey("server-variables")) {
+                    applyServerVariablesKvp(
+                            configOptions.get("server-variables").toString(), configurator);
+                }
+
+                // Retained for backwards-compatibility with configOptions ->
+                // reserved-words-mappings
+                if (reservedWordsMappings == null
+                        && configOptions.containsKey("reserved-words-mappings")) {
+                    applyReservedWordsMappingsKvp(
+                            configOptions.get("reserved-words-mappings").toString(), configurator);
                 }
             }
 
             // Apply Instantiation Types
-            if (instantiationTypes != null && (configOptions == null || !configOptions.containsKey("instantiation-types"))) {
+            if (instantiationTypes != null
+                    && (configOptions == null
+                            || !configOptions.containsKey("instantiation-types"))) {
                 applyInstantiationTypesKvpList(instantiationTypes, configurator);
             }
 
             // Apply Import Mappings
-            if (importMappings != null && (configOptions == null || !configOptions.containsKey("import-mappings"))) {
+            if (importMappings != null
+                    && (configOptions == null || !configOptions.containsKey("import-mappings"))) {
                 applyImportMappingsKvpList(importMappings, configurator);
             }
 
             // Apply Schema Mappings
-            if (schemaMappings != null && (configOptions == null || !configOptions.containsKey("schema-mappings"))) {
+            if (schemaMappings != null
+                    && (configOptions == null || !configOptions.containsKey("schema-mappings"))) {
                 applySchemaMappingsKvpList(schemaMappings, configurator);
             }
 
             // Apply Inline Schema Name Mappings
-            if (inlineSchemaNameMappings != null && (configOptions == null || !configOptions.containsKey("inline-schema-name-mappings"))) {
+            if (inlineSchemaNameMappings != null
+                    && (configOptions == null
+                            || !configOptions.containsKey("inline-schema-name-mappings"))) {
                 applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
             }
 
             // Apply Inline Schema Name Defaults
-            if (inlineSchemaNameDefaults != null && (configOptions == null || !configOptions.containsKey("inline-schema-name-defaults"))) {
+            if (inlineSchemaNameDefaults != null
+                    && (configOptions == null
+                            || !configOptions.containsKey("inline-schema-name-defaults"))) {
                 applyInlineSchemaNameDefaultsKvpList(inlineSchemaNameDefaults, configurator);
             }
 
             // Apply OpenAPI normalizer rules
-            if (openapiNormalizer != null && (configOptions == null || !configOptions.containsKey("openapi-normalizer"))) {
+            if (openapiNormalizer != null
+                    && (configOptions == null
+                            || !configOptions.containsKey("openapi-normalizer"))) {
                 applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
             }
 
             // Apply Type Mappings
-            if (typeMappings != null && (configOptions == null || !configOptions.containsKey("type-mappings"))) {
+            if (typeMappings != null
+                    && (configOptions == null || !configOptions.containsKey("type-mappings"))) {
                 applyTypeMappingsKvpList(typeMappings, configurator);
             }
 
             // Apply Language Specific Primitives
             if (languageSpecificPrimitives != null
-                    && (configOptions == null || !configOptions.containsKey("language-specific-primitives"))) {
+                    && (configOptions == null
+                            || !configOptions.containsKey("language-specific-primitives"))) {
                 applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
             }
 
             // Apply Additional Properties
-            if (additionalProperties != null && (configOptions == null || !configOptions.containsKey("additional-properties"))) {
+            if (additionalProperties != null
+                    && (configOptions == null
+                            || !configOptions.containsKey("additional-properties"))) {
                 applyAdditionalPropertiesKvpList(additionalProperties, configurator);
             }
 
-            if (serverVariableOverrides != null && (configOptions == null || !configOptions.containsKey("server-variables"))) {
+            if (serverVariableOverrides != null
+                    && (configOptions == null || !configOptions.containsKey("server-variables"))) {
                 applyServerVariablesKvpList(serverVariableOverrides, configurator);
             }
 
             // Apply Reserved Words Mappings
-            if (reservedWordsMappings != null && (configOptions == null || !configOptions.containsKey("reserved-words-mappings"))) {
+            if (reservedWordsMappings != null
+                    && (configOptions == null
+                            || !configOptions.containsKey("reserved-words-mappings"))) {
                 applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
             }
 
@@ -834,7 +829,8 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (environmentVariables != null && environmentVariables.size() > 0) {
                 globalProperties.putAll(environmentVariables);
-                getLog().warn("environmentVariables is deprecated and will be removed in version 5.1. Use globalProperties instead.");
+                getLog().warn(
+                                "environmentVariables is deprecated and will be removed in version 5.1. Use globalProperties instead.");
             }
 
             for (Map.Entry<String, String> globalPropertiesEntry : globalProperties.entrySet()) {
@@ -851,8 +847,11 @@ public class CodeGenMojo extends AbstractMojo {
             if (configOptions != null) {
                 for (CliOption langCliOption : config.cliOptions()) {
                     if (configOptions.containsKey(langCliOption.getOpt())) {
-                        input.getConfig().additionalProperties()
-                                .put(langCliOption.getOpt(), configOptions.get(langCliOption.getOpt()));
+                        input.getConfig()
+                                .additionalProperties()
+                                .put(
+                                        langCliOption.getOpt(),
+                                        configOptions.get(langCliOption.getOpt()));
                     }
                 }
             }
@@ -860,8 +859,8 @@ public class CodeGenMojo extends AbstractMojo {
             if (configHelp) {
                 for (CliOption langCliOption : config.cliOptions()) {
                     System.out.println("\t" + langCliOption.getOpt());
-                    System.out.println("\t    "
-                            + langCliOption.getOptionHelp().replaceAll("\n", "\n\t    "));
+                    System.out.println(
+                            "\t    " + langCliOption.getOptionHelp().replaceAll("\n", "\n\t    "));
                     System.out.println();
                 }
                 return;
@@ -877,11 +876,14 @@ public class CodeGenMojo extends AbstractMojo {
             File storedInputSpecHashFile = getHashFile(inputSpecFile);
             String inputSpecHash = calculateInputSpecHash(inputSpecFile);
 
-            if (storedInputSpecHashFile.getParent() != null && !new File(storedInputSpecHashFile.getParent()).exists()) {
+            if (storedInputSpecHashFile.getParent() != null
+                    && !new File(storedInputSpecHashFile.getParent()).exists()) {
                 File parent = new File(storedInputSpecHashFile.getParent());
                 if (!parent.mkdirs()) {
-                    throw new RuntimeException("Failed to create the folder " + parent.getAbsolutePath() +
-                                               " to store the checksum of the input spec.");
+                    throw new RuntimeException(
+                            "Failed to create the folder "
+                                    + parent.getAbsolutePath()
+                                    + " to store the checksum of the input spec.");
                 }
             }
             Files.asCharSink(storedInputSpecHashFile, StandardCharsets.UTF_8).write(inputSpecHash);
@@ -891,7 +893,13 @@ public class CodeGenMojo extends AbstractMojo {
             // I find it annoying to jump through hoops to get basic diagnostic information,
             // so let's log it in any case:
             if (buildContext != null) {
-                buildContext.addMessage(inputSpecFile, 0, 0, "unexpected error in Open-API generation", BuildContext.SEVERITY_WARNING, e);
+                buildContext.addMessage(
+                        inputSpecFile,
+                        0,
+                        0,
+                        "unexpected error in Open-API generation",
+                        BuildContext.SEVERITY_WARNING,
+                        e);
             }
             getLog().error(e);
             throw new MojoExecutionException(
@@ -900,10 +908,11 @@ public class CodeGenMojo extends AbstractMojo {
     }
 
     /**
-     * Calculate openapi specification file hash. If specification is hosted on remote resource it is downloaded first
+     * Calculate openapi specification file hash. If specification is hosted on remote resource it
+     * is downloaded first
      *
-     * @param inputSpecFile - Openapi specification input file to calculate it's hash.
-     *                        Does not taken into account if input spec is hosted on remote resource
+     * @param inputSpecFile - Openapi specification input file to calculate it's hash. Does not
+     *     taken into account if input spec is hosted on remote resource
      * @return openapi specification file hash
      * @throws IOException
      */
@@ -923,7 +932,8 @@ public class CodeGenMojo extends AbstractMojo {
                     conn.setRequestProperty(a.getKeyName(), a.getValue());
                 }
             }
-            try (ReadableByteChannel readableByteChannel = Channels.newChannel(conn.getInputStream())) {
+            try (ReadableByteChannel readableByteChannel =
+                    Channels.newChannel(conn.getInputStream())) {
                 FileChannel fileChannel;
                 try (FileOutputStream fileOutputStream = new FileOutputStream(inputSpecTempFile)) {
                     fileChannel = fileOutputStream.getChannel();
@@ -935,17 +945,22 @@ public class CodeGenMojo extends AbstractMojo {
         ByteSource inputSpecByteSource =
                 inputSpecTempFile.exists()
                         ? Files.asByteSource(inputSpecTempFile)
-                        : CharSource.wrap(ClasspathHelper.loadFileFromClasspath(inputSpecTempFile.toString().replaceAll("\\\\","/")))
-                        .asByteSource(StandardCharsets.UTF_8);
+                        : CharSource.wrap(
+                                        ClasspathHelper.loadFileFromClasspath(
+                                                inputSpecTempFile
+                                                        .toString()
+                                                        .replaceAll("\\\\", "/")))
+                                .asByteSource(StandardCharsets.UTF_8);
 
         return inputSpecByteSource.hash(Hashing.sha256()).toString();
     }
 
     /**
      * Try to parse inputSpec setting string into URL
+     *
      * @return A valid URL or null if inputSpec is not a valid URL
      */
-    private URL inputSpecRemoteUrl(){
+    private URL inputSpecRemoteUrl() {
         try {
             return new URI(inputSpec).toURL();
         } catch (URISyntaxException | MalformedURLException | IllegalArgumentException e) {
@@ -955,8 +970,9 @@ public class CodeGenMojo extends AbstractMojo {
 
     /**
      * Get specification hash file
-     * @param inputSpecFile - Openapi specification input file to calculate it's hash.
-     *                        Does not taken into account if input spec is hosted on remote resource
+     *
+     * @param inputSpecFile - Openapi specification input file to calculate it's hash. Does not
+     *     taken into account if input spec is hosted on remote resource
      * @return a file with previously calculated hash
      */
     private File getHashFile(File inputSpecFile) {
@@ -968,14 +984,22 @@ public class CodeGenMojo extends AbstractMojo {
             name = Files.getNameWithoutExtension(segments[segments.length - 1]);
         }
 
-        return new File(output.getPath() + File.separatorChar + ".openapi-generator" + File.separatorChar + name + "-" + mojo.getExecutionId() + ".sha256");
+        return new File(
+                output.getPath()
+                        + File.separatorChar
+                        + ".openapi-generator"
+                        + File.separatorChar
+                        + name
+                        + "-"
+                        + mojo.getExecutionId()
+                        + ".sha256");
     }
 
     private String getCompileSourceRoot() {
         final Object sourceFolderObject =
-                configOptions == null ? null : configOptions
-                        .get(CodegenConstants.SOURCE_FOLDER);
-        final String sourceFolder = sourceFolderObject != null ? sourceFolderObject.toString() : "src/main/java";
+                configOptions == null ? null : configOptions.get(CodegenConstants.SOURCE_FOLDER);
+        final String sourceFolder =
+                sourceFolderObject != null ? sourceFolderObject.toString() : "src/main/java";
 
         return output.getPath() + File.separatorChar + sourceFolder;
     }
@@ -983,7 +1007,8 @@ public class CodeGenMojo extends AbstractMojo {
     private void addCompileSourceRootIfConfigured() throws MojoExecutionException {
         if (addCompileSourceRoot) {
             if (addTestCompileSourceRoot) {
-                throw new MojoExecutionException("Either 'addCompileSourceRoot' or 'addTestCompileSourceRoot' may be active, not both.");
+                throw new MojoExecutionException(
+                        "Either 'addCompileSourceRoot' or 'addTestCompileSourceRoot' may be active, not both.");
             }
             project.addCompileSourceRoot(getCompileSourceRoot());
         } else if (addTestCompileSourceRoot) {
@@ -992,9 +1017,9 @@ public class CodeGenMojo extends AbstractMojo {
     }
 
     /**
-     * This method enables conversion of true/false strings in
-     * config.additionalProperties (configuration/configOptions) to proper booleans.
-     * This enables mustache files to handle the properties better.
+     * This method enables conversion of true/false strings in config.additionalProperties
+     * (configuration/configOptions) to proper booleans. This enables mustache files to handle the
+     * properties better.
      *
      * @param config
      */

@@ -16,27 +16,27 @@
 
 package org.openapitools.codegen.config;
 
-import org.testng.annotations.Test;
+import static org.testng.Assert.*;
 
 import java.nio.file.Paths;
 import java.util.Map;
-
-import static org.testng.Assert.*;
+import org.testng.annotations.Test;
 
 public class WorkflowSettingsTest {
     @Test
-    public void defaultValuesNotOverriddenByNulls(){
-        WorkflowSettings settings = WorkflowSettings.newBuilder()
-                .withOutputDir(null)
-                .withVerbose(null)
-                .withSkipOverwrite(null)
-                .withRemoveOperationIdPrefix(null)
-                .withLogToStderr(null)
-                .withValidateSpec(null)
-                .withEnablePostProcessFile(null)
-                .withEnableMinimalUpdate(null)
-                .withStrictSpecBehavior(null)
-                .build();
+    public void defaultValuesNotOverriddenByNulls() {
+        WorkflowSettings settings =
+                WorkflowSettings.newBuilder()
+                        .withOutputDir(null)
+                        .withVerbose(null)
+                        .withSkipOverwrite(null)
+                        .withRemoveOperationIdPrefix(null)
+                        .withLogToStderr(null)
+                        .withValidateSpec(null)
+                        .withEnablePostProcessFile(null)
+                        .withEnableMinimalUpdate(null)
+                        .withStrictSpecBehavior(null)
+                        .build();
 
         assertEquals(settings.getOutputDir(), ".");
         assertFalse(settings.isVerbose());
@@ -50,36 +50,40 @@ public class WorkflowSettingsTest {
     }
 
     @Test
-    public void newBuilderFromCopyShouldMutateGlobalProperties(){
-        WorkflowSettings original = WorkflowSettings.newBuilder()
-                .withOutputDir("output")
-                .withVerbose(true)
-                .withSkipOverwrite(false)
-                .withGlobalProperty("first", "1st")
-                .build();
+    public void newBuilderFromCopyShouldMutateGlobalProperties() {
+        WorkflowSettings original =
+                WorkflowSettings.newBuilder()
+                        .withOutputDir("output")
+                        .withVerbose(true)
+                        .withSkipOverwrite(false)
+                        .withGlobalProperty("first", "1st")
+                        .build();
 
-        WorkflowSettings modified = WorkflowSettings.newBuilder(original)
-                .withGlobalProperty("second", "2nd")
-                .build();
+        WorkflowSettings modified =
+                WorkflowSettings.newBuilder(original).withGlobalProperty("second", "2nd").build();
 
         Map<String, String> properties = modified.getGlobalProperties();
-        assertEquals(properties.size(), 2, "System Properties map should allow mutation when invoked via copy constructor");
+        assertEquals(
+                properties.size(),
+                2,
+                "System Properties map should allow mutation when invoked via copy constructor");
         assertEquals(properties.getOrDefault("first", ""), "1st");
         assertEquals(properties.getOrDefault("second", ""), "2nd");
     }
 
     private void assertOnChangesToDefaults(WorkflowSettings defaults) {
-        WorkflowSettings settings = WorkflowSettings.newBuilder()
-                .withOutputDir("output")
-                .withVerbose(true)
-                .withSkipOverwrite(true)
-                .withRemoveOperationIdPrefix(true)
-                .withLogToStderr(true)
-                .withValidateSpec(false)
-                .withEnablePostProcessFile(true)
-                .withEnableMinimalUpdate(true)
-                .withStrictSpecBehavior(false)
-                .build();
+        WorkflowSettings settings =
+                WorkflowSettings.newBuilder()
+                        .withOutputDir("output")
+                        .withVerbose(true)
+                        .withSkipOverwrite(true)
+                        .withRemoveOperationIdPrefix(true)
+                        .withLogToStderr(true)
+                        .withValidateSpec(false)
+                        .withEnablePostProcessFile(true)
+                        .withEnableMinimalUpdate(true)
+                        .withStrictSpecBehavior(false)
+                        .build();
 
         assertNotEquals(defaults.getOutputDir(), settings.getOutputDir());
         assertEquals(settings.getOutputDir(), Paths.get("output").toAbsolutePath().toString());
@@ -110,13 +114,13 @@ public class WorkflowSettingsTest {
     }
 
     @Test
-    public void defaultValuesCanBeChangedClassConstructor(){
+    public void defaultValuesCanBeChangedClassConstructor() {
         WorkflowSettings defaults = new WorkflowSettings();
         assertOnChangesToDefaults(defaults);
     }
 
     @Test
-    public void defaultValuesCanBeChangedBuilder(){
+    public void defaultValuesCanBeChangedBuilder() {
         WorkflowSettings defaults = WorkflowSettings.newBuilder().build();
         assertOnChangesToDefaults(defaults);
     }

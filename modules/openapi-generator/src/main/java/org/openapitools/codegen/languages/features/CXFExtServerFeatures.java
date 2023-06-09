@@ -16,5 +16,4 @@ public interface CXFExtServerFeatures extends CXFServerFeatures {
     void setTestDataFile(File testDataFile);
 
     void setTestDataControlFile(File testDataControlFile);
-
 }

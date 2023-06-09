@@ -9,22 +9,22 @@ import org.openapitools.codegen.languages.TypeScriptClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-
 @Test(groups = {TypeScriptGroups.TYPESCRIPT})
 public class TypeScriptClientModelTest {
 
     @Test(description = "convert an array oneof model")
     public void arrayOneOfModelTest() {
-        final Schema schema = new ArraySchema()
-                .items(new ComposedSchema()
-                        .addOneOfItem(new StringSchema())
-                        .addOneOfItem(new IntegerSchema().format("int64")))
-                .description("an array oneof model");
+        final Schema schema =
+                new ArraySchema()
+                        .items(
+                                new ComposedSchema()
+                                        .addOneOfItem(new StringSchema())
+                                        .addOneOfItem(new IntegerSchema().format("int64")))
+                        .description("an array oneof model");
         final DefaultCodegen codegen = new TypeScriptClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
-
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -35,18 +35,29 @@ public class TypeScriptClientModelTest {
 
     @Test(description = "convert an any of with array oneof model")
     public void objectPropertyAnyOfWithArrayOneOfModelTest() {
-        final Schema schema = new ObjectSchema().addProperties("value",
-                new ComposedSchema().addAnyOfItem(new StringSchema()).addAnyOfItem(new ArraySchema()
-                        .items(new ComposedSchema()
-                                .addOneOfItem(new StringSchema())
-                                .addOneOfItem(new IntegerSchema().format("int64")))))
-                .description("an any of with array oneof model");
+        final Schema schema =
+                new ObjectSchema()
+                        .addProperties(
+                                "value",
+                                new ComposedSchema()
+                                        .addAnyOfItem(new StringSchema())
+                                        .addAnyOfItem(
+                                                new ArraySchema()
+                                                        .items(
+                                                                new ComposedSchema()
+                                                                        .addOneOfItem(
+                                                                                new StringSchema())
+                                                                        .addOneOfItem(
+                                                                                new IntegerSchema()
+                                                                                        .format(
+                                                                                                "int64")))))
+                        .description("an any of with array oneof model");
         final DefaultCodegen codegen = new TypeScriptClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        String s = codegen.getSchemaType((Schema)schema.getProperties().get("value"));
+        String s = codegen.getSchemaType((Schema) schema.getProperties().get("value"));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");

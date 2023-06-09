@@ -16,18 +16,18 @@
 
 package org.openapitools.codegen.validation;
 
-/**
- * Defines different levels of severity to be used during validation.
- */
+/** Defines different levels of severity to be used during validation. */
 public enum Severity {
     /**
-     * Lower severity indicating that the target state may be unpredictable, no longer supported, or known to have issues.
-     * Marking a type with this value should not result in application exceptions under normal operating circumstances.
+     * Lower severity indicating that the target state may be unpredictable, no longer supported, or
+     * known to have issues. Marking a type with this value should not result in application
+     * exceptions under normal operating circumstances.
      */
     WARNING,
     /**
-     * Higher severity indicating that the target state is not supported, or is known to cause problems with the application.
-     * Marking a type with this value should result in an application exception or error exit code under normal operating circumstances.
+     * Higher severity indicating that the target state is not supported, or is known to cause
+     * problems with the application. Marking a type with this value should result in an application
+     * exception or error exit code under normal operating circumstances.
      */
     ERROR
 }

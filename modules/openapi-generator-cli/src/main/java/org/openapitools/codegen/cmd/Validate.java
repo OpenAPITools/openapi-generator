@@ -19,29 +19,32 @@ package org.openapitools.codegen.cmd;
 
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
-
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.apache.commons.text.WordUtils;
 import org.openapitools.codegen.validation.ValidationResult;
 import org.openapitools.codegen.validations.oas.OpenApiEvaluator;
 import org.openapitools.codegen.validations.oas.RuleConfiguration;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-@SuppressWarnings({"unused","java:S106"})
+@SuppressWarnings({"unused", "java:S106"})
 @Command(name = "validate", description = "Validate specification")
 public class Validate extends OpenApiGeneratorCommand {
 
-    @Option(name = {"-i", "--input-spec"}, title = "spec file", required = true,
+    @Option(
+            name = {"-i", "--input-spec"},
+            title = "spec file",
+            required = true,
             description = "location of the OpenAPI spec, as URL or file (required)")
     private String spec;
 
-    @Option(name = { "--recommend"}, title = "recommend spec improvements")
+    @Option(
+            name = {"--recommend"},
+            title = "recommend spec improvements")
     private Boolean recommend;
 
     @Override
@@ -65,23 +68,37 @@ public class Validate extends OpenApiGeneratorCommand {
         OpenApiEvaluator evaluator = new OpenApiEvaluator(ruleConfiguration);
         ValidationResult validationResult = evaluator.validate(specification);
 
-        // TODO: We could also provide description here along with getMessage. getMessage is either a "generic" message or specific (e.g. Model 'Cat' has issues).
-        //       This would require that we parse the messageList coming from swagger-parser into a better structure.
+        // TODO: We could also provide description here along with getMessage. getMessage is either
+        // a "generic" message or specific (e.g. Model 'Cat' has issues).
+        //       This would require that we parse the messageList coming from swagger-parser into a
+        // better structure.
         validationResult.getWarnings().forEach(invalid -> warnings.add(invalid.getMessage()));
         validationResult.getErrors().forEach(invalid -> errors.add(invalid.getMessage()));
 
         if (!errors.isEmpty()) {
             sb.append("Errors:").append(System.lineSeparator());
-            errors.forEach(msg ->
-                    sb.append("\t- ").append(WordUtils.wrap(msg, 90).replace(System.lineSeparator(), System.lineSeparator() + "\t  ")).append(System.lineSeparator())
-            );
+            errors.forEach(
+                    msg ->
+                            sb.append("\t- ")
+                                    .append(
+                                            WordUtils.wrap(msg, 90)
+                                                    .replace(
+                                                            System.lineSeparator(),
+                                                            System.lineSeparator() + "\t  "))
+                                    .append(System.lineSeparator()));
         }
 
         if (!warnings.isEmpty()) {
             sb.append("Warnings: ").append(System.lineSeparator());
-            warnings.forEach(msg ->
-                    sb.append("\t- ").append(WordUtils.wrap(msg, 90).replace(System.lineSeparator(), System.lineSeparator() + "\t  ")).append(System.lineSeparator())
-            );
+            warnings.forEach(
+                    msg ->
+                            sb.append("\t- ")
+                                    .append(
+                                            WordUtils.wrap(msg, 90)
+                                                    .replace(
+                                                            System.lineSeparator(),
+                                                            System.lineSeparator() + "\t  "))
+                                    .append(System.lineSeparator()));
         }
 
         if (!errors.isEmpty()) {

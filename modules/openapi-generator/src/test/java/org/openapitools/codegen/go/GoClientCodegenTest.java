@@ -19,12 +19,6 @@ package org.openapitools.codegen.go;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.languages.GoClientCodegen;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,7 +27,11 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.languages.GoClientCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class GoClientCodegenTest {
 
@@ -42,7 +40,9 @@ public class GoClientCodegenTest {
         final GoClientCodegen codegen = new GoClientCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.TRUE);
         Assert.assertTrue(codegen.isHideGenerationTimestamp());
         Assert.assertNull(codegen.additionalProperties().get(GoClientCodegen.MODEL_FILE_FOLDER));
     }
@@ -53,7 +53,9 @@ public class GoClientCodegenTest {
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.FALSE);
         Assert.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
@@ -63,13 +65,17 @@ public class GoClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.FALSE);
         Assert.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
     @Test(description = "test example value for body parameter")
     public void bodyParameterTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec(
+                        "src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final GoClientCodegen codegen = new GoClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/fake";
@@ -82,7 +88,8 @@ public class GoClientCodegenTest {
 
     @Test(description = "test to ensure the parameter names are unique")
     public void ensureParameterNameUniqueTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/conflictingParameter.yaml");
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec("src/test/resources/3_0/conflictingParameter.yaml");
         final GoClientCodegen codegen = new GoClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/pet/{id}";
@@ -123,10 +130,11 @@ public class GoClientCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("go")
-                .setInputSpec("src/test/resources/3_0/oneOf_primitive.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("go")
+                        .setInputSpec("src/test/resources/3_0/oneOf_primitive.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
@@ -146,16 +154,18 @@ public class GoClientCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("go")
-                .setInputSpec("src/test/resources/3_0/allOf_nullable.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("go")
+                        .setInputSpec("src/test/resources/3_0/allOf_nullable.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
-        TestUtils.assertFileContains(Paths.get(output + "/model_example.go"), "Child NullableChild");
+        TestUtils.assertFileContains(
+                Paths.get(output + "/model_example.go"), "Child NullableChild");
     }
 
     @Test
@@ -163,10 +173,12 @@ public class GoClientCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("go")
-                .setInputSpec("src/test/resources/3_0/petstore-multiple-required-properties-has-same-oneOf-object.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("go")
+                        .setInputSpec(
+                                "src/test/resources/3_0/petstore-multiple-required-properties-has-same-oneOf-object.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
@@ -174,7 +186,9 @@ public class GoClientCodegenTest {
         files.forEach(File::deleteOnExit);
 
         Path docFile = Paths.get(output + "/docs/PetAPI.md");
-        TestUtils.assertFileContains(docFile, "openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}, openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}, openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}");
+        TestUtils.assertFileContains(
+                docFile,
+                "openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}, openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}, openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}");
     }
 
     @Test
@@ -185,17 +199,19 @@ public class GoClientCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("go")
-                .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/3_0/petstore.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("go")
+                        .setAdditionalProperties(properties)
+                        .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
-        TestUtils.assertFileContains(Paths.get(output + "/api_pet.go"), "type PetAPIAddPetRequest struct");
+        TestUtils.assertFileContains(
+                Paths.get(output + "/api_pet.go"), "type PetAPIAddPetRequest struct");
     }
 
     @Test
@@ -204,25 +220,29 @@ public class GoClientCodegenTest {
         codegen.additionalProperties().put(GoClientCodegen.MODEL_FILE_FOLDER, "model_dir");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.modelFileFolder(), "generated-code/go/model_dir/".replace("/", File.separator));
+        Assert.assertEquals(
+                codegen.modelFileFolder(),
+                "generated-code/go/model_dir/".replace("/", File.separator));
     }
-    
+
     @Test
     public void verifyTestFile() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("go")
-                .setInputSpec("src/test/resources/3_0/petstore.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("go")
+                        .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileExists(Paths.get(output + "/test/api_pet_test.go"));
-        TestUtils.assertFileContains(Paths.get(output + "/test/api_pet_test.go"),
+        TestUtils.assertFileContains(
+                Paths.get(output + "/test/api_pet_test.go"),
                 "func Test_openapi_PetAPIService(t *testing.T) {");
     }
 
@@ -231,19 +251,21 @@ public class GoClientCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("go")
-                .setGitUserId("OpenAPITools")
-                .setGitRepoId("openapi-generator")
-                .setInputSpec("src/test/resources/3_0/petstore.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("go")
+                        .setGitUserId("OpenAPITools")
+                        .setGitRepoId("openapi-generator")
+                        .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileExists(Paths.get(output + "/test/api_pet_test.go"));
-        TestUtils.assertFileContains(Paths.get(output + "/test/api_pet_test.go"),
+        TestUtils.assertFileContains(
+                Paths.get(output + "/test/api_pet_test.go"),
                 "openapiclient \"github.com/OpenAPITools/openapi-generator\"");
     }
 
@@ -252,17 +274,20 @@ public class GoClientCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("go")
-                .setInputSpec("src/test/resources/3_0/go/petstore-with-problem-details.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("go")
+                        .setInputSpec(
+                                "src/test/resources/3_0/go/petstore-with-problem-details.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileExists(Paths.get(output + "/api_pet.go"));
-        TestUtils.assertFileContains(Paths.get(output + "/api_pet.go"),
+        TestUtils.assertFileContains(
+                Paths.get(output + "/api_pet.go"),
                 "newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)");
     }
 
@@ -271,23 +296,27 @@ public class GoClientCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("go")
-                .setGitUserId("OpenAPITools")
-                .setGitRepoId("openapi-generator")
-                .setInputSpec("src/test/resources/3_0/go/petstore-with-no-response-body.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("go")
+                        .setGitUserId("OpenAPITools")
+                        .setGitRepoId("openapi-generator")
+                        .setInputSpec(
+                                "src/test/resources/3_0/go/petstore-with-no-response-body.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileExists(Paths.get(output + "/test/api_pet_test.go"));
-        TestUtils.assertFileNotContains(Paths.get(output + "/test/api_pet_test.go"),
-                "require.NotNil(t, resp)");
-        TestUtils.assertFileNotContains(Paths.get(output + "/test/api_pet_test.go"),
+        TestUtils.assertFileNotContains(
+                Paths.get(output + "/test/api_pet_test.go"), "require.NotNil(t, resp)");
+        TestUtils.assertFileNotContains(
+                Paths.get(output + "/test/api_pet_test.go"),
                 "resp, httpRes, err := apiClient.PetAPI.PetDelete(context.Background()).Execute()");
-        TestUtils.assertFileContains(Paths.get(output + "/test/api_pet_test.go"),
+        TestUtils.assertFileContains(
+                Paths.get(output + "/test/api_pet_test.go"),
                 "httpRes, err := apiClient.PetAPI.PetDelete(context.Background()).Execute()");
     }
 
@@ -296,18 +325,18 @@ public class GoClientCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("go")
-                .setInputSpec("src/test/resources/3_0/property-readonly.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("go")
+                        .setInputSpec("src/test/resources/3_0/property-readonly.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileExists(Paths.get(output + "/model_request.go"));
-        TestUtils.assertFileContains(Paths.get(output + "/model_request.go"),
-                "// skip: customerCode is readOnly");
+        TestUtils.assertFileContains(
+                Paths.get(output + "/model_request.go"), "// skip: customerCode is readOnly");
     }
-
 }

@@ -30,5 +30,4 @@ public interface SpringFeatures extends BeanValidationFeatures {
     void setGenerateSpringBootApplication(boolean generateSpringBootApplication);
 
     void setUseSpringAnnotationConfig(boolean useSpringAnnotationConfig);
-
 }

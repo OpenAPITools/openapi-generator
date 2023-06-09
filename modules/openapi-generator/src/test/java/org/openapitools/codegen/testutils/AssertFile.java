@@ -17,11 +17,12 @@
 
 package org.openapitools.codegen.testutils;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.testng.Assert.fail;
+
 import difflib.Delta;
 import difflib.DiffUtils;
 import difflib.Patch;
-import org.testng.Assert;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.FileVisitResult;
@@ -32,9 +33,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.Assert.fail;
+import org.testng.Assert;
 
 /**
  * Assertion for recursively testing directories.
@@ -48,14 +47,14 @@ public class AssertFile {
     }
 
     /**
-     * Asserts that two directories are recursively equal. If they are not, an {@link AssertionError} is thrown with the
-     * given message.<br/>
-     * There will be a textual comparison of all files under expected with all files under actual. File attributes will
-     * not be considered.<br/>
-     * Missing or additional files are considered an error.<br/>
+     * Asserts that two directories are recursively equal. If they are not, an {@link
+     * AssertionError} is thrown with the given message.<br>
+     * There will be a textual comparison of all files under expected with all files under actual.
+     * File attributes will not be considered.<br>
+     * Missing or additional files are considered an error.<br>
      *
      * @param expected Path expected directory
-     * @param actual   Path actual directory
+     * @param actual Path actual directory
      */
     public static void assertPathEqualsRecursively(final Path expected, final Path actual) {
         Assert.assertNotNull(expected);
@@ -63,66 +62,83 @@ public class AssertFile {
         final Path absoluteExpected = expected.toAbsolutePath();
         final Path absoluteActual = actual.toAbsolutePath();
         try {
-            Files.walkFileTree(expected, new FileVisitor<Path>() {
+            Files.walkFileTree(
+                    expected,
+                    new FileVisitor<Path>() {
 
-                @Override
-                public FileVisitResult preVisitDirectory(Path expectedDir, BasicFileAttributes attrs) throws IOException {
-                    Path relativeExpectedDir = absoluteExpected.relativize(expectedDir.toAbsolutePath());
-                    Path actualDir = absoluteActual.resolve(relativeExpectedDir);
+                        @Override
+                        public FileVisitResult preVisitDirectory(
+                                Path expectedDir, BasicFileAttributes attrs) throws IOException {
+                            Path relativeExpectedDir =
+                                    absoluteExpected.relativize(expectedDir.toAbsolutePath());
+                            Path actualDir = absoluteActual.resolve(relativeExpectedDir);
 
-                    if (!Files.exists(actualDir)) {
-                        fail(String.format(Locale.ROOT,"Directory '%s' is missing.", actualDir));
-                    }
+                            if (!Files.exists(actualDir)) {
+                                fail(
+                                        String.format(
+                                                Locale.ROOT,
+                                                "Directory '%s' is missing.",
+                                                actualDir));
+                            }
 
-                    String[] expected = expectedDir.toFile().list();
-                    String[] actual = actualDir.toFile().list();
+                            String[] expected = expectedDir.toFile().list();
+                            String[] actual = actualDir.toFile().list();
 
-                    if (expected != null) {
-                        Arrays.sort(expected);
-                    }
-                    if (actual != null) {
-                        Arrays.sort(actual);
-                    }
+                            if (expected != null) {
+                                Arrays.sort(expected);
+                            }
+                            if (actual != null) {
+                                Arrays.sort(actual);
+                            }
 
-                    // Use AssertJ as it also prints a diff
-                    assertThat(actual)
-                            .describedAs(String.format(Locale.ROOT, "Directory content of '%s' and '%s' differ.", expectedDir, actualDir))
-                            .containsExactly(expected);
+                            // Use AssertJ as it also prints a diff
+                            assertThat(actual)
+                                    .describedAs(
+                                            String.format(
+                                                    Locale.ROOT,
+                                                    "Directory content of '%s' and '%s' differ.",
+                                                    expectedDir,
+                                                    actualDir))
+                                    .containsExactly(expected);
 
-                    return FileVisitResult.CONTINUE;
-                }
+                            return FileVisitResult.CONTINUE;
+                        }
 
-                @Override
-                public FileVisitResult visitFile(Path expectedFile, BasicFileAttributes attrs) throws IOException {
-                    Path relativeExpectedFile = absoluteExpected.relativize(expectedFile.toAbsolutePath());
-                    Path actualFile = absoluteActual.resolve(relativeExpectedFile);
+                        @Override
+                        public FileVisitResult visitFile(
+                                Path expectedFile, BasicFileAttributes attrs) throws IOException {
+                            Path relativeExpectedFile =
+                                    absoluteExpected.relativize(expectedFile.toAbsolutePath());
+                            Path actualFile = absoluteActual.resolve(relativeExpectedFile);
 
-                    if (!Files.exists(actualFile)) {
-                        fail(String.format(Locale.ROOT, "File '%s' is missing.", actualFile));
-                    }
+                            if (!Files.exists(actualFile)) {
+                                fail(
+                                        String.format(
+                                                Locale.ROOT, "File '%s' is missing.", actualFile));
+                            }
 
-                    assertFilesAreEqual(expectedFile, actualFile);
+                            assertFilesAreEqual(expectedFile, actualFile);
 
-                    return FileVisitResult.CONTINUE;
-                }
+                            return FileVisitResult.CONTINUE;
+                        }
 
-                @Override
-                public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-                    fail(exc.getMessage());
-                    return FileVisitResult.TERMINATE;
-                }
+                        @Override
+                        public FileVisitResult visitFileFailed(Path file, IOException exc)
+                                throws IOException {
+                            fail(exc.getMessage());
+                            return FileVisitResult.TERMINATE;
+                        }
 
-                @Override
-                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                    return FileVisitResult.CONTINUE;
-                }
-
-            });
+                        @Override
+                        public FileVisitResult postVisitDirectory(Path dir, IOException exc)
+                                throws IOException {
+                            return FileVisitResult.CONTINUE;
+                        }
+                    });
         } catch (IOException e) {
             fail(e.getMessage(), e);
         }
     }
-
 
     public static void assertFilesAreEqual(final Path expected, final Path actual) {
 
@@ -158,4 +174,3 @@ public class AssertFile {
         }
     }
 }
-

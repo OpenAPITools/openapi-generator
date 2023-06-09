@@ -17,6 +17,12 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import org.apache.commons.lang3.BooleanUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.GlobalSettings;
@@ -28,14 +34,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
-
 public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaUndertowServerCodegen.class);
@@ -46,12 +44,13 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
     public JavaUndertowServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(
+                features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         embeddedTemplateDir = templateDir = "java-undertow-server";
         invokerPackage = "org.openapitools.handler";
         artifactId = "openapi-undertow-server";
-        dateLibrary = "legacy"; //TODO: add joda support
+        dateLibrary = "legacy"; // TODO: add joda support
 
         // clioOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
@@ -62,21 +61,33 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
-        //TODO: add doc templates
+        // TODO: add doc templates
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
-        if(GlobalSettings.getProperty("swagger.codegen.undertow.apipackage") != null && GlobalSettings.getProperty("openapi.codegen.undertow.apipackage") == null) {
-            LOGGER.warn("System property 'swagger.codegen.undertow.apipackage' was renamed to 'openapi.codegen.undertow.apipackage'");
-            apiPackage = GlobalSettings.getProperty("swagger.codegen.undertow.apipackage", "org.openapitools.handler");
+        if (GlobalSettings.getProperty("swagger.codegen.undertow.apipackage") != null
+                && GlobalSettings.getProperty("openapi.codegen.undertow.apipackage") == null) {
+            LOGGER.warn(
+                    "System property 'swagger.codegen.undertow.apipackage' was renamed to 'openapi.codegen.undertow.apipackage'");
+            apiPackage =
+                    GlobalSettings.getProperty(
+                            "swagger.codegen.undertow.apipackage", "org.openapitools.handler");
         } else {
-            apiPackage = GlobalSettings.getProperty("openapi.codegen.undertow.apipackage", "org.openapitools.handler");
+            apiPackage =
+                    GlobalSettings.getProperty(
+                            "openapi.codegen.undertow.apipackage", "org.openapitools.handler");
         }
-        if(GlobalSettings.getProperty("swagger.codegen.undertow.modelpackage") != null && GlobalSettings.getProperty("openapi.codegen.undertow.modelpackage") == null) {
-            LOGGER.warn("System property 'swagger.codegen.undertow.modelpackage' was renamed to 'openapi.codegen.undertow.modelpackage'");
-            modelPackage = GlobalSettings.getProperty("swagger.codegen.undertow.modelpackage", "org.openapitools.model");
+        if (GlobalSettings.getProperty("swagger.codegen.undertow.modelpackage") != null
+                && GlobalSettings.getProperty("openapi.codegen.undertow.modelpackage") == null) {
+            LOGGER.warn(
+                    "System property 'swagger.codegen.undertow.modelpackage' was renamed to 'openapi.codegen.undertow.modelpackage'");
+            modelPackage =
+                    GlobalSettings.getProperty(
+                            "swagger.codegen.undertow.modelpackage", "org.openapitools.model");
         } else {
-            modelPackage = GlobalSettings.getProperty("openapi.codegen.undertow.modelpackage", "org.openapitools.model");
+            modelPackage =
+                    GlobalSettings.getProperty(
+                            "openapi.codegen.undertow.modelpackage", "org.openapitools.model");
         }
 
         additionalProperties.put("title", title);
@@ -103,26 +114,56 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
         apiTemplateFiles.remove("api.mustache");
 
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
 
         // keep the yaml in config folder for framework validation.
-        supportingFiles.add(new SupportingFile("openapi.mustache", ("src.main.resources.config").replace(".", java.io.File.separator), "openapi.json"));
-        supportingFiles.add(new SupportingFile("interface.mustache", (String.format(Locale.ROOT, "src.main.java.%s", apiPackage)).replace(".", java.io.File.separator), "PathHandlerInterface.java"));
-        supportingFiles.add(new SupportingFile("handler.mustache", (String.format(Locale.ROOT, "src.main.java.%s", apiPackage)).replace(".", java.io.File.separator), "PathHandlerProvider.java"));
-        supportingFiles.add(new SupportingFile("service.mustache", ("src.main.resources.META-INF.services").replace(".", java.io.File.separator), "com.networknt.server.HandlerProvider"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "openapi.mustache",
+                        ("src.main.resources.config").replace(".", java.io.File.separator),
+                        "openapi.json"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "interface.mustache",
+                        (String.format(Locale.ROOT, "src.main.java.%s", apiPackage))
+                                .replace(".", java.io.File.separator),
+                        "PathHandlerInterface.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "handler.mustache",
+                        (String.format(Locale.ROOT, "src.main.java.%s", apiPackage))
+                                .replace(".", java.io.File.separator),
+                        "PathHandlerProvider.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "service.mustache",
+                        ("src.main.resources.META-INF.services")
+                                .replace(".", java.io.File.separator),
+                        "com.networknt.server.HandlerProvider"));
 
         // configuration files
-        supportingFiles.add(new SupportingFile("server.json", ("src.main.resources.config").replace(".", java.io.File.separator), "server.json"));
-        supportingFiles.add(new SupportingFile("security.json", ("src.main.resources.config").replace(".", java.io.File.separator), "security.json"));
-        supportingFiles.add(new SupportingFile("primary.crt", ("src.main.resources.config.oauth").replace(".", java.io.File.separator), "primary.crt"));
-
+        supportingFiles.add(
+                new SupportingFile(
+                        "server.json",
+                        ("src.main.resources.config").replace(".", java.io.File.separator),
+                        "server.json"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "security.json",
+                        ("src.main.resources.config").replace(".", java.io.File.separator),
+                        "security.json"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "primary.crt",
+                        ("src.main.resources.config.oauth").replace(".", java.io.File.separator),
+                        "primary.crt"));
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         if (operations != null) {
             List<CodegenOperation> ops = operations.getOperation();
@@ -160,7 +201,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
-        //Add imports for Jackson
+        // Add imports for Jackson
         if (!BooleanUtils.toBoolean(model.isEnum)) {
             model.imports.add("JsonProperty");
 
@@ -174,7 +215,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
     public ModelsMap postProcessModelsEnum(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
 
-        //Add imports for Jackson
+        // Add imports for Jackson
         List<Map<String, String>> imports = objs.getImports();
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
@@ -214,7 +255,11 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         if (name.length() == 0) {
             return "DefaultHandler";
         }
-        name = name.replaceAll("[^a-zA-Z0-9]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name =
+                name.replaceAll(
+                        "[^a-zA-Z0-9]+",
+                        "_"); // FIXME: a parameter should not be assigned. Also declare the methods
+        // parameters as 'final'.
         return camelize(name) + "Handler";
     }
 }

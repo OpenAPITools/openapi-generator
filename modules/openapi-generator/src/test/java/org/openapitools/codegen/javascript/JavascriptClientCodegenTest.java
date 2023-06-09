@@ -32,14 +32,18 @@ public class JavascriptClientCodegenTest {
         final JavascriptClientCodegen codegen = new JavascriptClientCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.TRUE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
         Assert.assertEquals(codegen.modelPackage(), "model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), null);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), null);
         Assert.assertEquals(codegen.apiPackage(), "api");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), null);
         Assert.assertEquals(codegen.getInvokerPackage(), null);
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), null);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), null);
     }
 
     @Test
@@ -48,7 +52,9 @@ public class JavascriptClientCodegenTest {
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
 
@@ -58,7 +64,9 @@ public class JavascriptClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
 
@@ -81,7 +89,9 @@ public class JavascriptClientCodegenTest {
         Assert.assertEquals(property1.dataType, "Category");
         Assert.assertEquals(property1.name, "category");
         Assert.assertEquals(property1.baseType, "Category");
-        Assert.assertEquals(property1.defaultValueWithParam, " = Category.constructFromObject(data['category']);");
+        Assert.assertEquals(
+                property1.defaultValueWithParam,
+                " = Category.constructFromObject(data['category']);");
         Assert.assertFalse(property1.required);
         Assert.assertFalse(property1.isContainer);
 
@@ -91,7 +101,9 @@ public class JavascriptClientCodegenTest {
         Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
         Assert.assertEquals(property2.baseType, "String");
-        Assert.assertEquals(property2.defaultValueWithParam, " = ApiClient.convertToType(data['name'], 'String');");
+        Assert.assertEquals(
+                property2.defaultValueWithParam,
+                " = ApiClient.convertToType(data['name'], 'String');");
         Assert.assertTrue(property2.required); // test required
         Assert.assertFalse(property2.isContainer);
     }
@@ -110,21 +122,22 @@ public class JavascriptClientCodegenTest {
         }
 
         Assert.assertEquals(coText.responses.size(), 1);
-
     }
 
     @Test(description = "test multiple file upload collection is correct")
     public void testMultipleFileUpload() throws Exception {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/form-multipart-binary-array.yaml");
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec(
+                        "src/test/resources/3_0/form-multipart-binary-array.yaml");
         final JavascriptClientCodegen codegen = new JavascriptClientCodegen();
         codegen.setOpenAPI(openAPI);
 
         final String requestPath = "/multipart-array";
         Operation textOperation = openAPI.getPaths().get(requestPath).getPost();
-        CodegenOperation operation = codegen.fromOperation(requestPath, "post", textOperation, null);
+        CodegenOperation operation =
+                codegen.fromOperation(requestPath, "post", textOperation, null);
         CodegenParameter codegenParameter = operation.allParams.get(0);
 
         Assert.assertEquals(codegenParameter.collectionFormat, "passthrough");
     }
-
 }

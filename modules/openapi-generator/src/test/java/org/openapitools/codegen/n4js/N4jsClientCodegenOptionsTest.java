@@ -32,11 +32,14 @@ public class N4jsClientCodegenOptionsTest extends AbstractOptionsTest {
 
     @Override
     protected void verifyOptions() {
-        assertEquals(parseBoolean(CHECK_REQUIRED_PARAMS_NOT_NULL__VALUE),
+        assertEquals(
+                parseBoolean(CHECK_REQUIRED_PARAMS_NOT_NULL__VALUE),
                 codegen.additionalProperties().get(CHECK_REQUIRED_PARAMS_NOT_NULL));
-        assertEquals(parseBoolean(CHECK_SUPERFLUOUS_BODY_PROPS__VALUE),
+        assertEquals(
+                parseBoolean(CHECK_SUPERFLUOUS_BODY_PROPS__VALUE),
                 codegen.additionalProperties().get(CHECK_SUPERFLUOUS_BODY_PROPS));
-        assertEquals(parseBoolean(GENERATE_DEFAULT_API_EXECUTER__VALUE),
+        assertEquals(
+                parseBoolean(GENERATE_DEFAULT_API_EXECUTER__VALUE),
                 codegen.additionalProperties().get(GENERATE_DEFAULT_API_EXECUTER));
 
         assertEquals("", codegen.additionalProperties().get(API_PACKAGE));

@@ -1,7 +1,6 @@
 package org.openapitools.codegen.templating.mustache;
 
 import java.util.Map;
-
 import org.testng.annotations.Test;
 
 public class TitlecaseLambdaTest extends LambdaTest {
@@ -41,6 +40,4 @@ public class TitlecaseLambdaTest extends LambdaTest {
         // When & Then
         test("Once-Upon-A-Time", "{{#titlecase}}once-upon-a-time{{/titlecase}}", ctx);
     }
-
-
 }

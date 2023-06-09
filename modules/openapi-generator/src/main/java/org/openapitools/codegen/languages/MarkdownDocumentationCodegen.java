@@ -1,14 +1,13 @@
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.escape;
+
+import java.io.File;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-
-import static org.openapitools.codegen.utils.StringUtils.escape;
 
 public class MarkdownDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
@@ -30,9 +29,8 @@ public class MarkdownDocumentationCodegen extends DefaultCodegen implements Code
     public MarkdownDocumentationCodegen() {
         super();
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         outputFolder = "generated-code" + File.separator + "markdown";
         modelTemplateFiles.put("model.mustache", ".md");
@@ -76,8 +74,10 @@ public class MarkdownDocumentationCodegen extends DefaultCodegen implements Code
         specialCharReplacements.put("[", "\\[");
         specialCharReplacements.put("]", "\\]");
 
-        // todo Current markdown api and model mustache templates display properties and parameters in tables. Pipe
-        //  symbol in a table can be commonly escaped with a backslash (e.g. GFM supports this). However, in some cases
+        // todo Current markdown api and model mustache templates display properties and parameters
+        // in tables. Pipe
+        //  symbol in a table can be commonly escaped with a backslash (e.g. GFM supports this).
+        // However, in some cases
         //  it may be necessary to choose a different approach.
         specialCharReplacements.put("|", "\\|");
     }
@@ -92,7 +92,13 @@ public class MarkdownDocumentationCodegen extends DefaultCodegen implements Code
     public String toParamName(String name) {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character)))) {
+        } else if (((CharSequence) name)
+                .chars()
+                .anyMatch(
+                        character ->
+                                specialCharReplacements
+                                        .keySet()
+                                        .contains(String.valueOf((char) character)))) {
             return escape(name, specialCharReplacements, null, null);
         }
         return name;
@@ -109,7 +115,9 @@ public class MarkdownDocumentationCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return null; }
+    public GeneratorLanguage generatorLanguage() {
+        return null;
+    }
 
     @Override
     public String escapeUnsafeCharacters(String input) {
@@ -122,5 +130,4 @@ public class MarkdownDocumentationCodegen extends DefaultCodegen implements Code
         // do nothing as the output is just doc
         return input;
     }
-
 }

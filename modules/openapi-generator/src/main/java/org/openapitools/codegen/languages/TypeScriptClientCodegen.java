@@ -17,12 +17,24 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.OnceLogger.once;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import com.github.curiousoddman.rgxgen.RgxGen;
 import com.google.common.collect.Sets;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
+import java.io.File;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
@@ -37,41 +49,34 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
-import static org.openapitools.codegen.utils.OnceLogger.once;
-
-
-public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen implements CodegenConfig {
+public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen
+        implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptClientCodegen.class);
 
     private static final String FRAMEWORK_SWITCH = "framework";
-    private static final String FRAMEWORK_SWITCH_DESC = "Specify the framework which should be used in the client code.";
+    private static final String FRAMEWORK_SWITCH_DESC =
+            "Specify the framework which should be used in the client code.";
     private static final String[] FRAMEWORKS = {"fetch-api", "jquery"};
     private static final String PLATFORM_SWITCH = "platform";
-    private static final String PLATFORM_SWITCH_DESC = "Specifies the platform the code should run on. The default is 'node' for the 'request' framework and 'browser' otherwise.";
+    private static final String PLATFORM_SWITCH_DESC =
+            "Specifies the platform the code should run on. The default is 'node' for the 'request' framework and 'browser' otherwise.";
     private static final String[] PLATFORMS = {"browser", "node", "deno"};
     private static final String IMPORT_FILE_EXTENSION_SWITCH = "importFileExtension";
-    private static final String IMPORT_FILE_EXTENSION_SWITCH_DESC = "File extension to use with relative imports. Set it to '.js' or '.mjs' when using [ESM](https://nodejs.org/api/esm.html). Defaults to '.ts' when 'platform' is set to 'deno'.";
+    private static final String IMPORT_FILE_EXTENSION_SWITCH_DESC =
+            "File extension to use with relative imports. Set it to '.js' or '.mjs' when using [ESM](https://nodejs.org/api/esm.html). Defaults to '.ts' when 'platform' is set to 'deno'.";
     private static final String FILE_CONTENT_DATA_TYPE = "fileContentDataType";
-    private static final String FILE_CONTENT_DATA_TYPE_DESC = "Specifies the type to use for the content of a file - i.e. Blob (Browser, Deno) / Buffer (node)";
+    private static final String FILE_CONTENT_DATA_TYPE_DESC =
+            "Specifies the type to use for the content of a file - i.e. Blob (Browser, Deno) / Buffer (node)";
     private static final String USE_RXJS_SWITCH = "useRxJS";
-    private static final String USE_RXJS_SWITCH_DESC = "Enable this to internally use rxjs observables. If disabled, a stub is used instead. This is required for the 'angular' framework.";
+    private static final String USE_RXJS_SWITCH_DESC =
+            "Enable this to internally use rxjs observables. If disabled, a stub is used instead. This is required for the 'angular' framework.";
     private static final String USE_INVERSIFY_SWITCH = "useInversify";
-    private static final String USE_INVERSIFY_SWITCH_DESC = "Enable this to generate decorators and service identifiers for the InversifyJS inversion of control container. If you set 'deno' as 'platform', the generator will process this value as 'disable'.";
+    private static final String USE_INVERSIFY_SWITCH_DESC =
+            "Enable this to generate decorators and service identifiers for the InversifyJS inversion of control container. If you set 'deno' as 'platform', the generator will process this value as 'disable'.";
 
     private static final String USE_OBJECT_PARAMS_SWITCH = "useObjectParameters";
-    private static final String USE_OBJECT_PARAMS_DESC = "Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.";
+    private static final String USE_OBJECT_PARAMS_DESC =
+            "Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.";
 
     private final Map<String, String> frameworkToHttpLibMap;
 
@@ -93,37 +98,70 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         this.frameworkToHttpLibMap.put("fetch-api", "isomorphic-fetch");
         this.frameworkToHttpLibMap.put("jquery", "jquery");
 
-        this.generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
+        this.generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata)
+                        .stability(Stability.EXPERIMENTAL)
+                        .build();
 
         outputFolder = "generated-code" + File.separator + "typescript";
         embeddedTemplateDir = templateDir = "typescript";
 
-        // NOTE: TypeScript uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
-        reservedWords.addAll(Arrays.asList(
-                // local variable names used in API methods (endpoints)
-                "from",
-                // Typescript reserved words
-                "constructor"));
+        // NOTE: TypeScript uses camel cased reserved words, while models are title cased. We don't
+        // want lowercase comparisons.
+        reservedWords.addAll(
+                Arrays.asList(
+                        // local variable names used in API methods (endpoints)
+                        "from",
+                        // Typescript reserved words
+                        "constructor"));
 
         typeMapping.put("List", "Array");
         typeMapping.put("object", "any");
         typeMapping.put("DateTime", "Date");
 
-        cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
-        cliOptions.add(new CliOption(TypeScriptClientCodegen.FILE_CONTENT_DATA_TYPE, TypeScriptClientCodegen.FILE_CONTENT_DATA_TYPE_DESC).defaultValue("Buffer"));
-        cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_RXJS_SWITCH, TypeScriptClientCodegen.USE_RXJS_SWITCH_DESC).defaultValue("false"));
-        cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_OBJECT_PARAMS_SWITCH, TypeScriptClientCodegen.USE_OBJECT_PARAMS_DESC).defaultValue("false"));
-        cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_INVERSIFY_SWITCH, TypeScriptClientCodegen.USE_INVERSIFY_SWITCH_DESC).defaultValue("false"));
-        cliOptions.add(new CliOption(TypeScriptClientCodegen.IMPORT_FILE_EXTENSION_SWITCH, TypeScriptClientCodegen.IMPORT_FILE_EXTENSION_SWITCH_DESC));
+        cliOptions.add(
+                new CliOption(
+                        NPM_REPOSITORY,
+                        "Use this property to set an url your private npmRepo in the package.json"));
+        cliOptions.add(
+                new CliOption(
+                                TypeScriptClientCodegen.FILE_CONTENT_DATA_TYPE,
+                                TypeScriptClientCodegen.FILE_CONTENT_DATA_TYPE_DESC)
+                        .defaultValue("Buffer"));
+        cliOptions.add(
+                new CliOption(
+                                TypeScriptClientCodegen.USE_RXJS_SWITCH,
+                                TypeScriptClientCodegen.USE_RXJS_SWITCH_DESC)
+                        .defaultValue("false"));
+        cliOptions.add(
+                new CliOption(
+                                TypeScriptClientCodegen.USE_OBJECT_PARAMS_SWITCH,
+                                TypeScriptClientCodegen.USE_OBJECT_PARAMS_DESC)
+                        .defaultValue("false"));
+        cliOptions.add(
+                new CliOption(
+                                TypeScriptClientCodegen.USE_INVERSIFY_SWITCH,
+                                TypeScriptClientCodegen.USE_INVERSIFY_SWITCH_DESC)
+                        .defaultValue("false"));
+        cliOptions.add(
+                new CliOption(
+                        TypeScriptClientCodegen.IMPORT_FILE_EXTENSION_SWITCH,
+                        TypeScriptClientCodegen.IMPORT_FILE_EXTENSION_SWITCH_DESC));
 
-        CliOption frameworkOption = new CliOption(TypeScriptClientCodegen.FRAMEWORK_SWITCH, TypeScriptClientCodegen.FRAMEWORK_SWITCH_DESC);
+        CliOption frameworkOption =
+                new CliOption(
+                        TypeScriptClientCodegen.FRAMEWORK_SWITCH,
+                        TypeScriptClientCodegen.FRAMEWORK_SWITCH_DESC);
         for (String option : TypeScriptClientCodegen.FRAMEWORKS) {
             frameworkOption.addEnum(option, option);
         }
         frameworkOption.defaultValue(FRAMEWORKS[0]);
         cliOptions.add(frameworkOption);
 
-        CliOption platformOption = new CliOption(TypeScriptClientCodegen.PLATFORM_SWITCH, TypeScriptClientCodegen.PLATFORM_SWITCH_DESC);
+        CliOption platformOption =
+                new CliOption(
+                        TypeScriptClientCodegen.PLATFORM_SWITCH,
+                        TypeScriptClientCodegen.PLATFORM_SWITCH_DESC);
         for (String option : TypeScriptClientCodegen.PLATFORMS) {
             platformOption.addEnum(option, option);
         }
@@ -140,29 +178,56 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
         // Util
         supportingFiles.add(new SupportingFile("util.mustache", "", "util.ts"));
-        supportingFiles.add(new SupportingFile("api" + File.separator + "exception.mustache", "apis", "exception.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "api" + File.separator + "exception.mustache", "apis", "exception.ts"));
         // http
-        supportingFiles.add(new SupportingFile("http" + File.separator + "http.mustache", "http", "http.ts"));
-        supportingFiles.add(new SupportingFile("http" + File.separator + "servers.mustache", "servers.ts"));
+        supportingFiles.add(
+                new SupportingFile("http" + File.separator + "http.mustache", "http", "http.ts"));
+        supportingFiles.add(
+                new SupportingFile("http" + File.separator + "servers.mustache", "servers.ts"));
 
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
-        supportingFiles.add(new SupportingFile("auth" + File.separator + "auth.mustache", "auth", "auth.ts"));
+        supportingFiles.add(
+                new SupportingFile("auth" + File.separator + "auth.mustache", "auth", "auth.ts"));
 
-        supportingFiles.add(new SupportingFile("model" + File.separator + "models_all.mustache", "models", "all.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "model" + File.separator + "models_all.mustache", "models", "all.ts"));
 
-        supportingFiles.add(new SupportingFile("types" + File.separator + "PromiseAPI.mustache", "types", "PromiseAPI.ts"));
-        supportingFiles.add(new SupportingFile("types" + File.separator + "ObservableAPI.mustache", "types", "ObservableAPI.ts"));
-        supportingFiles.add(new SupportingFile("types" + File.separator + "ObjectParamAPI.mustache", "types", "ObjectParamAPI.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "types" + File.separator + "PromiseAPI.mustache",
+                        "types",
+                        "PromiseAPI.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "types" + File.separator + "ObservableAPI.mustache",
+                        "types",
+                        "ObservableAPI.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "types" + File.separator + "ObjectParamAPI.mustache",
+                        "types",
+                        "ObjectParamAPI.ts"));
 
         // models
         setModelPackage("models");
-        supportingFiles.add(new SupportingFile("model" + File.separator + "ObjectSerializer.mustache", "models", "ObjectSerializer.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "model" + File.separator + "ObjectSerializer.mustache",
+                        "models",
+                        "ObjectSerializer.ts"));
         modelTemplateFiles.put("model" + File.separator + "model.mustache", ".ts");
 
         // api
         setApiPackage("");
-        supportingFiles.add(new SupportingFile("api" + File.separator + "middleware.mustache", "", "middleware.ts"));
-        supportingFiles.add(new SupportingFile("api" + File.separator + "baseapi.mustache", "apis", "baseapi.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "api" + File.separator + "middleware.mustache", "", "middleware.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "api" + File.separator + "baseapi.mustache", "apis", "baseapi.ts"));
         apiTemplateFiles.put("api" + File.separator + "api.mustache", ".ts");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
     }
@@ -208,7 +273,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> models) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap operations, List<ModelMap> models) {
 
         // Add additional filename information for model imports in the apis
         List<Map<String, String>> imports = operations.getImports();
@@ -286,7 +352,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     @Override
     public String toModelImport(String name) {
-        // Use `/` instead of `File.Separator`. `File.Separator` is `\` in Windows, which is invalid Typescript.
+        // Use `/` instead of `File.Separator`. `File.Separator` is `\` in Windows, which is invalid
+        // Typescript.
         return "../" + modelPackage() + "/" + toModelName(name);
     }
 
@@ -361,14 +428,16 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
-                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
+                    var.datatypeWithEnum =
+                            var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
-                        var.datatypeWithEnum = var.datatypeWithEnum
-                                .replace(var.enumName, cm.classname + var.enumName);
+                        var.datatypeWithEnum =
+                                var.datatypeWithEnum.replace(
+                                        var.enumName, cm.classname + var.enumName);
                     }
                 }
             }
@@ -416,11 +485,13 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         additionalProperties.putIfAbsent(FRAMEWORK_SWITCH, FRAMEWORKS[0]);
         supportingFiles.add(new SupportingFile("index.mustache", "index.ts"));
 
-        String httpLibName = this.getHttpLibForFramework(additionalProperties.get(FRAMEWORK_SWITCH).toString());
-        supportingFiles.add(new SupportingFile(
-                "http" + File.separator + httpLibName + ".mustache",
-                "http", httpLibName + ".ts"
-        ));
+        String httpLibName =
+                this.getHttpLibForFramework(additionalProperties.get(FRAMEWORK_SWITCH).toString());
+        supportingFiles.add(
+                new SupportingFile(
+                        "http" + File.separator + httpLibName + ".mustache",
+                        "http",
+                        httpLibName + ".ts"));
 
         Object propPlatform = additionalProperties.get(PLATFORM_SWITCH);
         if (propPlatform == null) {
@@ -434,7 +505,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         }
         additionalProperties.put("platforms", platforms);
 
-        additionalProperties.putIfAbsent(FILE_CONTENT_DATA_TYPE, "node".equals(propPlatform) ? "Buffer" : "Blob");
+        additionalProperties.putIfAbsent(
+                FILE_CONTENT_DATA_TYPE, "node".equals(propPlatform) ? "Buffer" : "Blob");
 
         if (!"deno".equals(propPlatform)) {
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -454,12 +526,34 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
         final boolean useInversify = convertPropertyToBooleanAndWriteBack(USE_INVERSIFY_SWITCH);
         if (useInversify) {
-            supportingFiles.add(new SupportingFile("services" + File.separator + "index.mustache", "services", "index.ts"));
-            supportingFiles.add(new SupportingFile("services" + File.separator + "configuration.mustache", "services", "configuration.ts"));
-            supportingFiles.add(new SupportingFile("services" + File.separator + "PromiseAPI.mustache", "services", "PromiseAPI.ts"));
-            supportingFiles.add(new SupportingFile("services" + File.separator + "ObservableAPI.mustache", "services", "ObservableAPI.ts"));
-            supportingFiles.add(new SupportingFile("services" + File.separator + "ObjectParamAPI.mustache", "services", "ObjectParamAPI.ts"));
-            supportingFiles.add(new SupportingFile("services" + File.separator + "http.mustache", "services", "http.ts"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "services" + File.separator + "index.mustache",
+                            "services",
+                            "index.ts"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "services" + File.separator + "configuration.mustache",
+                            "services",
+                            "configuration.ts"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "services" + File.separator + "PromiseAPI.mustache",
+                            "services",
+                            "PromiseAPI.ts"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "services" + File.separator + "ObservableAPI.mustache",
+                            "services",
+                            "ObservableAPI.ts"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "services" + File.separator + "ObjectParamAPI.mustache",
+                            "services",
+                            "ObjectParamAPI.ts"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "services" + File.separator + "http.mustache", "services", "http.ts"));
             apiTemplateFiles.put("services" + File.separator + "api.mustache", ".service.ts");
         }
 
@@ -473,20 +567,25 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         return this.frameworkToHttpLibMap.get(object);
     }
 
-
     @Override
     public String getTypeDeclaration(Schema p) {
         Schema inner;
         if (ModelUtils.isArraySchema(p)) {
             inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(unaliasSchema(inner)) + ">";
+            return this.getSchemaType(p)
+                    + "<"
+                    + this.getTypeDeclaration(unaliasSchema(inner))
+                    + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             inner = getSchemaAdditionalProperties(p);
             String postfix = "";
             if (Boolean.TRUE.equals(inner.getNullable())) {
                 postfix = " | null";
             }
-            return "{ [key: string]: " + this.getTypeDeclaration(unaliasSchema(inner)) + postfix + "; }";
+            return "{ [key: string]: "
+                    + this.getTypeDeclaration(unaliasSchema(inner))
+                    + postfix
+                    + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "HttpFile";
         } else if (ModelUtils.isBinarySchema(p)) {
@@ -498,7 +597,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration((Schema) schema.getAdditionalProperties());
+        codegenModel.additionalPropertiesType =
+                getTypeDeclaration((Schema) schema.getAdditionalProperties());
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -559,7 +659,10 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             schema = ModelUtils.getSchema(this.openAPI, ModelUtils.getSimpleRef(ref));
         }
         // TODO handle examples in object models in the future
-        Boolean objectModel = (ModelUtils.isObjectSchema(schema) || ModelUtils.isMapSchema(schema) || ModelUtils.isComposedSchema(schema));
+        Boolean objectModel =
+                (ModelUtils.isObjectSchema(schema)
+                        || ModelUtils.isMapSchema(schema)
+                        || ModelUtils.isComposedSchema(schema));
         if (objectModel) {
             return null;
         }
@@ -584,7 +687,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         Pattern pattern = Pattern.compile("\r\n|\r|\n");
         Matcher matcher = pattern.matcher(in);
         if (matcher.find()) {
-            // if a string has a new line in it add backticks to make it a typescript multiline string
+            // if a string has a new line in it add backticks to make it a typescript multiline
+            // string
             return "`" + in + "`";
         }
         String strPattern = "^['\"].*?['\"]$";
@@ -611,7 +715,13 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         if (ref != null) {
             sc = ModelUtils.getSchema(this.openAPI, ModelUtils.getSimpleRef(ref));
         }
-        return ModelUtils.isStringSchema(sc) && !ModelUtils.isDateSchema(sc) && !ModelUtils.isDateTimeSchema(sc) && !"Number".equalsIgnoreCase(sc.getFormat()) && !ModelUtils.isByteArraySchema(sc) && !ModelUtils.isBinarySchema(sc) && schema.getPattern() == null;
+        return ModelUtils.isStringSchema(sc)
+                && !ModelUtils.isDateSchema(sc)
+                && !ModelUtils.isDateTimeSchema(sc)
+                && !"Number".equalsIgnoreCase(sc.getFormat())
+                && !ModelUtils.isByteArraySchema(sc)
+                && !ModelUtils.isBinarySchema(sc)
+                && schema.getPattern() == null;
     }
 
     private MappedModel getDiscriminatorMappedModel(CodegenDiscriminator disc) {
@@ -650,7 +760,14 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
      *                    only schemas that are not added are ones that contain $ref != null
      * @return the string example
      */
-    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine, Set<Schema> seenSchemas) {
+    private String toExampleValueRecursive(
+            String modelName,
+            Schema schema,
+            Object objExample,
+            int indentationLevel,
+            String prefix,
+            Integer exampleLine,
+            Set<Schema> seenSchemas) {
         final String indentionConst = "  ";
         String currentIndentation = "";
         String closingIndentation = "";
@@ -669,7 +786,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         if (objExample != null) {
             example = objExample.toString();
         }
-        // checks if the current schema has already been passed in. If so, breaks the current recursive pass
+        // checks if the current schema has already been passed in. If so, breaks the current
+        // recursive pass
         if (seenSchemas.contains(schema)) {
             if (modelName != null) {
                 return fullPrefix + closeChars;
@@ -699,7 +817,14 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                 return fullPrefix + "null" + closeChars;
             }
             String refModelName = getModelName(schema);
-            return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine, seenSchemas);
+            return toExampleValueRecursive(
+                    refModelName,
+                    refSchema,
+                    objExample,
+                    indentationLevel,
+                    prefix,
+                    exampleLine,
+                    seenSchemas);
         } else if (ModelUtils.isNullType(schema) || ModelUtils.isAnyType(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
@@ -733,7 +858,12 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             if (objExample == null) {
                 example = "/path/to/file";
             }
-            example = "{ data: Buffer.from(fs.readFileSync('" + example + "', 'utf-8')), name: '" + example + "' }";
+            example =
+                    "{ data: Buffer.from(fs.readFileSync('"
+                            + example
+                            + "', 'utf-8')), name: '"
+                            + example
+                            + "' }";
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isByteArraySchema(schema)) {
             if (objExample == null) {
@@ -787,12 +917,28 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             Schema itemSchema = arrayschema.getItems();
             String itemModelName = getModelName(itemSchema);
             if (objExample instanceof Iterable && itemModelName == null) {
-                // If the example is already a list, return it directly instead of wrongly wrap it in another list
+                // If the example is already a list, return it directly instead of wrongly wrap it
+                // in another list
                 return fullPrefix + objExample + closeChars;
             }
             Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
             newSeenSchemas.add(schema);
-            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel + 1, "", exampleLine + 1, newSeenSchemas) + ",\n" + closingIndentation + "]" + closeChars;
+            example =
+                    fullPrefix
+                            + "["
+                            + "\n"
+                            + toExampleValueRecursive(
+                                    itemModelName,
+                                    itemSchema,
+                                    objExample,
+                                    indentationLevel + 1,
+                                    "",
+                                    exampleLine + 1,
+                                    newSeenSchemas)
+                            + ",\n"
+                            + closingIndentation
+                            + "]"
+                            + closeChars;
             return example;
         } else if (ModelUtils.isMapSchema(schema)) {
             if (modelName == null) {
@@ -808,7 +954,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                 if (addPropsSchema.getEnum() != null && !addPropsSchema.getEnum().isEmpty()) {
                     key = addPropsSchema.getEnum().get(0).toString();
                 }
-                addPropsExample = exampleFromStringOrArraySchema(addPropsSchema, addPropsExample, key);
+                addPropsExample =
+                        exampleFromStringOrArraySchema(addPropsSchema, addPropsExample, key);
                 String addPropPrefix = key + ": ";
                 if (modelName == null) {
                     addPropPrefix = ensureQuotes(key) + ": ";
@@ -816,7 +963,20 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                 String addPropsModelName = "\"" + getModelName(addPropsSchema) + "\"";
                 Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
                 newSeenSchemas.add(schema);
-                example = fullPrefix + "\n" + toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1, newSeenSchemas) + ",\n" + closingIndentation + closeChars;
+                example =
+                        fullPrefix
+                                + "\n"
+                                + toExampleValueRecursive(
+                                        addPropsModelName,
+                                        addPropsSchema,
+                                        addPropsExample,
+                                        indentationLevel + 1,
+                                        addPropPrefix,
+                                        exampleLine + 1,
+                                        newSeenSchemas)
+                                + ",\n"
+                                + closingIndentation
+                                + closeChars;
             } else {
                 example = fullPrefix + closeChars;
             }
@@ -847,7 +1007,16 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
             Set<Schema> newSeenSchemas = new HashSet<>(seenSchemas);
             newSeenSchemas.add(schema);
-            String exampleForObjectModel = exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation, newSeenSchemas);
+            String exampleForObjectModel =
+                    exampleForObjectModel(
+                            schema,
+                            fullPrefix,
+                            closeChars,
+                            null,
+                            indentationLevel,
+                            exampleLine,
+                            closingIndentation,
+                            newSeenSchemas);
             return exampleForObjectModel;
         } else {
             LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
@@ -856,7 +1025,15 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         return example;
     }
 
-    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation, Set<Schema> seenSchemas) {
+    private String exampleForObjectModel(
+            Schema schema,
+            String fullPrefix,
+            String closeChars,
+            CodegenProperty discProp,
+            int indentationLevel,
+            int exampleLine,
+            String closingIndentation,
+            Set<Schema> seenSchemas) {
         Map<String, Schema> requiredAndOptionalProps = schema.getProperties();
         if (requiredAndOptionalProps == null || requiredAndOptionalProps.isEmpty()) {
             return fullPrefix + closeChars;
@@ -893,14 +1070,24 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                 propModelName = getModelName(propSchema);
                 propExample = exampleFromStringOrArraySchema(propSchema, null, propName);
             }
-            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + ": ", exampleLine + 1, seenSchemas) + ",\n";
+            example +=
+                    toExampleValueRecursive(
+                                    propModelName,
+                                    propSchema,
+                                    propExample,
+                                    indentationLevel + 1,
+                                    propName + ": ",
+                                    exampleLine + 1,
+                                    seenSchemas)
+                            + ",\n";
         }
         // TODO handle additionalProperties also
         example += closingIndentation + closeChars;
         return example;
     }
 
-    private Object exampleFromStringOrArraySchema(Schema sc, Object currentExample, String propName) {
+    private Object exampleFromStringOrArraySchema(
+            Schema sc, Object currentExample, String propName) {
         if (currentExample != null) {
             return currentExample;
         }
@@ -1002,16 +1189,20 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
         Schema schema = parameter.getSchema();
         if (schema == null) {
-            LOGGER.warn("CodegenParameter.example defaulting to null because parameter lacks a schema");
+            LOGGER.warn(
+                    "CodegenParameter.example defaulting to null because parameter lacks a schema");
             return;
         }
 
         Object example = null;
-        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
+        if (codegenParameter.vendorExtensions != null
+                && codegenParameter.vendorExtensions.containsKey("x-example")) {
             example = codegenParameter.vendorExtensions.get("x-example");
         } else if (parameter.getExample() != null) {
             example = parameter.getExample();
-        } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty() && parameter.getExamples().values().iterator().next().getValue() != null) {
+        } else if (parameter.getExamples() != null
+                && !parameter.getExamples().isEmpty()
+                && parameter.getExamples().values().iterator().next().getValue() != null) {
             example = parameter.getExamples().values().iterator().next().getValue();
         } else {
             example = getObjectExample(schema);
@@ -1025,12 +1216,15 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
      * Return the example value of the parameter.
      *
      * @param codegenParameter Codegen parameter
-     * @param requestBody      Request body
+     * @param requestBody Request body
      */
     @Override
-    public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
-        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
-            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+    public void setParameterExampleValue(
+            CodegenParameter codegenParameter, RequestBody requestBody) {
+        if (codegenParameter.vendorExtensions != null
+                && codegenParameter.vendorExtensions.containsKey("x-example")) {
+            codegenParameter.example =
+                    Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
         }
 
         Content content = requestBody.getContent();
@@ -1043,14 +1237,17 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         MediaType mediaType = content.values().iterator().next();
         Schema schema = mediaType.getSchema();
         if (schema == null) {
-            LOGGER.warn("CodegenParameter.example defaulting to null because requestBody content lacks a schema");
+            LOGGER.warn(
+                    "CodegenParameter.example defaulting to null because requestBody content lacks a schema");
             return;
         }
 
         Object example = null;
         if (mediaType.getExample() != null) {
             example = mediaType.getExample();
-        } else if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty() && mediaType.getExamples().values().iterator().next().getValue() != null) {
+        } else if (mediaType.getExamples() != null
+                && !mediaType.getExamples().isEmpty()
+                && mediaType.getExamples().values().iterator().next().getValue() != null) {
             example = mediaType.getExamples().values().iterator().next().getValue();
         } else {
             example = getObjectExample(schema);
@@ -1060,20 +1257,19 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     }
 
     /**
-     * Create a CodegenParameter for a Form Property
-     * We have a custom version of this method so we can invoke
-     * setParameterExampleValue(codegenParameter, parameter)
-     * rather than setParameterExampleValue(codegenParameter)
-     * This ensures that all of our samples are generated in
-     * toExampleValueRecursive
+     * Create a CodegenParameter for a Form Property We have a custom version of this method so we
+     * can invoke setParameterExampleValue(codegenParameter, parameter) rather than
+     * setParameterExampleValue(codegenParameter) This ensures that all of our samples are generated
+     * in toExampleValueRecursive
      *
-     * @param name           the property name
+     * @param name the property name
      * @param propertySchema the property schema
-     * @param imports        our import set
+     * @param imports our import set
      * @return the resultant CodegenParameter
      */
     @Override
-    public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
+    public CodegenParameter fromFormProperty(
+            String name, Schema propertySchema, Set<String> imports) {
         CodegenParameter cp = super.fromFormProperty(name, propertySchema, imports);
         Parameter p = new Parameter();
         p.setSchema(propertySchema);
@@ -1095,8 +1291,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     }
 
     /**
-     * Split composed types
-     * e.g. TheFirstType | TheSecondType to TheFirstType and TheSecondType
+     * Split composed types e.g. TheFirstType | TheSecondType to TheFirstType and TheSecondType
      *
      * @param type String with composed types
      * @return list of types

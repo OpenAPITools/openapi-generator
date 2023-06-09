@@ -17,13 +17,13 @@
 
 package org.openapitools.codegen.slim4;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PhpSlim4ServerCodegen;
 import org.openapitools.codegen.options.PhpSlim4ServerOptionsProvider;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class PhpSlim4ServerOptionsTest extends AbstractOptionsTest {
     private PhpSlim4ServerCodegen clientCodegen = mock(PhpSlim4ServerCodegen.class, mockSettings);
@@ -42,14 +42,23 @@ public class PhpSlim4ServerOptionsTest extends AbstractOptionsTest {
     protected void verifyOptions() {
         verify(clientCodegen).setModelPackage(PhpSlim4ServerOptionsProvider.MODEL_PACKAGE_VALUE);
         verify(clientCodegen).setApiPackage(PhpSlim4ServerOptionsProvider.API_PACKAGE_VALUE);
-        verify(clientCodegen).setParameterNamingConvention(PhpSlim4ServerOptionsProvider.VARIABLE_NAMING_CONVENTION_VALUE);
-        verify(clientCodegen).setInvokerPackage(PhpSlim4ServerOptionsProvider.INVOKER_PACKAGE_VALUE);
+        verify(clientCodegen)
+                .setParameterNamingConvention(
+                        PhpSlim4ServerOptionsProvider.VARIABLE_NAMING_CONVENTION_VALUE);
+        verify(clientCodegen)
+                .setInvokerPackage(PhpSlim4ServerOptionsProvider.INVOKER_PACKAGE_VALUE);
         verify(clientCodegen).setPackageName(PhpSlim4ServerOptionsProvider.PACKAGE_NAME_VALUE);
         verify(clientCodegen).setSrcBasePath(PhpSlim4ServerOptionsProvider.SRC_BASE_PATH_VALUE);
-        verify(clientCodegen).setArtifactVersion(PhpSlim4ServerOptionsProvider.ARTIFACT_VERSION_VALUE);
-        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(PhpSlim4ServerOptionsProvider.SORT_PARAMS_VALUE));
-        verify(clientCodegen).setPsr7Implementation(PhpSlim4ServerOptionsProvider.PSR7_IMPLEMENTATION_VALUE);
-        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(PhpSlim4ServerOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen)
+                .setArtifactVersion(PhpSlim4ServerOptionsProvider.ARTIFACT_VERSION_VALUE);
+        verify(clientCodegen)
+                .setSortParamsByRequiredFlag(
+                        Boolean.valueOf(PhpSlim4ServerOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen)
+                .setPsr7Implementation(PhpSlim4ServerOptionsProvider.PSR7_IMPLEMENTATION_VALUE);
+        verify(clientCodegen)
+                .setEnumUnknownDefaultCase(
+                        Boolean.parseBoolean(
+                                PhpSlim4ServerOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }
-

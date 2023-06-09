@@ -4,6 +4,9 @@ import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.DefaultCodegen;
@@ -14,11 +17,6 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.io.File;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT})
 public class TypeScriptClientCodegenTest {
@@ -33,9 +31,8 @@ public class TypeScriptClientCodegenTest {
         codegen.setOpenAPI(api);
 
         // Cf. issue #4968: Array of Alias of Array
-        Schema<?> parentSchema = new ArraySchema().items(
-            new Schema().$ref("#/components/schemas/Child")
-        );
+        Schema<?> parentSchema =
+                new ArraySchema().items(new Schema().$ref("#/components/schemas/Child"));
 
         ModelUtils.setGenerateAliasAsModel(false);
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "Array<Array<string>>");
@@ -44,10 +41,13 @@ public class TypeScriptClientCodegenTest {
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "Array<Child>");
 
         // Same for Map
-        parentSchema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/Child"));
+        parentSchema =
+                new MapSchema()
+                        .additionalProperties(new Schema().$ref("#/components/schemas/Child"));
 
         ModelUtils.setGenerateAliasAsModel(false);
-        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Array<string>; }");
+        Assert.assertEquals(
+                codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Array<string>; }");
 
         ModelUtils.setGenerateAliasAsModel(true);
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Child; }");
@@ -56,26 +56,26 @@ public class TypeScriptClientCodegenTest {
     @Test
     public void testComposedSchemasImportTypesIndividually() {
         final TypeScriptClientCodegen codegen = new TypeScriptClientCodegen();
-        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed-schemas.yaml");
+        final OpenAPI openApi =
+                TestUtils.parseFlattenSpec("src/test/resources/3_0/composed-schemas.yaml");
         codegen.setOpenAPI(openApi);
         PathItem path = openApi.getPaths().get("/pets");
-        CodegenOperation operation = codegen.fromOperation("/pets", "patch", path.getPatch(), path.getServers());
+        CodegenOperation operation =
+                codegen.fromOperation("/pets", "patch", path.getPatch(), path.getServers());
         // TODO revise the commented test below as oneOf is no longer defined inline
-        //but instead defined using $ref with the new inline model resolver in 6.x
-        //Assert.assertEquals(operation.imports, Sets.newHashSet("Cat", "Dog"));
+        // but instead defined using $ref with the new inline model resolver in 6.x
+        // Assert.assertEquals(operation.imports, Sets.newHashSet("Cat", "Dog"));
         Assert.assertEquals(operation.imports, Sets.newHashSet("PetsPatchRequest"));
-
     }
 
     @Test
     public void testArrayWithUniqueItems() {
-        final Schema uniqueArray = new ArraySchema()
-            .items(new StringSchema())
-            .uniqueItems(true);
-        final Schema model = new ObjectSchema()
-            .description("an object has an array with uniqueItems")
-            .addProperties("uniqueArray", uniqueArray)
-            .addRequiredItem("uniqueArray");
+        final Schema uniqueArray = new ArraySchema().items(new StringSchema()).uniqueItems(true);
+        final Schema model =
+                new ObjectSchema()
+                        .description("an object has an array with uniqueItems")
+                        .addProperties("uniqueArray", uniqueArray)
+                        .addRequiredItem("uniqueArray");
 
         final DefaultCodegen codegen = new TypeScriptClientCodegen();
         final OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -91,8 +91,7 @@ public class TypeScriptClientCodegenTest {
         final Schema inner = new ObjectSchema();
         inner.setAdditionalProperties(true);
 
-        final Schema root = new ObjectSchema()
-            .addProperties("inner", inner);
+        final Schema root = new ObjectSchema().addProperties("inner", inner);
 
         final DefaultCodegen codegen = new TypeScriptClientCodegen();
         final OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", root);
@@ -118,7 +117,8 @@ public class TypeScriptClientCodegenTest {
         models.setModels(Collections.singletonList(model));
 
         final ModelsMap processedModels = codegen.postProcessModels(models);
-        final List<Map<String, String>> tsImports = (List<Map<String, String>>) processedModels.getModels().get(0).get("tsImports");
+        final List<Map<String, String>> tsImports =
+                (List<Map<String, String>>) processedModels.getModels().get(0).get("tsImports");
         Assert.assertEquals(tsImports.get(0).get("filename"), "../models/ApiResponse");
         Assert.assertEquals(tsImports.get(0).get("classname"), "ApiResponse");
     }
@@ -137,7 +137,8 @@ public class TypeScriptClientCodegenTest {
         models.setModels(Collections.singletonList(model));
 
         final ModelsMap processedModels = codegen.postProcessModels(models);
-        final List<Map<String, String>> tsImports = (List<Map<String, String>>) processedModels.getModels().get(0).get("tsImports");
+        final List<Map<String, String>> tsImports =
+                (List<Map<String, String>>) processedModels.getModels().get(0).get("tsImports");
         Assert.assertEquals(tsImports.get(0).get("filename"), mappedName);
         Assert.assertEquals(tsImports.get(0).get("classname"), "ApiResponse");
     }

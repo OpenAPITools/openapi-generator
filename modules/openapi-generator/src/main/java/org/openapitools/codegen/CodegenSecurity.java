@@ -46,10 +46,9 @@ public class CodegenSecurity {
     // OpenId specific
     public String openIdConnectUrl;
 
-    public CodegenSecurity () {
-    }
+    public CodegenSecurity() {}
 
-    public CodegenSecurity (CodegenSecurity original) {
+    public CodegenSecurity(CodegenSecurity original) {
         this.name = original.name;
         this.description = original.description;
         this.type = original.type;
@@ -78,11 +77,18 @@ public class CodegenSecurity {
 
         // It is not possible to deep copy the extensions, as we have no idea what types they are.
         // So the filtered method *will* refer to the original extensions, if any.
-        this.vendorExtensions = original.vendorExtensions == null ? null : new HashMap<String, Object>(original.vendorExtensions);
+        this.vendorExtensions =
+                original.vendorExtensions == null
+                        ? null
+                        : new HashMap<String, Object>(original.vendorExtensions);
 
-        // It is not possible to deep copy the extensions, as we have no idea what type their values are.
+        // It is not possible to deep copy the extensions, as we have no idea what type their values
+        // are.
         // So the filtered method *will* refer to the original scopes, if any.
-        this.scopes = original.scopes == null ? null : new ArrayList<Map<String, Object>>(original.scopes);
+        this.scopes =
+                original.scopes == null
+                        ? null
+                        : new ArrayList<Map<String, Object>>(original.scopes);
     }
 
     // Return a copy of the security object, filtering out any scopes from the passed-in list.
@@ -111,42 +117,65 @@ public class CodegenSecurity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CodegenSecurity that = (CodegenSecurity) o;
-        return Objects.equals(name, that.name) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(type, that.type) &&
-                Objects.equals(scheme, that.scheme) &&
-                Objects.equals(isBasic, that.isBasic) &&
-                Objects.equals(isOAuth, that.isOAuth) &&
-                Objects.equals(isOpenId, that.isOpenId) &&
-                Objects.equals(isApiKey, that.isApiKey) &&
-                Objects.equals(isBasicBasic, that.isBasicBasic) &&
-                Objects.equals(isHttpSignature, that.isHttpSignature) &&
-                Objects.equals(isBasicBearer, that.isBasicBearer) &&
-                Objects.equals(bearerFormat, that.bearerFormat) &&
-                Objects.equals(vendorExtensions, that.vendorExtensions) &&
-                Objects.equals(keyParamName, that.keyParamName) &&
-                Objects.equals(isKeyInQuery, that.isKeyInQuery) &&
-                Objects.equals(isKeyInHeader, that.isKeyInHeader) &&
-                Objects.equals(isKeyInCookie, that.isKeyInCookie) &&
-                Objects.equals(flow, that.flow) &&
-                Objects.equals(authorizationUrl, that.authorizationUrl) &&
-                Objects.equals(tokenUrl, that.tokenUrl) &&
-                Objects.equals(refreshUrl, that.refreshUrl) &&
-                Objects.equals(scopes, that.scopes) &&
-                Objects.equals(isCode, that.isCode) &&
-                Objects.equals(isPassword, that.isPassword) &&
-                Objects.equals(isApplication, that.isApplication) &&
-                Objects.equals(isImplicit, that.isImplicit) &&
-                Objects.equals(openIdConnectUrl, that.openIdConnectUrl);
+        return Objects.equals(name, that.name)
+                && Objects.equals(description, that.description)
+                && Objects.equals(type, that.type)
+                && Objects.equals(scheme, that.scheme)
+                && Objects.equals(isBasic, that.isBasic)
+                && Objects.equals(isOAuth, that.isOAuth)
+                && Objects.equals(isOpenId, that.isOpenId)
+                && Objects.equals(isApiKey, that.isApiKey)
+                && Objects.equals(isBasicBasic, that.isBasicBasic)
+                && Objects.equals(isHttpSignature, that.isHttpSignature)
+                && Objects.equals(isBasicBearer, that.isBasicBearer)
+                && Objects.equals(bearerFormat, that.bearerFormat)
+                && Objects.equals(vendorExtensions, that.vendorExtensions)
+                && Objects.equals(keyParamName, that.keyParamName)
+                && Objects.equals(isKeyInQuery, that.isKeyInQuery)
+                && Objects.equals(isKeyInHeader, that.isKeyInHeader)
+                && Objects.equals(isKeyInCookie, that.isKeyInCookie)
+                && Objects.equals(flow, that.flow)
+                && Objects.equals(authorizationUrl, that.authorizationUrl)
+                && Objects.equals(tokenUrl, that.tokenUrl)
+                && Objects.equals(refreshUrl, that.refreshUrl)
+                && Objects.equals(scopes, that.scopes)
+                && Objects.equals(isCode, that.isCode)
+                && Objects.equals(isPassword, that.isPassword)
+                && Objects.equals(isApplication, that.isApplication)
+                && Objects.equals(isImplicit, that.isImplicit)
+                && Objects.equals(openIdConnectUrl, that.openIdConnectUrl);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(name, description, type, scheme, isBasic, isOAuth, isOpenId, isApiKey,
-                isBasicBasic, isHttpSignature, isBasicBearer, bearerFormat, vendorExtensions,
-                keyParamName, isKeyInQuery, isKeyInHeader, isKeyInCookie, flow,
-                authorizationUrl, tokenUrl, refreshUrl, scopes, isCode, isPassword, isApplication, isImplicit,
+        return Objects.hash(
+                name,
+                description,
+                type,
+                scheme,
+                isBasic,
+                isOAuth,
+                isOpenId,
+                isApiKey,
+                isBasicBasic,
+                isHttpSignature,
+                isBasicBearer,
+                bearerFormat,
+                vendorExtensions,
+                keyParamName,
+                isKeyInQuery,
+                isKeyInHeader,
+                isKeyInCookie,
+                flow,
+                authorizationUrl,
+                tokenUrl,
+                refreshUrl,
+                scopes,
+                isCode,
+                isPassword,
+                isApplication,
+                isImplicit,
                 openIdConnectUrl);
     }
 

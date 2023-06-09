@@ -16,14 +16,11 @@
 
 package org.openapitools.codegen.plugin;
 
-import org.apache.maven.plugin.testing.AbstractMojoTestCase;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 
-/**
- * A base test class where we can add helper methods and whatnot
- */
+/** A base test class where we can add helper methods and whatnot */
 public abstract class BaseTestCase extends AbstractMojoTestCase {
     protected Path getUnitTestDir() {
         return Paths.get(getBasedir(), "src", "test", "resources", "unit");

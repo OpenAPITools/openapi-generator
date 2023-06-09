@@ -16,21 +16,20 @@
 
 package org.openapitools.codegen.csharpnetcore;
 
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.languages.CSharpNetCoreClientCodegen;
 import org.testng.annotations.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import static org.openapitools.codegen.TestUtils.assertFileContains;
 
 public class CSharpNetCoreClientDeepObjectTest {
 
@@ -40,8 +39,11 @@ public class CSharpNetCoreClientDeepObjectTest {
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/deepobject.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation(
+                                "src/test/resources/3_0/deepobject.yaml", null, new ParseOptions())
+                        .getOpenAPI();
 
         CSharpNetCoreClientCodegen codegen = new CSharpNetCoreClientCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
@@ -58,9 +60,16 @@ public class CSharpNetCoreClientDeepObjectTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
-        assertFileContains(Paths.get(outputPath + "/src/Org.OpenAPITools/Api/DefaultApi.cs"),
-                "options[id]", "options[name]", "options[category]", "options[tags]",
-                "options[status]", "options[photoUrls]",
-                "inputOptions[a]", "inputOptions[b]", "inputOptions[c]");
+        assertFileContains(
+                Paths.get(outputPath + "/src/Org.OpenAPITools/Api/DefaultApi.cs"),
+                "options[id]",
+                "options[name]",
+                "options[category]",
+                "options[tags]",
+                "options[status]",
+                "options[photoUrls]",
+                "inputOptions[a]",
+                "inputOptions[b]",
+                "inputOptions[c]");
     }
 }

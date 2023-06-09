@@ -37,20 +37,18 @@ import org.testng.annotations.Test;
 
 public class JavaInheritanceTest {
 
-
     @Test(description = "convert a composed model with parent")
     public void javaInheritanceTest() {
         final Schema parentModel = new Schema().name("Base");
 
-        final Schema schema = new ComposedSchema()
-                .addAllOfItem(new Schema().$ref("Base"))
-                .name("composed");
+        final Schema schema =
+                new ComposedSchema().addAllOfItem(new Schema().$ref("Base")).name("composed");
 
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        openAPI.setComponents(new Components()
-                .addSchemas(parentModel.getName(),parentModel)
-                .addSchemas(schema.getName(), schema)
-        );
+        openAPI.setComponents(
+                new Components()
+                        .addSchemas(parentModel.getName(), parentModel)
+                        .addSchemas(schema.getName(), schema));
 
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
@@ -69,8 +67,7 @@ public class JavaInheritanceTest {
         discriminator.setPropertyName("model_type");
         base.setDiscriminator(discriminator);
 
-        final Schema schema = new ComposedSchema()
-                .addAllOfItem(new Schema().$ref("Base"));
+        final Schema schema = new ComposedSchema().addAllOfItem(new Schema().$ref("Base"));
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Base", base);
 
@@ -86,19 +83,22 @@ public class JavaInheritanceTest {
 
     @Test(description = "composed model has the required attributes on the child")
     public void javaInheritanceWithRequiredAttributesOnAllOfObject() {
-        Schema parent = new ObjectSchema()
-                .addProperties("a", new StringSchema())
-                .addProperties("b", new StringSchema())
-                .addRequiredItem("a")
-                .name("Parent");
-        Schema child = new ComposedSchema()
-                .addAllOfItem(new Schema().$ref("Parent"))
-                .addAllOfItem(new ObjectSchema()
-                        .addProperties("c", new StringSchema())
-                        .addProperties("d", new StringSchema())
+        Schema parent =
+                new ObjectSchema()
+                        .addProperties("a", new StringSchema())
+                        .addProperties("b", new StringSchema())
                         .addRequiredItem("a")
-                        .addRequiredItem("c"))
-                .name("Child");
+                        .name("Parent");
+        Schema child =
+                new ComposedSchema()
+                        .addAllOfItem(new Schema().$ref("Parent"))
+                        .addAllOfItem(
+                                new ObjectSchema()
+                                        .addProperties("c", new StringSchema())
+                                        .addProperties("d", new StringSchema())
+                                        .addRequiredItem("a")
+                                        .addRequiredItem("c"))
+                        .name("Child");
         OpenAPI openAPI = TestUtils.createOpenAPI();
         openAPI.getComponents().addSchemas(parent.getName(), parent);
         openAPI.getComponents().addSchemas(child.getName(), child);
@@ -106,8 +106,7 @@ public class JavaInheritanceTest {
         final DefaultCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
 
-        final CodegenModel pm = codegen
-                .fromModel("Parent", parent);
+        final CodegenModel pm = codegen.fromModel("Parent", parent);
         final CodegenProperty propertyPA = pm.allVars.get(0);
         Assert.assertEquals(propertyPA.name, "a");
         Assert.assertTrue(propertyPA.required);
@@ -116,8 +115,7 @@ public class JavaInheritanceTest {
         Assert.assertFalse(propertyPB.required);
         Assert.assertEquals(pm.requiredVars.size() + pm.optionalVars.size(), pm.allVars.size());
 
-        final CodegenModel cm = codegen
-                .fromModel("Child", child);
+        final CodegenModel cm = codegen.fromModel("Child", child);
         final CodegenProperty propertyCA = cm.allVars.get(0);
         Assert.assertEquals(propertyCA.name, "a");
         Assert.assertTrue(propertyCA.required);
@@ -135,19 +133,22 @@ public class JavaInheritanceTest {
 
     @Test(description = "composed model has the required attributes for both parent & child")
     public void javaInheritanceWithRequiredAttributesOnComposedObject() {
-        Schema parent = new ObjectSchema()
-                .addProperties("a", new StringSchema())
-                .addProperties("b", new StringSchema())
-                .addRequiredItem("a")
-                .name("Parent");
-        Schema child = new ComposedSchema()
-                .addAllOfItem(new Schema().$ref("Parent"))
-                .addAllOfItem(new ObjectSchema()
-                        .addProperties("c", new StringSchema())
-                        .addProperties("d", new StringSchema()))
-                .name("Child")
-                .addRequiredItem("a")
-                .addRequiredItem("c");
+        Schema parent =
+                new ObjectSchema()
+                        .addProperties("a", new StringSchema())
+                        .addProperties("b", new StringSchema())
+                        .addRequiredItem("a")
+                        .name("Parent");
+        Schema child =
+                new ComposedSchema()
+                        .addAllOfItem(new Schema().$ref("Parent"))
+                        .addAllOfItem(
+                                new ObjectSchema()
+                                        .addProperties("c", new StringSchema())
+                                        .addProperties("d", new StringSchema()))
+                        .name("Child")
+                        .addRequiredItem("a")
+                        .addRequiredItem("c");
         OpenAPI openAPI = TestUtils.createOpenAPI();
         openAPI.getComponents().addSchemas(parent.getName(), parent);
         openAPI.getComponents().addSchemas(child.getName(), child);
@@ -155,8 +156,7 @@ public class JavaInheritanceTest {
         final DefaultCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
 
-        final CodegenModel pm = codegen
-                .fromModel("Parent", parent);
+        final CodegenModel pm = codegen.fromModel("Parent", parent);
         final CodegenProperty propertyPA = pm.allVars.get(0);
         Assert.assertEquals(propertyPA.name, "a");
         Assert.assertTrue(propertyPA.required);
@@ -165,8 +165,7 @@ public class JavaInheritanceTest {
         Assert.assertFalse(propertyPB.required);
         Assert.assertEquals(pm.requiredVars.size() + pm.optionalVars.size(), pm.allVars.size());
 
-        final CodegenModel cm = codegen
-                .fromModel("Child", child);
+        final CodegenModel cm = codegen.fromModel("Child", child);
         final CodegenProperty propertyCA = cm.allVars.get(0);
         Assert.assertEquals(propertyCA.name, "a");
         Assert.assertTrue(propertyCA.required);

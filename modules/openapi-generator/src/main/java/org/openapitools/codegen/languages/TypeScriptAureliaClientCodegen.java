@@ -17,15 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
+
+import java.util.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-
-import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCodegen {
 
@@ -86,7 +85,8 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
         HashSet<String> modelImports = new HashSet<>();
@@ -122,7 +122,8 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
             for (CodegenProperty var : cm.vars) {
                 // name enum with model name, e.g. StatusEnum => PetStatusEnum
                 if (Boolean.TRUE.equals(var.isEnum)) {
-                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
+                    var.datatypeWithEnum =
+                            var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
                     var.enumName = cm.classname + var.enumName;
                 }
             }
@@ -130,5 +131,4 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
 
         return objs;
     }
-
 }

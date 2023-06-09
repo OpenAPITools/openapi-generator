@@ -1,10 +1,9 @@
 package org.openapitools.codegen.java.assertions;
 
+import com.github.javaparser.ast.body.Parameter;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.util.CanIgnoreReturnValue;
-
-import com.github.javaparser.ast.body.Parameter;
 
 @CanIgnoreReturnValue
 public class ParameterAssert extends ObjectAssert<Parameter> {
@@ -18,7 +17,8 @@ public class ParameterAssert extends ObjectAssert<Parameter> {
         this.constructorAssert = null;
     }
 
-    protected ParameterAssert(final ConstructorAssert constructorAssert, final Parameter parameter) {
+    protected ParameterAssert(
+            final ConstructorAssert constructorAssert, final Parameter parameter) {
         super(parameter);
         this.constructorAssert = constructorAssert;
         this.methodAssert = null;
@@ -40,8 +40,10 @@ public class ParameterAssert extends ObjectAssert<Parameter> {
 
     public ParameterAssert withType(final String expectedType) {
         Assertions.assertThat(actual.getTypeAsString())
-            .withFailMessage("Expected parameter to have type %s, but was %s", expectedType, actual.getTypeAsString())
-            .isEqualTo(expectedType);
+                .withFailMessage(
+                        "Expected parameter to have type %s, but was %s",
+                        expectedType, actual.getTypeAsString())
+                .isEqualTo(expectedType);
         return this;
     }
 

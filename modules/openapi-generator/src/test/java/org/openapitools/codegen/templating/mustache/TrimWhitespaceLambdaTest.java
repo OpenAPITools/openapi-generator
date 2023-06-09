@@ -20,9 +20,9 @@ package org.openapitools.codegen.templating.mustache;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 
+import com.samskivert.mustache.Template.Fragment;
 import java.io.IOException;
 import java.io.StringWriter;
-
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -30,12 +30,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.samskivert.mustache.Template.Fragment;
-
 public class TrimWhitespaceLambdaTest {
 
-    @Mock
-    private Fragment fragment;
+    @Mock private Fragment fragment;
 
     @BeforeMethod
     public void init() {
@@ -55,5 +52,4 @@ public class TrimWhitespaceLambdaTest {
         new TrimWhitespaceLambda().execute(fragment, output);
         assertEquals(output.toString(), " a b c ");
     }
-
 }

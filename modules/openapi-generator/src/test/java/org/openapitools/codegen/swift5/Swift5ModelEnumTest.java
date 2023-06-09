@@ -22,6 +22,8 @@ import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import java.math.BigDecimal;
+import java.util.Arrays;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
@@ -29,9 +31,6 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.Swift5ClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
 
 @SuppressWarnings("static-method")
 public class Swift5ModelEnumTest {
@@ -110,7 +109,8 @@ public class Swift5ModelEnumTest {
     @Test(description = "convert a java model with a number enum and a default value")
     public void convertNumberDefaultValueTest() {
         final NumberSchema enumSchema = new NumberSchema();
-        enumSchema.setEnum(Arrays.asList(new BigDecimal(10), new BigDecimal(100), new BigDecimal(1000)));
+        enumSchema.setEnum(
+                Arrays.asList(new BigDecimal(10), new BigDecimal(100), new BigDecimal(1000)));
         enumSchema.setDefault(new BigDecimal((100)));
         final Schema model = new Schema().type("object").addProperties("name", enumSchema);
 

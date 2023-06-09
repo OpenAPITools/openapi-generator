@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import org.junit.Assert;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
@@ -46,11 +45,12 @@ public class JavaHelidonCommonCodegenTest {
         output.deleteOnExit();
         outputDir = output.getAbsolutePath().replace('\\', '/');
 
-        configurator = new CodegenConfigurator()
-                .setGeneratorName("java-helidon-server")
-                .setLibrary("mp")
-                .setInputSpec("src/test/resources/3_0/helidon/petstore-for-testing.yaml")
-                .setOutputDir(outputDir);
+        configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("java-helidon-server")
+                        .setLibrary("mp")
+                        .setInputSpec("src/test/resources/3_0/helidon/petstore-for-testing.yaml")
+                        .setOutputDir(outputDir);
 
         generator = new DefaultGenerator();
     }
@@ -77,7 +77,9 @@ public class JavaHelidonCommonCodegenTest {
 
     @Test
     public void bothNotEqualsVersionTest() {
-        IllegalArgumentException e = Assert.assertThrows(IllegalArgumentException.class,() -> runVersionTest("1.0.0", "2.0.0"));
+        IllegalArgumentException e =
+                Assert.assertThrows(
+                        IllegalArgumentException.class, () -> runVersionTest("1.0.0", "2.0.0"));
         Assert.assertEquals(
                 "Both parentVersion and helidonVersion properties were set with different value.",
                 e.getMessage());
@@ -94,13 +96,13 @@ public class JavaHelidonCommonCodegenTest {
             additionalProperties.put("helidonVersion", helidonVersion);
             expected = helidonVersion;
         }
-        generator.opts(configurator.setAdditionalProperties(additionalProperties)
-                .toClientOptInput());
+        generator.opts(
+                configurator.setAdditionalProperties(additionalProperties).toClientOptInput());
         List<File> files = generator.generate();
 
         TestUtils.ensureContainsFile(files, Paths.get(outputDir).toFile(), "pom.xml");
-        TestUtils.assertFileContains(Paths.get(outputDir + "/pom.xml"),
+        TestUtils.assertFileContains(
+                Paths.get(outputDir + "/pom.xml"),
                 String.format(Locale.ROOT, "<version>%s</version>", expected));
     }
-
 }

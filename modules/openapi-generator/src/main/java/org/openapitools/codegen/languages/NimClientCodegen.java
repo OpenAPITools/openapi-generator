@@ -16,9 +16,14 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import java.io.File;
+import java.util.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -32,14 +37,8 @@ import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
 public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
-     final Logger LOGGER = LoggerFactory.getLogger(NimClientCodegen.class);
+    final Logger LOGGER = LoggerFactory.getLogger(NimClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
 
@@ -61,31 +60,24 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     public NimClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.BasePath,
-                        ClientModificationFeature.UserAgent
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath,
+                                        ClientModificationFeature.UserAgent));
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         outputFolder = "generated-code" + File.separator + "nim";
         modelTemplateFiles.put("model.mustache", ".nim");
@@ -99,56 +91,81 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         setReservedWordsLowerCase(
                 Arrays.asList(
-                        "addr", "and", "as", "asm",
-                        "bind", "block", "break",
-                        "case", "cast", "concept", "const", "continue", "converter",
-                        "defer", "discard", "distinct", "div", "do",
-                        "elif", "else", "end", "enum", "except", "export",
-                        "finally", "for", "from", "func",
-                        "if", "import", "in", "include", "interface", "is", "isnot", "iterator",
+                        "addr",
+                        "and",
+                        "as",
+                        "asm",
+                        "bind",
+                        "block",
+                        "break",
+                        "case",
+                        "cast",
+                        "concept",
+                        "const",
+                        "continue",
+                        "converter",
+                        "defer",
+                        "discard",
+                        "distinct",
+                        "div",
+                        "do",
+                        "elif",
+                        "else",
+                        "end",
+                        "enum",
+                        "except",
+                        "export",
+                        "finally",
+                        "for",
+                        "from",
+                        "func",
+                        "if",
+                        "import",
+                        "in",
+                        "include",
+                        "interface",
+                        "is",
+                        "isnot",
+                        "iterator",
                         "let",
-                        "macro", "method", "mixin", "mod",
-                        "nil", "not", "notin",
-                        "object", "of", "or", "out",
-                        "proc", "ptr",
-                        "raise", "ref", "return",
-                        "shl", "shr", "static",
-                        "template", "try", "tuple", "type",
+                        "macro",
+                        "method",
+                        "mixin",
+                        "mod",
+                        "nil",
+                        "not",
+                        "notin",
+                        "object",
+                        "of",
+                        "or",
+                        "out",
+                        "proc",
+                        "ptr",
+                        "raise",
+                        "ref",
+                        "return",
+                        "shl",
+                        "shr",
+                        "static",
+                        "template",
+                        "try",
+                        "tuple",
+                        "type",
                         "using",
                         "var",
-                        "when", "while",
+                        "when",
+                        "while",
                         "xor",
-                        "yield"
-                )
-        );
+                        "yield"));
 
-        defaultIncludes = new HashSet<>(
-                Arrays.asList(
-                        "array"
-                )
-        );
+        defaultIncludes = new HashSet<>(Arrays.asList("array"));
 
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
-                        "int",
-                        "int8",
-                        "int16",
-                        "int32",
-                        "int64",
-                        "uint",
-                        "uint8",
-                        "uint16",
-                        "uint32",
-                        "uint64",
-                        "float",
-                        "float32",
-                        "float64",
-                        "bool",
-                        "char",
-                        "string",
-                        "cstring",
-                        "pointer")
-        );
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16",
+                                "uint32", "uint64", "float", "float32", "float64", "bool", "char",
+                                "string", "cstring", "pointer"));
 
         typeMapping.clear();
         typeMapping.put("integer", "int");
@@ -261,7 +278,8 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
@@ -303,7 +321,11 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name, "\\W-[\\$]"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name =
+                sanitizeName(
+                        name,
+                        "\\W-[\\$]"); // FIXME: a parameter should not be assigned. Also declare the
+        // methods parameters as 'final'.
 
         if ("_".equals(name)) {
             name = "_u";
@@ -342,7 +364,8 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
             return false;
         } else if (languageSpecificPrimitives.contains(type)) {
             return false;
-        } else if (typeMapping.containsKey(type) && languageSpecificPrimitives.contains(typeMapping.get(type))) {
+        } else if (typeMapping.containsKey(type)
+                && languageSpecificPrimitives.contains(typeMapping.get(type))) {
             return false;
         }
 
@@ -373,5 +396,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.NIM; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.NIM;
+    }
 }

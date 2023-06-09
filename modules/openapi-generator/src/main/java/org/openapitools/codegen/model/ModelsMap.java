@@ -31,5 +31,4 @@ public class ModelsMap extends HashMap<String, Object> {
     public List<Map<String, String>> getImportsOrEmpty() {
         return (List<Map<String, String>>) getOrDefault("imports", new ArrayList<>());
     }
-
 }

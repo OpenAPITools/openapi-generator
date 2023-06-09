@@ -18,11 +18,8 @@
 package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.XojoClientCodegen;
-
-import java.io.File;
 import java.util.Map;
+import org.openapitools.codegen.CodegenConstants;
 
 public class XojoClientOptionsProvider implements OptionsProvider {
     public static final String NON_PUBLIC_API_VALUE = "false";
@@ -44,7 +41,9 @@ public class XojoClientOptionsProvider implements OptionsProvider {
     public Map<String, String> createOptions() {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder.put(CodegenConstants.NON_PUBLIC_API, NON_PUBLIC_API_VALUE)
-                .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(
+                        CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                        PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(CodegenConstants.LIBRARY, LIBRARY_VALUE)
                 .put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_VALUE)
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)

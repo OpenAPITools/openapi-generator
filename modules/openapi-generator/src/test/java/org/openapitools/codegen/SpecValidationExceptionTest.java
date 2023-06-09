@@ -9,9 +9,12 @@ public class SpecValidationExceptionTest {
     public void shouldGetDefaultMessage() {
         SpecValidationException specValidationException = new SpecValidationException();
 
-        String expectedResult = new StringBuffer("null | Error count: 0, Warning count: 0")
-                .append(System.lineSeparator()).append("Errors: ")
-                .append(System.lineSeparator()).toString();
+        String expectedResult =
+                new StringBuffer("null | Error count: 0, Warning count: 0")
+                        .append(System.lineSeparator())
+                        .append("Errors: ")
+                        .append(System.lineSeparator())
+                        .toString();
 
         Assert.assertEquals(specValidationException.getMessage(), expectedResult);
     }

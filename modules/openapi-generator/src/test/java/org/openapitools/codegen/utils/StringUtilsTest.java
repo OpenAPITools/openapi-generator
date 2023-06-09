@@ -1,11 +1,11 @@
 package org.openapitools.codegen.utils;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_CHAR;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class StringUtilsTest {
     // we'll assume that <i>underscore</i> (Twitter elephant bird) works fine
@@ -31,7 +31,6 @@ public class StringUtilsTest {
 
         Assert.assertEquals(camelize("123", LOWERCASE_FIRST_LETTER), "123");
         Assert.assertEquals(camelize("$123", LOWERCASE_FIRST_LETTER), "$123");
-
 
         Assert.assertEquals(camelize("some-value", LOWERCASE_FIRST_CHAR), "someValue");
         Assert.assertEquals(camelize("$type", LOWERCASE_FIRST_CHAR), "$Type");

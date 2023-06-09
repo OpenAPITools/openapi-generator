@@ -21,100 +21,115 @@ import java.util.*;
 
 public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties {
     /**
-     * The value of the 'type' attribute in the OpenAPI schema.
-     * The per-language codegen logic may change to a language-specific type.
+     * The value of the 'type' attribute in the OpenAPI schema. The per-language codegen logic may
+     * change to a language-specific type.
      */
     public String openApiType;
+
     public String baseName;
     public String complexType;
     public String getter;
     public String setter;
-    /**
-     * The value of the 'description' attribute in the OpenAPI schema.
-     */
+
+    /** The value of the 'description' attribute in the OpenAPI schema. */
     public String description;
+
     /**
      * The language-specific data type for this property. For example, the OpenAPI type 'integer'
      * may be represented as 'int', 'int32', 'Integer', etc, depending on the programming language.
      */
     public String dataType;
+
     public String datatypeWithEnum;
     public String dataFormat;
-    /**
-     * The name of this property in the OpenAPI schema.
-     */
+
+    /** The name of this property in the OpenAPI schema. */
     public String name;
+
     public String min; // TODO: is this really used?
     public String max; // TODO: is this really used?
     public String defaultValue;
     public String defaultValueWithParam;
     public String baseType;
     public String containerType;
-    /**
-     * The value of the 'title' attribute in the OpenAPI schema.
-     */
+
+    /** The value of the 'title' attribute in the OpenAPI schema. */
     public String title;
 
     /**
-     * The 'description' string without escape characters needed by some programming languages/targets
+     * The 'description' string without escape characters needed by some programming
+     * languages/targets
      */
     public String unescapedDescription;
 
     /**
-     * maxLength validation for strings, see http://json-schema.org/latest/json-schema-validation.html#rfc.section.5.2.1
+     * maxLength validation for strings, see
+     * http://json-schema.org/latest/json-schema-validation.html#rfc.section.5.2.1
      */
     public Integer maxLength;
+
     /**
-     * minLength validation for strings, see http://json-schema.org/latest/json-schema-validation.html#rfc.section.5.2.2
+     * minLength validation for strings, see
+     * http://json-schema.org/latest/json-schema-validation.html#rfc.section.5.2.2
      */
     public Integer minLength;
+
     /**
-     * pattern validation for strings, see http://json-schema.org/latest/json-schema-validation.html#rfc.section.5.2.3
+     * pattern validation for strings, see
+     * http://json-schema.org/latest/json-schema-validation.html#rfc.section.5.2.3
      */
     public String pattern;
-    /**
-     * A free-form property to include an example of an instance for this schema.
-     */
+
+    /** A free-form property to include an example of an instance for this schema. */
     public String example;
 
     public String jsonSchema;
+
     /**
-     * The value of the 'minimum' attribute in the OpenAPI schema.
-     * The value of "minimum" MUST be a number, representing an inclusive lower limit for a numeric instance.
+     * The value of the 'minimum' attribute in the OpenAPI schema. The value of "minimum" MUST be a
+     * number, representing an inclusive lower limit for a numeric instance.
      */
     public String minimum;
+
     /**
-     * The value of the 'maximum' attribute in the OpenAPI schema.
-     * The value of "maximum" MUST be a number, representing an inclusive upper limit for a numeric instance.
+     * The value of the 'maximum' attribute in the OpenAPI schema. The value of "maximum" MUST be a
+     * number, representing an inclusive upper limit for a numeric instance.
      */
     public String maximum;
+
     /**
-     * The value of the 'multipleOf' attribute in the OpenAPI schema.
-     * The value of "multipleOf" MUST be a number, strictly greater than 0.
+     * The value of the 'multipleOf' attribute in the OpenAPI schema. The value of "multipleOf" MUST
+     * be a number, strictly greater than 0.
      */
     public Number multipleOf;
+
     /**
-     * The value of the 'exclusiveMinimum' attribute in the OpenAPI schema.
-     * The value of "exclusiveMinimum" MUST be number, representing an exclusive lower limit for a numeric instance.
+     * The value of the 'exclusiveMinimum' attribute in the OpenAPI schema. The value of
+     * "exclusiveMinimum" MUST be number, representing an exclusive lower limit for a numeric
+     * instance.
      */
     public boolean exclusiveMinimum;
+
     /**
-     * The value of the 'exclusiveMaximum' attribute in the OpenAPI schema.
-     * The value of "exclusiveMaximum" MUST be number, representing an exclusive upper limit for a numeric instance.
+     * The value of the 'exclusiveMaximum' attribute in the OpenAPI schema. The value of
+     * "exclusiveMaximum" MUST be number, representing an exclusive upper limit for a numeric
+     * instance.
      */
     public boolean exclusiveMaximum;
+
     public boolean required;
     public boolean deprecated;
-    public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
+    public boolean
+            hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType;
     public boolean isModel;
+
     /**
-     * True if this property is an array of items or a map container.
-     * See:
-     * - ModelUtils.isArraySchema()
-     * - ModelUtils.isMapSchema()
+     * True if this property is an array of items or a map container. See: -
+     * ModelUtils.isArraySchema() - ModelUtils.isMapSchema()
      */
     public boolean isContainer;
+
     public boolean isString;
     public boolean isNumeric;
     public boolean isInteger;
@@ -129,29 +144,37 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isBinary;
     public boolean isFile;
     public boolean isBoolean;
-    public boolean isDate; // full-date notation as defined by RFC 3339, section 5.6, for example, 2017-07-21
-    public boolean isDateTime; // the date-time notation as defined by RFC 3339, section 5.6, for example, 2017-07-21T17:32:28Z
+    public boolean isDate; // full-date notation as defined by RFC 3339, section 5.6, for example,
+    // 2017-07-21
+    public boolean
+            isDateTime; // the date-time notation as defined by RFC 3339, section 5.6, for example,
+    // 2017-07-21T17:32:28Z
     public boolean isUuid;
     public boolean isUri;
     public boolean isEmail;
     public boolean isPassword;
     public boolean isNull;
     public boolean isVoid = false;
+
     /**
-     * The type is a free-form object, i.e. it is a map of string to values with no declared properties.
-     * A OAS free-form schema may include the 'additionalProperties' attribute, which puts a constraint
-     * on the type of the undeclared properties.
+     * The type is a free-form object, i.e. it is a map of string to values with no declared
+     * properties. A OAS free-form schema may include the 'additionalProperties' attribute, which
+     * puts a constraint on the type of the undeclared properties.
      */
     public boolean isFreeFormObject;
+
     /**
-     * The 'type' in the OAS schema is unspecified (i.e. not set). The value can be number, integer, string, object or array.
-     * If the nullable attribute is set to true, the 'null' value is valid.
+     * The 'type' in the OAS schema is unspecified (i.e. not set). The value can be number, integer,
+     * string, object or array. If the nullable attribute is set to true, the 'null' value is valid.
      */
     public boolean isAnyType;
+
     public boolean isArray;
     public boolean isMap;
     public boolean isEnum; // true if the enum is defined inline
-    public boolean isInnerEnum; // Enums declared inline will be located inside the generic model, changing how the enum is referenced in some cases.
+    public boolean
+            isInnerEnum; // Enums declared inline will be located inside the generic model, changing
+    // how the enum is referenced in some cases.
     public boolean isEnumRef; // true if it's a reference to an enum
     public boolean isReadOnly;
     public boolean isWriteOnly;
@@ -160,25 +183,32 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isCircularReference;
     public boolean isDiscriminator;
     public boolean isNew; // true when this property overrides an inherited property
-    public Boolean isOverridden; // true if the property is a parent property (not defined in child/current schema)
+    public Boolean
+            isOverridden; // true if the property is a parent property (not defined in child/current
+    // schema)
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     // If 'additionalProperties' is not set, items is null.
-    // If 'additionalProperties' is set to a type or refers to a type, 'items' provides the type information for
+    // If 'additionalProperties' is set to a type or refers to a type, 'items' provides the type
+    // information for
     // the undeclared properties.
     public CodegenProperty items;
     public CodegenProperty additionalProperties;
-    public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
+    public List<CodegenProperty> vars =
+            new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<>();
     public CodegenProperty mostInnerItems;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
-    public boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
+    public boolean
+            hasValidation; // true if pattern, maximum, etc are set (only used in the mustache
+    // template)
     public boolean isInherited;
     public String discriminatorValue;
     public String nameInLowerCase; // property name in lower case
     public String nameInCamelCase; // property name in camel case
     public String nameInSnakeCase; // property name in upper snake case
-    // enum name based on the property name, usually use as a prefix (e.g. VAR_NAME) for enum name (e.g. VAR_NAME_VALUE1)
+    // enum name based on the property name, usually use as a prefix (e.g. VAR_NAME) for enum name
+    // (e.g. VAR_NAME_VALUE1)
     public String enumName;
     public Integer maxItems;
     public Integer minItems;
@@ -259,7 +289,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.isBooleanSchemaFalse = isBooleanSchemaFalse;
     }
 
-    public String getOpenApiType() { return openApiType; }
+    public String getOpenApiType() {
+        return openApiType;
+    }
 
     public String getBaseName() {
         return baseName;
@@ -304,7 +336,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     /**
      * @return dataType
      * @deprecated since version 3.0.0, use {@link #getDataType()} instead.<br>
-     * May be removed with the next major release (4.0)
+     *     May be removed with the next major release (4.0)
      */
     @Deprecated
     public String getDatatype() {
@@ -936,11 +968,11 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean getHasDiscriminatorWithNonEmptyMapping() {
         return hasDiscriminatorWithNonEmptyMapping;
     }
-
     ;
 
     @Override
-    public void setHasDiscriminatorWithNonEmptyMapping(boolean hasDiscriminatorWithNonEmptyMapping) {
+    public void setHasDiscriminatorWithNonEmptyMapping(
+            boolean hasDiscriminatorWithNonEmptyMapping) {
         this.hasDiscriminatorWithNonEmptyMapping = hasDiscriminatorWithNonEmptyMapping;
     }
 
@@ -1117,7 +1149,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", getAdditionalPropertiesIsAnyType=").append(getAdditionalPropertiesIsAnyType());
         sb.append(", getHasVars=").append(getHasVars());
         sb.append(", getHasRequired=").append(getHasRequired());
-        sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
+        sb.append(", getHasDiscriminatorWithNonEmptyMapping=")
+                .append(hasDiscriminatorWithNonEmptyMapping);
         sb.append(", composedSchemas=").append(composedSchemas);
         sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
         sb.append(", requiredVarsMap=").append(requiredVarsMap);
@@ -1137,134 +1170,225 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CodegenProperty that = (CodegenProperty) o;
-        return exclusiveMinimum == that.exclusiveMinimum &&
-                exclusiveMaximum == that.exclusiveMaximum &&
-                required == that.required &&
-                deprecated == that.deprecated &&
-                hasMoreNonReadOnly == that.hasMoreNonReadOnly &&
-                isPrimitiveType == that.isPrimitiveType &&
-                isModel == that.isModel &&
-                isContainer == that.isContainer &&
-                isString == that.isString &&
-                isNumeric == that.isNumeric &&
-                isInteger == that.isInteger &&
-                isShort == that.isShort &&
-                isLong == that.isLong &&
-                isUnboundedInteger == that.isUnboundedInteger &&
-                isNumber == that.isNumber &&
-                isFloat == that.isFloat &&
-                isDouble == that.isDouble &&
-                isDecimal == that.isDecimal &&
-                isByteArray == that.isByteArray &&
-                isBinary == that.isBinary &&
-                isFile == that.isFile &&
-                isBoolean == that.isBoolean &&
-                isDate == that.isDate &&
-                isDateTime == that.isDateTime &&
-                isUuid == that.isUuid &&
-                isUri == that.isUri &&
-                isEmail == that.isEmail &&
-                isPassword == that.isPassword &&
-                isFreeFormObject == that.isFreeFormObject &&
-                isArray == that.isArray &&
-                isMap == that.isMap &&
-                isEnum == that.isEnum &&
-                isInnerEnum == that.isInnerEnum &&
-                isEnumRef == that.isEnumRef &&
-                isAnyType == that.isAnyType &&
-                isReadOnly == that.isReadOnly &&
-                isWriteOnly == that.isWriteOnly &&
-                isNullable == that.isNullable &&
-                isSelfReference == that.isSelfReference &&
-                isCircularReference == that.isCircularReference &&
-                isDiscriminator == that.isDiscriminator &&
-                isNew == that.isNew &&
-                isOverridden == that.isOverridden &&
-                hasValidation == that.hasValidation &&
-                isInherited == that.isInherited &&
-                isXmlAttribute == that.isXmlAttribute &&
-                isXmlWrapped == that.isXmlWrapped &&
-                isNull == that.isNull &&
-                isVoid == that.isVoid &&
-                hasMultipleTypes == that.getHasMultipleTypes() &&
-                hasDiscriminatorWithNonEmptyMapping == that.hasDiscriminatorWithNonEmptyMapping &&
-                isBooleanSchemaTrue == that.getIsBooleanSchemaTrue() &&
-                isBooleanSchemaFalse == that.getIsBooleanSchemaFalse() &&
-                getSchemaIsFromAdditionalProperties() == that.getSchemaIsFromAdditionalProperties() &&
-                getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
-                getHasVars() == that.getHasVars() &&
-                getHasRequired() == that.getHasRequired() &&
-                Objects.equals(contains, that.getContains()) &&
-                Objects.equals(dependentRequired, that.getDependentRequired()) &&
-                Objects.equals(format, that.getFormat()) &&
-                Objects.equals(uniqueItemsBoolean, that.getUniqueItemsBoolean()) &&
-                Objects.equals(ref, that.getRef()) &&
-                Objects.equals(requiredVarsMap, that.getRequiredVarsMap()) &&
-                Objects.equals(composedSchemas, that.composedSchemas) &&
-                Objects.equals(openApiType, that.openApiType) &&
-                Objects.equals(baseName, that.baseName) &&
-                Objects.equals(complexType, that.complexType) &&
-                Objects.equals(getter, that.getter) &&
-                Objects.equals(setter, that.setter) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(dataType, that.dataType) &&
-                Objects.equals(datatypeWithEnum, that.datatypeWithEnum) &&
-                Objects.equals(dataFormat, that.dataFormat) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(min, that.min) &&
-                Objects.equals(max, that.max) &&
-                Objects.equals(defaultValue, that.defaultValue) &&
-                Objects.equals(defaultValueWithParam, that.defaultValueWithParam) &&
-                Objects.equals(baseType, that.baseType) &&
-                Objects.equals(containerType, that.containerType) &&
-                Objects.equals(title, that.title) &&
-                Objects.equals(unescapedDescription, that.unescapedDescription) &&
-                Objects.equals(maxLength, that.maxLength) &&
-                Objects.equals(minLength, that.minLength) &&
-                Objects.equals(pattern, that.pattern) &&
-                Objects.equals(example, that.example) &&
-                Objects.equals(jsonSchema, that.jsonSchema) &&
-                Objects.equals(minimum, that.minimum) &&
-                Objects.equals(maximum, that.maximum) &&
-                Objects.equals(_enum, that._enum) &&
-                Objects.equals(allowableValues, that.allowableValues) &&
-                Objects.equals(items, that.items) &&
-                Objects.equals(additionalProperties, that.additionalProperties) &&
-                Objects.equals(vars, that.vars) &&
-                Objects.equals(requiredVars, that.requiredVars) &&
-                Objects.equals(mostInnerItems, that.mostInnerItems) &&
-                Objects.equals(vendorExtensions, that.vendorExtensions) &&
-                Objects.equals(discriminatorValue, that.discriminatorValue) &&
-                Objects.equals(nameInCamelCase, that.nameInCamelCase) &&
-                Objects.equals(nameInSnakeCase, that.nameInSnakeCase) &&
-                Objects.equals(enumName, that.enumName) &&
-                Objects.equals(maxItems, that.maxItems) &&
-                Objects.equals(minItems, that.minItems) &&
-                Objects.equals(xmlPrefix, that.xmlPrefix) &&
-                Objects.equals(xmlName, that.xmlName) &&
-                Objects.equals(xmlNamespace, that.xmlNamespace) &&
-                Objects.equals(multipleOf, that.multipleOf);
+        return exclusiveMinimum == that.exclusiveMinimum
+                && exclusiveMaximum == that.exclusiveMaximum
+                && required == that.required
+                && deprecated == that.deprecated
+                && hasMoreNonReadOnly == that.hasMoreNonReadOnly
+                && isPrimitiveType == that.isPrimitiveType
+                && isModel == that.isModel
+                && isContainer == that.isContainer
+                && isString == that.isString
+                && isNumeric == that.isNumeric
+                && isInteger == that.isInteger
+                && isShort == that.isShort
+                && isLong == that.isLong
+                && isUnboundedInteger == that.isUnboundedInteger
+                && isNumber == that.isNumber
+                && isFloat == that.isFloat
+                && isDouble == that.isDouble
+                && isDecimal == that.isDecimal
+                && isByteArray == that.isByteArray
+                && isBinary == that.isBinary
+                && isFile == that.isFile
+                && isBoolean == that.isBoolean
+                && isDate == that.isDate
+                && isDateTime == that.isDateTime
+                && isUuid == that.isUuid
+                && isUri == that.isUri
+                && isEmail == that.isEmail
+                && isPassword == that.isPassword
+                && isFreeFormObject == that.isFreeFormObject
+                && isArray == that.isArray
+                && isMap == that.isMap
+                && isEnum == that.isEnum
+                && isInnerEnum == that.isInnerEnum
+                && isEnumRef == that.isEnumRef
+                && isAnyType == that.isAnyType
+                && isReadOnly == that.isReadOnly
+                && isWriteOnly == that.isWriteOnly
+                && isNullable == that.isNullable
+                && isSelfReference == that.isSelfReference
+                && isCircularReference == that.isCircularReference
+                && isDiscriminator == that.isDiscriminator
+                && isNew == that.isNew
+                && isOverridden == that.isOverridden
+                && hasValidation == that.hasValidation
+                && isInherited == that.isInherited
+                && isXmlAttribute == that.isXmlAttribute
+                && isXmlWrapped == that.isXmlWrapped
+                && isNull == that.isNull
+                && isVoid == that.isVoid
+                && hasMultipleTypes == that.getHasMultipleTypes()
+                && hasDiscriminatorWithNonEmptyMapping == that.hasDiscriminatorWithNonEmptyMapping
+                && isBooleanSchemaTrue == that.getIsBooleanSchemaTrue()
+                && isBooleanSchemaFalse == that.getIsBooleanSchemaFalse()
+                && getSchemaIsFromAdditionalProperties()
+                        == that.getSchemaIsFromAdditionalProperties()
+                && getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType()
+                && getHasVars() == that.getHasVars()
+                && getHasRequired() == that.getHasRequired()
+                && Objects.equals(contains, that.getContains())
+                && Objects.equals(dependentRequired, that.getDependentRequired())
+                && Objects.equals(format, that.getFormat())
+                && Objects.equals(uniqueItemsBoolean, that.getUniqueItemsBoolean())
+                && Objects.equals(ref, that.getRef())
+                && Objects.equals(requiredVarsMap, that.getRequiredVarsMap())
+                && Objects.equals(composedSchemas, that.composedSchemas)
+                && Objects.equals(openApiType, that.openApiType)
+                && Objects.equals(baseName, that.baseName)
+                && Objects.equals(complexType, that.complexType)
+                && Objects.equals(getter, that.getter)
+                && Objects.equals(setter, that.setter)
+                && Objects.equals(description, that.description)
+                && Objects.equals(dataType, that.dataType)
+                && Objects.equals(datatypeWithEnum, that.datatypeWithEnum)
+                && Objects.equals(dataFormat, that.dataFormat)
+                && Objects.equals(name, that.name)
+                && Objects.equals(min, that.min)
+                && Objects.equals(max, that.max)
+                && Objects.equals(defaultValue, that.defaultValue)
+                && Objects.equals(defaultValueWithParam, that.defaultValueWithParam)
+                && Objects.equals(baseType, that.baseType)
+                && Objects.equals(containerType, that.containerType)
+                && Objects.equals(title, that.title)
+                && Objects.equals(unescapedDescription, that.unescapedDescription)
+                && Objects.equals(maxLength, that.maxLength)
+                && Objects.equals(minLength, that.minLength)
+                && Objects.equals(pattern, that.pattern)
+                && Objects.equals(example, that.example)
+                && Objects.equals(jsonSchema, that.jsonSchema)
+                && Objects.equals(minimum, that.minimum)
+                && Objects.equals(maximum, that.maximum)
+                && Objects.equals(_enum, that._enum)
+                && Objects.equals(allowableValues, that.allowableValues)
+                && Objects.equals(items, that.items)
+                && Objects.equals(additionalProperties, that.additionalProperties)
+                && Objects.equals(vars, that.vars)
+                && Objects.equals(requiredVars, that.requiredVars)
+                && Objects.equals(mostInnerItems, that.mostInnerItems)
+                && Objects.equals(vendorExtensions, that.vendorExtensions)
+                && Objects.equals(discriminatorValue, that.discriminatorValue)
+                && Objects.equals(nameInCamelCase, that.nameInCamelCase)
+                && Objects.equals(nameInSnakeCase, that.nameInSnakeCase)
+                && Objects.equals(enumName, that.enumName)
+                && Objects.equals(maxItems, that.maxItems)
+                && Objects.equals(minItems, that.minItems)
+                && Objects.equals(xmlPrefix, that.xmlPrefix)
+                && Objects.equals(xmlName, that.xmlName)
+                && Objects.equals(xmlNamespace, that.xmlNamespace)
+                && Objects.equals(multipleOf, that.multipleOf);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(openApiType, baseName, complexType, getter, setter, description,
-                dataType, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
-                defaultValueWithParam, baseType, containerType, title, unescapedDescription,
-                maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
-                exclusiveMinimum, exclusiveMaximum, required, deprecated,
-                hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
-                isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
-                isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword, isFreeFormObject,
-                isArray, isMap, isEnum, isInnerEnum, isEnumRef, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
-                isUnboundedInteger, isSelfReference, isCircularReference, isDiscriminator, isNew, isOverridden, _enum,
-                allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars,
-                vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
-                nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
-                xmlNamespace, isXmlWrapped, isNull, isVoid, additionalPropertiesIsAnyType, hasVars, hasRequired,
-                hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, requiredVarsMap,
-                ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties, isBooleanSchemaTrue, isBooleanSchemaFalse,
-                format, dependentRequired, contains);
+        return Objects.hash(
+                openApiType,
+                baseName,
+                complexType,
+                getter,
+                setter,
+                description,
+                dataType,
+                datatypeWithEnum,
+                dataFormat,
+                name,
+                min,
+                max,
+                defaultValue,
+                defaultValueWithParam,
+                baseType,
+                containerType,
+                title,
+                unescapedDescription,
+                maxLength,
+                minLength,
+                pattern,
+                example,
+                jsonSchema,
+                minimum,
+                maximum,
+                exclusiveMinimum,
+                exclusiveMaximum,
+                required,
+                deprecated,
+                hasMoreNonReadOnly,
+                isPrimitiveType,
+                isModel,
+                isContainer,
+                isString,
+                isNumeric,
+                isInteger,
+                isLong,
+                isNumber,
+                isFloat,
+                isDouble,
+                isDecimal,
+                isByteArray,
+                isBinary,
+                isFile,
+                isBoolean,
+                isDate,
+                isDateTime,
+                isUuid,
+                isUri,
+                isEmail,
+                isPassword,
+                isFreeFormObject,
+                isArray,
+                isMap,
+                isEnum,
+                isInnerEnum,
+                isEnumRef,
+                isAnyType,
+                isReadOnly,
+                isWriteOnly,
+                isNullable,
+                isShort,
+                isUnboundedInteger,
+                isSelfReference,
+                isCircularReference,
+                isDiscriminator,
+                isNew,
+                isOverridden,
+                _enum,
+                allowableValues,
+                items,
+                mostInnerItems,
+                additionalProperties,
+                vars,
+                requiredVars,
+                vendorExtensions,
+                hasValidation,
+                isInherited,
+                discriminatorValue,
+                nameInCamelCase,
+                nameInSnakeCase,
+                enumName,
+                maxItems,
+                minItems,
+                isXmlAttribute,
+                xmlPrefix,
+                xmlName,
+                xmlNamespace,
+                isXmlWrapped,
+                isNull,
+                isVoid,
+                additionalPropertiesIsAnyType,
+                hasVars,
+                hasRequired,
+                hasDiscriminatorWithNonEmptyMapping,
+                composedSchemas,
+                hasMultipleTypes,
+                requiredVarsMap,
+                ref,
+                uniqueItemsBoolean,
+                schemaIsFromAdditionalProperties,
+                isBooleanSchemaTrue,
+                isBooleanSchemaFalse,
+                format,
+                dependentRequired,
+                contains);
     }
 }

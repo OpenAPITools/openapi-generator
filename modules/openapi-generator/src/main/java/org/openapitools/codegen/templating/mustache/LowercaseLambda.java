@@ -19,21 +19,22 @@ package org.openapitools.codegen.templating.mustache;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import org.openapitools.codegen.CodegenConfig;
-
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Locale;
+import org.openapitools.codegen.CodegenConfig;
 
 /**
  * Converts text in a fragment to lowercase.
  *
- * Register:
+ * <p>Register:
+ *
  * <pre>
  * additionalProperties.put("lowercase", new LowercaseLambda());
  * </pre>
  *
  * Use:
+ *
  * <pre>
  * {{#lowercase}}{{httpMethod}}{{/lowercase}}
  * </pre>
@@ -41,9 +42,7 @@ import java.util.Locale;
 public class LowercaseLambda implements Mustache.Lambda {
     private CodegenConfig generator = null;
 
-    public LowercaseLambda() {
-
-    }
+    public LowercaseLambda() {}
 
     public LowercaseLambda generator(final CodegenConfig generator) {
         this.generator = generator;
@@ -57,6 +56,5 @@ public class LowercaseLambda implements Mustache.Lambda {
             text = generator.escapeReservedWord(text);
         }
         writer.write(text);
-
     }
 }

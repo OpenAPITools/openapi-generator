@@ -16,27 +16,26 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import com.github.curiousoddman.rgxgen.RgxGen;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractPythonCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractPythonCodegen.class);
@@ -53,16 +52,56 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // local variable name used in API methods (endpoints)
-                        "all_params", "resource_path", "path_params", "query_params",
-                        "header_params", "form_params", "local_var_files", "body_params", "auth_settings",
+                        "all_params",
+                        "resource_path",
+                        "path_params",
+                        "query_params",
+                        "header_params",
+                        "form_params",
+                        "local_var_files",
+                        "body_params",
+                        "auth_settings",
                         // @property
                         "property",
                         // python reserved words
-                        "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
-                        "assert", "else", "if", "pass", "yield", "break", "except", "import",
-                        "print", "class", "exec", "in", "raise", "continue", "finally", "is",
-                        "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True",
-                        "False", "async", "await"));
+                        "and",
+                        "del",
+                        "from",
+                        "not",
+                        "while",
+                        "as",
+                        "elif",
+                        "global",
+                        "or",
+                        "with",
+                        "assert",
+                        "else",
+                        "if",
+                        "pass",
+                        "yield",
+                        "break",
+                        "except",
+                        "import",
+                        "print",
+                        "class",
+                        "exec",
+                        "in",
+                        "raise",
+                        "continue",
+                        "finally",
+                        "is",
+                        "return",
+                        "def",
+                        "for",
+                        "lambda",
+                        "try",
+                        "self",
+                        "nonlocal",
+                        "None",
+                        "True",
+                        "False",
+                        "async",
+                        "await"));
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("int");
@@ -111,8 +150,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info(
+                    "Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
+            LOGGER.info(
+                    "NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
     }
 
@@ -124,7 +165,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return "_" + name;
     }
 
-
     /**
      * Return the default value of the property
      *
@@ -135,10 +175,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                if (!Boolean.valueOf(p.getDefault().toString()))
-                    return "False";
-                else
-                    return "True";
+                if (!Boolean.valueOf(p.getDefault().toString())) return "False";
+                else return "True";
             }
         } else if (ModelUtils.isDateSchema(p)) {
             // TODO
@@ -156,8 +194,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (p.getDefault() != null) {
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
-                else
-                    return "'" + ((String) p.getDefault()).replace("'", "\'") + "'";
+                else return "'" + ((String) p.getDefault()).replace("'", "\'") + "'";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
@@ -170,11 +207,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return null;
     }
 
-
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the
+        // methods parameters as 'final'.
 
         // remove dollar sign
         name = name.replaceAll("$", "");
@@ -217,20 +254,27 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toOperationId(String operationId) {
-        // throw exception if method name is empty (should not occur as an auto-generated method name will be used)
+        // throw exception if method name is empty (should not occur as an auto-generated method
+        // name will be used)
         if (StringUtils.isEmpty(operationId)) {
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn(
+                    "{} (starting with a number) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -266,12 +310,14 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                    LOGGER.error(
+                            "Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
                     LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                LOGGER.error(
+                        "Error running the command ({}). Exception: {}", command, e.getMessage());
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
@@ -283,7 +329,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return toExampleValueRecursive(schema, new ArrayList<>(), 5);
     }
 
-    private String toExampleValueRecursive(Schema schema, List<Schema> includedSchemas, int indentation) {
+    private String toExampleValueRecursive(
+            Schema schema, List<Schema> includedSchemas, int indentation) {
         boolean cycleFound = includedSchemas.stream().filter(s -> schema.equals(s)).count() > 1;
         if (cycleFound) {
             return "";
@@ -300,14 +347,18 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             // though this tooling supports it.
             return "None";
         }
-        // correct "true"s into "True"s, since super.toExampleValue uses "toString()" on Java booleans
+        // correct "true"s into "True"s, since super.toExampleValue uses "toString()" on Java
+        // booleans
         if (ModelUtils.isBooleanSchema(schema) && null != example) {
             if ("false".equalsIgnoreCase(example)) example = "False";
             else example = "True";
         }
 
         // correct "&#39;"s into "'"s after toString()
-        if (ModelUtils.isStringSchema(schema) && schema.getDefault() != null && !ModelUtils.isDateSchema(schema) && !ModelUtils.isDateTimeSchema(schema)) {
+        if (ModelUtils.isStringSchema(schema)
+                && schema.getDefault() != null
+                && !ModelUtils.isDateSchema(schema)
+                && !ModelUtils.isDateTimeSchema(schema)) {
             example = (String) schema.getDefault();
         }
 
@@ -324,8 +375,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (ModelUtils.isStringSchema(schema)) {
                 example = "'" + escapeText(example) + "'";
             }
-            if (null == example)
-                LOGGER.warn("Empty enum. Cannot built an example!");
+            if (null == example) LOGGER.warn("Empty enum. Cannot built an example!");
 
             return example;
         } else if (null != schema.get$ref()) {
@@ -341,7 +391,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     if (StringUtils.isBlank(refTitle) || "null".equals(refTitle)) {
                         refSchema.setTitle(ref);
                     }
-                    if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
+                    if (StringUtils.isNotBlank(schema.getTitle())
+                            && !"null".equals(schema.getTitle())) {
                         includedSchemas.add(schema);
                     }
                     return toExampleValueRecursive(refSchema, includedSchemas, indentation);
@@ -354,7 +405,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             example = "datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date()";
             return example;
         } else if (ModelUtils.isDateTimeSchema(schema)) {
-            example = "datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')";
+            example =
+                    "datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f')";
             return example;
         } else if (ModelUtils.isBinarySchema(schema)) {
             example = "bytes(b'blah')";
@@ -394,15 +446,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
             }
         } else if (ModelUtils.isIntegerSchema(schema)) {
-            if (schema.getMinimum() != null)
-                example = schema.getMinimum().toString();
-            else
-                example = "56";
+            if (schema.getMinimum() != null) example = schema.getMinimum().toString();
+            else example = "56";
         } else if (ModelUtils.isNumberSchema(schema)) {
-            if (schema.getMinimum() != null)
-                example = schema.getMinimum().toString();
-            else
-                example = "1.337";
+            if (schema.getMinimum() != null) example = schema.getMinimum().toString();
+            else example = "1.337";
         } else if (ModelUtils.isBooleanSchema(schema)) {
             example = "True";
         } else if (ModelUtils.isArraySchema(schema)) {
@@ -410,7 +458,14 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 includedSchemas.add(schema);
             }
             ArraySchema arrayschema = (ArraySchema) schema;
-            example = "[\n" + indentationString + toExampleValueRecursive(arrayschema.getItems(), includedSchemas, indentation + 1) + "\n" + indentationString + "]";
+            example =
+                    "[\n"
+                            + indentationString
+                            + toExampleValueRecursive(
+                                    arrayschema.getItems(), includedSchemas, indentation + 1)
+                            + "\n"
+                            + indentationString
+                            + "]";
         } else if (ModelUtils.isMapSchema(schema)) {
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                 includedSchemas.add(schema);
@@ -425,7 +480,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         theKey = "'" + escapeText(theKey) + "'";
                     }
                 }
-                example = "{\n" + indentationString + theKey + " : " + toExampleValueRecursive(additional, includedSchemas, indentation + 1) + "\n" + indentationString + "}";
+                example =
+                        "{\n"
+                                + indentationString
+                                + theKey
+                                + " : "
+                                + toExampleValueRecursive(
+                                        additional, includedSchemas, indentation + 1)
+                                + "\n"
+                                + indentationString
+                                + "}";
             } else {
                 example = "{ }";
             }
@@ -435,13 +499,20 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 return example;
             }
 
-            // I remove any property that is a discriminator, since it is not well supported by the python generator
+            // I remove any property that is a discriminator, since it is not well supported by the
+            // python generator
             String toExclude = null;
             if (schema.getDiscriminator() != null) {
                 toExclude = schema.getDiscriminator().getPropertyName();
             }
 
-            example = packageName + ".models." + underscore(schema.getTitle()) + "." + schema.getTitle() + "(";
+            example =
+                    packageName
+                            + ".models."
+                            + underscore(schema.getTitle())
+                            + "."
+                            + schema.getTitle()
+                            + "(";
 
             // if required only:
             // List<String> reqs = schema.getRequired();
@@ -459,28 +530,40 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 if (toExclude != null && reqs.contains(toExclude)) {
                     reqs.remove(toExclude);
                 }
-                for (String toRemove : includedSchemas.stream().map(Schema::getTitle).collect(Collectors.toList())) {
+                for (String toRemove :
+                        includedSchemas.stream()
+                                .map(Schema::getTitle)
+                                .collect(Collectors.toList())) {
                     if (reqs.contains(toRemove)) {
                         reqs.remove(toRemove);
                     }
                 }
-                if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
+                if (StringUtils.isNotBlank(schema.getTitle())
+                        && !"null".equals(schema.getTitle())) {
                     includedSchemas.add(schema);
                 }
-                if (null != schema.getRequired()) for (Object toAdd : schema.getRequired()) {
-                    reqs.add((String) toAdd);
-                }
-                if (null != propkeys) for (String propname : propkeys) {
-                    Schema schema2 = properties.get(propname);
-                    if (reqs.contains(propname)) {
-                        String refTitle = schema2.getTitle();
-                        if (StringUtils.isBlank(refTitle) || "null".equals(refTitle)) {
-                            schema2.setTitle(propname);
-                        }
-                        example += "\n" + indentationString + underscore(propname) + " = " +
-                                toExampleValueRecursive(schema2, includedSchemas, indentation + 1) + ", ";
+                if (null != schema.getRequired())
+                    for (Object toAdd : schema.getRequired()) {
+                        reqs.add((String) toAdd);
                     }
-                }
+                if (null != propkeys)
+                    for (String propname : propkeys) {
+                        Schema schema2 = properties.get(propname);
+                        if (reqs.contains(propname)) {
+                            String refTitle = schema2.getTitle();
+                            if (StringUtils.isBlank(refTitle) || "null".equals(refTitle)) {
+                                schema2.setTitle(propname);
+                            }
+                            example +=
+                                    "\n"
+                                            + indentationString
+                                            + underscore(propname)
+                                            + " = "
+                                            + toExampleValueRecursive(
+                                                    schema2, includedSchemas, indentation + 1)
+                                            + ", ";
+                        }
+                    }
             }
             example += ")";
         } else {
@@ -585,8 +668,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     public String patternCorrection(String pattern) {
         // Java does not recognize starting and ending forward slashes and mode modifiers
-        // It considers them as characters with no special meaning and tries to find them in the match string
-        boolean checkEnding = pattern.endsWith("/i") || pattern.endsWith("/g") || pattern.endsWith("/m");
+        // It considers them as characters with no special meaning and tries to find them in the
+        // match string
+        boolean checkEnding =
+                pattern.endsWith("/i") || pattern.endsWith("/g") || pattern.endsWith("/m");
         if (checkEnding) pattern = pattern.substring(0, pattern.length() - 2);
         if (pattern.endsWith("/")) pattern = pattern.substring(0, pattern.length() - 1);
         if (pattern.startsWith("/")) pattern = pattern.substring(1);
@@ -621,7 +706,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return type;
     }
 
-
     @Override
     public String toModelName(String name) {
         // check if schema-mapping has a different model for this class, so we can use it
@@ -636,7 +720,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return schemaKeyToModelNameCache.get(origName);
         }
 
-        String sanitizedName = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        String sanitizedName =
+                sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the
+        // methods parameters as 'final'.
         // remove dollar sign
         sanitizedName = sanitizedName.replaceAll("$", "");
         // remove whitespace
@@ -659,16 +745,24 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
-            String modelName = "Model" + camelizedName; // e.g. return => ModelReturn (after camelize)
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, modelName);
+            String modelName =
+                    "Model" + camelizedName; // e.g. return => ModelReturn (after camelize)
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    camelizedName,
+                    modelName);
             schemaKeyToModelNameCache.put(origName, modelName);
             return modelName;
         }
 
         // model name starts with number
         if (camelizedName.matches("^\\d.*")) {
-            String modelName = "Model" + camelizedName; // e.g. return => ModelReturn (after camelize)
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", camelizedName, modelName);
+            String modelName =
+                    "Model" + camelizedName; // e.g. return => ModelReturn (after camelize)
+            LOGGER.warn(
+                    "{} (model name starts with number) cannot be used as model name. Renamed to {}",
+                    camelizedName,
+                    modelName);
             schemaKeyToModelNameCache.put(origName, modelName);
             return modelName;
         }

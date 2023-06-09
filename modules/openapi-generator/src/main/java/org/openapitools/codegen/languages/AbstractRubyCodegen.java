@@ -17,8 +17,20 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
@@ -28,20 +40,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Locale;
-
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
-abstract public class AbstractRubyCodegen extends DefaultCodegen implements CodegenConfig {
+public abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractRubyCodegen.class);
 
     public AbstractRubyCodegen() {
@@ -49,12 +48,46 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
 
         setReservedWordsLowerCase(
                 Arrays.asList(
-                        "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
-                        "begin", "defined?", "ensure", "module", "redo", "super", "until", "BEGIN",
-                        "break", "do", "false", "next", "rescue", "then", "when", "END", "case",
-                        "else", "for", "nil", "retry", "true", "while", "alias", "class", "elsif",
-                        "if", "not", "return", "undef", "yield")
-        );
+                        "__FILE__",
+                        "and",
+                        "def",
+                        "end",
+                        "in",
+                        "or",
+                        "self",
+                        "unless",
+                        "__LINE__",
+                        "begin",
+                        "defined?",
+                        "ensure",
+                        "module",
+                        "redo",
+                        "super",
+                        "until",
+                        "BEGIN",
+                        "break",
+                        "do",
+                        "false",
+                        "next",
+                        "rescue",
+                        "then",
+                        "when",
+                        "END",
+                        "case",
+                        "else",
+                        "for",
+                        "nil",
+                        "retry",
+                        "true",
+                        "while",
+                        "alias",
+                        "class",
+                        "elsif",
+                        "if",
+                        "not",
+                        "return",
+                        "undef",
+                        "yield"));
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("String");
@@ -104,7 +137,8 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("RUBY_POST_PROCESS_FILE"))) {
-            LOGGER.info("Hint: Environment variable 'RUBY_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export RUBY_POST_PROCESS_FILE=\"/usr/local/bin/rubocop -a\"' (Linux/Mac)");
+            LOGGER.info(
+                    "Hint: Environment variable 'RUBY_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export RUBY_POST_PROCESS_FILE=\"/usr/local/bin/rubocop -a\"' (Linux/Mac)");
         }
     }
 
@@ -148,7 +182,9 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
     @Override
     public String toDefaultValue(Schema p) {
         p = ModelUtils.getReferencedSchema(this.openAPI, p);
-        if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
+        if (ModelUtils.isIntegerSchema(p)
+                || ModelUtils.isNumberSchema(p)
+                || ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
@@ -156,10 +192,20 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
             if (p.getDefault() != null) {
                 if (p.getDefault() instanceof Date) {
                     Date date = (Date) p.getDefault();
-                    LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    return "Date.parse(\"" + String.format(Locale.ROOT, localDate.toString(), "") + "\")";
+                    LocalDate localDate =
+                            date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    return "Date.parse(\""
+                            + String.format(Locale.ROOT, localDate.toString(), "")
+                            + "\")";
                 } else if (p.getDefault() instanceof java.time.OffsetDateTime) {
-                    return "Time.parse(\"" + String.format(Locale.ROOT, ((java.time.OffsetDateTime) p.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\")";
+                    return "Time.parse(\""
+                            + String.format(
+                                    Locale.ROOT,
+                                    ((java.time.OffsetDateTime) p.getDefault())
+                                            .atZoneSameInstant(ZoneId.systemDefault())
+                                            .toString(),
+                                    "")
+                            + "\")";
                 } else {
                     return "'" + escapeText((String.valueOf(p.getDefault()))) + "'";
                 }
@@ -210,7 +256,10 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = underscore("call_" + operationId);
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    newOperationId);
             return newOperationId;
         }
 
@@ -244,20 +293,27 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
-                    try (InputStreamReader inputStreamReader = new InputStreamReader(p.getErrorStream(), StandardCharsets.UTF_8);
-                         BufferedReader br = new BufferedReader(inputStreamReader)) {
+                    try (InputStreamReader inputStreamReader =
+                                    new InputStreamReader(
+                                            p.getErrorStream(), StandardCharsets.UTF_8);
+                            BufferedReader br = new BufferedReader(inputStreamReader)) {
                         StringBuilder sb = new StringBuilder();
                         String line;
                         while ((line = br.readLine()) != null) {
                             sb.append(line);
                         }
-                        LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command, exitValue, sb);
+                        LOGGER.error(
+                                "Error running the command ({}). Exit value: {}, Error output: {}",
+                                command,
+                                exitValue,
+                                sb);
                     }
                 } else {
                     LOGGER.info("Successfully executed: `{}`", command);
                 }
             } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                LOGGER.error(
+                        "Error running the command ({}). Exception: {}", command, e.getMessage());
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
@@ -265,5 +321,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.RUBY; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.RUBY;
+    }
 }

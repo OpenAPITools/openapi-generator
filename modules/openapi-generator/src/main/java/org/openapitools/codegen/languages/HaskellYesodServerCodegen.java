@@ -16,12 +16,20 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.dashize;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Pattern;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -31,15 +39,6 @@ import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.regex.Pattern;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.dashize;
 
 public class HaskellYesodServerCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
@@ -83,25 +82,20 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
     public HaskellYesodServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.Callbacks
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.BasicAuth,
+                                                SecurityFeature.ApiKey,
+                                                SecurityFeature.OAuth2_Implicit))
+                                .excludeGlobalFeatures(GlobalFeature.Callbacks)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism));
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         // override the mapping to keep the original mapping in Haskell
         specialCharReplacements.put("-", "Dash");
@@ -120,68 +114,85 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         embeddedTemplateDir = templateDir = "haskell-yesod";
         apiNameSuffix = "";
 
-        // Haskell keywords and reserved function names, taken mostly from https://wiki.haskell.org/Keywords
+        // Haskell keywords and reserved function names, taken mostly from
+        // https://wiki.haskell.org/Keywords
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // Keywords
-                        "as", "case", "of",
-                        "class", "data", "family",
-                        "default", "deriving",
-                        "do", "forall", "foreign", "hiding",
-                        "if", "then", "else",
-                        "import", "infix", "infixl", "infixr",
-                        "instance", "let", "in",
-                        "mdo", "module", "newtype",
-                        "proc", "qualified", "rec",
-                        "type", "where"
-                )
-        );
+                        "as",
+                        "case",
+                        "of",
+                        "class",
+                        "data",
+                        "family",
+                        "default",
+                        "deriving",
+                        "do",
+                        "forall",
+                        "foreign",
+                        "hiding",
+                        "if",
+                        "then",
+                        "else",
+                        "import",
+                        "infix",
+                        "infixl",
+                        "infixr",
+                        "instance",
+                        "let",
+                        "in",
+                        "mdo",
+                        "module",
+                        "newtype",
+                        "proc",
+                        "qualified",
+                        "rec",
+                        "type",
+                        "where"));
 
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
-                        "Bool",
-                        "Int",
-                        "Int64",
-                        "Float",
-                        "Double",
-                        "Text",
-                        "Day",
-                        "UTCTime"
-                )
-        );
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "Bool", "Int", "Int64", "Float", "Double", "Text", "Day",
+                                "UTCTime"));
 
         typeMapping.clear();
-        typeMapping.put("boolean", "Bool");     // type:boolean
-        typeMapping.put("integer", "Int");      // type:integer+format:int32, type:integer
-        typeMapping.put("long", "Int64");       // type:integer+format:int64
-        typeMapping.put("number", "Double");    // type:number
-        typeMapping.put("float", "Float");      // type:number+format:float
-        typeMapping.put("double", "Double");    // type:number+format:double
-        typeMapping.put("string", "Text");      // type:string
-        typeMapping.put("date", "Day");         // type:string+format:date
+        typeMapping.put("boolean", "Bool"); // type:boolean
+        typeMapping.put("integer", "Int"); // type:integer+format:int32, type:integer
+        typeMapping.put("long", "Int64"); // type:integer+format:int64
+        typeMapping.put("number", "Double"); // type:number
+        typeMapping.put("float", "Float"); // type:number+format:float
+        typeMapping.put("double", "Double"); // type:number+format:double
+        typeMapping.put("string", "Text"); // type:string
+        typeMapping.put("date", "Day"); // type:string+format:date
         typeMapping.put("DateTime", "UTCTime"); // type:string+format:date-time
-        typeMapping.put("decimal", "Text");     // type:string+format:number
-        typeMapping.put("URI", "Text");         // type:string+format:uri
-        typeMapping.put("UUID", "Text");        // type:string+format:uuid
-        typeMapping.put("ByteArray", "Text");   // type:string+format:byte
-        typeMapping.put("binary", "Text");      // type:string+format:binary
-        typeMapping.put("file", "Text");        // type:string+format:binary(OAS3), type:file(OAS2)
-        typeMapping.put("AnyType", "Value");    // type not specified
+        typeMapping.put("decimal", "Text"); // type:string+format:number
+        typeMapping.put("URI", "Text"); // type:string+format:uri
+        typeMapping.put("UUID", "Text"); // type:string+format:uuid
+        typeMapping.put("ByteArray", "Text"); // type:string+format:byte
+        typeMapping.put("binary", "Text"); // type:string+format:binary
+        typeMapping.put("file", "Text"); // type:string+format:binary(OAS3), type:file(OAS2)
+        typeMapping.put("AnyType", "Value"); // type not specified
 
         // See getTypeDeclaration() for the followings.
         // typeMapping.put("array", "List");           // type:array (ArraySchema)
         // typeMapping.put("set", "List");             // type:array+uniqueItems:true (ArraySchema)
-        // typeMapping.put("map", "Map.Map");          // type:object+additionalProperties:true/<object> (MapSchema)
+        // typeMapping.put("map", "Map.Map");          //
+        // type:object+additionalProperties:true/<object> (MapSchema)
 
         // type:object is defined as a separate data type, so the type mapping is not required.
         // typeMapping.put("object", "Value");         // type:object
 
         importMapping.clear();
 
-        cliOptions.add(new CliOption(PROJECT_NAME,
-                "name of the project (Default: generated from info.title or \"openapi-haskell-yesod-server\")"));
-        cliOptions.add(new CliOption(API_MODULE_NAME,
-                "name of the API module (Default: generated from info.title or \"API\")"));
+        cliOptions.add(
+                new CliOption(
+                        PROJECT_NAME,
+                        "name of the project (Default: generated from info.title or \"openapi-haskell-yesod-server\")"));
+        cliOptions.add(
+                new CliOption(
+                        API_MODULE_NAME,
+                        "name of the API module (Default: generated from info.title or \"API\")"));
     }
 
     @Override
@@ -204,7 +215,8 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("HASKELL_POST_PROCESS_FILE"))) {
-            LOGGER.info("Hint: Environment variable HASKELL_POST_PROCESS_FILE not defined so the Haskell code may not be properly formatted. To define it, try 'export HASKELL_POST_PROCESS_FILE=\"$HOME/.local/bin/hfmt -w\"' (Linux/Mac)");
+            LOGGER.info(
+                    "Hint: Environment variable HASKELL_POST_PROCESS_FILE not defined so the Haskell code may not be properly formatted. To define it, try 'export HASKELL_POST_PROCESS_FILE=\"$HOME/.local/bin/hfmt -w\"' (Linux/Mac)");
         }
 
         if (additionalProperties.containsKey(PROJECT_NAME)) {
@@ -216,8 +228,8 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
     }
 
     /**
-     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
-     * those terms here.  This logic is only called if a variable matches the reserved words
+     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping those terms
+     * here. This logic is only called if a variable matches the reserved words
      *
      * @return the escaped term
      */
@@ -261,19 +273,34 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         supportingFiles.add(new SupportingFile("app/devel.mustache", "app", "devel.hs"));
         supportingFiles.add(new SupportingFile("app/main.hs", "app", "main.hs"));
         supportingFiles.add(new SupportingFile("config/keter.mustache", "config", "keter.yml"));
-        supportingFiles.add(new SupportingFile("config/routes.mustache", "config", "routes.yesodroutes"));
+        supportingFiles.add(
+                new SupportingFile("config/routes.mustache", "config", "routes.yesodroutes"));
         supportingFiles.add(new SupportingFile("config/settings.yml", "config", "settings.yml"));
-        supportingFiles.add(new SupportingFile("config/test-settings.yml", "config", "test-settings.yml"));
+        supportingFiles.add(
+                new SupportingFile("config/test-settings.yml", "config", "test-settings.yml"));
         supportingFiles.add(new SupportingFile("dir-locals.el", "", ".dir-locals.el"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.yaml"));
-        supportingFiles.add(new SupportingFile("src/API/Types.mustache", "src" + File.separator + apiModuleName, "Types.hs"));
-        supportingFiles.add(new SupportingFile("src/Application.mustache", "src", "Application.hs"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "src/API/Types.mustache",
+                        "src" + File.separator + apiModuleName,
+                        "Types.hs"));
+        supportingFiles.add(
+                new SupportingFile("src/Application.mustache", "src", "Application.hs"));
         supportingFiles.add(new SupportingFile("src/Error.hs", "src", "Error.hs"));
         supportingFiles.add(new SupportingFile("src/Foundation.hs", "src", "Foundation.hs"));
-        supportingFiles.add(new SupportingFile("src/Import/NoFoundation.mustache", "src" + File.separator + "Import", "NoFoundation.hs"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "src/Import/NoFoundation.mustache",
+                        "src" + File.separator + "Import",
+                        "NoFoundation.hs"));
         supportingFiles.add(new SupportingFile("src/Import.hs", "src", "Import.hs"));
-        supportingFiles.add(new SupportingFile("src/Settings/StaticFiles.hs", "src" + File.separator + "Settings", "StaticFiles.hs"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "src/Settings/StaticFiles.hs",
+                        "src" + File.separator + "Settings",
+                        "StaticFiles.hs"));
         supportingFiles.add(new SupportingFile("src/Settings.hs", "src", "Settings.hs"));
         supportingFiles.add(new SupportingFile("stack.yaml", "", "stack.yaml"));
         supportingFiles.add(new SupportingFile("static/gitkeep", "static", ".gitkeep"));
@@ -293,10 +320,11 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
     }
 
     /**
-     * Optional - type declaration.  This is a String which is used by the templates to instantiate your
-     * types.  There is typically special handling for different property types
+     * Optional - type declaration. This is a String which is used by the templates to instantiate
+     * your types. There is typically special handling for different property types
      *
-     * @return a string value used as the `dataType` field for model templates, `returnType` for api templates
+     * @return a string value used as the `dataType` field for model templates, `returnType` for api
+     *     templates
      */
     @Override
     public String getTypeDeclaration(Schema p) {
@@ -312,20 +340,22 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
     }
 
     /**
-     * Optional - OpenAPI type conversion.  This is used to map OpenAPI types in a `Schema` into
-     * either language specific types via `typeMapping` or into complex models if there is not a mapping.
+     * Optional - OpenAPI type conversion. This is used to map OpenAPI types in a `Schema` into
+     * either language specific types via `typeMapping` or into complex models if there is not a
+     * mapping.
      *
      * @return a string value of the type or complex model for this property
      */
     @Override
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
-        LOGGER.debug("debugging OpenAPI type: {}, {} => {}", p.getType(), p.getFormat(), schemaType);
+        LOGGER.debug(
+                "debugging OpenAPI type: {}, {} => {}", p.getType(), p.getFormat(), schemaType);
         String type = null;
         if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
             return type;
-            //if (languageSpecificPrimitives.contains(type))
+            // if (languageSpecificPrimitives.contains(type))
             //    return toModelName(type);
         } else if (typeMapping.containsValue(schemaType)) {
             // TODO what's this case for?
@@ -343,7 +373,10 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
             Schema additionalProperties2 = getAdditionalProperties(p);
             String type = additionalProperties2.getType();
             if (null == type) {
-                LOGGER.error("No Type defined for Additional Property {}\n\tIn Property: {}", additionalProperties2, p);
+                LOGGER.error(
+                        "No Type defined for Additional Property {}\n\tIn Property: {}",
+                        additionalProperties2,
+                        p);
             }
             String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
@@ -405,13 +438,15 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
     }
 
     @Override
-    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers) {
+    public CodegenOperation fromOperation(
+            String resourcePath, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, servers);
 
         String path = pathToYesodPath(op.path, op.pathParams);
         String resource = pathToYesodResource(op.path, op.pathParams);
 
-        List<Map<String, Object>> routes = (List<Map<String, Object>>) additionalProperties.get("routes");
+        List<Map<String, Object>> routes =
+                (List<Map<String, Object>>) additionalProperties.get("routes");
         if (routes == null) {
             routes = new ArrayList<>();
             additionalProperties.put("routes", routes);
@@ -448,7 +483,8 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         op.vendorExtensions.put("x-handler", handler);
         op.vendorExtensions.put("x-param-indent", paramIndent);
         op.vendorExtensions.put("x-resource", resource);
-        op.vendorExtensions.put("x-is-get-or-post", op.httpMethod.equals("GET") || op.httpMethod.equals("POST"));
+        op.vendorExtensions.put(
+                "x-is-get-or-post", op.httpMethod.equals("GET") || op.httpMethod.equals("POST"));
         for (CodegenParameter param : op.pathParams) {
             param.vendorExtensions.put("x-handler", handler);
             param.vendorExtensions.put("x-param-indent", paramIndent);
@@ -518,11 +554,15 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         } else if (Boolean.TRUE.equals(codegenParameter.isDateTime)) {
             return "\"" + codegenParameter.example + "\""; // "2013-10-20T19:20:30+01:00";
         } else if (Boolean.TRUE.equals(codegenParameter.isUuid)) {
-            return "\"" + codegenParameter.example + "\""; // "38400000-8cf0-11bd-b23e-10b96e4ef00d";
+            return "\""
+                    + codegenParameter.example
+                    + "\""; // "38400000-8cf0-11bd-b23e-10b96e4ef00d";
         } else if (Boolean.TRUE.equals(codegenParameter.isUri)) {
             return "\"" + codegenParameter.example + "\""; // "https://openapi-generator.tech";
         } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
-            return "\"" + codegenParameter.example + "\""; // codegenParameter.paramName + "_example";
+            return "\""
+                    + codegenParameter.example
+                    + "\""; // codegenParameter.paramName + "_example";
         } else if (Boolean.TRUE.equals(codegenParameter.isFreeFormObject)) {
             return "\"" + codegenParameter.example + "\""; // "Object";
         } else {
@@ -533,7 +573,8 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
     private String fixOperatorChars(String string) {
         StringBuilder sb = new StringBuilder();
         String name = string;
-        //Check if it is a reserved word, in which case the underscore is added when property name is generated.
+        // Check if it is a reserved word, in which case the underscore is added when property name
+        // is generated.
         if (string.startsWith("_")) {
             if (reservedWords.contains(string.substring(1))) {
                 name = string.substring(1);
@@ -585,7 +626,8 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
             model.vendorExtensions.put("x-custom-newtype", newtype);
         }
 
-        // Provide the prefix as a vendor extension, so that it can be used in the ToJSON and FromJSON instances.
+        // Provide the prefix as a vendor extension, so that it can be used in the ToJSON and
+        // FromJSON instances.
         model.vendorExtensions.put("x-prefix", prefix);
         model.vendorExtensions.put("x-data", dataOrNewtype);
 
@@ -620,12 +662,14 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                    LOGGER.error(
+                            "Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
                     LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                LOGGER.error(
+                        "Error running the command ({}). Exception: {}", command, e.getMessage());
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
@@ -633,5 +677,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.HASKELL; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.HASKELL;
+    }
 }

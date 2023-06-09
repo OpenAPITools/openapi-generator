@@ -17,27 +17,28 @@
 
 package org.openapitools.codegen.templating.mustache;
 
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.utils.CamelizeOption;
-
-import java.io.IOException;
-import java.io.Writer;
-
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
+import java.io.IOException;
+import java.io.Writer;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.utils.CamelizeOption;
+
 /**
  * Converts text in a fragment to camelCase.
  *
- * Register:
+ * <p>Register:
+ *
  * <pre>
  * additionalProperties.put("camelcase", new CamelCaseLambda());
  * </pre>
  *
  * Use:
+ *
  * <pre>
  * {{#camelcase}}{{name}}{{/camelcase}}
  * </pre>
@@ -73,12 +74,14 @@ public class CamelCaseLambda implements Mustache.Lambda {
         if (generator != null) {
             text = generator.sanitizeName(text);
             if (generator.reservedWords().contains(text)) {
-                // Escaping must be done *after* camelize, because generators may escape using characters removed by camelize function.
+                // Escaping must be done *after* camelize, because generators may escape using
+                // characters removed by camelize function.
                 text = generator.escapeReservedWord(text);
             }
 
             if (escapeParam) {
-                // NOTE: many generators call escapeReservedWord in toParamName, but we can't assume that's always the case.
+                // NOTE: many generators call escapeReservedWord in toParamName, but we can't assume
+                // that's always the case.
                 //       Here, we'll have to accept that we may be duplicating some work.
                 text = generator.toParamName(text);
             }

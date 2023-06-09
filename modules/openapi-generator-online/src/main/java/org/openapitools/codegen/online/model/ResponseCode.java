@@ -30,7 +30,8 @@ public class ResponseCode {
         setLink(link);
     }
 
-    @ApiModelProperty(value = "File download code",
+    @ApiModelProperty(
+            value = "File download code",
             example = "d40029be-eda6-4d62-b1ef-d05e2e91a72a")
     public String getCode() {
         return code;

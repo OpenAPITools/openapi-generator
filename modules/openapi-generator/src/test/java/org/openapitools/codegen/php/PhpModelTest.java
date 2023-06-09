@@ -20,28 +20,28 @@ package org.openapitools.codegen.php;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PhpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 @SuppressWarnings("static-method")
 public class PhpModelTest {
 
     @Test(description = "convert a simple php model")
     public void simpleModelTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("id", new IntegerSchema())
-                .addProperties("name", new StringSchema())
-                .addProperties("createdAt", new DateTimeSchema())
-                .addRequiredItem("id")
-                .addRequiredItem("name");
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties("id", new IntegerSchema())
+                        .addProperties("name", new StringSchema())
+                        .addProperties("createdAt", new DateTimeSchema())
+                        .addRequiredItem("id")
+                        .addRequiredItem("name");
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -52,7 +52,7 @@ public class PhpModelTest {
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 3);
         // {{imports}} is not used in template
-        //Assert.assertEquals(cm.imports.size(), 1);
+        // Assert.assertEquals(cm.imports.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
@@ -87,12 +87,12 @@ public class PhpModelTest {
 
     @Test(description = "convert a model with list property")
     public void listPropertyTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("id", new IntegerSchema())
-                .addProperties("urls", new ArraySchema()
-                        .items(new StringSchema()))
-                .addRequiredItem("id");
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties("id", new IntegerSchema())
+                        .addProperties("urls", new ArraySchema().items(new StringSchema()))
+                        .addRequiredItem("id");
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -126,11 +126,13 @@ public class PhpModelTest {
 
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("translations", new MapSchema()
-                        .additionalProperties(new StringSchema()))
-                .addRequiredItem("id");
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "translations",
+                                new MapSchema().additionalProperties(new StringSchema()))
+                        .addRequiredItem("id");
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -154,9 +156,10 @@ public class PhpModelTest {
 
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("children", new Schema().$ref("#/definitions/Children"));
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -178,10 +181,13 @@ public class PhpModelTest {
 
     @Test(description = "convert a model with complex list property")
     public void complexListProperty() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("children", new ArraySchema()
-                        .items(new Schema().$ref("#/definitions/Children")));
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "children",
+                                new ArraySchema()
+                                        .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -204,10 +210,14 @@ public class PhpModelTest {
 
     @Test(description = "convert a model with complex map property")
     public void complexMapSchema() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("children", new MapSchema()
-                        .additionalProperties(new Schema().$ref("#/definitions/Children")));
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "children",
+                                new MapSchema()
+                                        .additionalProperties(
+                                                new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -218,7 +228,8 @@ public class PhpModelTest {
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
         // {{imports}} is not used in template
-        //Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+        // Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(),
+        // 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
@@ -233,9 +244,10 @@ public class PhpModelTest {
 
     @Test(description = "convert an array model")
     public void arrayModelTest() {
-        final Schema model = new ArraySchema()
-                .items(new Schema().$ref("#/definitions/Children"))
-                .description("an array model");
+        final Schema model =
+                new ArraySchema()
+                        .items(new Schema().$ref("#/definitions/Children"))
+                        .description("an array model");
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -253,9 +265,10 @@ public class PhpModelTest {
 
     @Test(description = "convert a map model")
     public void mapModelTest() {
-        final Schema model = new Schema()
-                .description("a map model")
-                .additionalProperties(new Schema().$ref("#/definitions/Children"));
+        final Schema model =
+                new Schema()
+                        .description("a map model")
+                        .additionalProperties(new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -266,8 +279,9 @@ public class PhpModelTest {
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
         // {{imports}} is not used in template
-        //Assert.assertEquals(cm.imports.size(), 2);
-        //Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+        // Assert.assertEquals(cm.imports.size(), 2);
+        // Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(),
+        // 1);
     }
 
     @DataProvider(name = "modelNames")
@@ -297,13 +311,15 @@ public class PhpModelTest {
 
     @Test(description = "test enum array model")
     public void enumArrayModelTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec(
+                        "src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
         final Schema definition = schemas.get("EnumArrays");
 
-        Schema property =  (Schema) definition.getProperties().get("array_enum");
+        Schema property = (Schema) definition.getProperties().get("array_enum");
         CodegenProperty prope = codegen.fromProperty("array_enum", property);
         codegen.updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "ARRAY_ENUM[]");
@@ -311,11 +327,11 @@ public class PhpModelTest {
         Assert.assertTrue(prope.isEnum);
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList("fish", "crab"));
 
-        HashMap<String, Object> fish= new HashMap<String, Object>();
+        HashMap<String, Object> fish = new HashMap<String, Object>();
         fish.put("name", "FISH");
         fish.put("value", "\'fish\'");
         fish.put("isString", true);
-        HashMap<String, Object> crab= new HashMap<String, Object>();
+        HashMap<String, Object> crab = new HashMap<String, Object>();
         crab.put("name", "CRAB");
         crab.put("value", "\'crab\'");
         crab.put("isString", true);
@@ -325,19 +341,21 @@ public class PhpModelTest {
         Assert.assertEquals(prope.datatypeWithEnum, "ARRAY_ENUM[]");
         Assert.assertEquals(prope.enumName, "ARRAY_ENUM");
         Assert.assertTrue(prope.items.isEnum);
-        Assert.assertEquals(prope.items.allowableValues.get("values"), Arrays.asList("fish", "crab"));
+        Assert.assertEquals(
+                prope.items.allowableValues.get("values"), Arrays.asList("fish", "crab"));
         Assert.assertEquals(prope.items.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
-
     }
 
     @Test(description = "test enum model for values (numeric, string, etc)")
     public void enumModelValueTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec(
+                        "src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Schema definition = openAPI.getComponents().getSchemas().get("Enum_Test");
 
-        Schema property =  (Schema) definition.getProperties().get("enum_integer");
+        Schema property = (Schema) definition.getProperties().get("enum_integer");
         CodegenProperty prope = codegen.fromProperty("enum_integer", property);
         codegen.updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "ENUM_INTEGER");
@@ -371,7 +389,8 @@ public class PhpModelTest {
     // datetime (or primitive type) not yet supported in HTTP request body
     @Test(description = "returns DateTime when using `--model-name-prefix`")
     public void dateTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setModelNamePrefix("foo");
         codegen.setOpenAPI(openAPI);
@@ -386,22 +405,22 @@ public class PhpModelTest {
 
     @Test(description = "test @ character replacements used in Hydra")
     public void hydraModelTest() {
-        final Schema model = new Schema()
-                .description("a hydra model")
-                .addProperties("id", new IntegerSchema())
-                .addProperties("@id", new StringSchema())
-                .addProperties("type", new StringSchema())
-                .addProperties("@type", new StringSchema())
-                .addProperties("context", new StringSchema())
-                .addProperties("@context", new StringSchema())
-                .addRequiredItem("id");
+        final Schema model =
+                new Schema()
+                        .description("a hydra model")
+                        .addProperties("id", new IntegerSchema())
+                        .addProperties("@id", new StringSchema())
+                        .addProperties("type", new StringSchema())
+                        .addProperties("@type", new StringSchema())
+                        .addProperties("context", new StringSchema())
+                        .addProperties("@context", new StringSchema())
+                        .addRequiredItem("id");
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.vars.size(), 6);
-
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");

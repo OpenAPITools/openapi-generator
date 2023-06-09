@@ -16,6 +16,10 @@
 
 package org.openapitools.codegen.languages;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.List;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -23,12 +27,6 @@ import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
 
 public class GoEchoServerCodegen extends AbstractGoCodegen {
     protected String apiVersion = "1.0.0";
@@ -55,29 +53,22 @@ public class GoEchoServerCodegen extends AbstractGoCodegen {
     public GoEchoServerCodegen() {
         super();
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.noneOf(
-                        SecurityFeature.class
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie));
 
         outputFolder = OUTPUT_PATH;
         modelTemplateFiles.put("model.mustache", ".go");
@@ -91,25 +82,65 @@ public class GoEchoServerCodegen extends AbstractGoCodegen {
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // data type
-                        "string", "bool", "uint", "uint8", "uint16", "uint32", "uint64",
-                        "int", "int8", "int16", "int32", "int64", "float32", "float64",
-                        "complex64", "complex128", "rune", "byte", "uintptr",
-                        "break", "default", "func", "interface", "select",
-                        "case", "defer", "go", "map", "struct",
-                        "chan", "else", "goto", "package", "switch",
-                        "const", "fallthrough", "if", "range", "type",
-                        "continue", "for", "import", "return", "var", "error", "nil")
+                        "string",
+                        "bool",
+                        "uint",
+                        "uint8",
+                        "uint16",
+                        "uint32",
+                        "uint64",
+                        "int",
+                        "int8",
+                        "int16",
+                        "int32",
+                        "int64",
+                        "float32",
+                        "float64",
+                        "complex64",
+                        "complex128",
+                        "rune",
+                        "byte",
+                        "uintptr",
+                        "break",
+                        "default",
+                        "func",
+                        "interface",
+                        "select",
+                        "case",
+                        "defer",
+                        "go",
+                        "map",
+                        "struct",
+                        "chan",
+                        "else",
+                        "goto",
+                        "package",
+                        "switch",
+                        "const",
+                        "fallthrough",
+                        "if",
+                        "range",
+                        "type",
+                        "continue",
+                        "for",
+                        "import",
+                        "return",
+                        "var",
+                        "error",
+                        "nil")
                 // Added "error" as it's used so frequently that it may as well be a keyword
-        );
+                );
 
-        CliOption optServerPort = new CliOption("serverPort", "The network port the generated server binds to");
+        CliOption optServerPort =
+                new CliOption("serverPort", "The network port the generated server binds to");
         optServerPort.setType("int");
         optServerPort.defaultValue(Integer.toString(serverPort));
         cliOptions.add(optServerPort);
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
         OperationMap operations = objs.getOperations();
@@ -156,7 +187,11 @@ public class GoEchoServerCodegen extends AbstractGoCodegen {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_CLASS_PREFIX)) {
-            setEnumClassPrefix(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.ENUM_CLASS_PREFIX).toString()));
+            setEnumClassPrefix(
+                    Boolean.parseBoolean(
+                            additionalProperties
+                                    .get(CodegenConstants.ENUM_CLASS_PREFIX)
+                                    .toString()));
             if (enumClassPrefix) {
                 additionalProperties.put(CodegenConstants.ENUM_CLASS_PREFIX, true);
             }
@@ -176,10 +211,11 @@ public class GoEchoServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("openapi.mustache", ".docs/api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("hello-world.mustache", "models", "hello-world.go"));
         supportingFiles.add(new SupportingFile("go-mod.mustache", "", "go.mod"));
-        supportingFiles.add(new SupportingFile("handler-container.mustache", "handlers", "container.go"));
+        supportingFiles.add(
+                new SupportingFile("handler-container.mustache", "handlers", "container.go"));
         supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-                .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
     }
 }

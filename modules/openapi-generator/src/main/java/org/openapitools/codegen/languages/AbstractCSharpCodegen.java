@@ -17,13 +17,19 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache.Lambda;
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -35,14 +41,6 @@ import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -57,7 +55,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean netCoreProjectFileFlag = false;
     protected boolean nullReferenceTypesFlag = false;
 
-    protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
+    protected String modelPropertyNaming =
+            CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
     protected String licenseUrl = "http://localhost";
     protected String licenseName = "NoLicense";
@@ -82,7 +81,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected String sourceFolder = "src";
 
     // TODO: Add option for test folder output location. Nice to allow e.g. ./test instead of ./src.
-    //       This would require updating relative paths (e.g. path to main project file in test project file)
+    //       This would require updating relative paths (e.g. path to main project file in test
+    // project file)
     protected String testFolder = sourceFolder;
 
     protected Set<String> collectionTypes;
@@ -102,7 +102,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
     // special property keywords not allowed as these are the function names in the model files
-    protected Set<String> propertySpecialKeywords = new HashSet<>(Arrays.asList("ToString", "ToJson", "GetHashCode", "Equals", "ShouldSerializeToString"));
+    protected Set<String> propertySpecialKeywords =
+            new HashSet<>(
+                    Arrays.asList(
+                            "ToString",
+                            "ToJson",
+                            "GetHashCode",
+                            "Equals",
+                            "ShouldSerializeToString"));
 
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
@@ -118,88 +125,167 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         outputFolder = "generated-code" + File.separator + this.getName();
         embeddedTemplateDir = templateDir = this.getName();
 
-        collectionTypes = new HashSet<>(
-                Arrays.asList(
-                        "IList", "List",
-                        "ICollection", "Collection",
-                        "IEnumerable")
-        );
+        collectionTypes =
+                new HashSet<>(
+                        Arrays.asList("IList", "List", "ICollection", "Collection", "IEnumerable"));
 
-        mapTypes = new HashSet<>(
-                Arrays.asList("IDictionary", "Dictionary")
-        );
+        mapTypes = new HashSet<>(Arrays.asList("IDictionary", "Dictionary"));
 
-        // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
+        // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want
+        // lowercase comparisons.
         reservedWords.addAll(
                 Arrays.asList(
-                        // set "client" as a reserved word to avoid conflicts with Org.OpenAPITools.Client
-                        // this is a workaround and can be removed if c# api client is updated to use
+                        // set "client" as a reserved word to avoid conflicts with
+                        // Org.OpenAPITools.Client
+                        // this is a workaround and can be removed if c# api client is updated to
+                        // use
                         // fully qualified name
-                        "Client", "client", "parameter", "Configuration", "Version",
+                        "Client",
+                        "client",
+                        "parameter",
+                        "Configuration",
+                        "Version",
                         // local variable names in API methods (endpoints)
-                        "localVarPath", "localVarPathParams", "localVarQueryParams", "localVarHeaderParams",
-                        "localVarFormParams", "localVarFileParams", "localVarStatusCode", "localVarResponse",
-                        "localVarPostBody", "localVarHttpHeaderAccepts", "localVarHttpHeaderAccept",
-                        "localVarHttpContentTypes", "localVarHttpContentType",
+                        "localVarPath",
+                        "localVarPathParams",
+                        "localVarQueryParams",
+                        "localVarHeaderParams",
+                        "localVarFormParams",
+                        "localVarFileParams",
+                        "localVarStatusCode",
+                        "localVarResponse",
+                        "localVarPostBody",
+                        "localVarHttpHeaderAccepts",
+                        "localVarHttpHeaderAccept",
+                        "localVarHttpContentTypes",
+                        "localVarHttpContentType",
                         "localVarStatusCode",
                         // C# reserved words
-                        "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked",
-                        "class", "const", "continue", "decimal", "default", "delegate", "do", "double", "else",
-                        "enum", "event", "explicit", "extern", "false", "finally", "fixed", "float", "for",
-                        "foreach", "goto", "if", "implicit", "in", "int", "interface", "internal", "is", "lock",
-                        "long", "namespace", "new", "null", "object", "operator", "out", "override", "params",
-                        "private", "protected", "public", "readonly", "ref", "return", "sbyte", "sealed",
-                        "short", "sizeof", "stackalloc", "static", "string", "struct", "switch", "this", "throw",
-                        "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort", "using",
-                        "virtual", "void", "volatile", "while")
-        );
-
-        // TODO: Either include fully qualified names here or handle in DefaultCodegen via lastIndexOf(".") search
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
-                        "String",
-                        "string",
-                        "bool?",
+                        "abstract",
+                        "as",
+                        "base",
                         "bool",
-                        "double?",
-                        "double",
-                        "decimal?",
+                        "break",
+                        "byte",
+                        "case",
+                        "catch",
+                        "char",
+                        "checked",
+                        "class",
+                        "const",
+                        "continue",
                         "decimal",
-                        "int?",
-                        "int",
-                        "uint",
-                        "uint?",
-                        "long?",
-                        "long",
-                        "ulong",
-                        "ulong?",
-                        "float?",
+                        "default",
+                        "delegate",
+                        "do",
+                        "double",
+                        "else",
+                        "enum",
+                        "event",
+                        "explicit",
+                        "extern",
+                        "false",
+                        "finally",
+                        "fixed",
                         "float",
-                        "byte[]",
-                        "ICollection",
-                        "Collection",
-                        "List",
-                        "Dictionary",
-                        "DateTime?",
-                        "DateTime",
-                        "DateTimeOffset?",
-                        "DateTimeOffset",
-                        "Boolean",
-                        "Double",
-                        "Decimal",
-                        "Int32",
-                        "Int64",
-                        "Float",
-                        "Guid?",
-                        "Guid",
-                        "System.IO.Stream", // not really a primitive, we include it to avoid model import
-                        "Object")
-        );
+                        "for",
+                        "foreach",
+                        "goto",
+                        "if",
+                        "implicit",
+                        "in",
+                        "int",
+                        "interface",
+                        "internal",
+                        "is",
+                        "lock",
+                        "long",
+                        "namespace",
+                        "new",
+                        "null",
+                        "object",
+                        "operator",
+                        "out",
+                        "override",
+                        "params",
+                        "private",
+                        "protected",
+                        "public",
+                        "readonly",
+                        "ref",
+                        "return",
+                        "sbyte",
+                        "sealed",
+                        "short",
+                        "sizeof",
+                        "stackalloc",
+                        "static",
+                        "string",
+                        "struct",
+                        "switch",
+                        "this",
+                        "throw",
+                        "true",
+                        "try",
+                        "typeof",
+                        "uint",
+                        "ulong",
+                        "unchecked",
+                        "unsafe",
+                        "ushort",
+                        "using",
+                        "virtual",
+                        "void",
+                        "volatile",
+                        "while"));
+
+        // TODO: Either include fully qualified names here or handle in DefaultCodegen via
+        // lastIndexOf(".") search
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "String",
+                                "string",
+                                "bool?",
+                                "bool",
+                                "double?",
+                                "double",
+                                "decimal?",
+                                "decimal",
+                                "int?",
+                                "int",
+                                "uint",
+                                "uint?",
+                                "long?",
+                                "long",
+                                "ulong",
+                                "ulong?",
+                                "float?",
+                                "float",
+                                "byte[]",
+                                "ICollection",
+                                "Collection",
+                                "List",
+                                "Dictionary",
+                                "DateTime?",
+                                "DateTime",
+                                "DateTimeOffset?",
+                                "DateTimeOffset",
+                                "Boolean",
+                                "Double",
+                                "Decimal",
+                                "Int32",
+                                "Int64",
+                                "Float",
+                                "Guid?",
+                                "Guid",
+                                "System.IO.Stream", // not really a primitive, we include it to
+                                // avoid model import
+                                "Object"));
 
         instantiationTypes.put("array", "List");
         instantiationTypes.put("list", "List");
         instantiationTypes.put("map", "Dictionary");
-
 
         // Nullable types here assume C# 2 support is not part of base
         typeMapping = new HashMap<>();
@@ -227,14 +313,26 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("AnyType", "Object");
 
         // nullable type
-        nullableType = new HashSet<>(
-                Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
-                        "DateTime", "DateTimeOffset", "Guid")
-        );
+        nullableType =
+                new HashSet<>(
+                        Arrays.asList(
+                                "decimal",
+                                "bool",
+                                "int",
+                                "uint",
+                                "long",
+                                "ulong",
+                                "float",
+                                "double",
+                                "DateTime",
+                                "DateTimeOffset",
+                                "Guid"));
         // value Types
-        valueTypes = new HashSet<>(
-                Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double")
-        );
+        valueTypes =
+                new HashSet<>(
+                        Arrays.asList(
+                                "decimal", "bool", "int", "uint", "long", "ulong", "float",
+                                "double"));
 
         this.setSortParamsByRequiredFlag(true);
 
@@ -274,14 +372,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
     }
 
-
     @Override
     public void processOpts() {
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("CSHARP_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable CSHARP_POST_PROCESS_FILE not defined so the C# code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export CSHARP_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\" && export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg` (Linux/Mac). Note: replace /path/to with the location of uncrustify-rules.cfg");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info(
+                    "Environment variable CSHARP_POST_PROCESS_FILE not defined so the C# code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export CSHARP_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\" && export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg` (Linux/Mac). Note: replace /path/to with the location of uncrustify-rules.cfg");
+            LOGGER.info(
+                    "NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         // License info
@@ -322,8 +421,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-            LOGGER.warn(String.format(Locale.ROOT, "%s is not used by C# generators. Please use %s",
-                    CodegenConstants.INVOKER_PACKAGE, CodegenConstants.PACKAGE_NAME));
+            LOGGER.warn(
+                    String.format(
+                            Locale.ROOT,
+                            "%s is not used by C# generators. Please use %s",
+                            CodegenConstants.INVOKER_PACKAGE,
+                            CodegenConstants.PACKAGE_NAME));
         }
 
         // {{packageTitle}}
@@ -335,7 +438,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // {{packageProductName}}
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_PRODUCTNAME)) {
-            setPackageProductName((String) additionalProperties.get(CodegenConstants.PACKAGE_PRODUCTNAME));
+            setPackageProductName(
+                    (String) additionalProperties.get(CodegenConstants.PACKAGE_PRODUCTNAME));
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_PRODUCTNAME, packageProductName);
         }
@@ -356,7 +460,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // {{packageDescription}}
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_DESCRIPTION)) {
-            setPackageDescription((String) additionalProperties.get(CodegenConstants.PACKAGE_DESCRIPTION));
+            setPackageDescription(
+                    (String) additionalProperties.get(CodegenConstants.PACKAGE_DESCRIPTION));
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_DESCRIPTION, packageDescription);
         }
@@ -370,7 +475,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // {{packageCopyright}}
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_COPYRIGHT)) {
-            setPackageCopyright((String) additionalProperties.get(CodegenConstants.PACKAGE_COPYRIGHT));
+            setPackageCopyright(
+                    (String) additionalProperties.get(CodegenConstants.PACKAGE_COPYRIGHT));
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_COPYRIGHT, packageCopyright);
         }
@@ -384,7 +490,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // {{useDateTimeOffset}}
         if (additionalProperties.containsKey(CodegenConstants.USE_DATETIME_OFFSET)) {
-            useDateTimeOffset(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DATETIME_OFFSET));
+            useDateTimeOffset(
+                    convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DATETIME_OFFSET));
         } else {
             additionalProperties.put(CodegenConstants.USE_DATETIME_OFFSET, useDateTimeOffsetFlag);
         }
@@ -396,19 +503,23 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
 
         if (additionalProperties.containsKey(CodegenConstants.RETURN_ICOLLECTION)) {
-            setReturnICollection(convertPropertyToBooleanAndWriteBack(CodegenConstants.RETURN_ICOLLECTION));
+            setReturnICollection(
+                    convertPropertyToBooleanAndWriteBack(CodegenConstants.RETURN_ICOLLECTION));
         } else {
             additionalProperties.put(CodegenConstants.RETURN_ICOLLECTION, returnICollection);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.NETCORE_PROJECT_FILE)) {
-            setNetCoreProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.NETCORE_PROJECT_FILE));
+            setNetCoreProjectFileFlag(
+                    convertPropertyToBooleanAndWriteBack(CodegenConstants.NETCORE_PROJECT_FILE));
         } else {
             additionalProperties.put(CodegenConstants.NETCORE_PROJECT_FILE, netCoreProjectFileFlag);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES)) {
-            setNullableReferenceTypes(convertPropertyToBooleanAndWriteBack(CodegenConstants.NULLABLE_REFERENCE_TYPES));
+            setNullableReferenceTypes(
+                    convertPropertyToBooleanAndWriteBack(
+                            CodegenConstants.NULLABLE_REFERENCE_TYPES));
         }
 
         String zeroBasedEnums = "zeroBasedEnums";
@@ -417,43 +528,53 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
 
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
-            String useInterfacePrefix = additionalProperties.get(CodegenConstants.INTERFACE_PREFIX).toString();
+            String useInterfacePrefix =
+                    additionalProperties.get(CodegenConstants.INTERFACE_PREFIX).toString();
             if ("false".equals(useInterfacePrefix.toLowerCase(Locale.ROOT))) {
                 setInterfacePrefix("");
             } else if (!"true".equals(useInterfacePrefix.toLowerCase(Locale.ROOT))) {
-                // NOTE: if user passes "true" explicitly, we use the default I- prefix. The other supported case here is a custom prefix.
+                // NOTE: if user passes "true" explicitly, we use the default I- prefix. The other
+                // supported case here is a custom prefix.
                 setInterfacePrefix(sanitizeName(useInterfacePrefix));
             }
         }
 
         if (additionalProperties().containsKey(CodegenConstants.ENUM_NAME_SUFFIX)) {
-            setEnumNameSuffix(additionalProperties.get(CodegenConstants.ENUM_NAME_SUFFIX).toString());
+            setEnumNameSuffix(
+                    additionalProperties.get(CodegenConstants.ENUM_NAME_SUFFIX).toString());
         }
 
         if (additionalProperties().containsKey(CodegenConstants.ENUM_VALUE_SUFFIX)) {
-            setEnumValueSuffix(additionalProperties.get(CodegenConstants.ENUM_VALUE_SUFFIX).toString());
+            setEnumValueSuffix(
+                    additionalProperties.get(CodegenConstants.ENUM_VALUE_SUFFIX).toString());
         }
 
-        // This either updates additionalProperties with the above fixes, or sets the default if the option was not specified.
+        // This either updates additionalProperties with the above fixes, or sets the default if the
+        // option was not specified.
         additionalProperties.put(CodegenConstants.INTERFACE_PREFIX, interfacePrefix);
 
         // add lambda for mustache templates
-        additionalProperties.put("lambdaCref", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                String content = fragment.execute();
-                content = content.trim().replace("<", "{");
-                content = content.replace(">", "}");
-                content = content.replace("{string}", "{String}");
-                writer.write(content);
-            }
-        });
+        additionalProperties.put(
+                "lambdaCref",
+                new Mustache.Lambda() {
+                    @Override
+                    public void execute(Template.Fragment fragment, Writer writer)
+                            throws IOException {
+                        String content = fragment.execute();
+                        content = content.trim().replace("<", "{");
+                        content = content.replace(">", "}");
+                        content = content.replace("{string}", "{String}");
+                        writer.write(content);
+                    }
+                });
     }
 
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-                .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
+                .put(
+                        "camelcase_param",
+                        new CamelCaseLambda().generator(this).escapeAsParamName(true))
                 .put("required", new RequiredParameterLambda().generator(this))
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda());
@@ -463,18 +584,27 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
         if (property.isInnerEnum && property.items != null) {
-            // format maps of inner enums to include the classname eg: Dictionary<string, MapTest.InnerEnum>
-            property.datatypeWithEnum = property.datatypeWithEnum.replace(property.items.datatypeWithEnum, model.classname + "." + property.items.datatypeWithEnum);
+            // format maps of inner enums to include the classname eg: Dictionary<string,
+            // MapTest.InnerEnum>
+            property.datatypeWithEnum =
+                    property.datatypeWithEnum.replace(
+                            property.items.datatypeWithEnum,
+                            model.classname + "." + property.items.datatypeWithEnum);
             property.dataType = property.datatypeWithEnum;
         }
 
-        if (property.isEnum && !property.vendorExtensions.containsKey(this.zeroBasedEnumVendorExtension)) {
+        if (property.isEnum
+                && !property.vendorExtensions.containsKey(this.zeroBasedEnumVendorExtension)) {
             if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
                 property.vendorExtensions.put(this.zeroBasedEnumVendorExtension, true);
             } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
                 if (property.allowableValues.containsKey("values")) {
-                    final List<Object> allowableValues = (List<Object>) property.allowableValues.get("values");
-                    boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
+                    final List<Object> allowableValues =
+                            (List<Object>) property.allowableValues.get("values");
+                    boolean isZeroBased =
+                            String.valueOf(allowableValues.get(0))
+                                    .toLowerCase(Locale.ROOT)
+                                    .equals("unknown");
                     property.vendorExtensions.put(this.zeroBasedEnumVendorExtension, isZeroBased);
                 }
             }
@@ -498,8 +628,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     cm.vendorExtensions.put(this.zeroBasedEnumVendorExtension, true);
                 } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
                     if (cm.allowableValues.containsKey("values")) {
-                        final List<Object> allowableValues = (List<Object>) cm.allowableValues.get("values");
-                        boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
+                        final List<Object> allowableValues =
+                                (List<Object>) cm.allowableValues.get("values");
+                        boolean isZeroBased =
+                                String.valueOf(allowableValues.get(0))
+                                        .toLowerCase(Locale.ROOT)
+                                        .equals("unknown");
                         cm.vendorExtensions.put(this.zeroBasedEnumVendorExtension, isZeroBased);
                     }
                 }
@@ -510,7 +644,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     /**
-     * Invoked by {@link DefaultGenerator} after all models have been post-processed, allowing for a last pass of codegen-specific model cleanup.
+     * Invoked by {@link DefaultGenerator} after all models have been post-processed, allowing for a
+     * last pass of codegen-specific model cleanup.
      *
      * @param objs Current state of codegen object model.
      * @return An in-place modified state of the codegen object model.
@@ -562,20 +697,24 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return processed;
     }
 
-    private void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
+    private void patchProperty(
+            Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
         if (enumRefs.containsKey(property.dataType)) {
             // Handle any enum properties referred to by $ref.
-            // This is different in C# than most other generators, because enums in C# are compiled to integral types,
+            // This is different in C# than most other generators, because enums in C# are compiled
+            // to integral types,
             // while enums in many other languages are true objects.
             CodegenModel refModel = enumRefs.get(property.dataType);
             property.allowableValues = refModel.allowableValues;
             property.isEnum = true;
 
-            // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
+            // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh
+            // with C#.
             property.isPrimitiveType = true;
         }
 
-        if (!property.isContainer && (nullableType.contains(property.dataType) || property.isEnum)) {
+        if (!property.isContainer
+                && (nullableType.contains(property.dataType) || property.isEnum)) {
             property.vendorExtensions.put("x-csharp-value-type", true);
         }
 
@@ -594,11 +733,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // fix incorrect data types for maps of maps
         if (property.datatypeWithEnum.endsWith(", List>") && property.items != null) {
-            property.datatypeWithEnum = property.datatypeWithEnum.replace(", List>", ", " + property.items.datatypeWithEnum + ">");
+            property.datatypeWithEnum =
+                    property.datatypeWithEnum.replace(
+                            ", List>", ", " + property.items.datatypeWithEnum + ">");
             property.dataType = property.datatypeWithEnum;
         }
         if (property.datatypeWithEnum.endsWith(", Dictionary>") && property.items != null) {
-            property.datatypeWithEnum = property.datatypeWithEnum.replace(", Dictionary>", ", " + property.items.datatypeWithEnum + ">");
+            property.datatypeWithEnum =
+                    property.datatypeWithEnum.replace(
+                            ", Dictionary>", ", " + property.items.datatypeWithEnum + ">");
             property.dataType = property.datatypeWithEnum;
         }
 
@@ -608,9 +751,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
     }
 
-    /**
-     * Mitigates https://github.com/OpenAPITools/openapi-generator/issues/13709
-     */
+    /** Mitigates https://github.com/OpenAPITools/openapi-generator/issues/13709 */
     private void removeCircularReferencesInComposedSchemas(CodegenModel cm) {
         cm.anyOf.removeIf(anyOf -> anyOf.equals(cm.classname));
         cm.oneOf.removeIf(oneOf -> oneOf.equals(cm.classname));
@@ -643,9 +784,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // keep isString true so that the index will be used as the enum value instead of a string
         // this is inline with C# enums with string values
         if ("string?".equals(dataType)) {
-            enumVars.forEach((enumVar) -> {
-                enumVar.put("isString", true);
-            });
+            enumVars.forEach(
+                    (enumVar) -> {
+                        enumVar.put("isString", true);
+                    });
         }
 
         return enumVars;
@@ -664,9 +806,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         super.updateCodegenPropertyEnum(var);
 
-        // Because C# uses nullable primitives for datatype, and datatype is used in DefaultCodegen for determining enum-ness, guard against weirdness here.
+        // Because C# uses nullable primitives for datatype, and datatype is used in DefaultCodegen
+        // for determining enum-ness, guard against weirdness here.
         if (var.isEnum) {
-            if ("byte".equals(var.dataFormat)) {// C# Actually supports byte and short enums.
+            if ("byte".equals(var.dataFormat)) { // C# Actually supports byte and short enums.
                 var.vendorExtensions.put("x-enum-byte", true);
                 var.isString = false;
                 var.isLong = false;
@@ -679,7 +822,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 var.isLong = true;
                 var.isString = false;
                 var.isInteger = false;
-            } else {// C# doesn't support non-integral enums, so we need to treat everything else as strings (e.g. to not lose precision or data integrity)
+            } else { // C# doesn't support non-integral enums, so we need to treat everything else
+                // as strings (e.g. to not lose precision or data integrity)
                 var.isString = true;
                 var.isInteger = false;
                 var.isLong = false;
@@ -688,7 +832,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         if (objs != null) {
             OperationMap operations = objs.getOperations();
@@ -709,21 +854,22 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         if (this.collectionTypes.contains(typeMapping)) {
                             operation.isArray = true;
                             operation.returnContainer = operation.returnType;
-                            if (this.returnICollection && (
-                                    typeMapping.startsWith("List") ||
-                                            typeMapping.startsWith("Collection"))) {
+                            if (this.returnICollection
+                                    && (typeMapping.startsWith("List")
+                                            || typeMapping.startsWith("Collection"))) {
                                 // NOTE: ICollection works for both List<T> and Collection<T>
                                 int genericStart = typeMapping.indexOf("<");
                                 if (genericStart > 0) {
-                                    operation.returnType = "ICollection" + typeMapping.substring(genericStart);
+                                    operation.returnType =
+                                            "ICollection" + typeMapping.substring(genericStart);
                                 }
                             }
                         } else {
                             operation.returnContainer = operation.returnType;
-                            operation.isMap = this.mapTypes.stream().anyMatch(t -> typeMapping.startsWith(t));
+                            operation.isMap =
+                                    this.mapTypes.stream().anyMatch(t -> typeMapping.startsWith(t));
                         }
                     }
-
 
                     // check if the payload is json and set x-is-json accordingly
                     if (operation.consumes != null) {
@@ -741,9 +887,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         for (Map<String, String> example : operation.examples) {
                             for (Map.Entry<String, String> entry : example.entrySet()) {
                                 // Replace " with \", \r, \n with \\r, \\n
-                                String val = entry.getValue().replace("\"", "\\\"")
-                                        .replace("\r", "\\r")
-                                        .replace("\n", "\\n");
+                                String val =
+                                        entry.getValue()
+                                                .replace("\"", "\\\"")
+                                                .replace("\r", "\\r")
+                                                .replace("\n", "\\n");
                                 entry.setValue(val);
                             }
                         }
@@ -840,7 +988,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // default noop
     }
 
-    private void updateCodegenParametersEnum(List<CodegenParameter> parameters, List<ModelMap> allModels) {
+    private void updateCodegenParametersEnum(
+            List<CodegenParameter> parameters, List<ModelMap> allModels) {
         for (CodegenParameter parameter : parameters) {
             CodegenModel model = null;
             for (ModelMap modelHashMap : allModels) {
@@ -865,7 +1014,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 parameter.vendorExtensions.put("x-csharp-value-type", true);
             }
 
-            if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
+            if (!parameter.required
+                    && parameter.vendorExtensions.get("x-csharp-value-type") != null) { // optional
                 parameter.dataType = parameter.dataType + "?";
             }
         }
@@ -873,12 +1023,24 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + apiPackage();
+        return outputFolder
+                + File.separator
+                + sourceFolder
+                + File.separator
+                + packageName
+                + File.separator
+                + apiPackage();
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + modelPackage();
+        return outputFolder
+                + File.separator
+                + sourceFolder
+                + File.separator
+                + packageName
+                + File.separator
+                + modelPackage();
     }
 
     @Override
@@ -889,20 +1051,27 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toOperationId(String operationId) {
-        // throw exception if method name is empty (should not occur as an auto-generated method name will be used)
+        // throw exception if method name is empty (should not occur as an auto-generated method
+        // name will be used)
         if (StringUtils.isEmpty(operationId)) {
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn(
+                    "{} (starting with a number) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -958,18 +1127,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public String escapeReservedWord(CodegenModel model, String name) {
         name = this.escapeReservedWord(name);
 
-        return name.equalsIgnoreCase(model.getClassname())
-            ? "var" + camelize(name)
-            : name;
+        return name.equalsIgnoreCase(model.getClassname()) ? "var" + camelize(name) : name;
     }
 
     @Override
     public String escapeReservedWord(String name) {
-        if (reservedWords().contains(name) ||
-                reservedWords().contains(name.toLowerCase(Locale.ROOT)) ||
-                reservedWords().contains(camelize(sanitizeName(name))) ||
-                isReservedWord(name) ||
-                name.matches("^\\d.*")) {
+        if (reservedWords().contains(name)
+                || reservedWords().contains(name.toLowerCase(Locale.ROOT))
+                || reservedWords().contains(camelize(sanitizeName(name)))
+                || isReservedWord(name)
+                || name.matches("^\\d.*")) {
             name = "var" + camelize(name);
         }
         return name;
@@ -983,9 +1150,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toExampleValue(Schema p) {
-        return p.getExample() == null
-            ? null
-            : p.getExample().toString();
+        return p.getExample() == null ? null : p.getExample().toString();
     }
 
     /**
@@ -1014,7 +1179,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     return p.getDefault().toString() + "F";
                 } else if (ModelUtils.isDoubleSchema(p)) { // double
                     return p.getDefault().toString() + "D";
-                } else {    // decimal
+                } else { // decimal
                     return p.getDefault().toString() + "M";
                 }
             }
@@ -1039,7 +1204,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     protected boolean isReservedWord(String word) {
-        // NOTE: This differs from super's implementation in that C# does _not_ want case insensitive matching.
+        // NOTE: This differs from super's implementation in that C# does _not_ want case
+        // insensitive matching.
         return reservedWords.contains(word);
     }
 
@@ -1057,7 +1223,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         String type;
 
         if (openAPIType == null) {
-            LOGGER.error("OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.", p.getName());
+            LOGGER.error(
+                    "OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.",
+                    p.getName());
             openAPIType = "UNKNOWN_OPENAPI_TYPE";
         }
 
@@ -1075,7 +1243,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     /**
-     * Provides C# strongly typed declaration for simple arrays of some type and arrays of arrays of some type.
+     * Provides C# strongly typed declaration for simple arrays of some type and arrays of arrays of
+     * some type.
      *
      * @param arr The input array property
      * @return The type declaration when the type is an array of arrays.
@@ -1138,15 +1307,21 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    name,
+                    camelize("model_" + name));
             name = camelize("model_" + name); // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+            LOGGER.warn(
+                    "{} (model name starts with number) cannot be used as model name. Renamed to {}",
+                    name,
                     camelize("model_" + name));
-            name = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
+            name = camelize("model_" + name); // e.g. 200Response => Model200Response (after
+            // camelize)
         }
 
         // store in cache
@@ -1281,13 +1456,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        // C# only supports enums as literals for int, int?, long, long?, byte, and byte?. All else must be treated as strings.
+        // C# only supports enums as literals for int, int?, long, long?, byte, and byte?. All else
+        // must be treated as strings.
         // Per: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/enum
         // The approved types for an enum are byte, sbyte, short, ushort, int, uint, long, or ulong.
         // but we're not supporting unsigned integral types or shorts.
-        if (datatype.startsWith("int") || datatype.startsWith("uint") ||
-                datatype.startsWith("long") || datatype.startsWith("ulong") ||
-                datatype.startsWith("byte")) {
+        if (datatype.startsWith("int")
+                || datatype.startsWith("uint")
+                || datatype.startsWith("long")
+                || datatype.startsWith("ulong")
+                || datatype.startsWith("byte")) {
             return value;
         }
 
@@ -1341,10 +1519,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public boolean isDataTypeString(String dataType) {
-        // also treat double/decimal/float as "string" in enum so that the values (e.g. 2.8) get double-quoted
-        return "String".equalsIgnoreCase(dataType) ||
-                "double?".equals(dataType) || "decimal?".equals(dataType) || "float?".equals(dataType) ||
-                "double".equals(dataType) || "decimal".equals(dataType) || "float".equals(dataType);
+        // also treat double/decimal/float as "string" in enum so that the values (e.g. 2.8) get
+        // double-quoted
+        return "String".equalsIgnoreCase(dataType)
+                || "double?".equals(dataType)
+                || "decimal?".equals(dataType)
+                || "float?".equals(dataType)
+                || "double".equals(dataType)
+                || "decimal".equals(dataType)
+                || "float".equals(dataType);
     }
 
     /**
@@ -1353,7 +1536,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      * @param var property
      * @return true if property is a value type
      */
-
     protected boolean isValueType(CodegenProperty var) {
         return (valueTypes.contains(var.dataType) || var.isEnum);
     }
@@ -1364,7 +1546,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         boolean hasAllowableValues = p.allowableValues != null && !p.allowableValues.isEmpty();
         if (hasAllowableValues) {
-            //support examples for inline enums
+            // support examples for inline enums
             final List<Object> values = (List<Object>) p.allowableValues.get("values");
             example = String.valueOf(values.get(0));
         } else if (p.defaultValue == null) {
@@ -1415,7 +1597,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             if (example == null) {
                 example = "/path/to/file.txt";
             }
-            example = "new System.IO.MemoryStream(System.IO.File.ReadAllBytes(\"" + escapeText(example) + "\"))";
+            example =
+                    "new System.IO.MemoryStream(System.IO.File.ReadAllBytes(\""
+                            + escapeText(example)
+                            + "\"))";
         } else if (p.isByteArray) {
             if (example == null) {
                 example = "BYTE_ARRAY_DATA_HERE";
@@ -1451,7 +1636,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 example = "new Uri(\"" + example + "\")";
             }
         } else if (hasAllowableValues) {
-            //parameter is enum defined as a schema component
+            // parameter is enum defined as a schema component
             example = "(" + type + ") \"" + example + "\"";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
@@ -1492,10 +1677,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // TODO: instead of appending the ?
         // use isNullable, OptionalParameterLambda, or RequiredParameterLambda
-        if (!parameter.required && (nullReferenceTypesFlag || nullableType.contains(parameter.dataType))) {
-            parameter.dataType = parameter.dataType.endsWith("?")
-                    ? parameter.dataType
-                    : parameter.dataType + "?";
+        if (!parameter.required
+                && (nullReferenceTypesFlag || nullableType.contains(parameter.dataType))) {
+            parameter.dataType =
+                    parameter.dataType.endsWith("?")
+                            ? parameter.dataType
+                            : parameter.dataType + "?";
         }
     }
 
@@ -1517,12 +1704,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                    LOGGER.error(
+                            "Error running the command ({}). Exit code: {}", command, exitValue);
                 } else {
                     LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                LOGGER.error(
+                        "Error running the command ({}). Exception: {}", command, e.getMessage());
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
@@ -1551,5 +1740,4 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         return pattern;
     }
-
 }

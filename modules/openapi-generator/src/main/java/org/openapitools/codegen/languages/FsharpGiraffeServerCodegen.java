@@ -16,26 +16,24 @@
 
 package org.openapitools.codegen.languages;
 
+import static java.util.UUID.randomUUID;
+
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
-
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.meta.GeneratorMetadata;
-import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.utils.URLPathUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.net.URL;
 import java.util.Locale;
 import java.util.Map;
-
-import static java.util.UUID.randomUUID;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.utils.URLPathUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
 
@@ -62,11 +60,11 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     public FsharpGiraffeServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(
+                features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         modelPackage = "Model";
 
@@ -83,71 +81,67 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
         cliOptions.clear();
 
         // CLI options
-        addOption(CodegenConstants.LICENSE_URL,
-                CodegenConstants.LICENSE_URL_DESC,
-                licenseUrl);
+        addOption(CodegenConstants.LICENSE_URL, CodegenConstants.LICENSE_URL_DESC, licenseUrl);
 
-        addOption(CodegenConstants.LICENSE_NAME,
-                CodegenConstants.LICENSE_NAME_DESC,
-                licenseName);
+        addOption(CodegenConstants.LICENSE_NAME, CodegenConstants.LICENSE_NAME_DESC, licenseName);
 
-        addOption(CodegenConstants.PACKAGE_COPYRIGHT,
+        addOption(
+                CodegenConstants.PACKAGE_COPYRIGHT,
                 CodegenConstants.PACKAGE_COPYRIGHT_DESC,
                 packageCopyright);
 
-        addOption(CodegenConstants.PACKAGE_AUTHORS,
+        addOption(
+                CodegenConstants.PACKAGE_AUTHORS,
                 CodegenConstants.PACKAGE_AUTHORS_DESC,
                 packageAuthors);
 
-        addOption(CodegenConstants.PACKAGE_TITLE,
-                CodegenConstants.PACKAGE_TITLE_DESC,
-                packageTitle);
+        addOption(
+                CodegenConstants.PACKAGE_TITLE, CodegenConstants.PACKAGE_TITLE_DESC, packageTitle);
 
-        addOption(CodegenConstants.PACKAGE_NAME,
+        addOption(
+                CodegenConstants.PACKAGE_NAME,
                 "F# module name (convention: Title.Case).",
                 packageName);
 
-        addOption(CodegenConstants.PACKAGE_VERSION,
-                "F# package version.",
-                packageVersion);
+        addOption(CodegenConstants.PACKAGE_VERSION, "F# package version.", packageVersion);
 
-        addOption(CodegenConstants.OPTIONAL_PROJECT_GUID,
+        addOption(
+                CodegenConstants.OPTIONAL_PROJECT_GUID,
                 CodegenConstants.OPTIONAL_PROJECT_GUID_DESC,
                 null);
 
-        addOption(CodegenConstants.SOURCE_FOLDER,
-                CodegenConstants.SOURCE_FOLDER_DESC,
-                sourceFolder);
+        addOption(
+                CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
 
         // CLI Switches
-        addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
+        addSwitch(
+                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC,
                 sortParamsByRequiredFlag);
 
-        addSwitch(CodegenConstants.USE_DATETIME_OFFSET,
+        addSwitch(
+                CodegenConstants.USE_DATETIME_OFFSET,
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
                 useDateTimeOffsetFlag);
 
-        addSwitch(CodegenConstants.USE_COLLECTION,
+        addSwitch(
+                CodegenConstants.USE_COLLECTION,
                 CodegenConstants.USE_COLLECTION_DESC,
                 useCollection);
 
-        addSwitch(CodegenConstants.RETURN_ICOLLECTION,
+        addSwitch(
+                CodegenConstants.RETURN_ICOLLECTION,
                 CodegenConstants.RETURN_ICOLLECTION_DESC,
                 returnICollection);
 
-        addSwitch(USE_SWASHBUCKLE,
+        addSwitch(
+                USE_SWASHBUCKLE,
                 "Uses the Swashbuckle.AspNetCore NuGet package for documentation.",
                 useSwashbuckle);
 
-        addSwitch(GENERATE_BODY,
-                "Generates method body.",
-                generateBody);
+        addSwitch(GENERATE_BODY, "Generates method body.", generateBody);
 
-        addOption(BUILD_TARGET,
-                "Target the build for a program or library.",
-                buildTarget);
-
+        addOption(BUILD_TARGET, "Target the build for a program or library.", buildTarget);
     }
 
     @Override
@@ -178,7 +172,8 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
         super.processOpts();
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_GUID)) {
-            setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
+            setPackageGuid(
+                    (String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
         }
         additionalProperties.put("packageGuid", packageGuid);
 
@@ -198,12 +193,18 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
         supportingFiles.add(new SupportingFile("build.bat.mustache", projectFolder, "build.bat"));
         supportingFiles.add(new SupportingFile("README.mustache", projectFolder, "README.md"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", projectFolder, ".gitignore"));
-        supportingFiles.add(new SupportingFile("Project.fsproj.mustache", sourceFolder, packageName + ".fsproj"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "Project.fsproj.mustache", sourceFolder, packageName + ".fsproj"));
         supportingFiles.add(new SupportingFile("Program.mustache", sourceFolder, "Program.fs"));
-        supportingFiles.add(new SupportingFile("AuthSchemes.mustache", authFolder, "AuthSchemes.fs"));
+        supportingFiles.add(
+                new SupportingFile("AuthSchemes.mustache", authFolder, "AuthSchemes.fs"));
         supportingFiles.add(new SupportingFile("Helpers.mustache", helperFolder, "Helpers.fs"));
-        supportingFiles.add(new SupportingFile("CustomHandlers.mustache", implFolder, "CustomHandlers.fs"));
-        supportingFiles.add(new SupportingFile("Project.Tests.fsproj.mustache", testFolder, packageName + "Tests.fsproj"));
+        supportingFiles.add(
+                new SupportingFile("CustomHandlers.mustache", implFolder, "CustomHandlers.fs"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "Project.Tests.fsproj.mustache", testFolder, packageName + "Tests.fsproj"));
         supportingFiles.add(new SupportingFile("TestHelper.mustache", testFolder, "TestHelper.fs"));
 
         // TODO - support Swashbuckle
@@ -245,7 +246,6 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
         return result;
     }
 
-
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateJSONSpecFile(objs);
@@ -262,17 +262,24 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
             String original = operation.path;
             operation.path = operation.path.replace("?", "/");
             if (!original.equals(operation.path)) {
-                LOGGER.warn("Normalized {} to {}. Please verify generated source.", original, operation.path);
+                LOGGER.warn(
+                        "Normalized {} to {}. Please verify generated source.",
+                        original,
+                        operation.path);
             }
         }
 
         // Converts, for example, PUT to HttpPut for controller attributes
-        operation.httpMethod = "Http" + operation.httpMethod.charAt(0) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
+        operation.httpMethod =
+                "Http"
+                        + operation.httpMethod.charAt(0)
+                        + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
     }
 
     @Override
     public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
-        // To avoid unexpected behaviors when options are passed programmatically such as { "useCollection": "" }
+        // To avoid unexpected behaviors when options are passed programmatically such as {
+        // "useCollection": "" }
         return super.processCompiler(compiler).emptyStringIsFalse(true);
     }
 
@@ -283,14 +290,21 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Nick Fisher (https://github.com/nmfisher)    #");
-        System.out.println("# Please support his work directly via https://paypal.me/nickfisher1984 \uD83D\uDE4F     #");
-        System.out.println("################################################################################");
+        System.out.println(
+                "################################################################################");
+        System.out.println(
+                "# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println(
+                "# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println(
+                "# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println(
+                "#                                                                              #");
+        System.out.println(
+                "# This generator's contributed by Nick Fisher (https://github.com/nmfisher)    #");
+        System.out.println(
+                "# Please support his work directly via https://paypal.me/nickfisher1984 \uD83D\uDE4F     #");
+        System.out.println(
+                "################################################################################");
     }
-
 }

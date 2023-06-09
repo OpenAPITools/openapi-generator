@@ -16,10 +16,12 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.collect.ArrayListMultimap;
@@ -35,6 +37,9 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -47,21 +52,18 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
-public abstract class AbstractPythonConnexionServerCodegen extends AbstractPythonCodegen implements CodegenConfig {
+public abstract class AbstractPythonConnexionServerCodegen extends AbstractPythonCodegen
+        implements CodegenConfig {
     private static class PythonBooleanSerializer extends JsonSerializer<Boolean> {
         @Override
-        public void serialize(Boolean value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+        public void serialize(Boolean value, JsonGenerator gen, SerializerProvider serializers)
+                throws IOException {
             gen.writeRawValue(value ? "True" : "False");
         }
     }
 
-    private final Logger LOGGER = LoggerFactory.getLogger(AbstractPythonConnexionServerCodegen.class);
+    private final Logger LOGGER =
+            LoggerFactory.getLogger(AbstractPythonConnexionServerCodegen.class);
 
     public static final String CONTROLLER_PACKAGE = "controllerPackage";
     public static final String DEFAULT_CONTROLLER = "defaultController";
@@ -88,10 +90,12 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     protected boolean usePythonSrcRootInImports = Boolean.FALSE;
     protected boolean moveTestsUnderPythonSrcRoot = Boolean.FALSE;
 
-    public AbstractPythonConnexionServerCodegen(String templateDirectory, boolean fixBodyNameValue) {
+    public AbstractPythonConnexionServerCodegen(
+            String templateDirectory, boolean fixBodyNameValue) {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(
+                features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         fixBodyName = fixBodyNameValue;
         modelPackage = "models";
@@ -101,7 +105,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         simpleModule.addSerializer(Boolean.class, new PythonBooleanSerializer());
         MAPPER.registerModule(simpleModule);
 
-        // TODO may remove these later to default to the setting in abstract python base class instead
+        // TODO may remove these later to default to the setting in abstract python base class
+        // instead
         languageSpecificPrimitives.add("List");
         languageSpecificPrimitives.add("Dict");
         typeMapping.put("array", "List");
@@ -132,7 +137,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
+        supportingFiles.add(
+                new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
         supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
 
         regexModifiers = new HashMap<Character, String>();
@@ -143,36 +149,53 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         regexModifiers.put('u', "UNICODE");
         regexModifiers.put('x', "VERBOSE");
 
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
-                .defaultValue("openapi_server"));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "python package version.")
-                .defaultValue("1.0.0"));
-        cliOptions.add(new CliOption(CONTROLLER_PACKAGE, "controller package").
-                defaultValue("controllers"));
-        cliOptions.add(new CliOption(DEFAULT_CONTROLLER, "default controller").
-                defaultValue("default_controller"));
-        cliOptions.add(new CliOption("serverPort", "TCP port to listen to in app.run").
-                defaultValue("8080"));
-        cliOptions.add(CliOption.newBoolean(FEATURE_CORS, "use flask-cors for handling CORS requests").
-                defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(CliOption.newBoolean(USE_NOSE, "use the nose test framework").
-                defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(PYTHON_SRC_ROOT, "put python sources in this subdirectory of output folder (defaults to \"\" for). Use this for src/ layout.").
-                defaultValue(""));
-        cliOptions.add(new CliOption(USE_PYTHON_SRC_ROOT_IN_IMPORTS, "include pythonSrcRoot in import namespaces.").
-                defaultValue("false"));
-        cliOptions.add(new CliOption(MOVE_TESTS_UNDER_PYTHON_SRC_ROOT, "generates test under the pythonSrcRoot folder.")
-            .defaultValue("false"));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.PACKAGE_NAME,
+                                "python package name (convention: snake_case).")
+                        .defaultValue("openapi_server"));
+        cliOptions.add(
+                new CliOption(CodegenConstants.PACKAGE_VERSION, "python package version.")
+                        .defaultValue("1.0.0"));
+        cliOptions.add(
+                new CliOption(CONTROLLER_PACKAGE, "controller package")
+                        .defaultValue("controllers"));
+        cliOptions.add(
+                new CliOption(DEFAULT_CONTROLLER, "default controller")
+                        .defaultValue("default_controller"));
+        cliOptions.add(
+                new CliOption("serverPort", "TCP port to listen to in app.run")
+                        .defaultValue("8080"));
+        cliOptions.add(
+                CliOption.newBoolean(FEATURE_CORS, "use flask-cors for handling CORS requests")
+                        .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(
+                CliOption.newBoolean(USE_NOSE, "use the nose test framework")
+                        .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                PYTHON_SRC_ROOT,
+                                "put python sources in this subdirectory of output folder (defaults to \"\" for). Use this for src/ layout.")
+                        .defaultValue(""));
+        cliOptions.add(
+                new CliOption(
+                                USE_PYTHON_SRC_ROOT_IN_IMPORTS,
+                                "include pythonSrcRoot in import namespaces.")
+                        .defaultValue("false"));
+        cliOptions.add(
+                new CliOption(
+                                MOVE_TESTS_UNDER_PYTHON_SRC_ROOT,
+                                "generates test under the pythonSrcRoot folder.")
+                        .defaultValue("false"));
     }
 
-    protected void addSupportingFiles() {
-    }
+    protected void addSupportingFiles() {}
 
     @Override
     public void processOpts() {
         super.processOpts();
 
-        //apiTemplateFiles.clear();
+        // apiTemplateFiles.clear();
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
@@ -204,10 +227,12 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             setUseNose(String.valueOf(additionalProperties.get(USE_NOSE)));
         }
         if (additionalProperties.containsKey(USE_PYTHON_SRC_ROOT_IN_IMPORTS)) {
-            setUsePythonSrcRootInImports(String.valueOf(additionalProperties.get(USE_PYTHON_SRC_ROOT_IN_IMPORTS)));
+            setUsePythonSrcRootInImports(
+                    String.valueOf(additionalProperties.get(USE_PYTHON_SRC_ROOT_IN_IMPORTS)));
         }
         if (additionalProperties.containsKey(MOVE_TESTS_UNDER_PYTHON_SRC_ROOT)) {
-            setMoveTestsUnderPythonSrcRoot(String.valueOf(additionalProperties.get(MOVE_TESTS_UNDER_PYTHON_SRC_ROOT)));
+            setMoveTestsUnderPythonSrcRoot(
+                    String.valueOf(additionalProperties.get(MOVE_TESTS_UNDER_PYTHON_SRC_ROOT)));
         }
         if (additionalProperties.containsKey(PYTHON_SRC_ROOT)) {
             String pythonSrcRoot = (String) additionalProperties.get(PYTHON_SRC_ROOT);
@@ -228,12 +253,33 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
 
         supportingFiles.add(new SupportingFile("__main__.mustache", packagePath(), "__main__.py"));
         supportingFiles.add(new SupportingFile("util.mustache", packagePath(), "util.py"));
-        supportingFiles.add(new SupportingFile("typing_utils.mustache", packagePath(), "typing_utils.py"));
-        supportingFiles.add(new SupportingFile("__init__.mustache", packagePath() + File.separatorChar + packageToPath(controllerPackage), "__init__.py"));
-        supportingFiles.add(new SupportingFile("security_controller_.mustache", packagePath() + File.separatorChar + packageToPath(controllerPackage), "security_controller_.py"));
-        supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + packageToPath(modelPackage), "__init__.py"));
-        supportingFiles.add(new SupportingFile("base_model_.mustache", packagePath() + File.separatorChar + packageToPath(modelPackage), "base_model_.py"));
-        supportingFiles.add(new SupportingFile("openapi.mustache", packagePath() + File.separatorChar + "openapi", "openapi.yaml"));
+        supportingFiles.add(
+                new SupportingFile("typing_utils.mustache", packagePath(), "typing_utils.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "__init__.mustache",
+                        packagePath() + File.separatorChar + packageToPath(controllerPackage),
+                        "__init__.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "security_controller_.mustache",
+                        packagePath() + File.separatorChar + packageToPath(controllerPackage),
+                        "security_controller_.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "__init__model.mustache",
+                        packagePath() + File.separatorChar + packageToPath(modelPackage),
+                        "__init__.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "base_model_.mustache",
+                        packagePath() + File.separatorChar + packageToPath(modelPackage),
+                        "base_model_.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "openapi.mustache",
+                        packagePath() + File.separatorChar + "openapi",
+                        "openapi.yaml"));
         addSupportingFiles();
 
         modelPackage = packageName + "." + modelPackage;
@@ -261,7 +307,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         } else {
             this.pythonSrcRoot = pySrcRoot + File.separator;
         }
-        additionalProperties.put(PYTHON_SRC_ROOT, StringUtils.defaultIfBlank(this.pythonSrcRoot, null));
+        additionalProperties.put(
+                PYTHON_SRC_ROOT, StringUtils.defaultIfBlank(this.pythonSrcRoot, null));
     }
 
     public void setUsePythonSrcRootInImports(String val) {
@@ -297,15 +344,15 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
     /**
-     * Returns human-friendly help for the generator.  Provide the consumer with help
-     * tips, parameters here
+     * Returns human-friendly help for the generator. Provide the consumer with help tips,
+     * parameters here
      *
      * @return A string value for the help message
      */
     @Override
     public String getHelp() {
-        return "Generates a Python server library using the Connexion project. By default, " +
-                "it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable.";
+        return "Generates a Python server library using the Connexion project. By default, "
+                + "it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable.";
     }
 
     @Override
@@ -316,15 +363,13 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         return camelize(name) + "Controller";
     }
 
-
-
     @Override
     public String toApiTestFilename(String name) {
         return "test_" + toApiFilename(name);
     }
 
     /**
-     * Location to write api files.  You can use the apiPackage() as defined when the class is
+     * Location to write api files. You can use the apiPackage() as defined when the class is
      * instantiated
      */
     @Override
@@ -365,7 +410,11 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     String fixedPath = "";
                     for (String token : pathname.substring(1).split("/")) {
                         if (token.startsWith("{")) {
-                            String snake_case_token = "{" + this.toParamName(token.substring(1, token.length() - 1)) + "}";
+                            String snake_case_token =
+                                    "{"
+                                            + this.toParamName(
+                                                    token.substring(1, token.length() - 1))
+                                            + "}";
                             if (!token.equals(snake_case_token)) {
                                 token = snake_case_token;
                             }
@@ -375,7 +424,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     if (!fixedPath.equals(pathname)) {
                         LOGGER.warn(
                                 "Path '{}' is not consistent with Python variable names. It will be replaced by '{}'",
-                                pathname, fixedPath);
+                                pathname,
+                                fixedPath);
                         paths.remove(pathname);
                         path.addExtension("x-python-connexion-openapi-name", pathname);
                         paths.put(fixedPath, path);
@@ -383,7 +433,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 }
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if (operationMap != null) {
-                    for (Map.Entry<HttpMethod, Operation> operationMapEntry : operationMap.entrySet()) {
+                    for (Map.Entry<HttpMethod, Operation> operationMapEntry :
+                            operationMap.entrySet()) {
                         HttpMethod method = operationMapEntry.getKey();
                         Operation operation = operationMapEntry.getValue();
                         String tag = "default";
@@ -392,14 +443,17 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                         }
                         String operationId = operation.getOperationId();
                         if (operationId == null) {
-                            operationId = getOrGenerateOperationId(operation, pathname, method.toString());
+                            operationId =
+                                    getOrGenerateOperationId(
+                                            operation, pathname, method.toString());
                         }
                         operation.setOperationId(toOperationId(operationId));
-                        if (operation.getExtensions() == null || operation.getExtensions().get("x-openapi-router-controller") == null) {
+                        if (operation.getExtensions() == null
+                                || operation.getExtensions().get("x-openapi-router-controller")
+                                        == null) {
                             operation.addExtension(
                                     "x-openapi-router-controller",
-                                    controllerPackage + "." + toApiFilename(tag)
-                            );
+                                    controllerPackage + "." + toApiFilename(tag));
                         }
                         if (operation.getParameters() != null) {
                             for (Parameter parameter : operation.getParameters()) {
@@ -408,24 +462,39 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                                 if (!swaggerParameterName.equals(pythonParameterName)) {
                                     LOGGER.warn(
                                             "Parameter name '{}' is not consistent with Python variable names. It will be replaced by '{}'",
-                                            swaggerParameterName, pythonParameterName);
-                                    parameter.addExtension("x-python-connexion-openapi-name", swaggerParameterName);
+                                            swaggerParameterName,
+                                            pythonParameterName);
+                                    parameter.addExtension(
+                                            "x-python-connexion-openapi-name",
+                                            swaggerParameterName);
                                     parameter.setName(pythonParameterName);
                                 }
                                 if (swaggerParameterName.isEmpty()) {
-                                    LOGGER.error("Missing parameter name in {}.{}", pathname, parameter.getIn());
+                                    LOGGER.error(
+                                            "Missing parameter name in {}.{}",
+                                            pathname,
+                                            parameter.getIn());
                                 }
                             }
                         }
                         RequestBody body = operation.getRequestBody();
                         if (fixBodyName && body != null) {
-                            if (body.getExtensions() == null || !body.getExtensions().containsKey("x-body-name")) {
+                            if (body.getExtensions() == null
+                                    || !body.getExtensions().containsKey("x-body-name")) {
                                 String bodyParameterName = "body";
-                                if (operation.getExtensions() != null && operation.getExtensions().containsKey("x-codegen-request-body-name")) {
-                                    bodyParameterName = (String) operation.getExtensions().get("x-codegen-request-body-name");
+                                if (operation.getExtensions() != null
+                                        && operation
+                                                .getExtensions()
+                                                .containsKey("x-codegen-request-body-name")) {
+                                    bodyParameterName =
+                                            (String)
+                                                    operation
+                                                            .getExtensions()
+                                                            .get("x-codegen-request-body-name");
                                 } else {
                                     // Used by code generator
-                                    operation.addExtension("x-codegen-request-body-name", bodyParameterName);
+                                    operation.addExtension(
+                                            "x-codegen-request-body-name", bodyParameterName);
                                 }
                                 // Used by connexion
                                 body.addExtension("x-body-name", bodyParameterName);
@@ -445,8 +514,10 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         addSecurityExtensions(openAPI);
     }
 
-    private void addSecurityExtension(SecurityScheme securityScheme, String extensionName, String functionName) {
-        if (securityScheme.getExtensions() == null || !securityScheme.getExtensions().containsKey(extensionName)) {
+    private void addSecurityExtension(
+            SecurityScheme securityScheme, String extensionName, String functionName) {
+        if (securityScheme.getExtensions() == null
+                || !securityScheme.getExtensions().containsKey(extensionName)) {
             securityScheme.addExtension(extensionName, functionName);
         }
     }
@@ -455,29 +526,48 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         Components components = openAPI.getComponents();
         if (components != null && components.getSecuritySchemes() != null) {
             Map<String, SecurityScheme> securitySchemes = components.getSecuritySchemes();
-            for (Map.Entry<String, SecurityScheme> securitySchemesEntry : securitySchemes.entrySet()) {
+            for (Map.Entry<String, SecurityScheme> securitySchemesEntry :
+                    securitySchemes.entrySet()) {
                 String securityName = securitySchemesEntry.getKey();
                 SecurityScheme securityScheme = securitySchemesEntry.getValue();
                 String baseFunctionName = controllerPackage + ".security_controller_.";
                 switch (securityScheme.getType()) {
                     case APIKEY:
-                        addSecurityExtension(securityScheme, "x-apikeyInfoFunc", baseFunctionName + "info_from_" + securityName);
+                        addSecurityExtension(
+                                securityScheme,
+                                "x-apikeyInfoFunc",
+                                baseFunctionName + "info_from_" + securityName);
                         break;
                     case HTTP:
                         if ("basic".equals(securityScheme.getScheme())) {
-                            addSecurityExtension(securityScheme, "x-basicInfoFunc", baseFunctionName + "info_from_" + securityName);
+                            addSecurityExtension(
+                                    securityScheme,
+                                    "x-basicInfoFunc",
+                                    baseFunctionName + "info_from_" + securityName);
                         } else if ("bearer".equals(securityScheme.getScheme())) {
-                            addSecurityExtension(securityScheme, "x-bearerInfoFunc", baseFunctionName + "info_from_" + securityName);
+                            addSecurityExtension(
+                                    securityScheme,
+                                    "x-bearerInfoFunc",
+                                    baseFunctionName + "info_from_" + securityName);
                         }
                         break;
                     case OPENIDCONNECT:
-                        LOGGER.warn("Security type {} is not supported by connexion yet", securityScheme.getType().toString());
+                        LOGGER.warn(
+                                "Security type {} is not supported by connexion yet",
+                                securityScheme.getType().toString());
                     case OAUTH2:
-                        addSecurityExtension(securityScheme, "x-tokenInfoFunc", baseFunctionName + "info_from_" + securityName);
-                        addSecurityExtension(securityScheme, "x-scopeValidateFunc", baseFunctionName + "validate_scope_" + securityName);
+                        addSecurityExtension(
+                                securityScheme,
+                                "x-tokenInfoFunc",
+                                baseFunctionName + "info_from_" + securityName);
+                        addSecurityExtension(
+                                securityScheme,
+                                "x-scopeValidateFunc",
+                                baseFunctionName + "validate_scope_" + securityName);
                         break;
                     default:
-                        LOGGER.warn("Unknown security type {}", securityScheme.getType().toString());
+                        LOGGER.warn(
+                                "Unknown security type {}", securityScheme.getType().toString());
                 }
             }
         }
@@ -516,7 +606,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         // XXX - Revert the original parameter (and path) names to make sure we have
         //       a consistent REST interface across other server/client languages:
         //
-        // XXX - Reverts `x-python-connexion-openapi-name` back to the original (query/path) parameter name.
+        // XXX - Reverts `x-python-connexion-openapi-name` back to the original (query/path)
+        // parameter name.
         //       We do not want to have our REST API itself being converted to pythonic params.
         //       This would be incompatible with other server implementations.
         OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
@@ -530,11 +621,13 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 Map<String, Object> pathExtensions = path.getExtensions();
                 if (pathExtensions != null) {
                     // Get and remove the (temporary) vendor extension
-                    String openapiPathname = (String) pathExtensions.remove("x-python-connexion-openapi-name");
+                    String openapiPathname =
+                            (String) pathExtensions.remove("x-python-connexion-openapi-name");
                     if (openapiPathname != null && !openapiPathname.equals(pythonPathname)) {
                         LOGGER.info(
                                 "Path '{}' is not consistent with the original OpenAPI definition. It will be replaced back by '{}'",
-                                pythonPathname, openapiPathname);
+                                pythonPathname,
+                                openapiPathname);
                         paths.remove(pythonPathname);
                         paths.put(openapiPathname, path);
                     }
@@ -542,7 +635,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
 
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if (operationMap != null) {
-                    for (Map.Entry<HttpMethod, Operation> operationMapEntry : operationMap.entrySet()) {
+                    for (Map.Entry<HttpMethod, Operation> operationMapEntry :
+                            operationMap.entrySet()) {
                         HttpMethod method = operationMapEntry.getKey();
                         Operation operation = operationMapEntry.getValue();
                         if (operation.getParameters() != null) {
@@ -550,22 +644,30 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                                 Map<String, Object> parameterExtensions = parameter.getExtensions();
                                 if (parameterExtensions != null) {
                                     // Get and remove the (temporary) vendor extension
-                                    String swaggerParameterName = (String) parameterExtensions.remove("x-python-connexion-openapi-name");
+                                    String swaggerParameterName =
+                                            (String)
+                                                    parameterExtensions.remove(
+                                                            "x-python-connexion-openapi-name");
                                     if (swaggerParameterName != null) {
                                         String pythonParameterName = parameter.getName();
                                         if (!swaggerParameterName.equals(pythonParameterName)) {
                                             LOGGER.info(
                                                     "Reverting name of parameter '{}' of operation '{}' back to '{}'",
-                                                    pythonParameterName, operation.getOperationId(), swaggerParameterName);
+                                                    pythonParameterName,
+                                                    operation.getOperationId(),
+                                                    swaggerParameterName);
                                             parameter.setName(swaggerParameterName);
                                         } else {
-                                            LOGGER.debug("Name of parameter '{}' of operation '{}' was unchanged.",
-                                                    pythonParameterName, operation.getOperationId());
+                                            LOGGER.debug(
+                                                    "Name of parameter '{}' of operation '{}' was unchanged.",
+                                                    pythonParameterName,
+                                                    operation.getOperationId());
                                         }
                                     } else {
                                         LOGGER.debug(
                                                 "x-python-connexion-openapi-name was not set on parameter '{}' of operation '{}'",
-                                                parameter.getName(), operation.getOperationId());
+                                                parameter.getName(),
+                                                operation.getOperationId());
                                     }
                                 }
                             }
@@ -660,7 +762,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
 
@@ -672,7 +775,8 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     Map<String, String> consume = operation.consumes.get(0);
                     if (!("application/json".equals(consume.get(MEDIA_TYPE))
                             || consume.get(MEDIA_TYPE).endsWith("+json"))) {
-                        skipTests.put("reason", consume.get(MEDIA_TYPE) + " not supported by Connexion");
+                        skipTests.put(
+                                "reason", consume.get(MEDIA_TYPE) + " not supported by Connexion");
                         if ("multipart/form-data".equals(consume.get(MEDIA_TYPE))) {
                             operation.isMultipart = Boolean.TRUE;
                         }
@@ -680,7 +784,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     operation.vendorExtensions.put("x-preferred-consume", consume);
                 } else if (operation.consumes.size() > 1) {
                     Map<String, String> consume = operation.consumes.get(0);
-                    skipTests.put("reason", "Connexion does not support multiple consumes. See https://github.com/zalando/connexion/pull/760");
+                    skipTests.put(
+                            "reason",
+                            "Connexion does not support multiple consumes. See https://github.com/zalando/connexion/pull/760");
                     operation.vendorExtensions.put("x-preferred-consume", consume);
                     if ("multipart/form-data".equals(consume.get(MEDIA_TYPE))) {
                         operation.isMultipart = Boolean.TRUE;
@@ -692,7 +798,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     Map<String, String> consume = new HashMap<>();
                     consume.put(MEDIA_TYPE, "application/json");
                     operation.vendorExtensions.put("x-preferred-consume", consume);
-                    skipTests.put("reason", "*/* not supported by Connexion. Use application/json instead. See https://github.com/zalando/connexion/pull/760");
+                    skipTests.put(
+                            "reason",
+                            "*/* not supported by Connexion. Use application/json instead. See https://github.com/zalando/connexion/pull/760");
                 }
             }
             // Choose to consume 'application/json' if available, else choose the last one.
@@ -709,13 +817,15 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             }
             if (operation.requestBodyExamples != null) {
                 for (Map<String, String> example : operation.requestBodyExamples) {
-                    if (example.get("contentType") != null && example.get("contentType").equals("application/json")) {
+                    if (example.get("contentType") != null
+                            && example.get("contentType").equals("application/json")) {
                         // Make an example dictionary more python-like (Booleans True/False).
                         // If fails, use the original string.
                         try {
-                            Map<String, Object> result = MAPPER.readValue(example.get("example"),
-                                    new TypeReference<Map<String, Object>>() {
-                                    });
+                            Map<String, Object> result =
+                                    MAPPER.readValue(
+                                            example.get("example"),
+                                            new TypeReference<Map<String, Object>>() {});
                             operation.bodyParam.example = MAPPER.writeValueAsString(result);
                         } catch (IOException e) {
                             operation.bodyParam.example = example.get("example");
@@ -736,10 +846,13 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (pattern != null) {
             int i = pattern.lastIndexOf('/');
 
-            //Must follow Perl /pattern/modifiers convention
+            // Must follow Perl /pattern/modifiers convention
             if (pattern.charAt(0) != '/' || i < 2) {
-                throw new IllegalArgumentException("Pattern must follow the Perl "
-                        + "/pattern/modifiers convention. " + pattern + " is not valid.");
+                throw new IllegalArgumentException(
+                        "Pattern must follow the Perl "
+                                + "/pattern/modifiers convention. "
+                                + pattern
+                                + " is not valid.");
             }
 
             String regex = pattern.substring(1, i).replace("'", "\\'");

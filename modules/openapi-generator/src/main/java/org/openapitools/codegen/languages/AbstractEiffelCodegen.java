@@ -17,11 +17,16 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -31,12 +36,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.*;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractEiffelCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractEiffelCodegen.class);
@@ -49,20 +48,88 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         hideGenerationTimestamp = Boolean.FALSE;
 
-        setReservedWordsLowerCase(Arrays.asList(
-                // language reserved words
-                "across", "agent", "alias", "all", "and", "as", "assign", "attached", "attribute", "check", "class", "convert",
-                "create", "Current", "debug", "deferred", "detachable", "do", "else", "elseif", "end", "ensure", "expanded", "export",
-                "external", "False", "feature", "from", "frozen", "if", "implies", "inherit", "inspect", "invariant",
-                "like", "local", "loop", "not", "note", "obsolete", "old", "once", "only", "or", "Precursor",
-                "redefine", "rename", "require", "rescue", "Result", "retry", "select", "separate", "then", "True",
-                "TUPLE", "undefine", "until", "variant", "Void", "when", "xor"));
+        setReservedWordsLowerCase(
+                Arrays.asList(
+                        // language reserved words
+                        "across",
+                        "agent",
+                        "alias",
+                        "all",
+                        "and",
+                        "as",
+                        "assign",
+                        "attached",
+                        "attribute",
+                        "check",
+                        "class",
+                        "convert",
+                        "create",
+                        "Current",
+                        "debug",
+                        "deferred",
+                        "detachable",
+                        "do",
+                        "else",
+                        "elseif",
+                        "end",
+                        "ensure",
+                        "expanded",
+                        "export",
+                        "external",
+                        "False",
+                        "feature",
+                        "from",
+                        "frozen",
+                        "if",
+                        "implies",
+                        "inherit",
+                        "inspect",
+                        "invariant",
+                        "like",
+                        "local",
+                        "loop",
+                        "not",
+                        "note",
+                        "obsolete",
+                        "old",
+                        "once",
+                        "only",
+                        "or",
+                        "Precursor",
+                        "redefine",
+                        "rename",
+                        "require",
+                        "rescue",
+                        "Result",
+                        "retry",
+                        "select",
+                        "separate",
+                        "then",
+                        "True",
+                        "TUPLE",
+                        "undefine",
+                        "until",
+                        "variant",
+                        "Void",
+                        "when",
+                        "xor"));
 
         defaultIncludes = new HashSet<>(Arrays.asList("map", "array"));
 
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList("BOOLEAN", "INTEGER_8", "INTEGER_16", "INTEGER_32", "INTEGER_64", "NATURAL_8",
-                        "NATURAL_16", "NATURAL_32", "NATURAL_64", "REAL_32", "REAL_64"));
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "BOOLEAN",
+                                "INTEGER_8",
+                                "INTEGER_16",
+                                "INTEGER_32",
+                                "INTEGER_64",
+                                "NATURAL_8",
+                                "NATURAL_16",
+                                "NATURAL_32",
+                                "NATURAL_64",
+                                "REAL_32",
+                                "REAL_64"));
 
         instantiationTypes.clear();
 
@@ -101,14 +168,20 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         importMapping.put("File", "FILE");
         importMapping.put("Map", "STRING_TABLE");
 
-
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Eiffel Cluster name (convention: lowercase).")
-                .defaultValue("openapi"));
-        cliOptions
-                .add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Eiffel package version.").defaultValue("1.0.0"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.PACKAGE_NAME,
+                                "Eiffel Cluster name (convention: lowercase).")
+                        .defaultValue("openapi"));
+        cliOptions.add(
+                new CliOption(CodegenConstants.PACKAGE_VERSION, "Eiffel package version.")
+                        .defaultValue("1.0.0"));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
+                        .defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -127,7 +200,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        if (name.matches("^\\d.*")) {// prepend var_
+        if (name.matches("^\\d.*")) { // prepend var_
             return "var_" + name;
         }
         return "var_" + name;
@@ -196,21 +269,28 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    name,
+                    "model_" + name);
             name = "model_" + name; // e.g. return => ModelReturn (after
             // camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+            LOGGER.warn(
+                    "{} (model name starts with number) cannot be used as model name. Renamed to {}",
+                    name,
                     "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response
             // (after camelize)
         }
         // model name starts with _
         if (name.startsWith("_")) {
-            LOGGER.warn("{} (model name starts with _) cannot be used as model name. Renamed to {}", name,
+            LOGGER.warn(
+                    "{} (model name starts with _) cannot be used as model name. Renamed to {}",
+                    name,
                     "model" + name);
             name = "model" + name; // e.g. 200Response => Model200Response
             // (after camelize)
@@ -244,10 +324,9 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     }
 
     /**
-     * Overrides postProcessParameter to add a vendor extension
-     * "x-exportParamName". This is useful when paramName starts with a
-     * lowercase letter, but we need that param to be exportable (starts with an
-     * Uppercase letter).
+     * Overrides postProcessParameter to add a vendor extension "x-exportParamName". This is useful
+     * when paramName starts with a lowercase letter, but we need that param to be exportable
+     * (starts with an Uppercase letter).
      *
      * @param parameter CodegenParameter object to be processed.
      */
@@ -330,10 +409,8 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         String type = null;
         if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
-            if (languageSpecificPrimitives.contains(type))
-                return (type);
-        } else
-            type = schemaType;
+            if (languageSpecificPrimitives.contains(type)) return (type);
+        } else type = schemaType;
         return type;
     }
 
@@ -348,13 +425,20 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize("call_" + operationId));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    camelize("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
+            LOGGER.warn(
+                    operationId
+                            + " (starting with a number) cannot be used as method sname. Renamed to "
+                            + camelize("call_" + operationId),
+                    true);
             sanitizedOperationId = camelize("call_" + sanitizedOperationId, LOWERCASE_FIRST_LETTER);
         }
 
@@ -365,7 +449,8 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
@@ -376,14 +461,12 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         // remove model imports to avoid error
         List<Map<String, String>> imports = objs.getImports();
-        if (imports == null)
-            return objs;
+        if (imports == null) return objs;
 
         Iterator<Map<String, String>> iterator = imports.iterator();
         while (iterator.hasNext()) {
             String _import = iterator.next().get("import");
-            if (_import.startsWith(apiPackage()))
-                iterator.remove();
+            if (_import.startsWith(apiPackage())) iterator.remove();
         }
         // if the return type is not primitive, import encoding/json
         for (CodegenOperation operation : operations) {
@@ -403,8 +486,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         // recursively add import for mapping one type to multiple imports
         List<Map<String, String>> recursiveImports = objs.getImports();
-        if (recursiveImports == null)
-            return objs;
+        if (recursiveImports == null) return objs;
 
         ListIterator<Map<String, String>> listIterator = imports.listIterator();
         while (listIterator.hasNext()) {
@@ -423,32 +505,34 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         // remove model imports to avoid error
-//        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-//        final String prefix = modelPackage();
-//        Iterator<Map<String, String>> iterator = imports.iterator();
-//        while (iterator.hasNext()) {
-//            String _import = iterator.next().get("import");
-//            if (_import.startsWith(prefix))
-//                iterator.remove();
-//        }
-//
-//        // recursively add import for mapping one type to multiple imports
-//        List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
-//        if (recursiveImports == null)
-//            return objs;
-//
-//        ListIterator<Map<String, String>> listIterator = imports.listIterator();
-//        while (listIterator.hasNext()) {
-//            String _import = listIterator.next().get("import");
-//            // if the import package happens to be found in the importMapping
-//            // (key)
-//            // add the corresponding import package to the list
-//            if (importMapping.containsKey(_import)) {
-//                listIterator.add(createMapping("import", importMapping.get(_import)));
-//            }
-//        }
-//
-//        return objs;
+        //        List<Map<String, String>> imports = (List<Map<String, String>>)
+        // objs.get("imports");
+        //        final String prefix = modelPackage();
+        //        Iterator<Map<String, String>> iterator = imports.iterator();
+        //        while (iterator.hasNext()) {
+        //            String _import = iterator.next().get("import");
+        //            if (_import.startsWith(prefix))
+        //                iterator.remove();
+        //        }
+        //
+        //        // recursively add import for mapping one type to multiple imports
+        //        List<Map<String, String>> recursiveImports = (List<Map<String, String>>)
+        // objs.get("imports");
+        //        if (recursiveImports == null)
+        //            return objs;
+        //
+        //        ListIterator<Map<String, String>> listIterator = imports.listIterator();
+        //        while (listIterator.hasNext()) {
+        //            String _import = listIterator.next().get("import");
+        //            // if the import package happens to be found in the importMapping
+        //            // (key)
+        //            // add the corresponding import package to the list
+        //            if (importMapping.containsKey(_import)) {
+        //                listIterator.add(createMapping("import", importMapping.get(_import)));
+        //            }
+        //        }
+        //
+        //        return objs;
         // process enum in models
         return postProcessModelsEnum(objs);
     }
@@ -471,18 +555,17 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         }
     }
 
-    /**
-     * Sets the child property's isInherited flag to true if it is an inherited
-     * property
-     */
-    private void processParentPropertiesInChildModel(final CodegenModel parent, final CodegenModel child) {
+    /** Sets the child property's isInherited flag to true if it is an inherited property */
+    private void processParentPropertiesInChildModel(
+            final CodegenModel parent, final CodegenModel child) {
         final Map<String, CodegenProperty> childPropertiesByName = new HashMap<>(child.vars.size());
         for (final CodegenProperty childProperty : child.vars) {
             childPropertiesByName.put(childProperty.name, childProperty);
         }
         if (parent != null) {
             for (final CodegenProperty parentProperty : parent.vars) {
-                final CodegenProperty duplicatedByParent = childPropertiesByName.get(parentProperty.name);
+                final CodegenProperty duplicatedByParent =
+                        childPropertiesByName.get(parentProperty.name);
                 if (duplicatedByParent != null) {
                     duplicatedByParent.isInherited = true;
                 }
@@ -496,13 +579,16 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         CodegenModel codegenModel = super.fromModel(name, model);
         if (allDefinitions != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
             final Schema parentModel = allDefinitions.get(codegenModel.parentSchema);
-            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
-            codegenModel = AbstractEiffelCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
+            final CodegenModel parentCodegenModel =
+                    super.fromModel(codegenModel.parent, parentModel);
+            codegenModel =
+                    AbstractEiffelCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
         return codegenModel;
     }
 
-    private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
+    private static CodegenModel reconcileInlineEnums(
+            CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
         // the parent and child models, look for enums that match, and remove
@@ -528,7 +614,8 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
                 Iterator<CodegenProperty> iterator = codegenProperties.iterator();
                 while (iterator.hasNext()) {
                     CodegenProperty codegenProperty = iterator.next();
-                    if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
+                    if (codegenProperty.isEnum
+                            && codegenProperty.equals(parentModelCodegenProperty)) {
                         // We found an enum in the child class that is
                         // a duplicate of the one in the parent, so remove it.
                         iterator.remove();
@@ -543,7 +630,6 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         }
         return codegenModel;
     }
-
 
     @Override
     protected boolean needToImport(String type) {
@@ -571,22 +657,23 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     @Override
     public String toInstantiationType(Schema p) {
         return getTypeDeclaration(p);
-//        if (ModelUtils.isMapSchema(p)) {
-//            Schema additionalProperties2 = getAdditionalProperties(p);
-//            String type = additionalProperties2.getType();
-//            if (null == type) {
-//                LOGGER.error("No Type defined for Additional Schema " + additionalProperties2 + "\n" //
-//                        + "\tIn Schema: " + p);
-//            }
-//            String inner = toModelName(getSchemaType(additionalProperties2));
-//            return instantiationTypes.get("map") + " [" + inner + "]";
-//        } else if (ModelUtils.isArraySchema(p)) {
-//            ArraySchema ap = (ArraySchema) p;
-//            String inner = toModelName(getSchemaType(ap.getItems()));
-//            return instantiationTypes.get("array") + " [" + inner + "]";
-//        } else {
-//            return null;
-//        }
+        //        if (ModelUtils.isMapSchema(p)) {
+        //            Schema additionalProperties2 = getAdditionalProperties(p);
+        //            String type = additionalProperties2.getType();
+        //            if (null == type) {
+        //                LOGGER.error("No Type defined for Additional Schema " +
+        // additionalProperties2 + "\n" //
+        //                        + "\tIn Schema: " + p);
+        //            }
+        //            String inner = toModelName(getSchemaType(additionalProperties2));
+        //            return instantiationTypes.get("map") + " [" + inner + "]";
+        //        } else if (ModelUtils.isArraySchema(p)) {
+        //            ArraySchema ap = (ArraySchema) p;
+        //            String inner = toModelName(getSchemaType(ap.getItems()));
+        //            return instantiationTypes.get("array") + " [" + inner + "]";
+        //        } else {
+        //            return null;
+        //        }
     }
 
     public String unCamelize(String name) {
@@ -604,7 +691,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     /**
      * Update property for array(list) container
      *
-     * @param property      Codegen property
+     * @param property Codegen property
      * @param innerProperty Codegen inner property of map or list
      */
     @Override
@@ -627,16 +714,17 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
             // isEnum is set to true when the type is an enum
             // or the inner type of an array/map is an enum
-            //property.isEnum = true;
+            // property.isEnum = true;
             // update datatypeWithEnum and default value for array
             // e.g. List<string> => List<StatusEnum>
-            //updateDataTypeWithEnumForArray(property);
+            // updateDataTypeWithEnumForArray(property);
             // set allowable values to enum values (including array/map of enum)
-            //property.allowableValues = getInnerEnumAllowableValues(property);
+            // property.allowableValues = getInnerEnumAllowableValues(property);
         }
-
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.EIFFEL; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.EIFFEL;
+    }
 }

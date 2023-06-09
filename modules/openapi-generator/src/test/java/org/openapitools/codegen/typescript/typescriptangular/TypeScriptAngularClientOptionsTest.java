@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen.typescript.typescriptangular;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
@@ -24,12 +27,10 @@ import org.openapitools.codegen.options.TypeScriptAngularClientOptionsProvider;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_ANGULAR})
 public class TypeScriptAngularClientOptionsTest extends AbstractOptionsTest {
-    private TypeScriptAngularClientCodegen clientCodegen = mock(TypeScriptAngularClientCodegen.class, mockSettings);
+    private TypeScriptAngularClientCodegen clientCodegen =
+            mock(TypeScriptAngularClientCodegen.class, mockSettings);
 
     public TypeScriptAngularClientOptionsTest() {
         super(new TypeScriptAngularClientOptionsProvider());
@@ -43,13 +44,33 @@ public class TypeScriptAngularClientOptionsTest extends AbstractOptionsTest {
     @SuppressWarnings("unused")
     @Override
     protected void verifyOptions() {
-        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptAngularClientOptionsProvider.SORT_PARAMS_VALUE));
-        verify(clientCodegen).setModelPropertyNaming(TypeScriptAngularClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
-        verify(clientCodegen).setSupportsES6(Boolean.valueOf(TypeScriptAngularClientOptionsProvider.SUPPORTS_ES6_VALUE));
-        verify(clientCodegen).setStringEnums(Boolean.parseBoolean(TypeScriptAngularClientOptionsProvider.STRING_ENUMS_VALUE));
-        verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptAngularClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
-        verify(clientCodegen).setQueryParamObjectFormat(TypeScriptAngularClientOptionsProvider.QUERY_PARAM_OBJECT_FORMAT_VALUE);
-        verify(clientCodegen).setParamNaming(TypeScriptAngularClientOptionsProvider.PARAM_NAMING_VALUE);
-        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(TypeScriptAngularClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen)
+                .setSortParamsByRequiredFlag(
+                        Boolean.valueOf(TypeScriptAngularClientOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen)
+                .setModelPropertyNaming(
+                        TypeScriptAngularClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
+        verify(clientCodegen)
+                .setSupportsES6(
+                        Boolean.valueOf(TypeScriptAngularClientOptionsProvider.SUPPORTS_ES6_VALUE));
+        verify(clientCodegen)
+                .setStringEnums(
+                        Boolean.parseBoolean(
+                                TypeScriptAngularClientOptionsProvider.STRING_ENUMS_VALUE));
+        verify(clientCodegen)
+                .setPrependFormOrBodyParameters(
+                        Boolean.valueOf(
+                                TypeScriptAngularClientOptionsProvider
+                                        .PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
+        verify(clientCodegen)
+                .setQueryParamObjectFormat(
+                        TypeScriptAngularClientOptionsProvider.QUERY_PARAM_OBJECT_FORMAT_VALUE);
+        verify(clientCodegen)
+                .setParamNaming(TypeScriptAngularClientOptionsProvider.PARAM_NAMING_VALUE);
+        verify(clientCodegen)
+                .setEnumUnknownDefaultCase(
+                        Boolean.parseBoolean(
+                                TypeScriptAngularClientOptionsProvider
+                                        .ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

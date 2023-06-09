@@ -17,18 +17,17 @@
 
 package org.openapitools.codegen;
 
+import java.util.Objects;
+import java.util.StringJoiner;
 import org.openapitools.codegen.api.TemplateDefinition;
 import org.openapitools.codegen.api.TemplateFileType;
 
-import java.util.Objects;
-import java.util.StringJoiner;
-
 /**
- * Defines the template definition for a "supporting file", that is any file which is generic and not bound to
- * api/model definitions and their relevant docs or tests.
+ * Defines the template definition for a "supporting file", that is any file which is generic and
+ * not bound to api/model definitions and their relevant docs or tests.
  *
- * Supporting files are generated once for an entire application while api/model bound definitions are generated multiple
- * times according to their target use.
+ * <p>Supporting files are generated once for an entire application while api/model bound
+ * definitions are generated multiple times according to their target use.
  */
 public class SupportingFile extends TemplateDefinition {
     private boolean canOverwrite = true;
@@ -42,7 +41,8 @@ public class SupportingFile extends TemplateDefinition {
     }
 
     /**
-     * Identifies this instance as referring to a supporting file which should not overwrite a file of the same name.
+     * Identifies this instance as referring to a supporting file which should not overwrite a file
+     * of the same name.
      *
      * @return This object, for chaining.
      */
@@ -57,9 +57,7 @@ public class SupportingFile extends TemplateDefinition {
      * @param templateType a {@link TemplateFileType} enum which defines the type of this template
      */
     @Override
-    public void setTemplateType(TemplateFileType templateType) {
-
-    }
+    public void setTemplateType(TemplateFileType templateType) {}
 
     /**
      * Gets the type of template
@@ -99,5 +97,3 @@ public class SupportingFile extends TemplateDefinition {
                 .toString();
     }
 }
-
-

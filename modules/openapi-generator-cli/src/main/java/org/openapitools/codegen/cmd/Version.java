@@ -24,10 +24,14 @@ import io.airlift.airline.Option;
 @Command(name = "version", description = "Show version information used in tooling")
 public class Version extends OpenApiGeneratorCommand {
 
-    @Option(name = {"--sha"}, description = "Git commit SHA version")
+    @Option(
+            name = {"--sha"},
+            description = "Git commit SHA version")
     private Boolean sha;
 
-    @Option(name = {"--full"}, description = "Full version details")
+    @Option(
+            name = {"--full"},
+            description = "Full version details")
     private Boolean full;
 
     @Override
@@ -43,5 +47,4 @@ public class Version extends OpenApiGeneratorCommand {
         }
         System.out.println(version);
     }
-
 }

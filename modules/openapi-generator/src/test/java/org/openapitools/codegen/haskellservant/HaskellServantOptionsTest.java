@@ -17,13 +17,13 @@
 
 package org.openapitools.codegen.haskellservant;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.HaskellServantCodegen;
 import org.openapitools.codegen.options.HaskellServantOptionsProvider;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class HaskellServantOptionsTest extends AbstractOptionsTest {
 
@@ -42,7 +42,12 @@ public class HaskellServantOptionsTest extends AbstractOptionsTest {
     protected void verifyOptions() {
         verify(clientCodegen).setModelPackage(HaskellServantOptionsProvider.MODEL_PACKAGE_VALUE);
         verify(clientCodegen).setApiPackage(HaskellServantOptionsProvider.API_PACKAGE_VALUE);
-        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(HaskellServantOptionsProvider.SORT_PARAMS_VALUE));
-        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(HaskellServantOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen)
+                .setSortParamsByRequiredFlag(
+                        Boolean.valueOf(HaskellServantOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen)
+                .setEnumUnknownDefaultCase(
+                        Boolean.parseBoolean(
+                                HaskellServantOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

@@ -16,16 +16,15 @@
 
 package org.openapitools.codegen.validation;
 
-/**
- * Represents a {@link Validated} state which is "valid" according to the defined rule.
- */
+/** Represents a {@link Validated} state which is "valid" according to the defined rule. */
 public final class Valid extends Validated {
     private ValidationRule rule;
 
     /**
      * Defines whether or not the validation resulted in a "valid" condition.
      *
-     * @return <code>true</code> if the instance passed validation of the rule returned by {@link Validated#getRule()}.
+     * @return <code>true</code> if the instance passed validation of the rule returned by {@link
+     *     Validated#getRule()}.
      */
     @Override
     boolean isValid() {

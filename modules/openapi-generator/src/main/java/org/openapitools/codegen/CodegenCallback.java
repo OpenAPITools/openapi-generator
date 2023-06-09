@@ -35,9 +35,11 @@ public class CodegenCallback {
             if (o == null || getClass() != o.getClass()) return false;
 
             Url that = (Url) o;
-            return Objects.equals(that.expression, expression) &&
-                    Objects.equals(that.requests, requests) && Objects.equals(that.vendorExtensions, vendorExtensions);
+            return Objects.equals(that.expression, expression)
+                    && Objects.equals(that.requests, requests)
+                    && Objects.equals(that.vendorExtensions, vendorExtensions);
         }
+
         @Override
         public int hashCode() {
             return Objects.hash(expression, requests, vendorExtensions);
@@ -60,8 +62,9 @@ public class CodegenCallback {
         if (o == null || getClass() != o.getClass()) return false;
 
         CodegenCallback that = (CodegenCallback) o;
-        return Objects.equals(that.name, name) &&
-                Objects.equals(that.urls, urls) && Objects.equals(that.vendorExtensions, vendorExtensions);
+        return Objects.equals(that.name, name)
+                && Objects.equals(that.urls, urls)
+                && Objects.equals(that.vendorExtensions, vendorExtensions);
     }
 
     @Override
@@ -78,6 +81,4 @@ public class CodegenCallback {
         sb.append("}");
         return sb.toString();
     }
-
-
 }

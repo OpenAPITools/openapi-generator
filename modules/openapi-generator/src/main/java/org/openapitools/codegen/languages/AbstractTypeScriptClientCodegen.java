@@ -17,11 +17,26 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.form;
+import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.simple;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.function.BiPredicate;
+import java.util.function.Function;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -36,40 +51,23 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.function.BiPredicate;
-import java.util.function.Function;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.form;
-import static org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen.ParameterExpander.ParamStyle.simple;
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
-public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
+public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen
+        implements CodegenConfig {
 
     /**
      * Help generating code for any kind of URL parameters (path, matrix, query).
-     * <p>
-     * Generators may use this class when substituting URL-parameter-placeholders
-     * with generated code:
-     * </p>
-     * <p>
-     * While parsing placeholders character-by-character, this class helps accumulating these characters and
-     * building the final placeholder name.
-     * </p>
-     * <p>
-     * With the placeholder name, this class tries to find the parameter in the operation.
-     * The class then uses this parameter to build code that is usable by the generator.
-     * </p>
+     *
+     * <p>Generators may use this class when substituting URL-parameter-placeholders with generated
+     * code:
+     *
+     * <p>While parsing placeholders character-by-character, this class helps accumulating these
+     * characters and building the final placeholder name.
+     *
+     * <p>With the placeholder name, this class tries to find the parameter in the operation. The
+     * class then uses this parameter to build code that is usable by the generator.
      */
-    // TODO: this class grew quite large and most code now is specific to TypeScriptAngularClientCodeGen.java.
+    // TODO: this class grew quite large and most code now is specific to
+    // TypeScriptAngularClientCodeGen.java.
     //  => move code-generation to the concrete generator and let the generator pass this as lambda
     @SuppressWarnings("StringBufferField")
     public static class ParameterExpander {
@@ -78,9 +76,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         /**
          * How the parameter is formatted/converted/encoded in the actual request.
-         * <p>
-         * See e.g. OpenAPI 3.1 spec: <a href="https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#style-values">Style Values</a>.
-         * </p>
+         *
+         * <p>See e.g. OpenAPI 3.1 spec: <a
+         * href="https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#style-values">Style
+         * Values</a>.
          */
         public enum ParamStyle {
             matrix,
@@ -98,9 +97,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         /**
          * Where the parameter is located in the request.
-         * <p>
-         * See e.g. OpenAPI 3.1 spec: <a href="https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#parameter-locations">Parameter Locations</a>
-         * </p>
+         *
+         * <p>See e.g. OpenAPI 3.1 spec: <a
+         * href="https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#parameter-locations">Parameter
+         * Locations</a>
          */
         public enum Location {
             query((operation, param) -> operation.queryParams.contains(param), form),
@@ -111,7 +111,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             public final ParamStyle defaultStyle;
             public final BiPredicate<CodegenOperation, CodegenParameter> isPresentIn;
 
-            Location(BiPredicate<CodegenOperation, CodegenParameter> isPresentIn, ParamStyle defaultStyle) {
+            Location(
+                    BiPredicate<CodegenOperation, CodegenParameter> isPresentIn,
+                    ParamStyle defaultStyle) {
                 this.defaultStyle = defaultStyle;
                 this.isPresentIn = isPresentIn;
             }
@@ -127,11 +129,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 return Arrays.stream(values())
                         .filter(v -> v.isPresentIn.test(op, param))
                         .findAny()
-                        .orElseThrow(() -> new IllegalArgumentException(String.format(
-                                Locale.ROOT,
-                                "Cannot find param ' %s' in operation '%s'",
-                                param, op.operationId
-                        )));
+                        .orElseThrow(
+                                () ->
+                                        new IllegalArgumentException(
+                                                String.format(
+                                                        Locale.ROOT,
+                                                        "Cannot find param ' %s' in operation '%s'",
+                                                        param,
+                                                        op.operationId)));
             }
         }
 
@@ -169,19 +174,20 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             Location location = Location.fromParam(op, parameter);
             String style = location.defaultStyle(parameter.style);
 
-            String optsObject = String.format(
-                    Locale.ROOT,
-                    "{name: %s, value: %s, in: %s, style: %s, explode: %s, dataType: %s, dataFormat: %s}",
-                    quotedJSString(parameter.paramName),
-                    generatedParameterName,
-                    quotedJSString(location.name()),
-                    quotedJSString(style),
-                    parameter.isExplode,
-                    quotedJSString(parameter.dataType),
-                    nullableQuotedJSString(parameter.dataFormat)
-            );
+            String optsObject =
+                    String.format(
+                            Locale.ROOT,
+                            "{name: %s, value: %s, in: %s, style: %s, explode: %s, dataType: %s, dataFormat: %s}",
+                            quotedJSString(parameter.paramName),
+                            generatedParameterName,
+                            quotedJSString(location.name()),
+                            quotedJSString(style),
+                            parameter.isExplode,
+                            quotedJSString(parameter.dataType),
+                            nullableQuotedJSString(parameter.dataFormat));
 
-            String result = String.format(Locale.ROOT, "${this.configuration.encodeParam(%s)}", optsObject);
+            String result =
+                    String.format(Locale.ROOT, "${this.configuration.encodeParam(%s)}", optsObject);
             return result;
         }
 
@@ -201,12 +207,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
         protected static String escapeForQuotedJSString(String string) {
-            String quoted = JS_QUOTE_PATTERN.matcher(string)
-                    .replaceAll(JS_QUOTE_REPLACEMENT);
+            String quoted = JS_QUOTE_PATTERN.matcher(string).replaceAll(JS_QUOTE_REPLACEMENT);
 
             return quoted;
         }
-
 
         protected String nullableQuotedJSString(@Nullable String string) {
             if (string == null) {
@@ -227,15 +231,18 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public static final String NPM_VERSION = "npmVersion";
     public static final String SNAPSHOT = "snapshot";
 
-    public static final String MODEL_PROPERTY_NAMING_DESC_WITH_WARNING = CodegenConstants.MODEL_PROPERTY_NAMING_DESC
-            + ". Only change it if you provide your own run-time code for (de-)serialization of models";
+    public static final String MODEL_PROPERTY_NAMING_DESC_WITH_WARNING =
+            CodegenConstants.MODEL_PROPERTY_NAMING_DESC
+                    + ". Only change it if you provide your own run-time code for (de-)serialization of models";
 
     public static final String NULL_SAFE_ADDITIONAL_PROPS = "nullSafeAdditionalProps";
-    public static final String NULL_SAFE_ADDITIONAL_PROPS_DESC = "Set to make additional properties types declare that their indexer may return undefined";
+    public static final String NULL_SAFE_ADDITIONAL_PROPS_DESC =
+            "Set to make additional properties types declare that their indexer may return undefined";
 
     // NOTE: SimpleDateFormat is not thread-safe and may not be static unless it is thread-local
     @SuppressWarnings("squid:S5164")
-    protected static final ThreadLocal<SimpleDateFormat> SNAPSHOT_SUFFIX_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT));
+    protected static final ThreadLocal<SimpleDateFormat> SNAPSHOT_SUFFIX_FORMAT =
+            ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT));
 
     protected MODEL_PROPERTY_NAMING_TYPE modelPropertyNaming = MODEL_PROPERTY_NAMING_TYPE.original;
     protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
@@ -253,25 +260,20 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public AbstractTypeScriptClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.noneOf(
-                        SecurityFeature.class
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.BasePath
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .includeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath));
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
@@ -280,41 +282,107 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         supportsInheritance = true;
 
         // to support multiple inheritance e.g. export interface ModelC extends ModelA, ModelB
-        //supportsMultipleInheritance = true;
+        // supportsMultipleInheritance = true;
 
-        // NOTE: TypeScript uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
-        reservedWords.addAll(Arrays.asList(
-                // local variable names used in API methods (endpoints)
-                "varLocalPath", "queryParameters", "headerParams", "formParams", "useFormData", "varLocalDeferred",
-                "requestOptions",
-                // Typescript reserved words
-                "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue", "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final", "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int", "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true", "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
+        // NOTE: TypeScript uses camel cased reserved words, while models are title cased. We don't
+        // want lowercase comparisons.
+        reservedWords.addAll(
+                Arrays.asList(
+                        // local variable names used in API methods (endpoints)
+                        "varLocalPath",
+                        "queryParameters",
+                        "headerParams",
+                        "formParams",
+                        "useFormData",
+                        "varLocalDeferred",
+                        "requestOptions",
+                        // Typescript reserved words
+                        "abstract",
+                        "await",
+                        "boolean",
+                        "break",
+                        "byte",
+                        "case",
+                        "catch",
+                        "char",
+                        "class",
+                        "const",
+                        "continue",
+                        "debugger",
+                        "default",
+                        "delete",
+                        "do",
+                        "double",
+                        "else",
+                        "enum",
+                        "export",
+                        "extends",
+                        "false",
+                        "final",
+                        "finally",
+                        "float",
+                        "for",
+                        "function",
+                        "goto",
+                        "if",
+                        "implements",
+                        "import",
+                        "in",
+                        "instanceof",
+                        "int",
+                        "interface",
+                        "let",
+                        "long",
+                        "native",
+                        "new",
+                        "null",
+                        "package",
+                        "private",
+                        "protected",
+                        "public",
+                        "return",
+                        "short",
+                        "static",
+                        "super",
+                        "switch",
+                        "synchronized",
+                        "this",
+                        "throw",
+                        "transient",
+                        "true",
+                        "try",
+                        "typeof",
+                        "var",
+                        "void",
+                        "volatile",
+                        "while",
+                        "with",
+                        "yield"));
 
-        languageSpecificPrimitives = new HashSet<>(Arrays.asList(
-                "string",
-                "String",
-                "boolean",
-                "Boolean",
-                "Double",
-                "Integer",
-                "Long",
-                "Float",
-                "Object",
-                "Array",
-                "ReadonlyArray",
-                "Date",
-                "number",
-                "any",
-                "File",
-                "Error",
-                "Map",
-                "object",
-                "Set"
-        ));
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "string",
+                                "String",
+                                "boolean",
+                                "Boolean",
+                                "Double",
+                                "Integer",
+                                "Long",
+                                "Float",
+                                "Object",
+                                "Array",
+                                "ReadonlyArray",
+                                "Date",
+                                "number",
+                                "any",
+                                "File",
+                                "Error",
+                                "Map",
+                                "object",
+                                "Set"));
 
-        languageGenericTypes = new HashSet<>(Collections.singletonList(
-                "Array"
-        ));
+        languageGenericTypes = new HashSet<>(Collections.singletonList("Array"));
 
         instantiationTypes.put("array", "Array");
 
@@ -347,24 +415,57 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("Error", "Error");
         typeMapping.put("AnyType", "any");
 
-        cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
-        cliOptions.add(new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC).defaultValue(this.enumPropertyNaming.name()));
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_DESC_WITH_WARNING).defaultValue(this.modelPropertyNaming.name()));
-        cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue(String.valueOf(this.getSupportsES6())));
-        cliOptions.add(new CliOption(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_DESC).defaultValue(this.paramNaming.name()));
-        this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
-                " Required to generate a full package"));
-        this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package. If not provided, using the version from the OpenAPI specification file.").defaultValue(this.getNpmVersion()));
-        this.cliOptions.add(CliOption.newBoolean(SNAPSHOT,
-                "When setting this property to true, the version will be suffixed with -SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
-                false));
-        this.cliOptions.add(new CliOption(NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_DESC).defaultValue(String.valueOf(this.getNullSafeAdditionalProps())));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.ENUM_NAME_SUFFIX,
+                                CodegenConstants.ENUM_NAME_SUFFIX_DESC)
+                        .defaultValue(this.enumSuffix));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.ENUM_PROPERTY_NAMING,
+                                CodegenConstants.ENUM_PROPERTY_NAMING_DESC)
+                        .defaultValue(this.enumPropertyNaming.name()));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.MODEL_PROPERTY_NAMING,
+                                MODEL_PROPERTY_NAMING_DESC_WITH_WARNING)
+                        .defaultValue(this.modelPropertyNaming.name()));
+        cliOptions.add(
+                new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC)
+                        .defaultValue(String.valueOf(this.getSupportsES6())));
+        cliOptions.add(
+                new CliOption(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_DESC)
+                        .defaultValue(this.paramNaming.name()));
+        this.cliOptions.add(
+                new CliOption(
+                        NPM_NAME,
+                        "The name under which you want to publish generated npm package."
+                                + " Required to generate a full package"));
+        this.cliOptions.add(
+                new CliOption(
+                                NPM_VERSION,
+                                "The version of your npm package. If not provided, using the version from the OpenAPI specification file.")
+                        .defaultValue(this.getNpmVersion()));
+        this.cliOptions.add(
+                CliOption.newBoolean(
+                        SNAPSHOT,
+                        "When setting this property to true, the version will be suffixed with -SNAPSHOT."
+                                + SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
+                        false));
+        this.cliOptions.add(
+                new CliOption(NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_DESC)
+                        .defaultValue(String.valueOf(this.getNullSafeAdditionalProps())));
     }
 
-    protected void supportModelPropertyNaming(MODEL_PROPERTY_NAMING_TYPE defaultModelPropertyNaming) {
+    protected void supportModelPropertyNaming(
+            MODEL_PROPERTY_NAMING_TYPE defaultModelPropertyNaming) {
         removeOption(CodegenConstants.MODEL_PROPERTY_NAMING);
         modelPropertyNaming = defaultModelPropertyNaming;
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue(modelPropertyNaming.name()));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.MODEL_PROPERTY_NAMING,
+                                CodegenConstants.MODEL_PROPERTY_NAMING_DESC)
+                        .defaultValue(modelPropertyNaming.name()));
     }
 
     @Override
@@ -372,21 +473,26 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("TS_POST_PROCESS_FILE"))) {
-            LOGGER.info("Hint: Environment variable 'TS_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export TS_POST_PROCESS_FILE=\"/usr/local/bin/prettier --write\"' (Linux/Mac)");
-            LOGGER.info("Note: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info(
+                    "Hint: Environment variable 'TS_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export TS_POST_PROCESS_FILE=\"/usr/local/bin/prettier --write\"' (Linux/Mac)");
+            LOGGER.info(
+                    "Note: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         } else if (!this.isEnablePostProcessFile()) {
-            LOGGER.info("Warning: Environment variable 'TS_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info(
+                    "Warning: Environment variable 'TS_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_NAME_SUFFIX)) {
             enumSuffix = additionalProperties.get(CodegenConstants.ENUM_NAME_SUFFIX).toString();
         }
         if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
-            setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
+            setEnumPropertyNaming(
+                    (String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
-            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+            setModelPropertyNaming(
+                    (String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PARAM_NAMING)) {
@@ -396,7 +502,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         setSupportsES6(convertPropertyToBooleanAndWriteBack(CodegenConstants.SUPPORTS_ES6));
 
         if (additionalProperties.containsKey(NULL_SAFE_ADDITIONAL_PROPS)) {
-            setNullSafeAdditionalProps(Boolean.valueOf(additionalProperties.get(NULL_SAFE_ADDITIONAL_PROPS).toString()));
+            setNullSafeAdditionalProps(
+                    Boolean.valueOf(
+                            additionalProperties.get(NULL_SAFE_ADDITIONAL_PROPS).toString()));
         }
 
         if (additionalProperties.containsKey(NPM_NAME)) {
@@ -411,15 +519,17 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return toModelImportMap(name).values().stream().collect(Collectors.joining("|"));
         }
         if (isIntersectionType(name)) {
-            LOGGER.warn("The import is a intersection type. Consider using the toModelImportMap method.");
+            LOGGER.warn(
+                    "The import is a intersection type. Consider using the toModelImportMap method.");
             return toModelImportMap(name).values().stream().collect(Collectors.joining("&"));
         }
         return super.toModelImport(name);
     }
 
     /**
-     * Maps the fully qualified model import to the initial given name. In case of union types the map will have multiple entries.
-     * For example for "classA | classB" the map will two entries have ["model.classA","classA"] and ["model.classB","classB"].
+     * Maps the fully qualified model import to the initial given name. In case of union types the
+     * map will have multiple entries. For example for "classA | classB" the map will two entries
+     * have ["model.classA","classA"] and ["model.classB","classB"].
      *
      * @param name the name of the "Model"
      * @return Map between the fully qualified model import and the initial given name.
@@ -456,7 +566,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         if (additionalProperties.containsKey(NPM_NAME)) {
 
-            // If no npmVersion is provided in additional properties, version from API specification is used.
+            // If no npmVersion is provided in additional properties, version from API specification
+            // is used.
             // If none of them is provided then fallbacks to default version
             if (additionalProperties.containsKey(NPM_VERSION)) {
                 this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
@@ -464,17 +575,20 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 this.setNpmVersion(openAPI.getInfo().getVersion());
             }
 
-            if (additionalProperties.containsKey(SNAPSHOT) && Boolean.parseBoolean(additionalProperties.get(SNAPSHOT).toString())) {
+            if (additionalProperties.containsKey(SNAPSHOT)
+                    && Boolean.parseBoolean(additionalProperties.get(SNAPSHOT).toString())) {
                 if (npmVersion.toUpperCase(Locale.ROOT).matches("^.*-SNAPSHOT$")) {
-                    this.setNpmVersion(npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.get().format(new Date()));
+                    this.setNpmVersion(
+                            npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.get().format(new Date()));
                 } else {
-                    this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.get().format(new Date()));
+                    this.setNpmVersion(
+                            npmVersion
+                                    + "-SNAPSHOT."
+                                    + SNAPSHOT_SUFFIX_FORMAT.get().format(new Date()));
                 }
             }
             additionalProperties.put(NPM_VERSION, npmVersion);
-
         }
-
     }
 
     @Override
@@ -565,25 +679,33 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         sanName = camelize(sanName);
 
         // model name cannot use reserved keyword, e.g. return
-        // this is unlikely to happen, because we have just camelized the name, while reserved words are usually all lowercase
+        // this is unlikely to happen, because we have just camelized the name, while reserved words
+        // are usually all lowercase
         if (isReservedWord(sanName)) {
             String modelName = safePrefix + sanName;
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", sanName, modelName);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    sanName,
+                    modelName);
             return modelName;
         }
 
         // model name starts with number
         if (sanName.matches("^\\d.*")) {
             String modelName = safePrefix + sanName; // e.g. 200Response => Model200Response
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", sanName,
+            LOGGER.warn(
+                    "{} (model name starts with number) cannot be used as model name. Renamed to {}",
+                    sanName,
                     modelName);
             return modelName;
         }
 
         if (languageSpecificPrimitives.contains(sanName)) {
             String modelName = safePrefix + sanName;
-            LOGGER.warn("{} (model name matches existing language type) cannot be used as a model name. Renamed to {}",
-                    sanName, modelName);
+            LOGGER.warn(
+                    "{} (model name matches existing language type) cannot be used as a model name. Renamed to {}",
+                    sanName,
+                    modelName);
             return modelName;
         }
 
@@ -604,7 +726,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         } else if (ModelUtils.isMapSchema(p)) {
             Schema<?> inner = getSchemaAdditionalProperties(p);
             String nullSafeSuffix = getNullSafeAdditionalProps() ? " | undefined" : "";
-            return "{ [key: string]: " + getTypeDeclaration(unaliasSchema(inner)) + nullSafeSuffix + "; }";
+            return "{ [key: string]: "
+                    + getTypeDeclaration(unaliasSchema(inner))
+                    + nullSafeSuffix
+                    + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "File";
         } else if (ModelUtils.isBinarySchema(p)) {
@@ -658,10 +783,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     /**
-     * Converts a list of strings to a literal union for representing enum values as a type.
-     * Example output: 'available' | 'pending' | 'sold'
+     * Converts a list of strings to a literal union for representing enum values as a type. Example
+     * output: 'available' | 'pending' | 'sold'
      *
-     * @param values   list of allowed enum values
+     * @param values list of allowed enum values
      * @param dataType either "string" or "number"
      * @return a literal union for representing enum values as a type
      */
@@ -679,8 +804,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     /**
-     * Converts a list of numbers to a literal union for representing enum values as a type.
-     * Example output: 3 | 9 | 55
+     * Converts a list of numbers to a literal union for representing enum values as a type. Example
+     * output: 3 | 9 | 55
      *
      * @param values a list of numbers
      * @return a literal union for representing enum values as a type
@@ -723,12 +848,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         } else {
             return UNDEFINED_VALUE;
         }
-
     }
 
     @Override
     protected boolean isReservedWord(String word) {
-        // NOTE: This differs from super's implementation in that TypeScript does _not_ want case insensitive matching.
+        // NOTE: This differs from super's implementation in that TypeScript does _not_ want case
+        // insensitive matching.
         return reservedWords.contains(word);
     }
 
@@ -766,11 +891,17 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         try {
             modelPropertyNaming = MODEL_PROPERTY_NAMING_TYPE.valueOf(naming);
         } catch (IllegalArgumentException e) {
-            String values = Stream.of(MODEL_PROPERTY_NAMING_TYPE.values())
-                    .map(value -> "'" + value.name() + "'")
-                    .collect(Collectors.joining(", "));
+            String values =
+                    Stream.of(MODEL_PROPERTY_NAMING_TYPE.values())
+                            .map(value -> "'" + value.name() + "'")
+                            .collect(Collectors.joining(", "));
 
-            String msg = String.format(Locale.ROOT, "Invalid model property naming '%s'. Must be one of %s.", naming, values);
+            String msg =
+                    String.format(
+                            Locale.ROOT,
+                            "Invalid model property naming '%s'. Must be one of %s.",
+                            naming,
+                            values);
             throw new IllegalArgumentException(msg);
         }
     }
@@ -779,11 +910,17 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         try {
             paramNaming = PARAM_NAMING_TYPE.valueOf(naming);
         } catch (IllegalArgumentException e) {
-            String values = Stream.of(PARAM_NAMING_TYPE.values())
-                    .map(value -> "'" + value.name() + "'")
-                    .collect(Collectors.joining(", "));
+            String values =
+                    Stream.of(PARAM_NAMING_TYPE.values())
+                            .map(value -> "'" + value.name() + "'")
+                            .collect(Collectors.joining(", "));
 
-            String msg = String.format(Locale.ROOT, "Invalid parameter naming '%s'. Must be one of %s.", naming, values);
+            String msg =
+                    String.format(
+                            Locale.ROOT,
+                            "Invalid parameter naming '%s'. Must be one of %s.",
+                            naming,
+                            values);
             throw new IllegalArgumentException(msg);
         }
     }
@@ -807,11 +944,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             case snake_case:
                 return underscore(name);
             default:
-                throw new IllegalArgumentException("Invalid param naming '" +
-                        name + "'. Must be 'original', 'camelCase', " +
-                        "'PascalCase' or 'snake_case'");
+                throw new IllegalArgumentException(
+                        "Invalid param naming '"
+                                + name
+                                + "'. Must be 'original', 'camelCase', "
+                                + "'PascalCase' or 'snake_case'");
         }
-
     }
 
     private String getNameUsingModelPropertyNaming(String name) {
@@ -825,11 +963,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             case snake_case:
                 return underscore(name);
             default:
-                throw new IllegalArgumentException("Invalid model property naming '" +
-                        name + "'. Must be 'original', 'camelCase', " +
-                        "'PascalCase' or 'snake_case'");
+                throw new IllegalArgumentException(
+                        "Invalid model property naming '"
+                                + name
+                                + "'. Must be 'original', 'camelCase', "
+                                + "'PascalCase' or 'snake_case'");
         }
-
     }
 
     @Override
@@ -892,11 +1031,17 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         try {
             enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.valueOf(naming);
         } catch (IllegalArgumentException e) {
-            String values = Stream.of(ENUM_PROPERTY_NAMING_TYPE.values())
-                    .map(value -> "'" + value.name() + "'")
-                    .collect(Collectors.joining(", "));
+            String values =
+                    Stream.of(ENUM_PROPERTY_NAMING_TYPE.values())
+                            .map(value -> "'" + value.name() + "'")
+                            .collect(Collectors.joining(", "));
 
-            String msg = String.format(Locale.ROOT, "Invalid enum property naming '%s'. Must be one of %s.", naming, values);
+            String msg =
+                    String.format(
+                            Locale.ROOT,
+                            "Invalid enum property naming '%s'. Must be one of %s.",
+                            naming,
+                            values);
             throw new IllegalArgumentException(msg);
         }
     }
@@ -946,14 +1091,18 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
-                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + classEnumSeparator + var.enumName);
+                    var.datatypeWithEnum =
+                            var.datatypeWithEnum.replace(
+                                    var.enumName, cm.classname + classEnumSeparator + var.enumName);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
-                        var.datatypeWithEnum = var.datatypeWithEnum
-                                .replace(var.enumName, cm.classname + classEnumSeparator + var.enumName);
+                        var.datatypeWithEnum =
+                                var.datatypeWithEnum.replace(
+                                        var.enumName,
+                                        cm.classname + classEnumSeparator + var.enumName);
                     }
                 }
             }
@@ -971,7 +1120,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 CodegenModel cm = mo.getModel();
                 if (cm.discriminator != null && cm.children != null) {
                     for (CodegenModel child : cm.children) {
-                        this.setDiscriminatorValue(child, cm.discriminator.getPropertyName(), this.getDiscriminatorValue(child));
+                        this.setDiscriminatorValue(
+                                child,
+                                cm.discriminator.getPropertyName(),
+                                this.getDiscriminatorValue(child));
                     }
                 }
             }
@@ -1020,21 +1172,24 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         if (model.children != null) {
             final boolean newDiscriminator = model.discriminator != null;
             for (CodegenModel child : model.children) {
-                this.setDiscriminatorValue(child, baseName, newDiscriminator ? value : this.getDiscriminatorValue(child));
+                this.setDiscriminatorValue(
+                        child,
+                        baseName,
+                        newDiscriminator ? value : this.getDiscriminatorValue(child));
             }
         }
     }
 
     private String getDiscriminatorValue(CodegenModel model) {
-        return model.vendorExtensions.containsKey(X_DISCRIMINATOR_TYPE) ?
-                (String) model.vendorExtensions.get(X_DISCRIMINATOR_TYPE) : model.classname;
+        return model.vendorExtensions.containsKey(X_DISCRIMINATOR_TYPE)
+                ? (String) model.vendorExtensions.get(X_DISCRIMINATOR_TYPE)
+                : model.classname;
     }
 
     @Override
     public String escapeQuotationMark(String input) {
         // remove ', " to avoid code injection
         return input.replace("\"", "").replace("'", "");
-
     }
 
     @Override
@@ -1070,12 +1225,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                    LOGGER.error(
+                            "Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
                     LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                LOGGER.error(
+                        "Error running the command ({}). Exception: {}", command, e.getMessage());
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
@@ -1104,26 +1261,33 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     /**
-     * Extracts the list of type names from a list of schemas.
-     * Excludes `AnyType` if there are other valid types extracted.
+     * Extracts the list of type names from a list of schemas. Excludes `AnyType` if there are other
+     * valid types extracted.
      *
      * @param schemas list of schemas
      * @return list of types
      */
     protected List<String> getTypesFromSchemas(List<Schema> schemas) {
-        List<Schema> filteredSchemas = schemas.size() > 1
-                ? schemas.stream().filter(schema -> !"AnyType".equals(super.getSchemaType(schema))).collect(Collectors.toList())
-                : schemas;
+        List<Schema> filteredSchemas =
+                schemas.size() > 1
+                        ? schemas.stream()
+                                .filter(schema -> !"AnyType".equals(super.getSchemaType(schema)))
+                                .collect(Collectors.toList())
+                        : schemas;
 
-        return filteredSchemas.stream().map(schema -> {
-            String schemaType = getSchemaType(schema);
-            if (ModelUtils.isArraySchema(schema)) {
-                ArraySchema ap = (ArraySchema) schema;
-                Schema inner = ap.getItems();
-                schemaType = schemaType + "<" + getSchemaType(inner) + ">";
-            }
-            return schemaType;
-        }).distinct().collect(Collectors.toList());
+        return filteredSchemas.stream()
+                .map(
+                        schema -> {
+                            String schemaType = getSchemaType(schema);
+                            if (ModelUtils.isArraySchema(schema)) {
+                                ArraySchema ap = (ArraySchema) schema;
+                                Schema inner = ap.getItems();
+                                schemaType = schemaType + "<" + getSchemaType(inner) + ">";
+                            }
+                            return schemaType;
+                        })
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     @Override

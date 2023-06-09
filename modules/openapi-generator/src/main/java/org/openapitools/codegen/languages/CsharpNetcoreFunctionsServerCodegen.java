@@ -16,10 +16,18 @@
 
 package org.openapitools.codegen.languages;
 
+import static java.util.UUID.randomUUID;
+
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.io.File;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -29,15 +37,6 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import static java.util.UUID.randomUUID;
 
 public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
 
@@ -64,13 +63,21 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
 
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
-    protected CliOption netCoreVersion = new CliOption(NET_CORE_VERSION, ".NET Core version: 6.0, 5.0, 3.1, 3.0");
-    protected CliOption azureFunctionsVersion = new CliOption(AZURE_FUNCTIONS_VERSION, "Azure functions version: v4, v3");
-    private CliOption classModifier = new CliOption(CLASS_MODIFIER, "Class Modifier for function classes: Empty string or abstract.");
-    private CliOption operationModifier = new CliOption(OPERATION_MODIFIER, "Operation Modifier can be virtual or abstract");
-    private CliOption modelClassModifier = new CliOption(MODEL_CLASS_MODIFIER, "Model Class Modifier can be nothing or partial");
+    protected CliOption netCoreVersion =
+            new CliOption(NET_CORE_VERSION, ".NET Core version: 6.0, 5.0, 3.1, 3.0");
+    protected CliOption azureFunctionsVersion =
+            new CliOption(AZURE_FUNCTIONS_VERSION, "Azure functions version: v4, v3");
+    private CliOption classModifier =
+            new CliOption(
+                    CLASS_MODIFIER,
+                    "Class Modifier for function classes: Empty string or abstract.");
+    private CliOption operationModifier =
+            new CliOption(OPERATION_MODIFIER, "Operation Modifier can be virtual or abstract");
+    private CliOption modelClassModifier =
+            new CliOption(MODEL_CLASS_MODIFIER, "Model Class Modifier can be nothing or partial");
     private boolean generateBody = true;
-    private CliOption buildTarget = new CliOption("buildTarget", "Target to build an application or library");
+    private CliOption buildTarget =
+            new CliOption("buildTarget", "Target to build an application or library");
     private String projectSdk = "Microsoft.NET.Sdk";
     private boolean operationIsAsync = false;
     private boolean operationResultTask = false;
@@ -83,35 +90,28 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
         super();
 
         // TODO: AspnetCore community review
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .excludeWireFormatFeatures(WireFormatFeature.PROTOBUF)
-                .includeSecurityFeatures(
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.BearerToken
-                )
-                .excludeSecurityFeatures(
-                        SecurityFeature.OpenIDConnect,
-                        SecurityFeature.OAuth2_Password,
-                        SecurityFeature.OAuth2_AuthorizationCode,
-                        SecurityFeature.OAuth2_ClientCredentials,
-                        SecurityFeature.OAuth2_Implicit
-                )
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling,
-                        GlobalFeature.MultiServer
-                )
-                .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .includeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .excludeWireFormatFeatures(WireFormatFeature.PROTOBUF)
+                                .includeSecurityFeatures(
+                                        SecurityFeature.ApiKey,
+                                        SecurityFeature.BasicAuth,
+                                        SecurityFeature.BearerToken)
+                                .excludeSecurityFeatures(
+                                        SecurityFeature.OpenIDConnect,
+                                        SecurityFeature.OAuth2_Password,
+                                        SecurityFeature.OAuth2_AuthorizationCode,
+                                        SecurityFeature.OAuth2_ClientCredentials,
+                                        SecurityFeature.OAuth2_Implicit)
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling,
+                                        GlobalFeature.MultiServer)
+                                .includeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .includeParameterFeatures(ParameterFeature.Cookie));
 
         outputFolder = "generated-code" + File.separator + getName();
 
@@ -121,10 +121,9 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
         embeddedTemplateDir = templateDir = "csharp-netcore-functions";
 
         // contextually reserved words
-        // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
-        reservedWords.addAll(
-                Arrays.asList("var", "async", "await", "dynamic", "yield")
-        );
+        // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want
+        // lowercase comparisons.
+        reservedWords.addAll(Arrays.asList("var", "async", "await", "dynamic", "yield"));
 
         cliOptions.clear();
 
@@ -142,45 +141,42 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
         setSupportNullable(Boolean.TRUE);
 
         // CLI options
-        addOption(CodegenConstants.PACKAGE_DESCRIPTION,
+        addOption(
+                CodegenConstants.PACKAGE_DESCRIPTION,
                 CodegenConstants.PACKAGE_DESCRIPTION_DESC,
                 packageDescription);
 
-        addOption(CodegenConstants.LICENSE_URL,
-                CodegenConstants.LICENSE_URL_DESC,
-                licenseUrl);
+        addOption(CodegenConstants.LICENSE_URL, CodegenConstants.LICENSE_URL_DESC, licenseUrl);
 
-        addOption(CodegenConstants.LICENSE_NAME,
-                CodegenConstants.LICENSE_NAME_DESC,
-                licenseName);
+        addOption(CodegenConstants.LICENSE_NAME, CodegenConstants.LICENSE_NAME_DESC, licenseName);
 
-        addOption(CodegenConstants.PACKAGE_COPYRIGHT,
+        addOption(
+                CodegenConstants.PACKAGE_COPYRIGHT,
                 CodegenConstants.PACKAGE_COPYRIGHT_DESC,
                 packageCopyright);
 
-        addOption(CodegenConstants.PACKAGE_AUTHORS,
+        addOption(
+                CodegenConstants.PACKAGE_AUTHORS,
                 CodegenConstants.PACKAGE_AUTHORS_DESC,
                 packageAuthors);
 
-        addOption(CodegenConstants.PACKAGE_TITLE,
-                CodegenConstants.PACKAGE_TITLE_DESC,
-                packageTitle);
+        addOption(
+                CodegenConstants.PACKAGE_TITLE, CodegenConstants.PACKAGE_TITLE_DESC, packageTitle);
 
-        addOption(CodegenConstants.PACKAGE_NAME,
+        addOption(
+                CodegenConstants.PACKAGE_NAME,
                 "C# package name (convention: Title.Case).",
                 packageName);
 
-        addOption(CodegenConstants.PACKAGE_VERSION,
-                "C# package version.",
-                packageVersion);
+        addOption(CodegenConstants.PACKAGE_VERSION, "C# package version.", packageVersion);
 
-        addOption(CodegenConstants.OPTIONAL_PROJECT_GUID,
+        addOption(
+                CodegenConstants.OPTIONAL_PROJECT_GUID,
                 CodegenConstants.OPTIONAL_PROJECT_GUID_DESC,
                 null);
 
-        addOption(CodegenConstants.SOURCE_FOLDER,
-                CodegenConstants.SOURCE_FOLDER_DESC,
-                sourceFolder);
+        addOption(
+                CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
 
         netCoreVersion.addEnum("3.0", ".NET Core 3.0");
         netCoreVersion.addEnum("3.1", ".NET Core 3.1");
@@ -197,39 +193,45 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
         cliOptions.add(azureFunctionsVersion);
 
         // CLI Switches
-        addSwitch(CodegenConstants.NULLABLE_REFERENCE_TYPES,
+        addSwitch(
+                CodegenConstants.NULLABLE_REFERENCE_TYPES,
                 CodegenConstants.NULLABLE_REFERENCE_TYPES_DESC,
                 this.nullReferenceTypesFlag);
 
-        addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
+        addSwitch(
+                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC,
                 sortParamsByRequiredFlag);
 
-        addSwitch(CodegenConstants.USE_DATETIME_OFFSET,
+        addSwitch(
+                CodegenConstants.USE_DATETIME_OFFSET,
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
                 useDateTimeOffsetFlag);
 
-        addSwitch(CodegenConstants.USE_COLLECTION,
+        addSwitch(
+                CodegenConstants.USE_COLLECTION,
                 CodegenConstants.USE_COLLECTION_DESC,
                 useCollection);
 
-        addSwitch(CodegenConstants.RETURN_ICOLLECTION,
+        addSwitch(
+                CodegenConstants.RETURN_ICOLLECTION,
                 CodegenConstants.RETURN_ICOLLECTION_DESC,
                 returnICollection);
 
-        addSwitch(USE_NEWTONSOFT,
-                "Uses the Newtonsoft JSON library.",
-                useNewtonsoft);
+        addSwitch(USE_NEWTONSOFT, "Uses the Newtonsoft JSON library.", useNewtonsoft);
 
-        addOption(NEWTONSOFT_VERSION,
+        addOption(
+                NEWTONSOFT_VERSION,
                 "Version for Newtonsoft.Json for .NET Core 3.0+",
                 newtonsoftVersion);
 
-        addOption(CodegenConstants.ENUM_NAME_SUFFIX,
+        addOption(
+                CodegenConstants.ENUM_NAME_SUFFIX,
                 CodegenConstants.ENUM_NAME_SUFFIX_DESC,
                 enumNameSuffix);
 
-        addOption(CodegenConstants.ENUM_VALUE_SUFFIX,
+        addOption(
+                CodegenConstants.ENUM_VALUE_SUFFIX,
                 "Suffix that will be appended to all enum values.",
                 enumValueSuffix);
 
@@ -237,7 +239,10 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
         classModifier.addEnum("abstract", "Make class abstract");
         classModifier.setDefault("");
         classModifier.setOptValue(classModifier.getDefault());
-        addOption(classModifier.getOpt(), classModifier.getDescription(), classModifier.getOptValue());
+        addOption(
+                classModifier.getOpt(),
+                classModifier.getDescription(),
+                classModifier.getOptValue());
 
         operationModifier.addEnum("virtual", "Keep method virtual");
         operationModifier.addEnum("abstract", "Make method abstract");
@@ -251,24 +256,21 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
         buildTarget.setOptValue(buildTarget.getDefault());
         cliOptions.add(buildTarget);
 
-        addSwitch(GENERATE_BODY,
-                "Generates method body.",
-                generateBody);
+        addSwitch(GENERATE_BODY, "Generates method body.", generateBody);
 
-        addSwitch(OPERATION_IS_ASYNC,
-                "Set methods to async or sync (default).",
-                operationIsAsync);
+        addSwitch(OPERATION_IS_ASYNC, "Set methods to async or sync (default).", operationIsAsync);
 
-        addSwitch(OPERATION_RESULT_TASK,
-                "Set methods result to Task<>.",
-                operationResultTask);
+        addSwitch(OPERATION_RESULT_TASK, "Set methods result to Task<>.", operationResultTask);
 
         modelClassModifier.setType("String");
         modelClassModifier.addEnum("", "Keep model class default with no modifier");
         modelClassModifier.addEnum("partial", "Make model class partial");
         modelClassModifier.setDefault("partial");
         modelClassModifier.setOptValue(modelClassModifier.getDefault());
-        addOption(modelClassModifier.getOpt(), modelClassModifier.getDescription(), modelClassModifier.getOptValue());
+        addOption(
+                modelClassModifier.getOpt(),
+                modelClassModifier.getDescription(),
+                modelClassModifier.getOptValue());
     }
 
     @Override
@@ -301,7 +303,8 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
         super.processOpts();
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_GUID)) {
-            setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
+            setPackageGuid(
+                    (String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
         }
         additionalProperties.put("packageGuid", packageGuid);
 
@@ -323,7 +326,6 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
         setOperationModifier();
         setModelClassModifier();
         setOperationIsAsync();
-
 
         additionalProperties.put("dockerTag", packageName.toLowerCase(Locale.ROOT));
 
@@ -351,11 +353,23 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
         supportingFiles.add(new SupportingFile("gitignore", packageFolder, ".gitignore"));
-        supportingFiles.add(new SupportingFile("OpenApi" + File.separator + "TypeExtensions.mustache", packageFolder + File.separator + "OpenApi", "TypeExtensions.cs"));
-        supportingFiles.add(new SupportingFile("Project.csproj.mustache", packageFolder, packageName + ".csproj"));
-        supportingFiles.add(new SupportingFile("typeConverter.mustache", packageFolder + File.separator + "Converters", "CustomEnumConverter.cs"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "OpenApi" + File.separator + "TypeExtensions.mustache",
+                        packageFolder + File.separator + "OpenApi",
+                        "TypeExtensions.cs"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "Project.csproj.mustache", packageFolder, packageName + ".csproj"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "typeConverter.mustache",
+                        packageFolder + File.separator + "Converters",
+                        "CustomEnumConverter.cs"));
         supportingFiles.add(new SupportingFile("host.json.mustache", packageFolder, "host.json"));
-        supportingFiles.add(new SupportingFile("local.settings.json.mustache", packageFolder, "local.settings.json"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "local.settings.json.mustache", packageFolder, "local.settings.json"));
     }
 
     public void setPackageGuid(String packageGuid) {
@@ -364,12 +378,24 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + "Functions";
+        return outputFolder
+                + File.separator
+                + sourceFolder
+                + File.separator
+                + packageName
+                + File.separator
+                + "Functions";
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + "Models";
+        return outputFolder
+                + File.separator
+                + sourceFolder
+                + File.separator
+                + packageName
+                + File.separator
+                + "Models";
     }
 
     @Override
@@ -390,18 +416,25 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
             String original = operation.path;
             operation.path = operation.path.replace("?", "/");
             if (!original.equals(operation.path)) {
-                LOGGER.warn("Normalized {} to {}. Please verify generated source.", original, operation.path);
+                LOGGER.warn(
+                        "Normalized {} to {}. Please verify generated source.",
+                        original,
+                        operation.path);
             }
         }
 
         // Converts, for example, PUT to HttpPut for function attributes
-        operation.httpMethod = operation.httpMethod.charAt(0) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
+        operation.httpMethod =
+                operation.httpMethod.charAt(0)
+                        + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
-        // We need to postprocess the operations to add proper consumes tags and fix form file handling
+        // We need to postprocess the operations to add proper consumes tags and fix form file
+        // handling
         if (objs != null) {
             OperationMap operations = objs.getOperations();
             if (operations != null) {
@@ -414,7 +447,8 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
                         continue;
                     }
 
-                    // Build a consumes string for the operation we cannot iterate in the template as we need a ','
+                    // Build a consumes string for the operation we cannot iterate in the template
+                    // as we need a ','
                     // after each entry but the last
 
                     StringBuilder consumesString = new StringBuilder();
@@ -424,17 +458,23 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
                         }
 
                         if (consumesString.toString().isEmpty()) {
-                            consumesString = new StringBuilder("\"" + consume.get("mediaType") + "\"");
+                            consumesString =
+                                    new StringBuilder("\"" + consume.get("mediaType") + "\"");
                         } else {
-                            consumesString.append(", \"").append(consume.get("mediaType")).append("\"");
+                            consumesString
+                                    .append(", \"")
+                                    .append(consume.get("mediaType"))
+                                    .append("\"");
                         }
 
-                        // In a multipart/form-data consuming context binary data is best handled by an IFormFile
+                        // In a multipart/form-data consuming context binary data is best handled by
+                        // an IFormFile
                         if (!consume.get("mediaType").equals("multipart/form-data")) {
                             continue;
                         }
 
-                        // Change dataType of binary parameters to IFormFile for formParams in multipart/form-data
+                        // Change dataType of binary parameters to IFormFile for formParams in
+                        // multipart/form-data
                         for (CodegenParameter param : operation.formParams) {
                             if (param.isBinary) {
                                 param.dataType = "IFormFile";
@@ -451,7 +491,8 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
                     }
 
                     if (!consumesString.toString().isEmpty()) {
-                        operation.vendorExtensions.put("x-aspnetcore-consumes", consumesString.toString());
+                        operation.vendorExtensions.put(
+                                "x-aspnetcore-consumes", consumesString.toString());
                     }
                 }
             }
@@ -461,7 +502,8 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
-        // To avoid unexpected behaviors when options are passed programmatically such as { "useCollection": "" }
+        // To avoid unexpected behaviors when options are passed programmatically such as {
+        // "useCollection": "" }
         return super.processCompiler(compiler).emptyStringIsFalse(true);
     }
 
@@ -474,7 +516,9 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
     @Override
     public String getNullableType(Schema p, String type) {
         if (languageSpecificPrimitives.contains(type)) {
-            if (isSupportNullable() && ModelUtils.isNullable(p) && (nullableType.contains(type) || nullReferenceTypesFlag)) {
+            if (isSupportNullable()
+                    && ModelUtils.isNullable(p)
+                    && (nullableType.contains(type) || nullReferenceTypesFlag)) {
                 return type + "?";
             } else {
                 return type;
@@ -500,8 +544,13 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
         }
         if (cliOption.getOptValue() == null) {
             cliOption.setOptValue(cliOption.getDefault());
-            throw new IllegalArgumentException(cliOption.getOpt() + ": Invalid value '" + additionalProperties.get(cliOption.getOpt()).toString() + "'" +
-                    ". " + cliOption.getDescription());
+            throw new IllegalArgumentException(
+                    cliOption.getOpt()
+                            + ": Invalid value '"
+                            + additionalProperties.get(cliOption.getOpt()).toString()
+                            + "'"
+                            + ". "
+                            + cliOption.getDescription());
         }
     }
 
@@ -513,7 +562,10 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
         if ("abstract".equals(classModifier.getOptValue())) {
             operationModifier.setOptValue(classModifier.getOptValue());
             additionalProperties.put(OPERATION_MODIFIER, operationModifier.getOptValue());
-            LOGGER.warn("classModifier is {} so forcing operationModifier to {}", classModifier.getOptValue(), operationModifier.getOptValue());
+            LOGGER.warn(
+                    "classModifier is {} so forcing operationModifier to {}",
+                    classModifier.getOptValue(),
+                    operationModifier.getOptValue());
         }
     }
 
@@ -524,7 +576,10 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
         if ("abstract".equals(operationModifier.getOptValue())) {
             generateBody = false;
             additionalProperties.put(GENERATE_BODY, generateBody);
-            LOGGER.warn("operationModifier is {} so forcing generateBody to {}", operationModifier.getOptValue(), generateBody);
+            LOGGER.warn(
+                    "operationModifier is {} so forcing generateBody to {}",
+                    operationModifier.getOptValue(),
+                    generateBody);
         } else if (additionalProperties.containsKey(GENERATE_BODY)) {
             generateBody = convertPropertyToBooleanAndWriteBack(GENERATE_BODY);
         } else {
@@ -539,7 +594,9 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
         if (isLibrary) {
             modelClassModifier.setOptValue("");
             additionalProperties.put(MODEL_CLASS_MODIFIER, modelClassModifier.getOptValue());
-            LOGGER.warn("buildTarget is {} so removing any modelClassModifier ", buildTarget.getOptValue());
+            LOGGER.warn(
+                    "buildTarget is {} so removing any modelClassModifier ",
+                    buildTarget.getOptValue());
         }
     }
 
@@ -557,14 +614,16 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
             functionsSDKVersion = "4.0.1";
 
             if (!netCoreVersion.getOptValue().startsWith("6.")) {
-                LOGGER.warn("ASP.NET core version: {} is not compatible with Azure functions v4. Using version 6.0.", netCoreVersion.getOptValue());
+                LOGGER.warn(
+                        "ASP.NET core version: {} is not compatible with Azure functions v4. Using version 6.0.",
+                        netCoreVersion.getOptValue());
                 netCoreVersion.setOptValue("6.0");
             }
         }
 
         additionalProperties.put(FUNCTIONS_SDK_VERSION, functionsSDKVersion);
 
-        //set .NET target version
+        // set .NET target version
         String targetFrameworkVersion = "net" + netCoreVersion.getOptValue();
         additionalProperties.put(TARGET_FRAMEWORK, targetFrameworkVersion);
     }
@@ -594,8 +653,7 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
 
         // if a base path exists, remove leading '/' and append trailing '/'
         if (apiBasePath != null && apiBasePath.length() > 0) {
-            if (apiBasePath.startsWith("/"))
-                apiBasePath = apiBasePath.substring(1);
+            if (apiBasePath.startsWith("/")) apiBasePath = apiBasePath.substring(1);
 
             if (apiBasePath.endsWith("/"))
                 apiBasePath = apiBasePath.substring(0, apiBasePath.lastIndexOf("/"));

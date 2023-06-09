@@ -17,13 +17,13 @@
 
 package org.openapitools.codegen.objc;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.ObjcClientCodegen;
 import org.openapitools.codegen.options.ObjcClientOptionsProvider;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class ObjcClientOptionsTest extends AbstractOptionsTest {
     private ObjcClientCodegen clientCodegen = mock(ObjcClientCodegen.class, mockSettings);

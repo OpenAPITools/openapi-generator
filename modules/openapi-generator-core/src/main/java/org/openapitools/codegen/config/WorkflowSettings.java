@@ -16,9 +16,6 @@
 
 package org.openapitools.codegen.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -27,10 +24,10 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * Represents those settings applied to a generation workflow.
- */
+/** Represents those settings applied to a generation workflow. */
 @SuppressWarnings("WeakerAccess")
 public class WorkflowSettings {
 
@@ -46,8 +43,10 @@ public class WorkflowSettings {
     public static final boolean DEFAULT_ENABLE_MINIMAL_UPDATE = false;
     public static final boolean DEFAULT_STRICT_SPEC_BEHAVIOR = true;
     public static final boolean DEFAULT_GENERATE_ALIAS_AS_MODEL = false;
-    public static final String DEFAULT_TEMPLATING_ENGINE_NAME = null; // this is set by the generator
-    public static final Map<String, String> DEFAULT_GLOBAL_PROPERTIES = Collections.unmodifiableMap(new HashMap<>());
+    public static final String DEFAULT_TEMPLATING_ENGINE_NAME =
+            null; // this is set by the generator
+    public static final Map<String, String> DEFAULT_GLOBAL_PROPERTIES =
+            Collections.unmodifiableMap(new HashMap<>());
 
     private String inputSpec;
     private String outputDir = DEFAULT_OUTPUT_DIR;
@@ -85,13 +84,9 @@ public class WorkflowSettings {
         this.generateAliasAsModel = builder.generateAliasAsModel;
     }
 
-    /**
-     * Instantiates a new workflow settings.
-     */
+    /** Instantiates a new workflow settings. */
     @SuppressWarnings("unused")
-    public WorkflowSettings() {
-
-    }
+    public WorkflowSettings() {}
 
     public static Builder newBuilder() {
         return new Builder();
@@ -142,7 +137,8 @@ public class WorkflowSettings {
     }
 
     /**
-     * Configures verbosity of generation. When <code>true</code>, more messages will be printed during generation.
+     * Configures verbosity of generation. When <code>true</code>, more messages will be printed
+     * during generation.
      *
      * @return <code>true</code> if verbose mode, <code>false</code> otherwise.
      */
@@ -151,20 +147,24 @@ public class WorkflowSettings {
     }
 
     /**
-     * Indicates whether or not the existing files should be overwritten during the generation. This option is more rudimentary than
-     * defining patterns in .openapi-generator-ignore or {@link WorkflowSettings#isEnableMinimalUpdate()}.
+     * Indicates whether or not the existing files should be overwritten during the generation. This
+     * option is more rudimentary than defining patterns in .openapi-generator-ignore or {@link
+     * WorkflowSettings#isEnableMinimalUpdate()}.
      *
      * @return <code>true</code> if defaulting to overwriting files, false otherwise.
-     * @see <a href="https://openapi-generator.tech/docs/customization#ignore-file-format">Ignore File Format</a>
+     * @see <a href="https://openapi-generator.tech/docs/customization#ignore-file-format">Ignore
+     *     File Format</a>
      */
     public boolean isSkipOverwrite() {
         return skipOverwrite;
     }
 
     /**
-     * Indicates whether or not to remove the prefix of operationId, e.g. <code>config_getId</code> to <code>getId</code>.
+     * Indicates whether or not to remove the prefix of operationId, e.g. <code>config_getId</code>
+     * to <code>getId</code>.
      *
-     * @return <code>true</code> if the operation id prefix should be removed during generation, <code>false</code> otherwise.
+     * @return <code>true</code> if the operation id prefix should be removed during generation,
+     *     <code>false</code> otherwise.
      */
     public boolean isRemoveOperationIdPrefix() {
         return removeOperationIdPrefix;
@@ -180,11 +180,12 @@ public class WorkflowSettings {
     }
 
     /**
-     * Indicates whether or not the generator's executor will write all log messages (not just errors) to STDOUT. Useful for
-     * piping the JSON output of debug options (e.g. <code>-DdebugOperations</code>) to an external parser directly while testing a generator.
+     * Indicates whether or not the generator's executor will write all log messages (not just
+     * errors) to STDOUT. Useful for piping the JSON output of debug options (e.g. <code>
+     * -DdebugOperations</code>) to an external parser directly while testing a generator.
      *
      * @return <code>true</code> if the executor should attempt to write all messages to stderr,
-     * false otherwise (which defaults to logging configuration, not necessarily stdout).
+     *     false otherwise (which defaults to logging configuration, not necessarily stdout).
      */
     public boolean isLogToStderr() {
         return logToStderr;
@@ -192,25 +193,28 @@ public class WorkflowSettings {
 
     /**
      * Indicates whether or not generation should also validate an input specification.
-     * <p>
-     * NOTE: Invalid specs may result in a generation error, disabling may cause unexpected results.
      *
-     * @return <code>true</code> if spec document validation is enabled, otherwise <code>false</code>. Default: <code>true</code>.
+     * <p>NOTE: Invalid specs may result in a generation error, disabling may cause unexpected
+     * results.
+     *
+     * @return <code>true</code> if spec document validation is enabled, otherwise <code>false
+     *     </code>. Default: <code>true</code>.
      */
     public boolean isValidateSpec() {
         return validateSpec;
     }
 
     /**
-     * Indicates whether or not file post-processing is enabled for generators which support it. Refer to individual generator documentation for details.
-     * <p>
-     * In general, once enabled, a generator will evaluate a command stored in <code>LANG_POST_PROCESS_FILE</code>.
-     * <p>
-     * For example:
+     * Indicates whether or not file post-processing is enabled for generators which support it.
+     * Refer to individual generator documentation for details.
      *
-     * <code>export SCALA_POST_PROCESS_FILE=/usr/local/bin/scalafmt</code>
-     * <p>
-     * Here, a Scala generator which supports file post-processing will run scalafmt for each generated file.
+     * <p>In general, once enabled, a generator will evaluate a command stored in <code>
+     * LANG_POST_PROCESS_FILE</code>.
+     *
+     * <p>For example: <code>export SCALA_POST_PROCESS_FILE=/usr/local/bin/scalafmt</code>
+     *
+     * <p>Here, a Scala generator which supports file post-processing will run scalafmt for each
+     * generated file.
      *
      * @return <code>true</code> if file post-processing is enabled, otherwise <code>false</code>.
      */
@@ -228,26 +232,31 @@ public class WorkflowSettings {
     }
 
     /**
-     * Indicates whether or not the generation should convert aliases (primitives defined as schema for use within documents) as models.
+     * Indicates whether or not the generation should convert aliases (primitives defined as schema
+     * for use within documents) as models.
      *
-     * @return <code>true</code> if generate-alias-as-model is enabled, otherwise <code>false</code>.
+     * @return <code>true</code> if generate-alias-as-model is enabled, otherwise <code>false</code>
+     *     .
      */
     public boolean isGenerateAliasAsModel() {
         return generateAliasAsModel;
     }
 
     /**
-     * Indicates whether or not 'MUST' and 'SHALL' wording in the api specification is strictly adhered to.
-     * For example, when <code>false</code>, no automatic 'fixes' will be applied to documents which pass validation but don't follow the spec.
+     * Indicates whether or not 'MUST' and 'SHALL' wording in the api specification is strictly
+     * adhered to. For example, when <code>false</code>, no automatic 'fixes' will be applied to
+     * documents which pass validation but don't follow the spec.
      *
-     * @return <code>true</code> if the generator should attempt to strictly follow rules in the specification, otherwise <code>false</code>.
+     * @return <code>true</code> if the generator should attempt to strictly follow rules in the
+     *     specification, otherwise <code>false</code>.
      */
     public boolean isStrictSpecBehavior() {
         return strictSpecBehavior;
     }
 
     /**
-     * Gets the directory holding templates used in generation. This option allows users to extend or modify built-in templates, or to write their own.
+     * Gets the directory holding templates used in generation. This option allows users to extend
+     * or modify built-in templates, or to write their own.
      *
      * @return the template dir
      */
@@ -256,18 +265,21 @@ public class WorkflowSettings {
     }
 
     /**
-     * Gets the name of the templating engine to target. This option allows a user to target an engine which differs from the generator default, or to
-     * refer to their own fully qualified type name of a custom template engine adapter.
+     * Gets the name of the templating engine to target. This option allows a user to target an
+     * engine which differs from the generator default, or to refer to their own fully qualified
+     * type name of a custom template engine adapter.
      *
      * @return the templating engine name
-     * @see <a href="https://openapi-generator.tech/docs/templating#custom-engines">Custom Engines</a>
+     * @see <a href="https://openapi-generator.tech/docs/templating#custom-engines">Custom
+     *     Engines</a>
      */
     public String getTemplatingEngineName() {
         return templatingEngineName;
     }
 
     /**
-     * Gets the override location for the .openapi-generator-ignore file. Most useful on initial generation.
+     * Gets the override location for the .openapi-generator-ignore file. Most useful on initial
+     * generation.
      *
      * @return the ignore file override
      */
@@ -282,19 +294,21 @@ public class WorkflowSettings {
      */
     public Map<String, String> getGlobalProperties() {
         return globalProperties.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> {
-                    if (e.getValue() instanceof List) {
-                        return ((List<?>) e.getValue()).stream()
-                                .map(Object::toString)
-                                .collect(Collectors.joining(","));
-                    }
-                    return String.valueOf(e.getValue());
-                }));
+                .collect(
+                        Collectors.toMap(
+                                Map.Entry::getKey,
+                                e -> {
+                                    if (e.getValue() instanceof List) {
+                                        return ((List<?>) e.getValue())
+                                                .stream()
+                                                        .map(Object::toString)
+                                                        .collect(Collectors.joining(","));
+                                    }
+                                    return String.valueOf(e.getValue());
+                                }));
     }
 
-    /**
-     * {@code WorkflowSettings} builder static inner class.
-     */
+    /** {@code WorkflowSettings} builder static inner class. */
     @SuppressWarnings("unused")
     public static final class Builder {
         private String inputSpec;
@@ -313,15 +327,15 @@ public class WorkflowSettings {
         private String templatingEngineName = DEFAULT_TEMPLATING_ENGINE_NAME;
         private String ignoreFileOverride;
 
-        // NOTE: All collections must be mutable in the builder, and copied to a new immutable collection in .build()
+        // NOTE: All collections must be mutable in the builder, and copied to a new immutable
+        // collection in .build()
         private Map<String, String> globalProperties = new HashMap<>();
 
-        private Builder() {
-        }
-
+        private Builder() {}
 
         /**
-         * Sets the {@code inputSpec} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code inputSpec} and returns a reference to this Builder so that the methods
+         * can be chained together.
          *
          * @param inputSpec the {@code inputSpec} to set
          * @return a reference to this Builder
@@ -334,13 +348,14 @@ public class WorkflowSettings {
         }
 
         /**
-         * Sets the {@code outputDir} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code outputDir} and returns a reference to this Builder so that the methods
+         * can be chained together.
          *
          * @param outputDir the {@code outputDir} to set
          * @return a reference to this Builder
          */
         public Builder withOutputDir(String outputDir) {
-            if (outputDir != null ) {
+            if (outputDir != null) {
                 this.outputDir = Paths.get(outputDir).toAbsolutePath().toString();
             } else {
                 this.outputDir = DEFAULT_OUTPUT_DIR;
@@ -349,7 +364,8 @@ public class WorkflowSettings {
         }
 
         /**
-         * Sets the {@code verbose} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code verbose} and returns a reference to this Builder so that the methods can
+         * be chained together.
          *
          * @param verbose the {@code verbose} to set
          * @return a reference to this Builder
@@ -360,107 +376,138 @@ public class WorkflowSettings {
         }
 
         /**
-         * Sets the {@code skipOverwrite} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code skipOverwrite} and returns a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param skipOverwrite the {@code skipOverwrite} to set
          * @return a reference to this Builder
          */
         public Builder withSkipOverwrite(Boolean skipOverwrite) {
-            this.skipOverwrite = skipOverwrite != null ? skipOverwrite : Boolean.valueOf(DEFAULT_SKIP_OVERWRITE);
+            this.skipOverwrite =
+                    skipOverwrite != null ? skipOverwrite : Boolean.valueOf(DEFAULT_SKIP_OVERWRITE);
             return this;
         }
 
         /**
-         * Sets the {@code removeOperationIdPrefix} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code removeOperationIdPrefix} and returns a reference to this Builder so that
+         * the methods can be chained together.
          *
          * @param removeOperationIdPrefix the {@code removeOperationIdPrefix} to set
          * @return a reference to this Builder
          */
         public Builder withRemoveOperationIdPrefix(Boolean removeOperationIdPrefix) {
-            this.removeOperationIdPrefix = removeOperationIdPrefix != null ? removeOperationIdPrefix : Boolean.valueOf(DEFAULT_REMOVE_OPERATION_ID_PREFIX);
+            this.removeOperationIdPrefix =
+                    removeOperationIdPrefix != null
+                            ? removeOperationIdPrefix
+                            : Boolean.valueOf(DEFAULT_REMOVE_OPERATION_ID_PREFIX);
             return this;
         }
 
         /**
-         * Sets the {@code skipOperationExample} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code skipOperationExample} and returns a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param skipOperationExample the {@code skipOperationExample} to set
          * @return a reference to this Builder
          */
         public Builder withSkipOperationExample(Boolean skipOperationExample) {
-            this.skipOperationExample = skipOperationExample != null ? skipOperationExample : Boolean.valueOf(DEFAULT_REMOVE_OPERATION_ID_PREFIX);
+            this.skipOperationExample =
+                    skipOperationExample != null
+                            ? skipOperationExample
+                            : Boolean.valueOf(DEFAULT_REMOVE_OPERATION_ID_PREFIX);
             return this;
         }
 
         /**
-         * Sets the {@code logToStderr} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code logToStderr} and returns a reference to this Builder so that the methods
+         * can be chained together.
          *
          * @param logToStderr the {@code logToStderr} to set
          * @return a reference to this Builder
          */
         public Builder withLogToStderr(Boolean logToStderr) {
-            this.logToStderr = logToStderr != null ? logToStderr : Boolean.valueOf(DEFAULT_LOG_TO_STDERR);
+            this.logToStderr =
+                    logToStderr != null ? logToStderr : Boolean.valueOf(DEFAULT_LOG_TO_STDERR);
             return this;
         }
 
         /**
-         * Sets the {@code validateSpec} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code validateSpec} and returns a reference to this Builder so that the methods
+         * can be chained together.
          *
          * @param validateSpec the {@code validateSpec} to set
          * @return a reference to this Builder
          */
         public Builder withValidateSpec(Boolean validateSpec) {
-            this.validateSpec = validateSpec != null ? validateSpec : Boolean.valueOf(DEFAULT_VALIDATE_SPEC);
+            this.validateSpec =
+                    validateSpec != null ? validateSpec : Boolean.valueOf(DEFAULT_VALIDATE_SPEC);
             return this;
         }
 
         /**
-         * Sets the {@code enablePostProcessFile} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code enablePostProcessFile} and returns a reference to this Builder so that
+         * the methods can be chained together.
          *
          * @param enablePostProcessFile the {@code enablePostProcessFile} to set
          * @return a reference to this Builder
          */
         public Builder withEnablePostProcessFile(Boolean enablePostProcessFile) {
-            this.enablePostProcessFile = enablePostProcessFile != null ? enablePostProcessFile : Boolean.valueOf(DEFAULT_ENABLE_POST_PROCESS_FILE);
+            this.enablePostProcessFile =
+                    enablePostProcessFile != null
+                            ? enablePostProcessFile
+                            : Boolean.valueOf(DEFAULT_ENABLE_POST_PROCESS_FILE);
             return this;
         }
 
         /**
-         * Sets the {@code enableMinimalUpdate} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code enableMinimalUpdate} and returns a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param enableMinimalUpdate the {@code enableMinimalUpdate} to set
          * @return a reference to this Builder
          */
         public Builder withEnableMinimalUpdate(Boolean enableMinimalUpdate) {
-            this.enableMinimalUpdate = enableMinimalUpdate != null ? enableMinimalUpdate : Boolean.valueOf(DEFAULT_ENABLE_MINIMAL_UPDATE);
+            this.enableMinimalUpdate =
+                    enableMinimalUpdate != null
+                            ? enableMinimalUpdate
+                            : Boolean.valueOf(DEFAULT_ENABLE_MINIMAL_UPDATE);
             return this;
         }
 
         /**
-         * Sets the {@code strictSpecBehavior} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code strictSpecBehavior} and returns a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param strictSpecBehavior the {@code strictSpecBehavior} to set
          * @return a reference to this Builder
          */
         public Builder withStrictSpecBehavior(Boolean strictSpecBehavior) {
-            this.strictSpecBehavior = strictSpecBehavior != null ? strictSpecBehavior : Boolean.valueOf(DEFAULT_STRICT_SPEC_BEHAVIOR);
+            this.strictSpecBehavior =
+                    strictSpecBehavior != null
+                            ? strictSpecBehavior
+                            : Boolean.valueOf(DEFAULT_STRICT_SPEC_BEHAVIOR);
             return this;
         }
 
         /**
-         * Sets the {@code generateAliasAsModel} and returns a reference to this Builder so that the methods can be chained together.
-         * An 'alias' is a primitive type defined as a schema, and this option will attempt to construct a model for that primitive.
+         * Sets the {@code generateAliasAsModel} and returns a reference to this Builder so that the
+         * methods can be chained together. An 'alias' is a primitive type defined as a schema, and
+         * this option will attempt to construct a model for that primitive.
          *
          * @param generateAliasAsModel the {@code generateAliasAsModel} to set
          * @return a reference to this Builder
          */
         public Builder withGenerateAliasAsModel(Boolean generateAliasAsModel) {
-            this.generateAliasAsModel = generateAliasAsModel != null ? generateAliasAsModel : Boolean.valueOf(DEFAULT_GENERATE_ALIAS_AS_MODEL);
+            this.generateAliasAsModel =
+                    generateAliasAsModel != null
+                            ? generateAliasAsModel
+                            : Boolean.valueOf(DEFAULT_GENERATE_ALIAS_AS_MODEL);
             return this;
         }
 
         /**
-         * Sets the {@code templateDir} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code templateDir} and returns a reference to this Builder so that the methods
+         * can be chained together.
          *
          * @param templateDir the {@code templateDir} to set
          * @return a reference to this Builder
@@ -473,12 +520,14 @@ public class WorkflowSettings {
                 // check to see if the folder exists
                 if (f.exists() && f.isDirectory()) {
                     uri = f.toURI();
-                    this.templateDir =  Paths.get(uri).toAbsolutePath().normalize().toString();
+                    this.templateDir = Paths.get(uri).toAbsolutePath().normalize().toString();
                 } else {
                     String cpDir;
-                    // HACK: this duplicates TemplateManager.getCPResourcePath a bit. We should probably move that function to core.
+                    // HACK: this duplicates TemplateManager.getCPResourcePath a bit. We should
+                    // probably move that function to core.
                     if (!"/".equals(File.separator)) {
-                        // Windows users may pass path specific to OS, but classpath must be "/" separators
+                        // Windows users may pass path specific to OS, but classpath must be "/"
+                        // separators
                         cpDir = templateDir.replaceAll(Pattern.quote(File.separator), "/");
                     } else {
                         cpDir = templateDir;
@@ -488,10 +537,12 @@ public class WorkflowSettings {
                     if (url != null) {
                         try {
                             uri = url.toURI();
-                            // we can freely set to templateDir here and allow templating to manage template lookups
+                            // we can freely set to templateDir here and allow templating to manage
+                            // template lookups
                             this.templateDir = templateDir;
                         } catch (URISyntaxException e) {
-                            LOGGER.warn("The requested template was found on the classpath, but resulted in a syntax error.");
+                            LOGGER.warn(
+                                    "The requested template was found on the classpath, but resulted in a syntax error.");
                         }
                     }
                 }
@@ -506,18 +557,23 @@ public class WorkflowSettings {
         }
 
         /**
-         * Sets the {@code templatingEngineName} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code templatingEngineName} and returns a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param templatingEngineName the {@code templatingEngineName} to set
          * @return a reference to this Builder
          */
         public Builder withTemplatingEngineName(String templatingEngineName) {
-            this.templatingEngineName = templatingEngineName != null ? templatingEngineName : DEFAULT_TEMPLATING_ENGINE_NAME;
+            this.templatingEngineName =
+                    templatingEngineName != null
+                            ? templatingEngineName
+                            : DEFAULT_TEMPLATING_ENGINE_NAME;
             return this;
         }
 
         /**
-         * Sets the {@code ignoreFileOverride} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code ignoreFileOverride} and returns a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param ignoreFileOverride the {@code ignoreFileOverride} to set
          * @return a reference to this Builder
@@ -528,7 +584,8 @@ public class WorkflowSettings {
         }
 
         /**
-         * Sets the {@code globalProperties} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code globalProperties} and returns a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param globalProperties the {@code globalProperties} to set
          * @return a reference to this Builder
@@ -541,7 +598,8 @@ public class WorkflowSettings {
         }
 
         /**
-         * Sets the {@code globalProperties} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code globalProperties} and returns a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param key The key of a system (global) property to set
          * @param value The value of a system (global) property to set
@@ -558,7 +616,8 @@ public class WorkflowSettings {
         /**
          * Returns a {@code WorkflowSettings} built from the parameters previously set.
          *
-         * @return a {@code WorkflowSettings} built with parameters of this {@code WorkflowSettings.Builder}
+         * @return a {@code WorkflowSettings} built with parameters of this {@code
+         *     WorkflowSettings.Builder}
          */
         public WorkflowSettings build() {
             WorkflowSettings instance = new WorkflowSettings(this);
@@ -568,26 +627,45 @@ public class WorkflowSettings {
         }
     }
 
-
     @Override
     public String toString() {
-        return "WorkflowSettings{" +
-                "inputSpec='" + inputSpec + '\'' +
-                ", outputDir='" + outputDir + '\'' +
-                ", verbose=" + verbose +
-                ", skipOverwrite=" + skipOverwrite +
-                ", removeOperationIdPrefix=" + removeOperationIdPrefix +
-                ", logToStderr=" + logToStderr +
-                ", validateSpec=" + validateSpec +
-                ", enablePostProcessFile=" + enablePostProcessFile +
-                ", enableMinimalUpdate=" + enableMinimalUpdate +
-                ", strictSpecBehavior=" + strictSpecBehavior +
-                ", templateDir='" + templateDir + '\'' +
-                ", templatingEngineName='" + templatingEngineName + '\'' +
-                ", ignoreFileOverride='" + ignoreFileOverride + '\'' +
-                ", globalProperties=" + globalProperties +
-                ", generateAliasAsModel=" + generateAliasAsModel +
-                '}';
+        return "WorkflowSettings{"
+                + "inputSpec='"
+                + inputSpec
+                + '\''
+                + ", outputDir='"
+                + outputDir
+                + '\''
+                + ", verbose="
+                + verbose
+                + ", skipOverwrite="
+                + skipOverwrite
+                + ", removeOperationIdPrefix="
+                + removeOperationIdPrefix
+                + ", logToStderr="
+                + logToStderr
+                + ", validateSpec="
+                + validateSpec
+                + ", enablePostProcessFile="
+                + enablePostProcessFile
+                + ", enableMinimalUpdate="
+                + enableMinimalUpdate
+                + ", strictSpecBehavior="
+                + strictSpecBehavior
+                + ", templateDir='"
+                + templateDir
+                + '\''
+                + ", templatingEngineName='"
+                + templatingEngineName
+                + '\''
+                + ", ignoreFileOverride='"
+                + ignoreFileOverride
+                + '\''
+                + ", globalProperties="
+                + globalProperties
+                + ", generateAliasAsModel="
+                + generateAliasAsModel
+                + '}';
     }
 
     @Override
@@ -595,22 +673,22 @@ public class WorkflowSettings {
         if (this == o) return true;
         if (!(o instanceof WorkflowSettings)) return false;
         WorkflowSettings that = (WorkflowSettings) o;
-        return isVerbose() == that.isVerbose() &&
-                isSkipOverwrite() == that.isSkipOverwrite() &&
-                isRemoveOperationIdPrefix() == that.isRemoveOperationIdPrefix() &&
-                isSkipOperationExample() == that.isSkipOperationExample() &&
-                isLogToStderr() == that.isLogToStderr() &&
-                isValidateSpec() == that.isValidateSpec() &&
-                isEnablePostProcessFile() == that.isEnablePostProcessFile() &&
-                isEnableMinimalUpdate() == that.isEnableMinimalUpdate() &&
-                isStrictSpecBehavior() == that.isStrictSpecBehavior() &&
-                isGenerateAliasAsModel() == that.isGenerateAliasAsModel() &&
-                Objects.equals(getInputSpec(), that.getInputSpec()) &&
-                Objects.equals(getOutputDir(), that.getOutputDir()) &&
-                Objects.equals(getTemplateDir(), that.getTemplateDir()) &&
-                Objects.equals(getTemplatingEngineName(), that.getTemplatingEngineName()) &&
-                Objects.equals(getIgnoreFileOverride(), that.getIgnoreFileOverride()) &&
-                Objects.equals(getGlobalProperties(), that.getGlobalProperties());
+        return isVerbose() == that.isVerbose()
+                && isSkipOverwrite() == that.isSkipOverwrite()
+                && isRemoveOperationIdPrefix() == that.isRemoveOperationIdPrefix()
+                && isSkipOperationExample() == that.isSkipOperationExample()
+                && isLogToStderr() == that.isLogToStderr()
+                && isValidateSpec() == that.isValidateSpec()
+                && isEnablePostProcessFile() == that.isEnablePostProcessFile()
+                && isEnableMinimalUpdate() == that.isEnableMinimalUpdate()
+                && isStrictSpecBehavior() == that.isStrictSpecBehavior()
+                && isGenerateAliasAsModel() == that.isGenerateAliasAsModel()
+                && Objects.equals(getInputSpec(), that.getInputSpec())
+                && Objects.equals(getOutputDir(), that.getOutputDir())
+                && Objects.equals(getTemplateDir(), that.getTemplateDir())
+                && Objects.equals(getTemplatingEngineName(), that.getTemplatingEngineName())
+                && Objects.equals(getIgnoreFileOverride(), that.getIgnoreFileOverride())
+                && Objects.equals(getGlobalProperties(), that.getGlobalProperties());
     }
 
     @Override
@@ -631,7 +709,6 @@ public class WorkflowSettings {
                 getTemplateDir(),
                 getTemplatingEngineName(),
                 getIgnoreFileOverride(),
-                getGlobalProperties()
-        );
+                getGlobalProperties());
     }
 }

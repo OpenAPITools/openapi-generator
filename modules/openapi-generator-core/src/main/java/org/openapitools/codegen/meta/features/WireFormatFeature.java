@@ -20,31 +20,24 @@ import org.openapitools.codegen.meta.features.annotations.OAS2;
 import org.openapitools.codegen.meta.features.annotations.OAS3;
 import org.openapitools.codegen.meta.features.annotations.ToolingExtension;
 
-/**
- * Defines wire formats explicitly defined in spec or supported by the tool.
- */
+/** Defines wire formats explicitly defined in spec or supported by the tool. */
 public enum WireFormatFeature {
-    /**
-     * Supports JSON transfer
-     */
-    @OAS2 @OAS3
+    /** Supports JSON transfer */
+    @OAS2
+    @OAS3
     JSON,
 
-    /**
-     * Supports XML transfer
-     */
-    @OAS2 @OAS3
+    /** Supports XML transfer */
+    @OAS2
+    @OAS3
     XML,
 
-    /**
-     * Supports protocol buffer transfer
-     */
+    /** Supports protocol buffer transfer */
     @ToolingExtension
     PROTOBUF,
 
-    /**
-     * Supports other mime types or wire formats for transfer, to be documented by generators.
-     */
-    @OAS2 @OAS3
+    /** Supports other mime types or wire formats for transfer, to be documented by generators. */
+    @OAS2
+    @OAS3
     Custom
 }

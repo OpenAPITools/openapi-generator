@@ -22,29 +22,29 @@ import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
+import java.util.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.DartClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.*;
-
 @SuppressWarnings("static-method")
 public class DartModelTest {
 
     @Test(description = "convert a simple php model")
     public void simpleModelTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("id", new IntegerSchema())
-                .addProperties("name", new StringSchema())
-                .addProperties("createdAt", new DateTimeSchema())
-                .addProperties("defaultItem", new IntegerSchema()._default(1))
-                .addProperties("number", new NumberSchema())
-                .addProperties("decimal", new StringSchema().format("number"))
-                .addRequiredItem("id")
-                .addRequiredItem("name");
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties("id", new IntegerSchema())
+                        .addProperties("name", new StringSchema())
+                        .addProperties("createdAt", new DateTimeSchema())
+                        .addProperties("defaultItem", new IntegerSchema()._default(1))
+                        .addProperties("number", new NumberSchema())
+                        .addProperties("decimal", new StringSchema().format("number"))
+                        .addRequiredItem("id")
+                        .addRequiredItem("name");
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -106,11 +106,12 @@ public class DartModelTest {
 
     @Test(description = "convert a model with list property")
     public void listPropertyTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("id", new IntegerSchema())
-                .addProperties("urls", new ArraySchema().items(new StringSchema()))
-                .addRequiredItem("id");
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties("id", new IntegerSchema())
+                        .addProperties("urls", new ArraySchema().items(new StringSchema()))
+                        .addRequiredItem("id");
 
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -145,11 +146,14 @@ public class DartModelTest {
 
     @Test(description = "convert a model with set property")
     public void setPropertyTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("id", new IntegerSchema())
-                .addProperties("urls", new ArraySchema().items(new StringSchema()).uniqueItems(true))
-                .addRequiredItem("id");
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties("id", new IntegerSchema())
+                        .addProperties(
+                                "urls",
+                                new ArraySchema().items(new StringSchema()).uniqueItems(true))
+                        .addRequiredItem("id");
 
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -184,11 +188,13 @@ public class DartModelTest {
 
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("translations", new MapSchema()
-                        .additionalProperties(new StringSchema()))
-                .addRequiredItem("id");
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "translations",
+                                new MapSchema().additionalProperties(new StringSchema()))
+                        .addRequiredItem("id");
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -212,9 +218,10 @@ public class DartModelTest {
 
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("children", new Schema().$ref("#/definitions/Children"));
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -236,10 +243,13 @@ public class DartModelTest {
 
     @Test(description = "convert a model with complex list property")
     public void complexListProperty() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("children", new ArraySchema()
-                        .items(new Schema().$ref("#/definitions/Children")));
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "children",
+                                new ArraySchema()
+                                        .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -262,10 +272,14 @@ public class DartModelTest {
 
     @Test(description = "convert a model with complex map property")
     public void complexMapSchema() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("children", new MapSchema()
-                        .additionalProperties(new Schema().$ref("#/definitions/Children")));
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "children",
+                                new MapSchema()
+                                        .additionalProperties(
+                                                new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -276,7 +290,8 @@ public class DartModelTest {
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 1);
         // {{imports}} is not used in template
-        //Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+        // Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(),
+        // 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
@@ -291,9 +306,10 @@ public class DartModelTest {
 
     @Test(description = "convert an array model")
     public void arrayModelTest() {
-        final Schema model = new ArraySchema()
-                .items(new Schema().$ref("#/definitions/Children"))
-                .description("an array model");
+        final Schema model =
+                new ArraySchema()
+                        .items(new Schema().$ref("#/definitions/Children"))
+                        .description("an array model");
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -311,9 +327,10 @@ public class DartModelTest {
 
     @Test(description = "convert a map model")
     public void mapModelTest() {
-        final Schema model = new Schema()
-                .description("a map model")
-                .additionalProperties(new Schema().$ref("#/definitions/Children"));
+        final Schema model =
+                new Schema()
+                        .description("a map model")
+                        .additionalProperties(new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -361,25 +378,28 @@ public class DartModelTest {
     @DataProvider(name = "varNames")
     public static Object[][] varNames() {
         return new Object[][] {
-                {"Double", "double_"},
-                {"double", "double_"},
-                {"dynamic", "dynamic_"},
-                {"String", "string"},
-                {"string", "string"},
-                {"hello", "hello"},
-                {"FOO", "FOO"},
-                {"FOO_BAR", "FOO_BAR"},
-                {"FOO_BAR_BAZ_", "FOO_BAR_BAZ_"},
-                {"123hello", "n123hello"},
-                {"_hello", "hello"},
-                {"_double", "double_"},
-                {"_123hello", "n123hello"},
-                {"_5FOO", "n5fOO"},
-                 {"_FOO", "FOO"},
-                {"_$foo", "dollarFoo"},
-                {"_$_foo_", "dollarFoo"},
-                {"$special[property.name]", "dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket"},
-                {"foo bar", "fooBar"},
+            {"Double", "double_"},
+            {"double", "double_"},
+            {"dynamic", "dynamic_"},
+            {"String", "string"},
+            {"string", "string"},
+            {"hello", "hello"},
+            {"FOO", "FOO"},
+            {"FOO_BAR", "FOO_BAR"},
+            {"FOO_BAR_BAZ_", "FOO_BAR_BAZ_"},
+            {"123hello", "n123hello"},
+            {"_hello", "hello"},
+            {"_double", "double_"},
+            {"_123hello", "n123hello"},
+            {"_5FOO", "n5fOO"},
+            {"_FOO", "FOO"},
+            {"_$foo", "dollarFoo"},
+            {"_$_foo_", "dollarFoo"},
+            {
+                "$special[property.name]",
+                "dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket"
+            },
+            {"foo bar", "fooBar"},
         };
     }
 
@@ -404,42 +424,46 @@ public class DartModelTest {
     @DataProvider(name = "enumVarNames")
     public static Object[] enumVarNames() {
         return new Object[] {
-                new EnumVarName("", "empty", "String"),
-                new EnumVarName("Double", "double_", "String"),
-                new EnumVarName("double", "double_", "String"),
-                new EnumVarName("dynamic", "dynamic_", "String"),
-                new EnumVarName("String", "string", "String"),
-                new EnumVarName("string", "string", "String"),
-                new EnumVarName("hello", "hello", "String"),
-                new EnumVarName("FOO", "FOO", "String"),
-                new EnumVarName("FOO_BAR", "FOO_BAR", "String"),
-                new EnumVarName("FOO_BAR_BAZ_", "FOO_BAR_BAZ_", "String"),
-                new EnumVarName("123hello", "n123hello", "String"),
-                new EnumVarName("_hello", "hello", "String"),
-                new EnumVarName("_double", "double_", "String"),
-                new EnumVarName("_123hello", "n123hello", "String"),
-                new EnumVarName("_5FOO", "n5fOO", "String"),
-                new EnumVarName("_FOO", "FOO", "String"),
-                new EnumVarName("_$foo", "dollarFoo", "String"),
-                new EnumVarName("_$_foo_", "dollarFoo", "String"),
-                new EnumVarName("$special[property.name]", "dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket", "String"),
-                new EnumVarName("$", "dollar", "String"),
-                new EnumVarName(">=", "greaterThanEqual", "String"),
-                new EnumVarName("foo bar", "fooBar", "String"),
-                new EnumVarName("1", "number1", "int"),
-                new EnumVarName("2", "number2", "int"),
-                new EnumVarName("-1", "numberNegative1", "int"),
-                new EnumVarName("-99", "numberNegative99", "int"),
-                new EnumVarName("1", "number1", "double"),
-                new EnumVarName("1.1", "number1Period1", "double"),
-                new EnumVarName("-1.2", "numberNegative1Period2", "double"),
+            new EnumVarName("", "empty", "String"),
+            new EnumVarName("Double", "double_", "String"),
+            new EnumVarName("double", "double_", "String"),
+            new EnumVarName("dynamic", "dynamic_", "String"),
+            new EnumVarName("String", "string", "String"),
+            new EnumVarName("string", "string", "String"),
+            new EnumVarName("hello", "hello", "String"),
+            new EnumVarName("FOO", "FOO", "String"),
+            new EnumVarName("FOO_BAR", "FOO_BAR", "String"),
+            new EnumVarName("FOO_BAR_BAZ_", "FOO_BAR_BAZ_", "String"),
+            new EnumVarName("123hello", "n123hello", "String"),
+            new EnumVarName("_hello", "hello", "String"),
+            new EnumVarName("_double", "double_", "String"),
+            new EnumVarName("_123hello", "n123hello", "String"),
+            new EnumVarName("_5FOO", "n5fOO", "String"),
+            new EnumVarName("_FOO", "FOO", "String"),
+            new EnumVarName("_$foo", "dollarFoo", "String"),
+            new EnumVarName("_$_foo_", "dollarFoo", "String"),
+            new EnumVarName(
+                    "$special[property.name]",
+                    "dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket",
+                    "String"),
+            new EnumVarName("$", "dollar", "String"),
+            new EnumVarName(">=", "greaterThanEqual", "String"),
+            new EnumVarName("foo bar", "fooBar", "String"),
+            new EnumVarName("1", "number1", "int"),
+            new EnumVarName("2", "number2", "int"),
+            new EnumVarName("-1", "numberNegative1", "int"),
+            new EnumVarName("-99", "numberNegative99", "int"),
+            new EnumVarName("1", "number1", "double"),
+            new EnumVarName("1.1", "number1Period1", "double"),
+            new EnumVarName("-1.2", "numberNegative1Period2", "double"),
         };
     }
 
     @Test(dataProvider = "enumVarNames", description = "test enum names are correctly escaped")
     public void convertEnumVarNames(EnumVarName enumVar) {
         final DefaultCodegen codegen = new DartClientCodegen();
-        Assert.assertEquals(codegen.toEnumVarName(enumVar.name, enumVar.dataType), enumVar.expected);
+        Assert.assertEquals(
+                codegen.toEnumVarName(enumVar.name, enumVar.dataType), enumVar.expected);
     }
 
     @Test(description = "model names support `--model-name-prefix` and `--model-name-suffix`")
@@ -453,10 +477,14 @@ public class DartModelTest {
 
     @Test(description = "support normal enum values")
     public void testEnumValues() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("testStringEnum", new StringSchema()._enum(Arrays.asList("foo", "bar")))
-                .addProperties("testIntEnum", new IntegerSchema().addEnumItem(1).addEnumItem(2));
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "testStringEnum",
+                                new StringSchema()._enum(Arrays.asList("foo", "bar")))
+                        .addProperties(
+                                "testIntEnum", new IntegerSchema().addEnumItem(1).addEnumItem(2));
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -472,7 +500,8 @@ public class DartModelTest {
         Assert.assertTrue(property1.isEnum);
         Assert.assertEquals(property1.allowableValues.size(), 2);
         Assert.assertEquals(((List<String>) property1.allowableValues.get("values")).size(), 2);
-        List<Map<String, Object>> enumVars1 = (List<Map<String, Object>>) property1.allowableValues.get("enumVars");
+        List<Map<String, Object>> enumVars1 =
+                (List<Map<String, Object>>) property1.allowableValues.get("enumVars");
         Assert.assertEquals(enumVars1.size(), 2);
 
         Assert.assertEquals(enumVars1.get(0).get("name"), "foo");
@@ -492,7 +521,8 @@ public class DartModelTest {
         Assert.assertTrue(property2.isEnum);
         Assert.assertEquals(property2.allowableValues.size(), 2);
         Assert.assertEquals(((List<String>) property2.allowableValues.get("values")).size(), 2);
-        List<Map<String, Object>> enumVars2 = (List<Map<String, Object>>) property2.allowableValues.get("enumVars");
+        List<Map<String, Object>> enumVars2 =
+                (List<Map<String, Object>>) property2.allowableValues.get("enumVars");
         Assert.assertEquals(enumVars2.size(), 2);
 
         Assert.assertEquals(enumVars2.get(0).get("name"), "number1");
@@ -515,10 +545,18 @@ public class DartModelTest {
         enumValue2.put("numericValue", 2);
         enumValue2.put("description", "the bar");
 
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("testIntEnum", new IntegerSchema().addEnumItem(1).addEnumItem(2)
-                        .extensions(Collections.singletonMap("x-enum-values", Arrays.asList(enumValue1, enumValue2))));
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "testIntEnum",
+                                new IntegerSchema()
+                                        .addEnumItem(1)
+                                        .addEnumItem(2)
+                                        .extensions(
+                                                Collections.singletonMap(
+                                                        "x-enum-values",
+                                                        Arrays.asList(enumValue1, enumValue2))));
         final DartClientCodegen codegen = new DartClientCodegen();
         codegen.setUseEnumExtension(true);
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -535,7 +573,8 @@ public class DartModelTest {
         Assert.assertTrue(property1.isEnum);
         Assert.assertEquals(property1.allowableValues.size(), 2);
         Assert.assertEquals(((List<String>) property1.allowableValues.get("values")).size(), 2);
-        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) property1.allowableValues.get("enumVars");
+        List<Map<String, Object>> enumVars =
+                (List<Map<String, Object>>) property1.allowableValues.get("enumVars");
         Assert.assertEquals(enumVars.size(), 2);
 
         Assert.assertEquals(enumVars.get(0).get("name"), "foo");
@@ -552,7 +591,8 @@ public class DartModelTest {
     // datetime (or primitive type) not yet supported in HTTP request body
     @Test(description = "returns DateTime when using `--model-name-prefix`")
     public void dateTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new DartClientCodegen();
         codegen.setModelNamePrefix("foo");
         codegen.setOpenAPI(openAPI);

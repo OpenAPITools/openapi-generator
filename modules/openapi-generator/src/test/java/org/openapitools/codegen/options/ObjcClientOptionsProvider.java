@@ -18,10 +18,9 @@
 package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.ObjcClientCodegen;
-
-import java.util.Map;
 
 public class ObjcClientOptionsProvider implements OptionsProvider {
     public static final String CLASS_PREFIX_VALUE = "SWGObjc";
@@ -30,7 +29,8 @@ public class ObjcClientOptionsProvider implements OptionsProvider {
     public static final String POD_VERSION_VALUE = "1.0.0-SNAPSHOT";
     public static final String AUTHOR_NAME_VALUE = "SwaggerObjc";
     public static final String AUTHOR_EMAIL_VALUE = "objc@openapitools.org";
-    public static final String GIT_REPO_URL_VALUE = "https://github.com/openapitools/openapi-generator";
+    public static final String GIT_REPO_URL_VALUE =
+            "https://github.com/openapitools/openapi-generator";
 
     @Override
     public String getLanguage() {

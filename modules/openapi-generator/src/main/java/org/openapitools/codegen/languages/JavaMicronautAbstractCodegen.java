@@ -1,10 +1,16 @@
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.CodegenConstants.INVOKER_PACKAGE;
+
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -18,16 +24,8 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static org.openapitools.codegen.CodegenConstants.INVOKER_PACKAGE;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
-public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen implements BeanValidationFeatures, OptionalFeatures {
+public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen
+        implements BeanValidationFeatures, OptionalFeatures {
     public static final String OPT_TITLE = "title";
     public static final String OPT_BUILD = "build";
     public static final String OPT_BUILD_GRADLE = "gradle";
@@ -36,7 +34,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public static final String OPT_TEST = "test";
     public static final String OPT_TEST_JUNIT = "junit";
     public static final String OPT_TEST_SPOCK = "spock";
-    public static final String OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR = "requiredPropertiesInConstructor";
+    public static final String OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR =
+            "requiredPropertiesInConstructor";
     public static final String OPT_MICRONAUT_VERSION = "micronautVersion";
     public static final String OPT_USE_AUTH = "useAuth";
     public static final String OPT_VISITABLE = "visitable";
@@ -52,8 +51,13 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2 = "swagger2";
     public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_TRUE = "true";
     public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE = "false";
-    public static final String OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG = "generateOperationOnlyForFirstTag";
-    public enum SERIALIZATION_LIBRARY_TYPE {jackson, micronaut_serde_jackson}
+    public static final String OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG =
+            "generateOperationOnlyForFirstTag";
+
+    public enum SERIALIZATION_LIBRARY_TYPE {
+        jackson,
+        micronaut_serde_jackson
+    }
 
     protected final Logger LOGGER = LoggerFactory.getLogger(JavaMicronautAbstractCodegen.class);
 
@@ -72,7 +76,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     protected boolean generateOperationOnlyForFirstTag;
     protected String serializationLibrary = SERIALIZATION_LIBRARY_TYPE.jackson.name();
 
-    public static final String CONTENT_TYPE_APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
+    public static final String CONTENT_TYPE_APPLICATION_FORM_URLENCODED =
+            "application/x-www-form-urlencoded";
     public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
     public static final String CONTENT_TYPE_MULTIPART_FORM_DATA = "multipart/form-data";
     public static final String CONTENT_TYPE_ANY = "*/*";
@@ -89,13 +94,17 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         visitable = false;
         buildTool = OPT_BUILD_ALL;
         testTool = OPT_TEST_JUNIT;
-        outputFolder = this instanceof JavaMicronautClientCodegen ?
-                "generated-code/java-micronaut-client" : "generated-code/java-micronaut";
+        outputFolder =
+                this instanceof JavaMicronautClientCodegen
+                        ? "generated-code/java-micronaut-client"
+                        : "generated-code/java-micronaut";
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
         invokerPackage = "org.openapitools";
-        artifactId = this instanceof JavaMicronautClientCodegen ?
-                "openapi-micronaut-client" : "openapi-micronaut";
+        artifactId =
+                this instanceof JavaMicronautClientCodegen
+                        ? "openapi-micronaut-client"
+                        : "openapi-micronaut";
         embeddedTemplateDir = templateDir = "java-micronaut";
         apiDocPath = "docs/apis";
         modelDocPath = "docs/models";
@@ -104,25 +113,25 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         reactive = true;
         wrapInHttpResponse = false;
         appName = artifactId;
-        generateSwaggerAnnotations = this instanceof JavaMicronautClientCodegen ?
-                OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE : OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2;
+        generateSwaggerAnnotations =
+                this instanceof JavaMicronautClientCodegen
+                        ? OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE
+                        : OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2;
         generateOperationOnlyForFirstTag = this instanceof JavaMicronautServerCodegen;
 
         // Set implemented features for user information
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(
-                        DocumentationFeature.Readme
-                )
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.OAuth2_AuthorizationCode,
-                        SecurityFeature.OAuth2_ClientCredentials,
-                        SecurityFeature.OAuth2_Password,
-                        SecurityFeature.OpenIDConnect
-                ))
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.ApiKey,
+                                                SecurityFeature.BasicAuth,
+                                                SecurityFeature.OAuth2_Implicit,
+                                                SecurityFeature.OAuth2_AuthorizationCode,
+                                                SecurityFeature.OAuth2_ClientCredentials,
+                                                SecurityFeature.OAuth2_Password,
+                                                SecurityFeature.OpenIDConnect)));
 
         // Set additional properties
         additionalProperties.put("openbrace", "{");
@@ -135,64 +144,141 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
         cliOptions.add(new CliOption(OPT_TITLE, "Client service name").defaultValue(title));
-        cliOptions.add(new CliOption(OPT_MICRONAUT_VERSION, "Micronaut version, only >=3.0.0 versions are supported").defaultValue(micronautVersion));
-        cliOptions.add(new CliOption(OPT_APPLICATION_NAME, "Micronaut application name (Defaults to the " + CodegenConstants.ARTIFACT_ID + " value)").defaultValue(appName));
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
-        cliOptions.add(CliOption.newBoolean(USE_OPTIONAL, "Use Optional container for optional parameters", useOptional));
-        cliOptions.add(CliOption.newBoolean(OPT_VISITABLE, "Generate visitor for subtypes with a discriminator", visitable));
-        cliOptions.add(CliOption.newBoolean(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR, "Allow only to create models with all the required properties provided in constructor", requiredPropertiesInConstructor));
-        cliOptions.add(CliOption.newBoolean(OPT_REACTIVE, "Make the responses use Reactor Mono as wrapper", reactive));
-        cliOptions.add(CliOption.newBoolean(OPT_WRAP_IN_HTTP_RESPONSE, "Wrap the response in HttpResponse object", wrapInHttpResponse));
-        cliOptions.add(CliOption.newBoolean(OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG, "When false, the operation method will be duplicated in each of the tags if multiple tags are assigned to this operation. " +
-                "If true, each operation will be generated only once in the first assigned tag.", generateOperationOnlyForFirstTag));
+        cliOptions.add(
+                new CliOption(
+                                OPT_MICRONAUT_VERSION,
+                                "Micronaut version, only >=3.0.0 versions are supported")
+                        .defaultValue(micronautVersion));
+        cliOptions.add(
+                new CliOption(
+                                OPT_APPLICATION_NAME,
+                                "Micronaut application name (Defaults to the "
+                                        + CodegenConstants.ARTIFACT_ID
+                                        + " value)")
+                        .defaultValue(appName));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_BEANVALIDATION,
+                        "Use BeanValidation API annotations",
+                        useBeanValidation));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_OPTIONAL,
+                        "Use Optional container for optional parameters",
+                        useOptional));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        OPT_VISITABLE,
+                        "Generate visitor for subtypes with a discriminator",
+                        visitable));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR,
+                        "Allow only to create models with all the required properties provided in constructor",
+                        requiredPropertiesInConstructor));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        OPT_REACTIVE, "Make the responses use Reactor Mono as wrapper", reactive));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        OPT_WRAP_IN_HTTP_RESPONSE,
+                        "Wrap the response in HttpResponse object",
+                        wrapInHttpResponse));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG,
+                        "When false, the operation method will be duplicated in each of the tags if multiple tags are assigned to this operation. "
+                                + "If true, each operation will be generated only once in the first assigned tag.",
+                        generateOperationOnlyForFirstTag));
 
-        CliOption buildToolOption = new CliOption(OPT_BUILD, "Specify for which build tool to generate files").defaultValue(buildTool);
+        CliOption buildToolOption =
+                new CliOption(OPT_BUILD, "Specify for which build tool to generate files")
+                        .defaultValue(buildTool);
         Map<String, String> buildToolOptionMap = new HashMap<>();
-        buildToolOptionMap.put(OPT_BUILD_GRADLE, "Gradle configuration is generated for the project");
+        buildToolOptionMap.put(
+                OPT_BUILD_GRADLE, "Gradle configuration is generated for the project");
         buildToolOptionMap.put(OPT_BUILD_MAVEN, "Maven configuration is generated for the project");
         buildToolOptionMap.put(OPT_BUILD_ALL, "Both Gradle and Maven configurations are generated");
         buildToolOption.setEnum(buildToolOptionMap);
         cliOptions.add(buildToolOption);
 
-        CliOption testToolOption = new CliOption(OPT_TEST, "Specify which test tool to generate files for").defaultValue(testTool);
+        CliOption testToolOption =
+                new CliOption(OPT_TEST, "Specify which test tool to generate files for")
+                        .defaultValue(testTool);
         Map<String, String> testToolOptionMap = new HashMap<>();
         testToolOptionMap.put(OPT_TEST_JUNIT, "Use JUnit as test tool");
         testToolOptionMap.put(OPT_TEST_SPOCK, "Use Spock as test tool");
         testToolOption.setEnum(testToolOptionMap);
         cliOptions.add(testToolOption);
 
-        CliOption generateSwaggerAnnotationsOption = new CliOption(OPT_GENERATE_SWAGGER_ANNOTATIONS, "Specify if you want to generate swagger annotations and which version").defaultValue(generateSwaggerAnnotations);
+        CliOption generateSwaggerAnnotationsOption =
+                new CliOption(
+                                OPT_GENERATE_SWAGGER_ANNOTATIONS,
+                                "Specify if you want to generate swagger annotations and which version")
+                        .defaultValue(generateSwaggerAnnotations);
         Map<String, String> generateSwaggerAnnotationsOptionMap = new HashMap<>();
-        generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_1, "Use io.swagger:swagger-annotations for annotating operations and schemas");
-        generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2, "Use io.swagger.core.v3:swagger-annotations for annotating operations and schemas");
-        generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_TRUE, "Equivalent to \"" + OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2 + "\"");
-        generateSwaggerAnnotationsOptionMap.put(OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE, "Do not generate swagger annotations");
+        generateSwaggerAnnotationsOptionMap.put(
+                OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_1,
+                "Use io.swagger:swagger-annotations for annotating operations and schemas");
+        generateSwaggerAnnotationsOptionMap.put(
+                OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2,
+                "Use io.swagger.core.v3:swagger-annotations for annotating operations and schemas");
+        generateSwaggerAnnotationsOptionMap.put(
+                OPT_GENERATE_SWAGGER_ANNOTATIONS_TRUE,
+                "Equivalent to \"" + OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2 + "\"");
+        generateSwaggerAnnotationsOptionMap.put(
+                OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE, "Do not generate swagger annotations");
         generateSwaggerAnnotationsOption.setEnum(generateSwaggerAnnotationsOptionMap);
         cliOptions.add(generateSwaggerAnnotationsOption);
 
-        cliOptions.add(new CliOption(OPT_DATE_FORMAT, "Specify the format pattern of date as a string"));
-        cliOptions.add(new CliOption(OPT_DATETIME_FORMAT, "Specify the format pattern of date-time as a string"));
+        cliOptions.add(
+                new CliOption(OPT_DATE_FORMAT, "Specify the format pattern of date as a string"));
+        cliOptions.add(
+                new CliOption(
+                        OPT_DATETIME_FORMAT,
+                        "Specify the format pattern of date-time as a string"));
 
         // Modify the DATE_LIBRARY option to only have supported values
-        cliOptions.stream().filter(o -> o.getOpt().equals(DATE_LIBRARY)).findFirst().ifPresent(opt -> {
-            Map<String, String> valuesEnum = new HashMap<>();
-            valuesEnum.put(OPT_DATE_LIBRARY_JAVA8, opt.getEnum().get(OPT_DATE_LIBRARY_JAVA8));
-            valuesEnum.put(OPT_DATE_LIBRARY_JAVA8_LOCAL_DATETIME, opt.getEnum().get(OPT_DATE_LIBRARY_JAVA8_LOCAL_DATETIME));
-            opt.setEnum(valuesEnum);
-        });
+        cliOptions.stream()
+                .filter(o -> o.getOpt().equals(DATE_LIBRARY))
+                .findFirst()
+                .ifPresent(
+                        opt -> {
+                            Map<String, String> valuesEnum = new HashMap<>();
+                            valuesEnum.put(
+                                    OPT_DATE_LIBRARY_JAVA8,
+                                    opt.getEnum().get(OPT_DATE_LIBRARY_JAVA8));
+                            valuesEnum.put(
+                                    OPT_DATE_LIBRARY_JAVA8_LOCAL_DATETIME,
+                                    opt.getEnum().get(OPT_DATE_LIBRARY_JAVA8_LOCAL_DATETIME));
+                            opt.setEnum(valuesEnum);
+                        });
 
-        final CliOption serializationLibraryOpt = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library for model");
+        final CliOption serializationLibraryOpt =
+                CliOption.newString(
+                        CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library for model");
         serializationLibraryOpt.defaultValue(SERIALIZATION_LIBRARY_TYPE.jackson.name());
         Map<String, String> serializationLibraryOptions = new HashMap<>();
-        serializationLibraryOptions.put(SERIALIZATION_LIBRARY_TYPE.jackson.name(), "Jackson as serialization library");
-        serializationLibraryOptions.put(SERIALIZATION_LIBRARY_TYPE.micronaut_serde_jackson.name(), "Use micronaut-serialization with Jackson annotations");
+        serializationLibraryOptions.put(
+                SERIALIZATION_LIBRARY_TYPE.jackson.name(), "Jackson as serialization library");
+        serializationLibraryOptions.put(
+                SERIALIZATION_LIBRARY_TYPE.micronaut_serde_jackson.name(),
+                "Use micronaut-serialization with Jackson annotations");
         serializationLibraryOpt.setEnum(serializationLibraryOptions);
         cliOptions.add(serializationLibraryOpt);
 
         // Add reserved words
         String[] reservedWordsArray = {
-                "client", "format", "queryvalue", "queryparam", "pathvariable", "header", "cookie",
-                "authorization", "body", "application"
+            "client",
+            "format",
+            "queryvalue",
+            "queryparam",
+            "pathvariable",
+            "header",
+            "cookie",
+            "authorization",
+            "body",
+            "application"
         };
         reservedWords.addAll(Arrays.asList(reservedWordsArray));
     }
@@ -241,7 +327,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         writePropertyBack(OPT_VISITABLE, visitable);
 
         if (additionalProperties.containsKey(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR)) {
-            this.requiredPropertiesInConstructor = convertPropertyToBoolean(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR);
+            this.requiredPropertiesInConstructor =
+                    convertPropertyToBoolean(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR);
         }
         writePropertyBack(OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR, requiredPropertiesInConstructor);
 
@@ -256,9 +343,11 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         writePropertyBack(OPT_WRAP_IN_HTTP_RESPONSE, wrapInHttpResponse);
 
         if (additionalProperties.containsKey(OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG)) {
-            this.generateOperationOnlyForFirstTag = convertPropertyToBoolean(OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG);
+            this.generateOperationOnlyForFirstTag =
+                    convertPropertyToBoolean(OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG);
         }
-        writePropertyBack(OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG, generateOperationOnlyForFirstTag);
+        writePropertyBack(
+                OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG, generateOperationOnlyForFirstTag);
 
         // Get enum properties
         if (additionalProperties.containsKey(OPT_BUILD)) {
@@ -269,7 +358,10 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
                     this.buildTool = (String) additionalProperties.get(OPT_BUILD);
                     break;
                 default:
-                    throw new RuntimeException("Build tool \"" + additionalProperties.get(OPT_BUILD) + "\" is not supported or misspelled.");
+                    throw new RuntimeException(
+                            "Build tool \""
+                                    + additionalProperties.get(OPT_BUILD)
+                                    + "\" is not supported or misspelled.");
             }
         }
         additionalProperties.put(OPT_BUILD, buildTool);
@@ -281,7 +373,10 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
                     this.testTool = (String) additionalProperties.get(OPT_TEST);
                     break;
                 default:
-                    throw new RuntimeException("Test tool \"" + additionalProperties.get(OPT_TEST) + "\" is not supported or misspelled.");
+                    throw new RuntimeException(
+                            "Test tool \""
+                                    + additionalProperties.get(OPT_TEST)
+                                    + "\" is not supported or misspelled.");
             }
         }
         additionalProperties.put(OPT_TEST, testTool);
@@ -292,7 +387,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         }
 
         if (additionalProperties.containsKey(OPT_GENERATE_SWAGGER_ANNOTATIONS)) {
-            String value = String.valueOf(additionalProperties.get(OPT_GENERATE_SWAGGER_ANNOTATIONS));
+            String value =
+                    String.valueOf(additionalProperties.get(OPT_GENERATE_SWAGGER_ANNOTATIONS));
             switch (value) {
                 case OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_1:
                     this.generateSwaggerAnnotations = OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_1;
@@ -305,53 +401,118 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
                     this.generateSwaggerAnnotations = OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE;
                     break;
                 default:
-                    throw new RuntimeException("Value \"" + value + "\" for the " + OPT_GENERATE_SWAGGER_ANNOTATIONS + " parameter is unsupported or misspelled");
+                    throw new RuntimeException(
+                            "Value \""
+                                    + value
+                                    + "\" for the "
+                                    + OPT_GENERATE_SWAGGER_ANNOTATIONS
+                                    + " parameter is unsupported or misspelled");
             }
         }
         if (OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_1.equals(this.generateSwaggerAnnotations)) {
             additionalProperties.put("generateSwagger1Annotations", true);
-        } else if (OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2.equals(this.generateSwaggerAnnotations)) {
+        } else if (OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2.equals(
+                this.generateSwaggerAnnotations)) {
             additionalProperties.put("generateSwagger2Annotations", true);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
-            setSerializationLibrary((String) additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
+            setSerializationLibrary(
+                    (String) additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
         }
         additionalProperties.put(this.serializationLibrary, true);
 
         // Add all the supporting files
         String resourceFolder = projectFolder + "/resources";
-        supportingFiles.add(new SupportingFile("common/configuration/application.yml.mustache", resourceFolder, "application.yml").doNotOverwrite());
-        supportingFiles.add(new SupportingFile("common/configuration/logback.xml.mustache", resourceFolder, "logback.xml").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile(
+                                "common/configuration/application.yml.mustache",
+                                resourceFolder,
+                                "application.yml")
+                        .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile(
+                                "common/configuration/logback.xml.mustache",
+                                resourceFolder,
+                                "logback.xml")
+                        .doNotOverwrite());
 
         if (buildTool.equals(OPT_BUILD_GRADLE) || buildTool.equals(OPT_BUILD_ALL)) {
             // Gradle files
-            supportingFiles.add(new SupportingFile("common/configuration/gradle/build.gradle.mustache", "", "build.gradle").doNotOverwrite());
-            supportingFiles.add(new SupportingFile("common/configuration/gradle/settings.gradle.mustache", "", "settings.gradle").doNotOverwrite());
-            supportingFiles.add(new SupportingFile("common/configuration/gradle/gradle.properties.mustache", "", "gradle.properties").doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "common/configuration/gradle/build.gradle.mustache",
+                                    "",
+                                    "build.gradle")
+                            .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "common/configuration/gradle/settings.gradle.mustache",
+                                    "",
+                                    "settings.gradle")
+                            .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "common/configuration/gradle/gradle.properties.mustache",
+                                    "",
+                                    "gradle.properties")
+                            .doNotOverwrite());
 
             // Gradlew files
             final String gradleWrapperFolder = "gradle/wrapper";
-            supportingFiles.add(new SupportingFile("common/configuration/gradlew/gradlew.mustache", "", "gradlew"));
-            supportingFiles.add(new SupportingFile("common/configuration/gradlew/gradlew.bat.mustache", "", "gradlew.bat"));
-            supportingFiles.add(new SupportingFile("common/configuration/gradlew/gradle-wrapper.properties.mustache", gradleWrapperFolder, "gradle-wrapper.properties"));
-            supportingFiles.add(new SupportingFile("common/configuration/gradlew/gradle-wrapper.jar", gradleWrapperFolder, "gradle-wrapper.jar"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "common/configuration/gradlew/gradlew.mustache", "", "gradlew"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "common/configuration/gradlew/gradlew.bat.mustache",
+                            "",
+                            "gradlew.bat"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "common/configuration/gradlew/gradle-wrapper.properties.mustache",
+                            gradleWrapperFolder,
+                            "gradle-wrapper.properties"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "common/configuration/gradlew/gradle-wrapper.jar",
+                            gradleWrapperFolder,
+                            "gradle-wrapper.jar"));
         }
 
         if (buildTool.equals(OPT_BUILD_MAVEN) || buildTool.equals(OPT_BUILD_ALL)) {
             // Maven files
-            supportingFiles.add(new SupportingFile("common/configuration/pom.xml.mustache", "", "pom.xml").doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile("common/configuration/pom.xml.mustache", "", "pom.xml")
+                            .doNotOverwrite());
 
             // Maven wrapper files
-            supportingFiles.add(new SupportingFile("common/configuration/mavenw/mvnw.mustache", "", "mvnw"));
-            supportingFiles.add(new SupportingFile("common/configuration/mavenw/mvnw.bat.mustache", "", "mvnw.bat"));
-            supportingFiles.add(new SupportingFile("common/configuration/mavenw/MavenWrapperDownloader.java.mustache", ".mvn/wrapper", "MavenWrapperDownloader.java"));
-            supportingFiles.add(new SupportingFile("common/configuration/mavenw/maven-wrapper.jar.mustache", ".mvn/wrapper", "maven-wrapper.jar"));
-            supportingFiles.add(new SupportingFile("common/configuration/mavenw/maven-wrapper.properties.mustache", ".mvn/wrapper", "maven-wrapper.properties"));
+            supportingFiles.add(
+                    new SupportingFile("common/configuration/mavenw/mvnw.mustache", "", "mvnw"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "common/configuration/mavenw/mvnw.bat.mustache", "", "mvnw.bat"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "common/configuration/mavenw/MavenWrapperDownloader.java.mustache",
+                            ".mvn/wrapper",
+                            "MavenWrapperDownloader.java"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "common/configuration/mavenw/maven-wrapper.jar.mustache",
+                            ".mvn/wrapper",
+                            "maven-wrapper.jar"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "common/configuration/mavenw/maven-wrapper.properties.mustache",
+                            ".mvn/wrapper",
+                            "maven-wrapper.properties"));
         }
 
         // Git files
-        supportingFiles.add(new SupportingFile("common/configuration/git/gitignore.mustache", "", ".gitignore").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("common/configuration/git/gitignore.mustache", "", ".gitignore")
+                        .doNotOverwrite());
 
         // Use the default java time
         additionalProperties.putIfAbsent(OPT_DATE_FORMAT, DATE_FORMAT);
@@ -469,8 +630,12 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     }
 
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
-            co, Map<String, List<CodegenOperation>> operations) {
+    public void addOperationToGroup(
+            String tag,
+            String resourcePath,
+            Operation operation,
+            CodegenOperation co,
+            Map<String, List<CodegenOperation>> operations) {
         if (generateOperationOnlyForFirstTag && !co.tags.get(0).getName().equals(tag)) {
             // This is not the first assigned to this operation tag;
             return;
@@ -480,19 +645,24 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
-        Map<String, CodegenModel> models = allModels.stream()
-                .map(ModelMap::getModel)
-                .collect(Collectors.toMap(v -> v.classname, v -> v));
+        Map<String, CodegenModel> models =
+                allModels.stream()
+                        .map(ModelMap::getModel)
+                        .collect(Collectors.toMap(v -> v.classname, v -> v));
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
 
         for (CodegenOperation op : operationList) {
             // Set whether body is supported in request
-            op.vendorExtensions.put("methodAllowsBody",
-                    op.httpMethod.equals("PUT") || op.httpMethod.equals("POST") || op.httpMethod.equals("PATCH"));
+            op.vendorExtensions.put(
+                    "methodAllowsBody",
+                    op.httpMethod.equals("PUT")
+                            || op.httpMethod.equals("POST")
+                            || op.httpMethod.equals("PATCH"));
 
             // Set response example
             if (op.returnType != null) {
@@ -504,15 +674,55 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
                     if (m.allowableValues != null && m.allowableValues.containsKey("values")) {
                         allowableValues = (List<Object>) m.allowableValues.get("values");
                     }
-                    example = getExampleValue(m.defaultValue, null, m.classname, true,
-                            allowableValues, null, null, m.requiredVars, false, false);
-                    groovyExample = getExampleValue(m.defaultValue, null, m.classname, true,
-                            allowableValues, null, null, m.requiredVars, true, false);
+                    example =
+                            getExampleValue(
+                                    m.defaultValue,
+                                    null,
+                                    m.classname,
+                                    true,
+                                    allowableValues,
+                                    null,
+                                    null,
+                                    m.requiredVars,
+                                    false,
+                                    false);
+                    groovyExample =
+                            getExampleValue(
+                                    m.defaultValue,
+                                    null,
+                                    m.classname,
+                                    true,
+                                    allowableValues,
+                                    null,
+                                    null,
+                                    m.requiredVars,
+                                    true,
+                                    false);
                 } else {
-                    example = getExampleValue(null, null, op.returnType, false, null,
-                            op.returnBaseType, null, null, false, false);
-                    groovyExample = getExampleValue(null, null, op.returnType, false, null,
-                            op.returnBaseType, null, null, true, false);
+                    example =
+                            getExampleValue(
+                                    null,
+                                    null,
+                                    op.returnType,
+                                    false,
+                                    null,
+                                    op.returnBaseType,
+                                    null,
+                                    null,
+                                    false,
+                                    false);
+                    groovyExample =
+                            getExampleValue(
+                                    null,
+                                    null,
+                                    op.returnType,
+                                    false,
+                                    null,
+                                    op.returnBaseType,
+                                    null,
+                                    null,
+                                    true,
+                                    false);
                 }
                 op.vendorExtensions.put("example", example);
                 op.vendorExtensions.put("groovyExample", groovyExample);
@@ -522,29 +732,45 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             if (CONTENT_TYPE_ANY.equals(op.vendorExtensions.get("x-contentType"))) {
                 op.vendorExtensions.put("x-contentType", CONTENT_TYPE_APPLICATION_JSON);
             }
-            op.consumes = op.consumes == null ? null : op.consumes.stream()
-                    .filter(contentType -> !CONTENT_TYPE_ANY.equals(contentType.get("mediaType")))
-                    .collect(Collectors.toList());
-            op.produces = op.produces == null ? null : op.produces.stream()
-                    .filter(contentType -> !CONTENT_TYPE_ANY.equals(contentType.get("mediaType")))
-                    .collect(Collectors.toList());
+            op.consumes =
+                    op.consumes == null
+                            ? null
+                            : op.consumes.stream()
+                                    .filter(
+                                            contentType ->
+                                                    !CONTENT_TYPE_ANY.equals(
+                                                            contentType.get("mediaType")))
+                                    .collect(Collectors.toList());
+            op.produces =
+                    op.produces == null
+                            ? null
+                            : op.produces.stream()
+                                    .filter(
+                                            contentType ->
+                                                    !CONTENT_TYPE_ANY.equals(
+                                                            contentType.get("mediaType")))
+                                    .collect(Collectors.toList());
 
             // Force form parameters are only set if the content-type is according
             // formParams correspond to urlencoded type
             // bodyParams correspond to multipart body
-            if (CONTENT_TYPE_APPLICATION_FORM_URLENCODED.equals(op.vendorExtensions.get("x-contentType"))) {
+            if (CONTENT_TYPE_APPLICATION_FORM_URLENCODED.equals(
+                    op.vendorExtensions.get("x-contentType"))) {
                 op.formParams.addAll(op.bodyParams);
-                op.bodyParams.forEach(p -> {
-                    p.isBodyParam = false;
-                    p.isFormParam = true;
-                });
+                op.bodyParams.forEach(
+                        p -> {
+                            p.isBodyParam = false;
+                            p.isFormParam = true;
+                        });
                 op.bodyParams.clear();
-            } else if (CONTENT_TYPE_MULTIPART_FORM_DATA.equals(op.vendorExtensions.get("x-contentType"))) {
+            } else if (CONTENT_TYPE_MULTIPART_FORM_DATA.equals(
+                    op.vendorExtensions.get("x-contentType"))) {
                 op.bodyParams.addAll(op.formParams);
-                op.formParams.forEach(p -> {
-                    p.isBodyParam = true;
-                    p.isFormParam = false;
-                });
+                op.formParams.forEach(
+                        p -> {
+                            p.isBodyParam = true;
+                            p.isFormParam = false;
+                        });
                 op.formParams.clear();
             }
         }
@@ -564,13 +790,15 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
 
-        for (ModelsMap models: objs.values()) {
+        for (ModelsMap models : objs.values()) {
             CodegenModel model = models.getModels().get(0).getModel();
             if (model.getParentModel() != null) {
-                model.vendorExtensions.put("requiredParentVars", model.getParentModel().requiredVars);
+                model.vendorExtensions.put(
+                        "requiredParentVars", model.getParentModel().requiredVars);
             }
 
-            List<CodegenProperty> requiredVars = model.vars.stream().filter(v -> v.required).collect(Collectors.toList());
+            List<CodegenProperty> requiredVars =
+                    model.vars.stream().filter(v -> v.required).collect(Collectors.toList());
             model.vendorExtensions.put("requiredVars", requiredVars);
         }
 
@@ -584,27 +812,50 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     }
 
     protected String getParameterExampleValue(CodegenParameter p, boolean groovy) {
-        List<Object> allowableValues = p.allowableValues == null ? null : (List<Object>) p.allowableValues.get("values");
+        List<Object> allowableValues =
+                p.allowableValues == null ? null : (List<Object>) p.allowableValues.get("values");
 
-        return getExampleValue(p.defaultValue, p.example, p.dataType, p.isModel, allowableValues,
+        return getExampleValue(
+                p.defaultValue,
+                p.example,
+                p.dataType,
+                p.isModel,
+                allowableValues,
                 p.items == null ? null : p.items.dataType,
                 p.items == null ? null : p.items.defaultValue,
-                p.requiredVars, groovy, false);
+                p.requiredVars,
+                groovy,
+                false);
     }
 
     protected String getPropertyExampleValue(CodegenProperty p, boolean groovy) {
-        List<Object> allowableValues = p.allowableValues == null ? null : (List<Object>) p.allowableValues.get("values");
+        List<Object> allowableValues =
+                p.allowableValues == null ? null : (List<Object>) p.allowableValues.get("values");
 
-        return getExampleValue(p.defaultValue, p.example, p.dataType, p.isModel, allowableValues,
+        return getExampleValue(
+                p.defaultValue,
+                p.example,
+                p.dataType,
+                p.isModel,
+                allowableValues,
                 p.items == null ? null : p.items.dataType,
                 p.items == null ? null : p.items.defaultValue,
-                null, groovy, true);
+                null,
+                groovy,
+                true);
     }
 
     public String getExampleValue(
-            String defaultValue, String example, String dataType, Boolean isModel, List<Object> allowableValues,
-            String itemsType, String itemsExample, List<CodegenProperty> requiredVars, boolean groovy, boolean isProperty
-    ) {
+            String defaultValue,
+            String example,
+            String dataType,
+            Boolean isModel,
+            List<Object> allowableValues,
+            String itemsType,
+            String itemsExample,
+            List<CodegenProperty> requiredVars,
+            boolean groovy,
+            boolean isProperty) {
         example = defaultValue != null ? defaultValue : example;
         String containerType = dataType == null ? null : dataType.split("<")[0];
 
@@ -627,7 +878,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         } else if ("File".equals(dataType)) {
             example = null;
         } else if ("OffsetDateTime".equals(dataType)) {
-            example = "OffsetDateTime.of(2001, 2, 3, 12, 0, 0, 0, java.time.ZoneOffset.of(\"+02:00\"))";
+            example =
+                    "OffsetDateTime.of(2001, 2, 3, 12, 0, 0, 0, java.time.ZoneOffset.of(\"+02:00\"))";
         } else if ("LocalDate".equals(dataType)) {
             example = "LocalDate.of(2001, 2, 3)";
         } else if ("LocalDateTime".equals(dataType)) {
@@ -644,14 +896,16 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
                 dataType = importMapping.getOrDefault(dataType, modelPackage + '.' + dataType);
             }
             example = dataType + ".fromValue(\"" + value + "\")";
-        } else if ((isModel != null && isModel) || (isModel == null && !languageSpecificPrimitives.contains(dataType))) {
+        } else if ((isModel != null && isModel)
+                || (isModel == null && !languageSpecificPrimitives.contains(dataType))) {
             if (requiredVars == null) {
                 example = null;
             } else {
                 if (requiredPropertiesInConstructor) {
                     StringBuilder builder = new StringBuilder();
                     if (isProperty) {
-                        dataType =  importMapping.getOrDefault(dataType, modelPackage + '.' + dataType);
+                        dataType =
+                                importMapping.getOrDefault(dataType, modelPackage + '.' + dataType);
                     }
                     builder.append("new ").append(dataType).append("(");
                     for (int i = 0; i < requiredVars.size(); ++i) {
@@ -715,22 +969,31 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     @Override
     protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-            .put("replaceDotsWithUnderscore", new ReplaceDotsWithUnderscoreLambda());
+                .put("replaceDotsWithUnderscore", new ReplaceDotsWithUnderscoreLambda());
     }
 
     private static class ReplaceDotsWithUnderscoreLambda implements Mustache.Lambda {
         @Override
-        public void execute(final Template.Fragment fragment, final Writer writer) throws IOException {
+        public void execute(final Template.Fragment fragment, final Writer writer)
+                throws IOException {
             writer.write(fragment.execute().replace('.', '_'));
         }
     }
 
     public void setSerializationLibrary(final String serializationLibrary) {
         try {
-            this.serializationLibrary = JavaMicronautAbstractCodegen.SERIALIZATION_LIBRARY_TYPE.valueOf(serializationLibrary).name();
+            this.serializationLibrary =
+                    JavaMicronautAbstractCodegen.SERIALIZATION_LIBRARY_TYPE
+                            .valueOf(serializationLibrary)
+                            .name();
         } catch (IllegalArgumentException ex) {
-            StringBuilder sb = new StringBuilder(serializationLibrary + " is an invalid enum property naming option. Please choose from:");
-            for (JavaMicronautAbstractCodegen.SERIALIZATION_LIBRARY_TYPE availableSerializationLibrary : JavaMicronautAbstractCodegen.SERIALIZATION_LIBRARY_TYPE.values()) {
+            StringBuilder sb =
+                    new StringBuilder(
+                            serializationLibrary
+                                    + " is an invalid enum property naming option. Please choose from:");
+            for (JavaMicronautAbstractCodegen.SERIALIZATION_LIBRARY_TYPE
+                    availableSerializationLibrary :
+                            JavaMicronautAbstractCodegen.SERIALIZATION_LIBRARY_TYPE.values()) {
                 sb.append("\n  ").append(availableSerializationLibrary.name());
             }
             throw new RuntimeException(sb.toString());

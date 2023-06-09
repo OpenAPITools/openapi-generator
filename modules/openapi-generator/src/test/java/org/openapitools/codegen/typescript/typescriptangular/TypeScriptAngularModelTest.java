@@ -21,6 +21,13 @@ import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
+import java.util.Locale;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
@@ -31,29 +38,23 @@ import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.util.Date;
-import java.util.Locale;
-
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_ANGULAR})
 @SuppressWarnings("static-method")
 public class TypeScriptAngularModelTest {
 
     @Test(description = "convert a simple TypeScript Angular model")
     public void simpleModelTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("name", new StringSchema())
-                .addProperties("createdAt", new DateTimeSchema())
-                .addProperties("birthDate", new DateSchema())
-                .addProperties("active", new BooleanSchema())
-                .addRequiredItem("id")
-                .addRequiredItem("name");
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                        .addProperties("name", new StringSchema())
+                        .addProperties("createdAt", new DateTimeSchema())
+                        .addProperties("birthDate", new DateSchema())
+                        .addProperties("active", new BooleanSchema())
+                        .addRequiredItem("id")
+                        .addRequiredItem("name");
         final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -120,7 +121,8 @@ public class TypeScriptAngularModelTest {
         StringSchema stringSchema = new StringSchema();
         stringSchema.setDefault("Jack");
 
-        OffsetDateTime testOffsetDateTime = OffsetDateTime.of(LocalDateTime.of(2020, 1, 1, 12, 0), ZoneOffset.UTC);
+        OffsetDateTime testOffsetDateTime =
+                OffsetDateTime.of(LocalDateTime.of(2020, 1, 1, 12, 0), ZoneOffset.UTC);
         DateTimeSchema dateTimeSchema = new DateTimeSchema();
         dateTimeSchema.setDefault(testOffsetDateTime);
 
@@ -131,15 +133,16 @@ public class TypeScriptAngularModelTest {
         BooleanSchema booleanSchema = new BooleanSchema();
         booleanSchema.setDefault(true);
 
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("id", integerSchema)
-                .addProperties("name", stringSchema)
-                .addProperties("createdAt", dateTimeSchema)
-                .addProperties("birthDate", dateSchema)
-                .addProperties("active", booleanSchema)
-                .addRequiredItem("id")
-                .addRequiredItem("name");
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties("id", integerSchema)
+                        .addProperties("name", stringSchema)
+                        .addProperties("createdAt", dateTimeSchema)
+                        .addProperties("birthDate", dateSchema)
+                        .addProperties("active", booleanSchema)
+                        .addRequiredItem("id")
+                        .addRequiredItem("name");
 
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -165,7 +168,10 @@ public class TypeScriptAngularModelTest {
 
         final CodegenProperty property4 = cm.vars.get(3);
         Assert.assertEquals(property4.baseName, "birthDate");
-        Assert.assertEquals(new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH).parse(property4.defaultValue), testDate);
+        Assert.assertEquals(
+                new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
+                        .parse(property4.defaultValue),
+                testDate);
 
         final CodegenProperty property5 = cm.vars.get(4);
         Assert.assertEquals(property5.baseName, "active");
@@ -174,11 +180,13 @@ public class TypeScriptAngularModelTest {
 
     @Test(description = "convert a model with list property")
     public void listPropertyTest() {
-        final Schema schema = new Schema()
-                .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("urls", new ArraySchema().items(new StringSchema()))
-                .addRequiredItem("id");
+        final Schema schema =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                        .addProperties("urls", new ArraySchema().items(new StringSchema()))
+                        .addRequiredItem("id");
         final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -208,9 +216,10 @@ public class TypeScriptAngularModelTest {
 
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
-        final Schema schema = new Schema()
-                .description("a sample model")
-                .addProperties("children", new Schema().$ref("#/definitions/Children"));
+        final Schema schema =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -232,10 +241,13 @@ public class TypeScriptAngularModelTest {
 
     @Test(description = "convert a model with complex list property")
     public void complexListPropertyTest() {
-        final Schema schema = new Schema()
-                .description("a sample model")
-                .addProperties("children", new ArraySchema()
-                        .items(new Schema().$ref("#/definitions/Children")));
+        final Schema schema =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "children",
+                                new ArraySchema()
+                                        .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -257,9 +269,10 @@ public class TypeScriptAngularModelTest {
 
     @Test(description = "convert an array model")
     public void arrayModelTest() {
-        final Schema schema = new ArraySchema()
-                .items(new Schema().$ref("#/definitions/Children"))
-                .description("an array model");
+        final Schema schema =
+                new ArraySchema()
+                        .items(new Schema().$ref("#/definitions/Children"))
+                        .description("an array model");
         final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -273,16 +286,17 @@ public class TypeScriptAngularModelTest {
 
     @Test(description = "convert an array oneof model")
     public void arrayOneOfModelTest() {
-        final Schema schema = new ArraySchema()
-                .items(new ComposedSchema()
-                        .addOneOfItem(new StringSchema())
-                        .addOneOfItem(new IntegerSchema().format("int64")))
-                .description("an array oneof model");
+        final Schema schema =
+                new ArraySchema()
+                        .items(
+                                new ComposedSchema()
+                                        .addOneOfItem(new StringSchema())
+                                        .addOneOfItem(new IntegerSchema().format("int64")))
+                        .description("an array oneof model");
         final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
-
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -293,19 +307,29 @@ public class TypeScriptAngularModelTest {
 
     @Test(description = "convert an any of with array oneof model")
     public void objectPropertyAnyOfWithArrayOneOfModelTest() {
-        final Schema schema = new ObjectSchema().addProperties("value",
-                new ComposedSchema().addAnyOfItem(new StringSchema()).addAnyOfItem(new ArraySchema()
-                        .items(new ComposedSchema()
-                                .addOneOfItem(new StringSchema())
-                                .addOneOfItem(new IntegerSchema().format("int64")))))
-                .description("an any of with array oneof model");
+        final Schema schema =
+                new ObjectSchema()
+                        .addProperties(
+                                "value",
+                                new ComposedSchema()
+                                        .addAnyOfItem(new StringSchema())
+                                        .addAnyOfItem(
+                                                new ArraySchema()
+                                                        .items(
+                                                                new ComposedSchema()
+                                                                        .addOneOfItem(
+                                                                                new StringSchema())
+                                                                        .addOneOfItem(
+                                                                                new IntegerSchema()
+                                                                                        .format(
+                                                                                                "int64")))))
+                        .description("an any of with array oneof model");
         final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        String s = codegen.getSchemaType((Schema)schema.getProperties().get("value"));
-
+        String s = codegen.getSchemaType((Schema) schema.getProperties().get("value"));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -316,9 +340,10 @@ public class TypeScriptAngularModelTest {
 
     @Test(description = "import a typemapping")
     public void importTypeMappingModelTest() {
-        final Schema schema = new ArraySchema()
-                .items(new Schema().$ref("Children"))
-                .description("a typemapping array model");
+        final Schema schema =
+                new ArraySchema()
+                        .items(new Schema().$ref("Children"))
+                        .description("a typemapping array model");
         final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -336,9 +361,10 @@ public class TypeScriptAngularModelTest {
 
     @Test(description = "convert a map model")
     public void mapModelTest() {
-        final Schema schema = new Schema()
-                .description("a map model")
-                .additionalProperties(new Schema().$ref("#/definitions/Children"));
+        final Schema schema =
+                new Schema()
+                        .description("a map model")
+                        .additionalProperties(new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -355,10 +381,11 @@ public class TypeScriptAngularModelTest {
 
     @Test(description = "convert a model with a name starting with decimal")
     public void beginDecimalNameTest() {
-        final Schema schema = new Schema()
-                .description("a model with a name starting with decimal")
-                .addProperties("1list", new StringSchema())
-                .addRequiredItem("1list");
+        final Schema schema =
+                new Schema()
+                        .description("a model with a name starting with decimal")
+                        .addProperties("1list", new StringSchema())
+                        .addRequiredItem("1list");
         final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -378,23 +405,32 @@ public class TypeScriptAngularModelTest {
         Assert.assertFalse(property.isContainer);
     }
 
-    @Test(description = "convert an inline model that originally had a name prefixed with an underscore")
+    @Test(
+            description =
+                    "convert an inline model that originally had a name prefixed with an underscore")
     public void inlineModelWithUnderscoreNameTest() {
-        // Originally parent model "FooResponse" with inline model called "_links". The InlineModelResolver resolves
+        // Originally parent model "FooResponse" with inline model called "_links". The
+        // InlineModelResolver resolves
         // that to "FooResponse__links" (double underscore)
-        final Schema schema = new Schema()
-            .description("an inline model with name previously prefixed with underscore")
-            .addRequiredItem("self")
-            .addProperties("self", new StringSchema());
+        final Schema schema =
+                new Schema()
+                        .description(
+                                "an inline model with name previously prefixed with underscore")
+                        .addRequiredItem("self")
+                        .addProperties("self", new StringSchema());
 
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
-        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.FILE_NAMING, "kebab-case");
+        codegen.additionalProperties()
+                .put(TypeScriptAngularClientCodegen.FILE_NAMING, "kebab-case");
         codegen.processOpts();
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
 
         final CodegenModel cm = codegen.fromModel("FooResponse__links", schema);
-        Assert.assertEquals(cm.getClassFilename(), "./foo-response-links", "The generated filename should not have a double hyphen.");
+        Assert.assertEquals(
+                cm.getClassFilename(),
+                "./foo-response-links",
+                "The generated filename should not have a double hyphen.");
     }
 }

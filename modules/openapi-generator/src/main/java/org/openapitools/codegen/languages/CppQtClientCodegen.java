@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
+
+import java.io.File;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
@@ -24,10 +27,6 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
-
-import java.io.File;
-
-import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenConfig {
     public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate client.pri.";
@@ -40,20 +39,19 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
     public CppQtClientCodegen() {
         super();
 
-
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .includeGlobalFeatures(GlobalFeature.ParameterizedServer)
-                .includeGlobalFeatures(GlobalFeature.MultiServer)
-                .includeSecurityFeatures(SecurityFeature.BasicAuth)
-                .includeSecurityFeatures(SecurityFeature.ApiKey)
-                .includeSecurityFeatures(SecurityFeature.BearerToken)
-                .includeSecurityFeatures(SecurityFeature.OAuth2_AuthorizationCode)
-                .includeSecurityFeatures(SecurityFeature.OAuth2_Implicit)
-                .includeSecurityFeatures(SecurityFeature.OAuth2_ClientCredentials)
-                .includeSecurityFeatures(SecurityFeature.OAuth2_Password)
-                .includeGlobalFeatures(GlobalFeature.ParameterStyling)
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .includeGlobalFeatures(GlobalFeature.ParameterizedServer)
+                                .includeGlobalFeatures(GlobalFeature.MultiServer)
+                                .includeSecurityFeatures(SecurityFeature.BasicAuth)
+                                .includeSecurityFeatures(SecurityFeature.ApiKey)
+                                .includeSecurityFeatures(SecurityFeature.BearerToken)
+                                .includeSecurityFeatures(SecurityFeature.OAuth2_AuthorizationCode)
+                                .includeSecurityFeatures(SecurityFeature.OAuth2_Implicit)
+                                .includeSecurityFeatures(SecurityFeature.OAuth2_ClientCredentials)
+                                .includeSecurityFeatures(SecurityFeature.OAuth2_Password)
+                                .includeGlobalFeatures(GlobalFeature.ParameterStyling));
 
         // set the output folder here
         outputFolder = "generated-code/cpp-qt-client";
@@ -64,13 +62,9 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
          * for multiple files for model, just put another entry in the `modelTemplateFiles` with
          * a different extension
          */
-        modelTemplateFiles.put(
-                "model-header.mustache",
-                ".h");
+        modelTemplateFiles.put("model-header.mustache", ".h");
 
-        modelTemplateFiles.put(
-                "model-body.mustache",
-                ".cpp");
+        modelTemplateFiles.put("model-body.mustache", ".cpp");
 
         /*
          * Api classes.  You can write classes for each Api file with the apiTemplateFiles map.
@@ -78,12 +72,12 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
          * class
          */
         apiTemplateFiles.put(
-                "api-header.mustache",   // the template to use
-                ".h");       // the extension for each file to write
+                "api-header.mustache", // the template to use
+                ".h"); // the extension for each file to write
 
         apiTemplateFiles.put(
-                "api-body.mustache",   // the template to use
-                ".cpp");       // the extension for each file to write
+                "api-body.mustache", // the template to use
+                ".cpp"); // the extension for each file to write
 
         /*
          * Template Location.  This is the location which templates will be read from.  The generator
@@ -92,30 +86,58 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
         embeddedTemplateDir = templateDir = "cpp-qt-client";
 
         // CLI options
-        addOption(CodegenConstants.PACKAGE_NAME, "C++ package (library) name.", DEFAULT_PACKAGE_NAME);
-        addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE, OPTIONAL_PROJECT_FILE_DESC, this.optionalProjectFileFlag);
+        addOption(
+                CodegenConstants.PACKAGE_NAME, "C++ package (library) name.", DEFAULT_PACKAGE_NAME);
+        addSwitch(
+                CodegenConstants.OPTIONAL_PROJECT_FILE,
+                OPTIONAL_PROJECT_FILE_DESC,
+                this.optionalProjectFileFlag);
 
-        supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, PREFIX + "Helpers.h"));
-        supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder, PREFIX + "Helpers.cpp"));
-        supportingFiles.add(new SupportingFile("HttpRequest.h.mustache", sourceFolder, PREFIX + "HttpRequest.h"));
-        supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder, PREFIX + "HttpRequest.cpp"));
-        supportingFiles.add(new SupportingFile("HttpFileElement.h.mustache", sourceFolder, PREFIX + "HttpFileElement.h"));
-        supportingFiles.add(new SupportingFile("HttpFileElement.cpp.mustache", sourceFolder, PREFIX + "HttpFileElement.cpp"));
-        supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, PREFIX + "Object.h"));
+        supportingFiles.add(
+                new SupportingFile("helpers-header.mustache", sourceFolder, PREFIX + "Helpers.h"));
+        supportingFiles.add(
+                new SupportingFile("helpers-body.mustache", sourceFolder, PREFIX + "Helpers.cpp"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "HttpRequest.h.mustache", sourceFolder, PREFIX + "HttpRequest.h"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "HttpRequest.cpp.mustache", sourceFolder, PREFIX + "HttpRequest.cpp"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "HttpFileElement.h.mustache", sourceFolder, PREFIX + "HttpFileElement.h"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "HttpFileElement.cpp.mustache",
+                        sourceFolder,
+                        PREFIX + "HttpFileElement.cpp"));
+        supportingFiles.add(
+                new SupportingFile("object.mustache", sourceFolder, PREFIX + "Object.h"));
         supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, PREFIX + "Enum.h"));
-        supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", sourceFolder, PREFIX + "ServerConfiguration.h"));
-        supportingFiles.add(new SupportingFile("ServerVariable.mustache", sourceFolder, PREFIX + "ServerVariable.h"));
-        supportingFiles.add(new SupportingFile("oauth.cpp.mustache", sourceFolder, PREFIX + "Oauth.cpp"));
-        supportingFiles.add(new SupportingFile("oauth.h.mustache", sourceFolder, PREFIX + "Oauth.h"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ServerConfiguration.mustache",
+                        sourceFolder,
+                        PREFIX + "ServerConfiguration.h"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ServerVariable.mustache", sourceFolder, PREFIX + "ServerVariable.h"));
+        supportingFiles.add(
+                new SupportingFile("oauth.cpp.mustache", sourceFolder, PREFIX + "Oauth.cpp"));
+        supportingFiles.add(
+                new SupportingFile("oauth.h.mustache", sourceFolder, PREFIX + "Oauth.h"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("CMakeConfig.mustache", sourceFolder, "Config.cmake.in"));
-        supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
+        supportingFiles.add(
+                new SupportingFile("CMakeConfig.mustache", sourceFolder, "Config.cmake.in"));
+        supportingFiles.add(
+                new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
         if (optionalProjectFileFlag) {
             supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, "client.pri"));
         }
         typeMapping.put("file", PREFIX + "HttpFileElement");
         typeMapping.put("AnyType", "QJsonValue");
-        importMapping.put(PREFIX + "HttpFileElement", "#include \"" + PREFIX + "HttpFileElement.h\"");
+        importMapping.put(
+                PREFIX + "HttpFileElement", "#include \"" + PREFIX + "HttpFileElement.h\"");
         importMapping.put("QJsonValue", "#include <QJsonValue>");
     }
 
@@ -123,41 +145,90 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
     public void processOpts() {
         super.processOpts();
 
-        packageName = (String) additionalProperties.getOrDefault(CodegenConstants.PACKAGE_NAME, DEFAULT_PACKAGE_NAME);
+        packageName =
+                (String)
+                        additionalProperties.getOrDefault(
+                                CodegenConstants.PACKAGE_NAME, DEFAULT_PACKAGE_NAME);
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE)) {
-            setOptionalProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));
+            setOptionalProjectFileFlag(
+                    convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));
         } else {
-            additionalProperties.put(CodegenConstants.OPTIONAL_PROJECT_FILE, optionalProjectFileFlag);
+            additionalProperties.put(
+                    CodegenConstants.OPTIONAL_PROJECT_FILE, optionalProjectFileFlag);
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
 
         if (additionalProperties.containsKey("modelNamePrefix")) {
             supportingFiles.clear();
-            supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, modelNamePrefix + "Helpers.h"));
-            supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder, modelNamePrefix + "Helpers.cpp"));
-            supportingFiles.add(new SupportingFile("HttpRequest.h.mustache", sourceFolder, modelNamePrefix + "HttpRequest.h"));
-            supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder, modelNamePrefix + "HttpRequest.cpp"));
-            supportingFiles.add(new SupportingFile("HttpFileElement.h.mustache", sourceFolder, modelNamePrefix + "HttpFileElement.h"));
-            supportingFiles.add(new SupportingFile("HttpFileElement.cpp.mustache", sourceFolder, modelNamePrefix + "HttpFileElement.cpp"));
-            supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, modelNamePrefix + "Object.h"));
-            supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, modelNamePrefix + "Enum.h"));
-            supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", sourceFolder, modelNamePrefix + "ServerConfiguration.h"));
-            supportingFiles.add(new SupportingFile("ServerVariable.mustache", sourceFolder, modelNamePrefix + "ServerVariable.h"));
-            supportingFiles.add(new SupportingFile("oauth.cpp.mustache", sourceFolder, modelNamePrefix + "Oauth.cpp"));
-            supportingFiles.add(new SupportingFile("oauth.h.mustache", sourceFolder, modelNamePrefix + "Oauth.h"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "helpers-header.mustache",
+                            sourceFolder,
+                            modelNamePrefix + "Helpers.h"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "helpers-body.mustache",
+                            sourceFolder,
+                            modelNamePrefix + "Helpers.cpp"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "HttpRequest.h.mustache",
+                            sourceFolder,
+                            modelNamePrefix + "HttpRequest.h"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "HttpRequest.cpp.mustache",
+                            sourceFolder,
+                            modelNamePrefix + "HttpRequest.cpp"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "HttpFileElement.h.mustache",
+                            sourceFolder,
+                            modelNamePrefix + "HttpFileElement.h"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "HttpFileElement.cpp.mustache",
+                            sourceFolder,
+                            modelNamePrefix + "HttpFileElement.cpp"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "object.mustache", sourceFolder, modelNamePrefix + "Object.h"));
+            supportingFiles.add(
+                    new SupportingFile("enum.mustache", sourceFolder, modelNamePrefix + "Enum.h"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "ServerConfiguration.mustache",
+                            sourceFolder,
+                            modelNamePrefix + "ServerConfiguration.h"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "ServerVariable.mustache",
+                            sourceFolder,
+                            modelNamePrefix + "ServerVariable.h"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "oauth.cpp.mustache", sourceFolder, modelNamePrefix + "Oauth.cpp"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "oauth.h.mustache", sourceFolder, modelNamePrefix + "Oauth.h"));
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-            supportingFiles.add(new SupportingFile("CMakeConfig.mustache", sourceFolder, "Config.cmake.in"));
-            supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
-
+            supportingFiles.add(
+                    new SupportingFile("CMakeConfig.mustache", sourceFolder, "Config.cmake.in"));
+            supportingFiles.add(
+                    new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
 
             typeMapping.put("file", modelNamePrefix + "HttpFileElement");
             typeMapping.put("AnyType", "QJsonValue");
-            importMapping.put(modelNamePrefix + "HttpFileElement", "#include \"" + modelNamePrefix + "HttpFileElement.h\"");
+            importMapping.put(
+                    modelNamePrefix + "HttpFileElement",
+                    "#include \"" + modelNamePrefix + "HttpFileElement.h\"");
             importMapping.put("QJsonValue", "#include <QJsonValue>");
             if (optionalProjectFileFlag) {
-                supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, modelNamePrefix + "client.pri"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "Project.mustache", sourceFolder, modelNamePrefix + "client.pri"));
             }
         }
     }
@@ -174,8 +245,8 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
     }
 
     /**
-     * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -g flag.
+     * Configures a friendly name for the generator. This will be used by the generator to select
+     * the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -185,8 +256,8 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
     }
 
     /**
-     * Returns human-friendly help for the generator.  Provide the consumer with help
-     * tips, parameters here
+     * Returns human-friendly help for the generator. Provide the consumer with help tips,
+     * parameters here
      *
      * @return A string value for the help message
      */
@@ -196,16 +267,20 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
     }
 
     /**
-     * Location to write model files.  You can use the modelPackage() as defined when the class is
+     * Location to write model files. You can use the modelPackage() as defined when the class is
      * instantiated
      */
     @Override
     public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace("::", File.separator);
+        return outputFolder
+                + "/"
+                + sourceFolder
+                + "/"
+                + modelPackage().replace("::", File.separator);
     }
 
     /**
-     * Location to write api files.  You can use the apiPackage() as defined when the class is
+     * Location to write api files. You can use the apiPackage() as defined when the class is
      * instantiated
      */
     @Override

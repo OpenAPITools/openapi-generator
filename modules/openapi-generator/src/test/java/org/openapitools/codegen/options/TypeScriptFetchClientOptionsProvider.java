@@ -18,11 +18,10 @@
 package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
-import org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen;
-
 import java.util.Map;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen;
+import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 
 public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "false";
@@ -54,26 +53,38 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
     public Map<String, String> createOptions() {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
-                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
+                .put(
+                        CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG,
+                        SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.PARAM_NAMING, PARAM_NAMING_VALUE)
                 .put(CodegenConstants.SUPPORTS_ES6, String.valueOf(SUPPORTS_ES6_VALUE))
-                .put(AbstractTypeScriptClientCodegen.NULL_SAFE_ADDITIONAL_PROPS, String.valueOf(NULL_SAFE_ADDITIONAL_PROPS_VALUE))
+                .put(
+                        AbstractTypeScriptClientCodegen.NULL_SAFE_ADDITIONAL_PROPS,
+                        String.valueOf(NULL_SAFE_ADDITIONAL_PROPS_VALUE))
                 .put(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX)
                 .put(TypeScriptFetchClientCodegen.NPM_NAME, NMP_NAME)
                 .put(TypeScriptFetchClientCodegen.NPM_VERSION, NMP_VERSION)
                 .put(TypeScriptFetchClientCodegen.NPM_REPOSITORY, NPM_REPOSITORY)
                 .put(TypeScriptFetchClientCodegen.SNAPSHOT, Boolean.FALSE.toString())
                 .put(TypeScriptFetchClientCodegen.WITH_INTERFACES, Boolean.FALSE.toString())
-                .put(TypeScriptFetchClientCodegen.USE_SINGLE_REQUEST_PARAMETER, Boolean.FALSE.toString())
-                .put(TypeScriptFetchClientCodegen.PREFIX_PARAMETER_INTERFACES, Boolean.FALSE.toString())
+                .put(
+                        TypeScriptFetchClientCodegen.USE_SINGLE_REQUEST_PARAMETER,
+                        Boolean.FALSE.toString())
+                .put(
+                        TypeScriptFetchClientCodegen.PREFIX_PARAMETER_INTERFACES,
+                        Boolean.FALSE.toString())
                 .put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, WITHOUT_RUNTIME_CHECKS)
                 .put(TypeScriptFetchClientCodegen.SAGAS_AND_RECORDS, SAGAS_AND_RECORDS)
-                .put(TypeScriptFetchClientCodegen.IMPORT_FILE_EXTENSION_SWITCH, IMPORT_FILE_EXTENSION_VALUE)
+                .put(
+                        TypeScriptFetchClientCodegen.IMPORT_FILE_EXTENSION_SWITCH,
+                        IMPORT_FILE_EXTENSION_VALUE)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
-                .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(
+                        CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                        PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)

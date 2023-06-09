@@ -19,9 +19,7 @@ package org.openapitools.codegen.meta;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Represents metadata about a generator.
- */
+/** Represents metadata about a generator. */
 @SuppressWarnings("WeakerAccess")
 public class GeneratorMetadata {
     private Stability stability;
@@ -94,20 +92,18 @@ public class GeneratorMetadata {
         return libraryFeatures;
     }
 
-    /**
-     * {@code GeneratorMetadata} builder static inner class.
-     */
+    /** {@code GeneratorMetadata} builder static inner class. */
     public static final class Builder {
         private Stability stability;
         private String generationMessage;
         private FeatureSet featureSet = FeatureSet.UNSPECIFIED;
         private Map<String, FeatureSet> libraryFeatures = new HashMap<>();
 
-        private Builder() {
-        }
+        private Builder() {}
 
         /**
-         * Sets the {@code stability} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code stability} and returns a reference to this Builder so that the methods
+         * can be chained together.
          *
          * @param stability the {@code stability} to set
          * @return a reference to this Builder
@@ -118,7 +114,8 @@ public class GeneratorMetadata {
         }
 
         /**
-         * Sets the {@code featureSet} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code featureSet} and returns a reference to this Builder so that the methods
+         * can be chained together.
          *
          * @param featureSet the {@code featureSet} to set
          * @return a reference to this Builder
@@ -133,7 +130,8 @@ public class GeneratorMetadata {
         }
 
         /**
-         * Sets the {@code libraryFeatures} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code libraryFeatures} and returns a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param libraryFeatures the {@code libraryFeatures} to set
          * @return a reference to this Builder
@@ -144,7 +142,8 @@ public class GeneratorMetadata {
         }
 
         /**
-         * Sets the {@code generationMessage} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code generationMessage} and returns a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param generationMessage the {@code generationMessage} to set
          * @return a reference to this Builder
@@ -157,7 +156,8 @@ public class GeneratorMetadata {
         /**
          * Returns a {@code GeneratorMetadata} built from the parameters previously set.
          *
-         * @return a {@code GeneratorMetadata} built with parameters of this {@code GeneratorMetadata.Builder}
+         * @return a {@code GeneratorMetadata} built with parameters of this {@code
+         *     GeneratorMetadata.Builder}
          */
         public GeneratorMetadata build() {
             return new GeneratorMetadata(this);

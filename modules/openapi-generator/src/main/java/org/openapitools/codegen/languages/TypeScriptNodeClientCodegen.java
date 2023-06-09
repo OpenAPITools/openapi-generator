@@ -17,11 +17,16 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-
+import java.io.File;
+import java.util.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -30,13 +35,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.*;
-
-import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNodeClientCodegen.class);
@@ -52,7 +50,8 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         super();
 
         typeMapping.put("file", "RequestFile");
-        // RequestFile is defined as: `type RequestFile = string | Buffer | ReadStream | RequestDetailedFile;`
+        // RequestFile is defined as: `type RequestFile = string | Buffer | ReadStream |
+        // RequestDetailedFile;`
         languageSpecificPrimitives.add("Buffer");
         languageSpecificPrimitives.add("ReadStream");
         languageSpecificPrimitives.add("RequestDetailedFile");
@@ -72,8 +71,10 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         apiPackage = "api";
 
         supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
-        this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
-
+        this.cliOptions.add(
+                new CliOption(
+                        NPM_REPOSITORY,
+                        "Use this property to set an url your private npmRepo in the package.json"));
     }
 
     @Override
@@ -98,7 +99,8 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             // 1) RequestFile: the parameter for the request lib when uploading a file
             // (https://github.com/request/request#multipartform-data-multipart-form-uploads)
             // 2) Buffer: for downloading files.
-            // Use RequestFile as a default. The return type is fixed to Buffer in handleMethodResponse.
+            // Use RequestFile as a default. The return type is fixed to Buffer in
+            // handleMethodResponse.
             return "RequestFile";
         } else if (ModelUtils.isBinarySchema(p)) {
             return "Buffer";
@@ -107,17 +109,21 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     @Override
-    protected void handleMethodResponse(Operation operation, Map<String, Schema> schemas, CodegenOperation op,
-                                        ApiResponse methodResponse) {
+    protected void handleMethodResponse(
+            Operation operation,
+            Map<String, Schema> schemas,
+            CodegenOperation op,
+            ApiResponse methodResponse) {
         handleMethodResponse(operation, schemas, op, methodResponse, Collections.emptyMap());
     }
 
     @Override
-    protected void handleMethodResponse(Operation operation,
-                                        Map<String, Schema> schemas,
-                                        CodegenOperation op,
-                                        ApiResponse methodResponse,
-                                        Map<String, String> importMappings) {
+    protected void handleMethodResponse(
+            Operation operation,
+            Map<String, Schema> schemas,
+            CodegenOperation op,
+            ApiResponse methodResponse,
+            Map<String, String> importMappings) {
         super.handleMethodResponse(operation, schemas, op, methodResponse, importMappings);
 
         // see comment in getTypeDeclaration
@@ -160,7 +166,8 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             return importMapping.get(name);
         }
 
-        return DEFAULT_MODEL_FILENAME_DIRECTORY_PREFIX + camelize(toModelName(name), LOWERCASE_FIRST_LETTER);
+        return DEFAULT_MODEL_FILENAME_DIRECTORY_PREFIX
+                + camelize(toModelName(name), LOWERCASE_FIRST_LETTER);
     }
 
     @Override
@@ -169,7 +176,10 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             return importMapping.get(name);
         }
 
-        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + camelize(toModelName(name), LOWERCASE_FIRST_LETTER);
+        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX
+                + modelPackage()
+                + "/"
+                + camelize(toModelName(name), LOWERCASE_FIRST_LETTER);
     }
 
     @Override
@@ -201,7 +211,8 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap operations, List<ModelMap> allModels) {
         OperationMap objs = operations.getOperations();
 
         // The api.mustache template requires all of the auth methods for the whole api
@@ -244,8 +255,16 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     @Override
     public void processOpts() {
         super.processOpts();
-        supportingFiles.add(new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
-        supportingFiles.add(new SupportingFile("api-all.mustache", apiPackage().replace('.', File.separatorChar), "apis.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "models.mustache",
+                        modelPackage().replace('.', File.separatorChar),
+                        "models.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "api-all.mustache",
+                        apiPackage().replace('.', File.separatorChar),
+                        "apis.ts"));
         supportingFiles.add(new SupportingFile("api.mustache", getIndexDirectory(), "api.ts"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
@@ -261,9 +280,12 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
 
-        //Files for building our lib
-        supportingFiles.add(new SupportingFile("package.mustache", getPackageRootDirectory(), "package.json"));
-        supportingFiles.add(new SupportingFile("tsconfig.mustache", getPackageRootDirectory(), "tsconfig.json"));
+        // Files for building our lib
+        supportingFiles.add(
+                new SupportingFile("package.mustache", getPackageRootDirectory(), "package.json"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "tsconfig.mustache", getPackageRootDirectory(), "tsconfig.json"));
     }
 
     private String getIndexDirectory() {
@@ -333,7 +355,8 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         Schema additionalProperties = getAdditionalProperties(schema);
         codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
         if ("array".equalsIgnoreCase(codegenModel.additionalPropertiesType)) {
-            codegenModel.additionalPropertiesType += '<' + getSchemaType(((ArraySchema) additionalProperties).getItems()) + '>';
+            codegenModel.additionalPropertiesType +=
+                    '<' + getSchemaType(((ArraySchema) additionalProperties).getItems()) + '>';
         }
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
@@ -351,5 +374,4 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     public String toEnumDefaultValue(String value, String datatype) {
         return datatype + "." + value;
     }
-
 }

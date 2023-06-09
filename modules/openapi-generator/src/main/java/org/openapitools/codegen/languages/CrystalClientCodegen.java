@@ -16,8 +16,19 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -32,18 +43,6 @@ import org.openapitools.codegen.templating.mustache.PrefixWithHashLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CrystalClientCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(CrystalClientCodegen.class);
@@ -78,32 +77,35 @@ public class CrystalClientCodegen extends DefaultCodegen {
     public CrystalClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.BearerToken,
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling,
-                        GlobalFeature.ParameterizedServer,
-                        GlobalFeature.MultiServer)
-                .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism)
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie)
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.BasePath,
-                        ClientModificationFeature.UserAgent));
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(
+                                                WireFormatFeature.JSON,
+                                                WireFormatFeature.XML,
+                                                WireFormatFeature.Custom))
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.BasicAuth,
+                                                SecurityFeature.BearerToken,
+                                                SecurityFeature.ApiKey,
+                                                SecurityFeature.OAuth2_Implicit))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling,
+                                        GlobalFeature.ParameterizedServer,
+                                        GlobalFeature.MultiServer)
+                                .includeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath,
+                                        ClientModificationFeature.UserAgent));
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         supportsInheritance = true;
 
@@ -131,18 +133,69 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
         // reserved word. Ref:
         // https://github.com/crystal-lang/crystal/wiki/Crystal-for-Rubyists#available-keywords
-        reservedWords = new HashSet<>(
-                Arrays.asList(
-                        "abstract", "annotation", "do", "if", "nil?", "select", "union",
-                        "alias", "else", "in", "of", "self", "unless",
-                        "as", "elsif", "include", "out", "sizeof", "until",
-                        "as?", "end", "instance", "sizeof", "pointerof", "struct", "verbatim",
-                        "asm", "ensure", "is_a?", "private", "super", "when",
-                        "begin", "enum", "lib", "protected", "then", "while",
-                        "break", "extend", "macro", "require", "true", "with",
-                        "case", "false", "module", "rescue", "type", "yield",
-                        "class", "for", "next", "responds_to?", "typeof",
-                        "def", "fun", "nil", "return", "uninitialized"));
+        reservedWords =
+                new HashSet<>(
+                        Arrays.asList(
+                                "abstract",
+                                "annotation",
+                                "do",
+                                "if",
+                                "nil?",
+                                "select",
+                                "union",
+                                "alias",
+                                "else",
+                                "in",
+                                "of",
+                                "self",
+                                "unless",
+                                "as",
+                                "elsif",
+                                "include",
+                                "out",
+                                "sizeof",
+                                "until",
+                                "as?",
+                                "end",
+                                "instance",
+                                "sizeof",
+                                "pointerof",
+                                "struct",
+                                "verbatim",
+                                "asm",
+                                "ensure",
+                                "is_a?",
+                                "private",
+                                "super",
+                                "when",
+                                "begin",
+                                "enum",
+                                "lib",
+                                "protected",
+                                "then",
+                                "while",
+                                "break",
+                                "extend",
+                                "macro",
+                                "require",
+                                "true",
+                                "with",
+                                "case",
+                                "false",
+                                "module",
+                                "rescue",
+                                "type",
+                                "yield",
+                                "class",
+                                "for",
+                                "next",
+                                "responds_to?",
+                                "typeof",
+                                "def",
+                                "fun",
+                                "nil",
+                                "return",
+                                "uninitialized"));
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("String");
@@ -188,28 +241,41 @@ public class CrystalClientCodegen extends DefaultCodegen {
         primitiveTypes = new ArrayList<String>(typeMapping.values());
 
         // remove modelPackage and apiPackage added by default
-        cliOptions.removeIf(opt -> CodegenConstants.MODEL_PACKAGE.equals(opt.getOpt()) ||
-                CodegenConstants.API_PACKAGE.equals(opt.getOpt()));
+        cliOptions.removeIf(
+                opt ->
+                        CodegenConstants.MODEL_PACKAGE.equals(opt.getOpt())
+                                || CodegenConstants.API_PACKAGE.equals(opt.getOpt()));
 
-        cliOptions.add(new CliOption(SHARD_NAME, "shard name (e.g. twitter_client").defaultValue("openapi_client"));
+        cliOptions.add(
+                new CliOption(SHARD_NAME, "shard name (e.g. twitter_client")
+                        .defaultValue("openapi_client"));
 
-        cliOptions.add(new CliOption(MODULE_NAME, "module name (e.g. TwitterClient").defaultValue("OpenAPIClient"));
+        cliOptions.add(
+                new CliOption(MODULE_NAME, "module name (e.g. TwitterClient")
+                        .defaultValue("OpenAPIClient"));
 
         cliOptions.add(new CliOption(SHARD_VERSION, "shard version.").defaultValue("1.0.0"));
 
         cliOptions.add(new CliOption(SHARD_LICENSE, "shard license.").defaultValue("unlicense"));
 
-        cliOptions.add(new CliOption(SHARD_HOMEPAGE, "shard homepage.").defaultValue("http://org.openapitools"));
+        cliOptions.add(
+                new CliOption(SHARD_HOMEPAGE, "shard homepage.")
+                        .defaultValue("http://org.openapitools"));
 
         cliOptions.add(
-                new CliOption(SHARD_DESCRIPTION, "shard description.").defaultValue("This shard maps to a REST API"));
+                new CliOption(SHARD_DESCRIPTION, "shard description.")
+                        .defaultValue("This shard maps to a REST API"));
 
         cliOptions.add(new CliOption(SHARD_AUTHOR, "shard author (only one is supported)."));
 
-        cliOptions.add(new CliOption(SHARD_AUTHOR_EMAIL, "shard author email (only one is supported)."));
+        cliOptions.add(
+                new CliOption(SHARD_AUTHOR_EMAIL, "shard author email (only one is supported)."));
 
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
+                        .defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -270,11 +336,14 @@ public class CrystalClientCodegen extends DefaultCodegen {
         setModelPackage("models");
         setApiPackage("api");
 
-        supportingFiles.add(new SupportingFile("shard_name.mustache", srcFolder, shardName + ".cr"));
+        supportingFiles.add(
+                new SupportingFile("shard_name.mustache", srcFolder, shardName + ".cr"));
         String shardFolder = srcFolder + File.separator + shardName;
         supportingFiles.add(new SupportingFile("api_error.mustache", shardFolder, "api_error.cr"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", shardFolder, "configuration.cr"));
-        supportingFiles.add(new SupportingFile("api_client.mustache", shardFolder, "api_client.cr"));
+        supportingFiles.add(
+                new SupportingFile("configuration.mustache", shardFolder, "configuration.cr"));
+        supportingFiles.add(
+                new SupportingFile("api_client.mustache", shardFolder, "api_client.cr"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
@@ -282,12 +351,12 @@ public class CrystalClientCodegen extends DefaultCodegen {
         supportingFiles.add(new SupportingFile("shard.mustache", "", "shard.yml"));
 
         // crystal spec files
-        supportingFiles.add(new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.cr")
-                .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.cr")
+                        .doNotOverwrite());
 
         // add lambda for mustache templates
         additionalProperties.put("lambdaPrefixWithHash", new PrefixWithHashLambda());
-
     }
 
     @Override
@@ -307,24 +376,42 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + srcFolder + File.separator + shardName + File.separator
+        return outputFolder
+                + File.separator
+                + srcFolder
+                + File.separator
+                + shardName
+                + File.separator
                 + apiPackage.replace("/", File.separator);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + srcFolder + File.separator + shardName + File.separator
+        return outputFolder
+                + File.separator
+                + srcFolder
+                + File.separator
+                + shardName
+                + File.separator
                 + modelPackage.replace("/", File.separator);
     }
 
     @Override
     public String apiTestFileFolder() {
-        return outputFolder + File.separator + specFolder + File.separator + apiPackage.replace("/", File.separator);
+        return outputFolder
+                + File.separator
+                + specFolder
+                + File.separator
+                + apiPackage.replace("/", File.separator);
     }
 
     @Override
     public String modelTestFileFolder() {
-        return outputFolder + File.separator + specFolder + File.separator + modelPackage.replace("/", File.separator);
+        return outputFolder
+                + File.separator
+                + specFolder
+                + File.separator
+                + modelPackage.replace("/", File.separator);
     }
 
     @Override
@@ -382,15 +469,21 @@ public class CrystalClientCodegen extends DefaultCodegen {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(modelName)) {
             modelName = camelize("Model" + modelName);
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    name,
+                    modelName);
             return modelName;
         }
 
         // model name starts with number
         if (modelName.matches("^\\d.*")) {
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", modelName,
+            LOGGER.warn(
+                    "{} (model name starts with number) cannot be used as model name. Renamed to {}",
+                    modelName,
                     camelize("model_" + modelName));
-            modelName = "model_" + modelName; // e.g. 200Response => Model200Response (after camelize)
+            modelName =
+                    "model_" + modelName; // e.g. 200Response => Model200Response (after camelize)
         }
 
         // camelize the model name
@@ -518,13 +611,18 @@ public class CrystalClientCodegen extends DefaultCodegen {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = underscore("call_" + operationId);
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId,
+            LOGGER.warn(
+                    "{} (starting with a number) cannot be used as method name. Renamed to {}",
+                    operationId,
                     underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
@@ -583,7 +681,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         if (isSkipOperationExample()) {
             return objs;
@@ -600,23 +699,33 @@ public class CrystalClientCodegen extends DefaultCodegen {
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             for (CodegenParameter p : op.allParams) {
-                p.vendorExtensions.put("x-crystal-example", constructExampleCode(p, modelMaps, processedModelMaps));
+                p.vendorExtensions.put(
+                        "x-crystal-example",
+                        constructExampleCode(p, modelMaps, processedModelMaps));
             }
             processedModelMaps.clear();
             for (CodegenParameter p : op.requiredParams) {
-                p.vendorExtensions.put("x-crystal-example", constructExampleCode(p, modelMaps, processedModelMaps));
+                p.vendorExtensions.put(
+                        "x-crystal-example",
+                        constructExampleCode(p, modelMaps, processedModelMaps));
             }
             processedModelMaps.clear();
             for (CodegenParameter p : op.optionalParams) {
-                p.vendorExtensions.put("x-crystal-example", constructExampleCode(p, modelMaps, processedModelMaps));
+                p.vendorExtensions.put(
+                        "x-crystal-example",
+                        constructExampleCode(p, modelMaps, processedModelMaps));
             }
             processedModelMaps.clear();
             for (CodegenParameter p : op.bodyParams) {
-                p.vendorExtensions.put("x-crystal-example", constructExampleCode(p, modelMaps, processedModelMaps));
+                p.vendorExtensions.put(
+                        "x-crystal-example",
+                        constructExampleCode(p, modelMaps, processedModelMaps));
             }
             processedModelMaps.clear();
             for (CodegenParameter p : op.pathParams) {
-                p.vendorExtensions.put("x-crystal-example", constructExampleCode(p, modelMaps, processedModelMaps));
+                p.vendorExtensions.put(
+                        "x-crystal-example",
+                        constructExampleCode(p, modelMaps, processedModelMaps));
             }
             processedModelMaps.clear();
         }
@@ -624,18 +733,24 @@ public class CrystalClientCodegen extends DefaultCodegen {
         return objs;
     }
 
-    private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps,
+    private String constructExampleCode(
+            CodegenParameter codegenParameter,
+            HashMap<String, CodegenModel> modelMaps,
             HashMap<String, Integer> processedModelMap) {
         if (codegenParameter.isArray) { // array
             if (codegenParameter.items == null) {
                 return "[]";
             }
-            return "[" + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "]";
+            return "["
+                    + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap)
+                    + "]";
         } else if (codegenParameter.isMap) {
             if (codegenParameter.items == null) {
                 return "{}";
             }
-            return "{ key: " + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap) + "}";
+            return "{ key: "
+                    + constructExampleCode(codegenParameter.items, modelMaps, processedModelMap)
+                    + "}";
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isEnum) {
                 // When inline enum, set example to first allowable value
@@ -643,7 +758,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
                 codegenParameter.example = String.valueOf(values.get(0));
             }
             if (codegenParameter.isString || "String".equalsIgnoreCase(codegenParameter.baseType)) {
-                if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
+                if (!StringUtils.isEmpty(codegenParameter.example)
+                        && !"null".equals(codegenParameter.example)) {
                     return "'" + codegenParameter.example + "'";
                 }
                 return "'" + codegenParameter.paramName + "_example'";
@@ -653,29 +769,34 @@ public class CrystalClientCodegen extends DefaultCodegen {
                 }
                 return "false";
             } else if (codegenParameter.isUri) {
-                if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
+                if (!StringUtils.isEmpty(codegenParameter.example)
+                        && !"null".equals(codegenParameter.example)) {
                     return "'" + codegenParameter.example + "'";
                 }
                 return "'https://example.com'";
             } else if (codegenParameter.isDateTime) {
-                if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
+                if (!StringUtils.isEmpty(codegenParameter.example)
+                        && !"null".equals(codegenParameter.example)) {
                     return "Time.parse('" + codegenParameter.example + "')";
                 }
                 return "Time.now";
             } else if (codegenParameter.isDate) {
-                if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
+                if (!StringUtils.isEmpty(codegenParameter.example)
+                        && !"null".equals(codegenParameter.example)) {
                     return "Date.parse('" + codegenParameter.example + "')";
                 }
                 return "Date.today";
             } else if (codegenParameter.isFile) {
                 return "File.new('/path/to/some/file')";
             } else if (codegenParameter.isInteger) {
-                if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
+                if (!StringUtils.isEmpty(codegenParameter.example)
+                        && !"null".equals(codegenParameter.example)) {
                     return codegenParameter.example;
                 }
                 return "37";
             } else { // number
-                if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
+                if (!StringUtils.isEmpty(codegenParameter.example)
+                        && !"null".equals(codegenParameter.example)) {
                     return codegenParameter.example;
                 }
                 return "3.56";
@@ -683,7 +804,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
         } else { // model
             // look up the model
             if (modelMaps.containsKey(codegenParameter.dataType)) {
-                return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, processedModelMap);
+                return constructExampleCode(
+                        modelMaps.get(codegenParameter.dataType), modelMaps, processedModelMap);
             } else {
                 // LOGGER.error("Error in constructing examples. Failed to look up the model " +
                 // codegenParameter.dataType);
@@ -692,13 +814,19 @@ public class CrystalClientCodegen extends DefaultCodegen {
         }
     }
 
-    private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps,
+    private String constructExampleCode(
+            CodegenProperty codegenProperty,
+            HashMap<String, CodegenModel> modelMaps,
             HashMap<String, Integer> processedModelMap) {
         if (codegenProperty.isArray) { // array
-            return "[" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "]";
+            return "["
+                    + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap)
+                    + "]";
         } else if (codegenProperty.isMap) {
             if (codegenProperty.items != null) {
-                return "{ key: " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "}";
+                return "{ key: "
+                        + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap)
+                        + "}";
             } else {
                 return "{ ... }";
             }
@@ -709,7 +837,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
                 codegenProperty.example = String.valueOf(values.get(0));
             }
             if (codegenProperty.isString || "String".equalsIgnoreCase(codegenProperty.baseType)) {
-                if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                if (!StringUtils.isEmpty(codegenProperty.example)
+                        && !"null".equals(codegenProperty.example)) {
                     return "'" + codegenProperty.example + "'";
                 } else {
                     return "'" + codegenProperty.name + "_example'";
@@ -721,29 +850,34 @@ public class CrystalClientCodegen extends DefaultCodegen {
                     return "false";
                 }
             } else if (codegenProperty.isUri) {
-                if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                if (!StringUtils.isEmpty(codegenProperty.example)
+                        && !"null".equals(codegenProperty.example)) {
                     return "'" + codegenProperty.example + "'";
                 }
                 return "'https://example.com'";
             } else if (codegenProperty.isDateTime) {
-                if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                if (!StringUtils.isEmpty(codegenProperty.example)
+                        && !"null".equals(codegenProperty.example)) {
                     return "Time.parse('" + codegenProperty.example + "')";
                 }
                 return "Time.now";
             } else if (codegenProperty.isDate) {
-                if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                if (!StringUtils.isEmpty(codegenProperty.example)
+                        && !"null".equals(codegenProperty.example)) {
                     return "Date.parse('" + codegenProperty.example + "')";
                 }
                 return "Date.today";
             } else if (codegenProperty.isFile) {
                 return "File.new('/path/to/some/file')";
             } else if (codegenProperty.isInteger) {
-                if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                if (!StringUtils.isEmpty(codegenProperty.example)
+                        && !"null".equals(codegenProperty.example)) {
                     return codegenProperty.example;
                 }
                 return "37";
             } else { // number
-                if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
+                if (!StringUtils.isEmpty(codegenProperty.example)
+                        && !"null".equals(codegenProperty.example)) {
                     return codegenProperty.example;
                 }
                 return "3.56";
@@ -751,7 +885,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
         } else { // model
             // look up the model
             if (modelMaps.containsKey(codegenProperty.dataType)) {
-                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, processedModelMap);
+                return constructExampleCode(
+                        modelMaps.get(codegenProperty.dataType), modelMaps, processedModelMap);
             } else {
                 // LOGGER.error("Error in constructing examples. Failed to look up the model " +
                 // codegenParameter.dataType);
@@ -760,7 +895,9 @@ public class CrystalClientCodegen extends DefaultCodegen {
         }
     }
 
-    private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps,
+    private String constructExampleCode(
+            CodegenModel codegenModel,
+            HashMap<String, CodegenModel> modelMaps,
             HashMap<String, Integer> processedModelMap) {
         // break infinite recursion. Return, in case a model is already processed in the
         // current context.
@@ -775,12 +912,13 @@ public class CrystalClientCodegen extends DefaultCodegen {
                 throw new RuntimeException("Invalid count when constructing example: " + count);
             }
         } else if (codegenModel.isEnum) {
-            List<Map<String, String>> enumVars = (List<Map<String, String>>) codegenModel.allowableValues
-                    .get("enumVars");
+            List<Map<String, String>> enumVars =
+                    (List<Map<String, String>>) codegenModel.allowableValues.get("enumVars");
             return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).get("name");
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
-            String oneOf = constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap);
+            String oneOf =
+                    constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap);
             return oneOf;
         } else {
             processedModelMap.put(model, 1);
@@ -789,7 +927,9 @@ public class CrystalClientCodegen extends DefaultCodegen {
         List<String> propertyExamples = new ArrayList<>();
         for (CodegenProperty codegenProperty : codegenModel.requiredVars) {
             propertyExamples.add(
-                    codegenProperty.name + ": " + constructExampleCode(codegenProperty, modelMaps, processedModelMap));
+                    codegenProperty.name
+                            + ": "
+                            + constructExampleCode(codegenProperty, modelMaps, processedModelMap));
         }
         String example = moduleName + "::" + toModelName(model) + ".new";
         if (!propertyExamples.isEmpty()) {
@@ -838,7 +978,9 @@ public class CrystalClientCodegen extends DefaultCodegen {
     @Override
     public String toDefaultValue(Schema p) {
         p = ModelUtils.getReferencedSchema(this.openAPI, p);
-        if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
+        if (ModelUtils.isIntegerSchema(p)
+                || ModelUtils.isNumberSchema(p)
+                || ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
@@ -846,11 +988,20 @@ public class CrystalClientCodegen extends DefaultCodegen {
             if (p.getDefault() != null) {
                 if (p.getDefault() instanceof Date) {
                     Date date = (Date) p.getDefault();
-                    LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    return "Date.parse(\"" + String.format(Locale.ROOT, localDate.toString(), "") + "\")";
+                    LocalDate localDate =
+                            date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    return "Date.parse(\""
+                            + String.format(Locale.ROOT, localDate.toString(), "")
+                            + "\")";
                 } else if (p.getDefault() instanceof java.time.OffsetDateTime) {
-                    return "Time.parse(\"" + String.format(Locale.ROOT, ((java.time.OffsetDateTime) p.getDefault())
-                            .atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\")";
+                    return "Time.parse(\""
+                            + String.format(
+                                    Locale.ROOT,
+                                    ((java.time.OffsetDateTime) p.getDefault())
+                                            .atZoneSameInstant(ZoneId.systemDefault())
+                                            .toString(),
+                                    "")
+                            + "\")";
                 } else {
                     return "\"" + escapeText((String.valueOf(p.getDefault()))) + "\"";
                 }
@@ -925,22 +1076,27 @@ public class CrystalClientCodegen extends DefaultCodegen {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
-                    try (InputStreamReader inputStreamReader = new InputStreamReader(p.getErrorStream(),
-                            StandardCharsets.UTF_8);
+                    try (InputStreamReader inputStreamReader =
+                                    new InputStreamReader(
+                                            p.getErrorStream(), StandardCharsets.UTF_8);
                             BufferedReader br = new BufferedReader(inputStreamReader)) {
                         StringBuilder sb = new StringBuilder();
                         String line;
                         while ((line = br.readLine()) != null) {
                             sb.append(line);
                         }
-                        LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command,
-                                exitValue, sb);
+                        LOGGER.error(
+                                "Error running the command ({}). Exit value: {}, Error output: {}",
+                                command,
+                                exitValue,
+                                sb);
                     }
                 } else {
                     LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                LOGGER.error(
+                        "Error running the command ({}). Exception: {}", command, e.getMessage());
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }

@@ -17,9 +17,16 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenProperty;
@@ -28,14 +35,6 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ApexClientCodegen extends AbstractApexCodegen {
 
@@ -72,17 +71,32 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         modelTestTemplateFiles.put("model_test.mustache", ".cls");
         modelTestTemplateFiles.put("cls-meta.mustache", ".cls-meta.xml");
 
-        cliOptions.add(CliOption.newString(CLASS_PREFIX, "Prefix for generated classes. Set this to avoid overwriting existing classes in your org."));
-        cliOptions.add(CliOption.newString(API_VERSION, "The Metadata API version number to use for components in this package."));
+        cliOptions.add(
+                CliOption.newString(
+                        CLASS_PREFIX,
+                        "Prefix for generated classes. Set this to avoid overwriting existing classes in your org."));
+        cliOptions.add(
+                CliOption.newString(
+                        API_VERSION,
+                        "The Metadata API version number to use for components in this package."));
         cliOptions.add(CliOption.newString(BUILD_METHOD, "The build method for this package."));
-        cliOptions.add(CliOption.newString(NAMED_CREDENTIAL, "The named credential name for the HTTP callouts"));
+        cliOptions.add(
+                CliOption.newString(
+                        NAMED_CREDENTIAL, "The named credential name for the HTTP callouts"));
 
         supportingFiles.add(new SupportingFile("OAS.cls", srcPath + "classes", "OAS.cls"));
-        supportingFiles.add(new SupportingFile("cls-meta.mustache", srcPath + "classes", "OAS.cls-meta.xml"));
+        supportingFiles.add(
+                new SupportingFile("cls-meta.mustache", srcPath + "classes", "OAS.cls-meta.xml"));
         supportingFiles.add(new SupportingFile("OASTest.cls", srcPath + "classes", "OASTest.cls"));
-        supportingFiles.add(new SupportingFile("cls-meta.mustache", srcPath + "classes", "OASTest.cls-meta.xml"));
-        supportingFiles.add(new SupportingFile("OASResponseMock.cls", srcPath + "classes", "OASResponseMock.cls"));
-        supportingFiles.add(new SupportingFile("cls-meta.mustache", srcPath + "classes", "OASResponseMock.cls-meta.xml"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "cls-meta.mustache", srcPath + "classes", "OASTest.cls-meta.xml"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "OASResponseMock.cls", srcPath + "classes", "OASResponseMock.cls"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "cls-meta.mustache", srcPath + "classes", "OASResponseMock.cls-meta.xml"));
 
         typeMapping.put("BigDecimal", "Double");
         typeMapping.put("binary", "String");
@@ -98,26 +112,144 @@ public class ApexClientCodegen extends AbstractApexCodegen {
 
         // https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_reserved_words.htm
         setReservedWordsLowerCase(
-                Arrays.asList("abstract", "activate", "and", "any", "array", "as", "asc", "autonomous",
-                        "begin", "bigdecimal", "blob", "boolean", "break", "bulk", "by", "byte", "case", "cast",
-                        "catch", "char", "class", "collect", "commit", "const", "continue",
-                        "currency", "date", "datetime", "decimal", "default", "delete", "desc", "do", "double", "else",
-                        "end", "enum", "exception", "exit", "export", "extends", "false", "final",
-                        "finally", "float", "for", "from", "global", "goto", "group", "having",
-                        "hint", "if", "implements", "import", "in", "inner", "insert", "instanceof", "int", "integer",
-                        "interface", "into", "join", "like", "limit", "list", "long", "loop", "map", "merge", "new",
-                        "not", "null", "nulls", "number", "object", "of", "on", "or", "outer", "override", "package", "parallel",
-                        "pragma", "private", "protected", "public", "retrieve", "return",
-                        "rollback", "select", "set", "short", "sObject", "sort", "static", "string",
-                        "super", "switch", "synchronized", "system", "testmethod", "then", "this",
-                        "throw", "time", "transaction", "trigger", "true", "try", "undelete", "update", "upsert", "using",
-                        "virtual", "void", "webservice", "when", "where", "while"
-                ));
+                Arrays.asList(
+                        "abstract",
+                        "activate",
+                        "and",
+                        "any",
+                        "array",
+                        "as",
+                        "asc",
+                        "autonomous",
+                        "begin",
+                        "bigdecimal",
+                        "blob",
+                        "boolean",
+                        "break",
+                        "bulk",
+                        "by",
+                        "byte",
+                        "case",
+                        "cast",
+                        "catch",
+                        "char",
+                        "class",
+                        "collect",
+                        "commit",
+                        "const",
+                        "continue",
+                        "currency",
+                        "date",
+                        "datetime",
+                        "decimal",
+                        "default",
+                        "delete",
+                        "desc",
+                        "do",
+                        "double",
+                        "else",
+                        "end",
+                        "enum",
+                        "exception",
+                        "exit",
+                        "export",
+                        "extends",
+                        "false",
+                        "final",
+                        "finally",
+                        "float",
+                        "for",
+                        "from",
+                        "global",
+                        "goto",
+                        "group",
+                        "having",
+                        "hint",
+                        "if",
+                        "implements",
+                        "import",
+                        "in",
+                        "inner",
+                        "insert",
+                        "instanceof",
+                        "int",
+                        "integer",
+                        "interface",
+                        "into",
+                        "join",
+                        "like",
+                        "limit",
+                        "list",
+                        "long",
+                        "loop",
+                        "map",
+                        "merge",
+                        "new",
+                        "not",
+                        "null",
+                        "nulls",
+                        "number",
+                        "object",
+                        "of",
+                        "on",
+                        "or",
+                        "outer",
+                        "override",
+                        "package",
+                        "parallel",
+                        "pragma",
+                        "private",
+                        "protected",
+                        "public",
+                        "retrieve",
+                        "return",
+                        "rollback",
+                        "select",
+                        "set",
+                        "short",
+                        "sObject",
+                        "sort",
+                        "static",
+                        "string",
+                        "super",
+                        "switch",
+                        "synchronized",
+                        "system",
+                        "testmethod",
+                        "then",
+                        "this",
+                        "throw",
+                        "time",
+                        "transaction",
+                        "trigger",
+                        "true",
+                        "try",
+                        "undelete",
+                        "update",
+                        "upsert",
+                        "using",
+                        "virtual",
+                        "void",
+                        "webservice",
+                        "when",
+                        "where",
+                        "while"));
 
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList("Blob", "Boolean", "Date", "Datetime", "Decimal", "Double", "ID",
-                        "Integer", "Long", "Object", "String", "Time"
-                ));
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "Blob",
+                                "Boolean",
+                                "Date",
+                                "Datetime",
+                                "Decimal",
+                                "Double",
+                                "ID",
+                                "Integer",
+                                "Long",
+                                "Object",
+                                "String",
+                                "Time"));
 
         primitiveDefaults.put("Boolean", true);
         primitiveDefaults.put("Decimal", 1);
@@ -128,7 +260,6 @@ public class ApexClientCodegen extends AbstractApexCodegen {
 
         instantiationTypes.put("array", "List");
         instantiationTypes.put("map", "Map");
-
     }
 
     @Override
@@ -167,9 +298,11 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         additionalProperties.put("calloutLabel", calloutLabel);
         String sanitized = sanitizeName(calloutLabel);
         additionalProperties.put("calloutName", sanitized);
-        supportingFiles.add(new SupportingFile("namedCredential.mustache", srcPath + "/namedCredentials",
-                sanitized + ".namedCredential-meta.xml"
-        ));
+        supportingFiles.add(
+                new SupportingFile(
+                        "namedCredential.mustache",
+                        srcPath + "/namedCredentials",
+                        sanitized + ".namedCredential-meta.xml"));
 
         if (additionalProperties.get(BUILD_METHOD).equals("sfdx")) {
             generateSfdxSupportingFiles();
@@ -194,7 +327,11 @@ public class ApexClientCodegen extends AbstractApexCodegen {
             return input;
         }
 
-        return input.replace("'", "\\'").replace("\n", "\\n").replace("\r", "\\r").replace("*/", "*_/").replace("/*", "/_*");
+        return input.replace("'", "\\'")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("*/", "*_/")
+                .replace("/*", "/_*");
     }
 
     @Override
@@ -224,11 +361,11 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         String out = null;
         if (ModelUtils.isArraySchema(p)) {
             Schema inner = ((ArraySchema) p).getItems();
-            out = String.format(
-                    Locale.ROOT,
-                    "new List<%s>()",
-                    inner == null ? "Object" : getTypeDeclaration(inner)
-            );
+            out =
+                    String.format(
+                            Locale.ROOT,
+                            "new List<%s>()",
+                            inner == null ? "Object" : getTypeDeclaration(inner));
         } else if (ModelUtils.isBooleanSchema(p)) {
             // true => "true", false => "false", null => "null"
             out = String.valueOf(p.getDefault());
@@ -243,7 +380,10 @@ public class ApexClientCodegen extends AbstractApexCodegen {
             if (p.getDefault() != null) {
                 String def = p.getDefault().toString();
                 if (def != null) {
-                    out = p.getEnum() == null ? String.format(Locale.ROOT, "'%s'", escapeText(def)) : def;
+                    out =
+                            p.getEnum() == null
+                                    ? String.format(Locale.ROOT, "'%s'", escapeText(def))
+                                    : def;
                 }
             }
         } else {
@@ -279,17 +419,25 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         if (apiVersion.matches("^\\d{2}(\\.0)?$")) {
             return apiVersion.substring(0, 2) + ".0";
         } else {
-            LOGGER.warn(String.format(Locale.ROOT, "specified API version is invalid: %s - defaulting to %s", apiVersion, this.apiVersion));
+            LOGGER.warn(
+                    String.format(
+                            Locale.ROOT,
+                            "specified API version is invalid: %s - defaulting to %s",
+                            apiVersion,
+                            this.apiVersion));
             return this.apiVersion;
         }
     }
 
     private void postProcessOpts() {
         supportingFiles.add(
-                new SupportingFile("client.mustache", srcPath + "classes", classPrefix + "Client.cls"));
-        supportingFiles.add(new SupportingFile("cls-meta.mustache", srcPath + "classes",
-                classPrefix + "Client.cls-meta.xml"
-        ));
+                new SupportingFile(
+                        "client.mustache", srcPath + "classes", classPrefix + "Client.cls"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "cls-meta.mustache",
+                        srcPath + "classes",
+                        classPrefix + "Client.cls-meta.xml"));
     }
 
     @Override
@@ -305,28 +453,34 @@ public class ApexClientCodegen extends AbstractApexCodegen {
     private void generateAntSupportingFiles() {
 
         supportingFiles.add(new SupportingFile("package.mustache", "deploy", "package.xml"));
-        supportingFiles.add(new SupportingFile("package.mustache", "undeploy", "destructiveChanges.xml"));
+        supportingFiles.add(
+                new SupportingFile("package.mustache", "undeploy", "destructiveChanges.xml"));
         supportingFiles.add(new SupportingFile("build.mustache", "build.xml"));
         supportingFiles.add(new SupportingFile("build.properties", "build.properties"));
-        supportingFiles.add(new SupportingFile("remove.package.mustache", "undeploy", "package.xml"));
+        supportingFiles.add(
+                new SupportingFile("remove.package.mustache", "undeploy", "package.xml"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
-        supportingFiles.add(new SupportingFile("README_ant.mustache", "README.md")
-            .doNotOverwrite());
-
+        supportingFiles.add(
+                new SupportingFile("README_ant.mustache", "README.md").doNotOverwrite());
     }
 
     private void generateSfdxSupportingFiles() {
 
-        supportingFiles.add(new SupportingFile("sfdx-project-scratch-def.json", sfdxConfigPath, "project-scratch-def.json"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "sfdx-project-scratch-def.json",
+                        sfdxConfigPath,
+                        "project-scratch-def.json"));
         supportingFiles.add(new SupportingFile("sfdx-project.json.mustache", "sfdx-project.json"));
 
-        supportingFiles.add(new SupportingFile("README_sfdx.mustache", "README.md")
-            .doNotOverwrite());
-
+        supportingFiles.add(
+                new SupportingFile("README_sfdx.mustache", "README.md").doNotOverwrite());
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.APEX; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.APEX;
+    }
 }

@@ -16,16 +16,6 @@
 
 package org.openapitools.codegen.protobuf;
 
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.languages.ProtobufSchemaCodegen;
-import org.openapitools.codegen.meta.FeatureSet;
-import org.openapitools.codegen.meta.features.WireFormatFeature;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import static org.testng.Assert.*;
 
 import java.io.File;
@@ -35,6 +25,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.languages.ProtobufSchemaCodegen;
+import org.openapitools.codegen.meta.FeatureSet;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class ProtobufSchemaCodegenTest {
 
@@ -54,10 +53,11 @@ public class ProtobufSchemaCodegenTest {
 
         File output = Files.createTempDirectory("test").toFile();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("protobuf-schema")
-                .setInputSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("protobuf-schema")
+                        .setInputSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -71,11 +71,16 @@ public class ProtobufSchemaCodegenTest {
         output.deleteOnExit();
     }
 
-    private void assertFileEquals(Path generatedFilePath, Path expectedFilePath) throws IOException {
-        String generatedFile = new String(Files.readAllBytes(generatedFilePath), StandardCharsets.UTF_8)
-            .replace("\n", "").replace("\r", "");
-        String expectedFile = new String(Files.readAllBytes(expectedFilePath), StandardCharsets.UTF_8)
-            .replace("\n", "").replace("\r", "");
+    private void assertFileEquals(Path generatedFilePath, Path expectedFilePath)
+            throws IOException {
+        String generatedFile =
+                new String(Files.readAllBytes(generatedFilePath), StandardCharsets.UTF_8)
+                        .replace("\n", "")
+                        .replace("\r", "");
+        String expectedFile =
+                new String(Files.readAllBytes(expectedFilePath), StandardCharsets.UTF_8)
+                        .replace("\n", "")
+                        .replace("\r", "");
 
         assertEquals(generatedFile, expectedFile);
     }

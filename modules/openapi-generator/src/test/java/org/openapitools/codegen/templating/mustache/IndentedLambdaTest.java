@@ -1,7 +1,6 @@
 package org.openapitools.codegen.templating.mustache;
 
 import java.util.Map;
-
 import org.testng.annotations.Test;
 
 public class IndentedLambdaTest extends LambdaTest {
@@ -16,8 +15,10 @@ public class IndentedLambdaTest extends LambdaTest {
 
         // When & Then
         // IndentedLambda applies indentation from second line on of a template.
-        test("first line" + lineSeparator + "    second line",
-                "{{#indented}}first line" + lineSeparator +"second line{{/indented}}", ctx);
+        test(
+                "first line" + lineSeparator + "    second line",
+                "{{#indented}}first line" + lineSeparator + "second line{{/indented}}",
+                ctx);
     }
 
     @Test
@@ -27,9 +28,9 @@ public class IndentedLambdaTest extends LambdaTest {
 
         // When & Then
         // IndentedLambda applies indentation from second line on of a template.
-        test("first line" + lineSeparator + "        second line",
-                "{{#indented}}first line" + lineSeparator +"second line{{/indented}}", ctx);
+        test(
+                "first line" + lineSeparator + "        second line",
+                "{{#indented}}first line" + lineSeparator + "second line{{/indented}}",
+                ctx);
     }
-
-
 }

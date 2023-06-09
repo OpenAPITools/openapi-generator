@@ -1,22 +1,18 @@
 package org.openapitools.codegen.java.jaxrs;
 
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
+import static org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen.USE_TAGS;
+import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.*;
+import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
+import static org.testng.Assert.assertTrue;
+
+import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.assertj.core.condition.AllOf;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.java.assertions.JavaFileAssert;
-import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
-import org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen;
-import org.openapitools.codegen.languages.features.CXFServerFeatures;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,15 +23,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
-import static org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen.USE_TAGS;
-import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.*;
-import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
-import static org.testng.Assert.assertTrue;
-
-import com.google.common.collect.ImmutableMap;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
+import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
+import org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen;
+import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * Unit-Test for {@link org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen}.
@@ -58,17 +54,29 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         codegen.preprocessOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
         Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
+                "org.openapitools.model");
         Assert.assertEquals(codegen.apiPackage(), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),
+                "org.openapitools.api");
         Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(JavaJAXRSSpecServerCodegen.SERVER_PORT), "8082");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
+                "org.openapitools.api");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(JavaJAXRSSpecServerCodegen.SERVER_PORT), "8082");
         Assert.assertEquals(codegen.getOpenApiSpecFileLocation(), "src/main/openapi/openapi.yaml");
-        Assert.assertEquals(codegen.additionalProperties().get(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION), "src/main/openapi/openapi.yaml");
+        Assert.assertEquals(
+                codegen.additionalProperties()
+                        .get(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION),
+                "src/main/openapi/openapi.yaml");
     }
 
     @Test
@@ -81,16 +89,28 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.setOpenApiSpecFileLocation("src/main/resources/META-INF/openapi.yaml");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.TRUE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
         Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
+                "xx.yyyyyyyy.model");
         Assert.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xx.yyyyyyyy.api");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),
+                "xx.yyyyyyyy.api");
         Assert.assertEquals(codegen.getInvokerPackage(), "xx.yyyyyyyy.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xx.yyyyyyyy.invoker");
-        Assert.assertEquals(codegen.getOpenApiSpecFileLocation(), "src/main/resources/META-INF/openapi.yaml");
-        Assert.assertEquals(codegen.additionalProperties().get(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION), "src/main/resources/META-INF/openapi.yaml");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
+                "xx.yyyyyyyy.invoker");
+        Assert.assertEquals(
+                codegen.getOpenApiSpecFileLocation(), "src/main/resources/META-INF/openapi.yaml");
+        Assert.assertEquals(
+                codegen.additionalProperties()
+                        .get(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION),
+                "src/main/resources/META-INF/openapi.yaml");
     }
 
     @Test
@@ -99,9 +119,11 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.mmmmm.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.aaaaa.api");
-        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
+        codegen.additionalProperties()
+                .put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
         codegen.additionalProperties().put("serverPort", "8088");
-        codegen.additionalProperties().put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "openapi.yml");
+        codegen.additionalProperties()
+                .put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "openapi.yml");
         codegen.additionalProperties().put(SUPPORT_ASYNC, true);
         codegen.processOpts();
 
@@ -109,23 +131,36 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         codegen.preprocessOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.TRUE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
         Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
+                "xyz.yyyyy.mmmmm.model");
         Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.aaaaa.api");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),
+                "xyz.yyyyy.aaaaa.api");
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaJAXRSServerCodegen.SERVER_PORT), "8088");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
+                "xyz.yyyyy.iiii.invoker");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(AbstractJavaJAXRSServerCodegen.SERVER_PORT),
+                "8088");
         Assert.assertEquals(codegen.getOpenApiSpecFileLocation(), "openapi.yml");
-        Assert.assertEquals(codegen.additionalProperties().get(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION), "openapi.yml");
+        Assert.assertEquals(
+                codegen.additionalProperties()
+                        .get(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION),
+                "openapi.yml");
         Assert.assertEquals(codegen.additionalProperties().get(SUPPORT_ASYNC), "true");
     }
 
     /**
-     * Test
-     * {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation, CodegenOperation, Map)} for Resource with path "/" without "useTags"
+     * Test {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation,
+     * CodegenOperation, Map)} for Resource with path "/" without "useTags"
      */
     @Test
     public void testAddOperationToGroupForRootResourceAndUseTagsFalse() {
@@ -135,7 +170,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         Operation operation = new Operation();
         Map<String, List<CodegenOperation>> operationList = new HashMap<>();
 
-        codegen.addOperationToGroup("Primaryresource", "/", operation, codegenOperation, operationList);
+        codegen.addOperationToGroup(
+                "Primaryresource", "/", operation, codegenOperation, operationList);
 
         Assert.assertEquals(operationList.size(), 1);
         Assert.assertTrue(operationList.containsKey("default"));
@@ -143,8 +179,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     /**
-     * Test
-     * {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation, CodegenOperation, Map)} for Resource with path "/" with "useTags"
+     * Test {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation,
+     * CodegenOperation, Map)} for Resource with path "/" with "useTags"
      */
     @Test
     public void testAddOperationToGroupForRootResourceAndUseTagsTrue() {
@@ -155,7 +191,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         Map<String, List<CodegenOperation>> operationList = new HashMap<>();
         codegen.setUseTags(true);
 
-        codegen.addOperationToGroup("Primaryresource", "/", operation, codegenOperation, operationList);
+        codegen.addOperationToGroup(
+                "Primaryresource", "/", operation, codegenOperation, operationList);
 
         Assert.assertEquals(operationList.size(), 1);
         Assert.assertTrue(operationList.containsKey("Primaryresource"));
@@ -163,8 +200,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     /**
-     * Test
-     * {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation, CodegenOperation, Map)} for Resource with path param.
+     * Test {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation,
+     * CodegenOperation, Map)} for Resource with path param.
      */
     @Test
     public void testAddOperationToGroupForRootResourcePathParamAndUseTagsFalse() {
@@ -174,15 +211,16 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         Operation operation = new Operation();
         Map<String, List<CodegenOperation>> operationList = new HashMap<>();
 
-        codegen.addOperationToGroup("Primaryresource", "/{uuid}", operation, codegenOperation, operationList);
+        codegen.addOperationToGroup(
+                "Primaryresource", "/{uuid}", operation, codegenOperation, operationList);
 
         Assert.assertEquals(operationList.size(), 1);
         Assert.assertTrue(operationList.containsKey("default"));
     }
 
     /**
-     * Test
-     * {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation, CodegenOperation, Map)} for Resource with path param.
+     * Test {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation,
+     * CodegenOperation, Map)} for Resource with path param.
      */
     @Test
     public void testAddOperationToGroupForRootResourcePathParamAndUseTagsTrue() {
@@ -193,7 +231,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         Map<String, List<CodegenOperation>> operationList = new HashMap<>();
         codegen.setUseTags(true);
 
-        codegen.addOperationToGroup("Primaryresource", "/{uuid}", operation, codegenOperation, operationList);
+        codegen.addOperationToGroup(
+                "Primaryresource", "/{uuid}", operation, codegenOperation, operationList);
 
         Assert.assertEquals(operationList.size(), 1);
         Assert.assertTrue(operationList.containsKey("Primaryresource"));
@@ -201,9 +240,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     /**
-     * Test
-     * {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String,
-     * Operation, CodegenOperation, Map)} for Resource with path "/subresource".
+     * Test {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation,
+     * CodegenOperation, Map)} for Resource with path "/subresource".
      */
     @Test
     public void testAddOperationToGroupForSubresource() {
@@ -212,16 +250,15 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         Operation operation = new Operation();
         Map<String, List<CodegenOperation>> operationList = new HashMap<>();
 
-        codegen.addOperationToGroup("Default", "/subresource", operation, codegenOperation, operationList);
+        codegen.addOperationToGroup(
+                "Default", "/subresource", operation, codegenOperation, operationList);
 
         Assert.assertEquals(codegenOperation.baseName, "subresource");
         Assert.assertEquals(operationList.size(), 1);
         assertTrue(operationList.containsKey("subresource"));
     }
 
-    /**
-     * Test {@link JavaJAXRSSpecServerCodegen#toApiName(String)} with subresource.
-     */
+    /** Test {@link JavaJAXRSSpecServerCodegen#toApiName(String)} with subresource. */
     @Test
     public void testToApiNameForSubresource() {
         final String subresource = codegen.toApiName("subresource");
@@ -234,11 +271,12 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         File output = Files.createTempDirectory("test").toFile();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("jaxrs-spec")
-                .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/3_0/ping.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("jaxrs-spec")
+                        .setAdditionalProperties(properties)
+                        .setInputSpec("src/test/resources/3_0/ping.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -258,11 +296,12 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         File output = Files.createTempDirectory("test").toFile();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("jaxrs-spec")
-                .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/3_0/ping.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("jaxrs-spec")
+                        .setAdditionalProperties(properties)
+                        .setInputSpec("src/test/resources/3_0/ping.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -277,15 +316,18 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     @Test
     public void testGeneratePingAlternativeLocation1() throws Exception {
         Map<String, Object> properties = new HashMap<>();
-        properties.put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "src/main/resources/META-INF/openapi.yaml");
+        properties.put(
+                JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION,
+                "src/main/resources/META-INF/openapi.yaml");
 
         File output = Files.createTempDirectory("test").toFile();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("jaxrs-spec")
-                .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/3_0/ping.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("jaxrs-spec")
+                        .setAdditionalProperties(properties)
+                        .setInputSpec("src/test/resources/3_0/ping.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -305,11 +347,12 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         File output = Files.createTempDirectory("test").toFile();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("jaxrs-spec")
-                .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/3_0/ping.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("jaxrs-spec")
+                        .setAdditionalProperties(properties)
+                        .setInputSpec("src/test/resources/3_0/ping.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -328,11 +371,12 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         File output = Files.createTempDirectory("test").toFile();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("jaxrs-spec")
-                .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/3_0/issue_1347.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("jaxrs-spec")
+                        .setAdditionalProperties(properties)
+                        .setInputSpec("src/test/resources/3_0/issue_1347.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator(false);
@@ -341,7 +385,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         validateJavaSourceFiles(files);
 
         TestUtils.ensureContainsFile(files, output, "openapi.yml");
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/DefaultApi.java");
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/api/DefaultApi.java");
 
         output.deleteOnExit();
     }
@@ -353,11 +398,12 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         File output = Files.createTempDirectory("test").toFile();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("jaxrs-spec")
-                .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/3_0/issue_2908.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("jaxrs-spec")
+                        .setAdditionalProperties(properties)
+                        .setInputSpec("src/test/resources/3_0/issue_2908.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator(false);
@@ -367,8 +413,11 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         TestUtils.ensureContainsFile(files, output, "openapi.yml");
         files.stream().forEach(System.out::println);
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/SomethingApi.java");
-        TestUtils.assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/SomethingApi.java"), "@CookieParam");
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/api/SomethingApi.java");
+        TestUtils.assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/SomethingApi.java"),
+                "@CookieParam");
 
         output.deleteOnExit();
     }
@@ -379,16 +428,19 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/setParameter.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation(
+                                "src/test/resources/3_0/setParameter.yaml",
+                                null,
+                                new ParseOptions())
+                        .getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
 
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator(false);
         generator.opts(input).generate();
@@ -404,16 +456,17 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/setResponse.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation(
+                                "src/test/resources/3_0/setResponse.yaml", null, new ParseOptions())
+                        .getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
 
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
@@ -428,30 +481,34 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         final File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions())
+                        .getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(SUPPORT_ASYNC, true); //Given support async is enabled
+        codegen.additionalProperties().put(SUPPORT_ASYNC, true); // Given support async is enabled
 
-        final ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen); //Using JavaJAXRSSpecServerCodegen
+        final ClientOptInput input =
+                new ClientOptInput()
+                        .openAPI(openAPI)
+                        .config(codegen); // Using JavaJAXRSSpecServerCodegen
 
         final DefaultGenerator generator = new DefaultGenerator();
-        final List<File> files = generator.opts(input).generate(); //When generating files
+        final List<File> files = generator.opts(input).generate(); // When generating files
 
-        //Then the java files are compilable
+        // Then the java files are compilable
         validateJavaSourceFiles(files);
 
-        //And the generated class contains CompletionStage<Response>
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
+        // And the generated class contains CompletionStage<Response>
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/api/PingApi.java");
+        assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
                 "\nimport java.util.concurrent.CompletionStage;\n",
                 "\nimport java.util.concurrent.CompletableFuture;\n",
                 "\npublic CompletionStage<Response> pingGet() {\n",
-                "\nCompletableFuture.supplyAsync(() -> Response.ok().entity(\"magic!\").build())\n"
-        );
+                "\nCompletableFuture.supplyAsync(() -> Response.ok().entity(\"magic!\").build())\n");
     }
 
     @Test
@@ -459,26 +516,32 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
-        final OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions())
+                        .getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(SUPPORT_ASYNC, true); //Given support async is enabled
-        codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
+        codegen.additionalProperties().put(SUPPORT_ASYNC, true); // Given support async is enabled
+        codegen.additionalProperties()
+                .put(INTERFACE_ONLY, true); // And only interfaces are generated
 
-        final ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen); //Using JavaJAXRSSpecServerCodegen
+        final ClientOptInput input =
+                new ClientOptInput()
+                        .openAPI(openAPI)
+                        .config(codegen); // Using JavaJAXRSSpecServerCodegen
 
         final DefaultGenerator generator = new DefaultGenerator();
-        final List<File> files = generator.opts(input).generate(); //When generating files
+        final List<File> files = generator.opts(input).generate(); // When generating files
 
-        //Then the java files are compilable
+        // Then the java files are compilable
         validateJavaSourceFiles(files);
 
-        //And the generated interface contains CompletionStage<Void>
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
+        // And the generated interface contains CompletionStage<Void>
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/api/PingApi.java");
+        assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
                 "\nimport java.util.concurrent.CompletionStage;\n",
                 "\nCompletionStage<Void> pingGet();\n");
     }
@@ -488,74 +551,90 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
-        final OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions())
+                        .getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(SUPPORT_ASYNC, true); //Given support async is enabled
-        codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
-        codegen.additionalProperties().put(RETURN_RESPONSE, true); //And return type is Response
+        codegen.additionalProperties().put(SUPPORT_ASYNC, true); // Given support async is enabled
+        codegen.additionalProperties()
+                .put(INTERFACE_ONLY, true); // And only interfaces are generated
+        codegen.additionalProperties().put(RETURN_RESPONSE, true); // And return type is Response
 
-        final ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen); //Using JavaJAXRSSpecServerCodegen
+        final ClientOptInput input =
+                new ClientOptInput()
+                        .openAPI(openAPI)
+                        .config(codegen); // Using JavaJAXRSSpecServerCodegen
 
         final DefaultGenerator generator = new DefaultGenerator();
-        final List<File> files = generator.opts(input).generate(); //When generating files
+        final List<File> files = generator.opts(input).generate(); // When generating files
 
-        //Then the java files are compilable
+        // Then the java files are compilable
         validateJavaSourceFiles(files);
 
-        //And the generated interface contains CompletionStage<Response>
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
+        // And the generated interface contains CompletionStage<Response>
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/api/PingApi.java");
+        assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
                 "\nimport java.util.concurrent.CompletionStage;\n",
                 "\nCompletionStage<Response> pingGet();\n");
     }
-
 
     @Test
     public void generatePetstoreAPIWithAsyncSupport() throws Exception {
         final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
-        final OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation(
+                                "src/test/resources/3_0/petstore.yaml", null, new ParseOptions())
+                        .getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(SUPPORT_ASYNC, true); //Given support async is enabled
-        codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
+        codegen.additionalProperties().put(SUPPORT_ASYNC, true); // Given support async is enabled
+        codegen.additionalProperties()
+                .put(INTERFACE_ONLY, true); // And only interfaces are generated
 
-        final ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen); //using JavaJAXRSSpecServerCodegen
+        final ClientOptInput input =
+                new ClientOptInput()
+                        .openAPI(openAPI)
+                        .config(codegen); // using JavaJAXRSSpecServerCodegen
 
         final DefaultGenerator generator = new DefaultGenerator();
-        final List<File> files = generator.opts(input).generate(); //When generating files
+        final List<File> files = generator.opts(input).generate(); // When generating files
 
-        //Then the java files are compilable
+        // Then the java files are compilable
         validateJavaSourceFiles(files);
 
-        //And the generated interfaces contains CompletionStage
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PetApi.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
+        // And the generated interfaces contains CompletionStage
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/api/PetApi.java");
+        assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
                 "\nimport java.util.concurrent.CompletionStage;\n",
-                "CompletionStage<Void> deletePet", //Support empty response
-                "CompletionStage<List<Pet>> findPetsByStatus", //Support type of arrays response
-                "CompletionStage<Pet> getPetById" //Support single type response
-        );
+                "CompletionStage<Void> deletePet", // Support empty response
+                "CompletionStage<List<Pet>> findPetsByStatus", // Support type of arrays response
+                "CompletionStage<Pet> getPetById" // Support single type response
+                );
 
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/StoreApi.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/StoreApi.java"),
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/api/StoreApi.java");
+        assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/StoreApi.java"),
                 "\nimport java.util.concurrent.CompletionStage;\n",
-                "CompletionStage<Map<String, Integer>>" //Support map response
-        );
+                "CompletionStage<Map<String, Integer>>" // Support map response
+                );
 
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/UserApi.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/UserApi.java"),
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/api/UserApi.java");
+        assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/UserApi.java"),
                 "\nimport java.util.concurrent.CompletionStage;\n",
-                "CompletionStage<String>" //Support simple types
-        );
+                "CompletionStage<String>" // Support simple types
+                );
     }
 
     @Test
@@ -563,30 +642,39 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
-        final OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/issue_4832.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation(
+                                "src/test/resources/3_0/issue_4832.yaml", null, new ParseOptions())
+                        .getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(SUPPORT_ASYNC, true); //Given support async is enabled
-        codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
-        codegen.additionalProperties().put(USE_TAGS, true); //And use tags to generate everything in PingApi.java
+        codegen.additionalProperties().put(SUPPORT_ASYNC, true); // Given support async is enabled
+        codegen.additionalProperties()
+                .put(INTERFACE_ONLY, true); // And only interfaces are generated
+        codegen.additionalProperties()
+                .put(USE_TAGS, true); // And use tags to generate everything in PingApi.java
 
-        final ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen); //using JavaJAXRSSpecServerCodegen
+        final ClientOptInput input =
+                new ClientOptInput()
+                        .openAPI(openAPI)
+                        .config(codegen); // using JavaJAXRSSpecServerCodegen
 
         final DefaultGenerator generator = new DefaultGenerator();
-        final List<File> files = generator.opts(input).generate(); //When generating files
+        final List<File> files = generator.opts(input).generate(); // When generating files
 
-        //Then the java files are compilable
+        // Then the java files are compilable
         validateJavaSourceFiles(files);
 
-        //And the generated interfaces contains CompletionStage with proper classes instead of primitive types
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
-        TestUtils.assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
-                "CompletionStage<Boolean> pingGetBoolean", //Support primitive types response
-                "CompletionStage<Integer> pingGetInteger" //Support primitive types response
-        );
+        // And the generated interfaces contains CompletionStage with proper classes instead of
+        // primitive types
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/api/PingApi.java");
+        TestUtils.assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
+                "CompletionStage<Boolean> pingGetBoolean", // Support primitive types response
+                "CompletionStage<Integer> pingGetInteger" // Support primitive types response
+                );
     }
 
     @Test
@@ -595,24 +683,30 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/deepobject-array-with-pattern.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation(
+                                "src/test/resources/3_0/deepobject-array-with-pattern.yaml",
+                                null,
+                                new ParseOptions())
+                        .getOpenAPI();
         codegen.setOutputDir(output.getAbsolutePath());
 
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(input).generate();
 
-        //Then the java files are compilable
+        // Then the java files are compilable
         validateJavaSourceFiles(files);
 
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/Options.java");
-        TestUtils.assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/Options.java"), "List< @Pattern(regexp=\"^[A-Z].*\")String> getA()");
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/model/Options.java");
+        TestUtils.assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/model/Options.java"),
+                "List< @Pattern(regexp=\"^[A-Z].*\")String> getA()");
     }
 
     @Test
@@ -620,71 +714,109 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/issue_8535.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation(
+                                "src/test/resources/3_0/issue_8535.yaml", null, new ParseOptions())
+                        .getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+        Map<String, File> files =
+                generator.opts(input).generate().stream()
+                        .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("TestHeadersApi.java"))
                 .assertMethod("headersTest")
-                .hasParameter("headerNumber").withType("BigDecimal")
+                .hasParameter("headerNumber")
+                .withType("BigDecimal")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"11.2\""))
-                .toParameter().toMethod()
-                .hasParameter("headerString").withType("String")
+                .toParameter()
+                .toMethod()
+                .hasParameter("headerString")
+                .withType("String")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
-                .toParameter().toMethod()
-                .hasParameter("headerStringWrapped").withType("String")
+                .containsWithNameAndAttributes(
+                        "DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
+                .toParameter()
+                .toMethod()
+                .hasParameter("headerStringWrapped")
+                .withType("String")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
-                .toParameter().toMethod()
-                .hasParameter("headerStringQuotes").withType("String")
+                .containsWithNameAndAttributes(
+                        "DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
+                .toParameter()
+                .toMethod()
+                .hasParameter("headerStringQuotes")
+                .withType("String")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
-                .toParameter().toMethod()
-                .hasParameter("headerStringQuotesWrapped").withType("String")
+                .containsWithNameAndAttributes(
+                        "DefaultValue",
+                        ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
+                .toParameter()
+                .toMethod()
+                .hasParameter("headerStringQuotesWrapped")
+                .withType("String")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
-                .toParameter().toMethod()
-                .hasParameter("headerBoolean").withType("Boolean")
+                .containsWithNameAndAttributes(
+                        "DefaultValue",
+                        ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
+                .toParameter()
+                .toMethod()
+                .hasParameter("headerBoolean")
+                .withType("Boolean")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"true\""));
+                .containsWithNameAndAttributes(
+                        "DefaultValue", ImmutableMap.of("value", "\"true\""));
 
         JavaFileAssert.assertThat(files.get("TestQueryParamsApi.java"))
                 .assertMethod("queryParamsTest")
-                .hasParameter("queryNumber").withType("BigDecimal")
+                .hasParameter("queryNumber")
+                .withType("BigDecimal")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"11.2\""))
-                .toParameter().toMethod()
-                .hasParameter("queryString").withType("String")
+                .toParameter()
+                .toMethod()
+                .hasParameter("queryString")
+                .withType("String")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
-                .toParameter().toMethod()
-                .hasParameter("queryStringWrapped").withType("String")
+                .containsWithNameAndAttributes(
+                        "DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
+                .toParameter()
+                .toMethod()
+                .hasParameter("queryStringWrapped")
+                .withType("String")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
-                .toParameter().toMethod()
-                .hasParameter("queryStringQuotes").withType("String")
+                .containsWithNameAndAttributes(
+                        "DefaultValue", ImmutableMap.of("value", "\"qwerty\""))
+                .toParameter()
+                .toMethod()
+                .hasParameter("queryStringQuotes")
+                .withType("String")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
-                .toParameter().toMethod()
-                .hasParameter("queryStringQuotesWrapped").withType("String")
+                .containsWithNameAndAttributes(
+                        "DefaultValue",
+                        ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
+                .toParameter()
+                .toMethod()
+                .hasParameter("queryStringQuotesWrapped")
+                .withType("String")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
-                .toParameter().toMethod()
-                .hasParameter("queryBoolean").withType("Boolean")
+                .containsWithNameAndAttributes(
+                        "DefaultValue",
+                        ImmutableMap.of("value", "\"qwerty\\\"with quotes\\\" test\""))
+                .toParameter()
+                .toMethod()
+                .hasParameter("queryBoolean")
+                .withType("Boolean")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("DefaultValue", ImmutableMap.of("value", "\"true\""));
+                .containsWithNameAndAttributes(
+                        "DefaultValue", ImmutableMap.of("value", "\"true\""));
     }
 
     @Test
@@ -692,38 +824,52 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
-        final OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/issue_13025.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation(
+                                "src/test/resources/3_0/issue_13025.yaml", null, new ParseOptions())
+                        .getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(SUPPORT_ASYNC, true); //Given support async is enabled
-        codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
+        codegen.additionalProperties().put(SUPPORT_ASYNC, true); // Given support async is enabled
+        codegen.additionalProperties()
+                .put(INTERFACE_ONLY, true); // And only interfaces are generated
 
-        final ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen); //Using JavaJAXRSSpecServerCodegen
+        final ClientOptInput input =
+                new ClientOptInput()
+                        .openAPI(openAPI)
+                        .config(codegen); // Using JavaJAXRSSpecServerCodegen
 
         final DefaultGenerator generator = new DefaultGenerator();
-        final List<File> files = generator.opts(input).generate(); //When generating files
+        final List<File> files = generator.opts(input).generate(); // When generating files
 
-        //Then the java files are compilable
+        // Then the java files are compilable
         validateJavaSourceFiles(files);
 
-        //And the generated model contains correct default value for array properties (optional)
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/Body.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/Body.java"),
+        // And the generated model contains correct default value for array properties (optional)
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/model/Body.java");
+        assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/model/Body.java"),
                 "\nprivate @Valid List<String> arrayThatIsNull;\n");
 
-        //And the generated model contains correct default value for array properties (required, nullable)
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/BodyWithRequiredNullable.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BodyWithRequiredNullable.java"),
+        // And the generated model contains correct default value for array properties (required,
+        // nullable)
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/model/BodyWithRequiredNullable.java");
+        assertFileContains(
+                output.toPath()
+                        .resolve(
+                                "src/gen/java/org/openapitools/model/BodyWithRequiredNullable.java"),
                 "\nprivate @Valid List<String> arrayThatIsNull;\n");
 
-        //And the generated model contains correct default value for array properties (required)
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/model/BodyWithRequired.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/model/BodyWithRequired.java"),
+        // And the generated model contains correct default value for array properties (required)
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/model/BodyWithRequired.java");
+        assertFileContains(
+                output.toPath()
+                        .resolve("src/gen/java/org/openapitools/model/BodyWithRequired.java"),
                 "\nprivate @Valid List<String> arrayThatIsNotNull = new ArrayList<>();\n");
-
     }
 
     @Test
@@ -731,29 +877,33 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         final File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions())
+                        .getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.setLibrary(QUARKUS_LIBRARY);
         codegen.additionalProperties().put(USE_GZIP_FEATURE, true);
 
-        final ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen); //Using JavaJAXRSSpecServerCodegen
+        final ClientOptInput input =
+                new ClientOptInput()
+                        .openAPI(openAPI)
+                        .config(codegen); // Using JavaJAXRSSpecServerCodegen
 
         final DefaultGenerator generator = new DefaultGenerator();
-        final List<File> files = generator.opts(input).generate(); //When generating files
+        final List<File> files = generator.opts(input).generate(); // When generating files
 
-        //Then the java files are compilable
+        // Then the java files are compilable
         validateJavaSourceFiles(files);
 
-        //And the generated class contains CompletionStage<Response>
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
+        // And the generated class contains CompletionStage<Response>
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/api/PingApi.java");
+        assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
                 "\nimport org.jboss.resteasy.annotations.GZIP\n",
-                "@GZIP\n"
-        );
+                "@GZIP\n");
     }
 
     @Test
@@ -761,18 +911,22 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/required-and-readonly-property.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation(
+                                "src/test/resources/3_0/required-and-readonly-property.yaml",
+                                null,
+                                new ParseOptions())
+                        .getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
 
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+        Map<String, File> files =
+                generator.opts(input).generate().stream()
+                        .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("ReadonlyAndRequiredProperties.java"))
                 .hasProperty("requiredYesReadonlyYes")
@@ -780,9 +934,12 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 .assertMethod("getRequiredYesReadonlyYes")
                 .assertMethodAnnotations()
                 .hasSize(2)
-                .containsWithNameAndAttributes("ApiModelProperty", ImmutableMap.of("required", "true"))
-                // Mysteriously, but we need to surround the value with quotes if the Annotation only contains a single value
-                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"requiredYesReadonlyYes\""))
+                .containsWithNameAndAttributes(
+                        "ApiModelProperty", ImmutableMap.of("required", "true"))
+                // Mysteriously, but we need to surround the value with quotes if the Annotation
+                // only contains a single value
+                .containsWithNameAndAttributes(
+                        "JsonProperty", ImmutableMap.of("value", "\"requiredYesReadonlyYes\""))
                 .toMethod()
                 .toFileAssert()
                 .hasProperty("requiredYesReadonlyNo")
@@ -790,9 +947,12 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 .assertMethod("getRequiredYesReadonlyNo")
                 .assertMethodAnnotations()
                 .hasSize(3)
-                .containsWithNameAndAttributes("ApiModelProperty", ImmutableMap.of("required", "true"))
-                // Mysteriously, but we need to surround the value with quotes if the Annotation only contains a single value
-                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"requiredYesReadonlyNo\""))
+                .containsWithNameAndAttributes(
+                        "ApiModelProperty", ImmutableMap.of("required", "true"))
+                // Mysteriously, but we need to surround the value with quotes if the Annotation
+                // only contains a single value
+                .containsWithNameAndAttributes(
+                        "JsonProperty", ImmutableMap.of("value", "\"requiredYesReadonlyNo\""))
                 .containsWithName("NotNull");
     }
 
@@ -801,45 +961,60 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
-        final OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation(
+                                "src/test/resources/3_0/petstore.yaml", null, new ParseOptions())
+                        .getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
-        codegen.additionalProperties().put(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, true); //And only interfaces are generated
-        codegen.additionalProperties().put(USE_TAGS, true); //And use tags to generate everything in several API files
+        codegen.additionalProperties()
+                .put(INTERFACE_ONLY, true); // And only interfaces are generated
+        codegen.additionalProperties()
+                .put(
+                        USE_MICROPROFILE_OPENAPI_ANNOTATIONS,
+                        true); // And only interfaces are generated
+        codegen.additionalProperties()
+                .put(USE_TAGS, true); // And use tags to generate everything in several API files
         codegen.additionalProperties().put(RETURN_RESPONSE, true); // Retrieve HTTP Response
         codegen.additionalProperties().put(USE_JAKARTA_EE, true); // Use Jakarta
         codegen.setLibrary(QUARKUS_LIBRARY); // Set Quarkus
 
-        final ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen); //using JavaJAXRSSpecServerCodegen
+        final ClientOptInput input =
+                new ClientOptInput()
+                        .openAPI(openAPI)
+                        .config(codegen); // using JavaJAXRSSpecServerCodegen
 
         final DefaultGenerator generator = new DefaultGenerator();
-        final List<File> files = generator.opts(input).generate(); //When generating files
+        final List<File> files = generator.opts(input).generate(); // When generating files
 
-        //Then the java files are compilable
+        // Then the java files are compilable
         validateJavaSourceFiles(files);
 
-        //And the generated interfaces contains CompletionStage
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PetApi.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
-                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n" +
-                        "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n" +
-                        "        title = \"pet\", version=\"1.0.0\", description=\"Everything about your Pets\",");
+        // And the generated interfaces contains CompletionStage
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/api/PetApi.java");
+        assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
+                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n"
+                        + "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n"
+                        + "        title = \"pet\", version=\"1.0.0\", description=\"Everything about your Pets\",");
 
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/StoreApi.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/StoreApi.java"),
-                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n" +
-                        "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n" +
-                        "        title = \"store\", version=\"1.0.0\", description=\"Access to Petstore orders\",");
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/api/StoreApi.java");
+        assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/StoreApi.java"),
+                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n"
+                        + "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n"
+                        + "        title = \"store\", version=\"1.0.0\", description=\"Access to Petstore orders\",");
 
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/UserApi.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/UserApi.java"),
-                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n" +
-                        "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n" +
-                        "        title = \"user\", version=\"1.0.0\", description=\"Operations about user\",");
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/api/UserApi.java");
+        assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/UserApi.java"),
+                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n"
+                        + "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n"
+                        + "        title = \"user\", version=\"1.0.0\", description=\"Operations about user\",");
     }
 
     @Test
@@ -847,44 +1022,59 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
-        final OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation(
+                                "src/test/resources/3_0/petstore.yaml", null, new ParseOptions())
+                        .getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(INTERFACE_ONLY, false); //And only interfaces are generated
-        codegen.additionalProperties().put(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, true); //And only interfaces are generated
-        codegen.additionalProperties().put(USE_TAGS, true); //And use tags to generate everything in several API files
+        codegen.additionalProperties()
+                .put(INTERFACE_ONLY, false); // And only interfaces are generated
+        codegen.additionalProperties()
+                .put(
+                        USE_MICROPROFILE_OPENAPI_ANNOTATIONS,
+                        true); // And only interfaces are generated
+        codegen.additionalProperties()
+                .put(USE_TAGS, true); // And use tags to generate everything in several API files
         codegen.additionalProperties().put(RETURN_RESPONSE, true); // Retrieve HTTP Response
         codegen.additionalProperties().put(USE_JAKARTA_EE, true); // Use Jakarta
         codegen.setLibrary(QUARKUS_LIBRARY); // Set Quarkus
 
-        final ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen); //using JavaJAXRSSpecServerCodegen
+        final ClientOptInput input =
+                new ClientOptInput()
+                        .openAPI(openAPI)
+                        .config(codegen); // using JavaJAXRSSpecServerCodegen
 
         final DefaultGenerator generator = new DefaultGenerator();
-        final List<File> files = generator.opts(input).generate(); //When generating files
+        final List<File> files = generator.opts(input).generate(); // When generating files
 
-        //Then the java files are compilable
+        // Then the java files are compilable
         validateJavaSourceFiles(files);
 
-        //And the generated interfaces contains CompletionStage
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PetApi.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
-                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n" +
-                        "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n" +
-                        "        title = \"pet\", version=\"1.0.0\", description=\"Everything about your Pets\",");
+        // And the generated interfaces contains CompletionStage
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/api/PetApi.java");
+        assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
+                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n"
+                        + "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n"
+                        + "        title = \"pet\", version=\"1.0.0\", description=\"Everything about your Pets\",");
 
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/StoreApi.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/StoreApi.java"),
-                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n" +
-                        "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n" +
-                        "        title = \"store\", version=\"1.0.0\", description=\"Access to Petstore orders\",");
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/api/StoreApi.java");
+        assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/StoreApi.java"),
+                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n"
+                        + "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n"
+                        + "        title = \"store\", version=\"1.0.0\", description=\"Access to Petstore orders\",");
 
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/UserApi.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/UserApi.java"),
-                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n" +
-                        "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n" +
-                        "        title = \"user\", version=\"1.0.0\", description=\"Operations about user\",");
+        TestUtils.ensureContainsFile(
+                files, output, "src/gen/java/org/openapitools/api/UserApi.java");
+        assertFileContains(
+                output.toPath().resolve("src/gen/java/org/openapitools/api/UserApi.java"),
+                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n"
+                        + "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n"
+                        + "        title = \"user\", version=\"1.0.0\", description=\"Operations about user\",");
     }
 }

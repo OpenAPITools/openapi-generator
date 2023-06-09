@@ -17,32 +17,31 @@
 
 package org.openapitools.codegen.cmd;
 
+import static org.mockito.Answers.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.*;
+import static org.testng.Assert.fail;
+
 import io.airlift.airline.Cli;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import org.apache.commons.lang3.ArrayUtils;
 import org.mockito.MockSettings;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.Generator;
 import org.openapitools.codegen.SpecValidationException;
 import org.openapitools.codegen.config.CodegenConfigurator;
-import org.testng.TestException;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-
-import static org.mockito.Answers.CALLS_REAL_METHODS;
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.fail;
-
 @SuppressWarnings("unused")
 public class GenerateTest {
 
-    protected MockSettings mockSettings = withSettings().useConstructor().defaultAnswer(CALLS_REAL_METHODS);
+    protected MockSettings mockSettings =
+            withSettings().useConstructor().defaultAnswer(CALLS_REAL_METHODS);
     private Generator generator;
     private CodegenConfigurator configurator;
     private Path outputDirectory;
@@ -72,8 +71,15 @@ public class GenerateTest {
 
     @Test
     public void testAdditionalPropertiesLongMultiple() {
-        setupAndRunGenericTest("--additional-properties", "hello=world", "--additional-properties",
-                "key=", "--additional-properties", "foo=bar", "--additional-properties", "key2");
+        setupAndRunGenericTest(
+                "--additional-properties",
+                "hello=world",
+                "--additional-properties",
+                "key=",
+                "--additional-properties",
+                "foo=bar",
+                "--additional-properties",
+                "key2");
         verify(configurator).addAdditionalProperty("hello", "world");
         verify(configurator).addAdditionalProperty("foo", "bar");
         verify(configurator).addAdditionalProperty("key", "");
@@ -96,22 +102,37 @@ public class GenerateTest {
     }
 
     private void setupAndRunGenericTest(String... additionalParameters) {
-        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", false, null,
+        setupAndRunTest(
+                "-i",
+                "src/test/resources/swagger.yaml",
+                "-g",
+                "java",
+                "-o",
+                "src/main/java",
+                false,
+                null,
                 additionalParameters);
     }
 
     @SuppressWarnings("SameParameterValue")
-    private void setupAndRunTest(String specFlag, final String spec, String langFlag,
-                                 final String lang, String outputDirFlag, final String outputDir,
-                                 boolean configuratorFromFile, final String configFile, String... additionalParameters) {
-        final String[] commonArgs =
-                {"generate", langFlag, lang, outputDirFlag, outputDir, specFlag, spec};
+    private void setupAndRunTest(
+            String specFlag,
+            final String spec,
+            String langFlag,
+            final String lang,
+            String outputDirFlag,
+            final String outputDir,
+            boolean configuratorFromFile,
+            final String configFile,
+            String... additionalParameters) {
+        final String[] commonArgs = {
+            "generate", langFlag, lang, outputDirFlag, outputDir, specFlag, spec
+        };
 
         String[] argsToUse = ArrayUtils.addAll(commonArgs, additionalParameters);
 
         Cli.CliBuilder<Runnable> builder =
-                Cli.<Runnable>builder("openapi-generator-cli")
-                        .withCommands(Generate.class);
+                Cli.<Runnable>builder("openapi-generator-cli").withCommands(Generate.class);
 
         Generate generate = (Generate) builder.build().parse(argsToUse);
 
@@ -168,8 +189,17 @@ public class GenerateTest {
 
     @Test
     public void testConfigJsonLong() {
-        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
-                "config.json", "--config", "config.json");
+        setupAndRunTest(
+                "-i",
+                "src/test/resources/swagger.yaml",
+                "-g",
+                "java",
+                "-o",
+                "src/main/java",
+                true,
+                "config.json",
+                "--config",
+                "config.json");
 
         verify(configurator).toClientOptInput();
         verify(configurator).toContext();
@@ -179,8 +209,17 @@ public class GenerateTest {
 
     @Test
     public void testConfigJsonShort() {
-        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
-                "config.json", "-c", "config.json");
+        setupAndRunTest(
+                "-i",
+                "src/test/resources/swagger.yaml",
+                "-g",
+                "java",
+                "-o",
+                "src/main/java",
+                true,
+                "config.json",
+                "-c",
+                "config.json");
 
         // on top of those in setupAndRunTest
         verify(configurator).toClientOptInput();
@@ -191,8 +230,17 @@ public class GenerateTest {
 
     @Test
     public void testConfigYamlLong() {
-        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
-                "config.yaml", "--config", "config.yaml");
+        setupAndRunTest(
+                "-i",
+                "src/test/resources/swagger.yaml",
+                "-g",
+                "java",
+                "-o",
+                "src/main/java",
+                true,
+                "config.yaml",
+                "--config",
+                "config.yaml");
 
         verify(configurator).toClientOptInput();
         verify(configurator).toContext();
@@ -202,8 +250,17 @@ public class GenerateTest {
 
     @Test
     public void testConfigYamlShort() {
-        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
-                "config.yaml", "-c", "config.yaml");
+        setupAndRunTest(
+                "-i",
+                "src/test/resources/swagger.yaml",
+                "-g",
+                "java",
+                "-o",
+                "src/main/java",
+                true,
+                "config.yaml",
+                "-c",
+                "config.yaml");
 
         // on top of those in setupAndRunTest
         verify(configurator).toClientOptInput();
@@ -231,8 +288,15 @@ public class GenerateTest {
 
     @Test
     public void testImportMappingsLongMultiple() {
-        setupAndRunGenericTest("--import-mappings", "hello=world", "--import-mappings", "key=",
-                "--import-mappings", "foo=bar", "--import-mappings", "key2");
+        setupAndRunGenericTest(
+                "--import-mappings",
+                "hello=world",
+                "--import-mappings",
+                "key=",
+                "--import-mappings",
+                "foo=bar",
+                "--import-mappings",
+                "key2");
 
         verify(configurator).addImportMapping("hello", "world");
         verify(configurator).addImportMapping("foo", "bar");
@@ -251,8 +315,15 @@ public class GenerateTest {
 
     @Test
     public void testInstantiationTypesLongMultiple() {
-        setupAndRunGenericTest("--instantiation-types", "hello=world", "--instantiation-types",
-                "key=", "--instantiation-types", "foo=bar", "--instantiation-types", "key2");
+        setupAndRunGenericTest(
+                "--instantiation-types",
+                "hello=world",
+                "--instantiation-types",
+                "key=",
+                "--instantiation-types",
+                "foo=bar",
+                "--instantiation-types",
+                "key2");
         verify(configurator).addInstantiationType("hello", "world");
         verify(configurator).addInstantiationType("foo", "bar");
         verify(configurator).addInstantiationType("key", "");
@@ -268,8 +339,11 @@ public class GenerateTest {
 
     @Test
     public void testLanguageSpecificPrimitives() {
-        setupAndRunGenericTest("--language-specific-primitives", "foo,,bar",
-                "--language-specific-primitives", "hello,world");
+        setupAndRunGenericTest(
+                "--language-specific-primitives",
+                "foo,,bar",
+                "--language-specific-primitives",
+                "hello,world");
 
         verify(configurator).addLanguageSpecificPrimitive("foo");
         verify(configurator).addLanguageSpecificPrimitive("bar");
@@ -300,8 +374,15 @@ public class GenerateTest {
 
     @Test
     public void testRequiredArgs_LongArgs() {
-        setupAndRunTest("--input-spec", "src/test/resources/swagger.yaml", "--generator-name", "java", "--output",
-                "src/main/java", false, null);
+        setupAndRunTest(
+                "--input-spec",
+                "src/test/resources/swagger.yaml",
+                "--generator-name",
+                "java",
+                "--output",
+                "src/main/java",
+                false,
+                null);
 
         // on top of those in setupAndRunTest:
         verify(configurator).toClientOptInput();
@@ -312,7 +393,17 @@ public class GenerateTest {
 
     @Test
     public void testRequiredArgs_ShortArgs() {
-        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", false, null, "-p", "foo=bar");
+        setupAndRunTest(
+                "-i",
+                "src/test/resources/swagger.yaml",
+                "-g",
+                "java",
+                "-o",
+                "src/main/java",
+                false,
+                null,
+                "-p",
+                "foo=bar");
 
         verify(configurator).addAdditionalProperty("foo", "bar");
         verify(configurator).toClientOptInput();
@@ -364,13 +455,16 @@ public class GenerateTest {
             verify(configurator).toContext();
             verifyNoMoreInteractions(configurator);
         } finally {
-            if(!f.delete()) {
+            if (!f.delete()) {
                 System.out.println("Directory didn't delete. You can ignore this.");
             }
         }
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Template directory src/main/resources/customTemplates does not exist.")
+    @Test(
+            expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp =
+                    "Template directory src/main/resources/customTemplates does not exist.")
     public void testTemplateDirMustExist() {
         final String templateDir = "src/main/resources/customTemplates";
         setupAndRunGenericTest("-t", templateDir);
@@ -390,7 +484,7 @@ public class GenerateTest {
             verify(configurator).toClientOptInput();
             verify(configurator).toContext();
             verifyNoMoreInteractions(configurator);
-            if(!f.delete()) {
+            if (!f.delete()) {
                 System.out.println("Directory didn't delete. You can ignore this.");
             }
         }
@@ -407,8 +501,15 @@ public class GenerateTest {
 
     @Test
     public void testTypeMappingsLongMultiple() {
-        setupAndRunGenericTest("--type-mappings", "hello=world", "--type-mappings", "key=",
-                "--type-mappings", "foo=bar", "--type-mappings", "key2");
+        setupAndRunGenericTest(
+                "--type-mappings",
+                "hello=world",
+                "--type-mappings",
+                "key=",
+                "--type-mappings",
+                "foo=bar",
+                "--type-mappings",
+                "key2");
         verify(configurator).addTypeMapping("hello", "world");
         verify(configurator).addTypeMapping("foo", "bar");
         verify(configurator).addTypeMapping("key", "");
@@ -433,11 +534,17 @@ public class GenerateTest {
         verifyNoMoreInteractions(configurator);
     }
 
-    /**
-     * This test ensures that when the
-     */
+    /** This test ensures that when the */
     @Test(expectedExceptions = SpecValidationException.class)
     public void testNPEWithInvalidSpecFile() {
-        setupAndRunTest("-i", "src/test/resources/npe-test.yaml", "-g", "java", "-o", "src/main/java", false, null);
+        setupAndRunTest(
+                "-i",
+                "src/test/resources/npe-test.yaml",
+                "-g",
+                "java",
+                "-o",
+                "src/main/java",
+                false,
+                null);
     }
 }

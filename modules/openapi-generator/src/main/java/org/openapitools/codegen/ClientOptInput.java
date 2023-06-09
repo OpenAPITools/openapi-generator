@@ -19,11 +19,9 @@ package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
-
+import java.util.List;
 import org.openapitools.codegen.api.TemplateDefinition;
 import org.openapitools.codegen.auth.AuthParser;
-
-import java.util.List;
 
 public class ClientOptInput {
     private CodegenConfig config;
@@ -73,7 +71,8 @@ public class ClientOptInput {
     }
 
     public List<TemplateDefinition> getUserDefinedTemplates() {
-        // not deprecated as this is added to match other functionality, we need to move to Context<?> instead of ClientOptInput.
+        // not deprecated as this is added to match other functionality, we need to move to
+        // Context<?> instead of ClientOptInput.
         return userDefinedTemplates;
     }
 

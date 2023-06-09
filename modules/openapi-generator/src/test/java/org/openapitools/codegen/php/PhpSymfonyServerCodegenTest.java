@@ -22,7 +22,6 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
@@ -33,7 +32,6 @@ import org.openapitools.codegen.languages.PhpSymfonyServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-
 public class PhpSymfonyServerCodegenTest {
 
     @Test
@@ -41,7 +39,9 @@ public class PhpSymfonyServerCodegenTest {
         final PhpSymfonyServerCodegen codegen = new PhpSymfonyServerCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.TRUE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
     }
 
@@ -51,7 +51,9 @@ public class PhpSymfonyServerCodegenTest {
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
 
@@ -61,7 +63,9 @@ public class PhpSymfonyServerCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
 
@@ -71,11 +75,12 @@ public class PhpSymfonyServerCodegenTest {
 
         File output = Files.createTempDirectory("test").toFile();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("php-symfony")
-                .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/3_0/ping.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("php-symfony")
+                        .setAdditionalProperties(properties)
+                        .setInputSpec("src/test/resources/3_0/ping.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -98,8 +103,10 @@ public class PhpSymfonyServerCodegenTest {
         TestUtils.ensureContainsFile(files, output, "Api/DefaultApiInterface.php");
         TestUtils.ensureContainsFile(files, output, "Controller/Controller.php");
         TestUtils.ensureContainsFile(files, output, "Controller/DefaultController.php");
-        TestUtils.ensureContainsFile(files, output, "DependencyInjection/Compiler/OpenAPIServerApiPass.php");
-        TestUtils.ensureContainsFile(files, output, "DependencyInjection/OpenAPIServerExtension.php");
+        TestUtils.ensureContainsFile(
+                files, output, "DependencyInjection/Compiler/OpenAPIServerApiPass.php");
+        TestUtils.ensureContainsFile(
+                files, output, "DependencyInjection/OpenAPIServerExtension.php");
         TestUtils.ensureContainsFile(files, output, "docs/Api/DefaultApiInterface.md");
         TestUtils.ensureContainsFile(files, output, "OpenAPIServerBundle.php");
         TestUtils.ensureContainsFile(files, output, "Resources/config/routing.yaml");
@@ -107,7 +114,8 @@ public class PhpSymfonyServerCodegenTest {
         TestUtils.ensureContainsFile(files, output, "Service/JmsSerializer.php");
         TestUtils.ensureContainsFile(files, output, "Service/SerializerInterface.php");
         TestUtils.ensureContainsFile(files, output, "Service/StrictJsonDeserializationVisitor.php");
-        TestUtils.ensureContainsFile(files, output, "Service/StrictJsonDeserializationVisitorFactory.php");
+        TestUtils.ensureContainsFile(
+                files, output, "Service/StrictJsonDeserializationVisitorFactory.php");
         TestUtils.ensureContainsFile(files, output, "Service/SymfonyValidator.php");
         TestUtils.ensureContainsFile(files, output, "Service/TypeMismatchException.php");
         TestUtils.ensureContainsFile(files, output, "Service/ValidatorInterface.php");
@@ -126,11 +134,12 @@ public class PhpSymfonyServerCodegenTest {
 
         File output = Files.createTempDirectory("test").toFile();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("php-symfony")
-                .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/3_0/ping.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("php-symfony")
+                        .setAdditionalProperties(properties)
+                        .setInputSpec("src/test/resources/3_0/ping.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -154,15 +163,19 @@ public class PhpSymfonyServerCodegenTest {
         TestUtils.ensureContainsFile(files, output, "src/Api/DefaultApiInterface.php");
         TestUtils.ensureContainsFile(files, output, "src/Controller/Controller.php");
         TestUtils.ensureContainsFile(files, output, "src/Controller/DefaultController.php");
-        TestUtils.ensureContainsFile(files, output, "src/DependencyInjection/Compiler/OpenAPIServerApiPass.php");
-        TestUtils.ensureContainsFile(files, output, "src/DependencyInjection/OpenAPIServerExtension.php");
+        TestUtils.ensureContainsFile(
+                files, output, "src/DependencyInjection/Compiler/OpenAPIServerApiPass.php");
+        TestUtils.ensureContainsFile(
+                files, output, "src/DependencyInjection/OpenAPIServerExtension.php");
         TestUtils.ensureContainsFile(files, output, "src/OpenAPIServerBundle.php");
         TestUtils.ensureContainsFile(files, output, "src/Resources/config/routing.yaml");
         TestUtils.ensureContainsFile(files, output, "src/Resources/config/services.yaml");
         TestUtils.ensureContainsFile(files, output, "src/Service/JmsSerializer.php");
         TestUtils.ensureContainsFile(files, output, "src/Service/SerializerInterface.php");
-        TestUtils.ensureContainsFile(files, output, "src/Service/StrictJsonDeserializationVisitor.php");
-        TestUtils.ensureContainsFile(files, output, "src/Service/StrictJsonDeserializationVisitorFactory.php");
+        TestUtils.ensureContainsFile(
+                files, output, "src/Service/StrictJsonDeserializationVisitor.php");
+        TestUtils.ensureContainsFile(
+                files, output, "src/Service/StrictJsonDeserializationVisitorFactory.php");
         TestUtils.ensureContainsFile(files, output, "src/Service/SymfonyValidator.php");
         TestUtils.ensureContainsFile(files, output, "src/Service/TypeMismatchException.php");
         TestUtils.ensureContainsFile(files, output, "src/Service/ValidatorInterface.php");

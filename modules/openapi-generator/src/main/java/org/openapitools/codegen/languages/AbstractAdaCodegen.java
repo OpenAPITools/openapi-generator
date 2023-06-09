@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.Operation;
@@ -26,6 +29,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
@@ -42,12 +46,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
-abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
+public abstract class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
 
     public static final String HTTP_SUPPORT_OPTION = "httpSupport";
@@ -66,25 +65,20 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     public AbstractAdaCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.noneOf(
-                        SecurityFeature.class
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.BasePath
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath));
 
         /*
          * Reserved words.  Override this with reserved words specific to your language
@@ -162,8 +156,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                         "when",
                         "while",
                         "with",
-                        "xor")
-        );
+                        "xor"));
 
         typeMapping = new HashMap<>();
         typeMapping.put("integer", "Integer");
@@ -178,18 +171,34 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         super.importMapping = new HashMap<>();
 
         // CLI options
-        addOption(CodegenConstants.PROJECT_NAME, "GNAT project name",
-                this.projectName);
+        addOption(CodegenConstants.PROJECT_NAME, "GNAT project name", this.projectName);
 
-        cliOptions.add(CliOption.newString(HTTP_SUPPORT_OPTION, "The name of the HTTP support library.  Possible values include 'curl' or 'aws'."));
-        cliOptions.add(CliOption.newString(OPENAPI_PACKAGE_NAME_OPTION, "The name of the Ada package which provides support for OpenAPI for the generated client and server code.  The default is 'Swagger'."));
+        cliOptions.add(
+                CliOption.newString(
+                        HTTP_SUPPORT_OPTION,
+                        "The name of the HTTP support library.  Possible values include 'curl' or 'aws'."));
+        cliOptions.add(
+                CliOption.newString(
+                        OPENAPI_PACKAGE_NAME_OPTION,
+                        "The name of the Ada package which provides support for OpenAPI for the generated client and server code.  The default is 'Swagger'."));
 
         modelNameSuffix = "Type";
         embeddedTemplateDir = templateDir = "Ada";
 
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList("integer", "boolean", "number", "long", "float",
-                        "double", "object", "string", "date", "DateTime", "binary"));
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "integer",
+                                "boolean",
+                                "number",
+                                "long",
+                                "float",
+                                "double",
+                                "object",
+                                "string",
+                                "date",
+                                "DateTime",
+                                "binary"));
     }
 
     @Override
@@ -197,7 +206,11 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         super.processOpts();
 
         if (additionalProperties.containsKey(HTTP_SUPPORT_OPTION)) {
-            String httpSupport = additionalProperties.get(HTTP_SUPPORT_OPTION).toString().toLowerCase(Locale.ROOT);
+            String httpSupport =
+                    additionalProperties
+                            .get(HTTP_SUPPORT_OPTION)
+                            .toString()
+                            .toLowerCase(Locale.ROOT);
 
             if ("aws".equals(httpSupport)) {
                 this.httpClientPackageName = "Aws";
@@ -208,7 +221,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             }
         }
         if (additionalProperties.containsKey(OPENAPI_PACKAGE_NAME_OPTION)) {
-            this.openApiPackageName = additionalProperties.get(OPENAPI_PACKAGE_NAME_OPTION).toString();
+            this.openApiPackageName =
+                    additionalProperties.get(OPENAPI_PACKAGE_NAME_OPTION).toString();
         }
 
         typeMapping.put("date", openApiPackageName + ".Date");
@@ -225,14 +239,17 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("binary", openApiPackageName + ".Binary");
 
         // Mapping to convert an Ada required type to an optional type (nullable).
-        nullableTypeMapping.put(openApiPackageName + ".Date", openApiPackageName + ".Nullable_Date");
-        nullableTypeMapping.put(openApiPackageName + ".Datetime", openApiPackageName + ".Nullable_Date");
-        nullableTypeMapping.put(openApiPackageName + ".UString", openApiPackageName + ".Nullable_UString");
+        nullableTypeMapping.put(
+                openApiPackageName + ".Date", openApiPackageName + ".Nullable_Date");
+        nullableTypeMapping.put(
+                openApiPackageName + ".Datetime", openApiPackageName + ".Nullable_Date");
+        nullableTypeMapping.put(
+                openApiPackageName + ".UString", openApiPackageName + ".Nullable_UString");
         nullableTypeMapping.put("Integer", openApiPackageName + ".Nullable_Integer");
-        nullableTypeMapping.put(openApiPackageName + ".Long", openApiPackageName + ".Nullable_Long");
+        nullableTypeMapping.put(
+                openApiPackageName + ".Long", openApiPackageName + ".Nullable_Long");
         nullableTypeMapping.put("Boolean", openApiPackageName + ".Nullable_Boolean");
         nullableTypeMapping.put(openApiPackageName + ".Object", openApiPackageName + ".Object");
-
     }
 
     public String toFilename(String name) {
@@ -241,16 +258,14 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     /**
      * Turn a parameter name, operation name into an Ada identifier.
-     * <p>
-     * Ada programming standard avoid the camelcase syntax and prefer the underscore
-     * notation.  We also have to make sure the identifier is not a reserved keyword.
-     * When this happens, we add the configurable prefix.  The function translates:
-     * <p>
-     * body              - P_Body
-     * petId             - Pet_Id
-     * updatePetWithForm - Update_Pet_With_Form
      *
-     * @param name   the parameter name.
+     * <p>Ada programming standard avoid the camelcase syntax and prefer the underscore notation. We
+     * also have to make sure the identifier is not a reserved keyword. When this happens, we add
+     * the configurable prefix. The function translates:
+     *
+     * <p>body - P_Body petId - Pet_Id updatePetWithForm - Update_Pet_With_Form
+     *
+     * @param name the parameter name.
      * @param prefix the optional prefix in case the parameter name is a reserved keyword.
      * @return the Ada identifier to be used.
      */
@@ -308,8 +323,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     /**
-     * Output the proper model name (capitalized).
-     * In case the name belongs to the TypeSystem it won't be renamed.
+     * Output the proper model name (capitalized). In case the name belongs to the TypeSystem it
+     * won't be renamed.
      *
      * @param name the name of the model
      * @return capitalized model name
@@ -325,22 +340,30 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = "Model_" + result;
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    name,
+                    modelName);
             return modelName;
         }
 
         // model name starts with number
         if (result.matches("^\\d.*")) {
-            String modelName = "Model_" + result; // e.g. 200Response => Model_200Response (after camelize)
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+            String modelName =
+                    "Model_" + result; // e.g. 200Response => Model_200Response (after camelize)
+            LOGGER.warn(
+                    "{} (model name starts with number) cannot be used as model name. Renamed to {}",
+                    name,
                     modelName);
             return modelName;
         }
 
         if (languageSpecificPrimitives.contains(result)) {
             String modelName = "Model_" + result;
-            LOGGER.warn("{} (model name matches existing language type) cannot be used as a model name. Renamed to {}",
-                    name, modelName);
+            LOGGER.warn(
+                    "{} (model name matches existing language type) cannot be used as a model name. Renamed to {}",
+                    name,
+                    modelName);
             return modelName;
         }
 
@@ -364,8 +387,10 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         }
 
         // number
-        else if ("Integer".equals(datatype) || "Long".equals(datatype) ||
-                "Float".equals(datatype) || "Double".equals(datatype)) {
+        else if ("Integer".equals(datatype)
+                || "Long".equals(datatype)
+                || "Float".equals(datatype)
+                || "Double".equals(datatype)) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
@@ -397,9 +422,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     /**
-     * Escapes a reserved word as defined in the `reservedWords` array. Handle
-     * escaping those terms here. This logic is only called if a variable
-     * matches the reserved words
+     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping those terms
+     * here. This logic is only called if a variable matches the reserved words
      *
      * @return the escaped term
      */
@@ -421,8 +445,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     /**
      * Override the Mustache compiler configuration.
-     * <p>
-     * We don't want to have special characters escaped
+     *
+     * <p>We don't want to have special characters escaped
      *
      * @param compiler the compiler.
      * @return the compiler to use.
@@ -435,12 +459,11 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     /**
-     * Optional - type declaration. This is a String which is used by the
-     * templates to instantiate your types. There is typically special handling
-     * for different property types
+     * Optional - type declaration. This is a String which is used by the templates to instantiate
+     * your types. There is typically special handling for different property types
      *
-     * @return a string value used as the `dataType` field for model templates,
-     * `returnType` for api templates
+     * @return a string value used as the `dataType` field for model templates, `returnType` for api
+     *     templates
      */
     @Override
     public String getTypeDeclaration(Schema p) {
@@ -472,7 +495,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             return schemaType;
         }
         String modelType = toModelName(schemaType).replace("-", "_");
-        if (ModelUtils.isStringSchema(p) || ModelUtils.isFileSchema(p)
+        if (ModelUtils.isStringSchema(p)
+                || ModelUtils.isFileSchema(p)
                 || languageSpecificPrimitives.contains(modelType)) {
             return modelType;
         }
@@ -481,18 +505,27 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     private boolean isStreamType(CodegenProperty parameter) {
-        boolean isStreamType = parameter.isString || parameter.isBoolean || parameter.isDate
-                || parameter.isDateTime || parameter.isInteger || parameter.isLong
-                || (parameter.isFreeFormObject && !parameter.isMap);
+        boolean isStreamType =
+                parameter.isString
+                        || parameter.isBoolean
+                        || parameter.isDate
+                        || parameter.isDateTime
+                        || parameter.isInteger
+                        || parameter.isLong
+                        || (parameter.isFreeFormObject && !parameter.isMap);
 
         return isStreamType;
     }
 
     private boolean isModelType(CodegenProperty parameter) {
         boolean isModel = parameter.dataType.startsWith(modelPackage);
-        if (!isModel && !parameter.isPrimitiveType && !parameter.isDate
+        if (!isModel
+                && !parameter.isPrimitiveType
+                && !parameter.isDate
                 && !parameter.isFreeFormObject
-                && !parameter.isString && !parameter.isContainer && !parameter.isFile
+                && !parameter.isString
+                && !parameter.isContainer
+                && !parameter.isFile
                 && !parameter.dataType.startsWith(openApiPackageName)) {
             isModel = true;
         }
@@ -500,18 +533,27 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     private boolean isStreamType(CodegenParameter parameter) {
-        boolean isStreamType = parameter.isString || parameter.isBoolean || parameter.isDate
-                || parameter.isDateTime || parameter.isInteger || parameter.isLong
-                || (parameter.isFreeFormObject && !parameter.isMap);
+        boolean isStreamType =
+                parameter.isString
+                        || parameter.isBoolean
+                        || parameter.isDate
+                        || parameter.isDateTime
+                        || parameter.isInteger
+                        || parameter.isLong
+                        || (parameter.isFreeFormObject && !parameter.isMap);
 
         return isStreamType;
     }
 
     private boolean isModelType(CodegenParameter parameter) {
         boolean isModel = parameter.dataType.startsWith(modelPackage);
-        if (!isModel && !parameter.isPrimitiveType && !parameter.isDate
+        if (!isModel
+                && !parameter.isPrimitiveType
+                && !parameter.isDate
                 && !parameter.isFreeFormObject
-                && !parameter.isString && !parameter.isContainer && !parameter.isFile
+                && !parameter.isString
+                && !parameter.isContainer
+                && !parameter.isFile
                 && !parameter.dataType.startsWith(openApiPackageName)) {
             isModel = true;
         }
@@ -519,8 +561,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     /**
-     * Overrides postProcessParameter to add a vendor extension "x-is-model-type".
-     * This boolean indicates that the parameter comes from the model package.
+     * Overrides postProcessParameter to add a vendor extension "x-is-model-type". This boolean
+     * indicates that the parameter comes from the model package.
      *
      * @param parameter CodegenParameter object to be processed.
      */
@@ -538,9 +580,9 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     /**
      * Post process the media types (produces and consumes) for Ada code generator.
-     * <p>
-     * For each media type, add an adaMediaType member that gives the Ada enum constant
-     * for the corresponding type.
+     *
+     * <p>For each media type, add an adaMediaType member that gives the Ada enum constant for the
+     * corresponding type.
      *
      * @param types the list of media types.
      * @return the number of media types.
@@ -561,13 +603,19 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+    public CodegenOperation fromOperation(
+            String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
-            if (methodResponse != null && ModelUtils.getSchemaFromResponse(methodResponse) != null) {
-                CodegenProperty cm = fromProperty("response", ModelUtils.getSchemaFromResponse(methodResponse), false);
+            if (methodResponse != null
+                    && ModelUtils.getSchemaFromResponse(methodResponse) != null) {
+                CodegenProperty cm =
+                        fromProperty(
+                                "response",
+                                ModelUtils.getSchemaFromResponse(methodResponse),
+                                false);
                 op.vendorExtensions.put("x-codegen-response", cm);
                 op.vendorExtensions.put("x-is-model-type", isModelType(cm));
                 op.vendorExtensions.put("x-is-stream-type", isStreamType(cm));
@@ -578,12 +626,16 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         }
 
         // Add a vendor extension attribute that provides a map of auth methods and the scopes
-        // which are expected by the operation.  This map is then used by postProcessOperationsWithModels
+        // which are expected by the operation.  This map is then used by
+        // postProcessOperationsWithModels
         // to build another vendor extension that provides a subset of the auth methods with only
         // the scopes required by the operation.
         final List<SecurityRequirement> securities = operation.getSecurity();
         if (securities != null && securities.size() > 0) {
-            final Map<String, SecurityScheme> securitySchemes = this.openAPI.getComponents() != null ? this.openAPI.getComponents().getSecuritySchemes() : null;
+            final Map<String, SecurityScheme> securitySchemes =
+                    this.openAPI.getComponents() != null
+                            ? this.openAPI.getComponents().getSecuritySchemes()
+                            : null;
             final List<SecurityRequirement> globalSecurities = this.openAPI.getSecurity();
 
             Map<String, List<String>> scopes = getAuthScopes(securities, securitySchemes);
@@ -595,22 +647,28 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         return op;
     }
 
-    private Map<String, List<String>> getAuthScopes(List<SecurityRequirement> securities, Map<String, SecurityScheme> securitySchemes) {
+    private Map<String, List<String>> getAuthScopes(
+            List<SecurityRequirement> securities, Map<String, SecurityScheme> securitySchemes) {
         final Map<String, List<String>> scopes = new HashMap<>();
-        Optional.ofNullable(securitySchemes).ifPresent(_securitySchemes -> {
-            for (SecurityRequirement requirement : securities) {
-                for (String key : requirement.keySet()) {
-                    Optional.ofNullable(securitySchemes.get(key))
-                            .ifPresent(securityScheme -> scopes.put(key, requirement.get(key)));
-                }
-            }
-        });
+        Optional.ofNullable(securitySchemes)
+                .ifPresent(
+                        _securitySchemes -> {
+                            for (SecurityRequirement requirement : securities) {
+                                for (String key : requirement.keySet()) {
+                                    Optional.ofNullable(securitySchemes.get(key))
+                                            .ifPresent(
+                                                    securityScheme ->
+                                                            scopes.put(key, requirement.get(key)));
+                                }
+                            }
+                        });
         return scopes;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
 
@@ -621,8 +679,10 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             if (op1.notes != null) {
                 op1.notes = op1.notes.trim();
             }
-            op1.vendorExtensions.put("x-has-uniq-produces", postProcessMediaTypes(op1.produces) == 1);
-            op1.vendorExtensions.put("x-has-uniq-consumes", postProcessMediaTypes(op1.consumes) == 1);
+            op1.vendorExtensions.put(
+                    "x-has-uniq-produces", postProcessMediaTypes(op1.produces) == 1);
+            op1.vendorExtensions.put(
+                    "x-has-uniq-consumes", postProcessMediaTypes(op1.consumes) == 1);
             op1.vendorExtensions.put("x-has-notes", op1.notes != null && op1.notes.length() > 0);
 
             // Set the file parameter type for both allParams and formParams.
@@ -641,9 +701,11 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 }
             }
 
-            // Given the operation scopes and the auth methods, build a list of auth methods that only
+            // Given the operation scopes and the auth methods, build a list of auth methods that
+            // only
             // describe the auth methods and scopes required by the operation.
-            final Map<String, List<String>> scopes = (Map<String, List<String>>) op1.vendorExtensions.get("x-scopes");
+            final Map<String, List<String>> scopes =
+                    (Map<String, List<String>>) op1.vendorExtensions.get("x-scopes");
             List<CodegenSecurity> opScopes = postProcessAuthMethod(op1.authMethods, scopes);
             if (opScopes != null) {
                 op1.vendorExtensions.put("x-auth-scopes", opScopes);
@@ -692,7 +754,11 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 if (p.isContainer) {
                     item = p.items;
                 }
-                if (item != null && !item.isString && !item.isPrimitiveType && !item.isContainer && !item.isInteger) {
+                if (item != null
+                        && !item.isString
+                        && !item.isPrimitiveType
+                        && !item.isContainer
+                        && !item.isInteger) {
                     if (!d.contains(item.dataType)) {
                         // LOGGER.info("Model " + m.name + " uses " + p.datatype);
                         d.add(item.dataType);
@@ -720,8 +786,10 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         //   List revisedOrderedModels <- ()
         //   if you have N model, do N passes. In each pass look for an independent model
         //   cycle over orderedModels
-        //     if I find a model that has no dependencies, or all of its dependencies are in revisedOrderedModels, consider it the independentModel
-        //   put the independentModel at the end of revisedOrderedModels, and remove it from orderedModels
+        //     if I find a model that has no dependencies, or all of its dependencies are in
+        // revisedOrderedModels, consider it the independentModel
+        //   put the independentModel at the end of revisedOrderedModels, and remove it from
+        // orderedModels
         //
         List<ModelMap> revisedOrderedModels = new ArrayList<>();
         List<String> collectedModelNames = new ArrayList<>();
@@ -745,7 +813,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 }
             }
             if (null != independentModel) {
-                // I have find an independentModel. Add it to revisedOrderedModels, and remove from orderedModels
+                // I have find an independentModel. Add it to revisedOrderedModels, and remove from
+                // orderedModels
                 revisedOrderedModels.add(independentModel);
                 collectedModelNames.add(independentModelName);
                 orderedModels.remove(independentModel);
@@ -753,7 +822,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         }
         // bookkeeping:
         // if I still have elements in orderedModels:
-        //   if it's NOT last time I postProcessModels(), it means there are some dependencies that were not considered yet. That's not a problem
+        //   if it's NOT last time I postProcessModels(), it means there are some dependencies that
+        // were not considered yet. That's not a problem
         //   if it's last iteration, there are circular dependencies.
         //  In any case, I add models still in orderedModels to revisedOrderedModels
         revisedOrderedModels.addAll(orderedModels);
@@ -779,9 +849,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             swagger.setHost(host);
         }*/
 
-        /**
-         * Collect the scopes to generate unique identifiers for each of them.
-         */
+        /** Collect the scopes to generate unique identifiers for each of them. */
         List<CodegenSecurity> authMethods = (List<CodegenSecurity>) objs.get("authMethods");
         postProcessAuthMethod(authMethods, null);
 
@@ -792,10 +860,11 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
      * Collect the scopes to generate a unique identifier for each of them.
      *
      * @param authMethods the auth methods with their scopes.
-     * @param scopes      the optional auth methods and scopes required by an operation
+     * @param scopes the optional auth methods and scopes required by an operation
      * @return the authMethods to be used by the operation with its required scopes.
      */
-    private List<CodegenSecurity> postProcessAuthMethod(List<CodegenSecurity> authMethods, Map<String, List<String>> scopes) {
+    private List<CodegenSecurity> postProcessAuthMethod(
+            List<CodegenSecurity> authMethods, Map<String, List<String>> scopes) {
         List<CodegenSecurity> result = (scopes == null) ? null : new ArrayList<>();
         if (authMethods != null) {
             for (CodegenSecurity authMethod : authMethods) {
@@ -823,7 +892,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                     }
                 }
 
-                // If we have operation scopes, filter the auth method to describe the operation auth
+                // If we have operation scopes, filter the auth method to describe the operation
+                // auth
                 // method with only the scope that it requires.  We have to create a new auth method
                 // instance because the original object must not be modified.
                 List<String> opScopes = (scopes == null) ? null : scopes.get(authMethod.name);
@@ -838,5 +908,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ADA; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.ADA;
+    }
 }

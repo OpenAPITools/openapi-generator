@@ -32,12 +32,9 @@ import java.util.zip.ZipOutputStream;
  * sub files and sub directories, recursively.
  *
  * @author Ha Minh Nam
- *
  */
 public class ZipUtil {
-    /**
-     * A constants for buffer size used to read/write data.
-     */
+    /** A constants for buffer size used to read/write data. */
     private static final int BUFFER_SIZE = 4096;
 
     /**
@@ -48,11 +45,10 @@ public class ZipUtil {
      * @throws FileNotFoundException if file not found
      * @throws IOException if IO exception occurs
      */
-    public void compressFiles(List<File> listFiles, String destZipFile)
-            throws IOException {
+    public void compressFiles(List<File> listFiles, String destZipFile) throws IOException {
 
         try (FileOutputStream fileOutputStream = new FileOutputStream(destZipFile);
-             ZipOutputStream zos = new ZipOutputStream(fileOutputStream)) {
+                ZipOutputStream zos = new ZipOutputStream(fileOutputStream)) {
 
             for (File file : listFiles) {
                 if (file.isDirectory()) {
@@ -86,7 +82,7 @@ public class ZipUtil {
             zos.putNextEntry(new ZipEntry(parentFolder + "/" + file.getName()));
 
             try (FileInputStream fileInputStream = new FileInputStream(file);
-                 BufferedInputStream bis = new BufferedInputStream(fileInputStream)) {
+                    BufferedInputStream bis = new BufferedInputStream(fileInputStream)) {
                 byte[] bytesIn = new byte[BUFFER_SIZE];
                 int read;
                 while ((read = bis.read(bytesIn)) != -1) {
@@ -95,7 +91,6 @@ public class ZipUtil {
             }
 
             zos.closeEntry();
-
         }
     }
 
@@ -107,12 +102,12 @@ public class ZipUtil {
      * @throws FileNotFoundException if file not found
      * @throws IOException if IO exception occurs
      */
-    private static void addFileToZip(File file, ZipOutputStream zos) throws FileNotFoundException,
-            IOException {
+    private static void addFileToZip(File file, ZipOutputStream zos)
+            throws FileNotFoundException, IOException {
         zos.putNextEntry(new ZipEntry(file.getName()));
 
         try (FileInputStream fileInputStream = new FileInputStream(file);
-             BufferedInputStream bis = new BufferedInputStream(fileInputStream)) {
+                BufferedInputStream bis = new BufferedInputStream(fileInputStream)) {
             byte[] bytesIn = new byte[BUFFER_SIZE];
             int read;
             while ((read = bis.read(bytesIn)) != -1) {

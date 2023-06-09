@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import static java.util.Collections.sort;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +26,6 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -48,8 +49,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static java.util.Collections.sort;
 
 public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
@@ -83,7 +82,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String MOSHI_CODE_GEN = "moshiCodeGen";
 
-    public static final String SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW = "supportAndroidApiLevel25AndBelow";
+    public static final String SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW =
+            "supportAndroidApiLevel25AndBelow";
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
@@ -102,7 +102,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected boolean omitGradleWrapper = false;
 
     protected String authFolder;
-
 
     public enum DateLibrary {
         STRING("string"),
@@ -140,39 +139,33 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
     }
 
-    /**
-     * Constructs an instance of `KotlinClientCodegen`.
-     */
+    /** Constructs an instance of `KotlinClientCodegen`. */
     public KotlinClientCodegen() {
         super();
 
         /*
          * OAuth flows supported _only_ by client explicitly setting bearer token. The "flows" are not supported.
          */
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .excludeWireFormatFeatures(WireFormatFeature.XML, WireFormatFeature.PROTOBUF)
-                .excludeSecurityFeatures(
-                        SecurityFeature.OpenIDConnect,
-                        SecurityFeature.OAuth2_Password,
-                        SecurityFeature.OAuth2_AuthorizationCode,
-                        SecurityFeature.OAuth2_ClientCredentials,
-                        SecurityFeature.OAuth2_Implicit
-                )
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-                .includeClientModificationFeatures(ClientModificationFeature.BasePath)
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .excludeWireFormatFeatures(
+                                        WireFormatFeature.XML, WireFormatFeature.PROTOBUF)
+                                .excludeSecurityFeatures(
+                                        SecurityFeature.OpenIDConnect,
+                                        SecurityFeature.OAuth2_Password,
+                                        SecurityFeature.OAuth2_AuthorizationCode,
+                                        SecurityFeature.OAuth2_ClientCredentials,
+                                        SecurityFeature.OAuth2_Implicit)
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath));
 
         artifactId = "kotlin-client";
         packageName = "org.openapitools.client";
@@ -195,11 +188,18 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
         Map<String, String> dateOptions = new HashMap<>();
-        dateOptions.put(DateLibrary.THREETENBP.value, "Threetenbp - Backport of JSR310 (jvm only, preferred for jdk < 1.8)");
-        dateOptions.put(DateLibrary.THREETENBP_LOCALDATETIME.value, "Threetenbp - Backport of JSR310 (jvm only, for legacy app only)");
+        dateOptions.put(
+                DateLibrary.THREETENBP.value,
+                "Threetenbp - Backport of JSR310 (jvm only, preferred for jdk < 1.8)");
+        dateOptions.put(
+                DateLibrary.THREETENBP_LOCALDATETIME.value,
+                "Threetenbp - Backport of JSR310 (jvm only, for legacy app only)");
         dateOptions.put(DateLibrary.STRING.value, "String");
-        dateOptions.put(DateLibrary.JAVA8.value, "Java 8 native JSR310 (jvm only, preferred for jdk 1.8+)");
-        dateOptions.put(DateLibrary.JAVA8_LOCALDATETIME.value, "Java 8 native JSR310 (jvm only, for legacy app only)");
+        dateOptions.put(
+                DateLibrary.JAVA8.value, "Java 8 native JSR310 (jvm only, preferred for jdk 1.8+)");
+        dateOptions.put(
+                DateLibrary.JAVA8_LOCALDATETIME.value,
+                "Java 8 native JSR310 (jvm only, for legacy app only)");
         dateLibrary.setEnum(dateOptions);
         dateLibrary.setDefault(this.dateLibrary);
         cliOptions.add(dateLibrary);
@@ -212,42 +212,95 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         collectionType.setDefault(this.collectionType);
         cliOptions.add(collectionType);
 
-        supportedLibraries.put(JVM_KTOR, "Platform: Java Virtual Machine. HTTP client: Ktor 1.6.7. JSON processing: Gson, Jackson (default).");
-        supportedLibraries.put(JVM_OKHTTP4, "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.");
-        supportedLibraries.put(JVM_OKHTTP3, "Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.");
-        supportedLibraries.put(JVM_SPRING_WEBCLIENT, "Platform: Java Virtual Machine. HTTP: Spring 5 (or 6 with useSpringBoot3 enabled) WebClient. JSON processing: Jackson.");
-        supportedLibraries.put(JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
-        supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.6.7. JSON processing: Kotlinx Serialization: 1.2.1.");
-        supportedLibraries.put(JVM_VOLLEY, "Platform: JVM for Android. HTTP client: Volley 1.2.1. JSON processing: gson 2.8.9");
-        supportedLibraries.put(JVM_VERTX, "Platform: Java Virtual Machine. HTTP client: Vert.x Web Client. JSON processing: Moshi, Gson or Jackson.");
+        supportedLibraries.put(
+                JVM_KTOR,
+                "Platform: Java Virtual Machine. HTTP client: Ktor 1.6.7. JSON processing: Gson, Jackson (default).");
+        supportedLibraries.put(
+                JVM_OKHTTP4,
+                "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.");
+        supportedLibraries.put(
+                JVM_OKHTTP3,
+                "Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0.");
+        supportedLibraries.put(
+                JVM_SPRING_WEBCLIENT,
+                "Platform: Java Virtual Machine. HTTP: Spring 5 (or 6 with useSpringBoot3 enabled) WebClient. JSON processing: Jackson.");
+        supportedLibraries.put(
+                JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
+        supportedLibraries.put(
+                MULTIPLATFORM,
+                "Platform: Kotlin multiplatform. HTTP client: Ktor 1.6.7. JSON processing: Kotlinx Serialization: 1.2.1.");
+        supportedLibraries.put(
+                JVM_VOLLEY,
+                "Platform: JVM for Android. HTTP client: Volley 1.2.1. JSON processing: gson 2.8.9");
+        supportedLibraries.put(
+                JVM_VERTX,
+                "Platform: Java Virtual Machine. HTTP client: Vert.x Web Client. JSON processing: Moshi, Gson or Jackson.");
 
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
+        CliOption libraryOption =
+                new CliOption(CodegenConstants.LIBRARY, "Library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
         libraryOption.setDefault(JVM_OKHTTP4);
         cliOptions.add(libraryOption);
         setLibrary(JVM_OKHTTP4);
 
-        CliOption requestDateConverter = new CliOption(REQUEST_DATE_CONVERTER, "JVM-Option. Defines in how to handle date-time objects that are used for a request (as query or parameter)");
+        CliOption requestDateConverter =
+                new CliOption(
+                        REQUEST_DATE_CONVERTER,
+                        "JVM-Option. Defines in how to handle date-time objects that are used for a request (as query or parameter)");
         Map<String, String> requestDateConverterOptions = new HashMap<>();
-        requestDateConverterOptions.put(RequestDateConverter.TO_JSON.value, "[DEFAULT] Date formatter option using a json converter.");
-        requestDateConverterOptions.put(RequestDateConverter.TO_STRING.value, "Use the 'toString'-method of the date-time object to retrieve the related string representation.");
+        requestDateConverterOptions.put(
+                RequestDateConverter.TO_JSON.value,
+                "[DEFAULT] Date formatter option using a json converter.");
+        requestDateConverterOptions.put(
+                RequestDateConverter.TO_STRING.value,
+                "Use the 'toString'-method of the date-time object to retrieve the related string representation.");
         requestDateConverter.setEnum(requestDateConverterOptions);
         requestDateConverter.setDefault(this.requestDateConverter);
         cliOptions.add(requestDateConverter);
 
-        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
-        cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
-        cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3, "Whether to use the Spring Boot 3 with the jvm-spring-webclient library."));
-        cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_PLUGIN_VERSIONS, "Whether to declare Gradle plugin versions in build files."));
-        cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_WRAPPER, "Whether to omit Gradle wrapper for creating a sub project."));
-        cliOptions.add(CliOption.newBoolean(USE_SETTINGS_GRADLE, "Whether the project uses settings.gradle."));
-        cliOptions.add(CliOption.newBoolean(IDEA, "Add IntellJ Idea plugin and mark Kotlin main and test folders as source folders."));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_RX_JAVA3,
+                        "Whether to use the RxJava3 adapter with the retrofit2 library."));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_COROUTINES,
+                        "Whether to use the Coroutines adapter with the retrofit2 library."));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_SPRING_BOOT3,
+                        "Whether to use the Spring Boot 3 with the jvm-spring-webclient library."));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        OMIT_GRADLE_PLUGIN_VERSIONS,
+                        "Whether to declare Gradle plugin versions in build files."));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        OMIT_GRADLE_WRAPPER,
+                        "Whether to omit Gradle wrapper for creating a sub project."));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_SETTINGS_GRADLE, "Whether the project uses settings.gradle."));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        IDEA,
+                        "Add IntellJ Idea plugin and mark Kotlin main and test folders as source folders."));
 
-        cliOptions.add(CliOption.newBoolean(MOSHI_CODE_GEN, "Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info."));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        MOSHI_CODE_GEN,
+                        "Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info."));
 
-        cliOptions.add(CliOption.newBoolean(GENERATE_ROOM_MODELS, "Generate Android Room database models in addition to API models (JVM Volley library only)", false));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        GENERATE_ROOM_MODELS,
+                        "Generate Android Room database models in addition to API models (JVM Volley library only)",
+                        false));
 
-        cliOptions.add(CliOption.newBoolean(SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW, "[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284"));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW,
+                        "[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284"));
     }
 
     public CodegenType getTag() {
@@ -298,7 +351,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         this.useCoroutines = useCoroutines;
     }
 
-
     public void setDateLibrary(String library) {
         this.dateLibrary = library;
     }
@@ -322,7 +374,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Override
     public String modelFilename(String templateName, String modelName) {
         String suffix = modelTemplateFiles().get(templateName);
-        // If this was a proper template method, i wouldn't have to make myself throw up by doing this....
+        // If this was a proper template method, i wouldn't have to make myself throw up by doing
+        // this....
         if (getGenerateRoomModels() && suffix.startsWith("RoomModel")) {
             return roomModelFileFolder() + File.separator + toModelFilename(modelName) + suffix;
         } else {
@@ -331,7 +384,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     public String roomModelFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + roomModelPackage.replace('.', File.separatorChar);
+        return outputFolder
+                + File.separator
+                + sourceFolder
+                + File.separator
+                + roomModelPackage.replace('.', File.separatorChar);
     }
 
     @Override
@@ -366,11 +423,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         // RxJava & Coroutines
         if (hasConflict) {
-            LOGGER.warn("You specified RxJava versions 1 and 2 and 3 or Coroutines together, please choose one of them.");
+            LOGGER.warn(
+                    "You specified RxJava versions 1 and 2 and 3 or Coroutines together, please choose one of them.");
         } else if (hasRx3) {
-            this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
+            this.setUseRxJava3(
+                    Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
         } else if (hasCoroutines) {
-            this.setUseCoroutines(Boolean.parseBoolean(additionalProperties.get(USE_COROUTINES).toString()));
+            this.setUseCoroutines(
+                    Boolean.parseBoolean(additionalProperties.get(USE_COROUTINES).toString()));
         }
 
         if (!hasRx3 && !hasCoroutines) {
@@ -379,14 +439,22 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         // infrastructure destination folder
-        final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", "/");
-        authFolder = (sourceFolder + File.separator + packageName + File.separator + "auth").replace(".", "/");
+        final String infrastructureFolder =
+                (sourceFolder + File.separator + packageName + File.separator + "infrastructure")
+                        .replace(".", "/");
+        authFolder =
+                (sourceFolder + File.separator + packageName + File.separator + "auth")
+                        .replace(".", "/");
 
         // request destination folder
-        final String requestFolder = (sourceFolder + File.separator + packageName + File.separator + "request").replace(".", "/");
+        final String requestFolder =
+                (sourceFolder + File.separator + packageName + File.separator + "request")
+                        .replace(".", "/");
 
         // auth destination folder
-        final String authFolder = (sourceFolder + File.separator + packageName + File.separator + "auth").replace(".", "/");
+        final String authFolder =
+                (sourceFolder + File.separator + packageName + File.separator + "auth")
+                        .replace(".", "/");
 
         // additional properties
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
@@ -398,7 +466,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         }
 
         if (additionalProperties.containsKey(OMIT_GRADLE_WRAPPER)) {
-            setOmitGradleWrapper(Boolean.parseBoolean(additionalProperties.get(OMIT_GRADLE_WRAPPER).toString()));
+            setOmitGradleWrapper(
+                    Boolean.parseBoolean(additionalProperties.get(OMIT_GRADLE_WRAPPER).toString()));
         }
 
         commonSupportingFiles();
@@ -452,31 +521,48 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             boolean hasOAuthMethods = ProcessUtils.hasOAuthMethods(openAPI);
 
             if (hasOAuthMethods) {
-                supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
-                supportingFiles.add(new SupportingFile("auth/OAuthFlow.kt.mustache", authFolder, "OAuthFlow.kt"));
-                supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.kt.mustache", authFolder, "OAuthOkHttpClient.kt"));
+                supportingFiles.add(
+                        new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "auth/OAuthFlow.kt.mustache", authFolder, "OAuthFlow.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "auth/OAuthOkHttpClient.kt.mustache",
+                                authFolder,
+                                "OAuthOkHttpClient.kt"));
             }
 
             if (hasOAuthMethods || ProcessUtils.hasApiKeyMethods(openAPI)) {
-                supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
             }
 
             if (ProcessUtils.hasHttpBearerMethods(openAPI)) {
-                supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "auth/HttpBearerAuth.kt.mustache",
+                                authFolder,
+                                "HttpBearerAuth.kt"));
             }
 
             if (ProcessUtils.hasHttpBasicMethods(openAPI)) {
-                supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
             }
         }
     }
 
     private void processDateLibrary() {
-        if (DateLibrary.THREETENBP.value.equals(dateLibrary) || DateLibrary.THREETENBP_LOCALDATETIME.value.equals(dateLibrary)) {
+        if (DateLibrary.THREETENBP.value.equals(dateLibrary)
+                || DateLibrary.THREETENBP_LOCALDATETIME.value.equals(dateLibrary)) {
             processThreeTenBpDate(dateLibrary);
         } else if (DateLibrary.STRING.value.equals(dateLibrary)) {
             processStringDate();
-        } else if (DateLibrary.JAVA8.value.equals(dateLibrary) || DateLibrary.JAVA8_LOCALDATETIME.value.equals(dateLibrary)) {
+        } else if (DateLibrary.JAVA8.value.equals(dateLibrary)
+                || DateLibrary.JAVA8_LOCALDATETIME.value.equals(dateLibrary)) {
             processJava8Date(dateLibrary);
         }
     }
@@ -532,24 +618,41 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     private void processJVMRetrofit2Library(String infrastructureFolder) {
         additionalProperties.put(JVM, true);
         additionalProperties.put(JVM_RETROFIT2, true);
-        supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/ResponseExt.kt.mustache", infrastructureFolder, "ResponseExt.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/CollectionFormats.kt.mustache", infrastructureFolder, "CollectionFormats.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/ApiClient.kt.mustache",
+                        infrastructureFolder,
+                        "ApiClient.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/ResponseExt.kt.mustache",
+                        infrastructureFolder,
+                        "ResponseExt.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/CollectionFormats.kt.mustache",
+                        infrastructureFolder,
+                        "CollectionFormats.kt"));
         addSupportingSerializerAdapters(infrastructureFolder);
     }
 
-    private void processJVMVolleyLibrary(String infrastructureFolder, String requestFolder, String authFolder) {
+    private void processJVMVolleyLibrary(
+            String infrastructureFolder, String requestFolder, String authFolder) {
 
         additionalProperties.put(JVM, true);
         additionalProperties.put(JVM_VOLLEY, true);
 
         if (additionalProperties.containsKey(GENERATE_ROOM_MODELS)) {
             this.setGenerateRoomModels(convertPropertyToBooleanAndWriteBack(GENERATE_ROOM_MODELS));
-            // Hide this option behind a property getter and setter in case we need to check it elsewhere
+            // Hide this option behind a property getter and setter in case we need to check it
+            // elsewhere
             if (getGenerateRoomModels()) {
                 modelTemplateFiles.put("model_room.mustache", "RoomModel.kt");
-                supportingFiles.add(new SupportingFile("infrastructure/ITransformForStorage.mustache", infrastructureFolder, "ITransformForStorage.kt"));
-
+                supportingFiles.add(
+                        new SupportingFile(
+                                "infrastructure/ITransformForStorage.mustache",
+                                infrastructureFolder,
+                                "ITransformForStorage.kt"));
             }
         } else {
             additionalProperties.put(GENERATE_ROOM_MODELS, generateRoomModels);
@@ -558,76 +661,203 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             if (!additionalProperties.containsKey(ROOM_MODEL_PACKAGE))
                 this.setRoomModelPackage(packageName + ".models.room");
-            else
-                this.setRoomModelPackage(additionalProperties.get(ROOM_MODEL_PACKAGE).toString());
+            else this.setRoomModelPackage(additionalProperties.get(ROOM_MODEL_PACKAGE).toString());
         }
         additionalProperties.put(ROOM_MODEL_PACKAGE, roomModelPackage);
 
-        supportingFiles.add(new SupportingFile("infrastructure/CollectionFormats.kt.mustache", infrastructureFolder, "CollectionFormats.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/CollectionFormats.kt.mustache",
+                        infrastructureFolder,
+                        "CollectionFormats.kt"));
 
-        // We have auth related partial files, so they can be overridden, but don't generate them explicitly
-        supportingFiles.add(new SupportingFile("request/GsonRequest.mustache", requestFolder, "GsonRequest.kt"));
-        supportingFiles.add(new SupportingFile("request/IRequestFactory.mustache", requestFolder, "IRequestFactory.kt"));
-        supportingFiles.add(new SupportingFile("request/RequestFactory.mustache", requestFolder, "RequestFactory.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/CollectionFormats.kt.mustache", infrastructureFolder, "CollectionFormats.kt"));
+        // We have auth related partial files, so they can be overridden, but don't generate them
+        // explicitly
+        supportingFiles.add(
+                new SupportingFile(
+                        "request/GsonRequest.mustache", requestFolder, "GsonRequest.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "request/IRequestFactory.mustache", requestFolder, "IRequestFactory.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "request/RequestFactory.mustache", requestFolder, "RequestFactory.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/CollectionFormats.kt.mustache",
+                        infrastructureFolder,
+                        "CollectionFormats.kt"));
 
         if (getSerializationLibrary() != SERIALIZATION_LIBRARY_TYPE.gson) {
-            throw new RuntimeException("This library currently only supports gson serialization. Try adding '--additional-properties serializationLibrary=gson' to your command.");
+            throw new RuntimeException(
+                    "This library currently only supports gson serialization. Try adding '--additional-properties serializationLibrary=gson' to your command.");
         }
         addSupportingSerializerAdapters(infrastructureFolder);
-        supportingFiles.remove(new SupportingFile("jvm-common/infrastructure/Serializer.kt.mustache", infrastructureFolder, "Serializer.kt"));
-
+        supportingFiles.remove(
+                new SupportingFile(
+                        "jvm-common/infrastructure/Serializer.kt.mustache",
+                        infrastructureFolder,
+                        "Serializer.kt"));
     }
 
     private void addSupportingSerializerAdapters(final String infrastructureFolder) {
-        supportingFiles.add(new SupportingFile("jvm-common/infrastructure/Serializer.kt.mustache", infrastructureFolder, "Serializer.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "jvm-common/infrastructure/Serializer.kt.mustache",
+                        infrastructureFolder,
+                        "Serializer.kt"));
 
         switch (getSerializationLibrary()) {
             case moshi:
                 if (enumUnknownDefaultCase) {
-                    supportingFiles.add(new SupportingFile("jvm-common/infrastructure/SerializerHelper.kt.mustache", infrastructureFolder, "SerializerHelper.kt"));
+                    supportingFiles.add(
+                            new SupportingFile(
+                                    "jvm-common/infrastructure/SerializerHelper.kt.mustache",
+                                    infrastructureFolder,
+                                    "SerializerHelper.kt"));
                 }
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/ByteArrayAdapter.kt.mustache", infrastructureFolder, "ByteArrayAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/BigDecimalAdapter.kt.mustache", infrastructureFolder, "BigDecimalAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/BigIntegerAdapter.kt.mustache", infrastructureFolder, "BigIntegerAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/URIAdapter.kt.mustache", infrastructureFolder, "URIAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/ByteArrayAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "ByteArrayAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/UUIDAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "UUIDAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/LocalDateAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "LocalDateAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "LocalDateTimeAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "OffsetDateTimeAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/BigDecimalAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "BigDecimalAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/BigIntegerAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "BigIntegerAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/URIAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "URIAdapter.kt"));
                 break;
 
             case gson:
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/ByteArrayAdapter.kt.mustache", infrastructureFolder, "ByteArrayAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/ByteArrayAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "ByteArrayAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/LocalDateAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "LocalDateAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "LocalDateTimeAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "OffsetDateTimeAdapter.kt"));
                 break;
 
             case jackson:
                 break;
 
             case kotlinx_serialization:
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/AtomicBooleanAdapter.kt.mustache", infrastructureFolder, "AtomicBooleanAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/AtomicIntegerAdapter.kt.mustache", infrastructureFolder, "AtomicIntegerAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/AtomicLongAdapter.kt.mustache", infrastructureFolder, "AtomicLongAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/URIAdapter.kt.mustache", infrastructureFolder, "URIAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/URLAdapter.kt.mustache", infrastructureFolder, "URLAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/BigIntegerAdapter.kt.mustache", infrastructureFolder, "BigIntegerAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/BigDecimalAdapter.kt.mustache", infrastructureFolder, "BigDecimalAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/StringBuilderAdapter.kt.mustache", infrastructureFolder, "StringBuilderAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/proguard-rules.pro.mustache", "", "proguard-rules.pro"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/AtomicBooleanAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "AtomicBooleanAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/AtomicIntegerAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "AtomicIntegerAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/AtomicLongAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "AtomicLongAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/URIAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "URIAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/URLAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "URLAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/BigIntegerAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "BigIntegerAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/BigDecimalAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "BigDecimalAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/LocalDateAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "LocalDateAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "LocalDateTimeAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "OffsetDateTimeAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/UUIDAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "UUIDAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/StringBuilderAdapter.kt.mustache",
+                                infrastructureFolder,
+                                "StringBuilderAdapter.kt"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "jvm-common/infrastructure/proguard-rules.pro.mustache",
+                                "",
+                                "proguard-rules.pro"));
                 break;
         }
     }
 
     private void processJVMKtorLibrary(final String infrastructureFolder) {
         // in future kotlinx.serialization may be added
-        if (this.serializationLibrary != SERIALIZATION_LIBRARY_TYPE.gson && this.serializationLibrary != SERIALIZATION_LIBRARY_TYPE.jackson) {
+        if (this.serializationLibrary != SERIALIZATION_LIBRARY_TYPE.gson
+                && this.serializationLibrary != SERIALIZATION_LIBRARY_TYPE.jackson) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_TYPE.jackson;
         }
 
@@ -638,16 +868,43 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         importMapping.put("InputProvider", "io.ktor.client.request.forms.InputProvider");
 
-        supportingFiles.add(new SupportingFile("infrastructure/ApiAbstractions.kt.mustache", infrastructureFolder, "ApiAbstractions.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/HttpResponse.kt.mustache", infrastructureFolder, "HttpResponse.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/RequestConfig.kt.mustache", infrastructureFolder, "RequestConfig.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/RequestMethod.kt.mustache", infrastructureFolder, "RequestMethod.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/ApiAbstractions.kt.mustache",
+                        infrastructureFolder,
+                        "ApiAbstractions.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/ApiClient.kt.mustache",
+                        infrastructureFolder,
+                        "ApiClient.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/HttpResponse.kt.mustache",
+                        infrastructureFolder,
+                        "HttpResponse.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/RequestConfig.kt.mustache",
+                        infrastructureFolder,
+                        "RequestConfig.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/RequestMethod.kt.mustache",
+                        infrastructureFolder,
+                        "RequestMethod.kt"));
 
-        supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
-        supportingFiles.add(new SupportingFile("auth/Authentication.kt.mustache", authFolder, "Authentication.kt"));
-        supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
-        supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
+        supportingFiles.add(
+                new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "auth/Authentication.kt.mustache", authFolder, "Authentication.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
         supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
     }
 
@@ -657,10 +914,24 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
      * @param infrastructureFolder infrastructure destination folder
      */
     private void processJVMVertXLibrary(final String infrastructureFolder) {
-        supportingFiles.add(new SupportingFile("infrastructure/ApiAbstractions.kt.mustache", infrastructureFolder, "ApiAbstractions.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/Errors.kt.mustache", infrastructureFolder, "Errors.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/ApiResponse.kt.mustache", infrastructureFolder, "ApiResponse.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/ApiAbstractions.kt.mustache",
+                        infrastructureFolder,
+                        "ApiAbstractions.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/ApiClient.kt.mustache",
+                        infrastructureFolder,
+                        "ApiClient.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/Errors.kt.mustache", infrastructureFolder, "Errors.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/ApiResponse.kt.mustache",
+                        infrastructureFolder,
+                        "ApiResponse.kt"));
         addSupportingSerializerAdapters(infrastructureFolder);
 
         additionalProperties.put(JVM, true);
@@ -680,18 +951,31 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(JVM_OKHTTP3, true);
         }
 
-        supportedLibraries.put(JVM_OKHTTP, "A workaround to use the same template folder for both 'jvm-okhttp3' and 'jvm-okhttp4'.");
+        supportedLibraries.put(
+                JVM_OKHTTP,
+                "A workaround to use the same template folder for both 'jvm-okhttp3' and 'jvm-okhttp4'.");
         setLibrary(JVM_OKHTTP);
 
         // jvm specific supporting files
-        supportingFiles.add(new SupportingFile("infrastructure/Errors.kt.mustache", infrastructureFolder, "Errors.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/ResponseExtensions.kt.mustache", infrastructureFolder, "ResponseExtensions.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/ApiResponse.kt.mustache", infrastructureFolder, "ApiResponse.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/Errors.kt.mustache", infrastructureFolder, "Errors.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/ResponseExtensions.kt.mustache",
+                        infrastructureFolder,
+                        "ResponseExtensions.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/ApiResponse.kt.mustache",
+                        infrastructureFolder,
+                        "ApiResponse.kt"));
     }
 
     private void processJVMSpringWebClientLibrary(final String infrastructureFolder) {
         if (getSerializationLibrary() != SERIALIZATION_LIBRARY_TYPE.jackson) {
-            throw new RuntimeException("This library currently only supports jackson serialization. Try adding '--additional-properties serializationLibrary=jackson' to your command.");
+            throw new RuntimeException(
+                    "This library currently only supports jackson serialization. Try adding '--additional-properties serializationLibrary=jackson' to your command.");
         }
 
         commonJvmMultiplatformSupportingFiles(infrastructureFolder);
@@ -717,7 +1001,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         typeMapping.put("file", "OctetByteArray");
         typeMapping.put("binary", "OctetByteArray");
         typeMapping.put("ByteArray", "Base64ByteArray");
-        typeMapping.put("object", "kotlin.String");  // kotlin.Any not serializable
+        typeMapping.put("object", "kotlin.String"); // kotlin.Any not serializable
 
         // multiplatform import mapping
         importMapping.put("BigDecimal", "kotlin.Double");
@@ -733,55 +1017,123 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         importMapping.put("OctetByteArray", packageName + ".infrastructure.OctetByteArray");
 
         // multiplatform specific supporting files
-        supportingFiles.add(new SupportingFile("infrastructure/Base64ByteArray.kt.mustache", infrastructureFolder, "Base64ByteArray.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/Bytes.kt.mustache", infrastructureFolder, "Bytes.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/HttpResponse.kt.mustache", infrastructureFolder, "HttpResponse.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/OctetByteArray.kt.mustache", infrastructureFolder, "OctetByteArray.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/Base64ByteArray.kt.mustache",
+                        infrastructureFolder,
+                        "Base64ByteArray.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/Bytes.kt.mustache", infrastructureFolder, "Bytes.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/HttpResponse.kt.mustache",
+                        infrastructureFolder,
+                        "HttpResponse.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/OctetByteArray.kt.mustache",
+                        infrastructureFolder,
+                        "OctetByteArray.kt"));
 
         // multiplatform specific auth
-        supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
-        supportingFiles.add(new SupportingFile("auth/Authentication.kt.mustache", authFolder, "Authentication.kt"));
-        supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
-        supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
+        supportingFiles.add(
+                new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "auth/Authentication.kt.mustache", authFolder, "Authentication.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
         supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
 
         // multiplatform specific testing files
-        supportingFiles.add(new SupportingFile("commonTest/Coroutine.kt.mustache", "src/commonTest/kotlin/util", "Coroutine.kt"));
-        supportingFiles.add(new SupportingFile("iosTest/Coroutine.kt.mustache", "src/iosTest/kotlin/util", "Coroutine.kt"));
-        supportingFiles.add(new SupportingFile("jsTest/Coroutine.kt.mustache", "src/jsTest/kotlin/util", "Coroutine.kt"));
-        supportingFiles.add(new SupportingFile("jvmTest/Coroutine.kt.mustache", "src/jvmTest/kotlin/util", "Coroutine.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "commonTest/Coroutine.kt.mustache",
+                        "src/commonTest/kotlin/util",
+                        "Coroutine.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "iosTest/Coroutine.kt.mustache",
+                        "src/iosTest/kotlin/util",
+                        "Coroutine.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "jsTest/Coroutine.kt.mustache", "src/jsTest/kotlin/util", "Coroutine.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "jvmTest/Coroutine.kt.mustache",
+                        "src/jvmTest/kotlin/util",
+                        "Coroutine.kt"));
     }
 
-
     private void commonJvmMultiplatformSupportingFiles(String infrastructureFolder) {
-        supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/ApiAbstractions.kt.mustache", infrastructureFolder, "ApiAbstractions.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/PartConfig.kt.mustache", infrastructureFolder, "PartConfig.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/RequestConfig.kt.mustache", infrastructureFolder, "RequestConfig.kt"));
-        supportingFiles.add(new SupportingFile("infrastructure/RequestMethod.kt.mustache", infrastructureFolder, "RequestMethod.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/ApiClient.kt.mustache",
+                        infrastructureFolder,
+                        "ApiClient.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/ApiAbstractions.kt.mustache",
+                        infrastructureFolder,
+                        "ApiAbstractions.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/PartConfig.kt.mustache",
+                        infrastructureFolder,
+                        "PartConfig.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/RequestConfig.kt.mustache",
+                        infrastructureFolder,
+                        "RequestConfig.kt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "infrastructure/RequestMethod.kt.mustache",
+                        infrastructureFolder,
+                        "RequestMethod.kt"));
     }
 
     private void commonSupportingFiles() {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         if (getLibrary().equals(MULTIPLATFORM)) {
-            supportingFiles.add(new SupportingFile("build.gradle.kts.mustache", "", "build.gradle.kts"));
-            supportingFiles.add(new SupportingFile("settings.gradle.kts.mustache", "", "settings.gradle.kts"));
+            supportingFiles.add(
+                    new SupportingFile("build.gradle.kts.mustache", "", "build.gradle.kts"));
+            supportingFiles.add(
+                    new SupportingFile("settings.gradle.kts.mustache", "", "settings.gradle.kts"));
         } else if (getLibrary().equals(JVM_VOLLEY)) {
             supportingFiles.add(new SupportingFile("build.mustache", "", "build.gradle"));
-            supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
-            supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
-            supportingFiles.add(new SupportingFile("manifest.mustache", "", "src/main/AndroidManifest.xml"));
+            supportingFiles.add(
+                    new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
+            supportingFiles.add(
+                    new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+            supportingFiles.add(
+                    new SupportingFile("manifest.mustache", "", "src/main/AndroidManifest.xml"));
         } else {
             supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
-            supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+            supportingFiles.add(
+                    new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         }
 
         // gradle wrapper supporting files
         if (!getOmitGradleWrapper()) {
             supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
             supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
-            supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.properties"));
-            supportingFiles.add(new SupportingFile("gradle-wrapper.jar", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.jar"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "gradle-wrapper.properties.mustache",
+                            "gradle.wrapper".replace(".", File.separator),
+                            "gradle-wrapper.properties"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "gradle-wrapper.jar",
+                            "gradle.wrapper".replace(".", File.separator),
+                            "gradle-wrapper.jar"));
         }
     }
 
@@ -796,20 +1148,21 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             }
 
             // escape the variable base name for use as a string literal
-            List<CodegenProperty> vars = Stream.of(
-                            cm.vars,
-                            cm.allVars,
-                            cm.optionalVars,
-                            cm.requiredVars,
-                            cm.readOnlyVars,
-                            cm.readWriteVars,
-                            cm.parentVars
-                    )
-                    .flatMap(List::stream)
-                    .collect(Collectors.toList());
+            List<CodegenProperty> vars =
+                    Stream.of(
+                                    cm.vars,
+                                    cm.allVars,
+                                    cm.optionalVars,
+                                    cm.requiredVars,
+                                    cm.readOnlyVars,
+                                    cm.readWriteVars,
+                                    cm.parentVars)
+                            .flatMap(List::stream)
+                            .collect(Collectors.toList());
 
             for (CodegenProperty var : vars) {
-                var.vendorExtensions.put(VENDOR_EXTENSION_BASE_NAME_LITERAL, var.baseName.replace("$", "\\$"));
+                var.vendorExtensions.put(
+                        VENDOR_EXTENSION_BASE_NAME_LITERAL, var.baseName.replace("$", "\\$"));
             }
         }
 
@@ -821,44 +1174,61 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = objs.getOperations();
         if (operations != null) {
             List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation operation : ops) {
 
-                if (JVM_RETROFIT2.equals(getLibrary()) && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
+                if (JVM_RETROFIT2.equals(getLibrary())
+                        && StringUtils.isNotEmpty(operation.path)
+                        && operation.path.startsWith("/")) {
                     operation.path = operation.path.substring(1);
                 }
 
-                if (JVM_OKHTTP.equals(getLibrary()) || JVM_OKHTTP3.equals(getLibrary()) || JVM_OKHTTP4.equals(getLibrary())) {
-                    // Ideally we would do content negotiation to choose the best mediatype, but that would be a next step.
+                if (JVM_OKHTTP.equals(getLibrary())
+                        || JVM_OKHTTP3.equals(getLibrary())
+                        || JVM_OKHTTP4.equals(getLibrary())) {
+                    // Ideally we would do content negotiation to choose the best mediatype, but
+                    // that would be a next step.
                     // For now we take the first mediatype we can parse and send that.
-                    Predicate<Map<String, String>> isSerializable = typeMapping -> {
-                        String mediaTypeValue = typeMapping.get("mediaType");
-                        if (mediaTypeValue == null)
-                            return false;
-                        // match on first part in mediaTypes like 'application/json; charset=utf-8'
-                        int endIndex = mediaTypeValue.indexOf(';');
-                        String mediaType = (endIndex == -1
-                                ? mediaTypeValue
-                                : mediaTypeValue.substring(0, endIndex)
-                        ).trim();
-                        return "multipart/form-data".equals(mediaType)
-                                || "application/x-www-form-urlencoded".equals(mediaType)
-                                || (mediaType.startsWith("application/") && mediaType.endsWith("json"));
-                    };
-                    operation.consumes = operation.consumes == null ? null : operation.consumes.stream()
-                            .filter(isSerializable)
-                            .limit(1)
-                            .collect(Collectors.toList());
-                    operation.hasConsumes = operation.consumes != null && !operation.consumes.isEmpty();
+                    Predicate<Map<String, String>> isSerializable =
+                            typeMapping -> {
+                                String mediaTypeValue = typeMapping.get("mediaType");
+                                if (mediaTypeValue == null) return false;
+                                // match on first part in mediaTypes like 'application/json;
+                                // charset=utf-8'
+                                int endIndex = mediaTypeValue.indexOf(';');
+                                String mediaType =
+                                        (endIndex == -1
+                                                        ? mediaTypeValue
+                                                        : mediaTypeValue.substring(0, endIndex))
+                                                .trim();
+                                return "multipart/form-data".equals(mediaType)
+                                        || "application/x-www-form-urlencoded".equals(mediaType)
+                                        || (mediaType.startsWith("application/")
+                                                && mediaType.endsWith("json"));
+                            };
+                    operation.consumes =
+                            operation.consumes == null
+                                    ? null
+                                    : operation.consumes.stream()
+                                            .filter(isSerializable)
+                                            .limit(1)
+                                            .collect(Collectors.toList());
+                    operation.hasConsumes =
+                            operation.consumes != null && !operation.consumes.isEmpty();
 
-                    operation.produces = operation.produces == null ? null : operation.produces.stream()
-                            .filter(isSerializable)
-                            .collect(Collectors.toList());
-                    operation.hasProduces = operation.produces != null && !operation.produces.isEmpty();
+                    operation.produces =
+                            operation.produces == null
+                                    ? null
+                                    : operation.produces.stream()
+                                            .filter(isSerializable)
+                                            .collect(Collectors.toList());
+                    operation.hasProduces =
+                            operation.produces != null && !operation.produces.isEmpty();
                 }
 
                 // set multipart against all relevant operations
@@ -875,29 +1245,37 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     }
                 }
 
-                if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
+                if (usesRetrofit2Library()
+                        && StringUtils.isNotEmpty(operation.path)
+                        && operation.path.startsWith("/")) {
                     operation.path = operation.path.substring(1);
                 }
 
-                // sorting operation parameters to make sure path params are parsed before query params
+                // sorting operation parameters to make sure path params are parsed before query
+                // params
                 if (operation.allParams != null) {
-                    sort(operation.allParams, (one, another) -> {
-                        if (one.isPathParam && another.isQueryParam) {
-                            return -1;
-                        }
-                        if (one.isQueryParam && another.isPathParam) {
-                            return 1;
-                        }
+                    sort(
+                            operation.allParams,
+                            (one, another) -> {
+                                if (one.isPathParam && another.isQueryParam) {
+                                    return -1;
+                                }
+                                if (one.isQueryParam && another.isPathParam) {
+                                    return 1;
+                                }
 
-                        return 0;
-                    });
+                                return 0;
+                            });
                 }
 
-                // modify the data type of binary form parameters to a more friendly type for ktor builds
-                if ((JVM_KTOR.equals(getLibrary()) || MULTIPLATFORM.equals(getLibrary())) && operation.allParams != null) {
+                // modify the data type of binary form parameters to a more friendly type for ktor
+                // builds
+                if ((JVM_KTOR.equals(getLibrary()) || MULTIPLATFORM.equals(getLibrary()))
+                        && operation.allParams != null) {
                     for (CodegenParameter param : operation.allParams) {
                         if (param.dataFormat != null && param.dataFormat.equals("binary")) {
-                            param.baseType = param.dataType = "io.ktor.client.request.forms.InputProvider";
+                            param.baseType =
+                                    param.dataType = "io.ktor.client.request.forms.InputProvider";
                         }
                     }
                 }
@@ -916,13 +1294,21 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
-        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
-        System.out.println("################################################################################");
+        System.out.println(
+                "################################################################################");
+        System.out.println(
+                "# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println(
+                "# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println(
+                "# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println(
+                "#                                                                              #");
+        System.out.println(
+                "# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
+        System.out.println(
+                "# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
+        System.out.println(
+                "################################################################################");
     }
 }

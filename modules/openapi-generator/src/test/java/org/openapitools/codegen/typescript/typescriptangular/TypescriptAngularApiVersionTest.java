@@ -10,7 +10,9 @@ import org.testng.annotations.Test;
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_ANGULAR})
 public class TypescriptAngularApiVersionTest {
 
-    @Test(description = "tests if API version specification is used if no version is provided in additional properties")
+    @Test(
+            description =
+                    "tests if API version specification is used if no version is provided in additional properties")
     public void testWithApiVersion() {
         final TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
 
@@ -37,7 +39,9 @@ public class TypescriptAngularApiVersionTest {
         Assert.assertEquals(codegen.getNpmVersion(), "2.0.0");
     }
 
-    @Test(description = "tests if default version is used when neither OpenAPI version nor npmVersion additional property has been provided")
+    @Test(
+            description =
+                    "tests if default version is used when neither OpenAPI version nor npmVersion additional property has been provided")
     public void testWithoutApiVersion() {
         final TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
 
@@ -50,5 +54,4 @@ public class TypescriptAngularApiVersionTest {
 
         Assert.assertEquals(codegen.getNpmVersion(), "1.0.0");
     }
-
 }

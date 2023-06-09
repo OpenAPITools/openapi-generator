@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -24,6 +27,12 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -34,20 +43,11 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
 public class ElixirClientCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
 
-    private final Pattern simpleAtomPattern = Pattern.compile("\\A(?:(?:[_@\\p{Alpha}][_@\\p{Alnum}]*[?!]?)|-)\\z");
+    private final Pattern simpleAtomPattern =
+            Pattern.compile("\\A(?:(?:[_@\\p{Alpha}][_@\\p{Alnum}]*[?!]?)|-)\\z");
 
     protected String apiVersion = "1.0.0";
     protected String moduleName;
@@ -58,40 +58,32 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     String supportedElixirVersion = "1.10";
     List<String> extraApplications = Arrays.asList(":logger");
-    List<String> deps = Arrays.asList(
-            "{:tesla, \"~> 1.4\"}",
-            "{:poison, \"~> 3.0\"}",
-            "{:ex_doc, \"~> 0.28\", only: :dev, runtime: false}"
-    );
+    List<String> deps =
+            Arrays.asList(
+                    "{:tesla, \"~> 1.4\"}",
+                    "{:poison, \"~> 3.0\"}",
+                    "{:ex_doc, \"~> 0.28\", only: :dev, runtime: false}");
 
     public ElixirClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.BasicAuth
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.BasePath
-                )
-                .includeDataTypeFeatures(
-                        DataTypeFeature.AnyType
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.OAuth2_Implicit,
+                                                SecurityFeature.BasicAuth))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath)
+                                .includeDataTypeFeatures(DataTypeFeature.AnyType));
 
         // set the output folder here
         outputFolder = "generated-code/elixir";
@@ -104,101 +96,85 @@ public class ElixirClientCodegen extends DefaultCodegen {
          */
         modelTemplateFiles.put(
                 "model.mustache", // the template to use
-                ".ex");       // the extension for each file to write
+                ".ex"); // the extension for each file to write
 
         /**
-         * Api classes.  You can write classes for each Api file with the apiTemplateFiles map.
-         * as with models, add multiple entries with different extensions for multiple files per
-         * class
+         * Api classes. You can write classes for each Api file with the apiTemplateFiles map. as
+         * with models, add multiple entries with different extensions for multiple files per class
          */
         apiTemplateFiles.put(
-                "api.mustache",   // the template to use
-                ".ex");       // the extension for each file to write
+                "api.mustache", // the template to use
+                ".ex"); // the extension for each file to write
 
         /**
-         * Template Location.  This is the location which templates will be read from.  The generator
+         * Template Location. This is the location which templates will be read from. The generator
          * will use the resource stream to attempt to read the templates.
          */
         templateDir = "elixir";
 
         /**
-         * Reserved words.  Override this with reserved words specific to your language
-         * Ref: https://github.com/itsgreggreg/elixir_quick_reference#reserved-words
+         * Reserved words. Override this with reserved words specific to your language Ref:
+         * https://github.com/itsgreggreg/elixir_quick_reference#reserved-words
          */
-        reservedWords = new HashSet<>(
-                Arrays.asList(
-                        "nil",
-                        "true",
-                        "false",
-                        "__MODULE__",
-                        "__FILE__",
-                        "__DIR__",
-                        "__ENV__",
-                        "__CALLER__")
-        );
+        reservedWords =
+                new HashSet<>(
+                        Arrays.asList(
+                                "nil",
+                                "true",
+                                "false",
+                                "__MODULE__",
+                                "__FILE__",
+                                "__DIR__",
+                                "__ENV__",
+                                "__CALLER__"));
 
         /**
-         * Additional Properties.  These values can be passed to the templates and
-         * are available in models, apis, and supporting files
+         * Additional Properties. These values can be passed to the templates and are available in
+         * models, apis, and supporting files
          */
         additionalProperties.put("apiVersion", apiVersion);
 
         /**
-         * Supporting Files.  You can write single files for the generator with the
-         * entire object tree available.  If the input file has a suffix of `.mustache
-         * it will be processed by the template engine.  Otherwise, it will be copied
+         * Supporting Files. You can write single files for the generator with the entire object
+         * tree available. If the input file has a suffix of `.mustache it will be processed by the
+         * template engine. Otherwise, it will be copied
          */
-        supportingFiles.add(new SupportingFile("README.md.mustache",   // the input template or file
-                "",                                                       // the destination folder, relative `outputFolder`
-                "README.md")                                          // the output file
-        );
-        supportingFiles.add(new SupportingFile("config.exs.mustache",
-                "config",
-                "config.exs")
-        );
-        supportingFiles.add(new SupportingFile("runtime.exs.mustache",
-                "config",
-                "runtime.exs")
-        );
-        supportingFiles.add(new SupportingFile("mix.exs.mustache",
-                "",
-                "mix.exs")
-        );
-        supportingFiles.add(new SupportingFile("formatter.exs",
-                "",
-                ".formatter.exs")
-        );
-        supportingFiles.add(new SupportingFile("test_helper.exs.mustache",
-                "test",
-                "test_helper.exs")
-        );
-        supportingFiles.add(new SupportingFile("gitignore.mustache",
-                "",
-                ".gitignore")
-        );
+        supportingFiles.add(
+                new SupportingFile(
+                        "README.md.mustache", // the input template or file
+                        "", // the destination folder, relative `outputFolder`
+                        "README.md") // the output file
+                );
+        supportingFiles.add(new SupportingFile("config.exs.mustache", "config", "config.exs"));
+        supportingFiles.add(new SupportingFile("runtime.exs.mustache", "config", "runtime.exs"));
+        supportingFiles.add(new SupportingFile("mix.exs.mustache", "", "mix.exs"));
+        supportingFiles.add(new SupportingFile("formatter.exs", "", ".formatter.exs"));
+        supportingFiles.add(
+                new SupportingFile("test_helper.exs.mustache", "test", "test_helper.exs"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
         /**
-         * Language Specific Primitives.  These types will not trigger imports by
-         * the client generator
+         * Language Specific Primitives. These types will not trigger imports by the client
+         * generator
          */
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
-                        "Integer",
-                        "Float",
-                        "Decimal",
-                        "Boolean",
-                        "String",
-                        "List",
-                        "Atom",
-                        "Map",
-                        "AnyType",
-                        "Tuple",
-                        "PID",
-                        "DateTime",
-                        "map()", // This is a workaround, since the DefaultCodeGen uses our elixir TypeSpec datetype to evaluate the primitive
-                        "any()"
-                )
-        );
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "Integer",
+                                "Float",
+                                "Decimal",
+                                "Boolean",
+                                "String",
+                                "List",
+                                "Atom",
+                                "Map",
+                                "AnyType",
+                                "Tuple",
+                                "PID",
+                                "DateTime",
+                                "map()", // This is a workaround, since the DefaultCodeGen uses our
+                                // elixir TypeSpec datetype to evaluate the primitive
+                                "any()"));
 
         // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
         typeMapping = new HashMap<>();
@@ -222,9 +198,18 @@ public class ElixirClientCodegen extends DefaultCodegen {
         typeMapping.put("UUID", "String");
         typeMapping.put("URI", "String");
 
-        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, "The main namespace to use for all classes. e.g. Yay.Pets"));
-        cliOptions.add(new CliOption("licenseHeader", "The license header to prepend to the top of all source files."));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Elixir package name (convention: lowercase)."));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.INVOKER_PACKAGE,
+                        "The main namespace to use for all classes. e.g. Yay.Pets"));
+        cliOptions.add(
+                new CliOption(
+                        "licenseHeader",
+                        "The license header to prepend to the top of all source files."));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.PACKAGE_NAME,
+                        "Elixir package name (convention: lowercase)."));
     }
 
     /**
@@ -239,8 +224,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
     }
 
     /**
-     * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -g flag.
+     * Configures a friendly name for the generator. This will be used by the generator to select
+     * the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -250,8 +235,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
     }
 
     /**
-     * Returns human-friendly help for the generator.  Provide the consumer with help
-     * tips, parameters here
+     * Returns human-friendly help for the generator. Provide the consumer with help tips,
+     * parameters here
      *
      * @return A string value for the help message
      */
@@ -266,31 +251,43 @@ public class ElixirClientCodegen extends DefaultCodegen {
         additionalProperties.put("supportedElixirVersion", supportedElixirVersion);
         additionalProperties.put("extraApplications", join(",", extraApplications));
         additionalProperties.put("deps", deps);
-        additionalProperties.put("underscored", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                writer.write(underscored(fragment.execute()));
-            }
-        });
-        additionalProperties.put("modulized", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                writer.write(modulized(fragment.execute()));
-            }
-        });
-        additionalProperties.put("atom", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                writer.write(atomized(fragment.execute()));
-            }
-        });
-        additionalProperties.put("env_var", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                String text = underscored(fragment.execute());
-                writer.write(text.toUpperCase(Locale.ROOT));
-            }
-        });
+        additionalProperties.put(
+                "underscored",
+                new Mustache.Lambda() {
+                    @Override
+                    public void execute(Template.Fragment fragment, Writer writer)
+                            throws IOException {
+                        writer.write(underscored(fragment.execute()));
+                    }
+                });
+        additionalProperties.put(
+                "modulized",
+                new Mustache.Lambda() {
+                    @Override
+                    public void execute(Template.Fragment fragment, Writer writer)
+                            throws IOException {
+                        writer.write(modulized(fragment.execute()));
+                    }
+                });
+        additionalProperties.put(
+                "atom",
+                new Mustache.Lambda() {
+                    @Override
+                    public void execute(Template.Fragment fragment, Writer writer)
+                            throws IOException {
+                        writer.write(atomized(fragment.execute()));
+                    }
+                });
+        additionalProperties.put(
+                "env_var",
+                new Mustache.Lambda() {
+                    @Override
+                    public void execute(Template.Fragment fragment, Writer writer)
+                            throws IOException {
+                        String text = underscored(fragment.execute());
+                        writer.write(text.toUpperCase(Locale.ROOT));
+                    }
+                });
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             setModuleName((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
@@ -314,23 +311,22 @@ public class ElixirClientCodegen extends DefaultCodegen {
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, underscored(moduleName));
         }
 
-        supportingFiles.add(new SupportingFile("connection.ex.mustache",
-                sourceFolder(),
-                "connection.ex"));
+        supportingFiles.add(
+                new SupportingFile("connection.ex.mustache", sourceFolder(), "connection.ex"));
 
-        supportingFiles.add(new SupportingFile("request_builder.ex.mustache",
-                sourceFolder(),
-                "request_builder.ex"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "request_builder.ex.mustache", sourceFolder(), "request_builder.ex"));
 
-
-        supportingFiles.add(new SupportingFile("deserializer.ex.mustache",
-                sourceFolder(),
-                "deserializer.ex"));
+        supportingFiles.add(
+                new SupportingFile("deserializer.ex.mustache", sourceFolder(), "deserializer.ex"));
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        OperationMap operations = super.postProcessOperationsWithModels(objs, allModels).getOperations();
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations =
+                super.postProcessOperationsWithModels(objs, allModels).getOperations();
         List<CodegenOperation> os = operations.getOperation();
         List<ExtendedCodegenOperation> newOs = new ArrayList<>();
         Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}([^\\{]*)");
@@ -407,34 +403,33 @@ public class ElixirClientCodegen extends DefaultCodegen {
     }
 
     private String atomized(String text) {
-      StringBuilder atom = new StringBuilder();
-      Matcher m = simpleAtomPattern.matcher(text);
+        StringBuilder atom = new StringBuilder();
+        Matcher m = simpleAtomPattern.matcher(text);
 
-      atom.append(":");
+        atom.append(":");
 
-      if (!m.matches()) {
-        atom.append("\"");
-      }
+        if (!m.matches()) {
+            atom.append("\"");
+        }
 
-      atom.append(text);
+        atom.append(text);
 
-      if (!m.matches()) {
-        atom.append("\"");
-      }
+        if (!m.matches()) {
+            atom.append("\"");
+        }
 
-      return atom.toString();
+        return atom.toString();
     }
 
-
     /**
-     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
-     * those terms here.  This logic is only called if a variable matches the reserved words
+     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping those terms
+     * here. This logic is only called if a variable matches the reserved words
      *
      * @return the escaped term
      */
     @Override
     public String escapeReservedWord(String name) {
-        return "_" + name;  // add an underscore to the name
+        return "_" + name; // add an underscore to the name
     }
 
     private String sourceFolder() {
@@ -446,7 +441,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
     }
 
     /**
-     * Location to write model files.  You can use the modelPackage() as defined when the class is
+     * Location to write model files. You can use the modelPackage() as defined when the class is
      * instantiated
      */
     @Override
@@ -455,7 +450,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
     }
 
     /**
-     * Location to write api files.  You can use the apiPackage() as defined when the class is
+     * Location to write api files. You can use the apiPackage() as defined when the class is
      * instantiated
      */
     @Override
@@ -501,13 +496,18 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    name,
+                    "model_" + name);
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+            LOGGER.warn(
+                    "{} (model name starts with number) cannot be used as model name. Renamed to {}",
+                    name,
                     "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
@@ -517,20 +517,27 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     @Override
     public String toOperationId(String operationId) {
-        // throw exception if method name is empty (should not occur as an auto-generated method name will be used)
+        // throw exception if method name is empty (should not occur as an auto-generated method
+        // name will be used)
         if (StringUtils.isEmpty(operationId)) {
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    underscore(sanitizeName("call_" + operationId)));
             return underscore(sanitizeName("call_" + operationId));
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn(
+                    "{} (starting with a number) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -538,10 +545,11 @@ public class ElixirClientCodegen extends DefaultCodegen {
     }
 
     /**
-     * Optional - type declaration.  This is a String which is used by the templates to instantiate your
-     * types.  There is typically special handling for different property types
+     * Optional - type declaration. This is a String which is used by the templates to instantiate
+     * your types. There is typically special handling for different property types
      *
-     * @return a string value used as the `dataType` field for model templates, `returnType` for api templates
+     * @return a string value used as the `dataType` field for model templates, `returnType` for api
+     *     templates
      */
     @Override
     public String getTypeDeclaration(Schema p) {
@@ -587,8 +595,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
     }
 
     /**
-     * Optional - OpenAPI type conversion.  This is used to map OpenAPI types in a `Schema` into
-     * either language specific types via `typeMapping` or into complex models if there is not a mapping.
+     * Optional - OpenAPI type conversion. This is used to map OpenAPI types in a `Schema` into
+     * either language specific types via `typeMapping` or into complex models if there is not a
+     * mapping.
      *
      * @return a string value of the type or complex model for this property
      */
@@ -598,10 +607,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
         String type = null;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type))
-                return toModelName(type);
-        } else
-            type = openAPIType;
+            if (languageSpecificPrimitives.contains(type)) return toModelName(type);
+        } else type = openAPIType;
         return toModelName(type);
     }
 
@@ -686,7 +693,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
             }
             return sb.toString();
         }
-
     }
 
     class ExtendedCodegenOperation extends CodegenOperation {
@@ -795,13 +801,13 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
                     if (exResponse.baseType.equals("AnyType")) {
                         returnEntry.append("any()");
-                    }else {
+                    } else {
                         returnEntry.append(exResponse.baseType);
                         returnEntry.append(".t");
                     }
                 } else {
-                    if (exResponse.containerType.equals("array") ||
-                            exResponse.containerType.equals("set")) {
+                    if (exResponse.containerType.equals("array")
+                            || exResponse.containerType.equals("set")) {
                         returnEntry.append("list(");
                         if (!exResponse.primitiveType) {
                             returnEntry.append(moduleName);
@@ -810,7 +816,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
                         if (exResponse.baseType.equals("AnyType")) {
                             returnEntry.append("any())");
-                        }else {
+                        } else {
                             returnEntry.append(exResponse.baseType);
                             returnEntry.append(".t)");
                         }
@@ -861,7 +867,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
         private void buildTypespec(CodegenProperty property, StringBuilder sb) {
             if (property == null) {
-                LOGGER.error("CodegenProperty cannot be null. Please report the issue to https://github.com/openapitools/openapi-generator with the spec");
+                LOGGER.error(
+                        "CodegenProperty cannot be null. Please report the issue to https://github.com/openapitools/openapi-generator with the spec");
             } else if (property.isArray) {
                 sb.append("list(");
                 buildTypespec(property.items, sb);
@@ -883,7 +890,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
         private boolean getRequiresHttpcWorkaround() {
             // Only POST/PATCH/PUT are affected from the httpc bug
-            if (!(this.httpMethod.equals("POST") || this.httpMethod.equals("PATCH") || this.httpMethod.equals("PUT"))) {
+            if (!(this.httpMethod.equals("POST")
+                    || this.httpMethod.equals("PATCH")
+                    || this.httpMethod.equals("PUT"))) {
                 return false;
             }
 
@@ -981,5 +990,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ELIXIR; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.ELIXIR;
+    }
 }

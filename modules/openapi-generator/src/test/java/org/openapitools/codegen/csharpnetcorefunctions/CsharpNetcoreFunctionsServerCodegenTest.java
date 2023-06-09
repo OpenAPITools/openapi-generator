@@ -24,7 +24,8 @@ public class CsharpNetcoreFunctionsServerCodegenTest {
 
     @Test
     public void testToEnumVarName() throws Exception {
-        final CsharpNetcoreFunctionsServerCodegen codegen = new CsharpNetcoreFunctionsServerCodegen();
+        final CsharpNetcoreFunctionsServerCodegen codegen =
+                new CsharpNetcoreFunctionsServerCodegen();
         codegen.processOpts();
 
         Assert.assertEquals(codegen.toEnumVarName("FooBar", "string"), "FooBarEnum");

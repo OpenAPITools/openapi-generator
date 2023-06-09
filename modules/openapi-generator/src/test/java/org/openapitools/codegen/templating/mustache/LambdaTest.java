@@ -2,18 +2,20 @@ package org.openapitools.codegen.templating.mustache;
 
 import static org.testng.Assert.assertEquals;
 
+import com.samskivert.mustache.Mustache;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.samskivert.mustache.Mustache;
-
 /**
  * Simple framework to test Mustache Lambdas. It avoids
+ *
  * <pre>compiler->compile->execute->assert</pre>
+ *
  * boilerplate code.
  *
- * Inspired by <a href="https://github.com/samskivert/jmustache/blob/master/src/test/java/com/samskivert/mustache/SharedTests.java">Jmustache SharedTests.java</a>
- *
+ * <p>Inspired by <a
+ * href="https://github.com/samskivert/jmustache/blob/master/src/test/java/com/samskivert/mustache/SharedTests.java">Jmustache
+ * SharedTests.java</a>
  */
 public abstract class LambdaTest {
 
@@ -29,7 +31,8 @@ public abstract class LambdaTest {
         test(Mustache.compiler(), expected, template, ctx);
     }
 
-    protected void test(Mustache.Compiler compiler, String expected,String template, Map<String, Object> ctx) {
+    protected void test(
+            Mustache.Compiler compiler, String expected, String template, Map<String, Object> ctx) {
         assertEquals(execute(compiler, template, ctx), expected);
     }
 
@@ -40,5 +43,4 @@ public abstract class LambdaTest {
         }
         return ctx;
     }
-
 }

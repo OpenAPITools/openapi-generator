@@ -16,11 +16,17 @@
 
 package org.openapitools.codegen.languages;
 
+import static java.util.UUID.randomUUID;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -33,13 +39,6 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
-import static java.util.UUID.randomUUID;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PowerShellClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(PowerShellClientCodegen.class);
@@ -56,9 +55,12 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     protected HashSet nullablePrimitives;
     protected String powershellGalleryUrl;
     protected HashSet powershellVerbs;
-    protected Map<String, String> commonVerbs; // verbs not in the official ps verb list but can be mapped to one of the verbs
+    protected Map<String, String>
+            commonVerbs; // verbs not in the official ps verb list but can be mapped to one of the
+    // verbs
     protected HashSet methodNames; // store a list of method names to detect duplicates
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    protected boolean useOneOfDiscriminatorLookup =
+            false; // use oneOf discriminator's mapping for model lookup
     protected boolean discardReadOnly = false; // Discard the readonly property in initialize cmdlet
     protected boolean skipVerbParsing = false; // Attempt to parse cmdlets from operation names
     protected String projectUri;
@@ -72,36 +74,29 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
-    /**
-     * Constructs an instance of `PowerShellClientCodegen`.
-     */
+    /** Constructs an instance of `PowerShellClientCodegen`. */
     public PowerShellClientCodegen() {
         super();
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.BasicAuth,
+                                                SecurityFeature.ApiKey,
+                                                SecurityFeature.OAuth2_Implicit))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie));
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         outputFolder = "generated-code" + File.separator + "powershell-experimental";
         modelTemplateFiles.put("model.mustache", ".ps1");
@@ -115,32 +110,33 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         modelPackage = packageName + File.separator + "Model";
 
         // https://blogs.msdn.microsoft.com/powershell/2010/01/07/how-objects-are-sent-to-and-from-remote-sessions/
-        languageSpecificPrimitives = new HashSet<>(Arrays.asList(
-                "Byte",
-                "SByte",
-                "Byte[]",
-                "Int16",
-                "Int32",
-                "Int64",
-                "UInt16",
-                "UInt32",
-                "UInt64",
-                "Decimal",
-                "Single",
-                "Double",
-                "TimeSpan",
-                "System.DateTime",
-                "ProgressRecord",
-                "Char",
-                "String",
-                "XmlDocument",
-                "SecureString",
-                "Boolean",
-                "Guid",
-                "Uri",
-                "System.IO.FileInfo",
-                "Version"
-        ));
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "Byte",
+                                "SByte",
+                                "Byte[]",
+                                "Int16",
+                                "Int32",
+                                "Int64",
+                                "UInt16",
+                                "UInt32",
+                                "UInt64",
+                                "Decimal",
+                                "Single",
+                                "Double",
+                                "TimeSpan",
+                                "System.DateTime",
+                                "ProgressRecord",
+                                "Char",
+                                "String",
+                                "XmlDocument",
+                                "SecureString",
+                                "Boolean",
+                                "Guid",
+                                "Uri",
+                                "System.IO.FileInfo",
+                                "Version"));
 
         commonVerbs = new HashMap<>();
 
@@ -148,14 +144,19 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         // common
         verbMappings.put("Add", Arrays.asList("Append", "Attach", "Concatenate", "Insert"));
-        verbMappings.put("Clear", Arrays.asList("Flush", "Erase", "Release", "Unmark", "Unset", "Nullify"));
+        verbMappings.put(
+                "Clear", Arrays.asList("Flush", "Erase", "Release", "Unmark", "Unset", "Nullify"));
         verbMappings.put("Close", Arrays.asList());
         verbMappings.put("Copy", Arrays.asList("Duplicate", "Clone", "Replicate", "Sync"));
         verbMappings.put("Enter", Arrays.asList("PushInto"));
         verbMappings.put("Exit", Arrays.asList("PopOut"));
         verbMappings.put("Find", Arrays.asList());
         verbMappings.put("Format", Arrays.asList());
-        verbMappings.put("Get", Arrays.asList("Read", "Open", "Cat", "Type", "Dir", "Obtain", "Dump", "Acquire", "Examine", "Find", "Search"));
+        verbMappings.put(
+                "Get",
+                Arrays.asList(
+                        "Read", "Open", "Cat", "Type", "Dir", "Obtain", "Dump", "Acquire",
+                        "Examine", "Find", "Search"));
         verbMappings.put("Hide", Arrays.asList("Block"));
         verbMappings.put("Join", Arrays.asList("Combine", "Unite", "Connect", "Associate"));
         verbMappings.put("Lock", Arrays.asList("RestrictSecure"));
@@ -201,9 +202,12 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         verbMappings.put("Edit", Arrays.asList(" Change", " Update", "Modify"));
         verbMappings.put("Expand", Arrays.asList(" ExplodeUncompress"));
         verbMappings.put("Export", Arrays.asList(" ExtractBackup"));
-        verbMappings.put("Group", Arrays.asList(" Aggregate", " Arrange", " Associate", "Correlate"));
+        verbMappings.put(
+                "Group", Arrays.asList(" Aggregate", " Arrange", " Associate", "Correlate"));
         verbMappings.put("Import", Arrays.asList(" BulkLoadLoad"));
-        verbMappings.put("Initialize", Arrays.asList(" Erase", " Init", " Renew", " Rebuild", " Reinitialize", "Setup"));
+        verbMappings.put(
+                "Initialize",
+                Arrays.asList(" Erase", " Init", " Renew", " Rebuild", " Reinitialize", "Setup"));
         verbMappings.put("Limit", Arrays.asList("  Quota"));
         verbMappings.put("Merge", Arrays.asList(" CombineJoin"));
         verbMappings.put("Mount", Arrays.asList(" Connect"));
@@ -229,7 +233,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         verbMappings.put("Assert", Arrays.asList("Certify"));
         verbMappings.put("Build", Arrays.asList());
         verbMappings.put("Complete", Arrays.asList());
-        verbMappings.put("Confirm", Arrays.asList("Acknowledge", "Agree", "Certify", "Validate", "Verify"));
+        verbMappings.put(
+                "Confirm", Arrays.asList("Acknowledge", "Agree", "Certify", "Validate", "Verify"));
         verbMappings.put("Deny", Arrays.asList("Block", "Object", "Refuse", "Reject"));
         verbMappings.put("Deploy", Arrays.asList());
         verbMappings.put("Disable", Arrays.asList("HaltHide"));
@@ -272,246 +277,251 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             }
         }
 
-        powershellVerbs = new HashSet<>(Arrays.asList(
-                "Add",
-                "Clear",
-                "Close",
-                "Copy",
-                "Enter",
-                "Exit",
-                "Find",
-                "Format",
-                "Get",
-                "Hide",
-                "Join",
-                "Lock",
-                "Move",
-                "New",
-                "Open",
-                "Optimize",
-                "Pop",
-                "Push",
-                "Redo",
-                "Remove",
-                "Rename",
-                "Reset",
-                "Search",
-                "Select",
-                "Set",
-                "Show",
-                "Skip",
-                "Split",
-                "Step",
-                "Switch",
-                "Undo",
-                "Unlock",
-                "Watch",
-                "Connect",
-                "Disconnect",
-                "Read",
-                "Receive",
-                "Send",
-                "Write",
-                "Backup",
-                "Checkpoint",
-                "Compare",
-                "Compress",
-                "Convert",
-                "ConvertFrom",
-                "ConvertTo",
-                "Dismount",
-                "Edit",
-                "Expand",
-                "Export",
-                "Group",
-                "Import",
-                "Initialize",
-                "Limit",
-                "Merge",
-                "Mount",
-                "Out",
-                "Publish",
-                "Restore",
-                "Save",
-                "Sync",
-                "Unpublish",
-                "Update",
-                "Debug",
-                "Measure",
-                "Ping",
-                "Repair",
-                "Resolve",
-                "Test",
-                "Trace",
-                "Approve",
-                "Assert",
-                "Build",
-                "Complete",
-                "Confirm",
-                "Deny",
-                "Deploy",
-                "Disable",
-                "Enable",
-                "Install",
-                "Invoke",
-                "Register",
-                "Request",
-                "Restart",
-                "Resume",
-                "Start",
-                "Stop",
-                "Submit",
-                "Suspend",
-                "Uninstall",
-                "Unregister",
-                "Wait",
-                "Block",
-                "Grant",
-                "Protect",
-                "Revoke",
-                "Unblock",
-                "Unprotect",
-                "Use"
-        ));
+        powershellVerbs =
+                new HashSet<>(
+                        Arrays.asList(
+                                "Add",
+                                "Clear",
+                                "Close",
+                                "Copy",
+                                "Enter",
+                                "Exit",
+                                "Find",
+                                "Format",
+                                "Get",
+                                "Hide",
+                                "Join",
+                                "Lock",
+                                "Move",
+                                "New",
+                                "Open",
+                                "Optimize",
+                                "Pop",
+                                "Push",
+                                "Redo",
+                                "Remove",
+                                "Rename",
+                                "Reset",
+                                "Search",
+                                "Select",
+                                "Set",
+                                "Show",
+                                "Skip",
+                                "Split",
+                                "Step",
+                                "Switch",
+                                "Undo",
+                                "Unlock",
+                                "Watch",
+                                "Connect",
+                                "Disconnect",
+                                "Read",
+                                "Receive",
+                                "Send",
+                                "Write",
+                                "Backup",
+                                "Checkpoint",
+                                "Compare",
+                                "Compress",
+                                "Convert",
+                                "ConvertFrom",
+                                "ConvertTo",
+                                "Dismount",
+                                "Edit",
+                                "Expand",
+                                "Export",
+                                "Group",
+                                "Import",
+                                "Initialize",
+                                "Limit",
+                                "Merge",
+                                "Mount",
+                                "Out",
+                                "Publish",
+                                "Restore",
+                                "Save",
+                                "Sync",
+                                "Unpublish",
+                                "Update",
+                                "Debug",
+                                "Measure",
+                                "Ping",
+                                "Repair",
+                                "Resolve",
+                                "Test",
+                                "Trace",
+                                "Approve",
+                                "Assert",
+                                "Build",
+                                "Complete",
+                                "Confirm",
+                                "Deny",
+                                "Deploy",
+                                "Disable",
+                                "Enable",
+                                "Install",
+                                "Invoke",
+                                "Register",
+                                "Request",
+                                "Restart",
+                                "Resume",
+                                "Start",
+                                "Stop",
+                                "Submit",
+                                "Suspend",
+                                "Uninstall",
+                                "Unregister",
+                                "Wait",
+                                "Block",
+                                "Grant",
+                                "Protect",
+                                "Revoke",
+                                "Unblock",
+                                "Unprotect",
+                                "Use"));
 
         methodNames = new HashSet<>();
 
-        nullablePrimitives = new HashSet<>(Arrays.asList(
-                "System.Nullable[Byte]",
-                "System.Nullable[SByte]",
-                "System.Nullable[Int16]",
-                "System.Nullable[Int32]",
-                "System.Nullable[Int64]",
-                "System.Nullable[UInt16]",
-                "System.Nullable[UInt32]",
-                "System.Nullable[UInt64]",
-                "System.Nullable[Decimal]",
-                "System.Nullable[Single]",
-                "System.Nullable[Double]",
-                "System.Nullable[Boolean]"
-        ));
+        nullablePrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "System.Nullable[Byte]",
+                                "System.Nullable[SByte]",
+                                "System.Nullable[Int16]",
+                                "System.Nullable[Int32]",
+                                "System.Nullable[Int64]",
+                                "System.Nullable[UInt16]",
+                                "System.Nullable[UInt32]",
+                                "System.Nullable[UInt64]",
+                                "System.Nullable[Decimal]",
+                                "System.Nullable[Single]",
+                                "System.Nullable[Double]",
+                                "System.Nullable[Boolean]"));
 
         // list of reserved words - must be in lower case
-        reservedWords = new HashSet<>(Arrays.asList(
-                // https://richardspowershellblog.wordpress.com/2009/05/02/powershell-reserved-words/
-                "begin",
-                "break",
-                "catch",
-                "continue",
-                "data",
-                "do",
-                "dynamicparam",
-                "else",
-                "elseif",
-                "end",
-                "exit",
-                "filter",
-                "finally",
-                "for",
-                "foreach",
-                "from",
-                "function",
-                "if",
-                "in",
-                "param",
-                "process",
-                "return",
-                "switch",
-                "throw",
-                "trap",
-                "try",
-                "until",
-                "while",
-                "local",
-                "private",
-                "where",
-                // special variables
-                "args",
-                "consolefilename",
-                "error",
-                "event",
-                "eventargs",
-                "eventsubscriber",
-                "executioncontext",
-                "false",
-                "foreach",
-                "home",
-                "host",
-                "input",
-                "lastexitcode",
-                "matches",
-                "myinvocation",
-                "nestedpromptlevel",
-                "null",
-                "pid",
-                "profile",
-                "pscmdlet",
-                "pscommandpath",
-                "psculture",
-                "psdebugcontext",
-                "pshome",
-                "psitem",
-                "psscriptroot",
-                "pssenderinfo",
-                "psuiculture",
-                "psversiontable",
-                "sender",
-                "shellid",
-                "stacktrace",
-                "this",
-                "true"
-        ));
+        reservedWords =
+                new HashSet<>(
+                        Arrays.asList(
+                                // https://richardspowershellblog.wordpress.com/2009/05/02/powershell-reserved-words/
+                                "begin",
+                                "break",
+                                "catch",
+                                "continue",
+                                "data",
+                                "do",
+                                "dynamicparam",
+                                "else",
+                                "elseif",
+                                "end",
+                                "exit",
+                                "filter",
+                                "finally",
+                                "for",
+                                "foreach",
+                                "from",
+                                "function",
+                                "if",
+                                "in",
+                                "param",
+                                "process",
+                                "return",
+                                "switch",
+                                "throw",
+                                "trap",
+                                "try",
+                                "until",
+                                "while",
+                                "local",
+                                "private",
+                                "where",
+                                // special variables
+                                "args",
+                                "consolefilename",
+                                "error",
+                                "event",
+                                "eventargs",
+                                "eventsubscriber",
+                                "executioncontext",
+                                "false",
+                                "foreach",
+                                "home",
+                                "host",
+                                "input",
+                                "lastexitcode",
+                                "matches",
+                                "myinvocation",
+                                "nestedpromptlevel",
+                                "null",
+                                "pid",
+                                "profile",
+                                "pscmdlet",
+                                "pscommandpath",
+                                "psculture",
+                                "psdebugcontext",
+                                "pshome",
+                                "psitem",
+                                "psscriptroot",
+                                "pssenderinfo",
+                                "psuiculture",
+                                "psversiontable",
+                                "sender",
+                                "shellid",
+                                "stacktrace",
+                                "this",
+                                "true"));
 
-        paramNameReservedWords = new HashSet<>(Arrays.asList(
-                "args",
-                "error",
-                "executioncontext",
-                "false",
-                "home",
-                "host",
-                "input",
-                "myinvocation",
-                "nestedpromptlevel",
-                "null",
-                "pid",
-                "profile",
-                "pscommandpath",
-                "psculture",
-                "pshome",
-                "psscriptroot",
-                "psuiculture",
-                "psversiontable",
-                "shellid",
-                "stacktrace",
-                "true"
-        ));
+        paramNameReservedWords =
+                new HashSet<>(
+                        Arrays.asList(
+                                "args",
+                                "error",
+                                "executioncontext",
+                                "false",
+                                "home",
+                                "host",
+                                "input",
+                                "myinvocation",
+                                "nestedpromptlevel",
+                                "null",
+                                "pid",
+                                "profile",
+                                "pscommandpath",
+                                "psculture",
+                                "pshome",
+                                "psscriptroot",
+                                "psuiculture",
+                                "psversiontable",
+                                "shellid",
+                                "stacktrace",
+                                "true"));
 
-        defaultIncludes = new HashSet<>(Arrays.asList(
-                "Byte",
-                "SByte",
-                "Byte[]",
-                "Int16",
-                "Int32",
-                "Int64",
-                "UInt16",
-                "UInt32",
-                "UInt64",
-                "Decimal",
-                "Single",
-                "Double",
-                "TimeSpan",
-                "System.DateTime",
-                "ProgressRecord",
-                "Char",
-                "String",
-                "XmlDocument",
-                "SecureString",
-                "Boolean",
-                "Guid",
-                "Uri",
-                "System.IO.FileInfo",
-                "Version"
-        ));
+        defaultIncludes =
+                new HashSet<>(
+                        Arrays.asList(
+                                "Byte",
+                                "SByte",
+                                "Byte[]",
+                                "Int16",
+                                "Int32",
+                                "Int64",
+                                "UInt16",
+                                "UInt32",
+                                "UInt64",
+                                "Decimal",
+                                "Single",
+                                "Double",
+                                "TimeSpan",
+                                "System.DateTime",
+                                "ProgressRecord",
+                                "Char",
+                                "String",
+                                "XmlDocument",
+                                "SecureString",
+                                "Boolean",
+                                "Guid",
+                                "Uri",
+                                "System.IO.FileInfo",
+                                "Version"));
 
         typeMapping = new HashMap<>();
         typeMapping.put("string", "String");
@@ -534,38 +544,87 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("URI", "String");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption("powershellGalleryUrl", "URL to the module in PowerShell Gallery (e.g. https://www.powershellgallery.com/packages/PSTwitter/)."));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Client package name (e.g. PSTwitter).").defaultValue(this.packageName));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Package version (e.g. 0.1.2).").defaultValue(this.packageVersion));
-        cliOptions.add(new CliOption(CodegenConstants.OPTIONAL_PROJECT_GUID, "GUID for PowerShell module (e.g. a27b908d-2a20-467f-bc32-af6f3a654ac5). A random GUID will be generated by default."));
-        cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, "Prefix that will be appended to all PS objects. Default: empty string. e.g. Pet => PSPet."));
-        cliOptions.add(new CliOption("commonVerbs", "PS common verb mappings. e.g. Delete=Remove:Patch=Update to map Delete with Remove and Patch with Update accordingly."));
-        cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC));
-        cliOptions.add(new CliOption("discardReadOnly", "Set discardReadonly to true to generate the Initialize cmdlet without readonly parameters"));
-        cliOptions.add(new CliOption("tags","Tags applied to the generated PowerShell module. These help with module discovery in online galleries"));
-        cliOptions.add(new CliOption("projectUri","A URL to the main website for this project"));
-        cliOptions.add(new CliOption("licenseUri","A URL to the license for the generated PowerShell module"));
-        cliOptions.add(new CliOption("iconUri","A URL to an icon representing the generated PowerShell module"));
-        cliOptions.add(new CliOption("releaseNotes","Release notes of the generated PowerShell module"));
-        cliOptions.add(new CliOption("skipVerbParsing", "Set skipVerbParsing to not try get powershell verbs of operation names"));
-        cliOptions.add(new CliOption("modelsCmdletVerb", "Verb to be used when generating the Models cmdlets in the examples.").defaultValue(this.modelsCmdletVerb));
+        cliOptions.add(
+                new CliOption(
+                        "powershellGalleryUrl",
+                        "URL to the module in PowerShell Gallery (e.g. https://www.powershellgallery.com/packages/PSTwitter/)."));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.PACKAGE_NAME,
+                                "Client package name (e.g. PSTwitter).")
+                        .defaultValue(this.packageName));
+        cliOptions.add(
+                new CliOption(CodegenConstants.PACKAGE_VERSION, "Package version (e.g. 0.1.2).")
+                        .defaultValue(this.packageVersion));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.OPTIONAL_PROJECT_GUID,
+                        "GUID for PowerShell module (e.g. a27b908d-2a20-467f-bc32-af6f3a654ac5). A random GUID will be generated by default."));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.API_NAME_PREFIX,
+                        "Prefix that will be appended to all PS objects. Default: empty string. e.g. Pet => PSPet."));
+        cliOptions.add(
+                new CliOption(
+                        "commonVerbs",
+                        "PS common verb mappings. e.g. Delete=Remove:Patch=Update to map Delete with Remove and Patch with Update accordingly."));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP,
+                        CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC));
+        cliOptions.add(
+                new CliOption(
+                        "discardReadOnly",
+                        "Set discardReadonly to true to generate the Initialize cmdlet without readonly parameters"));
+        cliOptions.add(
+                new CliOption(
+                        "tags",
+                        "Tags applied to the generated PowerShell module. These help with module discovery in online galleries"));
+        cliOptions.add(new CliOption("projectUri", "A URL to the main website for this project"));
+        cliOptions.add(
+                new CliOption(
+                        "licenseUri", "A URL to the license for the generated PowerShell module"));
+        cliOptions.add(
+                new CliOption(
+                        "iconUri",
+                        "A URL to an icon representing the generated PowerShell module"));
+        cliOptions.add(
+                new CliOption("releaseNotes", "Release notes of the generated PowerShell module"));
+        cliOptions.add(
+                new CliOption(
+                        "skipVerbParsing",
+                        "Set skipVerbParsing to not try get powershell verbs of operation names"));
+        cliOptions.add(
+                new CliOption(
+                                "modelsCmdletVerb",
+                                "Verb to be used when generating the Models cmdlets in the examples.")
+                        .defaultValue(this.modelsCmdletVerb));
 
-        CliOption useClassNameInModelsExamplesOpt = CliOption.newBoolean(
-            "useClassNameInModelsExamples",
-            "Use classname instead of name when generating the Models cmdlets in the examples."
-        ).defaultValue(this.useClassNameInModelsExamples ? Boolean.TRUE.toString() : Boolean.FALSE.toString());
+        CliOption useClassNameInModelsExamplesOpt =
+                CliOption.newBoolean(
+                                "useClassNameInModelsExamples",
+                                "Use classname instead of name when generating the Models cmdlets in the examples.")
+                        .defaultValue(
+                                this.useClassNameInModelsExamples
+                                        ? Boolean.TRUE.toString()
+                                        : Boolean.FALSE.toString());
         cliOptions.add(useClassNameInModelsExamplesOpt);
 
         // option to change how we process + set the data in the 'additionalProperties' keyword.
-        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
-                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
-                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
+        CliOption disallowAdditionalPropertiesIfNotPresentOpt =
+                CliOption.newBoolean(
+                                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC)
+                        .defaultValue(Boolean.TRUE.toString());
         Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
-        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
+        disallowAdditionalPropertiesIfNotPresentOpts.put(
+                "false",
                 "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
-        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
+        disallowAdditionalPropertiesIfNotPresentOpts.put(
+                "true",
                 "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
-        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
+        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(
+                disallowAdditionalPropertiesIfNotPresentOpts);
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
 
@@ -626,31 +685,37 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         return this.discardReadOnly;
     }
 
-    public void setTags(String tags){
-         this.tags = tags;
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
-    public void setLicenseUri(String licenseUri){
+    public void setLicenseUri(String licenseUri) {
         this.licenseUri = licenseUri;
-   }
+    }
 
-   public void setProjectUri(String projectUri){
-    this.projectUri = projectUri;
-   }
+    public void setProjectUri(String projectUri) {
+        this.projectUri = projectUri;
+    }
 
-   public void setReleaseNotes(String releaseNotes){
-       this.releaseNotes = releaseNotes;
-   }
+    public void setReleaseNotes(String releaseNotes) {
+        this.releaseNotes = releaseNotes;
+    }
 
-   public void setIconUri(String iconUri){
-       this.iconUri = iconUri;
-   }
+    public void setIconUri(String iconUri) {
+        this.iconUri = iconUri;
+    }
 
-   public void setSkipVerbParsing(boolean skipVerbParsing) { this.skipVerbParsing = skipVerbParsing; }
+    public void setSkipVerbParsing(boolean skipVerbParsing) {
+        this.skipVerbParsing = skipVerbParsing;
+    }
 
-   public void SetModelsCmdletVerb(String modelsCmdletVerb) { this.modelsCmdletVerb = modelsCmdletVerb; }
+    public void SetModelsCmdletVerb(String modelsCmdletVerb) {
+        this.modelsCmdletVerb = modelsCmdletVerb;
+    }
 
-   public void SetUseClassNameInModelsExamples(boolean useClassNameInModelsExamples) { this.useClassNameInModelsExamples = useClassNameInModelsExamples; }
+    public void SetUseClassNameInModelsExamples(boolean useClassNameInModelsExamples) {
+        this.useClassNameInModelsExamples = useClassNameInModelsExamples;
+    }
 
     @Override
     public void processOpts() {
@@ -658,8 +723,10 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("POWERSHELL_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable POWERSHELL_POST_PROCESS_FILE not defined so the PowerShell code may not be properly formatted. To define it, try 'export POWERSHELL_POST_PROCESS_FILE=\"Edit-DTWBeautifyScript\"'");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info(
+                    "Environment variable POWERSHELL_POST_PROCESS_FILE not defined so the PowerShell code may not be properly formatted. To define it, try 'export POWERSHELL_POST_PROCESS_FILE=\"Edit-DTWBeautifyScript\"'");
+            LOGGER.info(
+                    "NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey("powershellGalleryUrl")) {
@@ -669,9 +736,12 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         if (additionalProperties.containsKey(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP)) {
-            setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
+            setUseOneOfDiscriminatorLookup(
+                    convertPropertyToBooleanAndWriteBack(
+                            CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
         } else {
-            additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
+            additionalProperties.put(
+                    CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
         }
 
         if (additionalProperties.containsKey("discardReadOnly")) {
@@ -689,15 +759,15 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         if (additionalProperties.containsKey("tags")) {
             String[] entries = ((String) additionalProperties.get("tags")).split(",");
             String prefix = "";
-            StringBuilder tagStr =  new StringBuilder("@(");
+            StringBuilder tagStr = new StringBuilder("@(");
             for (String entry : entries) {
                 tagStr.append(prefix);
                 prefix = ",";
-                tagStr.append(String.format(Locale.ROOT, "'%s' ",entry));
+                tagStr.append(String.format(Locale.ROOT, "'%s' ", entry));
             }
             tagStr.append(")");
             setTags(tagStr.toString());
-            additionalProperties.put("tags",tagStr.toString());
+            additionalProperties.put("tags", tagStr.toString());
         }
 
         if (additionalProperties.containsKey("releaseNotes")) {
@@ -731,19 +801,24 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         if (additionalProperties.containsKey("useClassNameInModelsExamples")) {
-            this.SetUseClassNameInModelsExamples(convertPropertyToBoolean("useClassNameInModelsExamples"));
+            this.SetUseClassNameInModelsExamples(
+                    convertPropertyToBoolean("useClassNameInModelsExamples"));
         } else {
-            additionalProperties.put("useClassNameInModelsExamples", this.useClassNameInModelsExamples);
+            additionalProperties.put(
+                    "useClassNameInModelsExamples", this.useClassNameInModelsExamples);
         }
 
         if (StringUtils.isNotBlank(powershellGalleryUrl)) {
             // get the last segment of the URL
             // e.g. https://www.powershellgallery.com/packages/PSTwitter => PSTwitter
-            additionalProperties.put("powershellGalleryId", powershellGalleryUrl.replaceFirst(".*/([^/?]+).*", "$1"));
+            additionalProperties.put(
+                    "powershellGalleryId",
+                    powershellGalleryUrl.replaceFirst(".*/([^/?]+).*", "$1"));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_GUID)) {
-            setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
+            setPackageGuid(
+                    (String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
         } else {
             additionalProperties.put("packageGuid", packageGuid);
         }
@@ -755,7 +830,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
-            this.setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
+            this.setPackageVersion(
+                    (String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
         }
@@ -776,18 +852,28 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
             LOGGER.warn(
                     "{} with {} generator is ignored. Setting this value independently of {} is not currently supported.",
-                    CodegenConstants.MODEL_PACKAGE, this.getName(), CodegenConstants.PACKAGE_NAME);
+                    CodegenConstants.MODEL_PACKAGE,
+                    this.getName(),
+                    CodegenConstants.PACKAGE_NAME);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
             LOGGER.warn(
                     "{} with {} generator is ignored. Setting this value independently of {} is not currently supported.",
-                    CodegenConstants.API_PACKAGE, this.getName(), CodegenConstants.PACKAGE_NAME);
+                    CodegenConstants.API_PACKAGE,
+                    this.getName(),
+                    CodegenConstants.PACKAGE_NAME);
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
-            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
-                    .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
+        if (additionalProperties.containsKey(
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            this.setDisallowAdditionalPropertiesIfNotPresent(
+                    Boolean.parseBoolean(
+                            additionalProperties
+                                    .get(
+                                            CodegenConstants
+                                                    .DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)
+                                    .toString()));
         }
 
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
@@ -799,23 +885,60 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("Build.ps1.mustache", "", "Build.ps1"));
 
-        final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator);
+        final String infrastructureFolder =
+                (sourceFolder + File.separator + packageName + File.separator);
 
-        supportingFiles.add(new SupportingFile("Org.OpenAPITools.psm1.mustache", infrastructureFolder, packageName + ".psm1"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "Org.OpenAPITools.psm1.mustache",
+                        infrastructureFolder,
+                        packageName + ".psm1"));
 
         // client/configuration
-        supportingFiles.add(new SupportingFile("configuration.mustache", infrastructureFolder + "Client", apiNamePrefix + "Configuration.ps1"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "configuration.mustache",
+                        infrastructureFolder + "Client",
+                        apiNamePrefix + "Configuration.ps1"));
 
         // private
-        supportingFiles.add(new SupportingFile("api_client.mustache", infrastructureFolder + "Private", apiNamePrefix + "ApiClient.ps1"));
-        supportingFiles.add(new SupportingFile("Get-CommonParameters.mustache", infrastructureFolder + File.separator + "Private" + File.separator, "Get-CommonParameters.ps1"));
-        supportingFiles.add(new SupportingFile("Out-DebugParameter.mustache", infrastructureFolder + File.separator + "Private" + File.separator, "Out-DebugParameter.ps1"));
-        supportingFiles.add(new SupportingFile("http_signature_auth.mustache", infrastructureFolder + "Private", apiNamePrefix + "HttpSignatureAuth.ps1"));
-        supportingFiles.add(new SupportingFile("rsa_provider.mustache", infrastructureFolder + "Private", apiNamePrefix + "RSAEncryptionProvider.cs"));
-
+        supportingFiles.add(
+                new SupportingFile(
+                        "api_client.mustache",
+                        infrastructureFolder + "Private",
+                        apiNamePrefix + "ApiClient.ps1"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "Get-CommonParameters.mustache",
+                        infrastructureFolder + File.separator + "Private" + File.separator,
+                        "Get-CommonParameters.ps1"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "Out-DebugParameter.mustache",
+                        infrastructureFolder + File.separator + "Private" + File.separator,
+                        "Out-DebugParameter.ps1"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "http_signature_auth.mustache",
+                        infrastructureFolder + "Private",
+                        apiNamePrefix + "HttpSignatureAuth.ps1"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "rsa_provider.mustache",
+                        infrastructureFolder + "Private",
+                        apiNamePrefix + "RSAEncryptionProvider.cs"));
 
         // en-US
-        supportingFiles.add(new SupportingFile("about_Org.OpenAPITools.help.txt.mustache", infrastructureFolder + File.separator + "en-US" + File.separator + "about_" + packageName + ".help.txt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "about_Org.OpenAPITools.help.txt.mustache",
+                        infrastructureFolder
+                                + File.separator
+                                + "en-US"
+                                + File.separator
+                                + "about_"
+                                + packageName
+                                + ".help.txt"));
 
         // appveyor
         supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
@@ -836,11 +959,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         // finally escalate characters avoiding code injection
         return escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(
-                        StringEscapeUtils.escapeJava(input)
-                                .replace("\\/", "/"))
+                                StringEscapeUtils.escapeJava(input).replace("\\/", "/"))
                         .replaceAll("[\\t\\n\\r]", " ")
                         .replace("\"", "\"\""));
-
     }
 
     @Override
@@ -889,7 +1010,6 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
     }
 
-
     @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + modelPackage();
@@ -901,8 +1021,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     /**
-     * Output the proper model name (capitalized).
-     * In case the name belongs to the TypeSystem it won't be renamed.
+     * Output the proper model name (capitalized). In case the name belongs to the TypeSystem it
+     * won't be renamed.
      *
      * @param name the name of the model
      * @return capitalized model name
@@ -935,16 +1055,21 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn("{} (reserved word or special variable name) cannot be used as model name. Renamed to {}",
-                    name, camelize("model_" + name));
+            LOGGER.warn(
+                    "{} (reserved word or special variable name) cannot be used as model name. Renamed to {}",
+                    name,
+                    camelize("model_" + name));
             name = camelize("model_" + name); // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+            LOGGER.warn(
+                    "{} (model name starts with number) cannot be used as model name. Renamed to {}",
+                    name,
                     camelize("model_" + name));
-            name = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
+            name = camelize("model_" + name); // e.g. 200Response => Model200Response (after
+            // camelize)
         }
 
         schemaKeyToModelNameCache.put(origName, name);
@@ -963,7 +1088,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
      *
      * @param p OpenAPI property object
      * @return string presentation of the type
-     **/
+     */
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
@@ -1005,7 +1130,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toOperationId(String operationId) {
-        // throw exception if method name is empty (should not occur as an auto-generated method name will be used)
+        // throw exception if method name is empty (should not occur as an auto-generated method
+        // name will be used)
         if (StringUtils.isEmpty(operationId)) {
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
@@ -1021,7 +1147,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         // for param name reserved word or word starting with number, append _
         if (paramNameReservedWords.contains(name) || name.matches("^\\d.*")) {
-            LOGGER.warn("{} (reserved word or special variable name) cannot be used in naming. Renamed to {}", name,
+            LOGGER.warn(
+                    "{} (reserved word or special variable name) cannot be used in naming. Renamed to {}",
+                    name,
                     escapeReservedWord(name));
             name = escapeReservedWord(name);
         }
@@ -1030,7 +1158,8 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         HashMap<String, CodegenModel> modelMaps = new HashMap<>();
         HashMap<String, Integer> processedModelMaps = new HashMap<>();
@@ -1045,13 +1174,17 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             int index = 0;
             for (CodegenParameter p : op.allParams) {
                 p.vendorExtensions.put("x-powershell-data-type", getPSDataType(p));
-                p.vendorExtensions.put("x-powershell-example", constructExampleCode(p, modelMaps, processedModelMaps, false));
+                p.vendorExtensions.put(
+                        "x-powershell-example",
+                        constructExampleCode(p, modelMaps, processedModelMaps, false));
 
                 if (p.required) {
                     // clear processed Models after each constructed API Operation full example.
                     processedModelMaps.clear();
 
-                    p.vendorExtensions.put("x-powershell-example-required", constructExampleCode(p, modelMaps, processedModelMaps, true));
+                    p.vendorExtensions.put(
+                            "x-powershell-example-required",
+                            constructExampleCode(p, modelMaps, processedModelMaps, true));
                 }
 
                 p.vendorExtensions.put("x-index", index);
@@ -1061,17 +1194,23 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             // clear processed Models after each constructed API Operation examples.
             processedModelMaps.clear();
 
-            if (!op.vendorExtensions.containsKey("x-powershell-method-name")) { // x-powershell-method-name not set
+            if (!op.vendorExtensions.containsKey(
+                    "x-powershell-method-name")) { // x-powershell-method-name not set
                 String methodName = toMethodName(op.operationId);
                 op.vendorExtensions.put("x-powershell-method-name", methodName);
                 op.vendorExtensions.put("x-powershell-method-name-lowercase", methodName);
             } else {
-                op.vendorExtensions.put("x-powershell-method-name-lowercase", ((String) op.vendorExtensions.get("x-powershell-method-name")).toLowerCase(Locale.ROOT));
+                op.vendorExtensions.put(
+                        "x-powershell-method-name-lowercase",
+                        ((String) op.vendorExtensions.get("x-powershell-method-name"))
+                                .toLowerCase(Locale.ROOT));
             }
 
             // detect duplicated method name
             if (methodNames.contains(op.vendorExtensions.get("x-powershell-method-name"))) {
-                LOGGER.error("Duplicated method name found: {}", op.vendorExtensions.get("x-powershell-method-name"));
+                LOGGER.error(
+                        "Duplicated method name found: {}",
+                        op.vendorExtensions.get("x-powershell-method-name"));
             } else {
                 methodNames.add(op.vendorExtensions.get("x-powershell-method-name"));
             }
@@ -1096,7 +1235,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                         op.vendorExtensions.put("x-ps-return-type-any-of", true);
                     }
                 } else {
-                    //LOGGER.error("cannot lookup model " + op.returnType);
+                    // LOGGER.error("cannot lookup model " + op.returnType);
                 }
             }
         }
@@ -1125,17 +1264,22 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             // Mark the last readonly false property
             if (this.discardReadOnly && lastWritableProperty != null) {
                 lastWritableProperty.vendorExtensions.put("x-powershell-last-writable", true);
-                model.allVars.set(model.allVars.indexOf(lastWritableProperty), lastWritableProperty);
+                model.allVars.set(
+                        model.allVars.indexOf(lastWritableProperty), lastWritableProperty);
             }
 
             // if oneOf contains "null" type
-            if (model.oneOf != null && !model.oneOf.isEmpty() && model.oneOf.contains("ModelNull")) {
+            if (model.oneOf != null
+                    && !model.oneOf.isEmpty()
+                    && model.oneOf.contains("ModelNull")) {
                 model.isNullable = true;
                 model.oneOf.remove("ModelNull");
             }
 
             // if anyOf contains "null" type
-            if (model.anyOf != null && !model.anyOf.isEmpty() && model.anyOf.contains("ModelNull")) {
+            if (model.anyOf != null
+                    && !model.anyOf.isEmpty()
+                    && model.anyOf.contains("ModelNull")) {
                 model.isNullable = true;
                 model.anyOf.remove("ModelNull");
             }
@@ -1156,7 +1300,9 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
-            LOGGER.warn("{} (reserved word or special variable name) cannot be used in naming. Renamed to {}", name,
+            LOGGER.warn(
+                    "{} (reserved word or special variable name) cannot be used in naming. Renamed to {}",
+                    name,
                     escapeReservedWord(name));
             name = escapeReservedWord(name);
         }
@@ -1164,68 +1310,122 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         return name;
     }
 
-    private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap, boolean requiredOnly) {
+    private String constructExampleCode(
+            CodegenParameter codegenParameter,
+            HashMap<String, CodegenModel> modelMaps,
+            HashMap<String, Integer> processedModelMap,
+            boolean requiredOnly) {
         StringBuilder example = new StringBuilder();
 
         if (codegenParameter.isString) {
-            if (codegenParameter.isEnum || (codegenParameter.allowableValues != null && !codegenParameter.allowableValues.isEmpty())) {
+            if (codegenParameter.isEnum
+                    || (codegenParameter.allowableValues != null
+                            && !codegenParameter.allowableValues.isEmpty())) {
                 example.append(constructEnumExample(codegenParameter.allowableValues));
             } else {
                 String genericStringExample = codegenParameter.paramName + "_example";
-                example.append(constructStringExample(codegenParameter.paramName, codegenParameter.example, genericStringExample));
+                example.append(
+                        constructStringExample(
+                                codegenParameter.paramName,
+                                codegenParameter.example,
+                                genericStringExample));
             }
         } else if (codegenParameter.isBoolean) {
             example.append(constructBooleanExample(codegenParameter.example));
         } else if (codegenParameter.isDate || codegenParameter.isDateTime) {
             example.append("(Get-Date)");
         } else if (codegenParameter.isArray) {
-            if (codegenParameter.items.isModel || (modelMaps.containsKey(codegenParameter.items.dataType) && codegenParameter.items.allowableValues == null)) {
+            if (codegenParameter.items.isModel
+                    || (modelMaps.containsKey(codegenParameter.items.dataType)
+                            && codegenParameter.items.allowableValues == null)) {
                 String modelExample;
                 if (codegenParameter.items.isModel) {
-                    modelExample = constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, requiredOnly);
+                    modelExample =
+                            constructExampleCode(
+                                    codegenParameter.items,
+                                    modelMaps,
+                                    processedModelMap,
+                                    requiredOnly);
                 } else {
-                    modelExample = constructExampleCode(modelMaps.get(codegenParameter.items.dataType), modelMaps, processedModelMap, requiredOnly);
+                    modelExample =
+                            constructExampleCode(
+                                    modelMaps.get(codegenParameter.items.dataType),
+                                    modelMaps,
+                                    processedModelMap,
+                                    requiredOnly);
                 }
 
                 if (!StringUtils.isEmpty(modelExample)) {
                     example.append(modelExample);
                 }
             } else if (codegenParameter.items.isString) {
-                if (codegenParameter.items.isEnum || (codegenParameter.items.allowableValues != null && !codegenParameter.items.allowableValues.isEmpty())) {
+                if (codegenParameter.items.isEnum
+                        || (codegenParameter.items.allowableValues != null
+                                && !codegenParameter.items.allowableValues.isEmpty())) {
                     example.append(constructEnumExample(codegenParameter.items.allowableValues));
                 } else {
                     String genericStringExample = codegenParameter.items.name + "_example";
-                    example.append(constructStringExample(codegenParameter.paramName, codegenParameter.items.example, genericStringExample));
+                    example.append(
+                            constructStringExample(
+                                    codegenParameter.paramName,
+                                    codegenParameter.items.example,
+                                    genericStringExample));
                 }
             } else {
-                example.append(constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, requiredOnly));
+                example.append(
+                        constructExampleCode(
+                                codegenParameter.items,
+                                modelMaps,
+                                processedModelMap,
+                                requiredOnly));
             }
         } else if (codegenParameter.isMap) {
             if (codegenParameter.items == null) {
                 example.append("@{ key_example = ... }");
             } else if (codegenParameter.items.isModel) {
-                String modelExample = constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, requiredOnly);
+                String modelExample =
+                        constructExampleCode(
+                                codegenParameter.items, modelMaps, processedModelMap, requiredOnly);
                 if (!StringUtils.isEmpty(modelExample)) {
                     example.append(modelExample).append("\n");
                 }
 
-                example.append("$").append(codegenParameter.paramName).append(" = @{ key_example = $").append(codegenParameter.items.dataType).append(" }");
+                example.append("$")
+                        .append(codegenParameter.paramName)
+                        .append(" = @{ key_example = $")
+                        .append(codegenParameter.items.dataType)
+                        .append(" }");
             } else {
                 example.append("@{ key_example = ");
-                example.append(constructExampleCode(codegenParameter.items, modelMaps, processedModelMap, requiredOnly));
+                example.append(
+                        constructExampleCode(
+                                codegenParameter.items,
+                                modelMaps,
+                                processedModelMap,
+                                requiredOnly));
                 example.append(" }");
             }
-        } else if (codegenParameter.isEnum || (codegenParameter.allowableValues != null && !codegenParameter.allowableValues.isEmpty())) {
+        } else if (codegenParameter.isEnum
+                || (codegenParameter.allowableValues != null
+                        && !codegenParameter.allowableValues.isEmpty())) {
             example.append(constructEnumExample(codegenParameter.allowableValues));
         } else if (codegenParameter.isModel) {
             if (modelMaps.containsKey(codegenParameter.dataType)) {
-                String modelExample = constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, processedModelMap, requiredOnly);
+                String modelExample =
+                        constructExampleCode(
+                                modelMaps.get(codegenParameter.dataType),
+                                modelMaps,
+                                processedModelMap,
+                                requiredOnly);
                 if (!StringUtils.isEmpty(modelExample)) {
                     example.append(modelExample);
                 }
             }
-        } else if ((languageSpecificPrimitives.contains(codegenParameter.dataType) || nullablePrimitives.contains(codegenParameter.dataType)) && !codegenParameter.isFile) {
-            // If the data type is primitive and it is not a String, Enum, Boolean, File, Date or DateTime, then it's a number.
+        } else if ((languageSpecificPrimitives.contains(codegenParameter.dataType)
+                        || nullablePrimitives.contains(codegenParameter.dataType))
+                && !codegenParameter.isFile) {
+            // If the data type is primitive and it is not a String, Enum, Boolean, File, Date or
+            // DateTime, then it's a number.
             example.append(constructNumericExample(codegenParameter.example));
         }
 
@@ -1233,52 +1433,81 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         return example.toString().replaceAll("[\n]{2,}", "\n\n").trim();
     }
 
-    private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap, boolean requiredOnly) {
+    private String constructExampleCode(
+            CodegenProperty codegenProperty,
+            HashMap<String, CodegenModel> modelMaps,
+            HashMap<String, Integer> processedModelMap,
+            boolean requiredOnly) {
         StringBuilder example = new StringBuilder();
 
         if (codegenProperty.isString) {
-            if (codegenProperty.isEnum || (codegenProperty.allowableValues != null && !codegenProperty.allowableValues.isEmpty())) {
+            if (codegenProperty.isEnum
+                    || (codegenProperty.allowableValues != null
+                            && !codegenProperty.allowableValues.isEmpty())) {
                 example.append(constructEnumExample(codegenProperty.allowableValues));
             } else {
                 String genericStringExample = codegenProperty.name + "_example";
-                example.append(constructStringExample(codegenProperty.name, codegenProperty.example, genericStringExample));
+                example.append(
+                        constructStringExample(
+                                codegenProperty.name,
+                                codegenProperty.example,
+                                genericStringExample));
             }
         } else if (codegenProperty.isBoolean) {
             example.append(constructBooleanExample(codegenProperty.example));
         } else if (codegenProperty.isDate || codegenProperty.isDateTime) {
             example.append("(Get-Date)");
         } else if (codegenProperty.isArray) {
-            example.append(constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, requiredOnly));
+            example.append(
+                    constructExampleCode(
+                            codegenProperty.items, modelMaps, processedModelMap, requiredOnly));
         } else if (codegenProperty.isMap) {
             example.append("@{ key_example = ");
             if (codegenProperty.items != null) {
-                example.append(constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, requiredOnly));
+                example.append(
+                        constructExampleCode(
+                                codegenProperty.items, modelMaps, processedModelMap, requiredOnly));
             } else {
                 example.append(" ... ");
             }
             example.append(" }");
-        } else if (codegenProperty.isEnum || (codegenProperty.allowableValues != null && !codegenProperty.allowableValues.isEmpty())) {
+        } else if (codegenProperty.isEnum
+                || (codegenProperty.allowableValues != null
+                        && !codegenProperty.allowableValues.isEmpty())) {
             example.append(constructEnumExample(codegenProperty.allowableValues));
         } else if (codegenProperty.isModel) {
             if (modelMaps.containsKey(codegenProperty.dataType)) {
-                String modelExample = constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, processedModelMap, requiredOnly);
+                String modelExample =
+                        constructExampleCode(
+                                modelMaps.get(codegenProperty.dataType),
+                                modelMaps,
+                                processedModelMap,
+                                requiredOnly);
                 if (!StringUtils.isEmpty(modelExample)) {
                     example.append(modelExample);
                 }
             }
-        } else if ((languageSpecificPrimitives.contains(codegenProperty.dataType) || nullablePrimitives.contains(codegenProperty.dataType)) && !codegenProperty.isFile) {
-            // If the data type is primitive and it is not a String, Enum, Boolean, File, Date or DateTime, then it's a number.
+        } else if ((languageSpecificPrimitives.contains(codegenProperty.dataType)
+                        || nullablePrimitives.contains(codegenProperty.dataType))
+                && !codegenProperty.isFile) {
+            // If the data type is primitive and it is not a String, Enum, Boolean, File, Date or
+            // DateTime, then it's a number.
             example.append(constructNumericExample(codegenProperty.example));
         }
 
         return example.toString();
     }
 
-    private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap, boolean requiredOnly) {
+    private String constructExampleCode(
+            CodegenModel codegenModel,
+            HashMap<String, CodegenModel> modelMaps,
+            HashMap<String, Integer> processedModelMap,
+            boolean requiredOnly) {
         StringBuilder example = new StringBuilder();
         Boolean hasModelProperty = false;
 
-        // This behaviour is needed to break infinite recursion. Return, in case a model is already processed in the current context.
+        // This behaviour is needed to break infinite recursion. Return, in case a model is already
+        // processed in the current context.
         String model = codegenModel.name;
         if (processedModelMap.containsKey(model)) {
             return "";
@@ -1288,12 +1517,15 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         List<String> propertyExamples = new ArrayList<>();
         for (CodegenProperty codegenProperty : codegenModel.allVars) {
-            if (
-                !hasModelProperty && (
-                codegenProperty.isModel ||
-                (codegenProperty.isArray && (codegenProperty.items.isModel || (modelMaps.containsKey(codegenProperty.items.dataType) && codegenProperty.items.allowableValues == null))) ||
-                (codegenProperty.isMap && codegenProperty.items.isModel))
-            ) {
+            if (!hasModelProperty
+                    && (codegenProperty.isModel
+                            || (codegenProperty.isArray
+                                    && (codegenProperty.items.isModel
+                                            || (modelMaps.containsKey(
+                                                            codegenProperty.items.dataType)
+                                                    && codegenProperty.items.allowableValues
+                                                            == null)))
+                            || (codegenProperty.isMap && codegenProperty.items.isModel))) {
                 example.append("\n");
                 hasModelProperty = true;
             }
@@ -1303,46 +1535,87 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             }
 
             if (codegenProperty.isModel) {
-                String modelExample = constructExampleCode(codegenProperty, modelMaps, processedModelMap, requiredOnly);
+                String modelExample =
+                        constructExampleCode(
+                                codegenProperty, modelMaps, processedModelMap, requiredOnly);
                 if (!StringUtils.isEmpty(modelExample)) {
                     example.append(modelExample).append("\n");
                 }
 
-                propertyExamples.add("-" + codegenProperty.name + " " + "$" + codegenProperty.dataType);
-            } else if (codegenProperty.isArray && (codegenProperty.items.isModel || (modelMaps.containsKey(codegenProperty.items.dataType) && codegenProperty.items.allowableValues == null))) {
+                propertyExamples.add(
+                        "-" + codegenProperty.name + " " + "$" + codegenProperty.dataType);
+            } else if (codegenProperty.isArray
+                    && (codegenProperty.items.isModel
+                            || (modelMaps.containsKey(codegenProperty.items.dataType)
+                                    && codegenProperty.items.allowableValues == null))) {
                 String modelExample;
                 if (codegenProperty.items.isModel) {
-                    modelExample = constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, requiredOnly);
+                    modelExample =
+                            constructExampleCode(
+                                    codegenProperty.items,
+                                    modelMaps,
+                                    processedModelMap,
+                                    requiredOnly);
                 } else {
-                    modelExample = constructExampleCode(modelMaps.get(codegenProperty.items.dataType), modelMaps, processedModelMap, requiredOnly);
+                    modelExample =
+                            constructExampleCode(
+                                    modelMaps.get(codegenProperty.items.dataType),
+                                    modelMaps,
+                                    processedModelMap,
+                                    requiredOnly);
                 }
 
                 if (!StringUtils.isEmpty(modelExample)) {
                     example.append(modelExample).append("\n");
                 }
 
-                propertyExamples.add("-" + codegenProperty.name + " " + "$" + codegenProperty.complexType);
+                propertyExamples.add(
+                        "-" + codegenProperty.name + " " + "$" + codegenProperty.complexType);
             } else if (codegenProperty.isArray && codegenProperty.items.isString) {
-                if (codegenProperty.items.isEnum || (codegenProperty.items.allowableValues != null && !codegenProperty.items.allowableValues.isEmpty())) {
+                if (codegenProperty.items.isEnum
+                        || (codegenProperty.items.allowableValues != null
+                                && !codegenProperty.items.allowableValues.isEmpty())) {
                     example.append(constructEnumExample(codegenProperty.items.allowableValues));
                     propertyExamples.add("-" + codegenProperty.name + " " + example);
                 } else {
                     StringBuilder stringArrayPropertyValue = new StringBuilder();
                     String genericStringExample = codegenProperty.items.name + "_example";
 
-                    stringArrayPropertyValue.append(constructStringExample(codegenProperty.name, codegenProperty.items.example, genericStringExample));
+                    stringArrayPropertyValue.append(
+                            constructStringExample(
+                                    codegenProperty.name,
+                                    codegenProperty.items.example,
+                                    genericStringExample));
 
-                    propertyExamples.add("-" + codegenProperty.name + " " + stringArrayPropertyValue);
+                    propertyExamples.add(
+                            "-" + codegenProperty.name + " " + stringArrayPropertyValue);
                 }
             } else if (codegenProperty.isMap && codegenProperty.items.isModel) {
-                String modelExample = constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, requiredOnly);
+                String modelExample =
+                        constructExampleCode(
+                                codegenProperty.items, modelMaps, processedModelMap, requiredOnly);
                 if (!StringUtils.isEmpty(modelExample)) {
                     example.append(modelExample).append("\n");
                 }
 
-                propertyExamples.add("-" + codegenProperty.name + " " + "@{ key_example = " + "$" + codegenProperty.complexType + " }");
+                propertyExamples.add(
+                        "-"
+                                + codegenProperty.name
+                                + " "
+                                + "@{ key_example = "
+                                + "$"
+                                + codegenProperty.complexType
+                                + " }");
             } else {
-                propertyExamples.add("-" + codegenProperty.name + " " + constructExampleCode(codegenProperty, modelMaps, processedModelMap, requiredOnly));
+                propertyExamples.add(
+                        "-"
+                                + codegenProperty.name
+                                + " "
+                                + constructExampleCode(
+                                        codegenProperty,
+                                        modelMaps,
+                                        processedModelMap,
+                                        requiredOnly));
             }
         }
 
@@ -1369,15 +1642,14 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         return example.toString();
     }
 
-    private String constructStringExample(String codegenName, String codegenExample, String genericStringExample) {
+    private String constructStringExample(
+            String codegenName, String codegenExample, String genericStringExample) {
         StringBuilder example = new StringBuilder();
         example.append("\"");
 
-        if (
-            StringUtils.isEmpty(codegenExample) ||
-            codegenExample.equals("null") ||
-            codegenExample.equals(genericStringExample)
-        ) {
+        if (StringUtils.isEmpty(codegenExample)
+                || codegenExample.equals("null")
+                || codegenExample.equals(genericStringExample)) {
             example.append("My").append(codegenName);
         } else {
             example.append(codegenExample);
@@ -1429,8 +1701,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         String dataType;
         if (cp.isPrimitiveType) {
             dataType = cp.dataType;
-            if (!(cp.isString || cp.isFile || cp.isContainer)
-                    && (cp.isNullable || !cp.required)) {
+            if (!(cp.isString || cp.isFile || cp.isContainer) && (cp.isNullable || !cp.required)) {
                 dataType = "System.Nullable[" + dataType + "]";
             }
             return dataType;
@@ -1447,8 +1718,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         String dataType;
         if (cp.isPrimitiveType) {
             dataType = cp.dataType;
-            if (!(cp.isString || cp.isFile || cp.isContainer)
-                    && (cp.isNullable || !cp.required)) {
+            if (!(cp.isString || cp.isFile || cp.isContainer) && (cp.isNullable || !cp.required)) {
                 dataType = "System.Nullable[" + dataType + "]";
             }
             return dataType;
@@ -1469,15 +1739,25 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             for (String verb : (HashSet<String>) powershellVerbs) {
                 if (methodName.startsWith(verb)) {
                     methodName = verb + "-" + apiNamePrefix + methodName.substring(verb.length());
-                    LOGGER.info("Naming the method using the PowerShell verb: {} => {}", operationId, methodName);
+                    LOGGER.info(
+                            "Naming the method using the PowerShell verb: {} => {}",
+                            operationId,
+                            methodName);
                     return methodName;
                 }
             }
 
             for (Map.Entry<String, String> entry : commonVerbs.entrySet()) {
                 if (methodName.startsWith(entry.getKey())) {
-                    methodName = entry.getValue() + "-" + apiNamePrefix + methodName.substring(entry.getKey().length());
-                    LOGGER.info("Naming the method by mapping the common verbs (e.g. Create, Change) to PS verbs: {} => {}", operationId, methodName);
+                    methodName =
+                            entry.getValue()
+                                    + "-"
+                                    + apiNamePrefix
+                                    + methodName.substring(entry.getKey().length());
+                    LOGGER.info(
+                            "Naming the method by mapping the common verbs (e.g. Create, Change) to PS verbs: {} => {}",
+                            operationId,
+                            methodName);
                     return methodName;
                 }
             }
@@ -1504,17 +1784,18 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                    LOGGER.error(
+                            "Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
                     LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                LOGGER.error(
+                        "Error running the command ({}). Exception: {}", command, e.getMessage());
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
         }
-
     }
 
     @Override
@@ -1532,9 +1813,11 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                     return "$false";
                 }
             } else if (ModelUtils.isDateSchema(p)) {
-                LOGGER.warn("Default value for `date` not yet supported. Please open an issue with https://github.com/openapitools/openapi-generator");
+                LOGGER.warn(
+                        "Default value for `date` not yet supported. Please open an issue with https://github.com/openapitools/openapi-generator");
             } else if (ModelUtils.isDateTimeSchema(p)) {
-                LOGGER.warn("Default value for `datetime` not yet supported. Please open an issue with https://github.com/openapitools/openapi-generator");
+                LOGGER.warn(
+                        "Default value for `datetime` not yet supported. Please open an issue with https://github.com/openapitools/openapi-generator");
             } else if (ModelUtils.isNumberSchema(p)) {
                 return p.getDefault().toString();
             } else if (ModelUtils.isIntegerSchema(p)) {
@@ -1549,19 +1832,30 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator has been refactored by wing328 (https://github.com/wing328)   #");
-        System.out.println("# Please support his work directly by purchasing a copy of the eBook \ud83d\udcd8        #");
-        System.out.println("# - OpenAPI Generator for PowerShell Developers      https://bit.ly/3qBWfRJ    #");
-        System.out.println("################################################################################");
+        System.out.println(
+                "################################################################################");
+        System.out.println(
+                "# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println(
+                "# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println(
+                "# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println(
+                "#                                                                              #");
+        System.out.println(
+                "# This generator has been refactored by wing328 (https://github.com/wing328)   #");
+        System.out.println(
+                "# Please support his work directly by purchasing a copy of the eBook \ud83d\udcd8        #");
+        System.out.println(
+                "# - OpenAPI Generator for PowerShell Developers      https://bit.ly/3qBWfRJ    #");
+        System.out.println(
+                "################################################################################");
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.POWERSHELL; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.POWERSHELL;
+    }
 
     @Override
     public String toEnumVarName(String name, String datatype) {
@@ -1575,9 +1869,15 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         }
 
         // number
-        if ("Int16".equals(datatype) ||  "Int32".equals(datatype)  || "Int64".equals(datatype) ||
-            "UInt16".equals(datatype) ||  "UInt32".equals(datatype)  || "UInt64".equals(datatype) ||
-            "Double".equals(datatype) || "Single".equals(datatype) || "Decimal".equals(datatype)) {
+        if ("Int16".equals(datatype)
+                || "Int32".equals(datatype)
+                || "Int64".equals(datatype)
+                || "UInt16".equals(datatype)
+                || "UInt32".equals(datatype)
+                || "UInt64".equals(datatype)
+                || "Double".equals(datatype)
+                || "Single".equals(datatype)
+                || "Decimal".equals(datatype)) {
             String varName = name;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");

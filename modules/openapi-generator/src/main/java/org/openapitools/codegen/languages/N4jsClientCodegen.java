@@ -23,6 +23,11 @@ import static org.openapitools.codegen.CodegenConstants.API_PACKAGE_DESC;
 import static org.openapitools.codegen.CodegenConstants.MODEL_PACKAGE;
 import static org.openapitools.codegen.CodegenConstants.MODEL_PACKAGE_DESC;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +40,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.CliOption;
@@ -59,12 +63,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
 
 public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String CHECK_REQUIRED_PARAMS_NOT_NULL = "checkRequiredParamsNotNull";
@@ -94,9 +92,8 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     public N4jsClientCodegen() {
         super();
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         specialCharReplacements.clear();
 
@@ -141,20 +138,84 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportsInheritance = true;
         supportsMultipleInheritance = false;
 
-        reservedWords.addAll(Arrays.asList(
-                // local variable names used in API methods (endpoints)
-                "varLocalPath", "queryParameters", "headerParams", "formParams", "useFormData", "varLocalDeferred",
-                "requestOptions",
-                // N4JS reserved words
-                "abstract", "await", "boolean", "break", "byte", "case", "catch", "char", "class", "const", "continue",
-                "debugger", "default", "delete", "do", "double", "else", "enum", "export", "extends", "false", "final",
-                "finally", "float", "for", "function", "goto", "if", "implements", "import", "in", "instanceof", "int",
-                "interface", "let", "long", "native", "new", "null", "package", "private", "protected", "public",
-                "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "transient", "true",
-                "try", "typeof", "var", "void", "volatile", "while", "with", "yield"));
+        reservedWords.addAll(
+                Arrays.asList(
+                        // local variable names used in API methods (endpoints)
+                        "varLocalPath",
+                        "queryParameters",
+                        "headerParams",
+                        "formParams",
+                        "useFormData",
+                        "varLocalDeferred",
+                        "requestOptions",
+                        // N4JS reserved words
+                        "abstract",
+                        "await",
+                        "boolean",
+                        "break",
+                        "byte",
+                        "case",
+                        "catch",
+                        "char",
+                        "class",
+                        "const",
+                        "continue",
+                        "debugger",
+                        "default",
+                        "delete",
+                        "do",
+                        "double",
+                        "else",
+                        "enum",
+                        "export",
+                        "extends",
+                        "false",
+                        "final",
+                        "finally",
+                        "float",
+                        "for",
+                        "function",
+                        "goto",
+                        "if",
+                        "implements",
+                        "import",
+                        "in",
+                        "instanceof",
+                        "int",
+                        "interface",
+                        "let",
+                        "long",
+                        "native",
+                        "new",
+                        "null",
+                        "package",
+                        "private",
+                        "protected",
+                        "public",
+                        "return",
+                        "short",
+                        "static",
+                        "super",
+                        "switch",
+                        "synchronized",
+                        "this",
+                        "throw",
+                        "transient",
+                        "true",
+                        "try",
+                        "typeof",
+                        "var",
+                        "void",
+                        "volatile",
+                        "while",
+                        "with",
+                        "yield"));
 
-        languageSpecificPrimitives = new HashSet<>(Arrays.asList("string", "String", "boolean", "number", "int",
-                "Object", "object", "Array", "any", "any+", "Error"));
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "string", "String", "boolean", "number", "int", "Object", "object",
+                                "Array", "any", "any+", "Error"));
 
         defaultIncludes.add("~Object+");
         defaultIncludes.add("Object+");
@@ -165,12 +226,18 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(API_PACKAGE, API_PACKAGE_DESC));
         cliOptions.add(new CliOption(MODEL_PACKAGE, MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(API_NAME_PREFIX, API_NAME_PREFIX_DESC));
-        cliOptions.add(new CliOption(CHECK_REQUIRED_PARAMS_NOT_NULL,
-                "Iff true null-checks are performed for required parameters."));
-        cliOptions.add(new CliOption(CHECK_SUPERFLUOUS_BODY_PROPS,
-                "Iff true a new copy of the given body object is transmitted. This copy only contains those properties defined in its model specification."));
-        cliOptions.add(new CliOption(GENERATE_DEFAULT_API_EXECUTER,
-                "Iff true a default implementation of the api executer interface is generated."));
+        cliOptions.add(
+                new CliOption(
+                        CHECK_REQUIRED_PARAMS_NOT_NULL,
+                        "Iff true null-checks are performed for required parameters."));
+        cliOptions.add(
+                new CliOption(
+                        CHECK_SUPERFLUOUS_BODY_PROPS,
+                        "Iff true a new copy of the given body object is transmitted. This copy only contains those properties defined in its model specification."));
+        cliOptions.add(
+                new CliOption(
+                        GENERATE_DEFAULT_API_EXECUTER,
+                        "Iff true a default implementation of the api executer interface is generated."));
     }
 
     @Override
@@ -185,10 +252,12 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("ApiHelper.mustache", apiPackage, "ApiHelper.n4js"));
 
-        checkRequiredBodyPropsNotNull = processBooleanOpt(CHECK_REQUIRED_PARAMS_NOT_NULL,
-                checkRequiredBodyPropsNotNull);
-        checkSuperfluousBodyProps = processBooleanOpt(CHECK_SUPERFLUOUS_BODY_PROPS, checkSuperfluousBodyProps);
-        generateDefaultApiExecuter = processBooleanOpt(GENERATE_DEFAULT_API_EXECUTER, generateDefaultApiExecuter);
+        checkRequiredBodyPropsNotNull =
+                processBooleanOpt(CHECK_REQUIRED_PARAMS_NOT_NULL, checkRequiredBodyPropsNotNull);
+        checkSuperfluousBodyProps =
+                processBooleanOpt(CHECK_SUPERFLUOUS_BODY_PROPS, checkSuperfluousBodyProps);
+        generateDefaultApiExecuter =
+                processBooleanOpt(GENERATE_DEFAULT_API_EXECUTER, generateDefaultApiExecuter);
 
         if (additionalProperties.get(API_PACKAGE) instanceof String) {
             apiPackage = additionalProperties.get(API_PACKAGE).toString();
@@ -284,25 +353,33 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Extracts the list of type names from a list of schemas. Excludes `AnyType` if
-     * there are other valid types extracted.
+     * Extracts the list of type names from a list of schemas. Excludes `AnyType` if there are other
+     * valid types extracted.
      *
      * @param schemas list of schemas
      * @return list of types
      */
     @SuppressWarnings("rawtypes")
     protected List<String> getTypesFromSchemas(List<Schema> schemas) {
-        List<Schema> filteredSchemas = schemas.size() > 1 ? schemas.stream()
-                .filter(schema -> !"AnyType".equals(super.getSchemaType(schema))).collect(Collectors.toList())
-                : schemas;
+        List<Schema> filteredSchemas =
+                schemas.size() > 1
+                        ? schemas.stream()
+                                .filter(schema -> !"AnyType".equals(super.getSchemaType(schema)))
+                                .collect(Collectors.toList())
+                        : schemas;
 
-        return filteredSchemas.stream().map(schema -> getTypeDeclaration(schema)).distinct()
+        return filteredSchemas.stream()
+                .map(schema -> getTypeDeclaration(schema))
+                .distinct()
                 .collect(Collectors.toList());
     }
 
     @Override
-    protected void addImports(Set<String> importsToBeAddedTo, IJsonSchemaValidationProperties type) {
-        Set<String> imports = type.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet());
+    protected void addImports(
+            Set<String> importsToBeAddedTo, IJsonSchemaValidationProperties type) {
+        Set<String> imports =
+                type.getImports(
+                        importContainerType, importBaseType, generatorMetadata.getFeatureSet());
         Set<String> mappedImports = new HashSet<>();
         for (String imp : imports) {
             String mappedImp = imp;
@@ -334,9 +411,11 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         for (ModelMap modelMap : objs.getModels()) {
             CodegenModel cgModel = modelMap.getModel();
-            if (cgModel.unescapedDescription != null && !cgModel.unescapedDescription.contains("\n * ")) {
-                cgModel.description = escapeTextWhileAllowingNewLines(cgModel.unescapedDescription.trim()).replace("\n",
-                        "\n * ");
+            if (cgModel.unescapedDescription != null
+                    && !cgModel.unescapedDescription.contains("\n * ")) {
+                cgModel.description =
+                        escapeTextWhileAllowingNewLines(cgModel.unescapedDescription.trim())
+                                .replace("\n", "\n * ");
             }
         }
 
@@ -377,7 +456,8 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap operations, List<ModelMap> allModels) {
         OperationMap objs = operations.getOperations();
 
         boolean needImportCleanCopyBody = false;
@@ -463,7 +543,8 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private Map<String, String> toN4jsImports(String className, Map<String, ModelsMap> objs, Map<String, String> imp) {
+    private Map<String, String> toN4jsImports(
+            String className, Map<String, ModelsMap> objs, Map<String, String> imp) {
         String modelImpName = imp.get("import");
         if (modelImpName == null) {
             return null;
@@ -499,8 +580,10 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
             return modelImportName;
         } else {
             if (modelImportName.startsWith(modelPackage() + "/")) {
-                String nameWithoutModelPackage = modelImportName.substring(1 + modelPackage().length());
-                if (modelNamePrefix != null && nameWithoutModelPackage.startsWith(modelNamePrefix)) {
+                String nameWithoutModelPackage =
+                        modelImportName.substring(1 + modelPackage().length());
+                if (modelNamePrefix != null
+                        && nameWithoutModelPackage.startsWith(modelNamePrefix)) {
                     return nameWithoutModelPackage.substring(modelNamePrefix.length());
                 }
                 return nameWithoutModelPackage;
@@ -582,10 +665,10 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Converts a list of strings to a literal union for representing enum values as
-     * a type. Example output: 'available' | 'pending' | 'sold'
+     * Converts a list of strings to a literal union for representing enum values as a type. Example
+     * output: 'available' | 'pending' | 'sold'
      *
-     * @param values   list of allowed enum values
+     * @param values list of allowed enum values
      * @param dataType either "string" or "number"
      * @return a literal union for representing enum values as a type
      */
@@ -603,8 +686,8 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Converts a list of numbers to a literal union for representing enum values as
-     * a type. Example output: 3 | 9 | 55
+     * Converts a list of numbers to a literal union for representing enum values as a type. Example
+     * output: 3 | 9 | 55
      *
      * @param values a list of numbers
      * @return a literal union for representing enum values as a type
@@ -620,8 +703,9 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         if (property.unescapedDescription != null && property.unescapedDescription.contains("\n")) {
-            property.description = escapeTextWhileAllowingNewLines(property.unescapedDescription.trim()).replace("\n",
-                    "\n     * ");
+            property.description =
+                    escapeTextWhileAllowingNewLines(property.unescapedDescription.trim())
+                            .replace("\n", "\n     * ");
         }
     }
 
@@ -646,7 +730,8 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
         // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
         return escapeUnsafeCharacters(
-                StringEscapeUtils.unescapeEcmaScript(StringEscapeUtils.escapeEcmaScript(input).replace("\\/", "/"))
+                StringEscapeUtils.unescapeEcmaScript(
+                                StringEscapeUtils.escapeEcmaScript(input).replace("\\/", "/"))
                         .replaceAll("[\\t]", " "));
     }
 

@@ -3,8 +3,9 @@ package org.openapitools.codegen.api;
 import java.util.StringJoiner;
 
 /**
- * Represents the type of a generator's templating files. These types of template files may be processed differently
- * (multiple times per definition, or conditionally based on user or generator configuration).
+ * Represents the type of a generator's templating files. These types of template files may be
+ * processed differently (multiple times per definition, or conditionally based on user or generator
+ * configuration).
  */
 public enum TemplateFileType {
     API(Constants.APIS),
@@ -17,14 +18,18 @@ public enum TemplateFileType {
 
     private final String templateType;
 
-    TemplateFileType(String templateType) { this.templateType = templateType; }
+    TemplateFileType(String templateType) {
+        this.templateType = templateType;
+    }
 
     /**
      * Returns the value for this template file type
      *
      * @return The template type of this enum.
      */
-    public String value() { return this.templateType; }
+    public String value() {
+        return this.templateType;
+    }
 
     /** {@inheritDoc} */
     @Override

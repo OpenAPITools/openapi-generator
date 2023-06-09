@@ -17,16 +17,15 @@
 
 package org.openapitools.codegen.typescript.typescriptangular;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import org.openapitools.codegen.AbstractIntegrationTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
 import org.openapitools.codegen.testutils.IntegrationTestPathsConfig;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_ANGULAR})
 public class TypescriptAngularAdditionalPropertiesIntegrationTest extends AbstractIntegrationTest {

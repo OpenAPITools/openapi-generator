@@ -16,20 +16,16 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
 import io.swagger.v3.oas.models.media.Schema;
-
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.meta.GeneratorMetadata;
-import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.utils.ModelUtils;
-
 import java.io.File;
 import java.util.*;
-
 import org.apache.commons.lang3.StringUtils;
-
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,15 +38,14 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
     public static final String rootFolder = "";
     protected String controller = "esp32";
 
-
     @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
     /**
-     * Configures a friendly name for the generator. This will be used by the
-     * generator to select the library with the -g flag.
+     * Configures a friendly name for the generator. This will be used by the generator to select
+     * the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -60,8 +55,8 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
     }
 
     /**
-     * Returns human-friendly help for the generator. Provide the consumer with
-     * help tips, parameters here
+     * Returns human-friendly help for the generator. Provide the consumer with help tips,
+     * parameters here
      *
      * @return A string value for the help message
      */
@@ -77,7 +72,8 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         if (supportedControllers.containsKey(controller)) {
             additionalProperties.put(supportedControllers.get(controller), true);
         } else {
-            //String msg = String.format("The specified controller: %s is not supported.\nSupported controllers are: %s",
+            // String msg = String.format("The specified controller: %s is not supported.\nSupported
+            // controllers are: %s",
             //        controller,
             //        supportedControllers.keySet());
             throw new UnsupportedOperationException("Supported controllers are: ESP32, ESP8266");
@@ -87,45 +83,37 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
     public CppTinyClientCodegen() {
         super();
 
-        modifyFeatureSet(feature -> feature
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling,
-                        GlobalFeature.MultiServer)
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie,
-                        ParameterFeature.Header,
-                        ParameterFeature.FormUnencoded,
-                        ParameterFeature.FormMultipart,
-                        ParameterFeature.Query
-                )
-                .excludeDataTypeFeatures(
-                        DataTypeFeature.Enum,
-                        DataTypeFeature.Maps,
-                        DataTypeFeature.MapOfCollectionOfEnum,
-                        DataTypeFeature.MapOfCollectionOfModel,
-                        DataTypeFeature.MapOfCollectionOfPrimitives,
-                        DataTypeFeature.MapOfEnum,
-                        DataTypeFeature.MapOfModel
+        modifyFeatureSet(
+                feature ->
+                        feature.excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling,
+                                        GlobalFeature.MultiServer)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(
+                                        ParameterFeature.Cookie,
+                                        ParameterFeature.Header,
+                                        ParameterFeature.FormUnencoded,
+                                        ParameterFeature.FormMultipart,
+                                        ParameterFeature.Query)
+                                .excludeDataTypeFeatures(
+                                        DataTypeFeature.Enum,
+                                        DataTypeFeature.Maps,
+                                        DataTypeFeature.MapOfCollectionOfEnum,
+                                        DataTypeFeature.MapOfCollectionOfModel,
+                                        DataTypeFeature.MapOfCollectionOfPrimitives,
+                                        DataTypeFeature.MapOfEnum,
+                                        DataTypeFeature.MapOfModel)
+                                .excludeWireFormatFeatures(
+                                        WireFormatFeature.XML,
+                                        WireFormatFeature.PROTOBUF,
+                                        WireFormatFeature.Custom)
+                                .includeDocumentationFeatures(DocumentationFeature.Readme));
 
-                )
-                .excludeWireFormatFeatures(
-                        WireFormatFeature.XML,
-                        WireFormatFeature.PROTOBUF,
-                        WireFormatFeature.Custom
-                )
-                .includeDocumentationFeatures(
-                        DocumentationFeature.Readme
-                ));
-
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         outputFolder = "generated-code" + File.separator + "cpp-tiny";
         embeddedTemplateDir = templateDir = "cpp-tiny";
@@ -137,8 +125,10 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         modelTemplateFiles.put("model-body.mustache", ".cpp");
 
         // MODELS: Helpers
-        supportingFiles.add(new SupportingFile("helpers-header.mustache", modelPackage, "Helpers.h"));
-        supportingFiles.add(new SupportingFile("helpers-body.mustache", modelPackage, "Helpers.cpp"));
+        supportingFiles.add(
+                new SupportingFile("helpers-header.mustache", modelPackage, "Helpers.h"));
+        supportingFiles.add(
+                new SupportingFile("helpers-body.mustache", modelPackage, "Helpers.cpp"));
 
         // MODELS: TESTS
         testPackage = libFolder + File.separator + "TestFiles";
@@ -151,36 +141,38 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         apiTemplateFiles.put("service/api-body.mustache".replace('/', File.separatorChar), ".cpp");
 
         // SERVICES: Helpers
-        supportingFiles.add(new SupportingFile("service/Response.h.mustache", serviceFolder, "Response.h"));
-        supportingFiles.add(new SupportingFile("service/Service.h.mustache", serviceFolder, "Service.h"));
-        supportingFiles.add(new SupportingFile("service/Service.cpp.mustache", serviceFolder, "Service.cpp"));
+        supportingFiles.add(
+                new SupportingFile("service/Response.h.mustache", serviceFolder, "Response.h"));
+        supportingFiles.add(
+                new SupportingFile("service/Service.h.mustache", serviceFolder, "Service.h"));
+        supportingFiles.add(
+                new SupportingFile("service/Service.cpp.mustache", serviceFolder, "Service.cpp"));
 
         // Main
-        supportingFiles.add(new SupportingFile("main.mustache", CppTinyClientCodegen.sourceFolder, "main.cpp")); // TODO no overwrite
+        supportingFiles.add(
+                new SupportingFile(
+                        "main.mustache",
+                        CppTinyClientCodegen.sourceFolder,
+                        "main.cpp")); // TODO no overwrite
 
         // Config files
         supportingFiles.add(new SupportingFile("README.mustache", rootFolder, "README.md"));
-        supportingFiles.add(new SupportingFile("platformio.ini.mustache", rootFolder, "platformio.ini")); // TODO no overwrite
-        supportingFiles.add(new SupportingFile("root.cert.mustache", rootFolder, "root.cert")); // TODO no overwrite
-        supportingFiles.add(new SupportingFile("pre_compiling_bourne.py.mustache", rootFolder, "pre_compiling_bourne.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "platformio.ini.mustache",
+                        rootFolder,
+                        "platformio.ini")); // TODO no overwrite
+        supportingFiles.add(
+                new SupportingFile(
+                        "root.cert.mustache", rootFolder, "root.cert")); // TODO no overwrite
+        supportingFiles.add(
+                new SupportingFile(
+                        "pre_compiling_bourne.py.mustache", rootFolder, "pre_compiling_bourne.py"));
 
-        defaultIncludes = new HashSet<>(
-                Arrays.asList(
-                        "bool",
-                        "int",
-                        "long",
-                        "double",
-                        "float")
-        );
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
-                        "bool",
-                        "int",
-                        "long",
-                        "double",
-                        "float",
-                        "std::string")
-        );
+        defaultIncludes = new HashSet<>(Arrays.asList("bool", "int", "long", "double", "float"));
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList("bool", "int", "long", "double", "float", "std::string"));
 
         super.typeMapping = new HashMap<>();
         typeMapping.put("string", "std::string");
@@ -189,11 +181,11 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         typeMapping.put("array", "std::list");
         typeMapping.put("DateTime", "std::string");
 
-        cliOptions.add(new CliOption(MICROCONTROLLER, "name of microcontroller (e.g esp32 or esp8266)").
-                defaultValue("esp32"));
+        cliOptions.add(
+                new CliOption(MICROCONTROLLER, "name of microcontroller (e.g esp32 or esp8266)")
+                        .defaultValue("esp32"));
 
         makeTypeMappings();
-
     }
 
     // FilePaths
@@ -278,10 +270,10 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
 
     @Override
     public String toModelName(String type) {
-        if (typeMapping.keySet().contains(type) ||
-                typeMapping.values().contains(type) ||
-                defaultIncludes.contains(type) ||
-                languageSpecificPrimitives.contains(type)) {
+        if (typeMapping.keySet().contains(type)
+                || typeMapping.values().contains(type)
+                || defaultIncludes.contains(type)
+                || languageSpecificPrimitives.contains(type)) {
             return type;
         } else {
             return Character.toUpperCase(type.charAt(0)) + type.substring(1);
@@ -339,6 +331,4 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         }
         return "null";
     }
-
-
 }

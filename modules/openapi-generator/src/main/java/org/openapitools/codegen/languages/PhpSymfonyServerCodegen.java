@@ -17,8 +17,12 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -29,11 +33,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
@@ -66,40 +65,58 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
 
     static {
         SYMFONY_EXCEPTIONS = new HashMap<>();
-        SYMFONY_EXCEPTIONS.put("400", "Symfony\\Component\\HttpKernel\\Exception\\BadRequestHttpException");
-        SYMFONY_EXCEPTIONS.put("401", "Symfony\\Component\\HttpKernel\\Exception\\UnauthorizedHttpException");
-        SYMFONY_EXCEPTIONS.put("403", "Symfony\\Component\\HttpKernel\\Exception\\AccessDeniedHttpException");
-        SYMFONY_EXCEPTIONS.put("404", "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException");
-        SYMFONY_EXCEPTIONS.put("405", "Symfony\\Component\\HttpKernel\\Exception\\MethodNotAllowedHttpException");
-        SYMFONY_EXCEPTIONS.put("406", "Symfony\\Component\\HttpKernel\\Exception\\NotAcceptableHttpException");
-        SYMFONY_EXCEPTIONS.put("409", "Symfony\\Component\\HttpKernel\\Exception\\ConflictHttpException");
-        SYMFONY_EXCEPTIONS.put("410", "Symfony\\Component\\HttpKernel\\Exception\\GoneHttpException");
-        SYMFONY_EXCEPTIONS.put("411", "Symfony\\Component\\HttpKernel\\Exception\\LengthRequiredHttpException");
-        SYMFONY_EXCEPTIONS.put("412", "Symfony\\Component\\HttpKernel\\Exception\\PreconditionFailedHttpException");
-        SYMFONY_EXCEPTIONS.put("415", "Symfony\\Component\\HttpKernel\\Exception\\UnsupportedMediaTypeHttpException");
-        SYMFONY_EXCEPTIONS.put("422", "Symfony\\Component\\HttpKernel\\Exception\\UnprocessableEntityHttpException");
-        SYMFONY_EXCEPTIONS.put("428", "Symfony\\Component\\HttpKernel\\Exception\\PreconditionRequiredHttpException");
-        SYMFONY_EXCEPTIONS.put("429", "Symfony\\Component\\HttpKernel\\Exception\\TooManyRequestsHttpException");
-        SYMFONY_EXCEPTIONS.put("503", "Symfony\\Component\\HttpKernel\\Exception\\ServiceUnavailableHttpException");
+        SYMFONY_EXCEPTIONS.put(
+                "400", "Symfony\\Component\\HttpKernel\\Exception\\BadRequestHttpException");
+        SYMFONY_EXCEPTIONS.put(
+                "401", "Symfony\\Component\\HttpKernel\\Exception\\UnauthorizedHttpException");
+        SYMFONY_EXCEPTIONS.put(
+                "403", "Symfony\\Component\\HttpKernel\\Exception\\AccessDeniedHttpException");
+        SYMFONY_EXCEPTIONS.put(
+                "404", "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException");
+        SYMFONY_EXCEPTIONS.put(
+                "405", "Symfony\\Component\\HttpKernel\\Exception\\MethodNotAllowedHttpException");
+        SYMFONY_EXCEPTIONS.put(
+                "406", "Symfony\\Component\\HttpKernel\\Exception\\NotAcceptableHttpException");
+        SYMFONY_EXCEPTIONS.put(
+                "409", "Symfony\\Component\\HttpKernel\\Exception\\ConflictHttpException");
+        SYMFONY_EXCEPTIONS.put(
+                "410", "Symfony\\Component\\HttpKernel\\Exception\\GoneHttpException");
+        SYMFONY_EXCEPTIONS.put(
+                "411", "Symfony\\Component\\HttpKernel\\Exception\\LengthRequiredHttpException");
+        SYMFONY_EXCEPTIONS.put(
+                "412",
+                "Symfony\\Component\\HttpKernel\\Exception\\PreconditionFailedHttpException");
+        SYMFONY_EXCEPTIONS.put(
+                "415",
+                "Symfony\\Component\\HttpKernel\\Exception\\UnsupportedMediaTypeHttpException");
+        SYMFONY_EXCEPTIONS.put(
+                "422",
+                "Symfony\\Component\\HttpKernel\\Exception\\UnprocessableEntityHttpException");
+        SYMFONY_EXCEPTIONS.put(
+                "428",
+                "Symfony\\Component\\HttpKernel\\Exception\\PreconditionRequiredHttpException");
+        SYMFONY_EXCEPTIONS.put(
+                "429", "Symfony\\Component\\HttpKernel\\Exception\\TooManyRequestsHttpException");
+        SYMFONY_EXCEPTIONS.put(
+                "503",
+                "Symfony\\Component\\HttpKernel\\Exception\\ServiceUnavailableHttpException");
     }
 
     public PhpSymfonyServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism));
 
         // clear import mapping (from default generator) as php does not use it
         // at the moment
@@ -127,45 +144,99 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // local variables used in api methods (endpoints)
-                        "resourcePath", "httpBody", "queryParams", "headerParams",
-                        "formParams", "_header_accept", "_tempBody",
+                        "resourcePath",
+                        "httpBody",
+                        "queryParams",
+                        "headerParams",
+                        "formParams",
+                        "_header_accept",
+                        "_tempBody",
 
                         // PHP reserved words
-                        "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch",
-                        "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else",
-                        "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile",
-                        "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if",
-                        "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset",
-                        "list", "namespace", "new", "or", "print", "private", "protected", "public", "require",
-                        "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use",
-                        "var", "while", "xor"
-                )
-        );
+                        "__halt_compiler",
+                        "abstract",
+                        "and",
+                        "array",
+                        "as",
+                        "break",
+                        "callable",
+                        "case",
+                        "catch",
+                        "class",
+                        "clone",
+                        "const",
+                        "continue",
+                        "declare",
+                        "default",
+                        "die",
+                        "do",
+                        "echo",
+                        "else",
+                        "elseif",
+                        "empty",
+                        "enddeclare",
+                        "endfor",
+                        "endforeach",
+                        "endif",
+                        "endswitch",
+                        "endwhile",
+                        "eval",
+                        "exit",
+                        "extends",
+                        "final",
+                        "for",
+                        "foreach",
+                        "function",
+                        "global",
+                        "goto",
+                        "if",
+                        "implements",
+                        "include",
+                        "include_once",
+                        "instanceof",
+                        "insteadof",
+                        "interface",
+                        "isset",
+                        "list",
+                        "namespace",
+                        "new",
+                        "or",
+                        "print",
+                        "private",
+                        "protected",
+                        "public",
+                        "require",
+                        "require_once",
+                        "return",
+                        "static",
+                        "switch",
+                        "throw",
+                        "trait",
+                        "try",
+                        "unset",
+                        "use",
+                        "var",
+                        "while",
+                        "xor"));
 
         // ref: http://php.net/manual/en/language.types.intro.php
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
-                        "bool",
-                        "int",
-                        "float",
-                        "string",
-                        "object",
-                        "mixed",
-                        "number",
-                        "void",
-                        "byte",
-                        "array",
-                        "\\DateTime",
-                        "UploadedFile"
-                )
-        );
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "bool",
+                                "int",
+                                "float",
+                                "string",
+                                "object",
+                                "mixed",
+                                "number",
+                                "void",
+                                "byte",
+                                "array",
+                                "\\DateTime",
+                                "UploadedFile"));
 
-        defaultIncludes = new HashSet<>(
-                Arrays.asList(
-                        "\\DateTime",
-                        "UploadedFile"
-                )
-        );
+        defaultIncludes = new HashSet<>(Arrays.asList("\\DateTime", "UploadedFile"));
 
         variableNamingConvention = "camelCase";
 
@@ -198,15 +269,34 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         typeMapping.put("UUID", "string");
         typeMapping.put("URI", "string");
 
-        cliOptions.add(new CliOption(COMPOSER_VENDOR_NAME, "The vendor name used in the composer package name." +
-                " The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets"));
-        cliOptions.add(new CliOption(BUNDLE_NAME, "The name of the Symfony bundle. The template uses {{bundleName}}"));
-        cliOptions.add(new CliOption(BUNDLE_ALIAS, "The alias of the Symfony bundle. The template uses {{aliasName}}"));
-        cliOptions.add(new CliOption(COMPOSER_PROJECT_NAME, "The project name used in the composer package name." +
-                " The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
-                .defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(PHP_LEGACY_SUPPORT, "Should the generated code be compatible with PHP 5.x?").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(
+                new CliOption(
+                        COMPOSER_VENDOR_NAME,
+                        "The vendor name used in the composer package name."
+                                + " The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets"));
+        cliOptions.add(
+                new CliOption(
+                        BUNDLE_NAME,
+                        "The name of the Symfony bundle. The template uses {{bundleName}}"));
+        cliOptions.add(
+                new CliOption(
+                        BUNDLE_ALIAS,
+                        "The alias of the Symfony bundle. The template uses {{aliasName}}"));
+        cliOptions.add(
+                new CliOption(
+                        COMPOSER_PROJECT_NAME,
+                        "The project name used in the composer package name."
+                                + " The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client"));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
+                        .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                PHP_LEGACY_SUPPORT,
+                                "Should the generated code be compatible with PHP 5.x?")
+                        .defaultValue(Boolean.TRUE.toString()));
     }
 
     public String getBundleName() {
@@ -223,7 +313,10 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         if (alias != null && !alias.isEmpty()) {
             this.bundleAlias = alias.toLowerCase(Locale.ROOT);
         } else {
-            this.bundleAlias = lowerCamelCase(bundleName).replaceAll("([A-Z]+)", "\\_$1").toLowerCase(Locale.ROOT);
+            this.bundleAlias =
+                    lowerCamelCase(bundleName)
+                            .replaceAll("([A-Z]+)", "\\_$1")
+                            .toLowerCase(Locale.ROOT);
         }
     }
 
@@ -297,7 +390,8 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         }
 
         if (additionalProperties.containsKey(PHP_LEGACY_SUPPORT)) {
-            this.setPhpLegacySupport(Boolean.valueOf((String) additionalProperties.get(PHP_LEGACY_SUPPORT)));
+            this.setPhpLegacySupport(
+                    Boolean.valueOf((String) additionalProperties.get(PHP_LEGACY_SUPPORT)));
         } else {
             additionalProperties.put(PHP_LEGACY_SUPPORT, phpLegacySupport);
         }
@@ -317,18 +411,23 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         additionalProperties.put("bundleAlias", bundleAlias);
 
         // add trailing slash for mustache templates
-        additionalProperties.put("relativeSrcBasePath", srcBasePath.isEmpty() ? "" : srcBasePath + "/");
+        additionalProperties.put(
+                "relativeSrcBasePath", srcBasePath.isEmpty() ? "" : srcBasePath + "/");
 
         // make api and model src path available in mustache template
         additionalProperties.put("apiSrcPath", "." + "/" + toSrcPath(apiPackage, srcBasePath));
         additionalProperties.put("modelSrcPath", "." + "/" + toSrcPath(modelPackage, srcBasePath));
-        additionalProperties.put("controllerSrcPath", "." + "/" + toSrcPath(controllerPackage, srcBasePath));
+        additionalProperties.put(
+                "controllerSrcPath", "." + "/" + toSrcPath(controllerPackage, srcBasePath));
         additionalProperties.put("testsSrcPath", "." + "/" + toSrcPath(testsPackage, srcBasePath));
-        additionalProperties.put("apiTestsSrcPath", "." + "/" + toSrcPath(apiTestsPackage, srcBasePath));
-        additionalProperties.put("modelTestsSrcPath", "." + "/" + toSrcPath(modelTestsPackage, srcBasePath));
+        additionalProperties.put(
+                "apiTestsSrcPath", "." + "/" + toSrcPath(apiTestsPackage, srcBasePath));
+        additionalProperties.put(
+                "modelTestsSrcPath", "." + "/" + toSrcPath(modelTestsPackage, srcBasePath));
         additionalProperties.put("apiTestPath", "." + "/" + testsDirName + "/" + apiDirName);
         additionalProperties.put("modelTestPath", "." + "/" + testsDirName + "/" + modelDirName);
-        additionalProperties.put("controllerTestPath", "." + "/" + testsDirName + "/" + controllerDirName);
+        additionalProperties.put(
+                "controllerTestPath", "." + "/" + testsDirName + "/" + controllerDirName);
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -341,30 +440,91 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         final String dependencyInjectionDir = "DependencyInjection";
         final String compilerDir = dependencyInjectionDir + File.separator + "Compiler";
 
-        supportingFiles.add(new SupportingFile("Controller.mustache", toSrcPath(controllerPackage, srcBasePath), "Controller.php"));
-        supportingFiles.add(new SupportingFile("Bundle.mustache", toSrcPath("", srcBasePath), bundleClassName + ".php"));
-        supportingFiles.add(new SupportingFile("Extension.mustache", toSrcPath(dependencyInjectionDir, srcBasePath), bundleExtensionName + ".php"));
-        supportingFiles.add(new SupportingFile("ApiPass.mustache", toSrcPath(compilerDir, srcBasePath), bundleName + "ApiPass.php"));
-        supportingFiles.add(new SupportingFile("ApiServer.mustache", toSrcPath(apiPackage, srcBasePath), "ApiServer.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "Controller.mustache",
+                        toSrcPath(controllerPackage, srcBasePath),
+                        "Controller.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "Bundle.mustache", toSrcPath("", srcBasePath), bundleClassName + ".php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "Extension.mustache",
+                        toSrcPath(dependencyInjectionDir, srcBasePath),
+                        bundleExtensionName + ".php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ApiPass.mustache",
+                        toSrcPath(compilerDir, srcBasePath),
+                        bundleName + "ApiPass.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ApiServer.mustache", toSrcPath(apiPackage, srcBasePath), "ApiServer.php"));
 
         // Serialization components
-        supportingFiles.add(new SupportingFile("serialization/SerializerInterface.mustache", toSrcPath(servicePackage, srcBasePath), "SerializerInterface.php"));
-        supportingFiles.add(new SupportingFile("serialization/JmsSerializer.mustache", toSrcPath(servicePackage, srcBasePath), "JmsSerializer.php"));
-        supportingFiles.add(new SupportingFile("serialization/StrictJsonDeserializationVisitor.mustache", toSrcPath(servicePackage, srcBasePath), "StrictJsonDeserializationVisitor.php"));
-        supportingFiles.add(new SupportingFile("serialization/StrictJsonDeserializationVisitorFactory.mustache", toSrcPath(servicePackage, srcBasePath), "StrictJsonDeserializationVisitorFactory.php"));
-        supportingFiles.add(new SupportingFile("serialization/TypeMismatchException.mustache", toSrcPath(servicePackage, srcBasePath), "TypeMismatchException.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "serialization/SerializerInterface.mustache",
+                        toSrcPath(servicePackage, srcBasePath),
+                        "SerializerInterface.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "serialization/JmsSerializer.mustache",
+                        toSrcPath(servicePackage, srcBasePath),
+                        "JmsSerializer.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "serialization/StrictJsonDeserializationVisitor.mustache",
+                        toSrcPath(servicePackage, srcBasePath),
+                        "StrictJsonDeserializationVisitor.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "serialization/StrictJsonDeserializationVisitorFactory.mustache",
+                        toSrcPath(servicePackage, srcBasePath),
+                        "StrictJsonDeserializationVisitorFactory.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "serialization/TypeMismatchException.mustache",
+                        toSrcPath(servicePackage, srcBasePath),
+                        "TypeMismatchException.php"));
         // Validation components
-        supportingFiles.add(new SupportingFile("validation/ValidatorInterface.mustache", toSrcPath(servicePackage, srcBasePath), "ValidatorInterface.php"));
-        supportingFiles.add(new SupportingFile("validation/SymfonyValidator.mustache", toSrcPath(servicePackage, srcBasePath), "SymfonyValidator.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "validation/ValidatorInterface.mustache",
+                        toSrcPath(servicePackage, srcBasePath),
+                        "ValidatorInterface.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "validation/SymfonyValidator.mustache",
+                        toSrcPath(servicePackage, srcBasePath),
+                        "SymfonyValidator.php"));
 
         // Testing components
-        supportingFiles.add(new SupportingFile("testing/phpunit.xml.mustache", "", "phpunit.xml.dist"));
-        supportingFiles.add(new SupportingFile("testing/AppKernel.mustache", toSrcPath(testsPackage, srcBasePath), "AppKernel.php"));
-        supportingFiles.add(new SupportingFile("testing/ControllerTest.mustache", toSrcPath(controllerTestsPackage, srcBasePath), "ControllerTest.php"));
-        supportingFiles.add(new SupportingFile("testing/test_config.yml", toSrcPath(testsPackage, srcBasePath), "test_config.yaml"));
+        supportingFiles.add(
+                new SupportingFile("testing/phpunit.xml.mustache", "", "phpunit.xml.dist"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "testing/AppKernel.mustache",
+                        toSrcPath(testsPackage, srcBasePath),
+                        "AppKernel.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "testing/ControllerTest.mustache",
+                        toSrcPath(controllerTestsPackage, srcBasePath),
+                        "ControllerTest.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "testing/test_config.yml",
+                        toSrcPath(testsPackage, srcBasePath),
+                        "test_config.yaml"));
 
-        supportingFiles.add(new SupportingFile("routing.mustache", toSrcPath(configDir, srcBasePath), "routing.yaml"));
-        supportingFiles.add(new SupportingFile("services.mustache", toSrcPath(configDir, srcBasePath), "services.yaml"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "routing.mustache", toSrcPath(configDir, srcBasePath), "routing.yaml"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "services.mustache", toSrcPath(configDir, srcBasePath), "services.yaml"));
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
         supportingFiles.add(new SupportingFile("autoload.mustache", "", "autoload.php"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -375,20 +535,14 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 
         // Type-hintable primitive types
-        // ref: http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration
-        typeHintable = new HashSet<>(
-                Arrays.asList(
-                        "array",
-                        "bool",
-                        "float",
-                        "int",
-                        "string"
-                )
-        );
+        // ref:
+        // http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration
+        typeHintable = new HashSet<>(Arrays.asList("array", "bool", "float", "int", "string"));
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
         OperationMap operations = objs.getOperations();
@@ -399,7 +553,8 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         List<CodegenOperation> operationList = operations.getOperation();
 
         for (CodegenOperation op : operationList) {
-            // Loop through all input parameters to determine, whether we have to import something to
+            // Loop through all input parameters to determine, whether we have to import something
+            // to
             // make the input type available.
             for (CodegenParameter param : op.allParams) {
                 // Determine if the parameter type is supported as a type hint and make it available
@@ -410,21 +565,28 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 }
 
                 if (param.isContainer) {
-                    param.vendorExtensions.put("x-parameter-type", getTypeHint(param.dataType + "[]"));
+                    param.vendorExtensions.put(
+                            "x-parameter-type", getTypeHint(param.dataType + "[]"));
                 }
 
                 // Create a variable to display the correct data type in comments for interfaces
-                param.vendorExtensions.put("x-comment-type", prependSlashToDataTypeOnlyIfNecessary(param.dataType));
+                param.vendorExtensions.put(
+                        "x-comment-type", prependSlashToDataTypeOnlyIfNecessary(param.dataType));
                 if (param.isContainer) {
-                    param.vendorExtensions.put("x-comment-type", prependSlashToDataTypeOnlyIfNecessary(param.dataType) + "[]");
+                    param.vendorExtensions.put(
+                            "x-comment-type",
+                            prependSlashToDataTypeOnlyIfNecessary(param.dataType) + "[]");
                 }
             }
 
             // Create a variable to display the correct return type in comments for interfaces
             if (op.returnType != null) {
-                op.vendorExtensions.put("x-comment-type", prependSlashToDataTypeOnlyIfNecessary(op.returnType));
+                op.vendorExtensions.put(
+                        "x-comment-type", prependSlashToDataTypeOnlyIfNecessary(op.returnType));
                 if ("array".equals(op.returnContainer)) {
-                    op.vendorExtensions.put("x-comment-type", prependSlashToDataTypeOnlyIfNecessary(op.returnType) + "[]");
+                    op.vendorExtensions.put(
+                            "x-comment-type",
+                            prependSlashToDataTypeOnlyIfNecessary(op.returnType) + "[]");
                 }
             } else {
                 op.vendorExtensions.put("x-comment-type", "void");
@@ -464,10 +626,13 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 // Determine if the parameter type is supported as a type hint and make it available
                 // to the templating engine
                 var.vendorExtensions.put("x-parameter-type", getTypeHintNullable(var.dataType));
-                var.vendorExtensions.put("x-comment-type", getTypeHintNullableForComments(var.dataType));
+                var.vendorExtensions.put(
+                        "x-comment-type", getTypeHintNullableForComments(var.dataType));
                 if (var.isContainer) {
-                    var.vendorExtensions.put("x-parameter-type", getTypeHintNullable(var.dataType + "[]"));
-                    var.vendorExtensions.put("x-comment-type", getTypeHintNullableForComments(var.dataType + "[]"));
+                    var.vendorExtensions.put(
+                            "x-parameter-type", getTypeHintNullable(var.dataType + "[]"));
+                    var.vendorExtensions.put(
+                            "x-comment-type", getTypeHintNullableForComments(var.dataType + "[]"));
                 }
             }
         }
@@ -476,11 +641,18 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     }
 
     public String prependSlashToDataTypeOnlyIfNecessary(String dataType) {
-        if (dataType.equals("array") || dataType.equals("bool") || dataType.equals("float") || dataType.equals("int") || dataType.equals("string") || dataType.equals("object") || dataType.equals("iterable") || dataType.equals("mixed")) {
+        if (dataType.equals("array")
+                || dataType.equals("bool")
+                || dataType.equals("float")
+                || dataType.equals("int")
+                || dataType.equals("string")
+                || dataType.equals("object")
+                || dataType.equals("iterable")
+                || dataType.equals("mixed")) {
             return dataType;
         }
 
-        return  "\\" + dataType;
+        return "\\" + dataType;
     }
 
     /**
@@ -599,7 +771,8 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     }
 
     /**
-     * Return the regular expression/JSON schema pattern (http://json-schema.org/latest/json-schema-validation.html#anchor33)
+     * Return the regular expression/JSON schema pattern
+     * (http://json-schema.org/latest/json-schema-validation.html#anchor33)
      *
      * @param pattern the pattern (regular expression)
      * @return properly-escaped pattern

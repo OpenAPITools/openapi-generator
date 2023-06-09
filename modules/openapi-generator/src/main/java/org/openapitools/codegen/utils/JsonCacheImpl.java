@@ -16,6 +16,17 @@
 
 package org.openapitools.codegen.utils;
 
+import com.fasterxml.jackson.core.JsonPointer;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ContainerNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.POJONode;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -36,21 +47,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.regex.Pattern;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.core.JsonPointer;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ContainerNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.JsonNodeType;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.node.POJONode;
 
 /**
  * A cache implementation for loading, querying, mutating and saving a JSON object graph.
@@ -59,9 +57,7 @@ import com.fasterxml.jackson.databind.node.POJONode;
  * @since 4.0.0
  */
 class JsonCacheImpl implements JsonCache.Root {
-    /**
-     * Manages a sub-tree of a parent cache, identified by a base pointer rooted.
-     */
+    /** Manages a sub-tree of a parent cache, identified by a base pointer rooted. */
     private static class ChildCacheImpl implements JsonCache {
         private final JsonPointer basePtr;
         private final JsonCache parent;
@@ -235,7 +231,8 @@ class JsonCacheImpl implements JsonCache.Root {
         }
 
         @Override
-        public BigDecimal getBigDecimal(JsonPointer ptr, BigDecimal defaultValue) throws CacheException {
+        public BigDecimal getBigDecimal(JsonPointer ptr, BigDecimal defaultValue)
+                throws CacheException {
             return parent.getBigDecimal(basePtr.append(ptr), defaultValue);
         }
 
@@ -245,7 +242,8 @@ class JsonCacheImpl implements JsonCache.Root {
         }
 
         @Override
-        public BigDecimal getBigDecimal(String path, BigDecimal defaultValue) throws CacheException {
+        public BigDecimal getBigDecimal(String path, BigDecimal defaultValue)
+                throws CacheException {
             return parent.getBigDecimal(basePtr.append(JsonPointer.compile(path)), defaultValue);
         }
 
@@ -255,7 +253,8 @@ class JsonCacheImpl implements JsonCache.Root {
         }
 
         @Override
-        public BigInteger getBigInteger(JsonPointer ptr, BigInteger defaultValue) throws CacheException {
+        public BigInteger getBigInteger(JsonPointer ptr, BigInteger defaultValue)
+                throws CacheException {
             return parent.getBigInteger(basePtr.append(ptr), defaultValue);
         }
 
@@ -265,7 +264,8 @@ class JsonCacheImpl implements JsonCache.Root {
         }
 
         @Override
-        public BigInteger getBigInteger(String path, BigInteger defaultValue) throws CacheException {
+        public BigInteger getBigInteger(String path, BigInteger defaultValue)
+                throws CacheException {
             return parent.getBigInteger(basePtr.append(JsonPointer.compile(path)), defaultValue);
         }
 
@@ -445,7 +445,8 @@ class JsonCacheImpl implements JsonCache.Root {
         }
 
         @Override
-        public <T> List<T> getObjects(JsonPointer ptr, Class<T> type, List<T> defaultValue) throws CacheException {
+        public <T> List<T> getObjects(JsonPointer ptr, Class<T> type, List<T> defaultValue)
+                throws CacheException {
             return parent.getObjects(basePtr.append(ptr), type, defaultValue);
         }
 
@@ -455,7 +456,8 @@ class JsonCacheImpl implements JsonCache.Root {
         }
 
         @Override
-        public <T> List<T> getObjects(String path, Class<T> type, List<T> defaultValue) throws CacheException {
+        public <T> List<T> getObjects(String path, Class<T> type, List<T> defaultValue)
+                throws CacheException {
             return parent.getObjects(basePtr.append(JsonPointer.compile(path)), type, defaultValue);
         }
 
@@ -743,7 +745,8 @@ class JsonCacheImpl implements JsonCache.Root {
     protected JsonCache add(JsonPointer ptr, JsonNode node) {
         // If ptr ends with an array index, this implies inserting at the specified index.
         // If ptr does not end with an array index, this implies appending to the end of the array.
-        // In both cases the array in question and its ancestors must be created if they do not already exist.
+        // In both cases the array in question and its ancestors must be created if they do not
+        // already exist.
         String lastProperty = ptr.last().getMatchingProperty();
         boolean isIndexed = isInteger(lastProperty);
         ContainerNode<?> container = ensureContainerExists(ptr, !isIndexed);
@@ -754,9 +757,9 @@ class JsonCacheImpl implements JsonCache.Root {
                 if (index < array.size()) {
                     array.insert(index, node);
                 } else {
-                    // Fill any gap between current size and index with nulls (Jackson doesn't support sparse arrays).
-                    for (int i = array.size(); i < index; i++)
-                        array.add(array.nullNode());
+                    // Fill any gap between current size and index with nulls (Jackson doesn't
+                    // support sparse arrays).
+                    for (int i = array.size(); i < index; i++) array.add(array.nullNode());
                     array.add(node);
                 }
                 break;
@@ -863,7 +866,8 @@ class JsonCacheImpl implements JsonCache.Root {
     /**
      * Ensures that a suitable container exists for the specified JSON pointer.
      *
-     * @param ptr A <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the property to set.
+     * @param ptr A <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the property
+     *     to set.
      * @return The container that owns the property identified by <code>path</code>.
      */
     protected ContainerNode<?> ensureContainerExists(JsonPointer ptr) {
@@ -873,15 +877,18 @@ class JsonCacheImpl implements JsonCache.Root {
     /**
      * Ensures that all ancestor containers exist for the specified JSON pointer.
      *
-     * @param ptr        A <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the property to set.
-     * @param forceArray <code>true</code> to create an array for the last segment of the pointer if it is non-integral.
+     * @param ptr A <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the property
+     *     to set.
+     * @param forceArray <code>true</code> to create an array for the last segment of the pointer if
+     *     it is non-integral.
      * @return The container that owns the property identified by <code>path</code>.
      */
     protected ContainerNode<?> ensureContainerExists(JsonPointer ptr, boolean forceArray) {
         if (root == null) {
-            root = isInteger(ptr.getMatchingProperty()) // split
-                    ? JsonNodeFactory.instance.arrayNode()
-                    : JsonNodeFactory.instance.objectNode();
+            root =
+                    isInteger(ptr.getMatchingProperty()) // split
+                            ? JsonNodeFactory.instance.arrayNode()
+                            : JsonNodeFactory.instance.objectNode();
         }
         String lastProperty = ptr.last().getMatchingProperty();
         Deque<String> stack = new ArrayDeque<>();
@@ -897,38 +904,47 @@ class JsonCacheImpl implements JsonCache.Root {
 
         while (!stack.isEmpty()) {
             String ancestorProperty = stack.pop();
-            String childProperty = stack.isEmpty() // split
-                    ? forceArray && !isInteger(lastProperty) // split
-                    ? "0" // split
-                    : lastProperty // split
-                    : stack.peek();
-            // Parent can be array or object; child can be array or object - that's four possible combinations.
-            // Infer the child container type from the child property name: an integer pattern implies an array node.
+            String childProperty =
+                    stack.isEmpty() // split
+                            ? forceArray && !isInteger(lastProperty) // split
+                                    ? "0" // split
+                                    : lastProperty // split
+                            : stack.peek();
+            // Parent can be array or object; child can be array or object - that's four possible
+            // combinations.
+            // Infer the child container type from the child property name: an integer pattern
+            // implies an array node.
             if (isInteger(childProperty)) {
                 switch (ancestor.getNodeType()) {
                     case ARRAY:
                         // ARRAY/ARRAY
-                        ancestor = ((ArrayNode) ancestor).insertArray(Integer.parseInt(ancestorProperty));
+                        ancestor =
+                                ((ArrayNode) ancestor)
+                                        .insertArray(Integer.parseInt(ancestorProperty));
                         break;
                     case OBJECT:
                         // OBJECT/ARRAY
                         ancestor = ((ObjectNode) ancestor).putArray(ancestorProperty);
                         break;
                     default:
-                        throw new IllegalArgumentException(ancestorProperty + " does not identify an array node");
+                        throw new IllegalArgumentException(
+                                ancestorProperty + " does not identify an array node");
                 }
             } else {
                 switch (ancestor.getNodeType()) {
                     case ARRAY:
                         // ARRAY/OBJECT
-                        ancestor = ((ArrayNode) ancestor).insertObject(Integer.parseInt(ancestorProperty));
+                        ancestor =
+                                ((ArrayNode) ancestor)
+                                        .insertObject(Integer.parseInt(ancestorProperty));
                         break;
                     case OBJECT:
                         // OBJECT/OBJECT
                         ancestor = ((ObjectNode) ancestor).putObject(ancestorProperty);
                         break;
                     default:
-                        throw new IllegalArgumentException(ancestorProperty + " does not identify an array node");
+                        throw new IllegalArgumentException(
+                                ancestorProperty + " does not identify an array node");
                 }
             }
             setDirty();
@@ -949,31 +965,31 @@ class JsonCacheImpl implements JsonCache.Root {
 
     @Override
     public Root flush(File file) throws CacheException {
-        if (isDirty)
-            save(file);
+        if (isDirty) save(file);
         return this;
     }
 
     @Override
     public Root flush(OutputStream out) throws CacheException {
-        if (isDirty)
-            save(out);
+        if (isDirty) save(out);
         return this;
     }
 
     @Override
     public Root flushOnShutdown(final File file) {
         if (!shutdownHookRegistered) {
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        flush(file);
-                    } catch (CacheException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+            Runtime.getRuntime()
+                    .addShutdownHook(
+                            new Thread() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        flush(file);
+                                    } catch (CacheException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
             shutdownHookRegistered = true;
         }
         return this;
@@ -982,16 +998,18 @@ class JsonCacheImpl implements JsonCache.Root {
     @Override
     public Root flushOnShutdown(final OutputStream out) {
         if (!shutdownHookRegistered) {
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        flush(out);
-                    } catch (CacheException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+            Runtime.getRuntime()
+                    .addShutdownHook(
+                            new Thread() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        flush(out);
+                                    } catch (CacheException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
             shutdownHookRegistered = true;
         }
         return this;
@@ -1065,7 +1083,8 @@ class JsonCacheImpl implements JsonCache.Root {
     }
 
     @Override
-    public BigDecimal getBigDecimal(JsonPointer ptr, BigDecimal defaultValue) throws CacheException {
+    public BigDecimal getBigDecimal(JsonPointer ptr, BigDecimal defaultValue)
+            throws CacheException {
         Objects.requireNonNull(defaultValue, "defaultValue is required");
         BigDecimal result;
         if (exists(ptr)) {
@@ -1094,7 +1113,8 @@ class JsonCacheImpl implements JsonCache.Root {
     }
 
     @Override
-    public BigInteger getBigInteger(JsonPointer ptr, BigInteger defaultValue) throws CacheException {
+    public BigInteger getBigInteger(JsonPointer ptr, BigInteger defaultValue)
+            throws CacheException {
         Objects.requireNonNull(defaultValue, "defaultValue is required");
         BigInteger result;
         if (exists(ptr)) {
@@ -1357,7 +1377,10 @@ class JsonCacheImpl implements JsonCache.Root {
             result = null;
         } else {
             JsonNode node = root.at(ptr);
-            Object value = node.isPojo() && !JsonNode.class.isAssignableFrom(type) ? ((POJONode) node).getPojo() : node;
+            Object value =
+                    node.isPojo() && !JsonNode.class.isAssignableFrom(type)
+                            ? ((POJONode) node).getPojo()
+                            : node;
             if ((value != null) && (value.getClass() == type)) {
                 result = (T) value;
             } else {
@@ -1417,7 +1440,8 @@ class JsonCacheImpl implements JsonCache.Root {
     }
 
     @Override
-    public <T> List<T> getObjects(JsonPointer ptr, Class<T> type, List<T> defaultValue) throws CacheException {
+    public <T> List<T> getObjects(JsonPointer ptr, Class<T> type, List<T> defaultValue)
+            throws CacheException {
         Objects.requireNonNull(defaultValue, "defaultValue is required");
         List<T> result;
         if (exists(ptr)) {
@@ -1435,7 +1459,8 @@ class JsonCacheImpl implements JsonCache.Root {
     }
 
     @Override
-    public <T> List<T> getObjects(String path, Class<T> type, List<T> defaultValue) throws CacheException {
+    public <T> List<T> getObjects(String path, Class<T> type, List<T> defaultValue)
+            throws CacheException {
         return getObjects(JsonPointer.compile(path), type, defaultValue);
     }
 
@@ -1511,7 +1536,11 @@ class JsonCacheImpl implements JsonCache.Root {
             array.insert(index, (BigDecimal) value);
         } else {
             throw new IllegalArgumentException(
-                    "unsupported numeric value: " + value + " (" + value.getClass().getSimpleName() + ')');
+                    "unsupported numeric value: "
+                            + value
+                            + " ("
+                            + value.getClass().getSimpleName()
+                            + ')');
         }
     }
 
@@ -1545,7 +1574,8 @@ class JsonCacheImpl implements JsonCache.Root {
                 if (mergePolicy != MergePolicy.NO_MERGE) {
                     ContainerNode<?> tree = (ContainerNode<?>) mapper.readTree(in);
 
-                    // The cache is already loaded, so merge the incoming object tree into the existing root.
+                    // The cache is already loaded, so merge the incoming object tree into the
+                    // existing root.
                     merge(root, tree);
                 }
             } else {
@@ -1573,11 +1603,11 @@ class JsonCacheImpl implements JsonCache.Root {
                 ArrayNode srcArray = (ArrayNode) src;
                 outer:
                 for (int i = 0; i < srcArray.size(); i++) {
-                    // Only add a source element if it is not already present in the destination array.
+                    // Only add a source element if it is not already present in the destination
+                    // array.
                     JsonNode srcElem = srcArray.get(i);
                     for (int j = 0; j < destArray.size(); j++) {
-                        if (destArray.get(j).equals(srcElem))
-                            continue outer;
+                        if (destArray.get(j).equals(srcElem)) continue outer;
                     }
                     destArray.add(srcElem);
                 }
@@ -1596,15 +1626,19 @@ class JsonCacheImpl implements JsonCache.Root {
                                 destObject.set(fieldName, srcChild);
                                 // Mark the cache as dirty as we've added items from another file.
                                 isDirty = true;
-                                LOGGER.info("Existing root property '{}' has been overwritten by incoming data",
+                                LOGGER.info(
+                                        "Existing root property '{}' has been overwritten by incoming data",
                                         fieldName);
                                 break;
                             case MERGE_RECURSIVE:
                                 if (destChild.isContainerNode() && srcChild.isContainerNode())
-                                    merge((ContainerNode<?>) destChild, (ContainerNode<?>) srcChild);
+                                    merge(
+                                            (ContainerNode<?>) destChild,
+                                            (ContainerNode<?>) srcChild);
                                 break;
                             case KEEP_EXISTING:
-                                LOGGER.info("Existing root property '{}' will not be overwritten by incoming data",
+                                LOGGER.info(
+                                        "Existing root property '{}' will not be overwritten by incoming data",
                                         fieldName);
                             default:
                                 // Nothing to do.
@@ -1612,7 +1646,8 @@ class JsonCacheImpl implements JsonCache.Root {
                         }
                     } else {
                         destObject.set(fieldName, srcChild);
-                        LOGGER.info("New property '{}' has been added from incoming data", fieldName);
+                        LOGGER.info(
+                                "New property '{}' has been added from incoming data", fieldName);
                         // Mark the cache as dirty as we've added items from another file.
                         isDirty = true;
                     }
@@ -1642,31 +1677,23 @@ class JsonCacheImpl implements JsonCache.Root {
             node = root.booleanNode((Boolean) value);
         } else if (value instanceof List) {
             node = root.arrayNode();
-            for (Object element : (List<?>) value)
-                ((ArrayNode) node).add(nodeFor(element));
+            for (Object element : (List<?>) value) ((ArrayNode) node).add(nodeFor(element));
         } else if (value instanceof Map) {
             node = root.objectNode();
             for (Entry<String, ?> entry : ((Map<String, ?>) value).entrySet())
                 ((ObjectNode) node).set(entry.getKey(), nodeFor(entry.getValue()));
         } else if (value instanceof Number) {
-            if (value instanceof Byte)
-                node = root.numberNode((Byte) value);
-            else if (value instanceof Short)
-                node = root.numberNode((Short) value);
-            else if (value instanceof Integer)
-                node = root.numberNode((Integer) value);
-            else if (value instanceof Long)
-                node = root.numberNode((Long) value);
-            else if (value instanceof Float)
-                node = root.numberNode((Float) value);
-            else if (value instanceof Double)
-                node = root.numberNode((Double) value);
-            else if (value instanceof BigInteger)
-                node = root.numberNode((BigInteger) value);
-            else if (value instanceof BigDecimal)
-                node = root.numberNode((BigDecimal) value);
+            if (value instanceof Byte) node = root.numberNode((Byte) value);
+            else if (value instanceof Short) node = root.numberNode((Short) value);
+            else if (value instanceof Integer) node = root.numberNode((Integer) value);
+            else if (value instanceof Long) node = root.numberNode((Long) value);
+            else if (value instanceof Float) node = root.numberNode((Float) value);
+            else if (value instanceof Double) node = root.numberNode((Double) value);
+            else if (value instanceof BigInteger) node = root.numberNode((BigInteger) value);
+            else if (value instanceof BigDecimal) node = root.numberNode((BigDecimal) value);
             else
-                throw new IllegalArgumentException("unsupported number type: " + value.getClass().getSimpleName());
+                throw new IllegalArgumentException(
+                        "unsupported number type: " + value.getClass().getSimpleName());
         } else if (value instanceof String) {
             node = root.textNode((String) value);
         } else if (value instanceof byte[]) {
@@ -1721,7 +1748,11 @@ class JsonCacheImpl implements JsonCache.Root {
             object.put(property, (BigDecimal) value);
         } else {
             throw new IllegalArgumentException(
-                    "unsupported numeric value: " + value + " (" + value.getClass().getSimpleName() + ')');
+                    "unsupported numeric value: "
+                            + value
+                            + " ("
+                            + value.getClass().getSimpleName()
+                            + ')');
         }
     }
 
@@ -1788,7 +1819,8 @@ class JsonCacheImpl implements JsonCache.Root {
 
     @Override
     public JsonCache set(JsonPointer ptr, List<?> values) throws CacheException {
-        // Note: if the node identified by ptr is not an array, we must create one before populating it.
+        // Note: if the node identified by ptr is not an array, we must create one before populating
+        // it.
         ArrayNode array;
         ContainerNode<?> container = ensureContainerExists(ptr);
         JsonNode target = container.at(ptr.last());
@@ -1837,9 +1869,9 @@ class JsonCacheImpl implements JsonCache.Root {
                 if (index < array.size()) {
                     array.set(index, node);
                 } else {
-                    // Fill any gap between current size and index with nulls (Jackson doesn't support sparse arrays).
-                    for (int i = array.size(); i < index; i++)
-                        array.add(array.nullNode());
+                    // Fill any gap between current size and index with nulls (Jackson doesn't
+                    // support sparse arrays).
+                    for (int i = array.size(); i < index; i++) array.add(array.nullNode());
                     array.add(node);
                 }
                 break;

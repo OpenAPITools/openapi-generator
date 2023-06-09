@@ -17,13 +17,15 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Iterables;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import java.io.File;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -47,26 +49,15 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Iterables;
-
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Schema;
-
 public class GoServerCodegen extends AbstractGoCodegen {
 
-    /**
-     * Name of additional property for switching routers
-     */
+    /** Name of additional property for switching routers */
     private static final String ROUTER_SWITCH = "router";
 
-    /**
-     * Description of additional property for switching routers
-     */
+    /** Description of additional property for switching routers */
     private static final String ROUTER_SWITCH_DESC = "Specify the router which should be used.";
 
-    /**
-     * List of available routers
-     */
+    /** List of available routers */
     private static final String[] ROUTERS = {"mux", "chi"};
 
     private final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
@@ -80,35 +71,29 @@ public class GoServerCodegen extends AbstractGoCodegen {
     protected Boolean outputAsLibrary = false;
     protected Boolean onlyInterfaces = false;
 
-
     public GoServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.noneOf(
-                        SecurityFeature.class
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie));
 
         // set the output folder here
         outputFolder = "generated-code/go";
 
-        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC)
-                .defaultValue(sourceFolder));
+        cliOptions.add(
+                new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC)
+                        .defaultValue(sourceFolder));
 
         CliOption frameworkOption = new CliOption(ROUTER_SWITCH, ROUTER_SWITCH_DESC);
         for (String option : ROUTERS) {
@@ -117,33 +102,43 @@ public class GoServerCodegen extends AbstractGoCodegen {
         frameworkOption.defaultValue(ROUTERS[0]);
         cliOptions.add(frameworkOption);
 
-        CliOption optServerPort = new CliOption("serverPort", "The network port the generated server binds to");
+        CliOption optServerPort =
+                new CliOption("serverPort", "The network port the generated server binds to");
         optServerPort.setType("int");
         optServerPort.defaultValue(Integer.toString(serverPort));
         cliOptions.add(optServerPort);
 
-        CliOption optFeatureCORS = new CliOption("featureCORS", "Enable Cross-Origin Resource Sharing middleware");
+        CliOption optFeatureCORS =
+                new CliOption("featureCORS", "Enable Cross-Origin Resource Sharing middleware");
         optFeatureCORS.setType("bool");
         optFeatureCORS.defaultValue(corsFeatureEnabled.toString());
         cliOptions.add(optFeatureCORS);
 
-        cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_CLASS_PREFIX, CodegenConstants.ENUM_CLASS_PREFIX_DESC));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        CodegenConstants.ENUM_CLASS_PREFIX,
+                        CodegenConstants.ENUM_CLASS_PREFIX_DESC));
 
         // option to include headers in the response
-        CliOption optAddResponseHeaders = new CliOption("addResponseHeaders", "To include response headers in ImplResponse");
+        CliOption optAddResponseHeaders =
+                new CliOption("addResponseHeaders", "To include response headers in ImplResponse");
         optAddResponseHeaders.setType("bool");
         optAddResponseHeaders.defaultValue(addResponseHeaders.toString());
         cliOptions.add(optAddResponseHeaders);
 
-
         // option to exclude service factories; only interfaces are rendered
-        CliOption optOnlyInterfaces = new CliOption("onlyInterfaces", "Exclude default service creators from output; only generate interfaces");
+        CliOption optOnlyInterfaces =
+                new CliOption(
+                        "onlyInterfaces",
+                        "Exclude default service creators from output; only generate interfaces");
         optOnlyInterfaces.setType("bool");
         optOnlyInterfaces.defaultValue(onlyInterfaces.toString());
         cliOptions.add(optOnlyInterfaces);
 
         // option to exclude main package (main.go), Dockerfile, and go.mod files
-        CliOption optOutputAsLibrary = new CliOption("outputAsLibrary", "Exclude main.go, go.mod, and Dockerfile from output");
+        CliOption optOutputAsLibrary =
+                new CliOption(
+                        "outputAsLibrary", "Exclude main.go, go.mod, and Dockerfile from output");
         optOutputAsLibrary.setType("bool");
         optOutputAsLibrary.defaultValue(outputAsLibrary.toString());
         cliOptions.add(optOutputAsLibrary);
@@ -153,9 +148,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
          * for multiple files for model, just put another entry in the `modelTemplateFiles` with
          * a different extension
          */
-        modelTemplateFiles.put(
-                "model.mustache",
-                ".go");
+        modelTemplateFiles.put("model.mustache", ".go");
 
         /*
          * Api classes.  You can write classes for each Api file with the apiTemplateFiles map.
@@ -163,17 +156,17 @@ public class GoServerCodegen extends AbstractGoCodegen {
          * class
          */
         apiTemplateFiles.put(
-                "controller-api.mustache",   // the template to use
-                ".go");       // the extension for each file to write
+                "controller-api.mustache", // the template to use
+                ".go"); // the extension for each file to write
 
         /*
-         * Service templates.  You can write services for each Api file with the apiTemplateFiles map.
-            These services are skeletons built to implement the logic of your api using the
-            expected parameters and response.
-         */
+        * Service templates.  You can write services for each Api file with the apiTemplateFiles map.
+           These services are skeletons built to implement the logic of your api using the
+           expected parameters and response.
+        */
         apiTemplateFiles.put(
-                "service.mustache",   // the template to use
-                "_service.go");       // the extension for each file to write
+                "service.mustache", // the template to use
+                "_service.go"); // the extension for each file to write
 
         /*
          * Template Location.  This is the location which templates will be read from.  The generator
@@ -187,17 +180,54 @@ public class GoServerCodegen extends AbstractGoCodegen {
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // data type
-                        "string", "bool", "uint", "uint8", "uint16", "uint32", "uint64",
-                        "int", "int8", "int16", "int32", "int64", "float32", "float64",
-                        "complex64", "complex128", "rune", "byte", "uintptr",
-
-                        "break", "default", "func", "interface", "select",
-                        "case", "defer", "go", "map", "struct",
-                        "chan", "else", "goto", "package", "switch",
-                        "const", "fallthrough", "if", "range", "type",
-                        "continue", "for", "import", "return", "var", "error", "nil")
+                        "string",
+                        "bool",
+                        "uint",
+                        "uint8",
+                        "uint16",
+                        "uint32",
+                        "uint64",
+                        "int",
+                        "int8",
+                        "int16",
+                        "int32",
+                        "int64",
+                        "float32",
+                        "float64",
+                        "complex64",
+                        "complex128",
+                        "rune",
+                        "byte",
+                        "uintptr",
+                        "break",
+                        "default",
+                        "func",
+                        "interface",
+                        "select",
+                        "case",
+                        "defer",
+                        "go",
+                        "map",
+                        "struct",
+                        "chan",
+                        "else",
+                        "goto",
+                        "package",
+                        "switch",
+                        "const",
+                        "fallthrough",
+                        "if",
+                        "range",
+                        "type",
+                        "continue",
+                        "for",
+                        "import",
+                        "return",
+                        "var",
+                        "error",
+                        "nil")
                 // Added "error" as it's used so frequently that it may as well be a keyword
-        );
+                );
     }
 
     @Override
@@ -215,7 +245,8 @@ public class GoServerCodegen extends AbstractGoCodegen {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
-            this.setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
+            this.setPackageVersion(
+                    (String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
         }
@@ -226,11 +257,14 @@ public class GoServerCodegen extends AbstractGoCodegen {
             additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
         }
 
-        if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof Integer) {
+        if (additionalProperties.containsKey("serverPort")
+                && additionalProperties.get("serverPort") instanceof Integer) {
             this.setServerPort((int) additionalProperties.get("serverPort"));
-        } else if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof String) {
+        } else if (additionalProperties.containsKey("serverPort")
+                && additionalProperties.get("serverPort") instanceof String) {
             try {
-                this.setServerPort(Integer.parseInt(additionalProperties.get("serverPort").toString()));
+                this.setServerPort(
+                        Integer.parseInt(additionalProperties.get("serverPort").toString()));
                 additionalProperties.put("serverPort", serverPort);
             } catch (NumberFormatException e) {
                 LOGGER.warn("serverPort is not a valid integer... defaulting to {}", serverPort);
@@ -259,7 +293,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         }
 
         if (this.onlyInterfaces) {
-          apiTemplateFiles.remove("service.mustache");
+            apiTemplateFiles.remove("service.mustache");
         }
 
         if (additionalProperties.containsKey("outputAsLibrary")) {
@@ -269,7 +303,11 @@ public class GoServerCodegen extends AbstractGoCodegen {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_CLASS_PREFIX)) {
-            setEnumClassPrefix(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.ENUM_CLASS_PREFIX).toString()));
+            setEnumClassPrefix(
+                    Boolean.parseBoolean(
+                            additionalProperties
+                                    .get(CodegenConstants.ENUM_CLASS_PREFIX)
+                                    .toString()));
             if (enumClassPrefix) {
                 additionalProperties.put(CodegenConstants.ENUM_CLASS_PREFIX, true);
             }
@@ -293,9 +331,9 @@ public class GoServerCodegen extends AbstractGoCodegen {
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
         if (!outputAsLibrary) {
-          supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
-          supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
-          supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
+            supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
+            supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
+            supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
         }
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("routers.mustache", sourceFolder, "routers.go"));
@@ -304,14 +342,15 @@ public class GoServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("helpers.mustache", sourceFolder, "helpers.go"));
         supportingFiles.add(new SupportingFile("api.mustache", sourceFolder, "api.go"));
         supportingFiles.add(new SupportingFile("error.mustache", sourceFolder, "error.go"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-                .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
     }
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         // The superclass determines the list of required golang imports. The actual list of imports
-        // depends on which types are used. So super.postProcessModels must be invoked at the beginning
+        // depends on which types are used. So super.postProcessModels must be invoked at the
+        // beginning
         // of this method.
         objs = super.postProcessModels(objs);
 
@@ -327,8 +366,12 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
             Boolean importErrors = false;
 
-            for (CodegenProperty param : Iterables.concat(model.vars, model.allVars, model.requiredVars, model.optionalVars)) {
-                if (param.isNumeric && (StringUtils.isNotEmpty(param.minimum) || StringUtils.isNotEmpty(param.maximum))) {
+            for (CodegenProperty param :
+                    Iterables.concat(
+                            model.vars, model.allVars, model.requiredVars, model.optionalVars)) {
+                if (param.isNumeric
+                        && (StringUtils.isNotEmpty(param.minimum)
+                                || StringUtils.isNotEmpty(param.maximum))) {
                     importErrors = true;
                 }
             }
@@ -341,14 +384,14 @@ public class GoServerCodegen extends AbstractGoCodegen {
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
 
         List<Map<String, String>> imports = objs.getImports();
-        if (imports == null)
-            return objs;
+        if (imports == null) return objs;
 
         // override imports to only include packages for interface parameters
         imports.clear();
@@ -358,7 +401,9 @@ public class GoServerCodegen extends AbstractGoCodegen {
         for (CodegenOperation operation : operations) {
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && ("*os.File".equals(param.dataType) || ("[]*os.File".equals(param.dataType)))) {
+                if (!addedOSImport
+                        && ("*os.File".equals(param.dataType)
+                                || ("[]*os.File".equals(param.dataType)))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
@@ -393,8 +438,8 @@ public class GoServerCodegen extends AbstractGoCodegen {
     }
 
     /**
-     * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -g flag.
+     * Configures a friendly name for the generator. This will be used by the generator to select
+     * the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -404,19 +449,19 @@ public class GoServerCodegen extends AbstractGoCodegen {
     }
 
     /**
-     * Returns human-friendly help for the generator.  Provide the consumer with help
-     * tips, parameters here
+     * Returns human-friendly help for the generator. Provide the consumer with help tips,
+     * parameters here
      *
      * @return A string value for the help message
      */
     @Override
     public String getHelp() {
-        return "Generates a Go server library using OpenAPI-Generator. By default, " +
-                "it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable.";
+        return "Generates a Go server library using OpenAPI-Generator. By default, "
+                + "it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable.";
     }
 
     /**
-     * Location to write api files.  You can use the apiPackage() as defined when the class is
+     * Location to write api files. You can use the apiPackage() as defined when the class is
      * instantiated
      */
     @Override
@@ -461,12 +506,17 @@ public class GoServerCodegen extends AbstractGoCodegen {
     protected void updateModelForObject(CodegenModel m, Schema schema) {
         /**
          * we have a custom version of this function so we only set isMap to true if
-         * ModelUtils.isMapSchema
-         * In other generators, isMap is true for all type object schemas
+         * ModelUtils.isMapSchema In other generators, isMap is true for all type object schemas
          */
-        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+        if (schema.getProperties() != null
+                || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
             // passing null to allProperties and allRequired as there's no parent
-            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+            addVars(
+                    m,
+                    unaliasPropertySchema(schema.getProperties()),
+                    schema.getRequired(),
+                    null,
+                    null);
         }
         if (ModelUtils.isMapSchema(schema)) {
             // an object or anyType composed schema that has additionalProperties set

@@ -14,7 +14,6 @@ import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_NESTJS})
 public class TypeScriptNestjsClientCodegenTest {
     @Test
@@ -30,14 +29,20 @@ public class TypeScriptNestjsClientCodegenTest {
     @Test
     public void testOperationIdParser() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        Operation operation1 = new Operation().operationId("123_test_@#$%_special_tags").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")));
+        Operation operation1 =
+                new Operation()
+                        .operationId("123_test_@#$%_special_tags")
+                        .responses(
+                                new ApiResponses()
+                                        .addApiResponse(
+                                                "201", new ApiResponse().description("OK")));
         openAPI.path("another-fake/dummy/", new PathItem().get(operation1));
         final TypeScriptNestjsClientCodegen codegen = new TypeScriptNestjsClientCodegen();
         codegen.setOpenAPI(openAPI);
 
-        CodegenOperation co1 = codegen.fromOperation("/another-fake/dummy/", "get", operation1, null);
+        CodegenOperation co1 =
+                codegen.fromOperation("/another-fake/dummy/", "get", operation1, null);
         org.testng.Assert.assertEquals(co1.operationId, "_123testSpecialTags");
-
     }
 
     @Test
@@ -61,7 +66,6 @@ public class TypeScriptNestjsClientCodegenTest {
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1-SNAPSHOT.[0-9]{12}$"));
-
     }
 
     @Test
@@ -85,7 +89,6 @@ public class TypeScriptNestjsClientCodegenTest {
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
-
     }
 
     @Test
@@ -133,5 +136,4 @@ public class TypeScriptNestjsClientCodegenTest {
         String schemaType = codegen.getSchemaType(composedSchema);
         Assert.assertEquals(schemaType, "SchemaOne | SchemaTwo | SchemaThree");
     }
-
 }

@@ -1,8 +1,14 @@
 package org.openapitools.codegen.kotlin;
 
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
@@ -14,22 +20,15 @@ import org.openapitools.codegen.languages.KotlinVertxServerCodegen;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-
 public class KotlinModelCodegenTest {
 
     @DataProvider(name = "generators")
     public Object[][] client() {
-        return new Object[][]{
-                {new KotlinClientCodegen()},
-                {new KotlinServerCodegen()},
-                {new KotlinSpringServerCodegen()},
-                {new KotlinVertxServerCodegen()},
+        return new Object[][] {
+            {new KotlinClientCodegen()},
+            {new KotlinServerCodegen()},
+            {new KotlinSpringServerCodegen()},
+            {new KotlinVertxServerCodegen()},
         };
     }
 
@@ -49,26 +48,26 @@ public class KotlinModelCodegenTest {
         checkModel(codegen, true, classNameProp, colorProp);
     }
 
-    private void checkModel(AbstractKotlinCodegen codegen, boolean mutable, String... props) throws IOException {
+    private void checkModel(AbstractKotlinCodegen codegen, boolean mutable, String... props)
+            throws IOException {
         String outputPath = generateModels(codegen, "src/test/resources/3_0/generic.yaml", mutable);
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/Animal.kt"), props);
     }
 
-    private String generateModels(AbstractKotlinCodegen codegen, String fileName, boolean mutable) throws IOException {
+    private String generateModels(AbstractKotlinCodegen codegen, String fileName, boolean mutable)
+            throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation(fileName, null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI =
+                new OpenAPIParser().readLocation(fileName, null, new ParseOptions()).getOpenAPI();
         codegen.setOutputDir(output.getAbsolutePath());
 
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "models");
         codegen.additionalProperties().put(AbstractKotlinCodegen.MODEL_MUTABLE, mutable);
 
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen);
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
 
@@ -85,15 +84,17 @@ public class KotlinModelCodegenTest {
 
     @Test(dataProvider = "generators")
     public void valuesArrayWithUniqueItems(AbstractKotlinCodegen codegen) throws IOException {
-        String outputPath = generateModels(codegen, "src/test/resources/3_0/issue_9848.yaml", false);
+        String outputPath =
+                generateModels(codegen, "src/test/resources/3_0/issue_9848.yaml", false);
 
-        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/NonUniqueArray.kt"),
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/models/NonUniqueArray.kt"),
                 codegen instanceof KotlinVertxServerCodegen
                         ? "val array: kotlin.Array<kotlin.String>"
-                        : "val array: kotlin.collections.List<kotlin.String>"
-        );
+                        : "val array: kotlin.collections.List<kotlin.String>");
 
-        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/UniqueArray.kt"),
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/models/UniqueArray.kt"),
                 "val array: kotlin.collections.Set<kotlin.String>");
     }
 
@@ -101,13 +102,14 @@ public class KotlinModelCodegenTest {
     public void mutableArrayWithUniqueItems(AbstractKotlinCodegen codegen) throws IOException {
         String outputPath = generateModels(codegen, "src/test/resources/3_0/issue_9848.yaml", true);
 
-        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/NonUniqueArray.kt"),
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/models/NonUniqueArray.kt"),
                 codegen instanceof KotlinVertxServerCodegen
                         ? "var array: kotlin.Array<kotlin.String>"
-                        : "var array: kotlin.collections.MutableList<kotlin.String>"
-        );
+                        : "var array: kotlin.collections.MutableList<kotlin.String>");
 
-        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/models/UniqueArray.kt"),
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/models/UniqueArray.kt"),
                 "var array: kotlin.collections.MutableSet<kotlin.String>");
     }
 }

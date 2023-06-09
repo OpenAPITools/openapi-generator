@@ -17,15 +17,14 @@
 
 package org.openapitools.codegen.java;
 
+import java.util.Arrays;
+import java.util.Collections;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.Collections;
 
 public class AbstractJavaCodegenExampleValuesTest {
 
@@ -145,8 +144,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         }
 
         /**
-         * Gets artifact version.
-         * Only for testing purposes.
+         * Gets artifact version. Only for testing purposes.
          *
          * @return version
          */

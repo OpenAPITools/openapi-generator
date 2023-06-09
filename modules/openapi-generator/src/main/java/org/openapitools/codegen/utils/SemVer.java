@@ -60,20 +60,13 @@ public class SemVer implements Comparable<SemVer> {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         SemVer other = (SemVer) obj;
-        if (major != other.major)
-            return false;
-        if (minor != other.minor)
-            return false;
-        if (revision != other.revision)
-            return false;
+        if (major != other.major) return false;
+        if (minor != other.minor) return false;
+        if (revision != other.revision) return false;
         return true;
     }
-
 }

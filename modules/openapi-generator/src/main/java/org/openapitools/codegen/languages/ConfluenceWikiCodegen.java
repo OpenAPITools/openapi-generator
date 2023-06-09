@@ -19,6 +19,8 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.util.*;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -26,9 +28,6 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.*;
 
 public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String ALL_OPERATIONS = "";
@@ -41,20 +40,18 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
         super();
 
         // TODO: ConfluenceWiki maintainer review
-        modifyFeatureSet(features -> features
-                .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .excludeParameterFeatures(ParameterFeature.Cookie)
-                .includeWireFormatFeatures(
-                        WireFormatFeature.JSON,
-                        WireFormatFeature.XML,
-                        WireFormatFeature.Custom
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism,
-                        SchemaSupportFeature.Union
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeParameterFeatures(ParameterFeature.Cookie)
+                                .includeWireFormatFeatures(
+                                        WireFormatFeature.JSON,
+                                        WireFormatFeature.XML,
+                                        WireFormatFeature.Custom)
+                                .excludeSchemaSupportFeatures(
+                                        SchemaSupportFeature.Polymorphism,
+                                        SchemaSupportFeature.Union));
 
         outputFolder = "docs";
         embeddedTemplateDir = templateDir = "confluenceWikiDocs";
@@ -63,14 +60,25 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
 
         cliOptions.add(new CliOption("appName", "short name of the application"));
         cliOptions.add(new CliOption("appDescription", "description of the application"));
-        cliOptions.add(new CliOption("infoUrl", "a URL where users can get more information about the application"));
-        cliOptions.add(new CliOption("infoEmail", "an email address to contact for inquiries about the application"));
+        cliOptions.add(
+                new CliOption(
+                        "infoUrl",
+                        "a URL where users can get more information about the application"));
+        cliOptions.add(
+                new CliOption(
+                        "infoEmail",
+                        "an email address to contact for inquiries about the application"));
         cliOptions.add(new CliOption("licenseInfo", "a short description of the license"));
         cliOptions.add(new CliOption("licenseUrl", "a URL pointing to the full license"));
-        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
+        cliOptions.add(
+                new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
 
         additionalProperties.put("appName", "OpenAPI Sample");
         additionalProperties.put("appDescription", "A sample OpenAPI server");
@@ -119,7 +127,8 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
@@ -151,14 +160,19 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
             return input;
         }
 
-        // chomp tailing newline because it breaks the tables and keep all other sign to show documentation properly
-        return StringUtils.chomp(input.replace("\\", "\\\\")
-                .replace("{", "\\{").replace("}", "\\}")
-                .replace("]", "\\]")
-                .replace("|", "\\|")
-                .replace("!", "\\!"));
+        // chomp tailing newline because it breaks the tables and keep all other sign to show
+        // documentation properly
+        return StringUtils.chomp(
+                input.replace("\\", "\\\\")
+                        .replace("{", "\\{")
+                        .replace("}", "\\}")
+                        .replace("]", "\\]")
+                        .replace("|", "\\|")
+                        .replace("!", "\\!"));
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return null; }
+    public GeneratorLanguage generatorLanguage() {
+        return null;
+    }
 }

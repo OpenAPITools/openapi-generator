@@ -17,15 +17,16 @@
 
 package org.openapitools.codegen.rubysinatra;
 
+import static org.mockito.Mockito.mock;
+
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.RubySinatraServerCodegen;
 import org.openapitools.codegen.options.RubySinatraServerOptionsProvider;
 
-import static org.mockito.Mockito.mock;
-
 public class RubySinatraServerOptionsTest extends AbstractOptionsTest {
-    private RubySinatraServerCodegen clientCodegen = mock(RubySinatraServerCodegen.class, mockSettings);
+    private RubySinatraServerCodegen clientCodegen =
+            mock(RubySinatraServerCodegen.class, mockSettings);
 
     public RubySinatraServerOptionsTest() {
         super(new RubySinatraServerOptionsProvider());

@@ -1,9 +1,9 @@
 package org.openapitools.codegen.xojo.client;
 
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.XojoClientCodegen;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.XojoClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -65,7 +65,8 @@ public class XojoClientCodegenTest {
     public void testToEnumVarNameStartingWithNumber() throws Exception {
         Assert.assertEquals(codegen.toEnumVarName("123EntryName", null), "Escaped123EntryName");
         Assert.assertEquals(codegen.toEnumVarName("123Entry_name", null), "Escaped123EntryName");
-        Assert.assertEquals(codegen.toEnumVarName("123EntryName123", null), "Escaped123EntryName123");
+        Assert.assertEquals(
+                codegen.toEnumVarName("123EntryName123", null), "Escaped123EntryName123");
     }
 
     @Test(enabled = true)
@@ -80,7 +81,8 @@ public class XojoClientCodegenTest {
 
     @Test(description = "returns Data when response format is binary", enabled = true)
     public void binaryDataTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/binaryDataTest.json");
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec("src/test/resources/2_0/binaryDataTest.json");
         final DefaultCodegen codegen = new XojoClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/binaryResponse";
@@ -95,7 +97,8 @@ public class XojoClientCodegenTest {
 
     @Test(description = "returns Date when response format is date per default", enabled = true)
     public void dateDefaultTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new XojoClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/dateResponse";
@@ -106,7 +109,9 @@ public class XojoClientCodegenTest {
         Assert.assertEquals(op.bodyParam.dataType, "Date");
     }
 
-    @Test(description = "type from languageSpecificPrimitives should not be prefixed", enabled = true)
+    @Test(
+            description = "type from languageSpecificPrimitives should not be prefixed",
+            enabled = true)
     public void prefixExceptionTest() {
         final DefaultCodegen codegen = new XojoClientCodegen();
         codegen.setModelNamePrefix("API");
@@ -115,7 +120,9 @@ public class XojoClientCodegenTest {
         Assert.assertEquals(result, "Currency");
     }
 
-    @Test(description = "type from languageSpecificPrimitives should not be suffixed", enabled = true)
+    @Test(
+            description = "type from languageSpecificPrimitives should not be suffixed",
+            enabled = true)
     public void suffixExceptionTest() {
         final DefaultCodegen codegen = new XojoClientCodegen();
         codegen.setModelNameSuffix("API");

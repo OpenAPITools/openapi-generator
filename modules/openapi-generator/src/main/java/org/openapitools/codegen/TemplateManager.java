@@ -1,5 +1,10 @@
 package org.openapitools.codegen;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
+import java.util.*;
+import java.util.regex.Pattern;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.api.TemplatePathLocator;
@@ -11,15 +16,7 @@ import org.openapitools.codegen.templating.TemplateNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
-import java.util.*;
-import java.util.regex.Pattern;
-
-/**
- * Manages the lookup, compilation, and writing of template files
- */
+/** Manages the lookup, compilation, and writing of template files */
 public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     private final TemplateManagerOptions options;
     private final TemplatingEngineAdapter engineAdapter;
@@ -44,18 +41,20 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     }
 
     private String getFullTemplateFile(String name) {
-        String template = Arrays.stream(this.templateLoaders)
-                .map(i -> i.getFullTemplatePath(name))
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse("");
+        String template =
+                Arrays.stream(this.templateLoaders)
+                        .map(i -> i.getFullTemplatePath(name))
+                        .filter(Objects::nonNull)
+                        .findFirst()
+                        .orElse("");
 
         if (StringUtils.isEmpty(template)) {
             throw new TemplateNotFoundException(name);
         }
 
         if (name == null || name.contains("..")) {
-            throw new IllegalArgumentException("Template location must be constrained to template directory.");
+            throw new IllegalArgumentException(
+                    "Template location must be constrained to template directory.");
         }
 
         return template;
@@ -73,7 +72,8 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     }
 
     /**
-     * Returns the path of a template, allowing access to the template where consuming literal contents aren't desirable or possible.
+     * Returns the path of a template, allowing access to the template where consuming literal
+     * contents aren't desirable or possible.
      *
      * @param name the template name (e.g. model.mustache)
      * @return The {@link Path} to the template
@@ -87,7 +87,6 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
      * Gets a normalized classpath resource location according to OS-specific file separator
      *
      * @param name The name of the resource file/directory to find
-     *
      * @return A normalized string according to OS-specific file separator
      */
     public static String getCPResourcePath(final String name) {
@@ -107,7 +106,8 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     // ignored rule java:S112 as RuntimeException is used to match previous exception type
     public String readTemplate(String name) {
         if (name == null || name.contains("..")) {
-            throw new IllegalArgumentException("Template location must be constrained to template directory.");
+            throw new IllegalArgumentException(
+                    "Template location must be constrained to template directory.");
         }
         try (Reader reader = getTemplateReader(name)) {
             if (reader == null) {
@@ -140,7 +140,8 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
         is = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(name));
         if (is == null) {
             if (name == null || name.contains("..")) {
-                throw new IllegalArgumentException("Template location must be constrained to template directory.");
+                throw new IllegalArgumentException(
+                        "Template location must be constrained to template directory.");
             }
             is = new FileInputStream(name); // May throw but never return a null value
         }
@@ -150,10 +151,9 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     /**
      * Writes data to a compiled template
      *
-     * @param data     Input data
+     * @param data Input data
      * @param template Input template location
      * @param target The targeted file output location
-     *
      * @return The actual file
      */
     @Override
@@ -202,13 +202,14 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
      * Write bytes to a file
      *
      * @param filename The name of file to write
-     * @param contents The contents bytes.  Typically, this is a UTF-8 formatted string.
+     * @param contents The contents bytes. Typically, this is a UTF-8 formatted string.
      * @return File representing the written file.
      * @throws IOException If file cannot be written.
      */
     @Override
     public File writeToFile(String filename, byte[] contents) throws IOException {
-        // Use Paths.get here to normalize path (for Windows file separator, space escaping on Linux/Mac, etc)
+        // Use Paths.get here to normalize path (for Windows file separator, space escaping on
+        // Linux/Mac, etc)
         File outputFile = Paths.get(filename).toFile();
 
         if (this.options.isMinimalUpdate()) {
@@ -218,7 +219,10 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
                 tempFile = writeToFileRaw(tempFilename, contents);
                 if (!filesEqual(tempFile, outputFile)) {
                     LOGGER.info("writing file {}", filename);
-                    Files.move(tempFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    Files.move(
+                            tempFile.toPath(),
+                            outputFile.toPath(),
+                            StandardCopyOption.REPLACE_EXISTING);
                     tempFile = null;
                 } else {
                     LOGGER.info("skipping unchanged file {}", filename);
@@ -241,7 +245,8 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     }
 
     private File writeToFileRaw(String filename, byte[] contents) throws IOException {
-        // Use Paths.get here to normalize path (for Windows file separator, space escaping on Linux/Mac, etc)
+        // Use Paths.get here to normalize path (for Windows file separator, space escaping on
+        // Linux/Mac, etc)
         File output = Paths.get(filename).toFile();
         if (this.options.isSkipOverwrite() && output.exists()) {
             LOGGER.info("skip overwrite of file {}", filename);
@@ -258,6 +263,9 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     }
 
     private boolean filesEqual(File file1, File file2) throws IOException {
-        return file1.exists() && file2.exists() && Arrays.equals(Files.readAllBytes(file1.toPath()), Files.readAllBytes(file2.toPath()));
+        return file1.exists()
+                && file2.exists()
+                && Arrays.equals(
+                        Files.readAllBytes(file1.toPath()), Files.readAllBytes(file2.toPath()));
     }
 }

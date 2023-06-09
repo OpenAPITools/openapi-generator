@@ -18,12 +18,11 @@
 package org.openapitools.codegen.rust;
 
 import io.swagger.v3.oas.models.media.IntegerSchema;
+import java.math.BigDecimal;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.RustClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.math.BigDecimal;
 
 public class RustClientCodegenTest {
 
@@ -32,13 +31,18 @@ public class RustClientCodegenTest {
         final RustClientCodegen codegen = new RustClientCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.TRUE);
         Assert.assertTrue(codegen.isHideGenerationTimestamp());
 
-        Assert.assertEquals(codegen.additionalProperties().get(RustClientCodegen.PREFER_UNSIGNED_INT), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(RustClientCodegen.PREFER_UNSIGNED_INT),
+                Boolean.FALSE);
         Assert.assertFalse(codegen.getPreferUnsignedInt());
 
-        Assert.assertEquals(codegen.additionalProperties().get(RustClientCodegen.BEST_FIT_INT), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(RustClientCodegen.BEST_FIT_INT), Boolean.FALSE);
         Assert.assertFalse(codegen.getBestFitInt());
     }
 
@@ -50,13 +54,18 @@ public class RustClientCodegenTest {
         codegen.setBestFitInt(true);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.FALSE);
         Assert.assertFalse(codegen.isHideGenerationTimestamp());
 
-        Assert.assertEquals(codegen.additionalProperties().get(RustClientCodegen.PREFER_UNSIGNED_INT), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(RustClientCodegen.PREFER_UNSIGNED_INT),
+                Boolean.TRUE);
         Assert.assertTrue(codegen.getPreferUnsignedInt());
 
-        Assert.assertEquals(codegen.additionalProperties().get(RustClientCodegen.BEST_FIT_INT), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(RustClientCodegen.BEST_FIT_INT), Boolean.TRUE);
         Assert.assertTrue(codegen.getBestFitInt());
     }
 
@@ -66,7 +75,9 @@ public class RustClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.FALSE);
         Assert.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
@@ -238,5 +249,4 @@ public class RustClientCodegenTest {
         s.setFormat("int64");
         Assert.assertEquals(codegen.getSchemaType(s), "i64");
     }
-
 }

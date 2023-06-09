@@ -15,7 +15,6 @@
  */
 
 package org.openapitools.codegen;
-import org.openapitools.codegen.templating.TemplateManagerOptions;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,11 +24,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openapitools.codegen.templating.TemplateManagerOptions;
 
 /**
  * Decorates {@link DefaultCodegen and tracks some internal calls}.
  *
- * @deprecated Please avoid using this type, as it is not a mock and invokes real generation. Prefer {@link DefaultGenerator#DefaultGenerator(Boolean)} with dryRun=true and/or true mocked spies.
+ * @deprecated Please avoid using this type, as it is not a mock and invokes real generation. Prefer
+ *     {@link DefaultGenerator#DefaultGenerator(Boolean)} with dryRun=true and/or true mocked spies.
  */
 @Deprecated
 public class MockDefaultGenerator extends DefaultGenerator {
@@ -56,7 +57,9 @@ public class MockDefaultGenerator extends DefaultGenerator {
     @Override
     public Generator opts(ClientOptInput opts) {
         Generator o = super.opts(opts);
-        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(this.config.isEnableMinimalUpdate(),this.config.isSkipOverwrite());
+        TemplateManagerOptions templateManagerOptions =
+                new TemplateManagerOptions(
+                        this.config.isEnableMinimalUpdate(), this.config.isSkipOverwrite());
         this.templateProcessor = new ObservableDryRunTemplateManager(templateManagerOptions);
         return o;
     }
@@ -66,7 +69,8 @@ public class MockDefaultGenerator extends DefaultGenerator {
         private String templateName;
         private String outputFilename;
 
-        public WrittenTemplateBasedFile(Map<String, Object> templateData, String templateName, String outputFilename) {
+        public WrittenTemplateBasedFile(
+                Map<String, Object> templateData, String templateName, String outputFilename) {
             this.templateData = templateData;
             this.templateName = templateName;
             this.outputFilename = outputFilename;
@@ -86,10 +90,16 @@ public class MockDefaultGenerator extends DefaultGenerator {
 
         @Override
         public String toString() {
-            return "WrittenTemplateBasedFile [" +
-                    "outputFilename=" + outputFilename + ", " +
-                    "templateName=" + templateName +  ", " +
-                    "templateData=" + templateData + "]";
+            return "WrittenTemplateBasedFile ["
+                    + "outputFilename="
+                    + outputFilename
+                    + ", "
+                    + "templateName="
+                    + templateName
+                    + ", "
+                    + "templateData="
+                    + templateData
+                    + "]";
         }
     }
 
@@ -103,7 +113,8 @@ public class MockDefaultGenerator extends DefaultGenerator {
         }
 
         @Override
-        public File write(Map<String, Object> data, String template, File target) throws IOException {
+        public File write(Map<String, Object> data, String template, File target)
+                throws IOException {
             String filename = normalizePath(target.toPath().normalize().toString());
             templateBasedFiles.add(new WrittenTemplateBasedFile(data, template, filename));
 

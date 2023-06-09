@@ -19,29 +19,31 @@ package org.openapitools.codegen;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.models.ExternalDocumentation;
-
 import java.util.*;
-
 import org.apache.commons.lang3.StringUtils;
 
-/**
- * CodegenModel represents a schema object in a OpenAPI document.
- */
+/** CodegenModel represents a schema object in a OpenAPI document. */
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel implements IJsonSchemaValidationProperties {
-    // The parent model name from the schemas. The parent is determined by inspecting the allOf, anyOf and
+    // The parent model name from the schemas. The parent is determined by inspecting the allOf,
+    // anyOf and
     // oneOf attributes in the OAS. First codegen inspects 'allOf', then 'anyOf', then 'oneOf'.
-    // If there are multiple object references in the attribute ('allOf', 'anyOf', 'oneOf'), and one of the
-    // object is a discriminator, that object is set as the parent. If no discriminator is specified,
-    // codegen returns the first one in the list, i.e. there is no obvious parent in the OpenAPI specification.
+    // If there are multiple object references in the attribute ('allOf', 'anyOf', 'oneOf'), and one
+    // of the
+    // object is a discriminator, that object is set as the parent. If no discriminator is
+    // specified,
+    // codegen returns the first one in the list, i.e. there is no obvious parent in the OpenAPI
+    // specification.
     // When possible, the mustache templates should use 'allParents' to handle multiple parents.
     public String parent, parentSchema;
     public List<String> interfaces;
-    // The list of parent model name from the schemas. In order of preference, the parent is obtained
+    // The list of parent model name from the schemas. In order of preference, the parent is
+    // obtained
     // from the 'allOf' attribute, then 'anyOf', and finally 'oneOf'.
     public List<String> allParents;
 
-    // References to parent and interface CodegenModels. Only set when code generator supports inheritance.
+    // References to parent and interface CodegenModels. Only set when code generator supports
+    // inheritance.
     public CodegenModel parentModel;
     public List<CodegenModel> interfaceModels;
     public List<CodegenModel> children;
@@ -55,7 +57,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String name;
     // The language-specific name of the class that implements this schema.
     // The name of the class is derived from the OpenAPI schema name with formatting rules applied.
-    // The classname is derived from the OpenAPI schema name, with sanitization and escaping rules applied.
+    // The classname is derived from the OpenAPI schema name, with sanitization and escaping rules
+    // applied.
     public String classname;
     // The value of the 'title' attribute in the OpenAPI document.
     public String title;
@@ -66,17 +69,34 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String defaultValue;
     public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
-    public boolean isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble, isDate, isDateTime, isDecimal, isShort, isUnboundedInteger, isPrimitiveType, isBoolean;
+    public boolean isString,
+            isInteger,
+            isLong,
+            isNumber,
+            isNumeric,
+            isFloat,
+            isDouble,
+            isDate,
+            isDateTime,
+            isDecimal,
+            isShort,
+            isUnboundedInteger,
+            isPrimitiveType,
+            isBoolean;
     private boolean additionalPropertiesIsAnyType;
-    public List<CodegenProperty> vars = new ArrayList<>(); // all properties (without parent's properties)
-    public List<CodegenProperty> allVars = new ArrayList<>(); // all properties (with parent's properties)
+    public List<CodegenProperty> vars =
+            new ArrayList<>(); // all properties (without parent's properties)
+    public List<CodegenProperty> allVars =
+            new ArrayList<>(); // all properties (with parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<>(); // a list of required properties
     public List<CodegenProperty> optionalVars = new ArrayList<>(); // a list of optional properties
     public List<CodegenProperty> readOnlyVars = new ArrayList<>(); // a list of read-only properties
-    public List<CodegenProperty> readWriteVars = new ArrayList<>(); // a list of properties for read, write
+    public List<CodegenProperty> readWriteVars =
+            new ArrayList<>(); // a list of properties for read, write
     public List<CodegenProperty> parentVars = new ArrayList<>();
     public List<CodegenProperty> parentRequiredVars = new ArrayList<>();
-    public List<CodegenProperty> nonNullableVars = new ArrayList<>(); // a list of non-nullable properties
+    public List<CodegenProperty> nonNullableVars =
+            new ArrayList<>(); // a list of non-nullable properties
     public Map<String, Object> allowableValues;
 
     // Sorted sets of required parameters.
@@ -85,27 +105,25 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public Set<String> imports = new TreeSet<>();
     public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasValidation;
-    /**
-     * Indicates the OAS schema specifies "nullable: true".
-     */
+
+    /** Indicates the OAS schema specifies "nullable: true". */
     public boolean isNullable;
-    /**
-     * Indicates the type has at least one required property.
-     */
+
+    /** Indicates the type has at least one required property. */
     public boolean hasRequired;
-    /**
-     * Indicates the type has at least one optional property.
-     */
+
+    /** Indicates the type has at least one optional property. */
     public boolean hasOptional;
+
     public boolean isArray;
     public boolean hasChildren;
     public boolean isMap;
     public boolean isNull;
     public boolean isVoid = false;
-    /**
-     * Indicates the OAS schema specifies "deprecated: true".
-     */
+
+    /** Indicates the OAS schema specifies "deprecated: true". */
     public boolean isDeprecated;
+
     public boolean hasOnlyReadOnly = true; // true if all properties are read-only
     public ExternalDocumentation externalDocumentation;
 
@@ -121,35 +139,26 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private CodegenProperty contains;
 
     /**
-     * The type of the value for the additionalProperties keyword in the OAS document.
-     * Used in map like objects, including composed schemas.
+     * The type of the value for the additionalProperties keyword in the OAS document. Used in map
+     * like objects, including composed schemas.
      *
-     * In most programming languages, the additional (undeclared) properties are stored
-     * in a map data structure, such as HashMap in Java, map in golang, or a dict in Python.
-     * There are multiple ways to implement the additionalProperties keyword, depending
-     * on the programming language and mustache template.
-     * One way is to use class inheritance. For example in the generated Java code, the
-     * generated model class may extend from HashMap to store the additional properties.
-     * In that case 'CodegenModel.parent' is set to represent the class hierarchy.
-     * Another way is to use CodegenModel.additionalPropertiesType. A code generator
-     * such as Python does not use class inheritance to model additional properties.
+     * <p>In most programming languages, the additional (undeclared) properties are stored in a map
+     * data structure, such as HashMap in Java, map in golang, or a dict in Python. There are
+     * multiple ways to implement the additionalProperties keyword, depending on the programming
+     * language and mustache template. One way is to use class inheritance. For example in the
+     * generated Java code, the generated model class may extend from HashMap to store the
+     * additional properties. In that case 'CodegenModel.parent' is set to represent the class
+     * hierarchy. Another way is to use CodegenModel.additionalPropertiesType. A code generator such
+     * as Python does not use class inheritance to model additional properties.
      *
-     * For example, in the OAS schema below, the schema has a declared 'id' property
-     * and additional, undeclared properties of type 'integer' are allowed.
+     * <p>For example, in the OAS schema below, the schema has a declared 'id' property and
+     * additional, undeclared properties of type 'integer' are allowed.
      *
-     * type: object
-     * properties:
-     *   id:
-     *     type: integer
-     * additionalProperties:
-     *   type: integer
-     *
+     * <p>type: object properties: id: type: integer additionalProperties: type: integer
      */
     public String additionalPropertiesType;
 
-    /**
-     * True if additionalProperties is set to true (boolean value)
-     */
+    /** True if additionalProperties is set to true (boolean value) */
     public boolean isAdditionalPropertiesTrue;
 
     private Integer maxProperties;
@@ -327,9 +336,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     /**
-     * Return true if the classname property is sanitized, false if it is the same as the OpenAPI schema name.
-     * The OpenAPI schema name may be any valid JSON schema name, including non-ASCII characters.
-     * The name of the class may have to be sanitized with character escaping.
+     * Return true if the classname property is sanitized, false if it is the same as the OpenAPI
+     * schema name. The OpenAPI schema name may be any valid JSON schema name, including non-ASCII
+     * characters. The name of the class may have to be sanitized with character escaping.
      *
      * @return true if the classname property is sanitized
      */
@@ -370,41 +379,21 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     /**
-     * Returns the discriminator for this schema object, or null if no discriminator has been specified.
+     * Returns the discriminator for this schema object, or null if no discriminator has been
+     * specified.
      *
-     * The list of all possible schema discriminator mapping values is obtained
-     * from explicit discriminator mapping values in the OpenAPI document, and from
-     * inherited discriminators through oneOf, allOf, anyOf.
-     * For example, a discriminator may be defined in a 'Pet' schema as shown below.
-     * The Dog and Cat schemas inherit the discriminator through the allOf reference.
-     * In the 'Pet' schema, the supported discriminator mapping values for the
-     * 'objectType' properties are 'Dog' and 'Cat'.
-     * The allowed discriminator mapping value for the Dog schema is 'Dog'.
-     * The allowed discriminator mapping value for the Cat schema is 'Dog'.
+     * <p>The list of all possible schema discriminator mapping values is obtained from explicit
+     * discriminator mapping values in the OpenAPI document, and from inherited discriminators
+     * through oneOf, allOf, anyOf. For example, a discriminator may be defined in a 'Pet' schema as
+     * shown below. The Dog and Cat schemas inherit the discriminator through the allOf reference.
+     * In the 'Pet' schema, the supported discriminator mapping values for the 'objectType'
+     * properties are 'Dog' and 'Cat'. The allowed discriminator mapping value for the Dog schema is
+     * 'Dog'. The allowed discriminator mapping value for the Cat schema is 'Dog'.
      *
-     * Pet:
-     *   type: object
-     *   discriminator:
-     *     propertyName: objectType
-     *   required:
-     *     - objectType
-     *   properties:
-     *     objectType:
-     *     type: string
-     * Dog:
-     *   allOf:
-     *   - $ref: '#/components/schemas/Pet'
-     *   - type: object
-     *     properties:
-     *       p1:
-     *         type: string
-     * Cat:
-     *   allOf:
-     *   - $ref: '#/components/schemas/Pet'
-     *   - type: object
-     *     properties:
-     *       p2:
-     *         type: string
+     * <p>Pet: type: object discriminator: propertyName: objectType required: - objectType
+     * properties: objectType: type: string Dog: allOf: - $ref: '#/components/schemas/Pet' - type:
+     * object properties: p1: type: string Cat: allOf: - $ref: '#/components/schemas/Pet' - type:
+     * object properties: p2: type: string
      *
      * @return the discriminator.
      */
@@ -420,10 +409,10 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     /**
-     * Returns the name of the discriminator property for this schema in the OpenAPI document.
-     * In the OpenAPI document, the discriminator may be specified in the local schema or
-     * it may be inherited, such as through a 'allOf' schema which references another schema
-     * that has a discriminator, recursively.
+     * Returns the name of the discriminator property for this schema in the OpenAPI document. In
+     * the OpenAPI document, the discriminator may be specified in the local schema or it may be
+     * inherited, such as through a 'allOf' schema which references another schema that has a
+     * discriminator, recursively.
      *
      * @return the name of the discriminator property.
      */
@@ -927,7 +916,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public void setHasDiscriminatorWithNonEmptyMapping(boolean hasDiscriminatorWithNonEmptyMapping) {
+    public void setHasDiscriminatorWithNonEmptyMapping(
+            boolean hasDiscriminatorWithNonEmptyMapping) {
         this.hasDiscriminatorWithNonEmptyMapping = hasDiscriminatorWithNonEmptyMapping;
     }
 
@@ -961,9 +951,13 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.isAnyType = isAnyType;
     }
 
-    public boolean getIsUuid() { return isUuid; }
+    public boolean getIsUuid() {
+        return isUuid;
+    }
 
-    public void setIsUuid(boolean isUuid) { this.isUuid = isUuid; }
+    public void setIsUuid(boolean isUuid) {
+        this.isUuid = isUuid;
+    }
 
     @Override
     public void setComposedSchemas(CodegenComposedSchemas composedSchemas) {
@@ -990,127 +984,213 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         if (this == o) return true;
         if (!(o instanceof CodegenModel)) return false;
         CodegenModel that = (CodegenModel) o;
-        return isAlias == that.isAlias &&
-                isString == that.isString &&
-                isInteger == that.isInteger &&
-                isShort == that.isShort &&
-                isLong == that.isLong &&
-                isUnboundedInteger == that.isUnboundedInteger &&
-                isBoolean == that.isBoolean &&
-                isNumber == that.isNumber &&
-                isNumeric == that.isNumeric &&
-                isFloat == that.isFloat &&
-                isDouble == that.isDouble &&
-                isDate == that.isDate &&
-                isDateTime == that.isDateTime &&
-                hasVars == that.hasVars &&
-                emptyVars == that.emptyVars &&
-                hasMoreModels == that.hasMoreModels &&
-                hasEnums == that.hasEnums &&
-                isEnum == that.isEnum &&
-                isNullable == that.isNullable &&
-                hasRequired == that.hasRequired &&
-                hasOptional == that.hasOptional &&
-                isArray == that.isArray &&
-                hasChildren == that.hasChildren &&
-                isMap == that.isMap &&
-                isDeprecated == that.isDeprecated &&
-                hasOnlyReadOnly == that.hasOnlyReadOnly &&
-                isNull == that.isNull &&
-                hasValidation == that.hasValidation &&
-                isDecimal == that.isDecimal &&
-                hasMultipleTypes == that.getHasMultipleTypes() &&
-                hasDiscriminatorWithNonEmptyMapping == that.getHasDiscriminatorWithNonEmptyMapping() &&
-                isUuid == that.getIsUuid() &&
-                isBooleanSchemaTrue == that.getIsBooleanSchemaTrue() &&
-                isBooleanSchemaFalse == that.getIsBooleanSchemaFalse() &&
-                getSchemaIsFromAdditionalProperties() == that.getSchemaIsFromAdditionalProperties() &&
-                getIsAnyType() == that.getIsAnyType() &&
-                getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
-                getUniqueItems() == that.getUniqueItems() &&
-                getExclusiveMinimum() == that.getExclusiveMinimum() &&
-                getExclusiveMaximum() == that.getExclusiveMaximum() &&
-                Objects.equals(contains, that.getContains()) &&
-                Objects.equals(dependentRequired, that.getDependentRequired()) &&
-                Objects.equals(format, that.getFormat()) &&
-                Objects.equals(uniqueItemsBoolean, that.getUniqueItemsBoolean()) &&
-                Objects.equals(ref, that.getRef()) &&
-                Objects.equals(requiredVarsMap, that.getRequiredVarsMap()) &&
-                Objects.equals(composedSchemas, that.composedSchemas) &&
-                Objects.equals(parent, that.parent) &&
-                Objects.equals(parentSchema, that.parentSchema) &&
-                Objects.equals(interfaces, that.interfaces) &&
-                Objects.equals(allParents, that.allParents) &&
-                Objects.equals(parentModel, that.parentModel) &&
-                Objects.equals(interfaceModels, that.interfaceModels) &&
-                Objects.equals(children, that.children) &&
-                Objects.equals(anyOf, that.anyOf) &&
-                Objects.equals(oneOf, that.oneOf) &&
-                Objects.equals(allOf, that.allOf) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(classname, that.classname) &&
-                Objects.equals(title, that.title) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(classVarName, that.classVarName) &&
-                Objects.equals(modelJson, that.modelJson) &&
-                Objects.equals(dataType, that.dataType) &&
-                Objects.equals(xmlPrefix, that.xmlPrefix) &&
-                Objects.equals(xmlNamespace, that.xmlNamespace) &&
-                Objects.equals(xmlName, that.xmlName) &&
-                Objects.equals(classFilename, that.classFilename) &&
-                Objects.equals(unescapedDescription, that.unescapedDescription) &&
-                Objects.equals(discriminator, that.discriminator) &&
-                Objects.equals(defaultValue, that.defaultValue) &&
-                Objects.equals(arrayModelType, that.arrayModelType) &&
-                Objects.equals(vars, that.vars) &&
-                Objects.equals(allVars, that.allVars) &&
-                Objects.equals(nonNullableVars, that.nonNullableVars) &&
-                Objects.equals(requiredVars, that.requiredVars) &&
-                Objects.equals(optionalVars, that.optionalVars) &&
-                Objects.equals(readOnlyVars, that.readOnlyVars) &&
-                Objects.equals(readWriteVars, that.readWriteVars) &&
-                Objects.equals(parentVars, that.parentVars) &&
-                Objects.equals(allowableValues, that.allowableValues) &&
-                Objects.equals(mandatory, that.mandatory) &&
-                Objects.equals(allMandatory, that.allMandatory) &&
-                Objects.equals(imports, that.imports) &&
-                Objects.equals(externalDocumentation, that.externalDocumentation) &&
-                Objects.equals(vendorExtensions, that.vendorExtensions) &&
-                Objects.equals(additionalPropertiesType, that.additionalPropertiesType) &&
-                Objects.equals(getMaxProperties(), that.getMaxProperties()) &&
-                Objects.equals(getMinProperties(), that.getMinProperties()) &&
-                Objects.equals(getMaxItems(), that.getMaxItems()) &&
-                Objects.equals(getMinItems(), that.getMinItems()) &&
-                Objects.equals(getMaxLength(), that.getMaxLength()) &&
-                Objects.equals(getMinLength(), that.getMinLength()) &&
-                Objects.equals(getMinimum(), that.getMinimum()) &&
-                Objects.equals(getMaximum(), that.getMaximum()) &&
-                Objects.equals(getPattern(), that.getPattern()) &&
-                Objects.equals(getItems(), that.getItems()) &&
-                Objects.equals(getAdditionalProperties(), that.getAdditionalProperties()) &&
-                Objects.equals(getIsModel(), that.getIsModel()) &&
-                Objects.equals(getMultipleOf(), that.getMultipleOf());
+        return isAlias == that.isAlias
+                && isString == that.isString
+                && isInteger == that.isInteger
+                && isShort == that.isShort
+                && isLong == that.isLong
+                && isUnboundedInteger == that.isUnboundedInteger
+                && isBoolean == that.isBoolean
+                && isNumber == that.isNumber
+                && isNumeric == that.isNumeric
+                && isFloat == that.isFloat
+                && isDouble == that.isDouble
+                && isDate == that.isDate
+                && isDateTime == that.isDateTime
+                && hasVars == that.hasVars
+                && emptyVars == that.emptyVars
+                && hasMoreModels == that.hasMoreModels
+                && hasEnums == that.hasEnums
+                && isEnum == that.isEnum
+                && isNullable == that.isNullable
+                && hasRequired == that.hasRequired
+                && hasOptional == that.hasOptional
+                && isArray == that.isArray
+                && hasChildren == that.hasChildren
+                && isMap == that.isMap
+                && isDeprecated == that.isDeprecated
+                && hasOnlyReadOnly == that.hasOnlyReadOnly
+                && isNull == that.isNull
+                && hasValidation == that.hasValidation
+                && isDecimal == that.isDecimal
+                && hasMultipleTypes == that.getHasMultipleTypes()
+                && hasDiscriminatorWithNonEmptyMapping
+                        == that.getHasDiscriminatorWithNonEmptyMapping()
+                && isUuid == that.getIsUuid()
+                && isBooleanSchemaTrue == that.getIsBooleanSchemaTrue()
+                && isBooleanSchemaFalse == that.getIsBooleanSchemaFalse()
+                && getSchemaIsFromAdditionalProperties()
+                        == that.getSchemaIsFromAdditionalProperties()
+                && getIsAnyType() == that.getIsAnyType()
+                && getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType()
+                && getUniqueItems() == that.getUniqueItems()
+                && getExclusiveMinimum() == that.getExclusiveMinimum()
+                && getExclusiveMaximum() == that.getExclusiveMaximum()
+                && Objects.equals(contains, that.getContains())
+                && Objects.equals(dependentRequired, that.getDependentRequired())
+                && Objects.equals(format, that.getFormat())
+                && Objects.equals(uniqueItemsBoolean, that.getUniqueItemsBoolean())
+                && Objects.equals(ref, that.getRef())
+                && Objects.equals(requiredVarsMap, that.getRequiredVarsMap())
+                && Objects.equals(composedSchemas, that.composedSchemas)
+                && Objects.equals(parent, that.parent)
+                && Objects.equals(parentSchema, that.parentSchema)
+                && Objects.equals(interfaces, that.interfaces)
+                && Objects.equals(allParents, that.allParents)
+                && Objects.equals(parentModel, that.parentModel)
+                && Objects.equals(interfaceModels, that.interfaceModels)
+                && Objects.equals(children, that.children)
+                && Objects.equals(anyOf, that.anyOf)
+                && Objects.equals(oneOf, that.oneOf)
+                && Objects.equals(allOf, that.allOf)
+                && Objects.equals(name, that.name)
+                && Objects.equals(classname, that.classname)
+                && Objects.equals(title, that.title)
+                && Objects.equals(description, that.description)
+                && Objects.equals(classVarName, that.classVarName)
+                && Objects.equals(modelJson, that.modelJson)
+                && Objects.equals(dataType, that.dataType)
+                && Objects.equals(xmlPrefix, that.xmlPrefix)
+                && Objects.equals(xmlNamespace, that.xmlNamespace)
+                && Objects.equals(xmlName, that.xmlName)
+                && Objects.equals(classFilename, that.classFilename)
+                && Objects.equals(unescapedDescription, that.unescapedDescription)
+                && Objects.equals(discriminator, that.discriminator)
+                && Objects.equals(defaultValue, that.defaultValue)
+                && Objects.equals(arrayModelType, that.arrayModelType)
+                && Objects.equals(vars, that.vars)
+                && Objects.equals(allVars, that.allVars)
+                && Objects.equals(nonNullableVars, that.nonNullableVars)
+                && Objects.equals(requiredVars, that.requiredVars)
+                && Objects.equals(optionalVars, that.optionalVars)
+                && Objects.equals(readOnlyVars, that.readOnlyVars)
+                && Objects.equals(readWriteVars, that.readWriteVars)
+                && Objects.equals(parentVars, that.parentVars)
+                && Objects.equals(allowableValues, that.allowableValues)
+                && Objects.equals(mandatory, that.mandatory)
+                && Objects.equals(allMandatory, that.allMandatory)
+                && Objects.equals(imports, that.imports)
+                && Objects.equals(externalDocumentation, that.externalDocumentation)
+                && Objects.equals(vendorExtensions, that.vendorExtensions)
+                && Objects.equals(additionalPropertiesType, that.additionalPropertiesType)
+                && Objects.equals(getMaxProperties(), that.getMaxProperties())
+                && Objects.equals(getMinProperties(), that.getMinProperties())
+                && Objects.equals(getMaxItems(), that.getMaxItems())
+                && Objects.equals(getMinItems(), that.getMinItems())
+                && Objects.equals(getMaxLength(), that.getMaxLength())
+                && Objects.equals(getMinLength(), that.getMinLength())
+                && Objects.equals(getMinimum(), that.getMinimum())
+                && Objects.equals(getMaximum(), that.getMaximum())
+                && Objects.equals(getPattern(), that.getPattern())
+                && Objects.equals(getItems(), that.getItems())
+                && Objects.equals(getAdditionalProperties(), that.getAdditionalProperties())
+                && Objects.equals(getIsModel(), that.getIsModel())
+                && Objects.equals(getMultipleOf(), that.getMultipleOf());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getParent(), getParentSchema(), getInterfaces(), getAllParents(), getParentModel(),
-                getInterfaceModels(), getChildren(), anyOf, oneOf, allOf, getName(), getClassname(), getTitle(),
-                getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
-                getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
-                getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
-                isDate, isDateTime, isNull, hasValidation, isShort, isUnboundedInteger, isBoolean,
-                getVars(), getAllVars(), getNonNullableVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
-                getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
-                isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArray,
-                hasChildren, isMap, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
-                getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
-                getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
-                getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
-                getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping,
-                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid, requiredVarsMap, ref,
-                uniqueItemsBoolean, schemaIsFromAdditionalProperties, isBooleanSchemaTrue, isBooleanSchemaFalse,
-                format, dependentRequired, contains);
+        return Objects.hash(
+                getParent(),
+                getParentSchema(),
+                getInterfaces(),
+                getAllParents(),
+                getParentModel(),
+                getInterfaceModels(),
+                getChildren(),
+                anyOf,
+                oneOf,
+                allOf,
+                getName(),
+                getClassname(),
+                getTitle(),
+                getDescription(),
+                getClassVarName(),
+                getModelJson(),
+                getDataType(),
+                getXmlPrefix(),
+                getXmlNamespace(),
+                getXmlName(),
+                getClassFilename(),
+                getUnescapedDescription(),
+                getDiscriminator(),
+                getDefaultValue(),
+                getArrayModelType(),
+                isAlias,
+                isString,
+                isInteger,
+                isLong,
+                isNumber,
+                isNumeric,
+                isFloat,
+                isDouble,
+                isDate,
+                isDateTime,
+                isNull,
+                hasValidation,
+                isShort,
+                isUnboundedInteger,
+                isBoolean,
+                getVars(),
+                getAllVars(),
+                getNonNullableVars(),
+                getRequiredVars(),
+                getOptionalVars(),
+                getReadOnlyVars(),
+                getReadWriteVars(),
+                getParentVars(),
+                getAllowableValues(),
+                getMandatory(),
+                getAllMandatory(),
+                getImports(),
+                hasVars,
+                isEmptyVars(),
+                hasMoreModels,
+                hasEnums,
+                isEnum,
+                isNullable,
+                hasRequired,
+                hasOptional,
+                isArray,
+                hasChildren,
+                isMap,
+                isDeprecated,
+                hasOnlyReadOnly,
+                getExternalDocumentation(),
+                getVendorExtensions(),
+                getAdditionalPropertiesType(),
+                getMaxProperties(),
+                getMinProperties(),
+                getUniqueItems(),
+                getMaxItems(),
+                getMinItems(),
+                getMaxLength(),
+                getMinLength(),
+                getExclusiveMinimum(),
+                getExclusiveMaximum(),
+                getMinimum(),
+                getMaximum(),
+                getPattern(),
+                getMultipleOf(),
+                getItems(),
+                getAdditionalProperties(),
+                getIsModel(),
+                getAdditionalPropertiesIsAnyType(),
+                hasDiscriminatorWithNonEmptyMapping,
+                isAnyType,
+                getComposedSchemas(),
+                hasMultipleTypes,
+                isDecimal,
+                isUuid,
+                requiredVarsMap,
+                ref,
+                uniqueItemsBoolean,
+                schemaIsFromAdditionalProperties,
+                isBooleanSchemaTrue,
+                isBooleanSchemaFalse,
+                format,
+                dependentRequired,
+                contains);
     }
 
     @Override
@@ -1120,7 +1200,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", parent='").append(parent).append('\'');
         sb.append(", parentSchema='").append(parentSchema).append('\'');
         sb.append(", interfaces=").append(interfaces);
-        sb.append(", interfaceModels=").append(interfaceModels !=null ? interfaceModels.size() : "[]");
+        sb.append(", interfaceModels=")
+                .append(interfaceModels != null ? interfaceModels.size() : "[]");
         sb.append(", allParents=").append(allParents);
         sb.append(", parentModel=").append(parentModel);
         sb.append(", children=").append(children != null ? children.size() : "[]");
@@ -1202,7 +1283,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isNull='").append(isNull);
         sb.append(", hasValidation='").append(hasValidation);
         sb.append(", getAdditionalPropertiesIsAnyType=").append(getAdditionalPropertiesIsAnyType());
-        sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
+        sb.append(", getHasDiscriminatorWithNonEmptyMapping=")
+                .append(hasDiscriminatorWithNonEmptyMapping);
         sb.append(", getIsAnyType=").append(getIsAnyType());
         sb.append(", composedSchemas=").append(composedSchemas);
         sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
@@ -1230,10 +1312,13 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
             return;
         }
 
-        if (cleanUpMappedModels && !this.hasChildren && // no child
-                (this.oneOf == null || this.oneOf.isEmpty()) && // not oneOf
+        if (cleanUpMappedModels
+                && !this.hasChildren
+                && // no child
+                (this.oneOf == null || this.oneOf.isEmpty())
+                && // not oneOf
                 (this.anyOf == null || this.anyOf.isEmpty())) { // not anyOf
-            //clear the mapping
+            // clear the mapping
             discriminator.setMappedModels(null);
             return;
         }
@@ -1259,14 +1344,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public Map<String, CodegenProperty> getRequiredVarsMap() { return requiredVarsMap; }
+    public Map<String, CodegenProperty> getRequiredVarsMap() {
+        return requiredVarsMap;
+    }
 
     @Override
-    public void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap) { this.requiredVarsMap=requiredVarsMap; }
+    public void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap) {
+        this.requiredVarsMap = requiredVarsMap;
+    }
 
-    /**
-     * Remove duplicated properties in all variable list
-     */
+    /** Remove duplicated properties in all variable list */
     public void removeAllDuplicatedProperty() {
         // remove duplicated properties
         vars = removeDuplicatedProperty(vars);
@@ -1304,17 +1391,17 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         return newList;
     }
 
-    /**
-     * Remove self reference import
-     */
+    /** Remove self reference import */
     public void removeSelfReferenceImport() {
         for (CodegenProperty cp : allVars) {
             if (cp == null) {
                 // TODO cp shouldn't be null. Show a warning message instead
             } else {
                 // detect self import
-                if (this.classname.equalsIgnoreCase(cp.dataType) ||
-                        (cp.isContainer && cp.items != null && this.classname.equalsIgnoreCase(cp.items.dataType))) {
+                if (this.classname.equalsIgnoreCase(cp.dataType)
+                        || (cp.isContainer
+                                && cp.items != null
+                                && this.classname.equalsIgnoreCase(cp.items.dataType))) {
                     this.imports.remove(this.classname); // remove self import
                     cp.isSelfReference = true;
                 }

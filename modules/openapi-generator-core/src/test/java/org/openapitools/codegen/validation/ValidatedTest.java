@@ -16,19 +16,19 @@
 
 package org.openapitools.codegen.validation;
 
-import org.testng.annotations.Test;
-
 import static org.testng.Assert.*;
+
+import org.testng.annotations.Test;
 
 public class ValidatedTest {
     @Test
-    public void isValidTrueForValidType(){
+    public void isValidTrueForValidType() {
         boolean isValid = Validated.valid(ValidationRule.empty()).isValid();
         assertTrue(isValid);
     }
 
     @Test
-    public void isValidFalseForInvalidType(){
+    public void isValidFalseForInvalidType() {
         boolean isValid = Validated.invalid(ValidationRule.empty(), "test").isValid();
         assertFalse(isValid);
     }

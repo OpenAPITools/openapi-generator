@@ -17,13 +17,13 @@
 
 package org.openapitools.codegen.dart;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.DartClientCodegen;
 import org.openapitools.codegen.options.DartClientOptionsProvider;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class DartClientOptionsTest extends AbstractOptionsTest {
     private DartClientCodegen clientCodegen = mock(DartClientCodegen.class, mockSettings);
@@ -40,7 +40,9 @@ public class DartClientOptionsTest extends AbstractOptionsTest {
     @SuppressWarnings("unused")
     @Override
     protected void verifyOptions() {
-        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(DartClientOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen)
+                .setSortParamsByRequiredFlag(
+                        Boolean.valueOf(DartClientOptionsProvider.SORT_PARAMS_VALUE));
         verify(clientCodegen).setPubLibrary(DartClientOptionsProvider.PUB_LIBRARY_VALUE);
         verify(clientCodegen).setPubName(DartClientOptionsProvider.PUB_NAME_VALUE);
         verify(clientCodegen).setPubVersion(DartClientOptionsProvider.PUB_VERSION_VALUE);
@@ -51,7 +53,12 @@ public class DartClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setPubRepository(DartClientOptionsProvider.PUB_REPOSITORY_VALUE);
         verify(clientCodegen).setPubPublishTo(DartClientOptionsProvider.PUB_PUBLISH_TO_VALUE);
         verify(clientCodegen).setSourceFolder(DartClientOptionsProvider.SOURCE_FOLDER_VALUE);
-        verify(clientCodegen).setUseEnumExtension(Boolean.parseBoolean(DartClientOptionsProvider.USE_ENUM_EXTENSION));
-        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(DartClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen)
+                .setUseEnumExtension(
+                        Boolean.parseBoolean(DartClientOptionsProvider.USE_ENUM_EXTENSION));
+        verify(clientCodegen)
+                .setEnumUnknownDefaultCase(
+                        Boolean.parseBoolean(
+                                DartClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

@@ -18,23 +18,22 @@ package org.openapitools.codegen.templating;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import org.openapitools.codegen.api.TemplatingEngineAdapter;
-import org.openapitools.codegen.api.TemplatingExecutor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.Map;
-
+import org.openapitools.codegen.api.TemplatingEngineAdapter;
+import org.openapitools.codegen.api.TemplatingExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MustacheEngineAdapter implements TemplatingEngineAdapter {
 
     private final Logger LOGGER = LoggerFactory.getLogger(TemplatingEngineAdapter.class);
 
     /**
-     * Provides an identifier used to load the adapter. This could be a name, uuid, or any other string.
+     * Provides an identifier used to load the adapter. This could be a name, uuid, or any other
+     * string.
      *
      * @return A string identifier.
      */
@@ -49,18 +48,21 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
     /**
      * Compiles a template into a string
      *
-     * @param executor    From where we can fetch the templates content (e.g. an instance of DefaultGenerator)
-     * @param bundle       The map of values to pass to the template
+     * @param executor From where we can fetch the templates content (e.g. an instance of
+     *     DefaultGenerator)
+     * @param bundle The map of values to pass to the template
      * @param templateFile The name of the template (e.g. model.mustache )
      * @return the processed template result
      * @throws IOException an error occurred in the template processing
      */
     @Override
-    public String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle, String templateFile) throws IOException {
-        Template tmpl = compiler
-                .withLoader(name -> findTemplate(executor, name))
-                .defaultValue("")
-                .compile(executor.getFullTemplateContents(templateFile));
+    public String compileTemplate(
+            TemplatingExecutor executor, Map<String, Object> bundle, String templateFile)
+            throws IOException {
+        Template tmpl =
+                compiler.withLoader(name -> findTemplate(executor, name))
+                        .defaultValue("")
+                        .compile(executor.getFullTemplateContents(templateFile));
 
         return tmpl.execute(bundle);
     }
@@ -72,7 +74,10 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
             try {
                 return new StringReader(generator.getFullTemplateContents(templateName));
             } catch (Exception exception) {
-                LOGGER.error("Failed to read full template {}, {}", templateName, exception.getMessage());
+                LOGGER.error(
+                        "Failed to read full template {}, {}",
+                        templateName,
+                        exception.getMessage());
             }
         }
 

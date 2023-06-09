@@ -1,7 +1,6 @@
 package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.examples.Example;
-
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -13,7 +12,10 @@ public class CodegenMediaType {
     private HashMap<String, SchemaTestCase> testCases = new HashMap<>();
     private Map<String, Example> examples = null;
 
-    public CodegenMediaType(CodegenProperty schema, LinkedHashMap<String, CodegenEncoding> encoding, HashMap<String, SchemaTestCase> testCases) {
+    public CodegenMediaType(
+            CodegenProperty schema,
+            LinkedHashMap<String, CodegenEncoding> encoding,
+            HashMap<String, SchemaTestCase> testCases) {
         this.schema = schema;
         this.encoding = encoding;
         if (testCases != null) {
@@ -21,7 +23,11 @@ public class CodegenMediaType {
         }
     }
 
-    public CodegenMediaType(CodegenProperty schema, LinkedHashMap<String, CodegenEncoding> encoding, HashMap<String, SchemaTestCase> testCases, Map<String, Example> examples) {
+    public CodegenMediaType(
+            CodegenProperty schema,
+            LinkedHashMap<String, CodegenEncoding> encoding,
+            HashMap<String, SchemaTestCase> testCases,
+            Map<String, Example> examples) {
         this(schema, encoding, testCases);
         this.examples = examples;
     }
@@ -34,7 +40,9 @@ public class CodegenMediaType {
         return encoding;
     }
 
-    public HashMap<String, SchemaTestCase> getTestCases() { return testCases; }
+    public HashMap<String, SchemaTestCase> getTestCases() {
+        return testCases;
+    }
 
     public Map<String, Example> getExamples() {
         return examples;
@@ -52,8 +60,8 @@ public class CodegenMediaType {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CodegenMediaType that = (CodegenMediaType) o;
-        return Objects.equals(schema,that.getSchema()) &&
-                Objects.equals(encoding, that.getEncoding());
+        return Objects.equals(schema, that.getSchema())
+                && Objects.equals(encoding, that.getEncoding());
     }
 
     @Override
@@ -61,5 +69,3 @@ public class CodegenMediaType {
         return Objects.hash(schema, encoding);
     }
 }
-
-

@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen.typescript.aurelia;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptAureliaClientCodegen;
@@ -24,12 +27,10 @@ import org.openapitools.codegen.options.TypeScriptAureliaClientOptionsProvider;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_AURELIA})
 public class TypeScriptAureliaClientOptionsTest extends AbstractOptionsTest {
-    private TypeScriptAureliaClientCodegen clientCodegen = mock(TypeScriptAureliaClientCodegen.class, mockSettings);
+    private TypeScriptAureliaClientCodegen clientCodegen =
+            mock(TypeScriptAureliaClientCodegen.class, mockSettings);
 
     public TypeScriptAureliaClientOptionsTest() {
         super(new TypeScriptAureliaClientOptionsProvider());
@@ -43,11 +44,25 @@ public class TypeScriptAureliaClientOptionsTest extends AbstractOptionsTest {
     @SuppressWarnings("unused")
     @Override
     protected void verifyOptions() {
-        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptAureliaClientOptionsProvider.SORT_PARAMS_VALUE));
-        verify(clientCodegen).setModelPropertyNaming(TypeScriptAureliaClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
-        verify(clientCodegen).setParamNaming(TypeScriptAureliaClientOptionsProvider.PARAM_NAMING_VALUE);
-        verify(clientCodegen).setSupportsES6(TypeScriptAureliaClientOptionsProvider.SUPPORTS_ES6_VALUE);
-        verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptAureliaClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
-        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(TypeScriptAureliaClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen)
+                .setSortParamsByRequiredFlag(
+                        Boolean.valueOf(TypeScriptAureliaClientOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen)
+                .setModelPropertyNaming(
+                        TypeScriptAureliaClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
+        verify(clientCodegen)
+                .setParamNaming(TypeScriptAureliaClientOptionsProvider.PARAM_NAMING_VALUE);
+        verify(clientCodegen)
+                .setSupportsES6(TypeScriptAureliaClientOptionsProvider.SUPPORTS_ES6_VALUE);
+        verify(clientCodegen)
+                .setPrependFormOrBodyParameters(
+                        Boolean.valueOf(
+                                TypeScriptAureliaClientOptionsProvider
+                                        .PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
+        verify(clientCodegen)
+                .setEnumUnknownDefaultCase(
+                        Boolean.parseBoolean(
+                                TypeScriptAureliaClientOptionsProvider
+                                        .ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

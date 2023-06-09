@@ -44,8 +44,10 @@ public class IgnoreLineParser {
         }
     }
 
-    // NOTE: Comments that start with a : (e.g. //:) are pulled from git documentation for .gitignore
-    // see: https://github.com/git/git/blob/90f7b16b3adc78d4bbabbd426fb69aa78c714f71/Documentation/gitignore.txt
+    // NOTE: Comments that start with a : (e.g. //:) are pulled from git documentation for
+    // .gitignore
+    // see:
+    // https://github.com/git/git/blob/90f7b16b3adc78d4bbabbd426fb69aa78c714f71/Documentation/gitignore.txt
     static List<Part> parse(String text) throws ParserException {
         List<Part> parts = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
@@ -60,7 +62,7 @@ public class IgnoreLineParser {
 
             if (i == 0) {
                 if ("#".equals(current)) {
-                    //: A line starting with # serves as a comment.
+                    // : A line starting with # serves as a comment.
                     parts.add(new Part(Token.COMMENT, text));
                     i = totalLength; // rather than early return
                     continue;
@@ -72,9 +74,10 @@ public class IgnoreLineParser {
                         continue;
                     }
                 } else if ("\\".equals(current) && "#".equals(next)) {
-                    //: Put a backslash ("`\`") in front of the first hash for patterns
-                    //: that begin with a hash.
-                    // NOTE: Just push forward and drop the escape character. Falls through to TEXT token.
+                    // : Put a backslash ("`\`") in front of the first hash for patterns
+                    // : that begin with a hash.
+                    // NOTE: Just push forward and drop the escape character. Falls through to TEXT
+                    // token.
                     current = next;
                     next = null;
                     i++;
@@ -85,8 +88,8 @@ public class IgnoreLineParser {
 
                 if (Token.MATCH_ANY.pattern.equals(next)) {
                     // peek ahead for invalid pattern. Slightly inefficient, but acceptable.
-                    if ((i+2 < totalLength - 1) &&
-                            String.valueOf(characters[i+2]).equals(Token.MATCH_ANY.pattern)) {
+                    if ((i + 2 < totalLength - 1)
+                            && String.valueOf(characters[i + 2]).equals(Token.MATCH_ANY.pattern)) {
                         // It doesn't matter where we are in the pattern, *** is invalid.
                         throw new ParserException("The pattern *** is invalid.");
                     }
@@ -97,7 +100,8 @@ public class IgnoreLineParser {
                 } else {
 
                     if (sb.length() > 0) {
-                        // A MATCH_ANY may commonly follow a filename or some other character. Dump that to results before the MATCH_ANY.
+                        // A MATCH_ANY may commonly follow a filename or some other character. Dump
+                        // that to results before the MATCH_ANY.
                         parts.add(new Part(Token.TEXT, sb.toString()));
                         sb.delete(0, sb.length());
                     }
@@ -130,8 +134,9 @@ public class IgnoreLineParser {
                     }
 
                     parts.add(new Part(Token.PATH_DELIM));
-                    if(Token.PATH_DELIM.pattern.equals(next)) {
-                        // ignore doubled path delims. NOTE: doesn't do full lookahead, so /// will result in //
+                    if (Token.PATH_DELIM.pattern.equals(next)) {
+                        // ignore doubled path delims. NOTE: doesn't do full lookahead, so /// will
+                        // result in //
                         i++;
                     }
                     continue;
@@ -149,7 +154,7 @@ public class IgnoreLineParser {
 
         if (sb.length() > 0) {
             // NOTE: All spaces escaped spaces are a special token, ESCAPED_SPACE
-            //: Trailing spaces are ignored unless they are quoted with backslash ("`\`")
+            // : Trailing spaces are ignored unless they are quoted with backslash ("`\`")
             parts.add(new Part(Token.TEXT, sb.toString().trim()));
         }
 

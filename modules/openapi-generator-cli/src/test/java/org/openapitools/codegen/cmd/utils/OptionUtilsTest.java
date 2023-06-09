@@ -17,16 +17,15 @@
 
 package org.openapitools.codegen.cmd.utils;
 
-import org.openapitools.codegen.utils.OptionUtils;
-import org.apache.commons.lang3.tuple.Pair;
-import org.testng.annotations.Test;
-
-import java.util.Collections;
-import java.util.List;
-
 import static java.util.Arrays.asList;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+
+import java.util.Collections;
+import java.util.List;
+import org.apache.commons.lang3.tuple.Pair;
+import org.openapitools.codegen.utils.OptionUtils;
+import org.testng.annotations.Test;
 
 @SuppressWarnings("static-method")
 public class OptionUtilsTest {
@@ -41,21 +40,20 @@ public class OptionUtilsTest {
 
     @Test
     public void testParseCommaSeparatedTuples() throws Exception {
-        doTupleListTest("a=1,b=2,c=3",
-                asList(Pair.of("a", "1"), Pair.of("b", "2"), Pair.of("c", "3")));
+        doTupleListTest(
+                "a=1,b=2,c=3", asList(Pair.of("a", "1"), Pair.of("b", "2"), Pair.of("c", "3")));
         doTupleListTest("xyz", asList(Pair.of("xyz", "")));
         doTupleListTest("a=1,,c=3", asList(Pair.of("a", "1"), Pair.of("c", "3")));
-        doTupleListTest("a=1,xyz=,c=3",
-                asList(Pair.of("a", "1"), Pair.of("xyz", ""), Pair.of("c", "3")));
-        doTupleListTest("a=1,xyz,c=3",
-                asList(Pair.of("a", "1"), Pair.of("xyz", ""), Pair.of("c", "3")));
+        doTupleListTest(
+                "a=1,xyz=,c=3", asList(Pair.of("a", "1"), Pair.of("xyz", ""), Pair.of("c", "3")));
+        doTupleListTest(
+                "a=1,xyz,c=3", asList(Pair.of("a", "1"), Pair.of("xyz", ""), Pair.of("c", "3")));
         doTupleListTest("a=1,=,c=3", asList(Pair.of("a", "1"), Pair.of("c", "3")));
         doTupleListTest("", emptyPairList());
         doTupleListTest(null, emptyPairList());
-        doTupleListTest("a=1,b=2,c=\"3,4,5\"",
-                asList(Pair.of("a", "1"), Pair.of("b", "2"),
-                        Pair.of("c", "\"3,4,5\"")));
-
+        doTupleListTest(
+                "a=1,b=2,c=\"3,4,5\"",
+                asList(Pair.of("a", "1"), Pair.of("b", "2"), Pair.of("c", "\"3,4,5\"")));
     }
 
     private static void doTupleListTest(String input, List<Pair<String, String>> expectedResults) {

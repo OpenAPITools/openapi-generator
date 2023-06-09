@@ -20,6 +20,9 @@ package org.openapitools.codegen.csharp;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
@@ -28,10 +31,6 @@ import org.openapitools.codegen.languages.AspNetCoreServerCodegen;
 import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CsharpModelEnumTest {
     // TODO there's no parent/child method in ComposeSchema so we will need to revise the code
@@ -53,13 +52,11 @@ public class CsharpModelEnumTest {
         subProperties.put("sharedThing", identicalEnumProperty);
         subProperties.put("unsharedThing", identicalEnumProperty);
 
-        final Schema parentModel = new Schema()
-                .description("parentModel");
+        final Schema parentModel = new Schema().description("parentModel");
         parentModel.setProperties(parentProperties);
         parentModel.name("parentModel");
 
-        final Schema subModel = new Schema()
-                .description("subModel");
+        final Schema subModel = new Schema().description("subModel");
         subModel.setProperties(subProperties);
         subModel.name("subModel");
 
@@ -147,5 +144,4 @@ public class CsharpModelEnumTest {
 
         Assert.assertEquals(codegen.toEnumVarName("Aaaa", ""), "Aaaa");
     }
-
 }

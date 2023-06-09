@@ -18,9 +18,8 @@
 package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
-import org.openapitools.codegen.CodegenConstants;
-
 import java.util.Map;
+import org.openapitools.codegen.CodegenConstants;
 
 public class ScalaAkkaClientOptionsProvider implements OptionsProvider {
     public static final String SOURCE_FOLDER_VALUE = "sourceFolder";
@@ -36,7 +35,6 @@ public class ScalaAkkaClientOptionsProvider implements OptionsProvider {
     public static final String DATE_LIBRARY = "joda";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
 
-
     @Override
     public String getLanguage() {
         return "scala-akka";
@@ -48,11 +46,15 @@ public class ScalaAkkaClientOptionsProvider implements OptionsProvider {
         return builder.put(CodegenConstants.MODEL_PACKAGE, MODEL_PACKAGE_VALUE)
                 .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
-                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
+                .put(
+                        CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG,
+                        SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.SOURCE_FOLDER, SOURCE_FOLDER_VALUE)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
-                .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(
+                        CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                        PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put("mainPackage", MAIN_PACKAGE_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING)
                 .put("dateLibrary", DATE_LIBRARY)

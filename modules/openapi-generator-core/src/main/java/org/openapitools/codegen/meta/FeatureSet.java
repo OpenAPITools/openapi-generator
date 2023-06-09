@@ -16,16 +16,13 @@
 
 package org.openapitools.codegen.meta;
 
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.meta.features.annotations.AnnotationType;
-
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.stream.Collectors;
+import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.meta.features.annotations.AnnotationType;
 
-/**
- * Defines the feature set for a target generator.
- */
+/** Defines the feature set for a target generator. */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class FeatureSet {
     public static FeatureSet UNSPECIFIED = FeatureSet.newBuilder().build();
@@ -128,7 +125,8 @@ public class FeatureSet {
     }
 
     /**
-     * Returns the spec features supported "globally" for a document (shared across all operations and/or models).
+     * Returns the spec features supported "globally" for a document (shared across all operations
+     * and/or models).
      *
      * @return A new copy of the defined feature set. Changes to this instance are not promoted.
      */
@@ -180,7 +178,8 @@ public class FeatureSet {
     }
 
     /**
-     * Displays a flattened or "normalized" view of the featureSet. This is for simplifying user-facing display only.
+     * Displays a flattened or "normalized" view of the featureSet. This is for simplifying
+     * user-facing display only.
      */
     public static class FeatureSetFlattened {
         String featureCategory;
@@ -209,140 +208,186 @@ public class FeatureSet {
     public List<FeatureSetFlattened> flatten() {
         // TODO: Look at making this method function more generically.
         List<FeatureSetFlattened> states = new ArrayList<>();
-        EnumSet.allOf(ClientModificationFeature.class).forEach(feat -> {
-            FeatureSetFlattened state = new FeatureSetFlattened();
-            state.featureCategory = ClientModificationFeature.class.getSimpleName();
-            state.featureName = feat.name();
-            state.isSupported = this.clientModificationFeatures.contains(feat);
+        EnumSet.allOf(ClientModificationFeature.class)
+                .forEach(
+                        feat -> {
+                            FeatureSetFlattened state = new FeatureSetFlattened();
+                            state.featureCategory = ClientModificationFeature.class.getSimpleName();
+                            state.featureName = feat.name();
+                            state.isSupported = this.clientModificationFeatures.contains(feat);
 
-            try {
-                for (Annotation an : ClientModificationFeature.class.getField(feat.name()).getAnnotations()) {
-                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
-            states.add(state);
-        });
-        EnumSet.allOf(DataTypeFeature.class).forEach(feat -> {
-            FeatureSetFlattened state = new FeatureSetFlattened();
-            state.featureCategory = DataTypeFeature.class.getSimpleName();
-            state.featureName = feat.name();
-            state.isSupported = this.dataTypeFeatures.contains(feat);
+                            try {
+                                for (Annotation an :
+                                        ClientModificationFeature.class
+                                                .getField(feat.name())
+                                                .getAnnotations()) {
+                                    state.source.add(
+                                            AnnotationType.fromAnnotation(an.annotationType()));
+                                }
+                            } catch (NoSuchFieldException e) {
+                                e.printStackTrace();
+                            }
+                            states.add(state);
+                        });
+        EnumSet.allOf(DataTypeFeature.class)
+                .forEach(
+                        feat -> {
+                            FeatureSetFlattened state = new FeatureSetFlattened();
+                            state.featureCategory = DataTypeFeature.class.getSimpleName();
+                            state.featureName = feat.name();
+                            state.isSupported = this.dataTypeFeatures.contains(feat);
 
-            try {
-                for (Annotation an : DataTypeFeature.class.getField(feat.name()).getAnnotations()) {
-                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
+                            try {
+                                for (Annotation an :
+                                        DataTypeFeature.class
+                                                .getField(feat.name())
+                                                .getAnnotations()) {
+                                    state.source.add(
+                                            AnnotationType.fromAnnotation(an.annotationType()));
+                                }
+                            } catch (NoSuchFieldException e) {
+                                e.printStackTrace();
+                            }
 
-            states.add(state);
-        });
-        EnumSet.allOf(DocumentationFeature.class).forEach(feat -> {
-            FeatureSetFlattened state = new FeatureSetFlattened();
-            state.featureCategory = DocumentationFeature.class.getSimpleName();
-            state.featureName = feat.name();
-            state.isSupported = this.documentationFeatures.contains(feat);
+                            states.add(state);
+                        });
+        EnumSet.allOf(DocumentationFeature.class)
+                .forEach(
+                        feat -> {
+                            FeatureSetFlattened state = new FeatureSetFlattened();
+                            state.featureCategory = DocumentationFeature.class.getSimpleName();
+                            state.featureName = feat.name();
+                            state.isSupported = this.documentationFeatures.contains(feat);
 
-            try {
-                for (Annotation an : DocumentationFeature.class.getField(feat.name()).getAnnotations()) {
-                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
+                            try {
+                                for (Annotation an :
+                                        DocumentationFeature.class
+                                                .getField(feat.name())
+                                                .getAnnotations()) {
+                                    state.source.add(
+                                            AnnotationType.fromAnnotation(an.annotationType()));
+                                }
+                            } catch (NoSuchFieldException e) {
+                                e.printStackTrace();
+                            }
 
-            states.add(state);
-        });
-        EnumSet.allOf(SchemaSupportFeature.class).forEach(feat -> {
-            FeatureSetFlattened state = new FeatureSetFlattened();
-            state.featureCategory = SchemaSupportFeature.class.getSimpleName();
-            state.featureName = feat.name();
-            state.isSupported = this.schemaSupportFeatures.contains(feat);
+                            states.add(state);
+                        });
+        EnumSet.allOf(SchemaSupportFeature.class)
+                .forEach(
+                        feat -> {
+                            FeatureSetFlattened state = new FeatureSetFlattened();
+                            state.featureCategory = SchemaSupportFeature.class.getSimpleName();
+                            state.featureName = feat.name();
+                            state.isSupported = this.schemaSupportFeatures.contains(feat);
 
-            try {
-                for (Annotation an : SchemaSupportFeature.class.getField(feat.name()).getAnnotations()) {
-                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
+                            try {
+                                for (Annotation an :
+                                        SchemaSupportFeature.class
+                                                .getField(feat.name())
+                                                .getAnnotations()) {
+                                    state.source.add(
+                                            AnnotationType.fromAnnotation(an.annotationType()));
+                                }
+                            } catch (NoSuchFieldException e) {
+                                e.printStackTrace();
+                            }
 
-            states.add(state);
-        });
-        EnumSet.allOf(GlobalFeature.class).forEach(feat -> {
-            FeatureSetFlattened state = new FeatureSetFlattened();
-            state.featureCategory = GlobalFeature.class.getSimpleName();
-            state.featureName = feat.name();
-            state.isSupported = this.globalFeatures.contains(feat);
+                            states.add(state);
+                        });
+        EnumSet.allOf(GlobalFeature.class)
+                .forEach(
+                        feat -> {
+                            FeatureSetFlattened state = new FeatureSetFlattened();
+                            state.featureCategory = GlobalFeature.class.getSimpleName();
+                            state.featureName = feat.name();
+                            state.isSupported = this.globalFeatures.contains(feat);
 
-            try {
-                for (Annotation an : GlobalFeature.class.getField(feat.name()).getAnnotations()) {
-                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
+                            try {
+                                for (Annotation an :
+                                        GlobalFeature.class
+                                                .getField(feat.name())
+                                                .getAnnotations()) {
+                                    state.source.add(
+                                            AnnotationType.fromAnnotation(an.annotationType()));
+                                }
+                            } catch (NoSuchFieldException e) {
+                                e.printStackTrace();
+                            }
 
-            states.add(state);
-        });
-        EnumSet.allOf(ParameterFeature.class).forEach(feat -> {
-            FeatureSetFlattened state = new FeatureSetFlattened();
-            state.featureCategory = ParameterFeature.class.getSimpleName();
-            state.featureName = feat.name();
-            state.isSupported = this.parameterFeatures.contains(feat);
+                            states.add(state);
+                        });
+        EnumSet.allOf(ParameterFeature.class)
+                .forEach(
+                        feat -> {
+                            FeatureSetFlattened state = new FeatureSetFlattened();
+                            state.featureCategory = ParameterFeature.class.getSimpleName();
+                            state.featureName = feat.name();
+                            state.isSupported = this.parameterFeatures.contains(feat);
 
-            try {
-                for (Annotation an : ParameterFeature.class.getField(feat.name()).getAnnotations()) {
-                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
+                            try {
+                                for (Annotation an :
+                                        ParameterFeature.class
+                                                .getField(feat.name())
+                                                .getAnnotations()) {
+                                    state.source.add(
+                                            AnnotationType.fromAnnotation(an.annotationType()));
+                                }
+                            } catch (NoSuchFieldException e) {
+                                e.printStackTrace();
+                            }
 
-            states.add(state);
-        });
-        EnumSet.allOf(SecurityFeature.class).forEach(feat -> {
-            FeatureSetFlattened state = new FeatureSetFlattened();
-            state.featureCategory = SecurityFeature.class.getSimpleName();
-            state.featureName = feat.name();
-            state.isSupported = this.securityFeatures.contains(feat);
+                            states.add(state);
+                        });
+        EnumSet.allOf(SecurityFeature.class)
+                .forEach(
+                        feat -> {
+                            FeatureSetFlattened state = new FeatureSetFlattened();
+                            state.featureCategory = SecurityFeature.class.getSimpleName();
+                            state.featureName = feat.name();
+                            state.isSupported = this.securityFeatures.contains(feat);
 
-            try {
-                for (Annotation an : SecurityFeature.class.getField(feat.name()).getAnnotations()) {
-                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
+                            try {
+                                for (Annotation an :
+                                        SecurityFeature.class
+                                                .getField(feat.name())
+                                                .getAnnotations()) {
+                                    state.source.add(
+                                            AnnotationType.fromAnnotation(an.annotationType()));
+                                }
+                            } catch (NoSuchFieldException e) {
+                                e.printStackTrace();
+                            }
 
-            states.add(state);
-        });
-        EnumSet.allOf(WireFormatFeature.class).forEach(feat -> {
-            FeatureSetFlattened state = new FeatureSetFlattened();
-            state.featureCategory = WireFormatFeature.class.getSimpleName();
-            state.featureName = feat.name();
-            state.isSupported = this.wireFormatFeatures.contains(feat);
+                            states.add(state);
+                        });
+        EnumSet.allOf(WireFormatFeature.class)
+                .forEach(
+                        feat -> {
+                            FeatureSetFlattened state = new FeatureSetFlattened();
+                            state.featureCategory = WireFormatFeature.class.getSimpleName();
+                            state.featureName = feat.name();
+                            state.isSupported = this.wireFormatFeatures.contains(feat);
 
-            try {
-                for (Annotation an : WireFormatFeature.class.getField(feat.name()).getAnnotations()) {
-                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
+                            try {
+                                for (Annotation an :
+                                        WireFormatFeature.class
+                                                .getField(feat.name())
+                                                .getAnnotations()) {
+                                    state.source.add(
+                                            AnnotationType.fromAnnotation(an.annotationType()));
+                                }
+                            } catch (NoSuchFieldException e) {
+                                e.printStackTrace();
+                            }
 
-            states.add(state);
-        });
+                            states.add(state);
+                        });
 
         return states;
     }
 
-    /**
-     * {@code FeatureSet} builder static inner class.
-     */
+    /** {@code FeatureSet} builder static inner class. */
     public static final class Builder {
         private EnumSet<ClientModificationFeature> clientModificationFeatures;
         private EnumSet<DataTypeFeature> dataTypeFeatures;
@@ -365,12 +410,14 @@ public class FeatureSet {
         }
 
         /**
-         * Sets the {@code clientModificationFeatures} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code clientModificationFeatures} and returns a reference to this Builder so
+         * that the methods can be chained together.
          *
          * @param clientModificationFeatures the {@code clientModificationFeatures} to set
          * @return a reference to this Builder
          */
-        public Builder clientModificationFeatures(EnumSet<ClientModificationFeature> clientModificationFeatures) {
+        public Builder clientModificationFeatures(
+                EnumSet<ClientModificationFeature> clientModificationFeatures) {
             if (clientModificationFeatures != null) {
                 this.clientModificationFeatures = clientModificationFeatures;
             } else {
@@ -380,31 +427,38 @@ public class FeatureSet {
         }
 
         /**
-         * Includes the defined {@link ClientModificationFeature} to the new/existing set of supported features.
+         * Includes the defined {@link ClientModificationFeature} to the new/existing set of
+         * supported features.
          *
-         * @param clientModificationFeature One or more {@code clientModificationFeature} to ensure are included in the set.
-         *
+         * @param clientModificationFeature One or more {@code clientModificationFeature} to ensure
+         *     are included in the set.
          * @return a reference to this Builder
          */
-        public Builder includeClientModificationFeatures(ClientModificationFeature... clientModificationFeature) {
-            this.clientModificationFeatures.addAll(Arrays.stream(clientModificationFeature).collect(Collectors.toList()));
+        public Builder includeClientModificationFeatures(
+                ClientModificationFeature... clientModificationFeature) {
+            this.clientModificationFeatures.addAll(
+                    Arrays.stream(clientModificationFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
-         * Excludes the defined {@link ClientModificationFeature} from the set of supported features.
+         * Excludes the defined {@link ClientModificationFeature} from the set of supported
+         * features.
          *
-         * @param clientModificationFeature One or more {@code clientModificationFeature} to ensure are excluded from the set.
-         *
+         * @param clientModificationFeature One or more {@code clientModificationFeature} to ensure
+         *     are excluded from the set.
          * @return a reference to this Builder
          */
-        public Builder excludeClientModificationFeatures(ClientModificationFeature... clientModificationFeature) {
-            this.clientModificationFeatures.removeAll(Arrays.stream(clientModificationFeature).collect(Collectors.toList()));
+        public Builder excludeClientModificationFeatures(
+                ClientModificationFeature... clientModificationFeature) {
+            this.clientModificationFeatures.removeAll(
+                    Arrays.stream(clientModificationFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
-         * Sets the {@code dataTypeFeatures} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code dataTypeFeatures} and returns a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param dataTypeFeatures the {@code dataTypeFeatures} to set
          * @return a reference to this Builder
@@ -419,31 +473,35 @@ public class FeatureSet {
         }
 
         /**
-         * Includes the defined {@link DataTypeFeature} to the new/existing set of supported features.
+         * Includes the defined {@link DataTypeFeature} to the new/existing set of supported
+         * features.
          *
-         * @param dataTypeFeature One or more {@code dataTypeFeature} to ensure are included in the set.
-         *
+         * @param dataTypeFeature One or more {@code dataTypeFeature} to ensure are included in the
+         *     set.
          * @return a reference to this Builder
          */
         public Builder includeDataTypeFeatures(DataTypeFeature... dataTypeFeature) {
-            this.dataTypeFeatures.addAll(Arrays.stream(dataTypeFeature).collect(Collectors.toList()));
+            this.dataTypeFeatures.addAll(
+                    Arrays.stream(dataTypeFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
          * Excludes the defined {@link DataTypeFeature} from the set of supported features.
          *
-         * @param dataTypeFeature One or more {@code dataTypeFeature} to ensure are excluded from the set.
-         *
+         * @param dataTypeFeature One or more {@code dataTypeFeature} to ensure are excluded from
+         *     the set.
          * @return a reference to this Builder
          */
         public Builder excludeDataTypeFeatures(DataTypeFeature... dataTypeFeature) {
-            this.dataTypeFeatures.removeAll(Arrays.stream(dataTypeFeature).collect(Collectors.toList()));
+            this.dataTypeFeatures.removeAll(
+                    Arrays.stream(dataTypeFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
-         * Sets the {@code documentationFeature} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code documentationFeature} and returns a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param documentationFeatures the {@code documentationFeature} to set
          * @return a reference to this Builder
@@ -458,31 +516,35 @@ public class FeatureSet {
         }
 
         /**
-         * Includes the defined {@link DocumentationFeature} to the new/existing set of supported features.
+         * Includes the defined {@link DocumentationFeature} to the new/existing set of supported
+         * features.
          *
-         * @param documentationFeature One or more {@code documentationFeature} to ensure are included in the set.
-         *
+         * @param documentationFeature One or more {@code documentationFeature} to ensure are
+         *     included in the set.
          * @return a reference to this Builder
          */
         public Builder includeDocumentationFeatures(DocumentationFeature... documentationFeature) {
-            this.documentationFeatures.addAll(Arrays.stream(documentationFeature).collect(Collectors.toList()));
+            this.documentationFeatures.addAll(
+                    Arrays.stream(documentationFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
          * Excludes the defined {@link DocumentationFeature} from the set of supported features.
          *
-         * @param documentationFeature One or more {@code documentationFeature} to ensure are excluded from the set.
-         *
+         * @param documentationFeature One or more {@code documentationFeature} to ensure are
+         *     excluded from the set.
          * @return a reference to this Builder
          */
         public Builder excludeDocumentationFeatures(DocumentationFeature... documentationFeature) {
-            this.documentationFeatures.removeAll(Arrays.stream(documentationFeature).collect(Collectors.toList()));
+            this.documentationFeatures.removeAll(
+                    Arrays.stream(documentationFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
-         * Sets the {@code schemaSupportFeature} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code schemaSupportFeature} and returns a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param schemaSupportFeatures the {@code schemaSupportFeature} to set
          * @return a reference to this Builder
@@ -497,31 +559,35 @@ public class FeatureSet {
         }
 
         /**
-         * Includes the defined {@link SchemaSupportFeature} to the new/existing set of supported features.
+         * Includes the defined {@link SchemaSupportFeature} to the new/existing set of supported
+         * features.
          *
-         * @param schemaSupportFeature One or more {@code schemaSupportFeature} to ensure are included in the set.
-         *
+         * @param schemaSupportFeature One or more {@code schemaSupportFeature} to ensure are
+         *     included in the set.
          * @return a reference to this Builder
          */
         public Builder includeSchemaSupportFeatures(SchemaSupportFeature... schemaSupportFeature) {
-            this.schemaSupportFeatures.addAll(Arrays.stream(schemaSupportFeature).collect(Collectors.toList()));
+            this.schemaSupportFeatures.addAll(
+                    Arrays.stream(schemaSupportFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
          * Excludes the defined {@link SchemaSupportFeature} from the set of supported features.
          *
-         * @param schemaSupportFeature One or more {@code schemaSupportFeature} to ensure are excluded from the set.
-         *
+         * @param schemaSupportFeature One or more {@code schemaSupportFeature} to ensure are
+         *     excluded from the set.
          * @return a reference to this Builder
          */
         public Builder excludeSchemaSupportFeatures(SchemaSupportFeature... schemaSupportFeature) {
-            this.schemaSupportFeatures.removeAll(Arrays.stream(schemaSupportFeature).collect(Collectors.toList()));
+            this.schemaSupportFeatures.removeAll(
+                    Arrays.stream(schemaSupportFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
-         * Sets the {@code parameterFeature} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code parameterFeature} and returns a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param parameterFeatures the {@code parameterFeature} to set
          * @return a reference to this Builder
@@ -536,31 +602,35 @@ public class FeatureSet {
         }
 
         /**
-         * Includes the defined {@link ParameterFeature} to the new/existing set of supported features.
+         * Includes the defined {@link ParameterFeature} to the new/existing set of supported
+         * features.
          *
-         * @param parameterFeature One or more {@code parameterFeature} to ensure are included in the set.
-         *
+         * @param parameterFeature One or more {@code parameterFeature} to ensure are included in
+         *     the set.
          * @return a reference to this Builder
          */
         public Builder includeParameterFeatures(ParameterFeature... parameterFeature) {
-            this.parameterFeatures.addAll(Arrays.stream(parameterFeature).collect(Collectors.toList()));
+            this.parameterFeatures.addAll(
+                    Arrays.stream(parameterFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
          * Excludes the defined {@link ParameterFeature} from the set of supported features.
          *
-         * @param parameterFeature One or more {@code parameterFeature} to ensure are excluded from the set.
-         *
+         * @param parameterFeature One or more {@code parameterFeature} to ensure are excluded from
+         *     the set.
          * @return a reference to this Builder
          */
         public Builder excludeParameterFeatures(ParameterFeature... parameterFeature) {
-            this.parameterFeatures.removeAll(Arrays.stream(parameterFeature).collect(Collectors.toList()));
+            this.parameterFeatures.removeAll(
+                    Arrays.stream(parameterFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
-         * Sets the {@code securityFeature} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code securityFeature} and returns a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param securityFeatures the {@code securityFeatures} to set
          * @return a reference to this Builder
@@ -575,31 +645,35 @@ public class FeatureSet {
         }
 
         /**
-         * Includes the defined {@link SecurityFeature} to the new/existing set of supported features.
+         * Includes the defined {@link SecurityFeature} to the new/existing set of supported
+         * features.
          *
-         * @param securityFeature One or more {@code securityFeature} to ensure are included in the set.
-         *
+         * @param securityFeature One or more {@code securityFeature} to ensure are included in the
+         *     set.
          * @return a reference to this Builder
          */
         public Builder includeSecurityFeatures(SecurityFeature... securityFeature) {
-            this.securityFeatures.addAll(Arrays.stream(securityFeature).collect(Collectors.toList()));
+            this.securityFeatures.addAll(
+                    Arrays.stream(securityFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
          * Excludes the defined {@link SecurityFeature} from the set of supported features.
          *
-         * @param securityFeature One or more {@code securityFeature} to ensure are excluded from the set.
-         *
+         * @param securityFeature One or more {@code securityFeature} to ensure are excluded from
+         *     the set.
          * @return a reference to this Builder
          */
         public Builder excludeSecurityFeatures(SecurityFeature... securityFeature) {
-            this.securityFeatures.removeAll(Arrays.stream(securityFeature).collect(Collectors.toList()));
+            this.securityFeatures.removeAll(
+                    Arrays.stream(securityFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
-         * Sets the {@code globalFeatures} and return a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code globalFeatures} and return a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param globalFeatures the {@code globalFeatures} to set
          * @return a reference to this Builder
@@ -616,8 +690,8 @@ public class FeatureSet {
         /**
          * Includes the defined {@link GlobalFeature} to the new/existing set of supported features.
          *
-         * @param globalFeature One or more {@code globalFeatures} to ensure are included in the set.
-         *
+         * @param globalFeature One or more {@code globalFeatures} to ensure are included in the
+         *     set.
          * @return a reference to this Builder
          */
         public Builder includeGlobalFeatures(GlobalFeature... globalFeature) {
@@ -628,17 +702,19 @@ public class FeatureSet {
         /**
          * Excludes the defined {@link GlobalFeature} from the set of supported features.
          *
-         * @param globalFeature One or more {@code globalFeatures} to ensure are excluded from the set.
-         *
+         * @param globalFeature One or more {@code globalFeatures} to ensure are excluded from the
+         *     set.
          * @return a reference to this Builder
          */
         public Builder excludeGlobalFeatures(GlobalFeature... globalFeature) {
-            this.globalFeatures.removeAll(Arrays.stream(globalFeature).collect(Collectors.toList()));
+            this.globalFeatures.removeAll(
+                    Arrays.stream(globalFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
-         * Sets the {@code wireFormatFeatures} and return a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code wireFormatFeatures} and return a reference to this Builder so that the
+         * methods can be chained together.
          *
          * @param wireFormatFeatures the {@code wireFormatFeatures} to set
          * @return a reference to this Builder
@@ -653,30 +729,32 @@ public class FeatureSet {
         }
 
         /**
-         * Includes the defined {@link WireFormatFeature} to the new/existing set of supported features.
+         * Includes the defined {@link WireFormatFeature} to the new/existing set of supported
+         * features.
          *
-         * @param wireFormatFeature One or more {@code wireFormatFeatures} to ensure are included in the set.
-         *
+         * @param wireFormatFeature One or more {@code wireFormatFeatures} to ensure are included in
+         *     the set.
          * @return a reference to this Builder
          */
         public Builder includeWireFormatFeatures(WireFormatFeature... wireFormatFeature) {
-            this.wireFormatFeatures.addAll(Arrays.stream(wireFormatFeature).collect(Collectors.toList()));
+            this.wireFormatFeatures.addAll(
+                    Arrays.stream(wireFormatFeature).collect(Collectors.toList()));
             return this;
         }
 
         /**
          * Excludes the defined {@link WireFormatFeature} from the set of supported features.
          *
-         * <p>
-         * This option should only be used if something is overtly broken or not possible in a generator. Please log a warning if invoking this method.
-         * </p>
+         * <p>This option should only be used if something is overtly broken or not possible in a
+         * generator. Please log a warning if invoking this method.
          *
-         * @param wireFormatFeature One or more {@code wireFormatFeatures} to ensure are excluded from the set.
-         *
+         * @param wireFormatFeature One or more {@code wireFormatFeatures} to ensure are excluded
+         *     from the set.
          * @return a reference to this Builder
          */
         public Builder excludeWireFormatFeatures(WireFormatFeature... wireFormatFeature) {
-            this.wireFormatFeatures.removeAll(Arrays.stream(wireFormatFeature).collect(Collectors.toList()));
+            this.wireFormatFeatures.removeAll(
+                    Arrays.stream(wireFormatFeature).collect(Collectors.toList()));
             return this;
         }
 

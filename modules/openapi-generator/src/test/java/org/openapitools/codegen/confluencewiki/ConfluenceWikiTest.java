@@ -20,6 +20,9 @@ package org.openapitools.codegen.confluencewiki;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
@@ -28,10 +31,6 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.ConfluenceWikiCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ConfluenceWikiTest {
 
@@ -60,8 +59,8 @@ public class ConfluenceWikiTest {
 
     @Test(description = "convert a model with an enum inside a list")
     public void converterInArrayTest() {
-        final ArraySchema enumSchema = new ArraySchema().items(
-                new StringSchema().addEnumItem("Aaaa").addEnumItem("Bbbb"));
+        final ArraySchema enumSchema =
+                new ArraySchema().items(new StringSchema().addEnumItem("Aaaa").addEnumItem("Bbbb"));
         final Schema model = new Schema().type("object").addProperties("name", enumSchema);
 
         final DefaultCodegen codegen = new ConfluenceWikiCodegen();
@@ -92,9 +91,14 @@ public class ConfluenceWikiTest {
 
     @Test(description = "convert a model with an enum inside a list")
     public void converterInArrayInArrayTest() {
-        final ArraySchema enumSchema = new ArraySchema().items(
-                new ArraySchema().items(
-                        new StringSchema().addEnumItem("Aaaa").addEnumItem("Bbbb")));
+        final ArraySchema enumSchema =
+                new ArraySchema()
+                        .items(
+                                new ArraySchema()
+                                        .items(
+                                                new StringSchema()
+                                                        .addEnumItem("Aaaa")
+                                                        .addEnumItem("Bbbb")));
         final Schema model = new Schema().type("object").addProperties("name", enumSchema);
 
         final DefaultCodegen codegen = new ConfluenceWikiCodegen();
@@ -153,10 +157,10 @@ public class ConfluenceWikiTest {
 
         final ConfluenceWikiCodegen codegen = new ConfluenceWikiCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        openAPI.setComponents(new Components()
-                .addSchemas(parentModel.getName(), parentModel)
-                .addSchemas(composedSchema.getName(), composedSchema)
-        );
+        openAPI.setComponents(
+                new Components()
+                        .addSchemas(parentModel.getName(), parentModel)
+                        .addSchemas(composedSchema.getName(), composedSchema));
 
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", composedSchema);
@@ -169,7 +173,9 @@ public class ConfluenceWikiTest {
 
     @Test
     public void testEnumTestSchema() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec(
+                        "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         ConfluenceWikiCodegen codegen = new ConfluenceWikiCodegen();
         codegen.setOpenAPI(openAPI);
 

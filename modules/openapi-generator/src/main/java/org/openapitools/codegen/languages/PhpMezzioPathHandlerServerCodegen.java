@@ -28,6 +28,8 @@ import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import java.io.File;
+import java.util.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -37,14 +39,12 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.*;
-
 public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PhpMezzioPathHandlerServerCodegen.class);
     // Custom generator option names
     public static final String OPT_MODERN = "modern";
-    // Internal vendor extension names for extra template data that should not be set in specification
+    // Internal vendor extension names for extra template data that should not be set in
+    // specification
     public static final String VEN_FROM_QUERY = "internal.ze-ph.fromQuery";
     public static final String VEN_COLLECTION_FORMAT = "internal.ze-ph.collectionFormat";
     public static final String VEN_QUERY_DATA_TYPE = "internal.ze-ph.queryDataType";
@@ -72,20 +72,18 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
     public PhpMezzioPathHandlerServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism));
 
         // remove these from primitive types to make the output works
         languageSpecificPrimitives.remove("\\DateTime");
@@ -98,7 +96,8 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
         modelDirName = "DTO";
         apiPackage = invokerPackage + "\\" + apiDirName;
         modelPackage = invokerPackage + "\\" + modelDirName;
-        //"Api" classes have dedicated namespace so there is no need to add non-empty suffix by default
+        // "Api" classes have dedicated namespace so there is no need to add non-empty suffix by
+        // default
         apiNameSuffix = "";
 
         apiTestTemplateFiles.clear();
@@ -111,15 +110,32 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("index.php", "public", "index.php"));
         supportingFiles.add(new SupportingFile("container.php", "application", "container.php"));
         supportingFiles.add(new SupportingFile("config.yml", "application", "config.yml"));
-        supportingFiles.add(new SupportingFile("app.yml.mustache", "application" + File.separator + "config", "app.yml"));
-        supportingFiles.add(new SupportingFile("path_handler.yml.mustache", "application" + File.separator + "config", "path_handler.yml"));
-        supportingFiles.add(new SupportingFile("data_transfer.yml.mustache", "application" + File.separator + "config", "data_transfer.yml"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app.yml.mustache", "application" + File.separator + "config", "app.yml"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "path_handler.yml.mustache",
+                        "application" + File.separator + "config",
+                        "path_handler.yml"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "data_transfer.yml.mustache",
+                        "application" + File.separator + "config",
+                        "data_transfer.yml"));
         supportingFiles.add(new SupportingFile("Factory.php.mustache", srcBasePath, "Factory.php"));
-        supportingFiles.add(new SupportingFile("InternalServerError.php.mustache", srcBasePath + File.separator + "Middleware", "InternalServerError.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "InternalServerError.php.mustache",
+                        srcBasePath + File.separator + "Middleware",
+                        "InternalServerError.php"));
 
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, "1.0.0");
-        //Register custom CLI options
-        addSwitch(OPT_MODERN, "use modern language features (generated code will require PHP 8.0)", useModernSyntax);
+        // Register custom CLI options
+        addSwitch(
+                OPT_MODERN,
+                "use modern language features (generated code will require PHP 8.0)",
+                useModernSyntax);
     }
 
     @Override
@@ -132,23 +148,27 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
     }
 
     /**
-     * Add operation to group
-     * Override of default grouping - group by resource path, not tag
+     * Add operation to group Override of default grouping - group by resource path, not tag
      *
-     * @param tag          name of the tag
+     * @param tag name of the tag
      * @param resourcePath path of the resource
-     * @param operation    Swagger Operation object
-     * @param co           Codegen Operation object
-     * @param operations   map of Codegen operations
+     * @param operation Swagger Operation object
+     * @param co Codegen Operation object
+     * @param operations map of Codegen operations
      */
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+    public void addOperationToGroup(
+            String tag,
+            String resourcePath,
+            Operation operation,
+            CodegenOperation co,
+            Map<String, List<CodegenOperation>> operations) {
         List<CodegenOperation> opList = operations.get(resourcePath);
         if (opList == null) {
             opList = new ArrayList<CodegenOperation>();
             operations.put(resourcePath, opList);
         }
-        //ignore duplicate operation ids - that means that operation has several tags
+        // ignore duplicate operation ids - that means that operation has several tags
         int counter = 0;
         for (CodegenOperation op : opList) {
             if (co.operationId.equals(op.operationId)) {
@@ -202,7 +222,8 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
                 PathItem path = pathsEntry.getValue();
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if (operationMap != null) {
-                    for (Map.Entry<HttpMethod, Operation> operationMapEntry : operationMap.entrySet()) {
+                    for (Map.Entry<HttpMethod, Operation> operationMapEntry :
+                            operationMap.entrySet()) {
                         HttpMethod method = operationMapEntry.getKey();
                         Operation operation = operationMapEntry.getValue();
                         Map<String, Schema> propertySchemas = new HashMap<>();
@@ -212,8 +233,10 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
 
                         List<String> requiredProperties = new ArrayList<>();
                         for (Parameter parameter : operation.getParameters()) {
-                            Parameter referencedParameter = ModelUtils.getReferencedParameter(openAPI, parameter);
-                            Schema propertySchema = convertParameterToSchema(openAPI, referencedParameter);
+                            Parameter referencedParameter =
+                                    ModelUtils.getReferencedParameter(openAPI, parameter);
+                            Schema propertySchema =
+                                    convertParameterToSchema(openAPI, referencedParameter);
                             if (propertySchema != null) {
                                 propertySchemas.put(propertySchema.getName(), propertySchema);
                                 if (Boolean.TRUE.equals(referencedParameter.getRequired())) {
@@ -224,16 +247,20 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
 
                         if (!propertySchemas.isEmpty()) {
                             ObjectSchema schema = new ObjectSchema();
-                            String operationId = getOrGenerateOperationId(operation, pathname, method.name());
+                            String operationId =
+                                    getOrGenerateOperationId(operation, pathname, method.name());
                             schema.setDescription("Query parameters for " + operationId);
                             schema.setProperties(propertySchemas);
                             schema.setRequired(requiredProperties);
                             addInternalExtensionToSchema(schema, VEN_FROM_QUERY, Boolean.TRUE);
-                            String schemaName = generateUniqueSchemaName(openAPI, operationId + "QueryData");
+                            String schemaName =
+                                    generateUniqueSchemaName(openAPI, operationId + "QueryData");
                             openAPI.getComponents().addSchemas(schemaName, schema);
                             String schemaDataType = getTypeDeclaration(toModelName(schemaName));
-                            addInternalExtensionToOperation(operation, VEN_QUERY_DATA_TYPE, schemaDataType);
-                            addInternalExtensionToOperation(operation, VEN_HAS_QUERY_DATA, Boolean.TRUE);
+                            addInternalExtensionToOperation(
+                                    operation, VEN_QUERY_DATA_TYPE, schemaDataType);
+                            addInternalExtensionToOperation(
+                                    operation, VEN_HAS_QUERY_DATA, Boolean.TRUE);
                         }
                     }
                 }
@@ -245,7 +272,8 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
         Schema property = null;
         if (parameter instanceof QueryParameter) {
             QueryParameter queryParameter = (QueryParameter) parameter;
-            Schema parameterSchema = ModelUtils.getReferencedSchema(openAPI, queryParameter.getSchema());
+            Schema parameterSchema =
+                    ModelUtils.getReferencedSchema(openAPI, queryParameter.getSchema());
             // array
             if (ModelUtils.isArraySchema(parameterSchema)) {
                 Schema itemSchema = ((ArraySchema) parameterSchema).getItems();
@@ -303,7 +331,7 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
     }
 
     protected void addInternalExtensionToSchema(Schema schema, String name, Object value) {
-        //Add internal extension directly, because addExtension filters extension names
+        // Add internal extension directly, because addExtension filters extension names
         if (schema.getExtensions() == null) {
             schema.setExtensions(new HashMap<>());
         }
@@ -311,7 +339,7 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
     }
 
     protected void addInternalExtensionToOperation(Operation operation, String name, Object value) {
-        //Add internal extension directly, because addExtension filters extension names
+        // Add internal extension directly, because addExtension filters extension names
         if (operation.getExtensions() == null) {
             operation.setExtensions(new HashMap<>());
         }
@@ -342,25 +370,32 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
                 List<Parameter> parameters = operation.getParameters();
                 if (parameters != null) {
                     for (Parameter parameter : parameters) {
-                        generateContainerSchemas(openAPI, ModelUtils.getReferencedParameter(openAPI, parameter).getSchema());
+                        generateContainerSchemas(
+                                openAPI,
+                                ModelUtils.getReferencedParameter(openAPI, parameter).getSchema());
                     }
                 }
-                RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
+                RequestBody requestBody =
+                        ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
                 if (requestBody != null) {
                     Content requestBodyContent = requestBody.getContent();
                     if (requestBodyContent != null) {
                         for (String mediaTypeName : requestBodyContent.keySet()) {
-                            generateContainerSchemas(openAPI, requestBodyContent.get(mediaTypeName).getSchema());
+                            generateContainerSchemas(
+                                    openAPI, requestBodyContent.get(mediaTypeName).getSchema());
                         }
                     }
                 }
                 ApiResponses responses = operation.getResponses();
                 for (String responseCode : responses.keySet()) {
-                    ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, responses.get(responseCode));
+                    ApiResponse response =
+                            ModelUtils.getReferencedApiResponse(
+                                    openAPI, responses.get(responseCode));
                     Content responseContent = response.getContent();
                     if (responseContent != null) {
                         for (String mediaTypeName : responseContent.keySet()) {
-                            generateContainerSchemas(openAPI, responseContent.get(mediaTypeName).getSchema());
+                            generateContainerSchemas(
+                                    openAPI, responseContent.get(mediaTypeName).getSchema());
                         }
                     }
                 }
@@ -376,24 +411,24 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
      */
     protected void generateContainerSchemas(OpenAPI openAPI, Schema schema) {
         if (schema != null) {
-            //Dereference schema
+            // Dereference schema
             schema = ModelUtils.getReferencedSchema(openAPI, schema);
             Boolean isContainer = Boolean.FALSE;
 
             if (ModelUtils.isObjectSchema(schema)) {
-                //Recursively process all schemas of object properties
+                // Recursively process all schemas of object properties
                 Map<String, Schema> properties = schema.getProperties();
                 if (properties != null) {
-                    for (String propertyName: properties.keySet()) {
+                    for (String propertyName : properties.keySet()) {
                         generateContainerSchemas(openAPI, properties.get(propertyName));
                     }
                 }
             } else if (ModelUtils.isArraySchema(schema)) {
-                //Recursively process schema of array items
+                // Recursively process schema of array items
                 generateContainerSchemas(openAPI, ((ArraySchema) schema).getItems());
                 isContainer = Boolean.TRUE;
             } else if (ModelUtils.isMapSchema(schema)) {
-                //Recursively process schema of map items
+                // Recursively process schema of map items
                 Object itemSchema = schema.getAdditionalProperties();
                 if (itemSchema instanceof Schema) {
                     generateContainerSchemas(openAPI, (Schema) itemSchema);
@@ -402,7 +437,7 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
             }
 
             if (isContainer) {
-                //Generate special component schema for container
+                // Generate special component schema for container
                 String containerSchemaName = generateUniqueSchemaName(openAPI, "Collection");
                 Schema containerSchema = new ObjectSchema();
                 containerSchema.addProperties("inner", schema);
@@ -415,7 +450,8 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
@@ -442,15 +478,17 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
                     httpMethodDeclaration = "HttpMethod(\"" + op.httpMethod + "\")";
             }
             op.httpMethod = httpMethodDeclaration;
-            //Producing content with media type "*/*" is not supported
+            // Producing content with media type "*/*" is not supported
             if (op.produces != null) {
                 for (Map<String, String> p : op.produces) {
                     if (p.replace("mediaType", "*/*", "n/a")) {
-                        LOGGER.warn("Media type range '*/*' is not supported, using 'n/a' for code generation instead");
+                        LOGGER.warn(
+                                "Media type range '*/*' is not supported, using 'n/a' for code generation instead");
                     }
                 }
             }
-            //All operations have same path because of custom operation grouping, so path pattern can be calculated only once
+            // All operations have same path because of custom operation grouping, so path pattern
+            // can be calculated only once
             if (pathPattern == null) {
                 pathPattern = generatePathPattern(op);
             }
@@ -470,7 +508,8 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
                     if (enumRegExp.length() > 0) {
                         enumRegExp.append("|");
                     }
-                    enumRegExp.append(enumValue.replaceAll("[\\Q<>()[]{}|^$-=!?*+.\\\\E]", "\\\\$0"));
+                    enumRegExp.append(
+                            enumValue.replaceAll("[\\Q<>()[]{}|^$-=!?*+.\\\\E]", "\\\\$0"));
                 }
                 replacement.append(":");
                 replacement.append(enumRegExp);
@@ -480,7 +519,8 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
                 replacement.append(":");
                 replacement.append(pp.pattern);
             }
-            //TODO add regular expressions for other types if they are actually used for path parameters
+            // TODO add regular expressions for other types if they are actually used for path
+            // parameters
             replacement.append("}");
             result = result.replace("{" + pp.paramName + "}", replacement);
         }

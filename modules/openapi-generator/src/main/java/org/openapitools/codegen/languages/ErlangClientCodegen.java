@@ -17,9 +17,18 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -28,16 +37,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.JoinWithCommaLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ErlangClientCodegen.class);
@@ -61,26 +60,20 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     public ErlangClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-                .securityFeatures(EnumSet.of(SecurityFeature.ApiKey))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.BasePath
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                                .securityFeatures(EnumSet.of(SecurityFeature.ApiKey))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath));
 
         outputFolder = "generated-code/erlang";
         modelTemplateFiles.put("model.mustache", ".erl");
@@ -90,11 +83,9 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
         setReservedWordsLowerCase(
                 Arrays.asList(
-                        "after", "and", "andalso", "band", "begin", "bnot", "bor", "bsl", "bsr", "bxor", "case",
-                        "catch", "cond", "div", "end", "fun", "if", "let", "not", "of", "or", "orelse", "receive",
-                        "rem", "try", "when", "xor"
-                )
-        );
+                        "after", "and", "andalso", "band", "begin", "bnot", "bor", "bsl", "bsr",
+                        "bxor", "case", "catch", "cond", "div", "end", "fun", "if", "let", "not",
+                        "of", "or", "orelse", "receive", "rem", "try", "when", "xor"));
 
         instantiationTypes.clear();
 
@@ -125,10 +116,14 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("password", "binary()");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Erlang application name (convention: lowercase).")
-                .defaultValue(this.packageName));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Erlang application version")
-                .defaultValue(this.packageVersion));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.PACKAGE_NAME,
+                                "Erlang application name (convention: lowercase).")
+                        .defaultValue(this.packageName));
+        cliOptions.add(
+                new CliOption(CodegenConstants.PACKAGE_VERSION, "Erlang application version")
+                        .defaultValue(this.packageVersion));
     }
 
     @Override
@@ -151,10 +146,8 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         String type = null;
         if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
-            if (languageSpecificPrimitives.contains(type))
-                return (type);
-        } else
-            type = getTypeDeclaration(toModelName(lowerCamelCase(schemaType)));
+            if (languageSpecificPrimitives.contains(type)) return (type);
+        } else type = getTypeDeclaration(toModelName(lowerCamelCase(schemaType)));
         return type;
     }
 
@@ -179,26 +172,40 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
-        additionalProperties.put("length", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                writer.write(length(fragment.context()));
-            }
-        });
+        additionalProperties.put(
+                "length",
+                new Mustache.Lambda() {
+                    @Override
+                    public void execute(Template.Fragment fragment, Writer writer)
+                            throws IOException {
+                        writer.write(length(fragment.context()));
+                    }
+                });
 
-        additionalProperties.put("qsEncode", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                writer.write(qsEncode(fragment.context()));
-            }
-        });
+        additionalProperties.put(
+                "qsEncode",
+                new Mustache.Lambda() {
+                    @Override
+                    public void execute(Template.Fragment fragment, Writer writer)
+                            throws IOException {
+                        writer.write(qsEncode(fragment.context()));
+                    }
+                });
 
         modelPackage = packageName;
         apiPackage = packageName;
 
         supportingFiles.add(new SupportingFile("rebar.config.mustache", "", "rebar.config"));
-        supportingFiles.add(new SupportingFile("app.src.mustache", "", "src" + File.separator + this.packageName + ".app.src"));
-        supportingFiles.add(new SupportingFile("utils.mustache", "", "src" + File.separator + this.packageName + "_utils.erl"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app.src.mustache",
+                        "",
+                        "src" + File.separator + this.packageName + ".app.src"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "utils.mustache",
+                        "",
+                        "src" + File.separator + this.packageName + "_utils.erl"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
 
@@ -249,8 +256,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name))
-            name = escapeReservedWord(name);
+        if (isReservedWord(name)) name = escapeReservedWord(name);
 
         return name;
     }
@@ -276,12 +282,16 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toModelName(String name) {
-        return this.packageName + "_" + underscore(name.replaceAll("-", "_").replaceAll("\\.", "_"));
+        return this.packageName
+                + "_"
+                + underscore(name.replaceAll("-", "_").replaceAll("\\.", "_"));
     }
 
     @Override
     public String toApiName(String name) {
-        return this.packageName + "_" + underscore(name.replaceAll("-", "_").replaceAll("\\.", "_"));
+        return this.packageName
+                + "_"
+                + underscore(name.replaceAll("-", "_").replaceAll("\\.", "_"));
     }
 
     @Override
@@ -292,7 +302,8 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        // FIXME: a parameter should not be assigned. Also declare the methods parameters as
+        // 'final'.
         name = name.replaceAll("-", "_").replaceAll("\\.", "_");
 
         // e.g. PetApi.erl => pet_api.erl
@@ -303,7 +314,10 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. if
         if (isReservedWord(operationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
             operationId = "call_" + operationId;
         }
 
@@ -311,7 +325,8 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> os = operations.getOperation();
         List<ExtendedCodegenOperation> newOs = new ArrayList<>();
@@ -364,8 +379,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     String length(Object os) {
         int l = 1;
         for (CodegenParameter o : ((ExtendedCodegenOperation) os).allParams) {
-            if (o.required)
-                l++;
+            if (o.required) l++;
         }
         return Integer.toString(l);
     }
@@ -379,8 +393,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     int lengthRequired(List<CodegenParameter> allParams) {
         int l = 0;
         for (CodegenParameter o : allParams) {
-            if (o.required || o.isBodyParam)
-                l++;
+            if (o.required || o.isBodyParam) l++;
         }
         return l;
     }
@@ -484,5 +497,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.ERLANG;
+    }
 }

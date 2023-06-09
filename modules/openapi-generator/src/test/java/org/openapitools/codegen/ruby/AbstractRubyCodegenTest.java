@@ -5,16 +5,13 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/**
- * Tests for AbstractRubyCodegen
- */
+/** Tests for AbstractRubyCodegen */
 public class AbstractRubyCodegenTest {
     private AbstractRubyCodegen codegen;
 
     @BeforeMethod
     public void setup() {
-        codegen = new AbstractRubyCodegen() {
-        };
+        codegen = new AbstractRubyCodegen() {};
     }
 
     @Test

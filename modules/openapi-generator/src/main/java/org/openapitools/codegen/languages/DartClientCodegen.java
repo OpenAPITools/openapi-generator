@@ -17,14 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class DartClientCodegen extends AbstractDartCodegen {
 
@@ -35,12 +34,14 @@ public class DartClientCodegen extends AbstractDartCodegen {
     public DartClientCodegen() {
         super();
 
-        final CliOption serializationLibrary = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY,
-                "Specify serialization library");
+        final CliOption serializationLibrary =
+                CliOption.newString(
+                        CodegenConstants.SERIALIZATION_LIBRARY, "Specify serialization library");
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_NATIVE);
 
         final Map<String, String> serializationOptions = new HashMap<>();
-        serializationOptions.put(SERIALIZATION_LIBRARY_NATIVE, "Use native serializer, backwards compatible");
+        serializationOptions.put(
+                SERIALIZATION_LIBRARY_NATIVE, "Use native serializer, backwards compatible");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
 
@@ -52,33 +53,44 @@ public class DartClientCodegen extends AbstractDartCodegen {
         super.processOpts();
 
         // handle library not being set
-        if(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY) == null) {
+        if (additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY) == null) {
             this.library = SERIALIZATION_LIBRARY_NATIVE;
-            LOGGER.debug("Serialization library not set, using default {}", SERIALIZATION_LIBRARY_NATIVE);
+            LOGGER.debug(
+                    "Serialization library not set, using default {}",
+                    SERIALIZATION_LIBRARY_NATIVE);
         } else {
-            this.library = additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString();
+            this.library =
+                    additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString();
         }
 
         this.setSerializationLibrary();
 
         supportingFiles.add(new SupportingFile("pubspec.mustache", "", "pubspec.yaml"));
-        supportingFiles.add(new SupportingFile("analysis_options.mustache", "", "analysis_options.yaml"));
+        supportingFiles.add(
+                new SupportingFile("analysis_options.mustache", "", "analysis_options.yaml"));
         supportingFiles.add(new SupportingFile("api_client.mustache", libPath, "api_client.dart"));
-        supportingFiles.add(new SupportingFile("api_exception.mustache", libPath, "api_exception.dart"));
+        supportingFiles.add(
+                new SupportingFile("api_exception.mustache", libPath, "api_exception.dart"));
         supportingFiles.add(new SupportingFile("api_helper.mustache", libPath, "api_helper.dart"));
         supportingFiles.add(new SupportingFile("apilib.mustache", libPath, "api.dart"));
 
         final String authFolder = libPath + "auth";
-        supportingFiles.add(new SupportingFile("auth/authentication.mustache", authFolder, "authentication.dart"));
-        supportingFiles.add(new SupportingFile("auth/http_basic_auth.mustache", authFolder, "http_basic_auth.dart"));
-        supportingFiles.add(new SupportingFile("auth/http_bearer_auth.mustache", authFolder, "http_bearer_auth.dart"));
-        supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "auth/authentication.mustache", authFolder, "authentication.dart"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "auth/http_basic_auth.mustache", authFolder, "http_basic_auth.dart"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "auth/http_bearer_auth.mustache", authFolder, "http_bearer_auth.dart"));
+        supportingFiles.add(
+                new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
-
     }
 
     private void setSerializationLibrary() {
@@ -86,10 +98,10 @@ public class DartClientCodegen extends AbstractDartCodegen {
         LOGGER.info("Using serialization library {}", serialization_library);
 
         switch (serialization_library) {
-            case SERIALIZATION_LIBRARY_NATIVE: // fall through to default backwards compatible generator
+            case SERIALIZATION_LIBRARY_NATIVE: // fall through to default backwards compatible
+                // generator
             default:
                 additionalProperties.put(SERIALIZATION_LIBRARY_NATIVE, "true");
-
         }
     }
 }

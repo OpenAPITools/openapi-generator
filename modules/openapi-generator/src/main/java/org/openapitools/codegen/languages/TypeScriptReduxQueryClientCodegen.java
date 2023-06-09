@@ -19,16 +19,15 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
 
 public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientCodegen {
 
@@ -40,7 +39,6 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
     private boolean useSingleRequestParameter = true;
     protected boolean addedApiIndex = false;
     protected boolean addedModelIndex = false;
-
 
     public TypeScriptReduxQueryClientCodegen() {
         super();
@@ -54,7 +52,7 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         outputFolder = "generated-code/typescript-redux-query";
         embeddedTemplateDir = templateDir = "typescript-redux-query";
 
-        this.apiPackage = "src" + File.separator +"apis";
+        this.apiPackage = "src" + File.separator + "apis";
         this.modelPackage = "src" + File.separator + "models";
         this.apiTemplateFiles.put("apis.mustache", ".ts");
         this.modelTemplateFiles.put("models.mustache", ".ts");
@@ -64,9 +62,22 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         typeMapping.put("DateTime", "Date");
 
         supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
-        this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.TRUE.toString()));
+        this.cliOptions.add(
+                new CliOption(
+                        NPM_REPOSITORY,
+                        "Use this property to set an url your private npmRepo in the package.json"));
+        this.cliOptions.add(
+                new CliOption(
+                                WITH_INTERFACES,
+                                "Setting this property to true will generate interfaces next to the default class implementations.",
+                                SchemaTypeUtil.BOOLEAN_TYPE)
+                        .defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(
+                new CliOption(
+                                USE_SINGLE_REQUEST_PARAMETER,
+                                "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.",
+                                SchemaTypeUtil.BOOLEAN_TYPE)
+                        .defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -90,7 +101,9 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
     @Override
     public void processOpts() {
         super.processOpts();
-        additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming() == CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.original);
+        additionalProperties.put(
+                "isOriginalModelPropertyNaming",
+                getModelPropertyNaming() == CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.original);
         additionalProperties.put("modelPropertyNaming", getModelPropertyNaming().name());
         supportingFiles.add(new SupportingFile("index.mustache", "src", "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", "src", "runtime.ts"));
@@ -98,7 +111,8 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
 
         if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
-            this.setUseSingleRequestParameter(convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
+            this.setUseSingleRequestParameter(
+                    convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
         }
         writePropertyBack(USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
 
@@ -134,15 +148,18 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
-                    // behaviour for enum names is specific for Typescript Fetch, not using namespaces
-                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
+                    // behaviour for enum names is specific for Typescript Fetch, not using
+                    // namespaces
+                    var.datatypeWithEnum =
+                            var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
-                        var.datatypeWithEnum = var.datatypeWithEnum
-                                .replace(var.enumName, cm.classname + var.enumName);
+                        var.datatypeWithEnum =
+                                var.datatypeWithEnum.replace(
+                                        var.enumName, cm.classname + var.enumName);
                     }
                 }
             }
@@ -179,24 +196,33 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
 
-        //Files for building our lib
+        // Files for building our lib
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("npmignore.mustache", "", ".npmignore"));
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap operations, List<ModelMap> allModels) {
         // Add supporting file only if we plan to generate files in /apis
         if (!operations.isEmpty() && !addedApiIndex) {
             addedApiIndex = true;
-            supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "apis.index.mustache",
+                            apiPackage().replace('.', File.separatorChar),
+                            "index.ts"));
         }
 
         // Add supporting file only if we plan to generate files in /models
         if (!allModels.isEmpty() && !addedModelIndex) {
             addedModelIndex = true;
-            supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "models.index.mustache",
+                            modelPackage().replace('.', File.separatorChar),
+                            "index.ts"));
         }
 
         this.addOperationModelImportInformation(operations);
@@ -211,7 +237,8 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         // models for a given operation.
         List<Map<String, String>> imports = operations.getImports();
         for (Map<String, String> im : imports) {
-            String[] parts = im.get("import").replace(modelPackage() + ".", "").split("( [|&] )|[<>]");
+            String[] parts =
+                    im.get("import").replace(modelPackage() + ".", "").split("( [|&] )|[<>]");
             for (String s : parts) {
                 if (needToImport(s)) {
                     im.put("filename", im.get("import"));
@@ -229,8 +256,9 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
             for (CodegenParameter param : op.allParams) {
                 if (Boolean.TRUE.equals(param.isEnum)) {
                     hasEnum = true;
-                    param.datatypeWithEnum = param.datatypeWithEnum
-                            .replace(param.enumName, op.operationIdCamelCase + param.enumName);
+                    param.datatypeWithEnum =
+                            param.datatypeWithEnum.replace(
+                                    param.enumName, op.operationIdCamelCase + param.enumName);
                 }
             }
         }
@@ -243,7 +271,7 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         // The api template uses this information to know when to return a text
         // response for a given simple response operation.
         for (CodegenOperation op : operations.getOperations().getOperation()) {
-            if("object".equals(op.returnType)) {
+            if ("object".equals(op.returnType)) {
                 op.isMap = true;
                 op.returnSimpleType = false;
             }
@@ -255,7 +283,7 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         this.reservedWords.add("BaseAPI");
         this.reservedWords.add("RequiredError");
         this.reservedWords.add("COLLECTION_FORMATS");
-//        this.reservedWords.add("FetchAPI");
+        //        this.reservedWords.add("FetchAPI");
         this.reservedWords.add("ConfigurationParameters");
         this.reservedWords.add("Configuration");
         this.reservedWords.add("configuration");
@@ -264,7 +292,7 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         this.reservedWords.add("HTTPQuery");
         this.reservedWords.add("HTTPBody");
         this.reservedWords.add("ModelPropertyNaming");
-//        this.reservedWords.add("FetchParams");
+        //        this.reservedWords.add("FetchParams");
         this.reservedWords.add("RequestOpts");
         this.reservedWords.add("exists");
         this.reservedWords.add("RequestContext");

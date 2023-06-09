@@ -20,7 +20,6 @@ package org.openapitools.codegen.online.model;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
-
 import java.util.Map;
 
 public class GeneratorInput {
@@ -53,7 +52,9 @@ public class GeneratorInput {
         this.options = options;
     }
 
-    @ApiModelProperty(example = "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml")
+    @ApiModelProperty(
+            example =
+                    "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml")
     public String getOpenAPIUrl() {
         return openAPIUrl;
     }

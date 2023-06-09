@@ -28,8 +28,8 @@ import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractCSharpCodegen;
 import org.openapitools.codegen.languages.AspNetCoreServerCodegen;
-import org.openapitools.codegen.languages.CSharpNetCoreClientCodegen;
 import org.openapitools.codegen.languages.CSharpClientCodegen;
+import org.openapitools.codegen.languages.CSharpNetCoreClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -39,20 +39,31 @@ public class CSharpModelTest {
     @Test
     public void assertOuterEnumIsString() {
         // this issue has not been found yet in version 2
-        // Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 2, false), true);
+        // Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 2, false),
+        // true);
         // Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 2, true), true);
         Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 3, false), true);
         Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 3, true), true);
 
         // this issue has not been found yet in version 2
-        // Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 2, false), true);
-        // Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 2, true), true);
-        Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 3, false), true);
+        // Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 2, false),
+        // true);
+        // Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 2, true),
+        // true);
+        Assert.assertEquals(
+                outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 3, false), true);
         Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 3, true), true);
     }
 
-    public boolean outerEnumVarsIsString(final AbstractCSharpCodegen codegen, final int openApiVersion, final Boolean nullableReferenceTypes){
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/" + openApiVersion + "_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
+    public boolean outerEnumVarsIsString(
+            final AbstractCSharpCodegen codegen,
+            final int openApiVersion,
+            final Boolean nullableReferenceTypes) {
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec(
+                        "src/test/resources/"
+                                + openApiVersion
+                                + "_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
         codegen.setNullableReferenceTypes(nullableReferenceTypes);
         codegen.setOpenAPI(openAPI);
         Schema schema = openAPI.getComponents().getSchemas().get("Enum_Test");
@@ -132,10 +143,14 @@ public class CSharpModelTest {
         final CodegenProperty property = generated.vars.get(1);
         Assert.assertEquals(property.baseName, "examples");
         Assert.assertEquals(property.name, "Examples");
-        Assert.assertEquals(property.dataType, "Collection<string>",
+        Assert.assertEquals(
+                property.dataType,
+                "Collection<string>",
                 "returnICollection option should not modify property datatype");
         Assert.assertNull(property.defaultValue);
-        Assert.assertEquals(property.baseType, "Collection",
+        Assert.assertEquals(
+                property.baseType,
+                "Collection",
                 "returnICollection option should not modify property baseType");
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
@@ -152,13 +167,15 @@ public class CSharpModelTest {
 
     @Test(description = "convert a simple model")
     public void simpleModelTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("name", new StringSchema())
-                .addProperties("createdAt", new DateTimeSchema())
-                .addRequiredItem("id")
-                .addRequiredItem("name");
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                        .addProperties("name", new StringSchema())
+                        .addProperties("createdAt", new DateTimeSchema())
+                        .addRequiredItem("id")
+                        .addRequiredItem("name");
         final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -198,13 +215,17 @@ public class CSharpModelTest {
 
     @Test(description = "convert a model with a non-nullable property")
     public void nonNullablePropertyTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(false))
-                .addProperties("urls", new ArraySchema()
-                        .items(new StringSchema()))
-                .addProperties("name", new StringSchema().nullable(true))
-                .addRequiredItem("id");
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "id",
+                                new IntegerSchema()
+                                        .format(SchemaTypeUtil.INTEGER64_FORMAT)
+                                        .nullable(false))
+                        .addProperties("urls", new ArraySchema().items(new StringSchema()))
+                        .addProperties("name", new StringSchema().nullable(true))
+                        .addRequiredItem("id");
         final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -247,13 +268,17 @@ public class CSharpModelTest {
 
     @Test(description = "convert a model with a nullable property")
     public void nullablePropertyTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(true))
-                .addProperties("urls", new ArraySchema()
-                        .items(new StringSchema()))
-                .addProperties("name", new StringSchema().nullable(true))
-                .addRequiredItem("id");
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "id",
+                                new IntegerSchema()
+                                        .format(SchemaTypeUtil.INTEGER64_FORMAT)
+                                        .nullable(true))
+                        .addProperties("urls", new ArraySchema().items(new StringSchema()))
+                        .addProperties("name", new StringSchema().nullable(true))
+                        .addRequiredItem("id");
         final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -296,14 +321,23 @@ public class CSharpModelTest {
 
     @Test(description = "convert a model with a nullable property without nullable annotation")
     public void nullablePropertyWithoutNullableReferenceTypesTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(true))
-                .addProperties("urls", new ArraySchema()
-                        .items(new StringSchema()).nullable(true))
-                .addProperties("name", new StringSchema().nullable(true))
-                .addProperties("subObject",  new Schema().addProperties("name", new StringSchema()).nullable(true))
-                .addRequiredItem("id");
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "id",
+                                new IntegerSchema()
+                                        .format(SchemaTypeUtil.INTEGER64_FORMAT)
+                                        .nullable(true))
+                        .addProperties(
+                                "urls", new ArraySchema().items(new StringSchema()).nullable(true))
+                        .addProperties("name", new StringSchema().nullable(true))
+                        .addProperties(
+                                "subObject",
+                                new Schema()
+                                        .addProperties("name", new StringSchema())
+                                        .nullable(true))
+                        .addRequiredItem("id");
         final DefaultCodegen codegen = new AspNetCoreServerCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -355,14 +389,23 @@ public class CSharpModelTest {
 
     @Test(description = "convert a model with a nullable property using nullable annotation")
     public void nullablePropertyWithNullableReferenceTypesTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(true))
-                .addProperties("urls", new ArraySchema()
-                        .items(new StringSchema()).nullable(true))
-                .addProperties("name", new StringSchema().nullable(true))
-                .addProperties("subObject",  new Schema().addProperties("name", new StringSchema()).nullable(true))
-                .addRequiredItem("id");
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "id",
+                                new IntegerSchema()
+                                        .format(SchemaTypeUtil.INTEGER64_FORMAT)
+                                        .nullable(true))
+                        .addProperties(
+                                "urls", new ArraySchema().items(new StringSchema()).nullable(true))
+                        .addProperties("name", new StringSchema().nullable(true))
+                        .addProperties(
+                                "subObject",
+                                new Schema()
+                                        .addProperties("name", new StringSchema())
+                                        .nullable(true))
+                        .addRequiredItem("id");
         final DefaultCodegen codegen = new AspNetCoreServerCodegen();
         codegen.additionalProperties().put(CodegenConstants.NULLABLE_REFERENCE_TYPES, true);
         codegen.processOpts();
@@ -416,12 +459,13 @@ public class CSharpModelTest {
 
     @Test(description = "convert a model with list property")
     public void listPropertyTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("urls", new ArraySchema()
-                        .items(new StringSchema()))
-                .addRequiredItem("id");
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                        .addProperties("urls", new ArraySchema().items(new StringSchema()))
+                        .addRequiredItem("id");
         final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -455,11 +499,13 @@ public class CSharpModelTest {
 
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
-        final Schema schema = new Schema()
-                .description("a sample model")
-                .addProperties("translations", new MapSchema()
-                        .additionalProperties(new StringSchema()))
-                .addRequiredItem("id");
+        final Schema schema =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "translations",
+                                new MapSchema().additionalProperties(new StringSchema()))
+                        .addRequiredItem("id");
         final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -483,9 +529,11 @@ public class CSharpModelTest {
 
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
-        final Schema schema = new Schema()
-                .description("a sample model")
-                .addProperties("children", new Schema().$ref("#/components/schemas/Children"));
+        final Schema schema =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "children", new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -507,10 +555,13 @@ public class CSharpModelTest {
     @Test(description = "convert a model with complex list property")
     public void complexListPropertyTest() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        final Schema schema = new Schema()
-                .description("a sample model")
-                .addProperties("children", new ArraySchema()
-                        .items(new Schema().$ref("#/components/schemas/Children")));
+        final Schema schema =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "children",
+                                new ArraySchema()
+                                        .items(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new CSharpClientCodegen();
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
@@ -533,10 +584,15 @@ public class CSharpModelTest {
 
     @Test(description = "convert a model with complex map property")
     public void complexMapPropertyTest() {
-        final Schema schema = new Schema()
-                .description("a sample model")
-                .addProperties("children", new MapSchema()
-                        .additionalProperties(new Schema().$ref("#/components/schemas/Children")));
+        final Schema schema =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "children",
+                                new MapSchema()
+                                        .additionalProperties(
+                                                new Schema()
+                                                        .$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -561,9 +617,10 @@ public class CSharpModelTest {
 
     @Test(description = "convert an array model")
     public void arrayModelTest() {
-        final Schema schema = new ArraySchema()
-                .items(new Schema().$ref("#/components/schemas/Children"))
-                .description("an array model");
+        final Schema schema =
+                new ArraySchema()
+                        .items(new Schema().$ref("#/components/schemas/Children"))
+                        .description("an array model");
         final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -580,9 +637,10 @@ public class CSharpModelTest {
 
     @Test(description = "convert a map model")
     public void mapModelTest() {
-        final Schema schema = new Schema()
-                .description("a map model")
-                .additionalProperties(new Schema().$ref("#/components/schemas/Children"));
+        final Schema schema =
+                new Schema()
+                        .description("a map model")
+                        .additionalProperties(new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);

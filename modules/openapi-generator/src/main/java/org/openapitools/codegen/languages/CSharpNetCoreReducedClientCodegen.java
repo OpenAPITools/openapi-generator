@@ -16,11 +16,21 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -30,20 +40,10 @@ import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-
-import static org.apache.commons.lang3.StringUtils.isEmpty;
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
 @SuppressWarnings("Duplicates")
 public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
-    // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
+    // Defines the sdk option for targeted frameworks, which differs from targetFramework and
+    // targetFrameworkNuget
     protected static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
     protected static final String SUPPORTS_UWP = "supportsUWP";
     protected static final String SUPPORTS_RETRY = "supportsRetry";
@@ -61,21 +61,23 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
 
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
-    private static final List<FrameworkStrategy> frameworkStrategies = Arrays.asList(
-            FrameworkStrategy.NETSTANDARD_1_3,
-            FrameworkStrategy.NETSTANDARD_1_4,
-            FrameworkStrategy.NETSTANDARD_1_5,
-            FrameworkStrategy.NETSTANDARD_1_6,
-            FrameworkStrategy.NETSTANDARD_2_0,
-            FrameworkStrategy.NETSTANDARD_2_1,
-            FrameworkStrategy.NETCOREAPP_2_0,
-            FrameworkStrategy.NETCOREAPP_2_1,
-            FrameworkStrategy.NETFRAMEWORK_4_7,
-            FrameworkStrategy.NET_5_0
-    );
+
+    private static final List<FrameworkStrategy> frameworkStrategies =
+            Arrays.asList(
+                    FrameworkStrategy.NETSTANDARD_1_3,
+                    FrameworkStrategy.NETSTANDARD_1_4,
+                    FrameworkStrategy.NETSTANDARD_1_5,
+                    FrameworkStrategy.NETSTANDARD_1_6,
+                    FrameworkStrategy.NETSTANDARD_2_0,
+                    FrameworkStrategy.NETSTANDARD_2_1,
+                    FrameworkStrategy.NETCOREAPP_2_0,
+                    FrameworkStrategy.NETCOREAPP_2_1,
+                    FrameworkStrategy.NETFRAMEWORK_4_7,
+                    FrameworkStrategy.NET_5_0);
     private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
     protected final Map<String, String> frameworks;
-    protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
+    protected String packageGuid =
+            "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Org.OpenAPITools.Client";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -100,7 +102,8 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
     protected String releaseNote = "Minor update";
     protected String licenseId;
     protected String packageTags;
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    protected boolean useOneOfDiscriminatorLookup =
+            false; // use oneOf discriminator's mapping for model lookup
 
     protected boolean needsCustomHttpMethod = false;
     protected boolean needsUriBuilder = false;
@@ -108,30 +111,24 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
     public CSharpNetCoreReducedClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .includeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.BasePath,
-                        ClientModificationFeature.UserAgent
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.OAuth2_Implicit,
+                                                SecurityFeature.BasicAuth,
+                                                SecurityFeature.ApiKey))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .includeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .includeParameterFeatures(ParameterFeature.Cookie)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath,
+                                        ClientModificationFeature.UserAgent));
 
         // mapped non-nullable type without ?
         typeMapping = new HashMap<String, String>();
@@ -168,52 +165,56 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         cliOptions.clear();
 
         // CLI options
-        addOption(CodegenConstants.PACKAGE_NAME,
+        addOption(
+                CodegenConstants.PACKAGE_NAME,
                 "C# package name (convention: Title.Case).",
                 this.packageName);
 
-        addOption(CodegenConstants.PACKAGE_VERSION,
-                "C# package version.",
-                this.packageVersion);
+        addOption(CodegenConstants.PACKAGE_VERSION, "C# package version.", this.packageVersion);
 
-        addOption(CodegenConstants.SOURCE_FOLDER,
-                CodegenConstants.SOURCE_FOLDER_DESC,
-                sourceFolder);
+        addOption(
+                CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
 
-        addOption(CodegenConstants.OPTIONAL_PROJECT_GUID,
+        addOption(
+                CodegenConstants.OPTIONAL_PROJECT_GUID,
                 CodegenConstants.OPTIONAL_PROJECT_GUID_DESC,
                 null);
 
-        addOption(CodegenConstants.INTERFACE_PREFIX,
+        addOption(
+                CodegenConstants.INTERFACE_PREFIX,
                 CodegenConstants.INTERFACE_PREFIX_DESC,
                 interfacePrefix);
 
-        addOption(CodegenConstants.LICENSE_ID,
-                CodegenConstants.LICENSE_ID_DESC,
-                this.licenseId);
+        addOption(CodegenConstants.LICENSE_ID, CodegenConstants.LICENSE_ID_DESC, this.licenseId);
 
-        addOption(CodegenConstants.RELEASE_NOTE,
+        addOption(
+                CodegenConstants.RELEASE_NOTE,
                 CodegenConstants.RELEASE_NOTE_DESC,
                 this.releaseNote);
 
-        addOption(CodegenConstants.PACKAGE_TAGS,
+        addOption(
+                CodegenConstants.PACKAGE_TAGS,
                 CodegenConstants.PACKAGE_TAGS_DESC,
                 this.packageTags);
 
-        CliOption framework = new CliOption(
-                CodegenConstants.DOTNET_FRAMEWORK,
-                CodegenConstants.DOTNET_FRAMEWORK_DESC
-        );
+        CliOption framework =
+                new CliOption(
+                        CodegenConstants.DOTNET_FRAMEWORK, CodegenConstants.DOTNET_FRAMEWORK_DESC);
 
-        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
-                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
-                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
+        CliOption disallowAdditionalPropertiesIfNotPresentOpt =
+                CliOption.newBoolean(
+                                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC)
+                        .defaultValue(Boolean.TRUE.toString());
         Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
-        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
+        disallowAdditionalPropertiesIfNotPresentOpts.put(
+                "false",
                 "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
-        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
+        disallowAdditionalPropertiesIfNotPresentOpts.put(
+                "true",
                 "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
-        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
+        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(
+                disallowAdditionalPropertiesIfNotPresentOpts);
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
 
@@ -228,79 +229,99 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         framework.setEnum(frameworks);
         cliOptions.add(framework);
 
-        CliOption modelPropertyNaming = new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC);
+        CliOption modelPropertyNaming =
+                new CliOption(
+                        CodegenConstants.MODEL_PROPERTY_NAMING,
+                        CodegenConstants.MODEL_PROPERTY_NAMING_DESC);
         cliOptions.add(modelPropertyNaming.defaultValue("PascalCase"));
 
         // CLI Switches
-        addSwitch(CodegenConstants.NULLABLE_REFERENCE_TYPES,
+        addSwitch(
+                CodegenConstants.NULLABLE_REFERENCE_TYPES,
                 CodegenConstants.NULLABLE_REFERENCE_TYPES_DESC,
                 this.nullReferenceTypesFlag);
 
-        addSwitch(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+        addSwitch(
+                CodegenConstants.HIDE_GENERATION_TIMESTAMP,
                 CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC,
                 this.hideGenerationTimestamp);
 
-        addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
+        addSwitch(
+                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC,
                 this.sortParamsByRequiredFlag);
 
-        addSwitch(CodegenConstants.USE_DATETIME_OFFSET,
+        addSwitch(
+                CodegenConstants.USE_DATETIME_OFFSET,
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
                 this.useDateTimeOffsetFlag);
 
-        addSwitch(CodegenConstants.USE_COLLECTION,
+        addSwitch(
+                CodegenConstants.USE_COLLECTION,
                 CodegenConstants.USE_COLLECTION_DESC,
                 this.useCollection);
 
-        addSwitch(CodegenConstants.RETURN_ICOLLECTION,
+        addSwitch(
+                CodegenConstants.RETURN_ICOLLECTION,
                 CodegenConstants.RETURN_ICOLLECTION_DESC,
                 this.returnICollection);
 
-        addSwitch(CodegenConstants.OPTIONAL_METHOD_ARGUMENT,
+        addSwitch(
+                CodegenConstants.OPTIONAL_METHOD_ARGUMENT,
                 "C# Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).",
                 this.optionalMethodArgumentFlag);
 
-        addSwitch(CodegenConstants.OPTIONAL_ASSEMBLY_INFO,
+        addSwitch(
+                CodegenConstants.OPTIONAL_ASSEMBLY_INFO,
                 CodegenConstants.OPTIONAL_ASSEMBLY_INFO_DESC,
                 this.optionalAssemblyInfoFlag);
 
-        addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
+        addSwitch(
+                CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
                 CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
                 this.optionalEmitDefaultValuesFlag);
 
-        addSwitch(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION,
+        addSwitch(
+                CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION,
                 CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION_DESC,
                 this.conditionalSerialization);
 
-        addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE,
+        addSwitch(
+                CodegenConstants.OPTIONAL_PROJECT_FILE,
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
                 this.optionalProjectFileFlag);
 
-        // NOTE: This will reduce visibility of all public members in templates. Users can use InternalsVisibleTo
+        // NOTE: This will reduce visibility of all public members in templates. Users can use
+        // InternalsVisibleTo
         // https://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.internalsvisibletoattribute(v=vs.110).aspx
-        // to expose to shared code if the generated code is not embedded into another project. Otherwise, users of codegen
+        // to expose to shared code if the generated code is not embedded into another project.
+        // Otherwise, users of codegen
         // should rely on default public visibility.
-        addSwitch(CodegenConstants.NON_PUBLIC_API,
+        addSwitch(
+                CodegenConstants.NON_PUBLIC_API,
                 CodegenConstants.NON_PUBLIC_API_DESC,
                 this.nonPublicApi);
 
-        addSwitch(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS,
+        addSwitch(
+                CodegenConstants.ALLOW_UNICODE_IDENTIFIERS,
                 CodegenConstants.ALLOW_UNICODE_IDENTIFIERS_DESC,
                 this.allowUnicodeIdentifiers);
 
-        addSwitch(CodegenConstants.NETCORE_PROJECT_FILE,
+        addSwitch(
+                CodegenConstants.NETCORE_PROJECT_FILE,
                 CodegenConstants.NETCORE_PROJECT_FILE_DESC,
                 this.netCoreProjectFileFlag);
 
-        addSwitch(CodegenConstants.VALIDATABLE,
-                CodegenConstants.VALIDATABLE_DESC,
-                this.validatable);
+        addSwitch(
+                CodegenConstants.VALIDATABLE, CodegenConstants.VALIDATABLE_DESC, this.validatable);
 
-        addSwitch(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP,
+        addSwitch(
+                CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP,
                 CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC,
                 this.caseInsensitiveResponseHeaders);
 
-        addSwitch(CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS,
+        addSwitch(
+                CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS,
                 CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
                 this.caseInsensitiveResponseHeaders);
 
@@ -310,11 +331,15 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         regexModifiers.put('s', "Singleline");
         regexModifiers.put('x', "IgnorePatternWhitespace");
 
-        supportedLibraries.put(HTTPCLIENT, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
-                + "(Experimental. May subject to breaking changes without further notice.)");
+        supportedLibraries.put(
+                HTTPCLIENT,
+                "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
+                        + "(Experimental. May subject to breaking changes without further notice.)");
         supportedLibraries.put(RESTSHARP, "RestSharp (https://github.com/restsharp/RestSharp)");
 
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
+        CliOption libraryOption =
+                new CliOption(
+                        CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
         // set RESTSHARP as the default
         libraryOption.setDefault(RESTSHARP);
@@ -329,7 +354,13 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String apiTestFileFolder() {
-        return outputFolder + File.separator + testFolder + File.separator + testPackageName() + File.separator + apiPackage();
+        return outputFolder
+                + File.separator
+                + testFolder
+                + File.separator
+                + testPackageName()
+                + File.separator
+                + apiPackage();
     }
 
     @Override
@@ -339,7 +370,8 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
             final Schema parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             if (parentModel != null) {
-                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
+                final CodegenModel parentCodegenModel =
+                        super.fromModel(codegenModel.parent, parentModel);
                 if (codegenModel.hasEnums) {
                     codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
                 }
@@ -350,7 +382,10 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
                 }
 
                 for (final CodegenProperty property : codegenModel.readWriteVars) {
-                    if (property.defaultValue == null && parentCodegenModel.discriminator != null && property.name.equals(parentCodegenModel.discriminator.getPropertyName())) {
+                    if (property.defaultValue == null
+                            && parentCodegenModel.discriminator != null
+                            && property.name.equals(
+                                    parentCodegenModel.discriminator.getPropertyName())) {
                         property.defaultValue = "\"" + name + "\"";
                     }
                 }
@@ -369,12 +404,16 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
             }
         }
 
-        // Cleanup possible duplicates. Currently, readWriteVars can contain the same property twice. May or may not be isolated to C#.
-        if (codegenModel != null && codegenModel.readWriteVars != null && codegenModel.readWriteVars.size() > 1) {
+        // Cleanup possible duplicates. Currently, readWriteVars can contain the same property
+        // twice. May or may not be isolated to C#.
+        if (codegenModel != null
+                && codegenModel.readWriteVars != null
+                && codegenModel.readWriteVars.size() > 1) {
             int length = codegenModel.readWriteVars.size() - 1;
             for (int i = length; i > (length / 2); i--) {
                 final CodegenProperty codegenProperty = codegenModel.readWriteVars.get(i);
-                // If the property at current index is found earlier in the list, remove this last instance.
+                // If the property at current index is found earlier in the list, remove this last
+                // instance.
                 if (codegenModel.readWriteVars.indexOf(codegenProperty) < i) {
                     codegenModel.readWriteVars.remove(i);
                 }
@@ -394,13 +433,17 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
     }
 
     public void setModelPropertyNaming(String naming) {
-        if ("original".equals(naming) || "camelCase".equals(naming) ||
-                "PascalCase".equals(naming) || "snake_case".equals(naming)) {
+        if ("original".equals(naming)
+                || "camelCase".equals(naming)
+                || "PascalCase".equals(naming)
+                || "snake_case".equals(naming)) {
             this.modelPropertyNaming = naming;
         } else {
-            throw new IllegalArgumentException("Invalid model property naming '" +
-                    naming + "'. Must be 'original', 'camelCase', " +
-                    "'PascalCase' or 'snake_case'");
+            throw new IllegalArgumentException(
+                    "Invalid model property naming '"
+                            + naming
+                            + "'. Must be 'original', 'camelCase', "
+                            + "'PascalCase' or 'snake_case'");
         }
     }
 
@@ -420,9 +463,11 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
             case snake_case:
                 return underscore(name);
             default:
-                throw new IllegalArgumentException("Invalid model property naming '" +
-                        name + "'. Must be 'original', 'camelCase', " +
-                        "'PascalCase' or 'snake_case'");
+                throw new IllegalArgumentException(
+                        "Invalid model property naming '"
+                                + name
+                                + "'. Must be 'original', 'camelCase', "
+                                + "'PascalCase' or 'snake_case'");
         }
     }
 
@@ -459,7 +504,13 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String modelTestFileFolder() {
-        return outputFolder + File.separator + testFolder + File.separator + testPackageName() + File.separator + modelPackage();
+        return outputFolder
+                + File.separator
+                + testFolder
+                + File.separator
+                + testPackageName()
+                + File.separator
+                + modelPackage();
     }
 
     @Override
@@ -487,10 +538,13 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         if (pattern != null) {
             int i = pattern.lastIndexOf('/');
 
-            //Must follow Perl /pattern/modifiers convention
+            // Must follow Perl /pattern/modifiers convention
             if (pattern.charAt(0) != '/' || i < 2) {
-                throw new IllegalArgumentException("Pattern must follow the Perl "
-                        + "/pattern/modifiers convention. " + pattern + " is not valid.");
+                throw new IllegalArgumentException(
+                        "Pattern must follow the Perl "
+                                + "/pattern/modifiers convention. "
+                                + pattern
+                                + " is not valid.");
             }
 
             String regex = pattern.substring(1, i).replace("'", "\'").replace("\"", "\"\"");
@@ -519,7 +573,8 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
-        // To avoid unexpected behaviors when options are passed programmatically such as { "supportsAsync": "" }
+        // To avoid unexpected behaviors when options are passed programmatically such as {
+        // "supportsAsync": "" }
         return super.processCompiler(compiler).emptyStringIsFalse(true);
     }
 
@@ -538,25 +593,38 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
          *     if (additionalProperties.containsKey(prop)) convertPropertyToBooleanAndWriteBack(prop);
          */
 
-        if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
-            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
-                    .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
+        if (additionalProperties.containsKey(
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            this.setDisallowAdditionalPropertiesIfNotPresent(
+                    Boolean.parseBoolean(
+                            additionalProperties
+                                    .get(
+                                            CodegenConstants
+                                                    .DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)
+                                    .toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES)) {
-            setOptionalEmitDefaultValuesFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES));
+            setOptionalEmitDefaultValuesFlag(
+                    convertPropertyToBooleanAndWriteBack(
+                            CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES));
         } else {
-            additionalProperties.put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValuesFlag);
+            additionalProperties.put(
+                    CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValuesFlag);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION)) {
-            setConditionalSerialization(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION));
+            setConditionalSerialization(
+                    convertPropertyToBooleanAndWriteBack(
+                            CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION));
         } else {
-            additionalProperties.put(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION, conditionalSerialization);
+            additionalProperties.put(
+                    CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION, conditionalSerialization);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
-            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+            setModelPropertyNaming(
+                    (String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
 
         if (isEmpty(apiPackage)) {
@@ -576,10 +644,16 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
             additionalProperties.put("useHttpClient", true);
             needsUriBuilder = true;
         } else {
-            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient are supported.");
+            throw new RuntimeException(
+                    "Invalid HTTP library "
+                            + getLibrary()
+                            + ". Only restsharp, httpclient are supported.");
         }
 
-        String inputFramework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
+        String inputFramework =
+                (String)
+                        additionalProperties.getOrDefault(
+                                CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
         String[] frameworks;
         List<FrameworkStrategy> strategies = new ArrayList<>();
 
@@ -589,7 +663,7 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
             additionalProperties.put("multiTarget", true);
         } else {
             // just a single value
-            frameworks = new String[]{inputFramework};
+            frameworks = new String[] {inputFramework};
         }
 
         for (String framework : frameworks) {
@@ -600,18 +674,24 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
                     strategyMatched = true;
                 }
 
-                if (frameworkStrategy != FrameworkStrategy.NETSTANDARD_2_0 && "restsharp".equals(getLibrary())) {
-                    LOGGER.warn("If using built-in templates, RestSharp only supports netstandard 2.0 or later.");
+                if (frameworkStrategy != FrameworkStrategy.NETSTANDARD_2_0
+                        && "restsharp".equals(getLibrary())) {
+                    LOGGER.warn(
+                            "If using built-in templates, RestSharp only supports netstandard 2.0 or later.");
                 }
             }
 
             if (!strategyMatched) {
                 // throws exception if the input targetFramework is invalid
-                throw new IllegalArgumentException("The input (" + inputFramework + ") contains Invalid .NET framework version: " +
-                        framework + ". List of supported versions: " +
-                        frameworkStrategies.stream()
-                                .map(p -> p.name)
-                                .collect(Collectors.joining(", ")));
+                throw new IllegalArgumentException(
+                        "The input ("
+                                + inputFramework
+                                + ") contains Invalid .NET framework version: "
+                                + framework
+                                + ". List of supported versions: "
+                                + frameworkStrategies.stream()
+                                        .map(p -> p.name)
+                                        .collect(Collectors.joining(", ")));
             }
         }
 
@@ -628,29 +708,74 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_PROPERTY_CHANGED)) {
-            LOGGER.warn("{} is not supported in the .NET Standard generator.", CodegenConstants.GENERATE_PROPERTY_CHANGED);
+            LOGGER.warn(
+                    "{} is not supported in the .NET Standard generator.",
+                    CodegenConstants.GENERATE_PROPERTY_CHANGED);
             additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
         }
 
         final AtomicReference<Boolean> excludeTests = new AtomicReference<>();
-        syncBooleanProperty(additionalProperties, CodegenConstants.EXCLUDE_TESTS, excludeTests::set, false);
+        syncBooleanProperty(
+                additionalProperties, CodegenConstants.EXCLUDE_TESTS, excludeTests::set, false);
 
         syncStringProperty(additionalProperties, "clientPackage", (s) -> {}, clientPackage);
 
-        syncStringProperty(additionalProperties, CodegenConstants.API_PACKAGE, this::setApiPackage, apiPackage);
-        syncStringProperty(additionalProperties, CodegenConstants.MODEL_PACKAGE, this::setModelPackage, modelPackage);
-        syncStringProperty(additionalProperties, CodegenConstants.OPTIONAL_PROJECT_GUID, this::setPackageGuid, packageGuid);
-        syncStringProperty(additionalProperties, "targetFrameworkNuget", this::setTargetFrameworkNuget, this.targetFrameworkNuget);
-        syncStringProperty(additionalProperties, "testTargetFramework", this::setTestTargetFramework, this.testTargetFramework);
+        syncStringProperty(
+                additionalProperties,
+                CodegenConstants.API_PACKAGE,
+                this::setApiPackage,
+                apiPackage);
+        syncStringProperty(
+                additionalProperties,
+                CodegenConstants.MODEL_PACKAGE,
+                this::setModelPackage,
+                modelPackage);
+        syncStringProperty(
+                additionalProperties,
+                CodegenConstants.OPTIONAL_PROJECT_GUID,
+                this::setPackageGuid,
+                packageGuid);
+        syncStringProperty(
+                additionalProperties,
+                "targetFrameworkNuget",
+                this::setTargetFrameworkNuget,
+                this.targetFrameworkNuget);
+        syncStringProperty(
+                additionalProperties,
+                "testTargetFramework",
+                this::setTestTargetFramework,
+                this.testTargetFramework);
 
-        syncBooleanProperty(additionalProperties, "netStandard", this::setNetStandard, this.netStandard);
+        syncBooleanProperty(
+                additionalProperties, "netStandard", this::setNetStandard, this.netStandard);
 
-        syncBooleanProperty(additionalProperties, CodegenConstants.VALIDATABLE, this::setValidatable, this.validatable);
-        syncBooleanProperty(additionalProperties, CodegenConstants.SUPPORTS_ASYNC, this::setSupportsAsync, this.supportsAsync);
-        syncBooleanProperty(additionalProperties, SUPPORTS_RETRY, this::setSupportsRetry, this.supportsRetry);
-        syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_METHOD_ARGUMENT, this::setOptionalMethodArgumentFlag, optionalMethodArgumentFlag);
-        syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
-        syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
+        syncBooleanProperty(
+                additionalProperties,
+                CodegenConstants.VALIDATABLE,
+                this::setValidatable,
+                this.validatable);
+        syncBooleanProperty(
+                additionalProperties,
+                CodegenConstants.SUPPORTS_ASYNC,
+                this::setSupportsAsync,
+                this.supportsAsync);
+        syncBooleanProperty(
+                additionalProperties, SUPPORTS_RETRY, this::setSupportsRetry, this.supportsRetry);
+        syncBooleanProperty(
+                additionalProperties,
+                CodegenConstants.OPTIONAL_METHOD_ARGUMENT,
+                this::setOptionalMethodArgumentFlag,
+                optionalMethodArgumentFlag);
+        syncBooleanProperty(
+                additionalProperties,
+                CodegenConstants.NON_PUBLIC_API,
+                this::setNonPublicApi,
+                isNonPublicApi());
+        syncBooleanProperty(
+                additionalProperties,
+                CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP,
+                this::setUseOneOfDiscriminatorLookup,
+                this.useOneOfDiscriminatorLookup);
 
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
@@ -660,9 +785,10 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
 
         additionalProperties.put("testPackageName", testPackageName);
 
-        //Compute the relative path to the bin directory where the external assemblies live
-        //This is necessary to properly generate the project file
-        int packageDepth = packageFolder.length() - packageFolder.replace(java.io.File.separator, "").length();
+        // Compute the relative path to the bin directory where the external assemblies live
+        // This is necessary to properly generate the project file
+        int packageDepth =
+                packageFolder.length() - packageFolder.replace(java.io.File.separator, "").length();
         String binRelativePath = "..\\";
         for (int i = 0; i < packageDepth; i = i + 1) {
             binRelativePath += "..\\";
@@ -671,44 +797,87 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         additionalProperties.put("binRelativePath", binRelativePath);
 
         if (HTTPCLIENT.equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
             typeMapping.put("file", "FileParameter");
         }
 
-        supportingFiles.add(new SupportingFile("IApiAccessor.mustache", clientPackageDir, "IApiAccessor.cs"));
-        supportingFiles.add(new SupportingFile("Configuration.mustache", clientPackageDir, "Configuration.cs"));
-        supportingFiles.add(new SupportingFile("ApiClient.mustache", clientPackageDir, "ApiClient.cs"));
-        supportingFiles.add(new SupportingFile("ApiException.mustache", clientPackageDir, "ApiException.cs"));
-        supportingFiles.add(new SupportingFile("ApiResponse.mustache", clientPackageDir, "ApiResponse.cs"));
-        supportingFiles.add(new SupportingFile("ExceptionFactory.mustache", clientPackageDir, "ExceptionFactory.cs"));
-        supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
-        supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
+        supportingFiles.add(
+                new SupportingFile("IApiAccessor.mustache", clientPackageDir, "IApiAccessor.cs"));
+        supportingFiles.add(
+                new SupportingFile("Configuration.mustache", clientPackageDir, "Configuration.cs"));
+        supportingFiles.add(
+                new SupportingFile("ApiClient.mustache", clientPackageDir, "ApiClient.cs"));
+        supportingFiles.add(
+                new SupportingFile("ApiException.mustache", clientPackageDir, "ApiException.cs"));
+        supportingFiles.add(
+                new SupportingFile("ApiResponse.mustache", clientPackageDir, "ApiResponse.cs"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ExceptionFactory.mustache", clientPackageDir, "ExceptionFactory.cs"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "OpenAPIDateConverter.mustache",
+                        clientPackageDir,
+                        "OpenAPIDateConverter.cs"));
+        supportingFiles.add(
+                new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
         if (needsCustomHttpMethod) {
-            supportingFiles.add(new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
+            supportingFiles.add(
+                    new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
         }
         if (needsUriBuilder) {
-            supportingFiles.add(new SupportingFile("WebRequestPathBuilder.mustache", clientPackageDir, "WebRequestPathBuilder.cs"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "WebRequestPathBuilder.mustache",
+                            clientPackageDir,
+                            "WebRequestPathBuilder.cs"));
         }
         if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
-            supportingFiles.add(new SupportingFile("HttpSigningConfiguration.mustache", clientPackageDir, "HttpSigningConfiguration.cs"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "HttpSigningConfiguration.mustache",
+                            clientPackageDir,
+                            "HttpSigningConfiguration.cs"));
         }
         if (supportsAsync) {
-            supportingFiles.add(new SupportingFile("IAsynchronousClient.mustache", clientPackageDir, "IAsynchronousClient.cs"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "IAsynchronousClient.mustache",
+                            clientPackageDir,
+                            "IAsynchronousClient.cs"));
         }
-        supportingFiles.add(new SupportingFile("ISynchronousClient.mustache", clientPackageDir, "ISynchronousClient.cs"));
-        supportingFiles.add(new SupportingFile("RequestOptions.mustache", clientPackageDir, "RequestOptions.cs"));
-        supportingFiles.add(new SupportingFile("Multimap.mustache", clientPackageDir, "Multimap.cs"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ISynchronousClient.mustache", clientPackageDir, "ISynchronousClient.cs"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "RequestOptions.mustache", clientPackageDir, "RequestOptions.cs"));
+        supportingFiles.add(
+                new SupportingFile("Multimap.mustache", clientPackageDir, "Multimap.cs"));
 
         if (supportsRetry) {
-            supportingFiles.add(new SupportingFile("RetryConfiguration.mustache", clientPackageDir, "RetryConfiguration.cs"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "RetryConfiguration.mustache",
+                            clientPackageDir,
+                            "RetryConfiguration.cs"));
         }
 
-        supportingFiles.add(new SupportingFile("IReadableConfiguration.mustache",
-                clientPackageDir, "IReadableConfiguration.cs"));
-        supportingFiles.add(new SupportingFile("GlobalConfiguration.mustache",
-                clientPackageDir, "GlobalConfiguration.cs"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "IReadableConfiguration.mustache",
+                        clientPackageDir,
+                        "IReadableConfiguration.cs"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "GlobalConfiguration.mustache",
+                        clientPackageDir,
+                        "GlobalConfiguration.cs"));
 
-        // Only write out test related files if excludeTests is unset or explicitly set to false (see start of this method)
+        // Only write out test related files if excludeTests is unset or explicitly set to false
+        // (see start of this method)
         if (Boolean.FALSE.equals(excludeTests.get())) {
             modelTestTemplateFiles.put("model_test.mustache", ".cs");
             apiTestTemplateFiles.put("api_test.mustache", ".cs");
@@ -719,7 +888,11 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
         supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
-        supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "AbstractOpenAPISchema.mustache",
+                        modelPackageDir,
+                        "AbstractOpenAPISchema.cs"));
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -769,11 +942,13 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
 
     public void setTargetFramework(String dotnetFramework) {
         if (!frameworks.containsKey(dotnetFramework)) {
-            throw new IllegalArgumentException("Invalid .NET framework version: " +
-                    dotnetFramework + ". List of supported versions: " +
-                    frameworkStrategies.stream()
-                            .map(p -> p.name)
-                            .collect(Collectors.joining(", ")));
+            throw new IllegalArgumentException(
+                    "Invalid .NET framework version: "
+                            + dotnetFramework
+                            + ". List of supported versions: "
+                            + frameworkStrategies.stream()
+                                    .map(p -> p.name)
+                                    .collect(Collectors.joining(", ")));
         } else {
             this.targetFramework = dotnetFramework;
         }
@@ -783,15 +958,17 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
     public void setTargetFramework(List<FrameworkStrategy> strategies) {
         for (FrameworkStrategy strategy : strategies) {
             if (!frameworks.containsKey(strategy.name)) {
-                throw new IllegalArgumentException("Invalid .NET framework version: " +
-                        strategy.name + ". List of supported versions: " +
-                        frameworkStrategies.stream()
-                                .map(p -> p.name)
-                                .collect(Collectors.joining(", ")));
+                throw new IllegalArgumentException(
+                        "Invalid .NET framework version: "
+                                + strategy.name
+                                + ". List of supported versions: "
+                                + frameworkStrategies.stream()
+                                        .map(p -> p.name)
+                                        .collect(Collectors.joining(", ")));
             }
         }
-        this.targetFramework = strategies.stream().map(p -> p.name)
-                .collect(Collectors.joining(";"));
+        this.targetFramework =
+                strategies.stream().map(p -> p.name).collect(Collectors.joining(";"));
         LOGGER.info("Generating code for .NET Framework {}", this.targetFramework);
     }
 
@@ -800,8 +977,10 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
     }
 
     public void setTestTargetFramework(List<FrameworkStrategy> strategies) {
-        this.testTargetFramework = strategies.stream().map(p -> p.testTargetFramework)
-                .collect(Collectors.joining(";"));
+        this.testTargetFramework =
+                strategies.stream()
+                        .map(p -> p.testTargetFramework)
+                        .collect(Collectors.joining(";"));
     }
 
     public void setTargetFrameworkNuget(String targetFrameworkNuget) {
@@ -809,8 +988,10 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
     }
 
     public void setTargetFrameworkNuget(List<FrameworkStrategy> strategies) {
-        this.targetFrameworkNuget = strategies.stream().map(p -> p.getNugetFrameworkIdentifier())
-                .collect(Collectors.joining(";"));
+        this.targetFrameworkNuget =
+                strategies.stream()
+                        .map(p -> p.getNugetFrameworkIdentifier())
+                        .collect(Collectors.joining(";"));
     }
 
     public void setValidatable(boolean validatable) {
@@ -854,8 +1035,10 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         }
 
         // number
-        if (datatype.startsWith("int") || datatype.startsWith("long") ||
-                datatype.startsWith("double") || datatype.startsWith("float")) {
+        if (datatype.startsWith("int")
+                || datatype.startsWith("long")
+                || datatype.startsWith("double")
+                || datatype.startsWith("float")) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
@@ -905,7 +1088,8 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         return name;
     }
 
-    private CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
+    private CodegenModel reconcileInlineEnums(
+            CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
         // the parent and child models, look for enums that match, and remove
@@ -929,7 +1113,8 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
                     Iterator<CodegenProperty> iterator = codegenProperties.iterator();
                     while (iterator.hasNext()) {
                         CodegenProperty codegenProperty = iterator.next();
-                        if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
+                        if (codegenProperty.isEnum
+                                && codegenProperty.equals(parentModelCodegenProperty)) {
                             // We found an enum in the child class that is
                             // a duplicate of the one in the parent, so remove it.
                             iterator.remove();
@@ -947,7 +1132,11 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         return codegenModel;
     }
 
-    private void syncBooleanProperty(final Map<String, Object> additionalProperties, final String key, final Consumer<Boolean> setter, final Boolean defaultValue) {
+    private void syncBooleanProperty(
+            final Map<String, Object> additionalProperties,
+            final String key,
+            final Consumer<Boolean> setter,
+            final Boolean defaultValue) {
         if (additionalProperties.containsKey(key)) {
             setter.accept(convertPropertyToBooleanAndWriteBack(key));
         } else {
@@ -956,7 +1145,11 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         }
     }
 
-    private void syncStringProperty(final Map<String, Object> additionalProperties, final String key, final Consumer<String> setter, final String defaultValue) {
+    private void syncStringProperty(
+            final Map<String, Object> additionalProperties,
+            final String key,
+            final Consumer<String> setter,
+            final String defaultValue) {
         if (additionalProperties.containsKey(key)) {
             setter.accept((String) additionalProperties.get(key));
         } else {
@@ -967,30 +1160,45 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
 
     // https://docs.microsoft.com/en-us/dotnet/standard/net-standard
     @SuppressWarnings("Duplicates")
-    private static abstract class FrameworkStrategy {
+    private abstract static class FrameworkStrategy {
 
         private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
 
-        static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3 compatible", "netcoreapp2.0") {
-        };
-        static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4 compatible", "netcoreapp2.0") {
-        };
-        static FrameworkStrategy NETSTANDARD_1_5 = new FrameworkStrategy("netstandard1.5", ".NET Standard 1.5 compatible", "netcoreapp2.0") {
-        };
-        static FrameworkStrategy NETSTANDARD_1_6 = new FrameworkStrategy("netstandard1.6", ".NET Standard 1.6 compatible", "netcoreapp2.0") {
-        };
-        static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0 compatible", "netcoreapp2.0") {
-        };
-        static FrameworkStrategy NETSTANDARD_2_1 = new FrameworkStrategy("netstandard2.1", ".NET Standard 2.1 compatible", "netcoreapp3.0") {
-        };
-        static FrameworkStrategy NETCOREAPP_2_0 = new FrameworkStrategy("netcoreapp2.0", ".NET Core 2.0 compatible", "netcoreapp2.0", Boolean.FALSE) {
-        };
-        static FrameworkStrategy NETCOREAPP_2_1 = new FrameworkStrategy("netcoreapp2.1", ".NET Core 2.1 compatible", "netcoreapp2.1", Boolean.FALSE) {
-        };
-        static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7 compatible", "net47", Boolean.FALSE) {
-        };
-        static FrameworkStrategy NET_5_0 = new FrameworkStrategy("net5.0", ".NET 5.0 compatible", "net5.0", Boolean.FALSE) {
-        };
+        static FrameworkStrategy NETSTANDARD_1_3 =
+                new FrameworkStrategy(
+                        "netstandard1.3", ".NET Standard 1.3 compatible", "netcoreapp2.0") {};
+        static FrameworkStrategy NETSTANDARD_1_4 =
+                new FrameworkStrategy(
+                        "netstandard1.4", ".NET Standard 1.4 compatible", "netcoreapp2.0") {};
+        static FrameworkStrategy NETSTANDARD_1_5 =
+                new FrameworkStrategy(
+                        "netstandard1.5", ".NET Standard 1.5 compatible", "netcoreapp2.0") {};
+        static FrameworkStrategy NETSTANDARD_1_6 =
+                new FrameworkStrategy(
+                        "netstandard1.6", ".NET Standard 1.6 compatible", "netcoreapp2.0") {};
+        static FrameworkStrategy NETSTANDARD_2_0 =
+                new FrameworkStrategy(
+                        "netstandard2.0", ".NET Standard 2.0 compatible", "netcoreapp2.0") {};
+        static FrameworkStrategy NETSTANDARD_2_1 =
+                new FrameworkStrategy(
+                        "netstandard2.1", ".NET Standard 2.1 compatible", "netcoreapp3.0") {};
+        static FrameworkStrategy NETCOREAPP_2_0 =
+                new FrameworkStrategy(
+                        "netcoreapp2.0",
+                        ".NET Core 2.0 compatible",
+                        "netcoreapp2.0",
+                        Boolean.FALSE) {};
+        static FrameworkStrategy NETCOREAPP_2_1 =
+                new FrameworkStrategy(
+                        "netcoreapp2.1",
+                        ".NET Core 2.1 compatible",
+                        "netcoreapp2.1",
+                        Boolean.FALSE) {};
+        static FrameworkStrategy NETFRAMEWORK_4_7 =
+                new FrameworkStrategy(
+                        "net47", ".NET Framework 4.7 compatible", "net47", Boolean.FALSE) {};
+        static FrameworkStrategy NET_5_0 =
+                new FrameworkStrategy("net5.0", ".NET 5.0 compatible", "net5.0", Boolean.FALSE) {};
         protected String name;
         protected String description;
         protected String testTargetFramework;
@@ -1002,7 +1210,11 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
             this.testTargetFramework = testTargetFramework;
         }
 
-        FrameworkStrategy(String name, String description, String testTargetFramework, Boolean isNetStandard) {
+        FrameworkStrategy(
+                String name,
+                String description,
+                String testTargetFramework,
+                Boolean isNetStandard) {
             this.name = name;
             this.description = description;
             this.testTargetFramework = testTargetFramework;
@@ -1019,7 +1231,8 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
 
             properties.put(NET_STANDARD, this.isNetStandard);
             if (properties.containsKey(SUPPORTS_UWP)) {
-                LOGGER.warn(".NET {} generator does not support the UWP option. Use the csharp generator instead.",
+                LOGGER.warn(
+                        ".NET {} generator does not support the UWP option. Use the csharp generator instead.",
                         this.name);
                 properties.remove(SUPPORTS_UWP);
             }
@@ -1040,21 +1253,28 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
         }
     }
 
-    protected void configureAdditionalPropertiesForFrameworks(final Map<String, Object> properties, List<FrameworkStrategy> strategies) {
-        properties.putIfAbsent(CodegenConstants.DOTNET_FRAMEWORK, strategies.stream()
-                .map(p -> p.name)
-                .collect(Collectors.joining(";")));
+    protected void configureAdditionalPropertiesForFrameworks(
+            final Map<String, Object> properties, List<FrameworkStrategy> strategies) {
+        properties.putIfAbsent(
+                CodegenConstants.DOTNET_FRAMEWORK,
+                strategies.stream().map(p -> p.name).collect(Collectors.joining(";")));
 
         // not intended to be user-settable
-        properties.put(TARGET_FRAMEWORK_IDENTIFIER, strategies.stream()
-                .map(p -> p.getTargetFrameworkIdentifier())
-                .collect(Collectors.joining(";")));
-        properties.put(TARGET_FRAMEWORK_VERSION, strategies.stream()
-                .map(p -> p.getTargetFrameworkVersion())
-                .collect(Collectors.joining(";")));
+        properties.put(
+                TARGET_FRAMEWORK_IDENTIFIER,
+                strategies.stream()
+                        .map(p -> p.getTargetFrameworkIdentifier())
+                        .collect(Collectors.joining(";")));
+        properties.put(
+                TARGET_FRAMEWORK_VERSION,
+                strategies.stream()
+                        .map(p -> p.getTargetFrameworkVersion())
+                        .collect(Collectors.joining(";")));
         properties.putIfAbsent(MCS_NET_VERSION_KEY, "4.6-api");
 
-        properties.put(NET_STANDARD, strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.isNetStandard)));
+        properties.put(
+                NET_STANDARD,
+                strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.isNetStandard)));
     }
 
     /**
@@ -1107,26 +1327,39 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
-        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
-        System.out.println("################################################################################");
+        System.out.println(
+                "################################################################################");
+        System.out.println(
+                "# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println(
+                "# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println(
+                "# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println(
+                "#                                                                              #");
+        System.out.println(
+                "# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
+        System.out.println(
+                "# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
+        System.out.println(
+                "################################################################################");
     }
 
     @Override
     protected void updateModelForObject(CodegenModel m, Schema schema) {
         /**
          * we have a custom version of this function so we only set isMap to true if
-         * ModelUtils.isMapSchema
-         * In other generators, isMap is true for all type object schemas
+         * ModelUtils.isMapSchema In other generators, isMap is true for all type object schemas
          */
-        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+        if (schema.getProperties() != null
+                || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
             // passing null to allProperties and allRequired as there's no parent
-            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+            addVars(
+                    m,
+                    unaliasPropertySchema(schema.getProperties()),
+                    schema.getRequired(),
+                    null,
+                    null);
         }
         if (ModelUtils.isMapSchema(schema)) {
             // an object or anyType composed schema that has additionalProperties set

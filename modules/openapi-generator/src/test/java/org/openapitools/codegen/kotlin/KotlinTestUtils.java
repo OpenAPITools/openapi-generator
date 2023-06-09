@@ -1,5 +1,13 @@
 package org.openapitools.codegen.kotlin;
 
+import static kotlin.script.experimental.jvm.util.JvmClasspathUtilKt.classpathFromClassloader;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.util.*;
 import kotlin.script.experimental.jvm.util.KotlinJars;
 import org.jetbrains.kotlin.cli.common.CLIConfigurationKeys;
 import org.jetbrains.kotlin.cli.common.config.ContentRootsKt;
@@ -16,15 +24,6 @@ import org.jetbrains.kotlin.config.CompilerConfiguration;
 import org.jetbrains.kotlin.config.JVMConfigurationKeys;
 import org.jetbrains.kotlin.config.JvmTarget;
 
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.nio.file.Files;
-import java.util.*;
-
-import static kotlin.script.experimental.jvm.util.JvmClasspathUtilKt.classpathFromClassloader;
-
 public class KotlinTestUtils {
 
     public static ClassLoader buildModule(List<String> sourcePath, ClassLoader classLoader) {
@@ -39,14 +38,18 @@ public class KotlinTestUtils {
         compileModule(moduleName, sourcePath, saveClassesDir, classLoader, true);
 
         try {
-            return new URLClassLoader(new URL[]{saveClassesDir.toURI().toURL()}, classLoader);
+            return new URLClassLoader(new URL[] {saveClassesDir.toURI().toURL()}, classLoader);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
-    private static GenerationState compileModule(String moduleName, List<String> sourcePath, File saveClassesDir, ClassLoader classLoader, boolean forcedAddKotlinStd) {
+    private static GenerationState compileModule(
+            String moduleName,
+            List<String> sourcePath,
+            File saveClassesDir,
+            ClassLoader classLoader,
+            boolean forcedAddKotlinStd) {
         Disposable stubDisposable = new StubDisposable();
         CompilerConfiguration configuration = new CompilerConfiguration();
         configuration.put(CommonConfigurationKeys.MODULE_NAME, moduleName);
@@ -57,9 +60,11 @@ public class KotlinTestUtils {
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
-        configuration.put(CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, new PrintingMessageCollector(ps, MessageRenderer.PLAIN_FULL_PATHS, true));
+        configuration.put(
+                CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY,
+                new PrintingMessageCollector(ps, MessageRenderer.PLAIN_FULL_PATHS, true));
         configuration.put(JVMConfigurationKeys.OUTPUT_DIRECTORY, saveClassesDir);
-//        configuration.put(JVMConfigurationKeys.RETAIN_OUTPUT_IN_MEMORY, true)
+        //        configuration.put(JVMConfigurationKeys.RETAIN_OUTPUT_IN_MEMORY, true)
         configuration.put(JVMConfigurationKeys.JVM_TARGET, JvmTarget.JVM_1_8);
         Set<File> classPath = new HashSet<>();
         if (classLoader != null) {
@@ -71,7 +76,9 @@ public class KotlinTestUtils {
         JvmContentRootsKt.addJvmClasspathRoots(configuration, new ArrayList<>(classPath));
         ContentRootsKt.addKotlinSourceRoots(configuration, sourcePath);
 
-        KotlinCoreEnvironment env = KotlinCoreEnvironment.createForProduction(stubDisposable, configuration, EnvironmentConfigFiles.JVM_CONFIG_FILES);
+        KotlinCoreEnvironment env =
+                KotlinCoreEnvironment.createForProduction(
+                        stubDisposable, configuration, EnvironmentConfigFiles.JVM_CONFIG_FILES);
         GenerationState result = KotlinToJVMBytecodeCompiler.INSTANCE.analyzeAndGenerate(env);
         ps.flush();
         if (result != null) {

@@ -28,7 +28,12 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-@ComponentScan(basePackages = { "org.openapitools.codegen.online", "org.openapitools.codegen.online.api", "org.openapitools.codegen.online.configuration"})
+@ComponentScan(
+        basePackages = {
+            "org.openapitools.codegen.online",
+            "org.openapitools.codegen.online.api",
+            "org.openapitools.codegen.online.configuration"
+        })
 public class OpenAPI2SpringBoot implements CommandLineRunner {
 
     @Override
@@ -49,7 +54,6 @@ public class OpenAPI2SpringBoot implements CommandLineRunner {
         public int getExitCode() {
             return 10;
         }
-
     }
 
     @Bean

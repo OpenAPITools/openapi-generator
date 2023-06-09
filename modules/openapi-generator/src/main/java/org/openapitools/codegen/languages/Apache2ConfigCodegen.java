@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import java.util.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -24,9 +25,6 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.*;
-
 
 public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String USER_INFO_PATH = "userInfoPath";
@@ -53,16 +51,17 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
         super();
 
         // TODO: Apache2 maintainer review.
-        modifyFeatureSet(features -> features
-                .parameterFeatures(EnumSet.of(ParameterFeature.Path))
-                .securityFeatures(EnumSet.of(SecurityFeature.BasicAuth))
-                .dataTypeFeatures(EnumSet.noneOf(DataTypeFeature.class))
-                .wireFormatFeatures(EnumSet.noneOf(WireFormatFeature.class))
-                .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
-                .globalFeatures(EnumSet.noneOf(GlobalFeature.class))
-                .schemaSupportFeatures(EnumSet.noneOf(SchemaSupportFeature.class))
-                .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class))
-        );
+        modifyFeatureSet(
+                features ->
+                        features.parameterFeatures(EnumSet.of(ParameterFeature.Path))
+                                .securityFeatures(EnumSet.of(SecurityFeature.BasicAuth))
+                                .dataTypeFeatures(EnumSet.noneOf(DataTypeFeature.class))
+                                .wireFormatFeatures(EnumSet.noneOf(WireFormatFeature.class))
+                                .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
+                                .globalFeatures(EnumSet.noneOf(GlobalFeature.class))
+                                .schemaSupportFeatures(EnumSet.noneOf(SchemaSupportFeature.class))
+                                .clientModificationFeatures(
+                                        EnumSet.noneOf(ClientModificationFeature.class)));
 
         apiTemplateFiles.put("apache-config.mustache", ".conf");
 
@@ -70,7 +69,6 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
 
         cliOptions.add(new CliOption(USER_INFO_PATH, "Path to the user and group files"));
     }
-
 
     @Override
     public void processOpts() {
@@ -91,7 +89,8 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
         List<CodegenOperation> newOpList = new ArrayList<>();
@@ -115,7 +114,9 @@ public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfi
                     if (op1.path.equals(op.path)) {
                         foundInNewList = true;
                         @SuppressWarnings("unchecked")
-                        List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) op1.vendorExtensions.get("x-codegen-otherMethods");
+                        List<CodegenOperation> currentOtherMethodList =
+                                (List<CodegenOperation>)
+                                        op1.vendorExtensions.get("x-codegen-otherMethods");
                         if (currentOtherMethodList == null) {
                             currentOtherMethodList = new ArrayList<>();
                         }

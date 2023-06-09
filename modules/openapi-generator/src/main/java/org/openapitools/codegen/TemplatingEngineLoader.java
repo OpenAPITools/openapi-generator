@@ -16,19 +16,22 @@
 
 package org.openapitools.codegen;
 
-import org.openapitools.codegen.api.TemplatingEngineAdapter;
-
 import java.util.Locale;
 import java.util.ServiceLoader;
+import org.openapitools.codegen.api.TemplatingEngineAdapter;
 
 public class TemplatingEngineLoader {
     private TemplatingEngineLoader() {
         throw new IllegalStateException("Utility class");
     }
 
-    @SuppressWarnings("java:S112") // ignore java:S112 as generic RuntimeException is acceptable here
+    @SuppressWarnings(
+            "java:S112") // ignore java:S112 as generic RuntimeException is acceptable here
     public static TemplatingEngineAdapter byIdentifier(String id) {
-        ServiceLoader<TemplatingEngineAdapter> loader = ServiceLoader.load(TemplatingEngineAdapter.class, TemplatingEngineLoader.class.getClassLoader());
+        ServiceLoader<TemplatingEngineAdapter> loader =
+                ServiceLoader.load(
+                        TemplatingEngineAdapter.class,
+                        TemplatingEngineLoader.class.getClassLoader());
 
         StringBuilder sb = new StringBuilder();
         for (TemplatingEngineAdapter templatingEngineAdapter : loader) {
@@ -40,9 +43,16 @@ public class TemplatingEngineLoader {
 
         try {
             // Attempt to load skipping SPI
-            return (TemplatingEngineAdapter) Class.forName(id).getDeclaredConstructor().newInstance();
+            return (TemplatingEngineAdapter)
+                    Class.forName(id).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            throw new RuntimeException(String.format(Locale.ROOT, "Couldn't load template engine adapter %s. Available options: %n%s", id, sb), e);
+            throw new RuntimeException(
+                    String.format(
+                            Locale.ROOT,
+                            "Couldn't load template engine adapter %s. Available options: %n%s",
+                            id,
+                            sb),
+                    e);
         }
     }
 }

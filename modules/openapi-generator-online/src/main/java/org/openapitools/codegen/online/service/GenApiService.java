@@ -17,6 +17,13 @@
 
 package org.openapitools.codegen.online.service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
@@ -38,14 +45,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
 
 @Service
 public class GenApiService implements GenApiDelegate {
@@ -69,8 +68,7 @@ public class GenApiService implements GenApiDelegate {
         servers.sort(String.CASE_INSENSITIVE_ORDER);
     }
 
-    @Autowired
-    private NativeWebRequest request;
+    @Autowired private NativeWebRequest request;
 
     @Override
     public Optional<NativeWebRequest> getRequest() {
@@ -91,25 +89,27 @@ public class GenApiService implements GenApiDelegate {
         } catch (FileNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "File not found", e);
         } catch (IOException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "I/O error while reading file", e);
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "I/O error while reading file", e);
         }
         try {
             FileUtils.deleteDirectory(file.getParentFile());
         } catch (IOException e) {
             System.out.println("failed to delete file " + file.getAbsolutePath());
         }
-        return ResponseEntity
-                .ok()
+        return ResponseEntity.ok()
                 .contentType(MediaType.valueOf("application/zip"))
-                .header("Content-Disposition",
+                .header(
+                        "Content-Disposition",
                         "attachment; filename=\"" + g.getFriendlyName() + "-generated.zip\"")
                 .header("Accept-Range", "bytes")
-                //.header("Content-Length", bytes.length)
+                // .header("Content-Length", bytes.length)
                 .body(resource);
     }
 
     @Override
-    public ResponseEntity<ResponseCode> generateClient(String language, GeneratorInput generatorInput) {
+    public ResponseEntity<ResponseCode> generateClient(
+            String language, GeneratorInput generatorInput) {
         String filename = Generator.generateClient(language, generatorInput);
         return getResponse(filename, language + "-client");
     }
@@ -147,7 +147,8 @@ public class GenApiService implements GenApiDelegate {
     }
 
     @Override
-    public ResponseEntity<ResponseCode> generateServerForLanguage(String framework, GeneratorInput generatorInput) {
+    public ResponseEntity<ResponseCode> generateServerForLanguage(
+            String framework, GeneratorInput generatorInput) {
         if (framework == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Framework is required");
         }
@@ -180,5 +181,4 @@ public class GenApiService implements GenApiDelegate {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
 }

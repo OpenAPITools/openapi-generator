@@ -16,12 +16,18 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
-
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -34,14 +40,6 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
 public abstract class AbstractFSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean optionalAssemblyInfoFlag = true;
@@ -52,7 +50,8 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
 
-    protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
+    protected String modelPropertyNaming =
+            CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
     protected String licenseUrl = "http://localhost";
     protected String licenseName = "NoLicense";
@@ -80,7 +79,6 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
     protected Set<String> nullableType = new HashSet<>();
 
-
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractFSharpCodegen.class);
 
     public AbstractFSharpCodegen() {
@@ -96,70 +94,166 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         collectionTypes = new HashSet<>(Arrays.asList("list", "seq"));
 
-        mapTypes = new HashSet<>(
-                Arrays.asList("IDictionary")
-        );
+        mapTypes = new HashSet<>(Arrays.asList("IDictionary"));
 
         reservedWords.addAll(
                 Arrays.asList(
                         // local variable names in API methods (endpoints)
-                        "localVarPath", "localVarPathParams", "localVarQueryParams", "localVarHeaderParams",
-                        "localVarFormParams", "localVarFileParams", "localVarStatusCode", "localVarResponse",
-                        "localVarPostBody", "localVarHttpHeaderAccepts", "localVarHttpHeaderAccept",
-                        "localVarHttpContentTypes", "localVarHttpContentType",
+                        "localVarPath",
+                        "localVarPathParams",
+                        "localVarQueryParams",
+                        "localVarHeaderParams",
+                        "localVarFormParams",
+                        "localVarFileParams",
+                        "localVarStatusCode",
+                        "localVarResponse",
+                        "localVarPostBody",
+                        "localVarHttpHeaderAccepts",
+                        "localVarHttpHeaderAccept",
+                        "localVarHttpContentTypes",
+                        "localVarHttpContentType",
                         "localVarStatusCode",
                         // F# reserved words
-                        "abstract", "and", "as", "async", "await", "assert", "base", "begin", "bool", "break", "byte", "case", "catch", "char", "checked",
-                        "class", "const", "continue", "decimal", "default", "delegate", "do", "done", "double", "downcast", "downto", "dynamic",
-                        "elif", "else", "end", "enum", "event", "exception", "explicit", "extern", "false", "finally", "fixed", "float", "for",
-                        "foreach", "fun", "function", "if", "in", "inherit", "inline", "int", "interface", "internal", "is", "lazy", "let", "let!", "lock",
-                        "match", "match!", "member", "module", "mutable", "namespace", "new", "not", "null", "of", "open", "option", "or", "override", "params",
-                        "private", "public", "raise", "rec", "return", "return!", "sealed", "select", "static", "string", "struct", "then", "to",
-                        "true", "try", "type", "upcast", "use", "use!", "val", "void", "volatile", "when", "while", "with", "yield", "yield!")
-        );
+                        "abstract",
+                        "and",
+                        "as",
+                        "async",
+                        "await",
+                        "assert",
+                        "base",
+                        "begin",
+                        "bool",
+                        "break",
+                        "byte",
+                        "case",
+                        "catch",
+                        "char",
+                        "checked",
+                        "class",
+                        "const",
+                        "continue",
+                        "decimal",
+                        "default",
+                        "delegate",
+                        "do",
+                        "done",
+                        "double",
+                        "downcast",
+                        "downto",
+                        "dynamic",
+                        "elif",
+                        "else",
+                        "end",
+                        "enum",
+                        "event",
+                        "exception",
+                        "explicit",
+                        "extern",
+                        "false",
+                        "finally",
+                        "fixed",
+                        "float",
+                        "for",
+                        "foreach",
+                        "fun",
+                        "function",
+                        "if",
+                        "in",
+                        "inherit",
+                        "inline",
+                        "int",
+                        "interface",
+                        "internal",
+                        "is",
+                        "lazy",
+                        "let",
+                        "let!",
+                        "lock",
+                        "match",
+                        "match!",
+                        "member",
+                        "module",
+                        "mutable",
+                        "namespace",
+                        "new",
+                        "not",
+                        "null",
+                        "of",
+                        "open",
+                        "option",
+                        "or",
+                        "override",
+                        "params",
+                        "private",
+                        "public",
+                        "raise",
+                        "rec",
+                        "return",
+                        "return!",
+                        "sealed",
+                        "select",
+                        "static",
+                        "string",
+                        "struct",
+                        "then",
+                        "to",
+                        "true",
+                        "try",
+                        "type",
+                        "upcast",
+                        "use",
+                        "use!",
+                        "val",
+                        "void",
+                        "volatile",
+                        "when",
+                        "while",
+                        "with",
+                        "yield",
+                        "yield!"));
 
         // TODO - these are based on C# generator, do we need to add any more?
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
-                        "String",
-                        "string",
-                        "bool",
-                        "char",
-                        "decimal",
-                        "int",
-                        "int16",
-                        "int64",
-                        "nativeint",
-                        "unativeint",
-                        "uint16",
-                        "uint32",
-                        "uint64",
-                        "float",
-                        "byte[]",
-                        "ICollection",
-                        "Collection",
-                        "list",
-                        "dict",
-                        "seq",
-                        "Dictionary",
-                        "List",
-                        "DateTime",
-                        "DataTimeOffset",
-                        "Double",
-                        "Int32",
-                        "Int64",
-                        "float",
-                        "float32",
-                        "single",
-                        "double",
-                        "System.IO.Stream", // not really a primitive, we include it to avoid model import
-                        "obj")
-        );
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "String",
+                                "string",
+                                "bool",
+                                "char",
+                                "decimal",
+                                "int",
+                                "int16",
+                                "int64",
+                                "nativeint",
+                                "unativeint",
+                                "uint16",
+                                "uint32",
+                                "uint64",
+                                "float",
+                                "byte[]",
+                                "ICollection",
+                                "Collection",
+                                "list",
+                                "dict",
+                                "seq",
+                                "Dictionary",
+                                "List",
+                                "DateTime",
+                                "DataTimeOffset",
+                                "Double",
+                                "Int32",
+                                "Int64",
+                                "float",
+                                "float32",
+                                "single",
+                                "double",
+                                "System.IO.Stream", // not really a primitive, we include it to
+                                // avoid model import
+                                "obj"));
 
         instantiationTypes.put("array", "list");
         instantiationTypes.put("list", "list");
         instantiationTypes.put("map", "IDictionary");
-
 
         typeMapping = new HashMap<>();
         typeMapping.put("string", "string");
@@ -182,9 +276,11 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("URI", "string");
 
         // nullable type
-        nullableType = new HashSet<>(
-                Arrays.asList("decimal", "bool", "int", "float", "long", "double", "string", "Guid", "apiKey")
-        );
+        nullableType =
+                new HashSet<>(
+                        Arrays.asList(
+                                "decimal", "bool", "int", "float", "long", "double", "string",
+                                "Guid", "apiKey"));
     }
 
     public void setReturnICollection(boolean returnICollection) {
@@ -262,14 +358,16 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         // {{packageProductName}}
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_PRODUCTNAME)) {
-            setPackageProductName((String) additionalProperties.get(CodegenConstants.PACKAGE_PRODUCTNAME));
+            setPackageProductName(
+                    (String) additionalProperties.get(CodegenConstants.PACKAGE_PRODUCTNAME));
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_PRODUCTNAME, packageProductName);
         }
 
         // {{packageDescription}}
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_DESCRIPTION)) {
-            setPackageDescription((String) additionalProperties.get(CodegenConstants.PACKAGE_DESCRIPTION));
+            setPackageDescription(
+                    (String) additionalProperties.get(CodegenConstants.PACKAGE_DESCRIPTION));
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_DESCRIPTION, packageDescription);
         }
@@ -283,7 +381,8 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         // {{packageCopyright}}
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_COPYRIGHT)) {
-            setPackageCopyright((String) additionalProperties.get(CodegenConstants.PACKAGE_COPYRIGHT));
+            setPackageCopyright(
+                    (String) additionalProperties.get(CodegenConstants.PACKAGE_COPYRIGHT));
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_COPYRIGHT, packageCopyright);
         }
@@ -297,23 +396,28 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         // {{useDateTimeOffset}}
         if (additionalProperties.containsKey(CodegenConstants.USE_DATETIME_OFFSET)) {
-            useDateTimeOffset(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DATETIME_OFFSET));
+            useDateTimeOffset(
+                    convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DATETIME_OFFSET));
         } else {
             additionalProperties.put(CodegenConstants.USE_DATETIME_OFFSET, useDateTimeOffsetFlag);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
-            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+            setModelPropertyNaming(
+                    (String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
 
-        // This either updates additionalProperties with the above fixes, or sets the default if the option was not specified.
+        // This either updates additionalProperties with the above fixes, or sets the default if the
+        // option was not specified.
         additionalProperties.put(CodegenConstants.INTERFACE_PREFIX, interfacePrefix);
     }
 
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-                .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true));
+                .put(
+                        "camelcase_param",
+                        new CamelCaseLambda().generator(this).escapeAsParamName(true));
     }
 
     @Override
@@ -335,7 +439,8 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     }
 
     /**
-     * Invoked by {@link DefaultGenerator} after all models have been post-processed, allowing for a last pass of codegen-specific model cleanup.
+     * Invoked by {@link DefaultGenerator} after all models have been post-processed, allowing for a
+     * last pass of codegen-specific model cleanup.
      *
      * @param objs Current state of codegen object model.
      * @return (ew) modified state of the codegen object model.
@@ -393,12 +498,13 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     }
 
     /**
-     * F# differs from other languages in that Enums are not _true_ objects; enums are compiled to integral types.
-     * So, in F#, an enum is considers more like a user-defined primitive.
-     * <p>
-     * When working with enums, we can't always assume a RefModel is a nullable type (where default(YourType) == null),
-     * so this post processing runs through all models to find RefModel'd enums. Then, it runs through all vars and modifies
-     * those vars referencing RefModel'd enums to work the same as inlined enums rather than as objects.
+     * F# differs from other languages in that Enums are not _true_ objects; enums are compiled to
+     * integral types. So, in F#, an enum is considers more like a user-defined primitive.
+     *
+     * <p>When working with enums, we can't always assume a RefModel is a nullable type (where
+     * default(YourType) == null), so this post processing runs through all models to find
+     * RefModel'd enums. Then, it runs through all vars and modifies those vars referencing
+     * RefModel'd enums to work the same as inlined enums rather than as objects.
      *
      * @param models processed models to be further processed for enum references
      */
@@ -418,27 +524,31 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                 for (CodegenProperty var : model.allVars) {
                     if (enumRefs.containsKey(var.dataType)) {
                         // Handle any enum properties referred to by $ref.
-                        // This is different in F# than most other generators, because enums in C# are compiled to integral types,
+                        // This is different in F# than most other generators, because enums in C#
+                        // are compiled to integral types,
                         // while enums in many other languages are true objects.
                         CodegenModel refModel = enumRefs.get(var.dataType);
                         var.allowableValues = refModel.allowableValues;
                         var.isEnum = true;
 
-                        // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
+                        // We do these after updateCodegenPropertyEnum to avoid generalities that
+                        // don't mesh with C#.
                         var.isPrimitiveType = true;
                     }
                 }
 
                 // We're looping all models here.
                 if (model.isEnum) {
-                    // We now need to make allowableValues.enumVars look like the context of CodegenProperty
+                    // We now need to make allowableValues.enumVars look like the context of
+                    // CodegenProperty
                     Boolean isString = false;
                     Boolean isInteger = false;
                     Boolean isLong = false;
                     Boolean isByte = false;
 
                     if (model.dataType.startsWith("byte")) {
-                        // F# Actually supports byte and short enums, swagger spec only supports byte.
+                        // F# Actually supports byte and short enums, swagger spec only supports
+                        // byte.
                         isByte = true;
                         model.vendorExtensions.put("x-enum-byte", true);
                     } else if (model.dataType.startsWith("int32")) {
@@ -448,14 +558,19 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                         isLong = true;
                         model.vendorExtensions.put("x-enum-long", true);
                     } else {
-                        // F# doesn't support non-integral enums, so we need to treat everything else as strings (e.g. to not lose precision or data integrity)
+                        // F# doesn't support non-integral enums, so we need to treat everything
+                        // else as strings (e.g. to not lose precision or data integrity)
                         isString = true;
                         model.vendorExtensions.put("x-enum-string", true);
                     }
 
-                    // Since we iterate enumVars for modelInnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
-                    // we can take advantage of Mustache's contextual lookup to add the same "properties" to the model's enumVars scope rather than CodegenProperty's scope.
-                    List<Map<String, String>> enumVars = (ArrayList<Map<String, String>>) model.allowableValues.get("enumVars");
+                    // Since we iterate enumVars for modelInnerEnum and enumClass templates, and
+                    // CodegenModel is missing some of CodegenProperty's properties,
+                    // we can take advantage of Mustache's contextual lookup to add the same
+                    // "properties" to the model's enumVars scope rather than CodegenProperty's
+                    // scope.
+                    List<Map<String, String>> enumVars =
+                            (ArrayList<Map<String, String>>) model.allowableValues.get("enumVars");
                     List<Map<String, Object>> newEnumVars = new ArrayList<>();
                     for (Map<String, String> enumVar : enumVars) {
                         Map<String, Object> mixedVars = new HashMap<>(enumVar);
@@ -473,7 +588,9 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                     }
                 }
             } else {
-                LOGGER.warn("Expected to retrieve model {} by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
+                LOGGER.warn(
+                        "Expected to retrieve model {} by name, but no model was found. Check your -Dmodels inclusions.",
+                        openAPIName);
             }
         }
     }
@@ -491,9 +608,10 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         super.updateCodegenPropertyEnum(var);
 
-        // Because C# uses nullable primitives for datatype, and datatype is used in DefaultCodegen for determining enum-ness, guard against weirdness here.
+        // Because C# uses nullable primitives for datatype, and datatype is used in DefaultCodegen
+        // for determining enum-ness, guard against weirdness here.
         if (var.isEnum) {
-            if ("byte".equals(var.dataFormat)) {// C# Actually supports byte and short enums.
+            if ("byte".equals(var.dataFormat)) { // C# Actually supports byte and short enums.
                 var.vendorExtensions.put("x-enum-byte", true);
                 var.isString = false;
                 var.isLong = false;
@@ -506,7 +624,8 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                 var.isLong = true;
                 var.isString = false;
                 var.isInteger = false;
-            } else {// C# doesn't support non-integral enums, so we need to treat everything else as strings (e.g. to not lose precision or data integrity)
+            } else { // C# doesn't support non-integral enums, so we need to treat everything else
+                // as strings (e.g. to not lose precision or data integrity)
                 var.isString = true;
                 var.isInteger = false;
                 var.isLong = false;
@@ -515,7 +634,8 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         if (objs != null) {
             OperationMap operations = objs.getOperations();
@@ -536,13 +656,14 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                         if (this.collectionTypes.contains(typeMapping)) {
                             operation.isArray = true;
                             operation.returnContainer = operation.returnType;
-                            if (this.returnICollection && (
-                                    typeMapping.startsWith("List") ||
-                                            typeMapping.startsWith("Collection"))) {
+                            if (this.returnICollection
+                                    && (typeMapping.startsWith("List")
+                                            || typeMapping.startsWith("Collection"))) {
                                 // NOTE: ICollection works for both List<T> and Collection<T>
                                 int genericStart = typeMapping.indexOf("<");
                                 if (genericStart > 0) {
-                                    operation.returnType = "ICollection" + typeMapping.substring(genericStart);
+                                    operation.returnType =
+                                            "ICollection" + typeMapping.substring(genericStart);
                                 }
                             }
                         } else {
@@ -555,9 +676,11 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                         for (Map<String, String> example : operation.examples) {
                             for (Map.Entry<String, String> entry : example.entrySet()) {
                                 // Replace " with \", \r, \n with \\r, \\n
-                                String val = entry.getValue().replace("\"", "\\\"")
-                                        .replace("\r", "\\r")
-                                        .replace("\n", "\\n");
+                                String val =
+                                        entry.getValue()
+                                                .replace("\"", "\\\"")
+                                                .replace("\r", "\\r")
+                                                .replace("\n", "\\n");
                                 entry.setValue(val);
                             }
                         }
@@ -621,20 +744,27 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toOperationId(String operationId) {
-        // throw exception if method name is empty (should not occur as an auto-generated method name will be used)
+        // throw exception if method name is empty (should not occur as an auto-generated method
+        // name will be used)
         if (StringUtils.isEmpty(operationId)) {
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn(
+                    "{} (starting with a number) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -646,16 +776,19 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     }
 
     public void setModelPropertyNaming(String naming) {
-        if ("original".equals(naming) || "camelCase".equals(naming) ||
-                "PascalCase".equals(naming) || "snake_case".equals(naming)) {
+        if ("original".equals(naming)
+                || "camelCase".equals(naming)
+                || "PascalCase".equals(naming)
+                || "snake_case".equals(naming)) {
             this.modelPropertyNaming = naming;
         } else {
-            throw new IllegalArgumentException("Invalid model property naming '" +
-                    naming + "'. Must be 'original', 'camelCase', " +
-                    "'PascalCase' or 'snake_case'");
+            throw new IllegalArgumentException(
+                    "Invalid model property naming '"
+                            + naming
+                            + "'. Must be 'original', 'camelCase', "
+                            + "'PascalCase' or 'snake_case'");
         }
     }
-
 
     public String getNameUsingModelPropertyNaming(String name) {
         switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
@@ -668,9 +801,11 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
             case snake_case:
                 return underscore(name);
             default:
-                throw new IllegalArgumentException("Invalid model property naming '" +
-                        name + "'. Must be 'original', 'camelCase', " +
-                        "'PascalCase' or 'snake_case'");
+                throw new IllegalArgumentException(
+                        "Invalid model property naming '"
+                                + name
+                                + "'. Must be 'original', 'camelCase', "
+                                + "'PascalCase' or 'snake_case'");
         }
     }
 
@@ -785,7 +920,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                     return p.getDefault().toString() + "F";
                 } else if (ModelUtils.isDoubleSchema(p)) { // double
                     return p.getDefault().toString() + "D";
-                } else {    // decimal
+                } else { // decimal
                     return p.getDefault().toString() + "M";
                 }
             }
@@ -813,7 +948,6 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         return reservedWords.contains(word);
     }
 
-
     public String getNullableType(Schema p, String type) {
         if (languageSpecificPrimitives.contains(type)) {
             if (isSupportNullable() && ModelUtils.isNullable(p) && nullableType.contains(type)) {
@@ -832,7 +966,9 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         String type;
 
         if (openAPIType == null) {
-            LOGGER.error("OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.", p.getName());
+            LOGGER.error(
+                    "OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.",
+                    p.getName());
             openAPIType = "UNKNOWN_OPENAPI_TYPE";
         }
 
@@ -850,7 +986,8 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     }
 
     /**
-     * Provides F# strongly typed declaration for simple arrays of some type and arrays of arrays of some type.
+     * Provides F# strongly typed declaration for simple arrays of some type and arrays of arrays of
+     * some type.
      *
      * @param arr The input array property
      * @return The type declaration when the type is an array of arrays.
@@ -900,13 +1037,18 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    name,
+                    camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+            LOGGER.warn(
+                    "{} (model name starts with number) cannot be used as model name. Renamed to {}",
+                    name,
                     camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
@@ -1001,11 +1143,14 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        // C# only supports enums as literals for int, int?, long, long?, byte, and byte?. All else must be treated as strings.
+        // C# only supports enums as literals for int, int?, long, long?, byte, and byte?. All else
+        // must be treated as strings.
         // Per: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/enum
         // The approved types for an enum are byte, sbyte, short, ushort, int, uint, long, or ulong.
         // but we're not supporting unsigned integral types or shorts.
-        if (datatype.startsWith("int") || datatype.startsWith("long") || datatype.startsWith("byte")) {
+        if (datatype.startsWith("int")
+                || datatype.startsWith("long")
+                || datatype.startsWith("byte")) {
             return value;
         }
 
@@ -1059,10 +1204,15 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public boolean isDataTypeString(String dataType) {
-        // also treat double/decimal/float as "string" in enum so that the values (e.g. 2.8) get double-quoted
-        return "String".equalsIgnoreCase(dataType) ||
-                "double?".equals(dataType) || "decimal?".equals(dataType) || "float?".equals(dataType) ||
-                "double".equals(dataType) || "decimal".equals(dataType) || "float".equals(dataType);
+        // also treat double/decimal/float as "string" in enum so that the values (e.g. 2.8) get
+        // double-quoted
+        return "String".equalsIgnoreCase(dataType)
+                || "double?".equals(dataType)
+                || "decimal?".equals(dataType)
+                || "float?".equals(dataType)
+                || "double".equals(dataType)
+                || "decimal".equals(dataType)
+                || "float".equals(dataType);
     }
 
     @Override
@@ -1071,8 +1221,10 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         // set the example value
         // if not specified in x-example, generate a default value
         // TODO need to revise how to obtain the example value
-        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
-            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+        if (codegenParameter.vendorExtensions != null
+                && codegenParameter.vendorExtensions.containsKey("x-example")) {
+            codegenParameter.example =
+                    Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
         } else if (Boolean.TRUE.equals(codegenParameter.isBoolean)) {
             codegenParameter.example = "true";
         } else if (Boolean.TRUE.equals(codegenParameter.isLong)) {
@@ -1120,12 +1272,14 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                    LOGGER.error(
+                            "Error running the command ({}). Exit code: {}", command, exitValue);
                 } else {
                     LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                LOGGER.error(
+                        "Error running the command ({}). Exception: {}", command, e.getMessage());
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
@@ -1133,5 +1287,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.F_SHARP; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.F_SHARP;
+    }
 }

@@ -1,11 +1,9 @@
 package org.openapitools.codegen.validations.oas;
 
-import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
 
-/**
- * Encapsulates an OAS schema.
- */
+/** Encapsulates an OAS schema. */
 public class SchemaWrapper {
     OpenAPI specification;
     private Schema schema;
