@@ -5926,32 +5926,6 @@ public class DefaultCodegen implements CodegenConfig {
         return result;
     }
 
-
-    private static Pattern capitalLetterPattern = Pattern.compile("([A-Z]+)([A-Z][a-z][a-z]+)");
-
-    /**
-     * Puts the first letters to lowercase. If the word starts with multiple capital letters, all of them
-     * will be converted to lowercase.
-     * @param name string to be changed
-     * @return string starting with lowercase
-     */
-    private String lowerStartOfWord(final String name) {
-        final StringBuilder result = new StringBuilder();
-        boolean isStartingBlock = true;
-        for (int i = 0; i < name.length(); i++) {
-            char current = name.charAt(i);
-            if (isStartingBlock && Character.isUpperCase(current)) {
-                current = Character.toLowerCase(current);
-            } else {
-                isStartingBlock = false;
-            }
-
-            result.append(current);
-        }
-
-        return result.toString();
-    }
-
     @Override
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
