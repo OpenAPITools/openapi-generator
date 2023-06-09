@@ -28,6 +28,6 @@ DIRECTORY=`dirname $0`
 (cd $DIRECTORY/resultLibrary/ && ./run_spmbuild.sh)
 (cd $DIRECTORY/rxswiftLibrary/ && ./run_spmbuild.sh)
 (cd $DIRECTORY/urlsessionLibrary/ && ./run_spmbuild.sh)
-(cd $DIRECTORY/vaporLibrary/ && ./run_spmbuild.sh)
+#(cd $DIRECTORY/vaporLibrary/ && ./run_spmbuild.sh)
 (cd $DIRECTORY/x-swift-hashable/ && ./run_spmbuild.sh)
 
