@@ -60,6 +60,7 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
+import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
 import org.slf4j.Logger;
@@ -5913,7 +5914,7 @@ public class DefaultCodegen implements CodegenConfig {
         String[] splitString = name.split(nonNameElementPattern);
 
         if (splitString.length > 0) {
-            splitString[0] = lowerStartOfWord(splitString[0]);
+            splitString[0] = camelize(splitString[0], CamelizeOption.LOWERCASE_FIRST_CHAR);
         }
 
         String result = Arrays.stream(splitString)
@@ -5924,6 +5925,9 @@ public class DefaultCodegen implements CodegenConfig {
         }
         return result;
     }
+
+
+    private static Pattern capitalLetterPattern = Pattern.compile("([A-Z]+)([A-Z][a-z][a-z]+)");
 
     /**
      * Puts the first letters to lowercase. If the word starts with multiple capital letters, all of them
