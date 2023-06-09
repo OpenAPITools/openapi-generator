@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
- package org.openapitools.codegen;
+package org.openapitools.codegen;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
