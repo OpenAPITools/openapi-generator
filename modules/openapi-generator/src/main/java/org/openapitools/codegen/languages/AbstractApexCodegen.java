@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -24,17 +27,13 @@ import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.*;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractApexCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractApexCodegen.class);
@@ -79,7 +78,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         if (name.contains("__")) { // Preventing namespacing
             name = name.replaceAll("__", "_");
         }
-        if (name.matches("^\\d.*")) {  // Prevent named credentials with leading number
+        if (name.matches("^\\d.*")) { // Prevent named credentials with leading number
             name = name.replaceAll("^\\d.*", "");
         }
         return name;
@@ -88,7 +87,8 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the
+        // methods parameters as 'final'.
 
         if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
             return "propertyClass";
@@ -125,7 +125,8 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     private boolean startsWithTwoUppercaseLetters(String name) {
         boolean startsWithTwoUppercaseLetters = false;
         if (name.length() > 1) {
-            startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase(Locale.ROOT));
+            startsWithTwoUppercaseLetters =
+                    name.substring(0, 2).equals(name.substring(0, 2).toUpperCase(Locale.ROOT));
         }
         return startsWithTwoUppercaseLetters;
     }
@@ -164,14 +165,21 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
             final String modelName = "Model" + camelizedName;
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, modelName);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    camelizedName,
+                    modelName);
             return modelName;
         }
 
         // model name starts with number
         if (camelizedName.matches("^\\d.*")) {
-            final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+            final String modelName =
+                    "Model" + camelizedName; // e.g. 200Response => Model200Response (after
+            // camelize)
+            LOGGER.warn(
+                    "{} (model name starts with number) cannot be used as model name. Renamed to {}",
+                    name,
                     modelName);
             return modelName;
         }
@@ -191,7 +199,9 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             if (inner == null) {
-                LOGGER.warn("{}(array property) does not have a proper inner type defined", ap.getName());
+                LOGGER.warn(
+                        "{}(array property) does not have a proper inner type defined",
+                        ap.getName());
                 // TODO maybe better defaulting to StringProperty than returning null
                 return null;
             }
@@ -200,7 +210,8 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             Schema inner = getAdditionalProperties(p);
 
             if (inner == null) {
-                LOGGER.warn("{}(map property) does not have a proper inner type defined", p.getName());
+                LOGGER.warn(
+                        "{}(map property) does not have a proper inner type defined", p.getName());
                 // TODO maybe better defaulting to StringProperty than returning null
                 return null;
             }
@@ -234,7 +245,13 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
                 return null;
             }
 
-            return String.format(Locale.ROOT, pattern, String.format(Locale.ROOT, "String, %s", getTypeDeclaration(getAdditionalProperties(ap))));
+            return String.format(
+                    Locale.ROOT,
+                    pattern,
+                    String.format(
+                            Locale.ROOT,
+                            "String, %s",
+                            getTypeDeclaration(getAdditionalProperties(ap))));
         } else if (ModelUtils.isLongSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString() + "l";
@@ -304,7 +321,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else {
             p.example = "''";
         }
-
     }
 
     @Override
@@ -317,8 +333,12 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         String example = obj == null ? "" : obj.toString();
 
         if (ModelUtils.isArraySchema(p)) {
-            example = "new " + getTypeDeclaration(p) + "{" + toExampleValue(
-                    ((ArraySchema) p).getItems()) + "}";
+            example =
+                    "new "
+                            + getTypeDeclaration(p)
+                            + "{"
+                            + toExampleValue(((ArraySchema) p).getItems())
+                            + "}";
         } else if (ModelUtils.isBooleanSchema(p)) {
             example = String.valueOf(!"false".equals(example));
         } else if (ModelUtils.isByteArraySchema(p)) {
@@ -333,8 +353,12 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             } else if (example.isEmpty()) {
                 example = "2000, 1, 23";
             } else {
-                LOGGER.warn(String.format(Locale.ROOT, "The example provided for property '%s' is not a valid RFC3339 date. Defaulting to '2000-01-23'. [%s]", p
-                        .getName(), example));
+                LOGGER.warn(
+                        String.format(
+                                Locale.ROOT,
+                                "The example provided for property '%s' is not a valid RFC3339 date. Defaulting to '2000-01-23'. [%s]",
+                                p.getName(),
+                                example));
                 example = "2000, 1, 23";
             }
             example = "Date.newInstance(" + example + ")";
@@ -344,8 +368,12 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             } else if (example.isEmpty()) {
                 example = "2000, 1, 23, 4, 56, 7";
             } else {
-                LOGGER.warn(String.format(Locale.ROOT, "The example provided for property '%s' is not a valid RFC3339 datetime. Defaulting to '2000-01-23T04-56-07Z'. [%s]", p
-                        .getName(), example));
+                LOGGER.warn(
+                        String.format(
+                                Locale.ROOT,
+                                "The example provided for property '%s' is not a valid RFC3339 datetime. Defaulting to '2000-01-23T04-56-07Z'. [%s]",
+                                p.getName(),
+                                example));
                 example = "2000, 1, 23, 4, 56, 7";
             }
             example = "Datetime.newInstanceGmt(" + example + ")";
@@ -367,7 +395,12 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else if (ModelUtils.isLongSchema(p)) {
             example = example.isEmpty() ? "123456789L" : example + "L";
         } else if (ModelUtils.isMapSchema(p)) {
-            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(getAdditionalProperties(p)) + "}";
+            example =
+                    "new "
+                            + getTypeDeclaration(p)
+                            + "{'key'=>"
+                            + toExampleValue(getAdditionalProperties(p))
+                            + "}";
 
         } else if (ModelUtils.isPasswordSchema(p)) {
             example = example.isEmpty() ? "password123" : escapeText(example);
@@ -386,9 +419,10 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
             example = "'" + example + "'";
         } else if (ModelUtils.isUUIDSchema(p)) {
-            example = example.isEmpty()
-                    ? "'046b6c7f-0b8a-43b9-b35d-6489e6daee91'"
-                    : "'" + escapeText(example) + "'";
+            example =
+                    example.isEmpty()
+                            ? "'046b6c7f-0b8a-43b9-b35d-6489e6daee91'"
+                            : "'" + escapeText(example) + "'";
         } else if (ModelUtils.isIntegerSchema(p)) {
             example = example.matches("^-?\\d+$") ? example : "0";
         } else if (ModelUtils.isObjectSchema(p)) {
@@ -428,7 +462,10 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    newOperationId);
             return newOperationId;
         }
 
@@ -531,8 +568,10 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         }
 
         // number
-        if ("Integer".equals(datatype) || "Long".equals(datatype) ||
-                "Float".equals(datatype) || "Double".equals(datatype)) {
+        if ("Integer".equals(datatype)
+                || "Long".equals(datatype)
+                || "Float".equals(datatype)
+                || "Double".equals(datatype)) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
@@ -565,10 +604,10 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+    public CodegenOperation fromOperation(
+            String path, String httpMethod, Operation operation, List<Server> servers) {
 
-        CodegenOperation op = super.fromOperation(
-                path, httpMethod, operation, null);
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, null);
 
         if (op.getHasExamples()) {
             // prepare examples for Apex test classes
@@ -584,7 +623,8 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         return op;
     }
 
-    private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
+    private static CodegenModel reconcileInlineEnums(
+            CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
         // the parent and child models, look for enums that match, and remove
@@ -610,7 +650,8 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
                 Iterator<CodegenProperty> iterator = codegenProperties.iterator();
                 while (iterator.hasNext()) {
                     CodegenProperty codegenProperty = iterator.next();
-                    if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
+                    if (codegenProperty.isEnum
+                            && codegenProperty.equals(parentModelCodegenProperty)) {
                         // We found an enum in the child class that is
                         // a duplicate of the one in the parent, so remove it.
                         iterator.remove();
@@ -627,7 +668,9 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     private static String sanitizePackageName(String packageName) {
-        packageName = packageName.trim(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        packageName =
+                packageName.trim(); // FIXME: a parameter should not be assigned. Also declare the
+        // methods parameters as 'final'.
         packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
         if (Strings.isNullOrEmpty(packageName)) {
             return "invalidPackageName";
@@ -635,13 +678,12 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         return packageName;
     }
 
-
     public void setSerializableModel(Boolean serializableModel) {
         this.serializableModel = serializableModel;
     }
 
     private String sanitizePath(String p) {
-        //prefer replace a ", instead of a fuLL URL encode for readability
+        // prefer replace a ", instead of a fuLL URL encode for readability
         return p.replaceAll("\"", "%22");
     }
 
@@ -659,5 +701,4 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     public String toModelTestFilename(String name) {
         return toModelName(name) + "Test";
     }
-
 }

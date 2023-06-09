@@ -15,49 +15,48 @@
  */
 package org.openapitools.codegen.languages;
 
+import java.util.EnumSet;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.EnumSet;
-
 public class PythonAiohttpConnexionServerCodegen extends AbstractPythonConnexionServerCodegen {
-    private final Logger LOGGER = LoggerFactory.getLogger(PythonAiohttpConnexionServerCodegen.class);
+    private final Logger LOGGER =
+            LoggerFactory.getLogger(PythonAiohttpConnexionServerCodegen.class);
 
     public PythonAiohttpConnexionServerCodegen() {
         super("python-aiohttp", true);
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.BearerToken,
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(
+                                                WireFormatFeature.JSON,
+                                                WireFormatFeature.XML,
+                                                WireFormatFeature.Custom))
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.BasicAuth,
+                                                SecurityFeature.BearerToken,
+                                                SecurityFeature.ApiKey,
+                                                SecurityFeature.OAuth2_Implicit))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie));
 
         testPackage = "tests";
         embeddedTemplateDir = templateDir = "python-aiohttp";
     }
 
     /**
-     * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -g flag.
+     * Configures a friendly name for the generator. This will be used by the generator to select
+     * the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -69,13 +68,18 @@ public class PythonAiohttpConnexionServerCodegen extends AbstractPythonConnexion
     @Override
     protected void addSupportingFiles() {
         supportingFiles.add(new SupportingFile("conftest.mustache", testPackage, "conftest.py"));
-        supportingFiles.add(new SupportingFile("__init__test.mustache", testPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__main.mustache", packagePath(), "__init__.py"));
+        supportingFiles.add(
+                new SupportingFile("__init__test.mustache", testPackage, "__init__.py"));
+        supportingFiles.add(
+                new SupportingFile("__init__main.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
         supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
     }
 
     @Override
-    public String generatorLanguageVersion() { return "3.5.2+"; };
+    public String generatorLanguageVersion() {
+        return "3.5.2+";
+    }
+    ;
 }

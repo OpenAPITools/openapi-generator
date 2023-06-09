@@ -23,5 +23,4 @@ public interface BeanValidationFeatures {
     String USE_BEANVALIDATION = "useBeanValidation";
 
     void setUseBeanValidation(boolean useBeanValidation);
-
 }

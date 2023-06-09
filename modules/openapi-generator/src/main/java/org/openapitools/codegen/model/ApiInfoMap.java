@@ -13,5 +13,4 @@ public class ApiInfoMap extends HashMap<String, Object> {
     public List<OperationsMap> getApis() {
         return (List<OperationsMap>) get("apis");
     }
-
 }

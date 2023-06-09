@@ -17,12 +17,22 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -33,18 +43,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ElmClientCodegen.class);
@@ -68,26 +66,20 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public ElmClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-                .securityFeatures(EnumSet.of(SecurityFeature.BearerToken))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.BasePath
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                                .securityFeatures(EnumSet.of(SecurityFeature.BearerToken))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath));
 
         templateDir = "elm";
         apiPackage = "Api.Request";
@@ -95,39 +87,32 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         supportsInheritance = true;
 
-        reservedWords = new HashSet<>(
-                Arrays.asList(
-                        "if", "then", "else",
-                        "case", "of",
-                        "let", "in",
-                        "type",
-                        "module", "where",
-                        "import", "exposing",
-                        "as",
-                        "port")
-        );
+        reservedWords =
+                new HashSet<>(
+                        Arrays.asList(
+                                "if",
+                                "then",
+                                "else",
+                                "case",
+                                "of",
+                                "let",
+                                "in",
+                                "type",
+                                "module",
+                                "where",
+                                "import",
+                                "exposing",
+                                "as",
+                                "port"));
 
-        defaultIncludes = new HashSet<>(
-                Arrays.asList(
-                        "Order",
-                        "Never",
-                        "List",
-                        "Maybe",
-                        "Result",
-                        "Program",
-                        "Cmd",
-                        "Sub")
-        );
+        defaultIncludes =
+                new HashSet<>(
+                        Arrays.asList(
+                                "Order", "Never", "List", "Maybe", "Result", "Program", "Cmd",
+                                "Sub"));
 
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
-                        "Bool",
-                        "Dict",
-                        "Float",
-                        "Int",
-                        "List",
-                        "String")
-        );
+        languageSpecificPrimitives =
+                new HashSet<>(Arrays.asList("Bool", "Dict", "Float", "Int", "List", "String"));
 
         instantiationTypes.clear();
         instantiationTypes.put("array", "List");
@@ -158,8 +143,13 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         apiTemplateFiles.put("operation.mustache", ".elm");
         modelTemplateFiles.put("model.mustache", ".elm");
-        supportingFiles.add(new SupportingFile("Api.mustache", "", "src" + File.separator + "Api.elm"));
-        supportingFiles.add(new SupportingFile("Time.mustache", "", "src" + File.separator + "Api" + File.separator + "Time.elm"));
+        supportingFiles.add(
+                new SupportingFile("Api.mustache", "", "src" + File.separator + "Api.elm"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "Time.mustache",
+                        "",
+                        "src" + File.separator + "Api" + File.separator + "Time.elm"));
         supportingFiles.add(new SupportingFile("elm.mustache", "", "elm.json"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -167,8 +157,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
-        return super.addMustacheLambdas()
-            .put("removeWhitespace", new RemoveWhitespaceLambda());
+        return super.addMustacheLambdas().put("removeWhitespace", new RemoveWhitespaceLambda());
     }
 
     @Override
@@ -193,13 +182,20 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
+            LOGGER.warn(
+                    operationId
+                            + " (starting with a number) cannot be used as method sname. Renamed to "
+                            + camelize("call_" + operationId),
+                    true);
             operationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
         }
 
@@ -227,15 +223,23 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
-        final String varName = camelize(name.replaceAll("[^a-zA-Z0-9_]", ""), LOWERCASE_FIRST_LETTER);
+        final String varName =
+                camelize(name.replaceAll("[^a-zA-Z0-9_]", ""), LOWERCASE_FIRST_LETTER);
         return isReservedWord(varName) ? escapeReservedWord(name) : varName;
     }
 
     @Override
     public String toEnumVarName(String value, String datatype) {
-        String camelized = camelize(value.replace(" ", "_").replace("(", "_").replace(")", "")); // TODO FIXME escape properly
+        String camelized =
+                camelize(
+                        value.replace(" ", "_")
+                                .replace("(", "_")
+                                .replace(")", "")); // TODO FIXME escape properly
         if (camelized.length() == 0) {
-            LOGGER.error("Unable to determine enum variable name (name: {}, datatype: {}) from empty string. Default to UnknownEnumVariableName", value, datatype);
+            LOGGER.error(
+                    "Unable to determine enum variable name (name: {}, datatype: {}) from empty string. Default to UnknownEnumVariableName",
+                    value,
+                    datatype);
             camelized = "UnknownEnumVariableName";
         }
         return camelized;
@@ -254,12 +258,20 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + "src" + File.separator + apiPackage().replace('.', File.separatorChar);
+        return outputFolder
+                + File.separator
+                + "src"
+                + File.separator
+                + apiPackage().replace('.', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + "src" + File.separator + modelPackage().replace('.', File.separatorChar);
+        return outputFolder
+                + File.separator
+                + "src"
+                + File.separator
+                + modelPackage().replace('.', File.separatorChar);
     }
 
     @Override
@@ -280,44 +292,64 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // put all models in one file
         final Map<String, ModelsMap> objects = new HashMap<>();
-        final ModelsMap dataObj = objs.values().stream()
-            .findFirst()
-            .orElse(new ModelsMap());
-        final List<ModelMap> models = objs.values().stream()
-            .flatMap(obj -> obj.getModels().stream())
-            .flatMap(obj -> {
-                final CodegenModel model = obj.getModel();
-                // circular references
-                model.vars.forEach(var -> {
-                    var.isCircularReference = model.allVars.stream()
-                        .filter(v -> var.baseName.equals(v.baseName))
-                        .map(v -> v.isCircularReference)
-                        .findAny()
-                        .orElse(false);
-                    CodegenProperty items = var.items;
-                    while (items != null) {
-                        items.isCircularReference = var.isCircularReference;
-                        items.required = true;
-                        items = items.items;
-                    }
-                });
-                // discriminators
-                if (model.discriminator != null && model.getChildren() != null) {
-                    model.getChildren().forEach(child -> {
-                        child.allOf = child.allOf.stream()
-                            .map(v -> model.classname.equals(v) ? "Base" + v : v)
-                            .collect(Collectors.toSet());
-                    });
-                }
-                // remove *AllOf
-                if (model.classname.endsWith("AllOf")) {
-                    return Stream.empty();
-                } else {
-                    model.allOf.removeIf(name -> name.endsWith("AllOf"));
-                    return Stream.of(obj);
-                }
-            })
-            .collect(Collectors.toList());
+        final ModelsMap dataObj = objs.values().stream().findFirst().orElse(new ModelsMap());
+        final List<ModelMap> models =
+                objs.values().stream()
+                        .flatMap(obj -> obj.getModels().stream())
+                        .flatMap(
+                                obj -> {
+                                    final CodegenModel model = obj.getModel();
+                                    // circular references
+                                    model.vars.forEach(
+                                            var -> {
+                                                var.isCircularReference =
+                                                        model.allVars.stream()
+                                                                .filter(
+                                                                        v ->
+                                                                                var.baseName.equals(
+                                                                                        v.baseName))
+                                                                .map(v -> v.isCircularReference)
+                                                                .findAny()
+                                                                .orElse(false);
+                                                CodegenProperty items = var.items;
+                                                while (items != null) {
+                                                    items.isCircularReference =
+                                                            var.isCircularReference;
+                                                    items.required = true;
+                                                    items = items.items;
+                                                }
+                                            });
+                                    // discriminators
+                                    if (model.discriminator != null
+                                            && model.getChildren() != null) {
+                                        model.getChildren()
+                                                .forEach(
+                                                        child -> {
+                                                            child.allOf =
+                                                                    child.allOf.stream()
+                                                                            .map(
+                                                                                    v ->
+                                                                                            model
+                                                                                                            .classname
+                                                                                                            .equals(
+                                                                                                                    v)
+                                                                                                    ? "Base"
+                                                                                                            + v
+                                                                                                    : v)
+                                                                            .collect(
+                                                                                    Collectors
+                                                                                            .toSet());
+                                                        });
+                                    }
+                                    // remove *AllOf
+                                    if (model.classname.endsWith("AllOf")) {
+                                        return Stream.empty();
+                                    } else {
+                                        model.allOf.removeIf(name -> name.endsWith("AllOf"));
+                                        return Stream.of(obj);
+                                    }
+                                })
+                        .collect(Collectors.toList());
 
         final boolean includeTime = anyVarMatches(models, prop -> prop.isDate || prop.isDateTime);
         final boolean includeUuid = anyVarMatches(models, prop -> prop.isUuid);
@@ -329,19 +361,22 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         return objects;
     }
 
-    private boolean anyVarMatches(final List<ModelMap> models, final Predicate<CodegenProperty> predicate) {
+    private boolean anyVarMatches(
+            final List<ModelMap> models, final Predicate<CodegenProperty> predicate) {
         return models.stream()
                 .map(ModelMap::getModel)
-                .flatMap(model -> model.vars.stream()).anyMatch(var -> {
-                    CodegenProperty prop = var;
-                    while (prop != null) {
-                        if (predicate.test(prop)) {
-                            return true;
-                        }
-                        prop = prop.items;
-                    }
-                    return false;
-                });
+                .flatMap(model -> model.vars.stream())
+                .anyMatch(
+                        var -> {
+                            CodegenProperty prop = var;
+                            while (prop != null) {
+                                if (predicate.test(prop)) {
+                                    return true;
+                                }
+                                prop = prop.items;
+                            }
+                            return false;
+                        });
     }
 
     @Override
@@ -349,13 +384,15 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         return postProcessModelsEnum(objs);
     }
 
-    private static boolean anyOperationParam(final List<CodegenOperation> operations, final Predicate<CodegenParameter> predicate) {
+    private static boolean anyOperationParam(
+            final List<CodegenOperation> operations, final Predicate<CodegenParameter> predicate) {
         return operations.stream()
                 .flatMap(operation -> operation.allParams.stream())
                 .anyMatch(predicate);
     }
 
-    private static boolean anyOperationResponse(final List<CodegenOperation> operations, final Predicate<CodegenResponse> predicate) {
+    private static boolean anyOperationResponse(
+            final List<CodegenOperation> operations, final Predicate<CodegenResponse> predicate) {
         return operations.stream()
                 .flatMap(operation -> operation.responses.stream())
                 .anyMatch(predicate);
@@ -363,28 +400,50 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     @SuppressWarnings("static-method")
-    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap operations, List<ModelMap> allModels) {
         OperationMap objs = operations.getOperations();
         List<CodegenOperation> ops = objs.getOperation();
-        ops.forEach(op -> {
-            op.allParams = op.allParams.stream().sorted(new ParameterSorter()).collect(Collectors.toList());
-            op.responses.forEach(response -> {
-                if (response.isDefault) {
-                    response.isModel = !response.primitiveType;
-                }
-            });
-            // an empty string is truthy so we explicitly set empty notes to null
-            // So we don't print empty notes
-            if (op.notes != null && op.notes.isEmpty())
-                op.notes = null;
-        });
+        ops.forEach(
+                op -> {
+                    op.allParams =
+                            op.allParams.stream()
+                                    .sorted(new ParameterSorter())
+                                    .collect(Collectors.toList());
+                    op.responses.forEach(
+                            response -> {
+                                if (response.isDefault) {
+                                    response.isModel = !response.primitiveType;
+                                }
+                            });
+                    // an empty string is truthy so we explicitly set empty notes to null
+                    // So we don't print empty notes
+                    if (op.notes != null && op.notes.isEmpty()) op.notes = null;
+                });
 
-        final boolean includeTime = anyOperationResponse(ops, response -> response.isDate || response.isDateTime) ||
-                anyOperationParam(ops, param -> (param.isDate || param.isDateTime) || itemsIncludesType(param.items, p -> p.isDate || p.isDateTime));
-        final boolean includeUuid = anyOperationResponse(ops, response -> response.isUuid) ||
-                anyOperationParam(ops, param -> param.isUuid || itemsIncludesType(param.items, p -> p.isUuid));
-        final boolean includeFile = anyOperationResponse(ops, response -> response.isFile) ||
-            anyOperationParam(ops, param -> param.isFile || itemsIncludesType(param.items, p -> p.isFile));
+        final boolean includeTime =
+                anyOperationResponse(ops, response -> response.isDate || response.isDateTime)
+                        || anyOperationParam(
+                                ops,
+                                param ->
+                                        (param.isDate || param.isDateTime)
+                                                || itemsIncludesType(
+                                                        param.items,
+                                                        p -> p.isDate || p.isDateTime));
+        final boolean includeUuid =
+                anyOperationResponse(ops, response -> response.isUuid)
+                        || anyOperationParam(
+                                ops,
+                                param ->
+                                        param.isUuid
+                                                || itemsIncludesType(param.items, p -> p.isUuid));
+        final boolean includeFile =
+                anyOperationResponse(ops, response -> response.isFile)
+                        || anyOperationParam(
+                                ops,
+                                param ->
+                                        param.isFile
+                                                || itemsIncludesType(param.items, p -> p.isFile));
 
         operations.put("includeTime", includeTime);
         operations.put("includeUuid", includeUuid);
@@ -393,12 +452,11 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         return operations;
     }
 
-    private static boolean itemsIncludesType(CodegenProperty p, Predicate<CodegenProperty> condition) {
-        if (p == null)
-            return false;
+    private static boolean itemsIncludesType(
+            CodegenProperty p, Predicate<CodegenProperty> condition) {
+        if (p == null) return false;
 
-        if (p.items != null)
-            return itemsIncludesType(p.items, condition);
+        if (p.items != null) return itemsIncludesType(p.items, condition);
 
         return condition.test(p);
     }
@@ -456,8 +514,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
-        } else
-            type = openAPIType;
+        } else type = openAPIType;
         return toModelName(type);
     }
 
@@ -476,11 +533,14 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static class RemoveWhitespaceLambda implements Mustache.Lambda {
         @Override
-        public void execute(final Template.Fragment fragment, final Writer writer) throws IOException {
+        public void execute(final Template.Fragment fragment, final Writer writer)
+                throws IOException {
             writer.write(fragment.execute().replaceAll("\\s+", " ").trim());
         }
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ELM; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.ELM;
+    }
 }

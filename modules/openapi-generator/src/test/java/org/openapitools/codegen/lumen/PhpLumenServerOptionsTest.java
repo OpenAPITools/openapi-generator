@@ -17,13 +17,13 @@
 
 package org.openapitools.codegen.lumen;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PhpLumenServerCodegen;
 import org.openapitools.codegen.options.PhpLumenServerOptionsProvider;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class PhpLumenServerOptionsTest extends AbstractOptionsTest {
     private PhpLumenServerCodegen clientCodegen = mock(PhpLumenServerCodegen.class, mockSettings);
@@ -40,14 +40,23 @@ public class PhpLumenServerOptionsTest extends AbstractOptionsTest {
     @SuppressWarnings("unused")
     @Override
     protected void verifyOptions() {
-        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(PhpLumenServerOptionsProvider.SORT_PARAMS_VALUE));
-        verify(clientCodegen).setParameterNamingConvention(PhpLumenServerOptionsProvider.VARIABLE_NAMING_CONVENTION_VALUE);
+        verify(clientCodegen)
+                .setSortParamsByRequiredFlag(
+                        Boolean.valueOf(PhpLumenServerOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen)
+                .setParameterNamingConvention(
+                        PhpLumenServerOptionsProvider.VARIABLE_NAMING_CONVENTION_VALUE);
         verify(clientCodegen).setModelPackage(PhpLumenServerOptionsProvider.MODEL_PACKAGE_VALUE);
         verify(clientCodegen).setApiPackage(PhpLumenServerOptionsProvider.API_PACKAGE_VALUE);
-        verify(clientCodegen).setInvokerPackage(PhpLumenServerOptionsProvider.INVOKER_PACKAGE_VALUE);
+        verify(clientCodegen)
+                .setInvokerPackage(PhpLumenServerOptionsProvider.INVOKER_PACKAGE_VALUE);
         verify(clientCodegen).setPackageName(PhpLumenServerOptionsProvider.PACKAGE_NAME_VALUE);
         verify(clientCodegen).setSrcBasePath(PhpLumenServerOptionsProvider.SRC_BASE_PATH_VALUE);
-        verify(clientCodegen).setArtifactVersion(PhpLumenServerOptionsProvider.ARTIFACT_VERSION_VALUE);
-        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(PhpLumenServerOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen)
+                .setArtifactVersion(PhpLumenServerOptionsProvider.ARTIFACT_VERSION_VALUE);
+        verify(clientCodegen)
+                .setEnumUnknownDefaultCase(
+                        Boolean.parseBoolean(
+                                PhpLumenServerOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

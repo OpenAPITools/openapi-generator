@@ -19,17 +19,16 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.meta.features.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.EnumSet;
 import java.util.Locale;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.*;
 
 public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfig {
 
@@ -38,31 +37,28 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
 
         // Runtime library supports JSON, XML, OAuth2.
         // Parameter Header and Cookie need some work.
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.OAuth2_Password,
-                        SecurityFeature.OAuth2_AuthorizationCode,
-                        SecurityFeature.OAuth2_ClientCredentials,
-                        SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.BearerToken
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Header,
-                        ParameterFeature.Cookie
-                )
-                .includeClientModificationFeatures(ClientModificationFeature.BasePath)
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.OAuth2_Password,
+                                                SecurityFeature.OAuth2_AuthorizationCode,
+                                                SecurityFeature.OAuth2_ClientCredentials,
+                                                SecurityFeature.OAuth2_Implicit,
+                                                SecurityFeature.BearerToken))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(
+                                        ParameterFeature.Header, ParameterFeature.Cookie)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath));
     }
 
     @Override
@@ -90,14 +86,24 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
         String serverPrefix = srcPrefix + "server" + File.separator + toFilename(modelPackage);
         String modelPrefix = srcPrefix + "model" + File.separator + toFilename(modelPackage);
         String implPrefix = srcPrefix + toFilename(modelPackage);
-        supportingFiles.add(new SupportingFile("model-spec.mustache", "", modelPrefix + "-models.ads"));
-        supportingFiles.add(new SupportingFile("model-body.mustache", "", modelPrefix + "-models.adb"));
-        supportingFiles.add(new SupportingFile("server-skeleton-spec.mustache", "", serverPrefix + "-skeletons.ads"));
-        supportingFiles.add(new SupportingFile("server-skeleton-body.mustache", "", serverPrefix + "-skeletons.adb"));
-        supportingFiles.add(new SupportingFile("server-spec.mustache", "", implPrefix + "-servers.ads"));
-        supportingFiles.add(new SupportingFile("server-body.mustache", "", implPrefix + "-servers.adb"));
+        supportingFiles.add(
+                new SupportingFile("model-spec.mustache", "", modelPrefix + "-models.ads"));
+        supportingFiles.add(
+                new SupportingFile("model-body.mustache", "", modelPrefix + "-models.adb"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "server-skeleton-spec.mustache", "", serverPrefix + "-skeletons.ads"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "server-skeleton-body.mustache", "", serverPrefix + "-skeletons.adb"));
+        supportingFiles.add(
+                new SupportingFile("server-spec.mustache", "", implPrefix + "-servers.ads"));
+        supportingFiles.add(
+                new SupportingFile("server-body.mustache", "", implPrefix + "-servers.adb"));
 
-        supportingFiles.add(new SupportingFile("openapi.mustache", "web" + File.separator + "swagger", "openapi.json"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "openapi.mustache", "web" + File.separator + "swagger", "openapi.json"));
 
         if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
             projectName = (String) additionalProperties.get(CodegenConstants.PROJECT_NAME);
@@ -107,10 +113,13 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
             projectName = packageName.replaceAll("\\.", "_");
         }
         String configBaseName = modelPackage.toLowerCase(Locale.ROOT);
-        supportingFiles.add(new SupportingFile("gnat-project.mustache", "", toFilename(projectName) + ".gpr"));
+        supportingFiles.add(
+                new SupportingFile("gnat-project.mustache", "", toFilename(projectName) + ".gpr"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("config.gpr", "", "config.gpr"));
-        supportingFiles.add(new SupportingFile("server-properties.mustache", "", configBaseName + ".properties"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "server-properties.mustache", "", configBaseName + ".properties"));
 
         /*
          * Additional Properties.  These values can be passed to the templates and
@@ -128,29 +137,39 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
         String names[] = this.modelPackage.split("\\.");
         String pkgName = names[0];
         additionalProperties.put("packageLevel1", pkgName);
-        supportingFiles.add(new SupportingFile("package-spec-level1.mustache", "",
-                            "src" + File.separator + toFilename(names[0]) + ".ads"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "package-spec-level1.mustache",
+                        "",
+                        "src" + File.separator + toFilename(names[0]) + ".ads"));
         if (names.length > 1) {
             String fileName = toFilename(names[0]) + "-" + toFilename(names[1]) + ".ads";
             pkgName = names[0] + "." + names[1];
             additionalProperties.put("packageLevel2", pkgName);
-            supportingFiles.add(new SupportingFile("package-spec-level2.mustache", "",
-                                "src" + File.separator + fileName));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "package-spec-level2.mustache", "", "src" + File.separator + fileName));
         }
         pkgName = this.modelPackage;
-        supportingFiles.add(new SupportingFile("server.mustache", "",
-                            "src" + File.separator + toFilename(pkgName) + "-server.adb"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "server.mustache",
+                        "",
+                        "src" + File.separator + toFilename(pkgName) + "-server.adb"));
         additionalProperties.put("packageName", toFilename(pkgName));
 
         // add lambda for mustache templates
-        additionalProperties.put("lambdaAdaComment", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                String content = fragment.execute();
-                content = content.trim().replaceAll("\n$", "");
-                writer.write(content.replaceAll("\n", "\n   --  "));
-            }
-        });
+        additionalProperties.put(
+                "lambdaAdaComment",
+                new Mustache.Lambda() {
+                    @Override
+                    public void execute(Template.Fragment fragment, Writer writer)
+                            throws IOException {
+                        String content = fragment.execute();
+                        content = content.trim().replaceAll("\n$", "");
+                        writer.write(content.replaceAll("\n", "\n   --  "));
+                    }
+                });
     }
 
     @Override
@@ -160,6 +179,10 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + "model" + File.separator + modelPackage().replace('.', File.separatorChar);
+        return outputFolder
+                + File.separator
+                + "model"
+                + File.separator
+                + modelPackage().replace('.', File.separatorChar);
     }
 }

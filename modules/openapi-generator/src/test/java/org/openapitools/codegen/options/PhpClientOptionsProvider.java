@@ -18,10 +18,9 @@
 package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.PhpClientCodegen;
-
-import java.util.Map;
 
 public class PhpClientOptionsProvider implements OptionsProvider {
     public static final String MODEL_PACKAGE_VALUE = "package";
@@ -49,7 +48,9 @@ public class PhpClientOptionsProvider implements OptionsProvider {
         return builder.put(CodegenConstants.MODEL_PACKAGE, MODEL_PACKAGE_VALUE)
                 .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
-                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
+                .put(
+                        CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG,
+                        SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(PhpClientCodegen.VARIABLE_NAMING_CONVENTION, VARIABLE_NAMING_CONVENTION_VALUE)
                 .put(CodegenConstants.INVOKER_PACKAGE, INVOKER_PACKAGE_VALUE)
@@ -58,7 +59,9 @@ public class PhpClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ARTIFACT_VERSION, ARTIFACT_VERSION_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
-                .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(
+                        CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                        PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)

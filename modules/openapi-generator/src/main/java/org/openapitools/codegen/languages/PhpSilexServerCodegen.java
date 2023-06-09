@@ -17,24 +17,23 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.meta.GeneratorMetadata;
-import org.openapitools.codegen.meta.Stability;
-
-import java.io.File;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage;
@@ -45,24 +44,23 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
     public PhpSilexServerCodegen() {
         super();
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.DEPRECATED)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata)
+                        .stability(Stability.DEPRECATED)
+                        .build();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism));
 
         invokerPackage = camelize("OpenAPIServer");
         String packageName = "OpenAPIServer";
@@ -78,15 +76,71 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
 
         setReservedWordsLowerCase(
                 Arrays.asList(
-                        "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch",
-                        "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else",
-                        "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile",
-                        "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if",
-                        "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset",
-                        "list", "namespace", "new", "or", "print", "private", "protected", "public", "require",
-                        "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use",
-                        "var", "while", "xor")
-        );
+                        "__halt_compiler",
+                        "abstract",
+                        "and",
+                        "array",
+                        "as",
+                        "break",
+                        "callable",
+                        "case",
+                        "catch",
+                        "class",
+                        "clone",
+                        "const",
+                        "continue",
+                        "declare",
+                        "default",
+                        "die",
+                        "do",
+                        "echo",
+                        "else",
+                        "elseif",
+                        "empty",
+                        "enddeclare",
+                        "endfor",
+                        "endforeach",
+                        "endif",
+                        "endswitch",
+                        "endwhile",
+                        "eval",
+                        "exit",
+                        "extends",
+                        "final",
+                        "for",
+                        "foreach",
+                        "function",
+                        "global",
+                        "goto",
+                        "if",
+                        "implements",
+                        "include",
+                        "include_once",
+                        "instanceof",
+                        "insteadof",
+                        "interface",
+                        "isset",
+                        "list",
+                        "namespace",
+                        "new",
+                        "or",
+                        "print",
+                        "private",
+                        "protected",
+                        "public",
+                        "require",
+                        "require_once",
+                        "return",
+                        "static",
+                        "switch",
+                        "throw",
+                        "trait",
+                        "try",
+                        "unset",
+                        "use",
+                        "var",
+                        "while",
+                        "xor"));
 
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
@@ -94,18 +148,18 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
         // ref: http://php.net/manual/en/language.types.intro.php
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
-                        "boolean",
-                        "int",
-                        "integer",
-                        "float",
-                        "string",
-                        "object",
-                        "DateTime",
-                        "mixed",
-                        "number")
-        );
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "boolean",
+                                "int",
+                                "integer",
+                                "float",
+                                "string",
+                                "object",
+                                "DateTime",
+                                "mixed",
+                                "number"));
 
         instantiationTypes.put("array", "array");
         instantiationTypes.put("map", "map");
@@ -126,7 +180,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("array", "array");
         typeMapping.put("list", "array");
         typeMapping.put("object", "object");
-        //TODO binary should be mapped to byte array
+        // TODO binary should be mapped to byte array
         // mapped to String as a workaround
         typeMapping.put("binary", "string");
 
@@ -210,12 +264,12 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         return "null";
     }
 
-
     @Override
     public String toVarName(String name) {
         // return the name in underscore style
         // PhoneNumber => phone_number
-        name = underscore(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = underscore(name); // FIXME: a parameter should not be assigned. Also declare the
+        // methods parameters as 'final'.
 
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
@@ -262,7 +316,8 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
@@ -274,7 +329,12 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
             for (int i = 0; i < items.length; ++i) {
                 if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
                     // camelize path variable
-                    items[i] = "{" + camelize(items[i].substring(1, items[i].length() - 1), LOWERCASE_FIRST_LETTER) + "}";
+                    items[i] =
+                            "{"
+                                    + camelize(
+                                            items[i].substring(1, items[i].length() - 1),
+                                            LOWERCASE_FIRST_LETTER)
+                                    + "}";
                 }
             }
 
@@ -285,5 +345,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PHP; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.PHP;
+    }
 }

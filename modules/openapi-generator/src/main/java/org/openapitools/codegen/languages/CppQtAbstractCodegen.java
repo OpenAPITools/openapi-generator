@@ -3,6 +3,8 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.io.File;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -13,18 +15,17 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.*;
-
 public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(CppQtAbstractCodegen.class);
     protected final String PREFIX = "OAI";
     protected String apiVersion = "1.0.0";
     protected static final String CPP_NAMESPACE = "cppNamespace";
-    protected static final String CPP_NAMESPACE_DESC = "C++ namespace (convention: name::space::for::api).";
+    protected static final String CPP_NAMESPACE_DESC =
+            "C++ namespace (convention: name::space::for::api).";
     protected static final String CONTENT_COMPRESSION_ENABLED = "contentCompression";
-    protected static final String CONTENT_COMPRESSION_ENABLED_DESC = "Enable Compressed Content Encoding for requests and responses";
+    protected static final String CONTENT_COMPRESSION_ENABLED_DESC =
+            "Enable Compressed Content Encoding for requests and responses";
     protected Set<String> foundationClasses = new HashSet<>();
     protected String cppNamespace = "OpenAPI";
     protected Map<String, String> namespaces = new HashMap<>();
@@ -36,23 +37,18 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
     public CppQtAbstractCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .excludeWireFormatFeatures(WireFormatFeature.PROTOBUF)
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling,
-                        GlobalFeature.MultiServer
-                )
-                .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .includeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.excludeWireFormatFeatures(WireFormatFeature.PROTOBUF)
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling,
+                                        GlobalFeature.MultiServer)
+                                .includeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .includeParameterFeatures(ParameterFeature.Cookie));
 
         // set modelNamePrefix as default for QHttpEngine Server
         if (StringUtils.isEmpty(modelNamePrefix)) {
@@ -60,8 +56,14 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
         }
         // CLI options
         addOption(CPP_NAMESPACE, CPP_NAMESPACE_DESC, this.cppNamespace);
-        addOption(CodegenConstants.MODEL_NAME_PREFIX, CodegenConstants.MODEL_NAME_PREFIX_DESC, this.modelNamePrefix);
-        addSwitch(CONTENT_COMPRESSION_ENABLED, CONTENT_COMPRESSION_ENABLED_DESC, this.isContentCompressionEnabled);
+        addOption(
+                CodegenConstants.MODEL_NAME_PREFIX,
+                CodegenConstants.MODEL_NAME_PREFIX_DESC,
+                this.modelNamePrefix);
+        addSwitch(
+                CONTENT_COMPRESSION_ENABLED,
+                CONTENT_COMPRESSION_ENABLED_DESC,
+                this.isContentCompressionEnabled);
 
         /*
          * Additional Properties.  These values can be passed to the templates and
@@ -78,23 +80,11 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
          * Language Specific Primitives.  These types will not trigger imports by
          * the client generator
          */
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
-                        "bool",
-                        "qint32",
-                        "qint64",
-                        "float",
-                        "double")
-        );
+        languageSpecificPrimitives =
+                new HashSet<>(Arrays.asList("bool", "qint32", "qint64", "float", "double"));
         nonFrameworkPrimitives.addAll(languageSpecificPrimitives);
 
-        foundationClasses.addAll(
-                Arrays.asList(
-                        "QString",
-                        "QDate",
-                        "QDateTime",
-                        "QByteArray")
-        );
+        foundationClasses.addAll(Arrays.asList("QString", "QDate", "QDateTime", "QByteArray"));
         languageSpecificPrimitives.addAll(foundationClasses);
         super.typeMapping = new HashMap<>();
 
@@ -147,7 +137,8 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
             additionalProperties().put("prefix", modelNamePrefix);
         }
         if (additionalProperties.containsKey(CONTENT_COMPRESSION_ENABLED)) {
-            setContentCompressionEnabled(convertPropertyToBooleanAndWriteBack(CONTENT_COMPRESSION_ENABLED));
+            setContentCompressionEnabled(
+                    convertPropertyToBooleanAndWriteBack(CONTENT_COMPRESSION_ENABLED));
         } else {
             additionalProperties.put(CONTENT_COMPRESSION_ENABLED, isContentCompressionEnabled);
         }
@@ -168,17 +159,17 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
         }
 
         String folder = modelPackage().replace("::", File.separator);
-        if (!folder.isEmpty())
-            folder += File.separator;
+        if (!folder.isEmpty()) folder += File.separator;
 
         return "#include \"" + folder + name + ".h\"";
     }
 
     /**
-     * Optional - type declaration.  This is a String which is used by the templates to instantiate your
-     * types.  There is typically special handling for different property types
+     * Optional - type declaration. This is a String which is used by the templates to instantiate
+     * your types. There is typically special handling for different property types
      *
-     * @return a string value used as the `dataType` field for model templates, `returnType` for api templates
+     * @return a string value used as the `dataType` field for model templates, `returnType` for api
+     *     templates
      */
     @Override
     @SuppressWarnings("rawtypes")
@@ -246,8 +237,9 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
     }
 
     /**
-     * Optional - OpenAPI type conversion.  This is used to map OpenAPI types in a `Schema` into
-     * either language specific types via `typeMapping` or into complex models if there is not a mapping.
+     * Optional - OpenAPI type conversion. This is used to map OpenAPI types in a `Schema` into
+     * either language specific types via `typeMapping` or into complex models if there is not a
+     * mapping.
      *
      * @return a string value of the type or complex model for this property
      */
@@ -306,13 +298,14 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
 
     @Override
     protected boolean needToImport(String type) {
-        return StringUtils.isNotBlank(type) && !defaultIncludes.contains(type)
+        return StringUtils.isNotBlank(type)
+                && !defaultIncludes.contains(type)
                 && !nonFrameworkPrimitives.contains(type);
     }
 
-
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
 
@@ -331,7 +324,8 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
                     operation.vendorExtensions.put("x-returns-enum", true);
                 }
             }
-            // Check all return parameter baseType if there is a necessity to include, include it if not
+            // Check all return parameter baseType if there is a necessity to include, include it if
+            // not
             // already done
             if (operation.returnBaseType != null && needToImport(operation.returnBaseType)) {
                 if (!isIncluded(operation.returnBaseType, imports)) {

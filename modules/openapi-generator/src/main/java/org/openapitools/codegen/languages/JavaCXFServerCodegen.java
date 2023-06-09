@@ -19,7 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
-import org.apache.commons.lang3.StringUtils;
+import java.io.File;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.GzipTestFeatures;
@@ -29,11 +29,11 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.Set;
-
 public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
-        implements CXFServerFeatures, GzipTestFeatures, LoggingTestFeatures, UseGenericResponseFeatures {
+        implements CXFServerFeatures,
+                GzipTestFeatures,
+                LoggingTestFeatures,
+                UseGenericResponseFeatures {
     private final Logger LOGGER = LoggerFactory.getLogger(JavaCXFServerCodegen.class);
 
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
@@ -92,10 +92,9 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
-        //TODO: add doc templates
+        // TODO: add doc templates
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
-
 
         typeMapping.put("date", "LocalDate");
 
@@ -103,8 +102,10 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf";
 
-        cliOptions.add(CliOption.newBoolean(GENERATE_SPRING_APPLICATION, "Generate Spring application"));
-        cliOptions.add(CliOption.newBoolean(USE_SPRING_ANNOTATION_CONFIG, "Use Spring Annotation Config"));
+        cliOptions.add(
+                CliOption.newBoolean(GENERATE_SPRING_APPLICATION, "Generate Spring application"));
+        cliOptions.add(
+                CliOption.newBoolean(USE_SPRING_ANNOTATION_CONFIG, "Use Spring Annotation Config"));
 
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_FEATURE, "Use Swagger Feature"));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_UI, "Use Swagger UI"));
@@ -113,25 +114,41 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         cliOptions.add(CliOption.newBoolean(USE_MULTIPART_FEATURE, "Use Multipart Feature"));
 
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Use Gzip Feature"));
-        cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE_FOR_TESTS, "Use Gzip Feature for tests"));
-
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION_FEATURE, "Use BeanValidation Feature"));
-        cliOptions.add(CliOption.newBoolean(USE_LOGGING_FEATURE, "Use Logging Feature"));
-        cliOptions.add(CliOption.newBoolean(USE_LOGGING_FEATURE_FOR_TESTS, "Use Logging Feature for tests"));
-
-        cliOptions.add(CliOption.newBoolean(GENERATE_SPRING_BOOT_APPLICATION, "Generate Spring Boot application"));
         cliOptions.add(
-                CliOption.newBoolean(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, "Generate Jboss Deployment Descriptor"));
+                CliOption.newBoolean(USE_GZIP_FEATURE_FOR_TESTS, "Use Gzip Feature for tests"));
 
-        cliOptions
-                .add(CliOption.newBoolean(ADD_CONSUMES_PRODUCES_JSON, "Add @Consumes/@Produces Json to API interface"));
+        cliOptions.add(
+                CliOption.newBoolean(USE_BEANVALIDATION_FEATURE, "Use BeanValidation Feature"));
+        cliOptions.add(CliOption.newBoolean(USE_LOGGING_FEATURE, "Use Logging Feature"));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_LOGGING_FEATURE_FOR_TESTS, "Use Logging Feature for tests"));
 
-        cliOptions.add(CliOption.newBoolean(USE_ANNOTATED_BASE_PATH, "Use @Path annotations for basePath"));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        GENERATE_SPRING_BOOT_APPLICATION, "Generate Spring Boot application"));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR,
+                        "Generate Jboss Deployment Descriptor"));
 
-        cliOptions.add(CliOption.newBoolean(GENERATE_NON_SPRING_APPLICATION, "Generate non-Spring application"));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        ADD_CONSUMES_PRODUCES_JSON,
+                        "Add @Consumes/@Produces Json to API interface"));
+
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_ANNOTATED_BASE_PATH, "Use @Path annotations for basePath"));
+
+        cliOptions.add(
+                CliOption.newBoolean(
+                        GENERATE_NON_SPRING_APPLICATION, "Generate non-Spring application"));
         cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response"));
-        cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk."));
-
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_ABSTRACTION_FOR_FILES,
+                        "Use alternative types instead of java.io.File to allow passing bytes without a file on disk."));
     }
 
     @Override
@@ -139,7 +156,8 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         super.processOpts();
 
         if (additionalProperties.containsKey(ADD_CONSUMES_PRODUCES_JSON)) {
-            this.setAddConsumesProducesJson(convertPropertyToBooleanAndWriteBack(ADD_CONSUMES_PRODUCES_JSON));
+            this.setAddConsumesProducesJson(
+                    convertPropertyToBooleanAndWriteBack(ADD_CONSUMES_PRODUCES_JSON));
         }
 
         if (additionalProperties.containsKey(USE_GENERIC_RESPONSE)) {
@@ -151,93 +169,124 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         }
 
         if (additionalProperties.containsKey(GENERATE_SPRING_APPLICATION)) {
-            this.setGenerateSpringApplication(convertPropertyToBooleanAndWriteBack(GENERATE_SPRING_APPLICATION));
+            this.setGenerateSpringApplication(
+                    convertPropertyToBooleanAndWriteBack(GENERATE_SPRING_APPLICATION));
 
             this.setUseSwaggerFeature(convertPropertyToBooleanAndWriteBack(USE_SWAGGER_FEATURE));
             this.setUseSwaggerUI(convertPropertyToBooleanAndWriteBack(USE_SWAGGER_UI));
 
             this.setUseWadlFeature(convertPropertyToBooleanAndWriteBack(USE_WADL_FEATURE));
-            this.setUseMultipartFeature(convertPropertyToBooleanAndWriteBack(USE_MULTIPART_FEATURE));
+            this.setUseMultipartFeature(
+                    convertPropertyToBooleanAndWriteBack(USE_MULTIPART_FEATURE));
             this.setUseGzipFeature(convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE));
-            this.setUseGzipFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE_FOR_TESTS));
+            this.setUseGzipFeatureForTests(
+                    convertPropertyToBooleanAndWriteBack(USE_GZIP_FEATURE_FOR_TESTS));
             this.setUseLoggingFeature(convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE));
-            this.setUseLoggingFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS));
-            this.setUseSpringAnnotationConfig(convertPropertyToBooleanAndWriteBack(USE_SPRING_ANNOTATION_CONFIG));
+            this.setUseLoggingFeatureForTests(
+                    convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS));
+            this.setUseSpringAnnotationConfig(
+                    convertPropertyToBooleanAndWriteBack(USE_SPRING_ANNOTATION_CONFIG));
 
-            boolean useBeanValidationFeature = convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION_FEATURE);
+            boolean useBeanValidationFeature =
+                    convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION_FEATURE);
             this.setUseBeanValidationFeature(useBeanValidationFeature);
             if (useBeanValidationFeature) {
                 LOGGER.info("make sure your target server supports Bean Validation 1.1");
             }
 
-            this.setGenerateSpringBootApplication(convertPropertyToBooleanAndWriteBack(GENERATE_SPRING_BOOT_APPLICATION));
+            this.setGenerateSpringBootApplication(
+                    convertPropertyToBooleanAndWriteBack(GENERATE_SPRING_BOOT_APPLICATION));
         }
 
         if (additionalProperties.containsKey(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR)) {
-            boolean generateJbossDeploymentDescriptorProp = convertPropertyToBooleanAndWriteBack(
-                    GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR);
+            boolean generateJbossDeploymentDescriptorProp =
+                    convertPropertyToBooleanAndWriteBack(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR);
             this.setGenerateJbossDeploymentDescriptor(generateJbossDeploymentDescriptorProp);
         }
 
         if (additionalProperties.containsKey(USE_ANNOTATED_BASE_PATH)) {
-            boolean useAnnotatedBasePathProp = convertPropertyToBooleanAndWriteBack(USE_ANNOTATED_BASE_PATH);
+            boolean useAnnotatedBasePathProp =
+                    convertPropertyToBooleanAndWriteBack(USE_ANNOTATED_BASE_PATH);
             this.setUseAnnotatedBasePath(useAnnotatedBasePathProp);
         }
 
         if (additionalProperties.containsKey(GENERATE_NON_SPRING_APPLICATION)) {
-            boolean generateNonSpringApplication = convertPropertyToBooleanAndWriteBack(GENERATE_NON_SPRING_APPLICATION);
+            boolean generateNonSpringApplication =
+                    convertPropertyToBooleanAndWriteBack(GENERATE_NON_SPRING_APPLICATION);
             this.setGenerateNonSpringApplication(generateNonSpringApplication);
         }
 
         if (additionalProperties.containsKey(USE_ABSTRACTION_FOR_FILES)) {
-            this.setUseAbstractionForFiles(convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES));
+            this.setUseAbstractionForFiles(
+                    convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES));
         }
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
-        supportingFiles.add(new SupportingFile("server/pom.mustache", "", "pom.xml")
-            .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("server/pom.mustache", "", "pom.xml").doNotOverwrite());
 
-        supportingFiles.add(new SupportingFile("server/openapi-generator-ignore.mustache", "", ".openapi-generator-ignore")
-            .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile(
+                                "server/openapi-generator-ignore.mustache",
+                                "",
+                                ".openapi-generator-ignore")
+                        .doNotOverwrite());
 
         if (this.generateSpringApplication) {
-            supportingFiles.add(new SupportingFile("server/readme.md", "", "readme.md")
-                .doNotOverwrite());
-            supportingFiles.add(new SupportingFile("server/ApplicationContext.xml.mustache",
-                    ("src/main/resources"), "ApplicationContext.xml")
-                .doNotOverwrite());
-            supportingFiles.add(new SupportingFile("server/web.mustache",
-                    ("src/main/webapp/WEB-INF"), "web.xml")
-                .doNotOverwrite());
-            supportingFiles.add(new SupportingFile("server/context.xml.mustache",
-                    ("src/main/webapp/WEB-INF"), "context.xml")
-                .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile("server/readme.md", "", "readme.md").doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "server/ApplicationContext.xml.mustache",
+                                    ("src/main/resources"),
+                                    "ApplicationContext.xml")
+                            .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "server/web.mustache", ("src/main/webapp/WEB-INF"), "web.xml")
+                            .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "server/context.xml.mustache",
+                                    ("src/main/webapp/WEB-INF"),
+                                    "context.xml")
+                            .doNotOverwrite());
 
             // Jboss
             if (generateJbossDeploymentDescriptor) {
-                supportingFiles.add(new SupportingFile("server/jboss-web.xml.mustache",
-                        ("src/main/webapp/WEB-INF"), "jboss-web.xml")
-                    .doNotOverwrite());
-
+                supportingFiles.add(
+                        new SupportingFile(
+                                        "server/jboss-web.xml.mustache",
+                                        ("src/main/webapp/WEB-INF"),
+                                        "jboss-web.xml")
+                                .doNotOverwrite());
             }
 
             // Spring Boot
             if (this.generateSpringBootApplication) {
-                supportingFiles.add(new SupportingFile("server/SpringBootApplication.mustache",
-                        (testFolder + '/' + apiPackage).replace(".", "/"), "SpringBootApplication.java")
-                    .doNotOverwrite());
-                supportingFiles.add(new SupportingFile("server/application.properties.mustache",
-                        (testResourcesFolder + '/'), "application.properties")
-                    .doNotOverwrite());
-
+                supportingFiles.add(
+                        new SupportingFile(
+                                        "server/SpringBootApplication.mustache",
+                                        (testFolder + '/' + apiPackage).replace(".", "/"),
+                                        "SpringBootApplication.java")
+                                .doNotOverwrite());
+                supportingFiles.add(
+                        new SupportingFile(
+                                        "server/application.properties.mustache",
+                                        (testResourcesFolder + '/'),
+                                        "application.properties")
+                                .doNotOverwrite());
             }
         }
 
         if (this.generateNonSpringApplication) {
-            supportingFiles.add(new SupportingFile("server/nonspring-web.mustache",
-                    ("src/main/webapp/WEB-INF"), "web.xml")
-                .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "server/nonspring-web.mustache",
+                                    ("src/main/webapp/WEB-INF"),
+                                    "web.xml")
+                            .doNotOverwrite());
         }
     }
 
@@ -254,7 +303,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         model.imports.remove("JsonSerialize");
         model.imports.remove("ToStringSerializer");
 
-        //Add imports for Jackson when model has inner enum
+        // Add imports for Jackson when model has inner enum
         if (additionalProperties.containsKey(JACKSON)) {
             if (Boolean.FALSE.equals(model.isEnum) && Boolean.TRUE.equals(model.hasEnums)) {
                 model.imports.add("JsonCreator");
@@ -280,26 +329,21 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         this.useSwaggerFeature = useSwaggerFeature;
     }
 
-
     public void setUseWadlFeature(boolean useWadlFeature) {
         this.useWadlFeature = useWadlFeature;
     }
-
 
     public void setUseMultipartFeature(boolean useMultipartFeature) {
         this.useMultipartFeature = useMultipartFeature;
     }
 
-
     public void setUseGzipFeature(boolean useGzipFeature) {
         this.useGzipFeature = useGzipFeature;
     }
 
-
     public void setUseLoggingFeature(boolean useLoggingFeature) {
         this.useLoggingFeature = useLoggingFeature;
     }
-
 
     public void setUseBeanValidationFeature(boolean useBeanValidationFeature) {
         this.useBeanValidationFeature = useBeanValidationFeature;
@@ -349,12 +393,17 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     protected void updateModelForObject(CodegenModel m, Schema schema) {
         /**
          * we have a custom version of this function so we only set isMap to true if
-         * ModelUtils.isMapSchema
-         * In other generators, isMap is true for all type object schemas
+         * ModelUtils.isMapSchema In other generators, isMap is true for all type object schemas
          */
-        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+        if (schema.getProperties() != null
+                || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
             // passing null to allProperties and allRequired as there's no parent
-            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+            addVars(
+                    m,
+                    unaliasPropertySchema(schema.getProperties()),
+                    schema.getRequired(),
+                    null,
+                    null);
         }
         if (ModelUtils.isMapSchema(schema)) {
             // an object or anyType composed schema that has additionalProperties set

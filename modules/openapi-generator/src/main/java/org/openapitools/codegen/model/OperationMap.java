@@ -3,7 +3,6 @@ package org.openapitools.codegen.model;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
 import org.openapitools.codegen.CodegenOperation;
 
 public class OperationMap extends HashMap<String, Object> {
@@ -36,5 +35,4 @@ public class OperationMap extends HashMap<String, Object> {
     public String getPathPrefix() {
         return (String) get("pathPrefix");
     }
-
 }

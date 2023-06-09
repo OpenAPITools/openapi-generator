@@ -17,23 +17,20 @@
 
 package org.openapitools.codegen.languages;
 
+import java.io.File;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 
-import java.io.File;
-
 /**
- * Generates a Java JAXRS Server according to JAXRS 2.0 specification, assuming an
- * Apache CXF runtime and a Java EE runtime with CDI enabled.
- * Similar to the original JAXRS generator, this creates API and Service classes
- * in /src/gen/java and a sample ServiceImpl in /src/main/java. The API uses CDI
- * to get an instance of ServiceImpl that implements the Service interface.
+ * Generates a Java JAXRS Server according to JAXRS 2.0 specification, assuming an Apache CXF
+ * runtime and a Java EE runtime with CDI enabled. Similar to the original JAXRS generator, this
+ * creates API and Service classes in /src/gen/java and a sample ServiceImpl in /src/main/java. The
+ * API uses CDI to get an instance of ServiceImpl that implements the Service interface.
  */
-public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen implements BeanValidationFeatures {
+public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen
+        implements BeanValidationFeatures {
 
-    /**
-     * Default constructor
-     */
+    /** Default constructor */
     public JavaJAXRSCXFCDIServerCodegen() {
         outputFolder = "generated-code/JavaJaxRS-CXF-CDI";
         artifactId = "openapi-jaxrs-cxf-cdi-server";
@@ -54,7 +51,8 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
         typeMapping.put("file", "java.io.InputStream");
 
         // Updated template directory
-        embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf-cdi";
+        embeddedTemplateDir =
+                templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf-cdi";
     }
 
     @Override
@@ -72,22 +70,23 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
 
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
-
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
         // POM
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-            .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml").doNotOverwrite());
 
         // RestApplication into src/main/java
-        supportingFiles.add(new SupportingFile("RestApplication.mustache",
-                (implFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
-            .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile(
+                                "RestApplication.mustache",
+                                (implFolder + '/' + invokerPackage).replace(".", "/"),
+                                "RestApplication.java")
+                        .doNotOverwrite());
 
         // Make CDI work in containers with implicit archive scanning disabled
-        supportingFiles.add(new SupportingFile("beans.mustache",
-                "src/main/webapp/WEB-INF", "beans.xml")
-            .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("beans.mustache", "src/main/webapp/WEB-INF", "beans.xml")
+                        .doNotOverwrite());
     }
 
     @Override

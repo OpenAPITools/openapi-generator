@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
-
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.openapitools.codegen.CodegenConfig;
@@ -16,8 +15,7 @@ import org.testng.annotations.Test;
 
 public class CamelCaseLambdaTest extends LambdaTest {
 
-    @Mock
-    CodegenConfig generator;
+    @Mock CodegenConfig generator;
 
     @BeforeMethod
     public void setup() {
@@ -48,7 +46,8 @@ public class CamelCaseLambdaTest extends LambdaTest {
         Map<String, Object> ctx = context("camelcase", new CamelCaseLambda().generator(generator));
 
         when(generator.sanitizeName(anyString())).then(returnsFirstArg());
-        when(generator.reservedWords()).thenReturn(new HashSet<String>(Arrays.asList("reservedWord")));
+        when(generator.reservedWords())
+                .thenReturn(new HashSet<String>(Arrays.asList("reservedWord")));
         when(generator.escapeReservedWord("reservedWord")).thenReturn("escapedReservedWord");
 
         // When & Then
@@ -58,8 +57,10 @@ public class CamelCaseLambdaTest extends LambdaTest {
     @Test
     public void camelCaseEscapeParamTest() {
         // Given
-        Map<String, Object> ctx = context("camelcase", new CamelCaseLambda()
-                .generator(generator).escapeAsParamName(true));
+        Map<String, Object> ctx =
+                context(
+                        "camelcase",
+                        new CamelCaseLambda().generator(generator).escapeAsParamName(true));
 
         when(generator.sanitizeName(anyString())).then(returnsFirstArg());
         when(generator.reservedWords()).thenReturn(new HashSet<String>());
@@ -68,5 +69,4 @@ public class CamelCaseLambdaTest extends LambdaTest {
         // When & Then
         test("inputTextAsParam", "{{#camelcase}}Input_text{{/camelcase}}", ctx);
     }
-
 }

@@ -16,6 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -25,6 +27,11 @@ import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Info;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
+import java.util.Map.Entry;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -38,14 +45,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-import java.util.Map.Entry;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class NodeJSExpressServerCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -63,41 +62,61 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     public NodeJSExpressServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.OAuth2_Implicit
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .includeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                                .securityFeatures(EnumSet.of(SecurityFeature.OAuth2_Implicit))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .includeParameterFeatures(ParameterFeature.Cookie));
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         outputFolder = "generated-code/nodejs-express-server";
         embeddedTemplateDir = templateDir = "nodejs-express-server";
 
         setReservedWordsLowerCase(
                 Arrays.asList(
-                        "break", "case", "class", "catch", "const", "continue", "debugger",
-                        "default", "delete", "do", "else", "export", "extends", "finally",
-                        "for", "function", "if", "import", "in", "instanceof", "let", "new",
-                        "return", "super", "switch", "this", "throw", "try", "typeof", "var",
-                        "void", "while", "with", "yield")
-        );
+                        "break",
+                        "case",
+                        "class",
+                        "catch",
+                        "const",
+                        "continue",
+                        "debugger",
+                        "default",
+                        "delete",
+                        "do",
+                        "else",
+                        "export",
+                        "extends",
+                        "finally",
+                        "for",
+                        "function",
+                        "if",
+                        "import",
+                        "in",
+                        "instanceof",
+                        "let",
+                        "new",
+                        "return",
+                        "super",
+                        "switch",
+                        "this",
+                        "throw",
+                        "try",
+                        "typeof",
+                        "var",
+                        "void",
+                        "while",
+                        "with",
+                        "yield"));
 
         additionalProperties.put("apiVersion", apiVersion);
         additionalProperties.put("implFolder", implFolder);
@@ -116,23 +135,40 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         supportingFiles.add(new SupportingFile("eslintrc.mustache", "", ".eslintrc.json"));
 
         // utils folder
-        supportingFiles.add(new SupportingFile("utils" + File.separator + "openapiRouter.mustache", "utils", "openapiRouter.js"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "utils" + File.separator + "openapiRouter.mustache",
+                        "utils",
+                        "openapiRouter.js"));
 
         // controllers folder
-        supportingFiles.add(new SupportingFile("controllers" + File.separator + "index.mustache", "controllers", "index.js"));
-        supportingFiles.add(new SupportingFile("controllers" + File.separator + "Controller.mustache", "controllers", "Controller.js"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "controllers" + File.separator + "index.mustache",
+                        "controllers",
+                        "index.js"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "controllers" + File.separator + "Controller.mustache",
+                        "controllers",
+                        "Controller.js"));
         // service folder
-        supportingFiles.add(new SupportingFile("services" + File.separator + "index.mustache", "services", "index.js"));
-        supportingFiles.add(new SupportingFile("services" + File.separator + "Service.mustache", "services", "Service.js"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "services" + File.separator + "index.mustache", "services", "index.js"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "services" + File.separator + "Service.mustache",
+                        "services",
+                        "Service.js"));
 
         // do not overwrite if the file is already present
-        supportingFiles.add(new SupportingFile("package.mustache", "", "package.json")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-                .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("package.mustache", "", "package.json").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
 
-        cliOptions.add(new CliOption(SERVER_PORT,
-                "TCP port to listen on."));
+        cliOptions.add(new CliOption(SERVER_PORT, "TCP port to listen on."));
     }
 
     @Override
@@ -152,8 +188,8 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     }
 
     /**
-     * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -g flag.
+     * Configures a friendly name for the generator. This will be used by the generator to select
+     * the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -163,8 +199,8 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     }
 
     /**
-     * Returns human-friendly help for the generator.  Provide the consumer with help
-     * tips, parameters here
+     * Returns human-friendly help for the generator. Provide the consumer with help tips,
+     * parameters here
      *
      * @return A string value for the help message
      */
@@ -202,16 +238,16 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         return result;
     }
 
-/*
-    @Override
-    protected String implFileFolder(String output) {
-        return outputFolder + File.separator + output + File.separator + apiPackage().replace('.', File.separatorChar);
-    }
-*/
+    /*
+        @Override
+        protected String implFileFolder(String output) {
+            return outputFolder + File.separator + output + File.separator + apiPackage().replace('.', File.separatorChar);
+        }
+    */
 
     /**
-     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
-     * those terms here.  This logic is only called if a variable matches the reserved words
+     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping those terms
+     * here. This logic is only called if a variable matches the reserved words
      *
      * @return the escaped term
      */
@@ -224,7 +260,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     }
 
     /**
-     * Location to write api files.  You can use the apiPackage() as defined when the class is
+     * Location to write api files. You can use the apiPackage() as defined when the class is
      * instantiated
      */
     @Override
@@ -241,7 +277,8 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
@@ -261,7 +298,8 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
             }
             if (operation.examples != null && !operation.examples.isEmpty()) {
                 // Leave application/json* items only
-                for (Iterator<Map<String, String>> it = operation.examples.iterator(); it.hasNext(); ) {
+                for (Iterator<Map<String, String>> it = operation.examples.iterator();
+                        it.hasNext(); ) {
                     final Map<String, String> example = it.next();
                     final String contentType = example.get("contentType");
                     if (contentType == null || !contentType.startsWith("application/json")) {
@@ -306,8 +344,10 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("JS_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable JS_POST_PROCESS_FILE not defined so the JS code may not be properly formatted. To define it, try 'export JS_POST_PROCESS_FILE=\"/usr/local/bin/js-beautify -r -f\"' (Linux/Mac)");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info(
+                    "Environment variable JS_POST_PROCESS_FILE not defined so the JS code may not be properly formatted. To define it, try 'export JS_POST_PROCESS_FILE=\"/usr/local/bin/js-beautify -r -f\"' (Linux/Mac)");
+            LOGGER.info(
+                    "NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(EXPORTED_NAME)) {
@@ -347,12 +387,13 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
             if (info.getTitle() != null) {
                 // when info.title is defined, use it for projectName
                 // used in package.json
-                projectName = info.getTitle()
-                        .replaceAll("[^a-zA-Z0-9]", "-")
-                        .replaceAll("^[-]*", "")
-                        .replaceAll("[-]*$", "")
-                        .replaceAll("[-]{2,}", "-")
-                        .toLowerCase(Locale.ROOT);
+                projectName =
+                        info.getTitle()
+                                .replaceAll("[^a-zA-Z0-9]", "-")
+                                .replaceAll("^[-]*", "")
+                                .replaceAll("[-]*$", "")
+                                .replaceAll("[-]{2,}", "-")
+                                .toLowerCase(Locale.ROOT);
                 this.additionalProperties.put("projectName", projectName);
             }
         }
@@ -365,7 +406,8 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
                 PathItem path = pathsEntry.getValue();
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if (operationMap != null) {
-                    for (Map.Entry<HttpMethod, Operation> operationMapEntry : operationMap.entrySet()) {
+                    for (Map.Entry<HttpMethod, Operation> operationMapEntry :
+                            operationMap.entrySet()) {
                         HttpMethod method = operationMapEntry.getKey();
                         Operation operation = operationMapEntry.getValue();
                         String tag = "default";
@@ -373,27 +415,37 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
                             tag = toApiName(operation.getTags().get(0));
                         }
                         if (operation.getOperationId() == null) {
-                            operation.setOperationId(getOrGenerateOperationId(operation, pathname, method.toString()));
+                            operation.setOperationId(
+                                    getOrGenerateOperationId(
+                                            operation, pathname, method.toString()));
                         }
                         // add x-openapi-router-controller
-//                        if (operation.getExtensions() == null ||
-//                                operation.getExtensions().get("x-openapi-router-controller") == null) {
-//                            operation.addExtension("x-openapi-router-controller", sanitizeTag(tag) + "Controller");
-//                        }
-//                        // add x-openapi-router-service
-//                        if (operation.getExtensions() == null ||
-//                                operation.getExtensions().get("x-openapi-router-service") == null) {
-//                            operation.addExtension("x-openapi-router-service", sanitizeTag(tag) + "Service");
-//                        }
-                        if (operation.getExtensions() == null ||
-                                operation.getExtensions().get("x-eov-operation-handler") == null) {
-                            operation.addExtension("x-eov-operation-handler", "controllers/" + sanitizeTag(tag) + "Controller");
+                        //                        if (operation.getExtensions() == null ||
+                        //
+                        // operation.getExtensions().get("x-openapi-router-controller") == null) {
+                        //
+                        // operation.addExtension("x-openapi-router-controller", sanitizeTag(tag) +
+                        // "Controller");
+                        //                        }
+                        //                        // add x-openapi-router-service
+                        //                        if (operation.getExtensions() == null ||
+                        //
+                        // operation.getExtensions().get("x-openapi-router-service") == null) {
+                        //
+                        // operation.addExtension("x-openapi-router-service", sanitizeTag(tag) +
+                        // "Service");
+                        //                        }
+                        if (operation.getExtensions() == null
+                                || operation.getExtensions().get("x-eov-operation-handler")
+                                        == null) {
+                            operation.addExtension(
+                                    "x-eov-operation-handler",
+                                    "controllers/" + sanitizeTag(tag) + "Controller");
                         }
                     }
                 }
             }
         }
-
     }
 
     @Override
@@ -444,11 +496,13 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
                 p.waitFor();
                 int exitValue = p.exitValue();
                 if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                    LOGGER.error(
+                            "Error running the command ({}). Exit code: {}", command, exitValue);
                 }
                 LOGGER.info("Successfully executed: {}", command);
             } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                LOGGER.error(
+                        "Error running the command ({}). Exception: {}", command, e.getMessage());
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
@@ -456,5 +510,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.JAVASCRIPT;
+    }
 }

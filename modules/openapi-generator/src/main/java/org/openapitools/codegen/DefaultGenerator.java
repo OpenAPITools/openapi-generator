@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen;
 
+import static org.apache.commons.lang3.StringUtils.removeStart;
+import static org.openapitools.codegen.utils.OnceLogger.once;
+
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -29,16 +32,25 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.*;
 import io.swagger.v3.oas.models.tags.Tag;
+import java.io.*;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.time.ZonedDateTime;
+import java.util.*;
+import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.comparator.PathFileComparator;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.api.TemplateDefinition;
+import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.api.TemplateProcessor;
-import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
-import org.openapitools.codegen.api.TemplateFileType;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -58,19 +70,6 @@ import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.*;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.time.ZonedDateTime;
-import java.util.*;
-import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import static org.apache.commons.lang3.StringUtils.removeStart;
-import static org.openapitools.codegen.utils.OnceLogger.once;
 
 @SuppressWarnings("rawtypes")
 public class DefaultGenerator implements Generator {
@@ -97,7 +96,6 @@ public class DefaultGenerator implements Generator {
 
     private List<TemplateDefinition> userDefinedTemplates = new ArrayList<>();
 
-
     public DefaultGenerator() {
         this(false);
     }
@@ -118,7 +116,9 @@ public class DefaultGenerator implements Generator {
             this.userDefinedTemplates = Collections.unmodifiableList(userFiles);
         }
 
-        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(this.config.isEnableMinimalUpdate(), this.config.isSkipOverwrite());
+        TemplateManagerOptions templateManagerOptions =
+                new TemplateManagerOptions(
+                        this.config.isEnableMinimalUpdate(), this.config.isSkipOverwrite());
 
         if (this.dryRun) {
             this.templateProcessor = new DryRunTemplateManager(templateManagerOptions);
@@ -126,17 +126,22 @@ public class DefaultGenerator implements Generator {
             TemplatingEngineAdapter templatingEngine = this.config.getTemplatingEngine();
 
             if (templatingEngine instanceof MustacheEngineAdapter) {
-                MustacheEngineAdapter mustacheEngineAdapter = (MustacheEngineAdapter) templatingEngine;
-                mustacheEngineAdapter.setCompiler(this.config.processCompiler(mustacheEngineAdapter.getCompiler()));
+                MustacheEngineAdapter mustacheEngineAdapter =
+                        (MustacheEngineAdapter) templatingEngine;
+                mustacheEngineAdapter.setCompiler(
+                        this.config.processCompiler(mustacheEngineAdapter.getCompiler()));
             }
 
             TemplatePathLocator commonTemplateLocator = new CommonTemplateContentLocator();
-            TemplatePathLocator generatorTemplateLocator = new GeneratorTemplateContentLocator(this.config);
-            this.templateProcessor = new TemplateManager(
-                    templateManagerOptions,
-                    templatingEngine,
-                    new TemplatePathLocator[]{generatorTemplateLocator, commonTemplateLocator}
-            );
+            TemplatePathLocator generatorTemplateLocator =
+                    new GeneratorTemplateContentLocator(this.config);
+            this.templateProcessor =
+                    new TemplateManager(
+                            templateManagerOptions,
+                            templatingEngine,
+                            new TemplatePathLocator[] {
+                                generatorTemplateLocator, commonTemplateLocator
+                            });
         }
 
         String ignoreFileLocation = this.config.getIgnoreFilePathOverride();
@@ -145,7 +150,9 @@ public class DefaultGenerator implements Generator {
             if (ignoreFile.exists() && ignoreFile.canRead()) {
                 this.ignoreProcessor = new CodegenIgnoreProcessor(ignoreFile);
             } else {
-                LOGGER.warn("Ignore file specified at {} is not valid. This will fall back to an existing ignore file if present in the output directory.", ignoreFileLocation);
+                LOGGER.warn(
+                        "Ignore file specified at {} is not valid. This will fall back to an existing ignore file if present in the output directory.",
+                        ignoreFileLocation);
             }
         }
 
@@ -157,8 +164,8 @@ public class DefaultGenerator implements Generator {
     }
 
     /**
-     * Retrieves an instance to the configured template processor, available after user-defined options are
-     * applied via {@link DefaultGenerator#opts(ClientOptInput)}.
+     * Retrieves an instance to the configured template processor, available after user-defined
+     * options are applied via {@link DefaultGenerator#opts(ClientOptInput)}.
      *
      * @return A configured {@link TemplateProcessor}, or null.
      */
@@ -178,10 +185,10 @@ public class DefaultGenerator implements Generator {
     }
 
     /**
-     * Set generator properties otherwise pulled from system properties.
-     * Useful for running tests in parallel without relying on System.properties.
+     * Set generator properties otherwise pulled from system properties. Useful for running tests in
+     * parallel without relying on System.properties.
      *
-     * @param key   The system property key
+     * @param key The system property key
      * @param value The system property value
      */
     @SuppressWarnings("WeakerAccess")
@@ -189,7 +196,8 @@ public class DefaultGenerator implements Generator {
         this.generatorPropertyDefaults.put(key, value);
     }
 
-    private Boolean getGeneratorPropertyDefaultSwitch(final String key, final Boolean defaultValue) {
+    private Boolean getGeneratorPropertyDefaultSwitch(
+            final String key, final Boolean defaultValue) {
         String result = null;
         if (this.generatorPropertyDefaults.containsKey(key)) {
             result = this.generatorPropertyDefaults.get(key);
@@ -202,10 +210,21 @@ public class DefaultGenerator implements Generator {
 
     void configureGeneratorProperties() {
         // allows generating only models by specifying a CSV of models to generate, or empty for all
-        // NOTE: Boolean.TRUE is required below rather than `true` because of JVM boxing constraints and type inference.
-        generateApis = GlobalSettings.getProperty(CodegenConstants.APIS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.APIS, null);
-        generateModels = GlobalSettings.getProperty(CodegenConstants.MODELS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODELS, null);
-        generateSupportingFiles = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.SUPPORTING_FILES, null);
+        // NOTE: Boolean.TRUE is required below rather than `true` because of JVM boxing constraints
+        // and type inference.
+        generateApis =
+                GlobalSettings.getProperty(CodegenConstants.APIS) != null
+                        ? Boolean.TRUE
+                        : getGeneratorPropertyDefaultSwitch(CodegenConstants.APIS, null);
+        generateModels =
+                GlobalSettings.getProperty(CodegenConstants.MODELS) != null
+                        ? Boolean.TRUE
+                        : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODELS, null);
+        generateSupportingFiles =
+                GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES) != null
+                        ? Boolean.TRUE
+                        : getGeneratorPropertyDefaultSwitch(
+                                CodegenConstants.SUPPORTING_FILES, null);
 
         if (generateApis == null && generateModels == null && generateSupportingFiles == null) {
             // no specifics are set, generate everything
@@ -221,19 +240,35 @@ public class DefaultGenerator implements Generator {
                 generateSupportingFiles = false;
             }
         }
-        // model/api tests and documentation options rely on parent generate options (api or model) and no other options.
+        // model/api tests and documentation options rely on parent generate options (api or model)
+        // and no other options.
         // They default to true in all scenarios and can only be marked false explicitly
-        generateModelTests = GlobalSettings.getProperty(CodegenConstants.MODEL_TESTS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.MODEL_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_TESTS, true);
-        generateModelDocumentation = GlobalSettings.getProperty(CodegenConstants.MODEL_DOCS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.MODEL_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_DOCS, true);
-        generateApiTests = GlobalSettings.getProperty(CodegenConstants.API_TESTS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_TESTS, true);
-        generateApiDocumentation = GlobalSettings.getProperty(CodegenConstants.API_DOCS) != null ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_DOCS, true);
+        generateModelTests =
+                GlobalSettings.getProperty(CodegenConstants.MODEL_TESTS) != null
+                        ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.MODEL_TESTS))
+                        : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_TESTS, true);
+        generateModelDocumentation =
+                GlobalSettings.getProperty(CodegenConstants.MODEL_DOCS) != null
+                        ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.MODEL_DOCS))
+                        : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_DOCS, true);
+        generateApiTests =
+                GlobalSettings.getProperty(CodegenConstants.API_TESTS) != null
+                        ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_TESTS))
+                        : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_TESTS, true);
+        generateApiDocumentation =
+                GlobalSettings.getProperty(CodegenConstants.API_DOCS) != null
+                        ? Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.API_DOCS))
+                        : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_DOCS, true);
 
         // Additional properties added for tests to exclude references in project related files
         config.additionalProperties().put(CodegenConstants.GENERATE_API_TESTS, generateApiTests);
-        config.additionalProperties().put(CodegenConstants.GENERATE_MODEL_TESTS, generateModelTests);
+        config.additionalProperties()
+                .put(CodegenConstants.GENERATE_MODEL_TESTS, generateModelTests);
 
-        config.additionalProperties().put(CodegenConstants.GENERATE_API_DOCS, generateApiDocumentation);
-        config.additionalProperties().put(CodegenConstants.GENERATE_MODEL_DOCS, generateModelDocumentation);
+        config.additionalProperties()
+                .put(CodegenConstants.GENERATE_API_DOCS, generateApiDocumentation);
+        config.additionalProperties()
+                .put(CodegenConstants.GENERATE_MODEL_DOCS, generateModelDocumentation);
 
         config.additionalProperties().put(CodegenConstants.GENERATE_APIS, generateApis);
         config.additionalProperties().put(CodegenConstants.GENERATE_MODELS, generateModels);
@@ -256,11 +291,13 @@ public class DefaultGenerator implements Generator {
         // normalize the spec
         try {
             if (config.getUseOpenAPINormalizer()) {
-                OpenAPINormalizer openapiNormalizer = new OpenAPINormalizer(openAPI, config.openapiNormalizer());
+                OpenAPINormalizer openapiNormalizer =
+                        new OpenAPINormalizer(openAPI, config.openapiNormalizer());
                 openapiNormalizer.normalize();
             }
         } catch (Exception e) {
-            LOGGER.error("An exception occurred in OpenAPI Normalizer. Please report the issue via https://github.com/openapitools/openapi-generator/issues/new/: ");
+            LOGGER.error(
+                    "An exception occurred in OpenAPI Normalizer. Please report the issue via https://github.com/openapitools/openapi-generator/issues/new/: ");
             e.printStackTrace();
         }
 
@@ -279,7 +316,8 @@ public class DefaultGenerator implements Generator {
 
         config.additionalProperties().put("generatorVersion", ImplementationVersion.read());
         config.additionalProperties().put("generatedDate", ZonedDateTime.now().toString());
-        config.additionalProperties().put("generatedYear", String.valueOf(ZonedDateTime.now().getYear()));
+        config.additionalProperties()
+                .put("generatedYear", String.valueOf(ZonedDateTime.now().getYear()));
         config.additionalProperties().put("generatorClass", config.getClass().getName());
         config.additionalProperties().put("inputSpec", config.getInputSpec());
 
@@ -290,12 +328,17 @@ public class DefaultGenerator implements Generator {
         // TODO: Allow user to define _which_ servers object in the array to target.
         // Configures contextPath/basePath according to api document's servers
         URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
-        contextPath = removeTrailingSlash(config.escapeText(url.getPath())); // for backward compatibility
+        contextPath =
+                removeTrailingSlash(config.escapeText(url.getPath())); // for backward compatibility
         basePathWithoutHost = contextPath;
         if (URLPathUtils.isRelativeUrl(openAPI.getServers())) {
             basePath = removeTrailingSlash(basePathWithoutHost);
         } else {
-            basePath = removeTrailingSlash(config.escapeText(URLPathUtils.getHost(openAPI, config.serverVariableOverrides())));
+            basePath =
+                    removeTrailingSlash(
+                            config.escapeText(
+                                    URLPathUtils.getHost(
+                                            openAPI, config.serverVariableOverrides())));
         }
     }
 
@@ -316,20 +359,33 @@ public class DefaultGenerator implements Generator {
 
         if (StringUtils.isEmpty(info.getDescription())) {
             // set a default description if none if provided
-            config.additionalProperties().put("appDescription",
-                    "No description provided (generated by Openapi Generator https://github.com/openapitools/openapi-generator)");
-            config.additionalProperties().put("appDescriptionWithNewLines", config.additionalProperties().get("appDescription"));
-            config.additionalProperties().put("unescapedAppDescription", "No description provided (generated by Openapi Generator https://github.com/openapitools/openapi-generator)");
+            config.additionalProperties()
+                    .put(
+                            "appDescription",
+                            "No description provided (generated by Openapi Generator https://github.com/openapitools/openapi-generator)");
+            config.additionalProperties()
+                    .put(
+                            "appDescriptionWithNewLines",
+                            config.additionalProperties().get("appDescription"));
+            config.additionalProperties()
+                    .put(
+                            "unescapedAppDescription",
+                            "No description provided (generated by Openapi Generator https://github.com/openapitools/openapi-generator)");
         } else {
-            config.additionalProperties().put("appDescription", config.escapeText(info.getDescription()));
-            config.additionalProperties().put("appDescriptionWithNewLines", config.escapeTextWhileAllowingNewLines(info.getDescription()));
+            config.additionalProperties()
+                    .put("appDescription", config.escapeText(info.getDescription()));
+            config.additionalProperties()
+                    .put(
+                            "appDescriptionWithNewLines",
+                            config.escapeTextWhileAllowingNewLines(info.getDescription()));
             config.additionalProperties().put("unescapedAppDescription", info.getDescription());
         }
 
         if (info.getContact() != null) {
             Contact contact = info.getContact();
             if (contact.getEmail() != null) {
-                config.additionalProperties().put("infoEmail", config.escapeText(contact.getEmail()));
+                config.additionalProperties()
+                        .put("infoEmail", config.escapeText(contact.getEmail()));
             }
             if (contact.getName() != null) {
                 config.additionalProperties().put("infoName", config.escapeText(contact.getName()));
@@ -342,10 +398,12 @@ public class DefaultGenerator implements Generator {
         if (info.getLicense() != null) {
             License license = info.getLicense();
             if (license.getName() != null) {
-                config.additionalProperties().put("licenseInfo", config.escapeText(license.getName()));
+                config.additionalProperties()
+                        .put("licenseInfo", config.escapeText(license.getName()));
             }
             if (license.getUrl() != null) {
-                config.additionalProperties().put("licenseUrl", config.escapeText(license.getUrl()));
+                config.additionalProperties()
+                        .put("licenseUrl", config.escapeText(license.getUrl()));
             }
         }
 
@@ -357,24 +415,41 @@ public class DefaultGenerator implements Generator {
         }
 
         if (info.getTermsOfService() != null) {
-            config.additionalProperties().put("termsOfService", config.escapeText(info.getTermsOfService()));
+            config.additionalProperties()
+                    .put("termsOfService", config.escapeText(info.getTermsOfService()));
         }
     }
 
-    private void generateModelTests(List<File> files, Map<String, Object> models, String modelName) throws IOException {
+    private void generateModelTests(List<File> files, Map<String, Object> models, String modelName)
+            throws IOException {
         // to generate model test files
-        for (Map.Entry<String, String> configModelTestTemplateFilesEntry : config.modelTestTemplateFiles().entrySet()) {
+        for (Map.Entry<String, String> configModelTestTemplateFilesEntry :
+                config.modelTestTemplateFiles().entrySet()) {
             String templateName = configModelTestTemplateFilesEntry.getKey();
             String suffix = configModelTestTemplateFilesEntry.getValue();
-            String filename = config.modelTestFileFolder() + File.separator + config.toModelTestFilename(modelName) + suffix;
+            String filename =
+                    config.modelTestFileFolder()
+                            + File.separator
+                            + config.toModelTestFilename(modelName)
+                            + suffix;
 
             if (generateModelTests) {
-                // do not overwrite test file that already exists (regardless of config's skipOverwrite setting)
+                // do not overwrite test file that already exists (regardless of config's
+                // skipOverwrite setting)
                 File modelTestFile = new File(filename);
                 if (modelTestFile.exists()) {
-                    this.templateProcessor.skip(modelTestFile.toPath(), "Test files never overwrite an existing file of the same name.");
+                    this.templateProcessor.skip(
+                            modelTestFile.toPath(),
+                            "Test files never overwrite an existing file of the same name.");
                 } else {
-                    File written = processTemplateToFile(models, templateName, filename, generateModelTests, CodegenConstants.MODEL_TESTS, config.modelTestFileFolder());
+                    File written =
+                            processTemplateToFile(
+                                    models,
+                                    templateName,
+                                    filename,
+                                    generateModelTests,
+                                    CodegenConstants.MODEL_TESTS,
+                                    config.modelTestFileFolder());
                     if (written != null) {
                         files.add(written);
                         if (config.isEnablePostProcessFile() && !dryRun) {
@@ -384,18 +459,33 @@ public class DefaultGenerator implements Generator {
                 }
             } else if (dryRun) {
                 Path skippedPath = java.nio.file.Paths.get(filename);
-                this.templateProcessor.skip(skippedPath, "Skipped by modelTests option supplied by user.");
+                this.templateProcessor.skip(
+                        skippedPath, "Skipped by modelTests option supplied by user.");
             }
         }
     }
 
-    private void generateModelDocumentation(List<File> files, Map<String, Object> models, String modelName) throws IOException {
+    private void generateModelDocumentation(
+            List<File> files, Map<String, Object> models, String modelName) throws IOException {
         for (String templateName : config.modelDocTemplateFiles().keySet()) {
             String docExtension = config.getDocExtension();
-            String suffix = docExtension != null ? docExtension : config.modelDocTemplateFiles().get(templateName);
-            String filename = config.modelDocFileFolder() + File.separator + config.toModelDocFilename(modelName) + suffix;
+            String suffix =
+                    docExtension != null
+                            ? docExtension
+                            : config.modelDocTemplateFiles().get(templateName);
+            String filename =
+                    config.modelDocFileFolder()
+                            + File.separator
+                            + config.toModelDocFilename(modelName)
+                            + suffix;
 
-            File written = processTemplateToFile(models, templateName, filename, generateModelDocumentation, CodegenConstants.MODEL_DOCS);
+            File written =
+                    processTemplateToFile(
+                            models,
+                            templateName,
+                            filename,
+                            generateModelDocumentation,
+                            CodegenConstants.MODEL_DOCS);
             if (written != null) {
                 files.add(written);
                 if (config.isEnablePostProcessFile() && !dryRun) {
@@ -405,10 +495,17 @@ public class DefaultGenerator implements Generator {
         }
     }
 
-    private void generateModel(List<File> files, Map<String, Object> models, String modelName) throws IOException {
+    private void generateModel(List<File> files, Map<String, Object> models, String modelName)
+            throws IOException {
         for (String templateName : config.modelTemplateFiles().keySet()) {
             String filename = config.modelFilename(templateName, modelName);
-            File written = processTemplateToFile(models, templateName, filename, generateModels, CodegenConstants.MODELS);
+            File written =
+                    processTemplateToFile(
+                            models,
+                            templateName,
+                            filename,
+                            generateModels,
+                            CodegenConstants.MODELS);
             if (written != null) {
                 files.add(written);
                 if (config.isEnablePostProcessFile() && !dryRun) {
@@ -427,7 +524,8 @@ public class DefaultGenerator implements Generator {
 
         final Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
         if (schemas == null) {
-            LOGGER.warn("Skipping generation of models because specification document has no schemas.");
+            LOGGER.warn(
+                    "Skipping generation of models because specification document has no schemas.");
             return;
         }
 
@@ -450,24 +548,32 @@ public class DefaultGenerator implements Generator {
         }
 
         // store all processed models
-        Map<String, ModelsMap> allProcessedModels = new TreeMap<>((o1, o2) -> ObjectUtils.compare(config.toModelName(o1), config.toModelName(o2)));
+        Map<String, ModelsMap> allProcessedModels =
+                new TreeMap<>(
+                        (o1, o2) ->
+                                ObjectUtils.compare(
+                                        config.toModelName(o1), config.toModelName(o2)));
 
-        Boolean skipFormModel = GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL) != null ?
-                Boolean.valueOf(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
-                getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, true);
+        Boolean skipFormModel =
+                GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL) != null
+                        ? Boolean.valueOf(
+                                GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL))
+                        : getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, true);
 
         // process models only
         for (String name : modelKeys) {
             try {
-                //don't generate models that have an import mapping
+                // don't generate models that have an import mapping
                 if (config.schemaMapping().containsKey(name)) {
                     LOGGER.debug("Model {} not imported due to import mapping", name);
 
                     for (String templateName : config.modelTemplateFiles().keySet()) {
-                        // HACK: Because this returns early, could lead to some invalid model reporting.
+                        // HACK: Because this returns early, could lead to some invalid model
+                        // reporting.
                         String filename = config.modelFilename(templateName, name);
                         Path path = java.nio.file.Paths.get(filename);
-                        this.templateProcessor.skip(path,"Skipped prior to model processing due to schema mapping." );
+                        this.templateProcessor.skip(
+                                path, "Skipped prior to model processing due to schema mapping.");
                     }
                     continue;
                 }
@@ -475,20 +581,28 @@ public class DefaultGenerator implements Generator {
                 // don't generate models that are not used as object (e.g. form parameters)
                 if (unusedModels.contains(name)) {
                     if (Boolean.FALSE.equals(skipFormModel)) {
-                        // if skipFormModel sets to true, still generate the model and log the result
-                        LOGGER.info("Model {} (marked as unused due to form parameters) is generated due to the global property `skipFormModel` set to false", name);
+                        // if skipFormModel sets to true, still generate the model and log the
+                        // result
+                        LOGGER.info(
+                                "Model {} (marked as unused due to form parameters) is generated due to the global property `skipFormModel` set to false",
+                                name);
                     } else {
-                        LOGGER.info("Model {} not generated since it's marked as unused (due to form parameters) and `skipFormModel` (global property) set to true (default)", name);
-                        // TODO: Should this be added to dryRun? If not, this seems like a weird place to return early from processing.
+                        LOGGER.info(
+                                "Model {} not generated since it's marked as unused (due to form parameters) and `skipFormModel` (global property) set to true (default)",
+                                name);
+                        // TODO: Should this be added to dryRun? If not, this seems like a weird
+                        // place to return early from processing.
                         continue;
                     }
                 }
 
                 Schema schema = schemas.get(name);
 
-                if (ModelUtils.isFreeFormObject(this.openAPI, schema)) { // check to see if it's a free-form object
+                if (ModelUtils.isFreeFormObject(
+                        this.openAPI, schema)) { // check to see if it's a free-form object
                     // there are 3 free form use cases
-                    // 1. free form with no validation that is not allOf included in any composed schemas
+                    // 1. free form with no validation that is not allOf included in any composed
+                    // schemas
                     // 2. free form with validation
                     // 3. free form that is allOf included in any composed schemas
                     //      this use case arises when using interface schemas
@@ -501,18 +615,30 @@ public class DefaultGenerator implements Generator {
                         continue;
                     }
                 } else if (ModelUtils.isMapSchema(schema)) { // check to see if it's a "map" model
-                    // A composed schema (allOf, oneOf, anyOf) is considered a Map schema if the additionalproperties attribute is set
-                    // for that composed schema. However, in the case of a composed schema, the properties are defined or referenced
+                    // A composed schema (allOf, oneOf, anyOf) is considered a Map schema if the
+                    // additionalproperties attribute is set
+                    // for that composed schema. However, in the case of a composed schema, the
+                    // properties are defined or referenced
                     // in the inner schemas, and the outer schema does not have properties.
-                    if (!ModelUtils.isGenerateAliasAsModel(schema) && !ModelUtils.isComposedSchema(schema) && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
+                    if (!ModelUtils.isGenerateAliasAsModel(schema)
+                            && !ModelUtils.isComposedSchema(schema)
+                            && (schema.getProperties() == null
+                                    || schema.getProperties().isEmpty())) {
                         // schema without property, i.e. alias to map
-                        LOGGER.info("Model {} not generated since it's an alias to map (without property) and `generateAliasAsModel` is set to false (default)", name);
+                        LOGGER.info(
+                                "Model {} not generated since it's an alias to map (without property) and `generateAliasAsModel` is set to false (default)",
+                                name);
                         continue;
                     }
-                } else if (ModelUtils.isArraySchema(schema)) { // check to see if it's an "array" model
-                    if (!ModelUtils.isGenerateAliasAsModel(schema) && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
+                } else if (ModelUtils.isArraySchema(
+                        schema)) { // check to see if it's an "array" model
+                    if (!ModelUtils.isGenerateAliasAsModel(schema)
+                            && (schema.getProperties() == null
+                                    || schema.getProperties().isEmpty())) {
                         // schema without property, i.e. alias to array
-                        LOGGER.info("Model {} not generated since it's an alias to array (without property) and `generateAliasAsModel` is set to false (default)", name);
+                        LOGGER.info(
+                                "Model {} not generated since it's an alias to array (without property) and `generateAliasAsModel` is set to false (default)",
+                                name);
                         continue;
                     }
                 }
@@ -524,11 +650,17 @@ public class DefaultGenerator implements Generator {
                 models.putAll(config.additionalProperties());
                 allProcessedModels.put(name, models);
             } catch (Exception e) {
-                throw new RuntimeException("Could not process model '" + name + "'" + ".Please make sure that your schema is correct!", e);
+                throw new RuntimeException(
+                        "Could not process model '"
+                                + name
+                                + "'"
+                                + ".Please make sure that your schema is correct!",
+                        e);
             }
         }
 
-        // loop through all models to update children models, isSelfReference, isCircularReference, etc
+        // loop through all models to update children models, isSelfReference, isCircularReference,
+        // etc
         allProcessedModels = config.updateAllModels(allProcessedModels);
 
         // post process all processed models
@@ -539,20 +671,22 @@ public class DefaultGenerator implements Generator {
             ModelsMap models = allProcessedModels.get(modelName);
             models.put("modelPackage", config.modelPackage());
             try {
-                //don't generate models that have a schema mapping
+                // don't generate models that have a schema mapping
                 if (config.schemaMapping().containsKey(modelName)) {
                     continue;
                 }
 
-                // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
+                // TODO revise below as we've already performed unaliasing so that the isAlias check
+                // may be removed
                 List<ModelMap> modelList = models.getModels();
                 if (modelList != null && !modelList.isEmpty()) {
                     ModelMap modelTemplate = modelList.get(0);
                     if (modelTemplate != null && modelTemplate.getModel() != null) {
                         CodegenModel m = modelTemplate.getModel();
                         if (m.isAlias) {
-                            // alias to number, string, enum, etc, which should not be generated as model
-                            continue;  // Don't create user-defined classes for aliases
+                            // alias to number, string, enum, etc, which should not be generated as
+                            // model
+                            continue; // Don't create user-defined classes for aliases
                         }
                     }
                     allModels.add(modelTemplate);
@@ -575,11 +709,11 @@ public class DefaultGenerator implements Generator {
             LOGGER.info("############ Model info ############");
             Json.prettyPrint(allModels);
         }
-
     }
 
     @SuppressWarnings("unchecked")
-    void generateApis(List<File> files, List<OperationsMap> allOperations, List<ModelMap> allModels) {
+    void generateApis(
+            List<File> files, List<OperationsMap> allOperations, List<ModelMap> allModels) {
         if (!generateApis) {
             // TODO: Process these anyway and present info via dryRun?
             LOGGER.info("Skipping generation of APIs.");
@@ -603,11 +737,15 @@ public class DefaultGenerator implements Generator {
         for (String tag : paths.keySet()) {
             try {
                 List<CodegenOperation> ops = paths.get(tag);
-                ops.sort((one, another) -> ObjectUtils.compare(one.operationId, another.operationId));
+                ops.sort(
+                        (one, another) ->
+                                ObjectUtils.compare(one.operationId, another.operationId));
                 OperationsMap operation = processOperations(config, tag, ops, allModels);
                 URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
                 operation.put("basePath", basePath);
-                operation.put("basePathWithoutHost", removeTrailingSlash(config.encodePath(url.getPath())));
+                operation.put(
+                        "basePathWithoutHost",
+                        removeTrailingSlash(config.encodePath(url.getPath())));
                 operation.put("contextPath", contextPath);
                 operation.put("baseName", tag);
                 Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
@@ -615,15 +753,23 @@ public class DefaultGenerator implements Generator {
                         .filter(Objects::nonNull)
                         .filter(tag::equalsIgnoreCase)
                         .findFirst()
-                        .ifPresent(tagName -> operation.put("operationTagName", config.escapeText(tagName)));
+                        .ifPresent(
+                                tagName ->
+                                        operation.put(
+                                                "operationTagName", config.escapeText(tagName)));
                 operation.put("operationTagDescription", "");
                 Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
                         .filter(t -> tag.equalsIgnoreCase(t.getName()))
                         .map(Tag::getDescription)
                         .filter(Objects::nonNull)
                         .findFirst()
-                        .ifPresent(description -> operation.put("operationTagDescription", config.escapeText(description)));
-                Optional.ofNullable(config.additionalProperties().get("appVersion")).ifPresent(version -> operation.put("version", version));
+                        .ifPresent(
+                                description ->
+                                        operation.put(
+                                                "operationTagDescription",
+                                                config.escapeText(description)));
+                Optional.ofNullable(config.additionalProperties().get("appVersion"))
+                        .ifPresent(version -> operation.put("version", version));
                 operation.put("apiPackage", config.apiPackage());
                 operation.put("modelPackage", config.modelPackage());
                 operation.putAll(config.additionalProperties());
@@ -632,8 +778,12 @@ public class DefaultGenerator implements Generator {
                 operation.put("importPath", config.toApiImport(tag));
                 operation.put("classFilename", config.toApiFilename(tag));
                 operation.put("strictSpecBehavior", config.isStrictSpecBehavior());
-                Optional.ofNullable(openAPI.getInfo()).map(Info::getLicense).ifPresent(license -> operation.put("license", license));
-                Optional.ofNullable(openAPI.getInfo()).map(Info::getContact).ifPresent(contact -> operation.put("contact", contact));
+                Optional.ofNullable(openAPI.getInfo())
+                        .map(Info::getLicense)
+                        .ifPresent(license -> operation.put("license", license));
+                Optional.ofNullable(openAPI.getInfo())
+                        .map(Info::getContact)
+                        .ifPresent(contact -> operation.put("contact", contact));
 
                 if (allModels == null || allModels.isEmpty()) {
                     operation.put("hasModel", false);
@@ -647,12 +797,15 @@ public class DefaultGenerator implements Generator {
 
                 // process top-level x-group-parameters
                 if (config.vendorExtensions().containsKey("x-group-parameters")) {
-                    boolean isGroupParameters = Boolean.parseBoolean(config.vendorExtensions().get("x-group-parameters").toString());
+                    boolean isGroupParameters =
+                            Boolean.parseBoolean(
+                                    config.vendorExtensions().get("x-group-parameters").toString());
 
                     OperationMap objectMap = operation.getOperations();
                     List<CodegenOperation> operations = objectMap.getOperation();
                     for (CodegenOperation op : operations) {
-                        if (isGroupParameters && !op.vendorExtensions.containsKey("x-group-parameters")) {
+                        if (isGroupParameters
+                                && !op.vendorExtensions.containsKey("x-group-parameters")) {
                             op.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
                         }
                     }
@@ -660,8 +813,15 @@ public class DefaultGenerator implements Generator {
 
                 // Pass sortParamsByRequiredFlag through to the Mustache template...
                 boolean sortParamsByRequiredFlag = true;
-                if (this.config.additionalProperties().containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
-                    sortParamsByRequiredFlag = Boolean.parseBoolean(this.config.additionalProperties().get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString());
+                if (this.config
+                        .additionalProperties()
+                        .containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
+                    sortParamsByRequiredFlag =
+                            Boolean.parseBoolean(
+                                    this.config
+                                            .additionalProperties()
+                                            .get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)
+                                            .toString());
                 }
                 operation.put("sortParamsByRequiredFlag", sortParamsByRequiredFlag);
 
@@ -676,7 +836,13 @@ public class DefaultGenerator implements Generator {
 
                 for (String templateName : config.apiTemplateFiles().keySet()) {
                     String filename = config.apiFilename(templateName, tag);
-                    File written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS);
+                    File written =
+                            processTemplateToFile(
+                                    operation,
+                                    templateName,
+                                    filename,
+                                    generateApis,
+                                    CodegenConstants.APIS);
                     if (written != null) {
                         files.add(written);
                         if (config.isEnablePostProcessFile() && !dryRun) {
@@ -691,9 +857,18 @@ public class DefaultGenerator implements Generator {
                     File apiTestFile = new File(filename);
                     // do not overwrite test file that already exists
                     if (apiTestFile.exists()) {
-                        this.templateProcessor.skip(apiTestFile.toPath(), "Test files never overwrite an existing file of the same name.");
+                        this.templateProcessor.skip(
+                                apiTestFile.toPath(),
+                                "Test files never overwrite an existing file of the same name.");
                     } else {
-                        File written = processTemplateToFile(operation, templateName, filename, generateApiTests, CodegenConstants.API_TESTS, config.apiTestFileFolder());
+                        File written =
+                                processTemplateToFile(
+                                        operation,
+                                        templateName,
+                                        filename,
+                                        generateApiTests,
+                                        CodegenConstants.API_TESTS,
+                                        config.apiTestFileFolder());
                         if (written != null) {
                             files.add(written);
                             if (config.isEnablePostProcessFile() && !dryRun) {
@@ -706,7 +881,13 @@ public class DefaultGenerator implements Generator {
                 // to generate api documentation files
                 for (String templateName : config.apiDocTemplateFiles().keySet()) {
                     String filename = config.apiDocFilename(templateName, tag);
-                    File written = processTemplateToFile(operation, templateName, filename, generateApiDocumentation, CodegenConstants.API_DOCS);
+                    File written =
+                            processTemplateToFile(
+                                    operation,
+                                    templateName,
+                                    filename,
+                                    generateApiDocumentation,
+                                    CodegenConstants.API_DOCS);
                     if (written != null) {
                         files.add(written);
                         if (config.isEnablePostProcessFile() && !dryRun) {
@@ -723,7 +904,6 @@ public class DefaultGenerator implements Generator {
             LOGGER.info("############ Operation info ############");
             Json.prettyPrint(allOperations);
         }
-
     }
 
     private void generateSupportingFiles(List<File> files, Map<String, Object> bundle) {
@@ -745,24 +925,43 @@ public class DefaultGenerator implements Generator {
                     outputFolder += File.separator + support.getFolder();
                 }
                 File of = new File(outputFolder);
-                String outputFilename = new File(support.getDestinationFilename()).isAbsolute() // split
-                        ? support.getDestinationFilename()
-                        : outputFolder + File.separator + support.getDestinationFilename().replace('/', File.separatorChar);
+                String outputFilename =
+                        new File(support.getDestinationFilename()).isAbsolute() // split
+                                ? support.getDestinationFilename()
+                                : outputFolder
+                                        + File.separator
+                                        + support.getDestinationFilename()
+                                                .replace('/', File.separatorChar);
 
                 if (!of.isDirectory()) {
-                    // check that its not a dryrun and the files in the directory aren't ignored before we make the directory
-                    if (!dryRun && ignoreProcessor.allowsFile(new File(outputFilename)) && !of.mkdirs()) {
-                        once(LOGGER).debug("Output directory {} not created. It {}.", outputFolder, of.exists() ? "already exists." : "may not have appropriate permissions.");
+                    // check that its not a dryrun and the files in the directory aren't ignored
+                    // before we make the directory
+                    if (!dryRun
+                            && ignoreProcessor.allowsFile(new File(outputFilename))
+                            && !of.mkdirs()) {
+                        once(LOGGER)
+                                .debug(
+                                        "Output directory {} not created. It {}.",
+                                        outputFolder,
+                                        of.exists()
+                                                ? "already exists."
+                                                : "may not have appropriate permissions.");
                     }
                 }
 
-
                 boolean shouldGenerate = true;
                 if (supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
-                    shouldGenerate = supportingFilesToGenerate.contains(support.getDestinationFilename());
+                    shouldGenerate =
+                            supportingFilesToGenerate.contains(support.getDestinationFilename());
                 }
 
-                File written = processTemplateToFile(bundle, support.getTemplateFile(), outputFilename, shouldGenerate, CodegenConstants.SUPPORTING_FILES);
+                File written =
+                        processTemplateToFile(
+                                bundle,
+                                support.getTemplateFile(),
+                                outputFilename,
+                                shouldGenerate,
+                                CodegenConstants.SUPPORTING_FILES);
                 if (written != null) {
                     files.add(written);
                     if (config.isEnablePostProcessFile() && !dryRun) {
@@ -770,22 +969,33 @@ public class DefaultGenerator implements Generator {
                     }
                 }
             } catch (Exception e) {
-                throw new RuntimeException("Could not generate supporting file '" + support + "'", e);
+                throw new RuntimeException(
+                        "Could not generate supporting file '" + support + "'", e);
             }
         }
 
         // Consider .openapi-generator-ignore a supporting file
-        // Output .openapi-generator-ignore if it doesn't exist and wasn't explicitly created by a generator
+        // Output .openapi-generator-ignore if it doesn't exist and wasn't explicitly created by a
+        // generator
         final String openapiGeneratorIgnore = ".openapi-generator-ignore";
-        String ignoreFileNameTarget = config.outputFolder() + File.separator + openapiGeneratorIgnore;
+        String ignoreFileNameTarget =
+                config.outputFolder() + File.separator + openapiGeneratorIgnore;
         File ignoreFile = new File(ignoreFileNameTarget);
         if (generateMetadata) {
             try {
                 boolean shouldGenerate = !ignoreFile.exists();
-                if (shouldGenerate && supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
+                if (shouldGenerate
+                        && supportingFilesToGenerate != null
+                        && !supportingFilesToGenerate.isEmpty()) {
                     shouldGenerate = supportingFilesToGenerate.contains(openapiGeneratorIgnore);
                 }
-                File written = processTemplateToFile(bundle, openapiGeneratorIgnore, ignoreFileNameTarget, shouldGenerate, CodegenConstants.SUPPORTING_FILES);
+                File written =
+                        processTemplateToFile(
+                                bundle,
+                                openapiGeneratorIgnore,
+                                ignoreFileNameTarget,
+                                shouldGenerate,
+                                CodegenConstants.SUPPORTING_FILES);
                 if (written != null) {
                     files.add(written);
                     if (config.isEnablePostProcessFile() && !dryRun) {
@@ -793,16 +1003,19 @@ public class DefaultGenerator implements Generator {
                     }
                 }
             } catch (Exception e) {
-                throw new RuntimeException("Could not generate supporting file '" + ignoreFileNameTarget + "'", e);
+                throw new RuntimeException(
+                        "Could not generate supporting file '" + ignoreFileNameTarget + "'", e);
             }
         } else {
-            this.templateProcessor.skip(ignoreFile.toPath(), "Skipped by generateMetadata option supplied by user.");
+            this.templateProcessor.skip(
+                    ignoreFile.toPath(), "Skipped by generateMetadata option supplied by user.");
         }
 
         generateVersionMetadata(files);
     }
 
-    Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels) {
+    Map<String, Object> buildSupportFileBundle(
+            List<OperationsMap> allOperations, List<ModelMap> allModels) {
 
         Map<String, Object> bundle = new HashMap<>(config.additionalProperties());
         bundle.put("apiPackage", config.apiPackage());
@@ -838,9 +1051,11 @@ public class DefaultGenerator implements Generator {
             bundle.put("hasServers", true);
         }
 
-        boolean hasOperationServers = allOperations != null && allOperations.stream()
-                .flatMap(om -> om.getOperations().getOperation().stream())
-                .anyMatch(o -> o.servers != null && !o.servers.isEmpty());
+        boolean hasOperationServers =
+                allOperations != null
+                        && allOperations.stream()
+                                .flatMap(om -> om.getOperations().getOperation().stream())
+                                .anyMatch(o -> o.servers != null && !o.servers.isEmpty());
         bundle.put("hasOperationServers", hasOperationServers);
 
         if (openAPI.getExternalDocs() != null) {
@@ -862,19 +1077,22 @@ public class DefaultGenerator implements Generator {
     }
 
     /**
-     * Add authentication methods to the given map
-     * This adds a boolean and a collection for each authentication type to the map.
-     * <p>
-     * Examples:
-     * <p>
-     *   boolean hasOAuthMethods
-     * <p>
-     *   List&lt;CodegenSecurity&gt; oauthMethods
+     * Add authentication methods to the given map This adds a boolean and a collection for each
+     * authentication type to the map.
+     *
+     * <p>Examples:
+     *
+     * <p>boolean hasOAuthMethods
+     *
+     * <p>List&lt;CodegenSecurity&gt; oauthMethods
      *
      * @param bundle the map which the booleans and collections will be added
      */
     void addAuthenticationSwitches(Map<String, Object> bundle) {
-        Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        Map<String, SecurityScheme> securitySchemeMap =
+                openAPI.getComponents() != null
+                        ? openAPI.getComponents().getSecuritySchemes()
+                        : null;
         List<CodegenSecurity> authMethods = config.fromSecurity(securitySchemeMap);
         if (authMethods != null && !authMethods.isEmpty()) {
             bundle.put("authMethods", authMethods);
@@ -886,7 +1104,8 @@ public class DefaultGenerator implements Generator {
             }
             if (ProcessUtils.hasOpenIdConnectMethods(authMethods)) {
                 bundle.put("hasOpenIdConnectMethods", true);
-                bundle.put("openIdConnectMethods", ProcessUtils.getOpenIdConnectMethods(authMethods));
+                bundle.put(
+                        "openIdConnectMethods", ProcessUtils.getOpenIdConnectMethods(authMethods));
             }
             if (ProcessUtils.hasHttpBearerMethods(authMethods)) {
                 bundle.put("hasHttpBearerMethods", true);
@@ -894,7 +1113,8 @@ public class DefaultGenerator implements Generator {
             }
             if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
                 bundle.put("hasHttpSignatureMethods", true);
-                bundle.put("httpSignatureMethods", ProcessUtils.getHttpSignatureMethods(authMethods));
+                bundle.put(
+                        "httpSignatureMethods", ProcessUtils.getHttpSignatureMethods(authMethods));
             }
             if (ProcessUtils.hasHttpBasicMethods(authMethods)) {
                 bundle.put("hasHttpBasicMethods", true);
@@ -910,7 +1130,8 @@ public class DefaultGenerator implements Generator {
     @Override
     public List<File> generate() {
         if (openAPI == null) {
-            throw new RuntimeException("Issues with the OpenAPI input. Possible causes: invalid/missing spec, malformed JSON/YAML files, etc.");
+            throw new RuntimeException(
+                    "Issues with the OpenAPI input. Possible causes: invalid/missing spec, malformed JSON/YAML files, etc.");
         }
 
         if (config == null) {
@@ -926,7 +1147,12 @@ public class DefaultGenerator implements Generator {
             }
 
             Stability stability = generatorMetadata.getStability();
-            String stabilityMessage = String.format(Locale.ROOT, "Generator '%s' is considered %s.", config.getName(), stability.value());
+            String stabilityMessage =
+                    String.format(
+                            Locale.ROOT,
+                            "Generator '%s' is considered %s.",
+                            config.getName(),
+                            stability.value());
             if (stability == Stability.DEPRECATED) {
                 LOGGER.warn(stabilityMessage);
             } else {
@@ -962,37 +1188,53 @@ public class DefaultGenerator implements Generator {
             sb.append("Dry Run Results:");
             sb.append(System.lineSeparator()).append(System.lineSeparator());
 
-            Map<String, DryRunStatus> dryRunStatusMap = ((DryRunTemplateManager) this.templateProcessor).getDryRunStatusMap();
+            Map<String, DryRunStatus> dryRunStatusMap =
+                    ((DryRunTemplateManager) this.templateProcessor).getDryRunStatusMap();
 
-            dryRunStatusMap.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
-                DryRunStatus status = entry.getValue();
-                try {
-                    status.appendTo(sb);
-                    sb.append(System.lineSeparator());
-                    if (verbose) {
-                        sb.append("  ")
-                                .append(StringUtils.rightPad(status.getState().getDescription(), 20, "."))
-                                .append(" ").append(status.getReason())
-                                .append(System.lineSeparator());
-                    }
-                } catch (IOException e) {
-                    LOGGER.debug("Unable to document dry run status for {}.", entry.getKey());
-                }
-            });
+            dryRunStatusMap.entrySet().stream()
+                    .sorted(Map.Entry.comparingByKey())
+                    .forEach(
+                            entry -> {
+                                DryRunStatus status = entry.getValue();
+                                try {
+                                    status.appendTo(sb);
+                                    sb.append(System.lineSeparator());
+                                    if (verbose) {
+                                        sb.append("  ")
+                                                .append(
+                                                        StringUtils.rightPad(
+                                                                status.getState().getDescription(),
+                                                                20,
+                                                                "."))
+                                                .append(" ")
+                                                .append(status.getReason())
+                                                .append(System.lineSeparator());
+                                    }
+                                } catch (IOException e) {
+                                    LOGGER.debug(
+                                            "Unable to document dry run status for {}.",
+                                            entry.getKey());
+                                }
+                            });
 
             sb.append(System.lineSeparator()).append(System.lineSeparator());
             sb.append("States:");
             sb.append(System.lineSeparator()).append(System.lineSeparator());
 
             for (DryRunStatus.State state : DryRunStatus.State.values()) {
-                sb.append("  - ").append(state.getShortDisplay()).append(" ").append(state.getDescription()).append(System.lineSeparator());
+                sb.append("  - ")
+                        .append(state.getShortDisplay())
+                        .append(" ")
+                        .append(state.getDescription())
+                        .append(System.lineSeparator());
             }
 
             sb.append(System.lineSeparator());
 
             LOGGER.error(sb.toString());
         } else {
-            // This exists here rather than in the method which generates supporting files to avoid accidentally adding files after this metadata.
+            // This exists here rather than in the method which generates supporting files to avoid
+            // accidentally adding files after this metadata.
             if (generateSupportingFiles) {
                 generateFilesMetadata(files);
             }
@@ -1008,92 +1250,140 @@ public class DefaultGenerator implements Generator {
     }
 
     private void processUserDefinedTemplates() {
-        // TODO: initial behavior is "merge" user defined with built-in templates. consider offering user a "replace" option.
+        // TODO: initial behavior is "merge" user defined with built-in templates. consider offering
+        // user a "replace" option.
         if (userDefinedTemplates != null && !userDefinedTemplates.isEmpty()) {
-            Map<String, SupportingFile> supportingFilesMap = config.supportingFiles().stream()
-                    .collect(Collectors.toMap(TemplateDefinition::getTemplateFile, Function.identity(), (oldValue, newValue) -> oldValue));
+            Map<String, SupportingFile> supportingFilesMap =
+                    config.supportingFiles().stream()
+                            .collect(
+                                    Collectors.toMap(
+                                            TemplateDefinition::getTemplateFile,
+                                            Function.identity(),
+                                            (oldValue, newValue) -> oldValue));
 
             // TemplateFileType.SupportingFiles
             userDefinedTemplates.stream()
                     .filter(i -> i.getTemplateType().equals(TemplateFileType.SupportingFiles))
-                    .forEach(userDefinedTemplate -> {
-                        SupportingFile newFile = new SupportingFile(
-                                userDefinedTemplate.getTemplateFile(),
-                                userDefinedTemplate.getFolder(),
-                                userDefinedTemplate.getDestinationFilename()
-                        );
-                        if (supportingFilesMap.containsKey(userDefinedTemplate.getTemplateFile())) {
-                            SupportingFile f = supportingFilesMap.get(userDefinedTemplate.getTemplateFile());
-                            config.supportingFiles().remove(f);
+                    .forEach(
+                            userDefinedTemplate -> {
+                                SupportingFile newFile =
+                                        new SupportingFile(
+                                                userDefinedTemplate.getTemplateFile(),
+                                                userDefinedTemplate.getFolder(),
+                                                userDefinedTemplate.getDestinationFilename());
+                                if (supportingFilesMap.containsKey(
+                                        userDefinedTemplate.getTemplateFile())) {
+                                    SupportingFile f =
+                                            supportingFilesMap.get(
+                                                    userDefinedTemplate.getTemplateFile());
+                                    config.supportingFiles().remove(f);
 
-                            if (!f.isCanOverwrite()) {
-                                newFile.doNotOverwrite();
-                            }
-                        }
-                        config.supportingFiles().add(newFile);
-                    });
+                                    if (!f.isCanOverwrite()) {
+                                        newFile.doNotOverwrite();
+                                    }
+                                }
+                                config.supportingFiles().add(newFile);
+                            });
 
             // Others, excluding TemplateFileType.SupportingFiles
             userDefinedTemplates.stream()
                     .filter(i -> !i.getTemplateType().equals(TemplateFileType.SupportingFiles))
-                    .forEach(userDefinedTemplate -> {
-                        // determine file extension…
-                        // if template is in format api.ts.mustache, we'll extract .ts
-                        // if user has provided an example destination filename, we'll use that extension
-                        String templateFile = userDefinedTemplate.getTemplateFile();
-                        int lastSeparator = templateFile.lastIndexOf('.');
-                        String templateExt = FilenameUtils.getExtension(templateFile.substring(0, lastSeparator));
-                        if (StringUtils.isBlank(templateExt)) {
-                            // hack: destination filename in this scenario might be a suffix like Impl.java
-                            templateExt = userDefinedTemplate.getDestinationFilename();
-                        } else {
-                            templateExt = StringUtils.prependIfMissing(templateExt, ".");
-                        }
+                    .forEach(
+                            userDefinedTemplate -> {
+                                // determine file extension…
+                                // if template is in format api.ts.mustache, we'll extract .ts
+                                // if user has provided an example destination filename, we'll use
+                                // that extension
+                                String templateFile = userDefinedTemplate.getTemplateFile();
+                                int lastSeparator = templateFile.lastIndexOf('.');
+                                String templateExt =
+                                        FilenameUtils.getExtension(
+                                                templateFile.substring(0, lastSeparator));
+                                if (StringUtils.isBlank(templateExt)) {
+                                    // hack: destination filename in this scenario might be a suffix
+                                    // like Impl.java
+                                    templateExt = userDefinedTemplate.getDestinationFilename();
+                                } else {
+                                    templateExt = StringUtils.prependIfMissing(templateExt, ".");
+                                }
 
-                        switch (userDefinedTemplate.getTemplateType()) {
-                            case API:
-                                config.apiTemplateFiles().put(templateFile, templateExt);
-                                break;
-                            case Model:
-                                config.modelTemplateFiles().put(templateFile, templateExt);
-                                break;
-                            case APIDocs:
-                                config.apiDocTemplateFiles().put(templateFile, templateExt);
-                                break;
-                            case ModelDocs:
-                                config.modelDocTemplateFiles().put(templateFile, templateExt);
-                                break;
-                            case APITests:
-                                config.apiTestTemplateFiles().put(templateFile, templateExt);
-                                break;
-                            case ModelTests:
-                                config.modelTestTemplateFiles().put(templateFile, templateExt);
-                                break;
-                            case SupportingFiles:
-                                // excluded by filter
-                                break;
-                        }
-                    });
+                                switch (userDefinedTemplate.getTemplateType()) {
+                                    case API:
+                                        config.apiTemplateFiles().put(templateFile, templateExt);
+                                        break;
+                                    case Model:
+                                        config.modelTemplateFiles().put(templateFile, templateExt);
+                                        break;
+                                    case APIDocs:
+                                        config.apiDocTemplateFiles().put(templateFile, templateExt);
+                                        break;
+                                    case ModelDocs:
+                                        config.modelDocTemplateFiles()
+                                                .put(templateFile, templateExt);
+                                        break;
+                                    case APITests:
+                                        config.apiTestTemplateFiles()
+                                                .put(templateFile, templateExt);
+                                        break;
+                                    case ModelTests:
+                                        config.modelTestTemplateFiles()
+                                                .put(templateFile, templateExt);
+                                        break;
+                                    case SupportingFiles:
+                                        // excluded by filter
+                                        break;
+                                }
+                            });
         }
     }
 
-    protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename, boolean shouldGenerate, String skippedByOption) throws IOException {
-        return processTemplateToFile(templateData, templateName, outputFilename, shouldGenerate, skippedByOption, this.config.getOutputDir());
+    protected File processTemplateToFile(
+            Map<String, Object> templateData,
+            String templateName,
+            String outputFilename,
+            boolean shouldGenerate,
+            String skippedByOption)
+            throws IOException {
+        return processTemplateToFile(
+                templateData,
+                templateName,
+                outputFilename,
+                shouldGenerate,
+                skippedByOption,
+                this.config.getOutputDir());
     }
 
-    private File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename, boolean shouldGenerate, String skippedByOption, String intendedOutputDir) throws IOException {
-        String adjustedOutputFilename = outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);
+    private File processTemplateToFile(
+            Map<String, Object> templateData,
+            String templateName,
+            String outputFilename,
+            boolean shouldGenerate,
+            String skippedByOption,
+            String intendedOutputDir)
+            throws IOException {
+        String adjustedOutputFilename =
+                outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);
         File target = new File(adjustedOutputFilename);
         if (ignoreProcessor.allowsFile(target)) {
             if (shouldGenerate) {
                 Path outDir = java.nio.file.Paths.get(intendedOutputDir).toAbsolutePath();
                 Path absoluteTarget = target.toPath().toAbsolutePath();
                 if (!absoluteTarget.startsWith(outDir)) {
-                    throw new RuntimeException(String.format(Locale.ROOT, "Target files must be generated within the output directory; absoluteTarget=%s outDir=%s", absoluteTarget, outDir));
+                    throw new RuntimeException(
+                            String.format(
+                                    Locale.ROOT,
+                                    "Target files must be generated within the output directory; absoluteTarget=%s outDir=%s",
+                                    absoluteTarget,
+                                    outDir));
                 }
                 return this.templateProcessor.write(templateData, templateName, target);
             } else {
-                this.templateProcessor.skip(target.toPath(), String.format(Locale.ROOT, "Skipped by %s options supplied by user.", skippedByOption));
+                this.templateProcessor.skip(
+                        target.toPath(),
+                        String.format(
+                                Locale.ROOT,
+                                "Skipped by %s options supplied by user.",
+                                skippedByOption));
                 return null;
             }
         } else {
@@ -1123,13 +1413,22 @@ public class DefaultGenerator implements Generator {
         return ops;
     }
 
-    private void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path) {
+    private void processOperation(
+            String resourcePath,
+            String httpMethod,
+            Operation operation,
+            Map<String, List<CodegenOperation>> operations,
+            PathItem path) {
         if (operation == null) {
             return;
         }
 
         if (GlobalSettings.getProperty("debugOperations") != null) {
-            LOGGER.info("processOperation: resourcePath=  {}\t;{} {}\n", resourcePath, httpMethod, operation);
+            LOGGER.info(
+                    "processOperation: resourcePath=  {}\t;{} {}\n",
+                    resourcePath,
+                    httpMethod,
+                    operation);
         }
 
         List<Tag> tags = new ArrayList<>();
@@ -1174,30 +1473,42 @@ public class DefaultGenerator implements Generator {
             }
         }
 
-        //need to propagate path level down to the operation
+        // need to propagate path level down to the operation
         if (path.getParameters() != null) {
             for (Parameter parameter : path.getParameters()) {
-                //skip propagation if a parameter with the same name is already defined at the operation level
+                // skip propagation if a parameter with the same name is already defined at the
+                // operation level
                 if (!operationParameters.contains(generateParameterId(parameter))) {
                     operation.addParametersItem(parameter);
                 }
             }
         }
 
-        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        final Map<String, SecurityScheme> securitySchemes =
+                openAPI.getComponents() != null
+                        ? openAPI.getComponents().getSecuritySchemes()
+                        : null;
         final List<SecurityRequirement> globalSecurities = openAPI.getSecurity();
         for (Tag tag : tags) {
             try {
-                CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, path.getServers());
+                CodegenOperation codegenOperation =
+                        config.fromOperation(
+                                resourcePath, httpMethod, operation, path.getServers());
                 codegenOperation.tags = new ArrayList<>(tags);
-                config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
+                config.addOperationToGroup(
+                        config.sanitizeTag(tag.getName()),
+                        resourcePath,
+                        operation,
+                        codegenOperation,
+                        operations);
 
                 List<SecurityRequirement> securities = operation.getSecurity();
                 if (securities != null && securities.isEmpty()) {
                     continue;
                 }
 
-                Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
+                Map<String, SecurityScheme> authMethods =
+                        getAuthMethods(securities, securitySchemes);
 
                 if (authMethods != null && !authMethods.isEmpty()) {
                     List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
@@ -1208,29 +1519,45 @@ public class DefaultGenerator implements Generator {
 
                     if (authMethods != null && !authMethods.isEmpty()) {
                         List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
-                        codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, globalSecurities);
+                        codegenOperation.authMethods =
+                                filterAuthMethods(fullAuthMethods, globalSecurities);
                         codegenOperation.hasAuthMethods = true;
                     }
                 }
 
             } catch (Exception ex) {
-                String msg = "Could not process operation:\n" //
-                        + "  Tag: " + tag + "\n"//
-                        + "  Operation: " + operation.getOperationId() + "\n" //
-                        + "  Resource: " + httpMethod + " " + resourcePath + "\n"//
-                        + "  Schemas: " + openAPI.getComponents().getSchemas() + "\n"  //
-                        + "  Exception: " + ex.getMessage();
+                String msg =
+                        "Could not process operation:\n" //
+                                + "  Tag: "
+                                + tag
+                                + "\n" //
+                                + "  Operation: "
+                                + operation.getOperationId()
+                                + "\n" //
+                                + "  Resource: "
+                                + httpMethod
+                                + " "
+                                + resourcePath
+                                + "\n" //
+                                + "  Schemas: "
+                                + openAPI.getComponents().getSchemas()
+                                + "\n" //
+                                + "  Exception: "
+                                + ex.getMessage();
                 throw new RuntimeException(msg, ex);
             }
         }
-
     }
 
     private static String generateParameterId(Parameter parameter) {
         return parameter.getName() + ":" + parameter.getIn();
     }
 
-    private OperationsMap processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops, List<ModelMap> allModels) {
+    private OperationsMap processOperations(
+            CodegenConfig config,
+            String tag,
+            List<CodegenOperation> ops,
+            List<ModelMap> allModels) {
         OperationsMap operations = new OperationsMap();
         OperationMap objs = new OperationMap();
         objs.setClassname(config.toApiName(tag));
@@ -1262,7 +1589,7 @@ public class DefaultGenerator implements Generator {
         Map<String, String> mappings = getAllImportsMappings(allImports);
         Set<Map<String, String>> imports = toImportsObjects(mappings);
 
-        //Some codegen implementations rely on a list interface for the imports
+        // Some codegen implementations rely on a list interface for the imports
         operations.setImports(new ArrayList<>(imports));
 
         // add a flag to indicate whether there's any {{import}}
@@ -1275,42 +1602,45 @@ public class DefaultGenerator implements Generator {
     }
 
     /**
-     * Transforms a set of imports to a map with key config.toModelImport(import) and value the import string.
+     * Transforms a set of imports to a map with key config.toModelImport(import) and value the
+     * import string.
      *
      * @param allImports - Set of imports
      * @return Map of fully qualified import path and initial import.
      */
     private Map<String, String> getAllImportsMappings(Set<String> allImports) {
         Map<String, String> result = new HashMap<>();
-        allImports.forEach(nextImport -> {
-            String mapping = config.importMapping().get(nextImport);
-            if (mapping != null) {
-                result.put(mapping, nextImport);
-            } else {
-                result.putAll(config.toModelImportMap(nextImport));
-            }
-        });
+        allImports.forEach(
+                nextImport -> {
+                    String mapping = config.importMapping().get(nextImport);
+                    if (mapping != null) {
+                        result.put(mapping, nextImport);
+                    } else {
+                        result.putAll(config.toModelImportMap(nextImport));
+                    }
+                });
         return result;
     }
 
     /**
-     * Using an import map created via {@link #getAllImportsMappings(Set)} to build a list import objects.
-     * The import objects have two keys: import and classname which hold the key and value of the initial map entry.
+     * Using an import map created via {@link #getAllImportsMappings(Set)} to build a list import
+     * objects. The import objects have two keys: import and classname which hold the key and value
+     * of the initial map entry.
      *
      * @param mappedImports Map of fully qualified import and import
      * @return The set of unique imports
      */
     private Set<Map<String, String>> toImportsObjects(Map<String, String> mappedImports) {
-        Set<Map<String, String>> result = new TreeSet<>(
-                Comparator.comparing(o -> o.get("classname"))
-        );
+        Set<Map<String, String>> result =
+                new TreeSet<>(Comparator.comparing(o -> o.get("classname")));
 
-        mappedImports.forEach((key, value) -> {
-            Map<String, String> im = new LinkedHashMap<>();
-            im.put("import", key);
-            im.put("classname", value);
-            result.add(im);
-        });
+        mappedImports.forEach(
+                (key, value) -> {
+                    Map<String, String> im = new LinkedHashMap<>();
+                    im.put("import", key);
+                    im.put("classname", value);
+                    result.add(im);
+                });
         return result;
     }
 
@@ -1361,7 +1691,8 @@ public class DefaultGenerator implements Generator {
         return objs;
     }
 
-    private Map<String, SecurityScheme> getAuthMethods(List<SecurityRequirement> securities, Map<String, SecurityScheme> securitySchemes) {
+    private Map<String, SecurityScheme> getAuthMethods(
+            List<SecurityRequirement> securities, Map<String, SecurityScheme> securitySchemes) {
         if (securities == null || (securitySchemes == null || securitySchemes.isEmpty())) {
             return null;
         }
@@ -1376,47 +1707,60 @@ public class DefaultGenerator implements Generator {
                         OAuthFlows oauthUpdatedFlows = new OAuthFlows();
                         oauthUpdatedFlows.extensions(securityScheme.getFlows().getExtensions());
 
-                        SecurityScheme oauthUpdatedScheme = new SecurityScheme()
-                                .type(securityScheme.getType())
-                                .description(securityScheme.getDescription())
-                                .name(securityScheme.getName())
-                                .$ref(securityScheme.get$ref())
-                                .in(securityScheme.getIn())
-                                .scheme(securityScheme.getScheme())
-                                .bearerFormat(securityScheme.getBearerFormat())
-                                .openIdConnectUrl(securityScheme.getOpenIdConnectUrl())
-                                .extensions(securityScheme.getExtensions())
-                                .flows(oauthUpdatedFlows);
+                        SecurityScheme oauthUpdatedScheme =
+                                new SecurityScheme()
+                                        .type(securityScheme.getType())
+                                        .description(securityScheme.getDescription())
+                                        .name(securityScheme.getName())
+                                        .$ref(securityScheme.get$ref())
+                                        .in(securityScheme.getIn())
+                                        .scheme(securityScheme.getScheme())
+                                        .bearerFormat(securityScheme.getBearerFormat())
+                                        .openIdConnectUrl(securityScheme.getOpenIdConnectUrl())
+                                        .extensions(securityScheme.getExtensions())
+                                        .flows(oauthUpdatedFlows);
 
-                        // Ensure inserted AuthMethod only contains scopes of actual operation, and not all of them defined in the Security Component
-                        // have to iterate through and create new SecurityScheme objects with the scopes 'fixed/updated'
+                        // Ensure inserted AuthMethod only contains scopes of actual operation, and
+                        // not all of them defined in the Security Component
+                        // have to iterate through and create new SecurityScheme objects with the
+                        // scopes 'fixed/updated'
                         final OAuthFlows securitySchemeFlows = securityScheme.getFlows();
 
-
                         if (securitySchemeFlows.getAuthorizationCode() != null) {
-                            OAuthFlow updatedFlow = cloneOAuthFlow(securitySchemeFlows.getAuthorizationCode(), entry.getValue());
+                            OAuthFlow updatedFlow =
+                                    cloneOAuthFlow(
+                                            securitySchemeFlows.getAuthorizationCode(),
+                                            entry.getValue());
 
                             oauthUpdatedFlows.setAuthorizationCode(updatedFlow);
                         }
                         if (securitySchemeFlows.getImplicit() != null) {
-                            OAuthFlow updatedFlow = cloneOAuthFlow(securitySchemeFlows.getImplicit(), entry.getValue());
+                            OAuthFlow updatedFlow =
+                                    cloneOAuthFlow(
+                                            securitySchemeFlows.getImplicit(), entry.getValue());
 
                             oauthUpdatedFlows.setImplicit(updatedFlow);
                         }
                         if (securitySchemeFlows.getPassword() != null) {
-                            OAuthFlow updatedFlow = cloneOAuthFlow(securitySchemeFlows.getPassword(), entry.getValue());
+                            OAuthFlow updatedFlow =
+                                    cloneOAuthFlow(
+                                            securitySchemeFlows.getPassword(), entry.getValue());
 
                             oauthUpdatedFlows.setPassword(updatedFlow);
                         }
                         if (securitySchemeFlows.getClientCredentials() != null) {
-                            OAuthFlow updatedFlow = cloneOAuthFlow(securitySchemeFlows.getClientCredentials(), entry.getValue());
+                            OAuthFlow updatedFlow =
+                                    cloneOAuthFlow(
+                                            securitySchemeFlows.getClientCredentials(),
+                                            entry.getValue());
 
                             oauthUpdatedFlows.setClientCredentials(updatedFlow);
                         }
 
                         authMethods.put(key, oauthUpdatedScheme);
                     } else if (securityScheme.getType().equals(SecurityScheme.Type.OPENIDCONNECT)) {
-                        // Security scheme only allows to add scope in Flows, so randomly using authorization code flow
+                        // Security scheme only allows to add scope in Flows, so randomly using
+                        // authorization code flow
                         OAuthFlows openIdConnectUpdatedFlows = new OAuthFlows();
                         OAuthFlow flow = new OAuthFlow();
                         Scopes flowScopes = new Scopes();
@@ -1428,17 +1772,18 @@ public class DefaultGenerator implements Generator {
                         flow.scopes(flowScopes);
                         openIdConnectUpdatedFlows.authorizationCode(flow);
 
-                        SecurityScheme openIdConnectUpdatedScheme = new SecurityScheme()
-                                .type(securityScheme.getType())
-                                .description(securityScheme.getDescription())
-                                .name(securityScheme.getName())
-                                .$ref(securityScheme.get$ref())
-                                .in(securityScheme.getIn())
-                                .scheme(securityScheme.getScheme())
-                                .bearerFormat(securityScheme.getBearerFormat())
-                                .openIdConnectUrl(securityScheme.getOpenIdConnectUrl())
-                                .extensions(securityScheme.getExtensions())
-                                .flows(openIdConnectUpdatedFlows);
+                        SecurityScheme openIdConnectUpdatedScheme =
+                                new SecurityScheme()
+                                        .type(securityScheme.getType())
+                                        .description(securityScheme.getDescription())
+                                        .name(securityScheme.getName())
+                                        .$ref(securityScheme.get$ref())
+                                        .in(securityScheme.getIn())
+                                        .scheme(securityScheme.getScheme())
+                                        .bearerFormat(securityScheme.getBearerFormat())
+                                        .openIdConnectUrl(securityScheme.getOpenIdConnectUrl())
+                                        .extensions(securityScheme.getExtensions())
+                                        .flows(openIdConnectUpdatedFlows);
 
                         authMethods.put(key, openIdConnectUpdatedScheme);
                     } else {
@@ -1466,7 +1811,8 @@ public class DefaultGenerator implements Generator {
                 .scopes(newScopes);
     }
 
-    private List<CodegenSecurity> filterAuthMethods(List<CodegenSecurity> authMethods, List<SecurityRequirement> securities) {
+    private List<CodegenSecurity> filterAuthMethods(
+            List<CodegenSecurity> authMethods, List<SecurityRequirement> securities) {
         if (securities == null || securities.isEmpty() || authMethods == null) {
             return authMethods;
         }
@@ -1479,9 +1825,11 @@ public class DefaultGenerator implements Generator {
                 for (SecurityRequirement requirement : securities) {
                     List<String> opScopes = requirement.get(security.name);
                     if (opScopes != null) {
-                        // We have operation-level scopes for this method, so filter the auth method to
+                        // We have operation-level scopes for this method, so filter the auth method
+                        // to
                         // describe the operation auth method with only the scopes that it requires.
-                        // We have to create a new auth method instance because the original object must
+                        // We have to create a new auth method instance because the original object
+                        // must
                         // not be modified.
                         CodegenSecurity opSecurity = security.filterByScopeNames(opScopes);
                         result.add(opSecurity);
@@ -1506,11 +1854,19 @@ public class DefaultGenerator implements Generator {
      * @param files The list tracking generated files
      */
     private void generateVersionMetadata(List<File> files) {
-        String versionMetadata = config.outputFolder() + File.separator + METADATA_DIR + File.separator + config.getVersionMetadataFilename();
+        String versionMetadata =
+                config.outputFolder()
+                        + File.separator
+                        + METADATA_DIR
+                        + File.separator
+                        + config.getVersionMetadataFilename();
         if (generateMetadata) {
             File versionMetadataFile = new File(versionMetadata);
             try {
-                File written = this.templateProcessor.writeToFile(versionMetadata, ImplementationVersion.read().getBytes(StandardCharsets.UTF_8));
+                File written =
+                        this.templateProcessor.writeToFile(
+                                versionMetadata,
+                                ImplementationVersion.read().getBytes(StandardCharsets.UTF_8));
                 if (written != null) {
                     files.add(versionMetadataFile);
                     if (config.isEnablePostProcessFile() && !dryRun) {
@@ -1518,22 +1874,26 @@ public class DefaultGenerator implements Generator {
                     }
                 }
             } catch (IOException e) {
-                throw new RuntimeException("Could not generate supporting file '" + versionMetadata + "'", e);
+                throw new RuntimeException(
+                        "Could not generate supporting file '" + versionMetadata + "'", e);
             }
         } else {
             Path metadata = java.nio.file.Paths.get(versionMetadata);
-            this.templateProcessor.skip(metadata, "Skipped by generateMetadata option supplied by user.");
+            this.templateProcessor.skip(
+                    metadata, "Skipped by generateMetadata option supplied by user.");
         }
     }
 
     private Path absPath(File input) {
-        // intentionally creates a new absolute path instance, disconnected from underlying FileSystem provider of File
+        // intentionally creates a new absolute path instance, disconnected from underlying
+        // FileSystem provider of File
         return java.nio.file.Paths.get(input.getAbsolutePath());
     }
 
     /**
-     * Generates a file at .openapi-generator/FILES to track the files created by the user's latest run.
-     * This is ideal for CI and regeneration of code without stale/unused files from older generations.
+     * Generates a file at .openapi-generator/FILES to track the files created by the user's latest
+     * run. This is ideal for CI and regeneration of code without stale/unused files from older
+     * generations.
      *
      * @param files The list tracking generated files
      */
@@ -1546,37 +1906,56 @@ public class DefaultGenerator implements Generator {
                 List<File> filesToSort = new ArrayList<>();
 
                 // Avoid side-effecting sort in this path when generateMetadata=true
-                files.forEach(f -> {
-                    // We have seen NPE on CI for getPath() returning null, so guard against this (to be fixed in 5.0 template management refactor)
-                    //noinspection ConstantConditions
-                    if (f != null && f.getPath() != null) {
-                        filesToSort.add(outDir.relativize(absPath(f)).normalize().toFile());
-                    }
-                });
+                files.forEach(
+                        f -> {
+                            // We have seen NPE on CI for getPath() returning null, so guard against
+                            // this (to be fixed in 5.0 template management refactor)
+                            //noinspection ConstantConditions
+                            if (f != null && f.getPath() != null) {
+                                filesToSort.add(outDir.relativize(absPath(f)).normalize().toFile());
+                            }
+                        });
 
-                // NOTE: Don't use File.separator here as we write linux-style paths to FILES, and File.separator will
+                // NOTE: Don't use File.separator here as we write linux-style paths to FILES, and
+                // File.separator will
                 // result in incorrect match on Windows machines.
                 String relativeMeta = METADATA_DIR + "/VERSION";
                 filesToSort.sort(PathFileComparator.PATH_COMPARATOR);
-                filesToSort.forEach(f -> {
-                    // some Java implementations don't honor .relativize documentation fully.
-                    // When outDir is /a/b and the input is /a/b/c/d, the result should be c/d.
-                    // Some implementations make the output ./c/d which seems to mix the logic
-                    // as documented for symlinks. So we need to trim any / or ./ from the start,
-                    // as nobody should be generating into system root and our expectation is no ./
-                    String relativePath = removeStart(removeStart(f.toString(), "." + File.separator), File.separator);
-                    if (File.separator.equals("\\")) {
-                        // ensure that windows outputs same FILES format
-                        relativePath = relativePath.replace(File.separator, "/");
-                    }
-                    if (!relativePath.equals(relativeMeta)) {
-                        sb.append(relativePath).append(System.lineSeparator());
-                    }
-                });
+                filesToSort.forEach(
+                        f -> {
+                            // some Java implementations don't honor .relativize documentation
+                            // fully.
+                            // When outDir is /a/b and the input is /a/b/c/d, the result should be
+                            // c/d.
+                            // Some implementations make the output ./c/d which seems to mix the
+                            // logic
+                            // as documented for symlinks. So we need to trim any / or ./ from the
+                            // start,
+                            // as nobody should be generating into system root and our expectation
+                            // is no ./
+                            String relativePath =
+                                    removeStart(
+                                            removeStart(f.toString(), "." + File.separator),
+                                            File.separator);
+                            if (File.separator.equals("\\")) {
+                                // ensure that windows outputs same FILES format
+                                relativePath = relativePath.replace(File.separator, "/");
+                            }
+                            if (!relativePath.equals(relativeMeta)) {
+                                sb.append(relativePath).append(System.lineSeparator());
+                            }
+                        });
 
-                String targetFile = config.outputFolder() + File.separator + METADATA_DIR + File.separator + config.getFilesMetadataFilename();
+                String targetFile =
+                        config.outputFolder()
+                                + File.separator
+                                + METADATA_DIR
+                                + File.separator
+                                + config.getFilesMetadataFilename();
 
-                File filesFile = this.templateProcessor.writeToFile(targetFile, sb.toString().getBytes(StandardCharsets.UTF_8));
+                File filesFile =
+                        this.templateProcessor.writeToFile(
+                                targetFile, sb.toString().getBytes(StandardCharsets.UTF_8));
                 if (filesFile != null) {
                     files.add(filesFile);
                 }
@@ -1589,5 +1968,4 @@ public class DefaultGenerator implements Generator {
     private String removeTrailingSlash(String value) {
         return StringUtils.removeEnd(value, "/");
     }
-
 }

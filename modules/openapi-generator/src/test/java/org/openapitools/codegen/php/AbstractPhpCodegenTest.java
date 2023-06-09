@@ -19,20 +19,18 @@ package org.openapitools.codegen.php;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
-
+import java.util.Arrays;
+import java.util.HashMap;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.languages.AbstractPhpCodegen;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.languages.AbstractPhpCodegen;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.util.Arrays;
-import java.util.HashMap;
 
 public class AbstractPhpCodegenTest {
 
@@ -41,14 +39,19 @@ public class AbstractPhpCodegenTest {
         final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.TRUE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
         Assert.assertEquals(codegen.modelPackage(), "php\\Model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "php\\Model");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "php\\Model");
         Assert.assertEquals(codegen.apiPackage(), "php\\Api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "php\\Api");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "php\\Api");
         Assert.assertEquals(codegen.getInvokerPackage(), "php");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "php");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "php");
     }
 
     @Test
@@ -60,14 +63,22 @@ public class AbstractPhpCodegenTest {
         codegen.setInvokerPackage("My\\Client\\Invoker");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
         Assert.assertEquals(codegen.modelPackage(), "My\\Client\\Model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "My\\Client\\Model");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
+                "My\\Client\\Model");
         Assert.assertEquals(codegen.apiPackage(), "My\\Client\\Api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),"My\\Client\\Api");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),
+                "My\\Client\\Api");
         Assert.assertEquals(codegen.getInvokerPackage(), "My\\Client\\Invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "My\\Client\\Invoker");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
+                "My\\Client\\Invoker");
     }
 
     @Test
@@ -79,14 +90,21 @@ public class AbstractPhpCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "PHPinvoker");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
         Assert.assertEquals(codegen.modelPackage(), "PHPinvoker\\PHPmodel");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "PHPinvoker\\PHPmodel");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
+                "PHPinvoker\\PHPmodel");
         Assert.assertEquals(codegen.apiPackage(), "PHPinvoker\\PHPapi");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "PHPinvoker\\PHPapi");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),
+                "PHPinvoker\\PHPapi");
         Assert.assertEquals(codegen.getInvokerPackage(), "PHPinvoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "PHPinvoker");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "PHPinvoker");
     }
 
     @Test
@@ -130,7 +148,8 @@ public class AbstractPhpCodegenTest {
 
     @Test(description = "Issue #8945")
     public void testArrayOfArrays() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8945.yaml");
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_8945.yaml");
         final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -149,11 +168,13 @@ public class AbstractPhpCodegenTest {
 
     @Test(description = "Issue #10244")
     public void testEnumPropertyWithDefaultValue() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/php/issue_10244.yaml");
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec("src/test/resources/3_0/php/issue_10244.yaml");
         final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
         codegen.setOpenAPI(openAPI);
 
-        Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
+        Schema test1 =
+                openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
         CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
 
         // Make sure we got the container object.

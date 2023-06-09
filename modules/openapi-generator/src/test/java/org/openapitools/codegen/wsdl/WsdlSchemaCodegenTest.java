@@ -1,7 +1,15 @@
 package org.openapitools.codegen.wsdl;
 
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.ensureContainsFile;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenOperation;
@@ -12,15 +20,6 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.ensureContainsFile;
 
 public class WsdlSchemaCodegenTest {
     private OpenAPI openAPI;
@@ -37,9 +36,7 @@ public class WsdlSchemaCodegenTest {
         WsdlSchemaCodegen codegen = new WsdlSchemaCodegen();
         codegen.setOutputDir(this.outputDirectory.getAbsolutePath());
 
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(this.openAPI)
-                .config(codegen);
+        ClientOptInput input = new ClientOptInput().openAPI(this.openAPI).config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
         this.listOfFiles = generator.opts(input).generate();
@@ -53,12 +50,14 @@ public class WsdlSchemaCodegenTest {
 
         String requestPathWithId = "/store/order/{orderId}";
         Operation textOperationGet = openAPI.getPaths().get(requestPathWithId).getGet();
-        CodegenOperation opGet = codegen.fromOperation(requestPathWithId, "get", textOperationGet, null);
+        CodegenOperation opGet =
+                codegen.fromOperation(requestPathWithId, "get", textOperationGet, null);
         String newOperationIdWithId = codegen.generateOperationId(opGet);
 
         String requestPathWithoutId = "/store/order";
         Operation textOperationPost = openAPI.getPaths().get(requestPathWithoutId).getPost();
-        CodegenOperation opPost = codegen.fromOperation(requestPathWithoutId, "post", textOperationPost, null);
+        CodegenOperation opPost =
+                codegen.fromOperation(requestPathWithoutId, "post", textOperationPost, null);
         String newOperationIdWithoutId = codegen.generateOperationId(opPost);
 
         Assert.assertEquals(newOperationIdWithId, "GetStoreOrderByOrderid");
@@ -91,7 +90,9 @@ public class WsdlSchemaCodegenTest {
         assertFileContains(Paths.get(this.outputPath + "/service.wsdl"), xsElementErrorResponse);
     }
 
-    @Test(description = "Check if complexType input- and output-message has been created for an operation ")
+    @Test(
+            description =
+                    "Check if complexType input- and output-message has been created for an operation ")
     public void testIfInputAndResponseMessageExist() {
         String complexTypeRequestMessage =
                 " <xs:complexType name=\"GetPetByPetid_RequestMessage\">\n"
@@ -116,11 +117,13 @@ public class WsdlSchemaCodegenTest {
                         + " </xs:complexType>\n";
 
         assertFileContains(Paths.get(this.outputPath + "/service.wsdl"), complexTypeRequestMessage);
-        assertFileContains(Paths.get(this.outputPath + "/service.wsdl"), complexTypeResponseMessage);
+        assertFileContains(
+                Paths.get(this.outputPath + "/service.wsdl"), complexTypeResponseMessage);
     }
 
-    @Test(description =
-            "Check if complexType RequestMessage with minimum and maximum restriction has been created for an operation ")
+    @Test(
+            description =
+                    "Check if complexType RequestMessage with minimum and maximum restriction has been created for an operation ")
     public void testIfRequestMessageMinimumExists() {
         String complexTypeRequestMessageMinimum =
                 " <xs:complexType name=\"GetStoreOrderByOrderid_RequestMessage\">\n"
@@ -139,7 +142,8 @@ public class WsdlSchemaCodegenTest {
                         + "   </xs:sequence>\n"
                         + " </xs:complexType>\n";
 
-        assertFileContains(Paths.get(this.outputPath + "/service.wsdl"), complexTypeRequestMessageMinimum);
+        assertFileContains(
+                Paths.get(this.outputPath + "/service.wsdl"), complexTypeRequestMessageMinimum);
     }
 
     @Test(description = "Check if complexType model has been created for an openapi model schema")
@@ -256,7 +260,6 @@ public class WsdlSchemaCodegenTest {
 
         FileUtils.deleteDirectory(outputDirectory);
     }
-
 
     @AfterClass
     public void cleanUp() throws Exception {

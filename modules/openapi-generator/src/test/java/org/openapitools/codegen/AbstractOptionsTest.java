@@ -17,27 +17,28 @@
 
 package org.openapitools.codegen;
 
+import static org.mockito.Answers.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.withSettings;
+
 import com.google.common.base.Function;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.mockito.MockSettings;
 import org.openapitools.codegen.options.OptionsProvider;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import static org.mockito.Answers.CALLS_REAL_METHODS;
-import static org.mockito.Mockito.withSettings;
-
 /**
- * Base class for applying and processing generator options, then invoking a helper method to verify those options.
+ * Base class for applying and processing generator options, then invoking a helper method to verify
+ * those options.
  */
 public abstract class AbstractOptionsTest {
-    protected MockSettings mockSettings = withSettings().useConstructor().defaultAnswer(CALLS_REAL_METHODS);
+    protected MockSettings mockSettings =
+            withSettings().useConstructor().defaultAnswer(CALLS_REAL_METHODS);
     private final OptionsProvider optionsProvider;
 
     protected AbstractOptionsTest(OptionsProvider optionsProvider) {
@@ -52,19 +53,32 @@ public abstract class AbstractOptionsTest {
         verifyOptions();
     }
 
-    @Test(description = "check if all options described in documentation are presented in test case")
+    @Test(
+            description =
+                    "check if all options described in documentation are presented in test case")
     public void checkOptionsHelp() {
-        final List<String> cliOptions = getCodegenConfig().cliOptions().stream().map(getCliOptionTransformer()).collect(Collectors.toList());
+        final List<String> cliOptions =
+                getCodegenConfig().cliOptions().stream()
+                        .map(getCliOptionTransformer())
+                        .collect(Collectors.toList());
         final Set<String> testOptions = optionsProvider.createOptions().keySet();
         final Set<String> skipped = new HashSet<String>(cliOptions);
         skipped.removeAll(testOptions);
         if (!skipped.isEmpty()) {
-            Assert.fail(String.format(Locale.ROOT, "These options weren't checked: %s.", StringUtils.join(skipped, ", ")));
+            Assert.fail(
+                    String.format(
+                            Locale.ROOT,
+                            "These options weren't checked: %s.",
+                            StringUtils.join(skipped, ", ")));
         }
         final Set<String> undocumented = new HashSet<String>(testOptions);
         undocumented.removeAll(cliOptions);
         if (!undocumented.isEmpty()) {
-            Assert.fail(String.format(Locale.ROOT,"These options weren't documented: %s. Are you expecting base options and calling cliOptions.clear()?", StringUtils.join(undocumented, ", ")));
+            Assert.fail(
+                    String.format(
+                            Locale.ROOT,
+                            "These options weren't documented: %s. Are you expecting base options and calling cliOptions.clear()?",
+                            StringUtils.join(undocumented, ", ")));
         }
     }
 

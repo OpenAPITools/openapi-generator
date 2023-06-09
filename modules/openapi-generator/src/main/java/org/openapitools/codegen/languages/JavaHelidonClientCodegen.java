@@ -17,6 +17,11 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
+
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,10 +34,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
-
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
@@ -54,8 +55,6 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
 
 public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
@@ -82,17 +81,17 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
      */
     public JavaHelidonClientCodegen() {
         // beta for now
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
-        // TODO: Move GlobalFeature.ParameterizedServer to library: jersey after moving featureSet to generatorMetadata
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .includeGlobalFeatures(GlobalFeature.ParameterizedServer)
-        );
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
+        // TODO: Move GlobalFeature.ParameterizedServer to library: jersey after moving featureSet
+        // to generatorMetadata
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .includeGlobalFeatures(GlobalFeature.ParameterizedServer));
 
         outputFolder = "generated-code" + File.separator + "java";
-        embeddedTemplateDir = "java-helidon" + File.separator + "common";        // use embedded for common
+        embeddedTemplateDir = "java-helidon" + File.separator + "common"; // use embedded for common
         templateDir = "java-helidon" + File.separator + "client";
         invokerPackage = "org.openapitools.client";
         artifactId = "openapi-java-client";
@@ -106,26 +105,30 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
         modelTestTemplateFiles.put("model_test.mustache", ".java");
 
-        cliOptions.add(CliOption.newString(CONFIG_KEY, "Config key in @RegisterRestClient. Default to none."));
+        cliOptions.add(
+                CliOption.newString(
+                        CONFIG_KEY, "Config key in @RegisterRestClient. Default to none."));
 
         supportedLibraries.put(HELIDON_MP, "Helidon MP Client");
         supportedLibraries.put(HELIDON_SE, "Helidon SE Client");
 
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY,
-                "library template (sub-template) to use");
+        CliOption libraryOption =
+                new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
         libraryOption.setDefault(HELIDON_MP);
         cliOptions.add(libraryOption);
-        setLibrary(HELIDON_MP);     // default
+        setLibrary(HELIDON_MP); // default
 
-        CliOption serializationLibrary = new CliOption(SERIALIZATION_LIBRARY,
-                "Serialization library, defaults to Jackson");
+        CliOption serializationLibrary =
+                new CliOption(SERIALIZATION_LIBRARY, "Serialization library, defaults to Jackson");
         Map<String, String> serializationOptions = new HashMap<>();
-        serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
-        serializationOptions.put(SERIALIZATION_LIBRARY_JSONB, "Use JSON-B as serialization library");
+        serializationOptions.put(
+                SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
+        serializationOptions.put(
+                SERIALIZATION_LIBRARY_JSONB, "Use JSON-B as serialization library");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
-        setSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);     // default
+        setSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON); // default
 
         removeUnusedOptions();
 
@@ -151,8 +154,12 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
     }
 
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co,
-                                    Map<String, List<CodegenOperation>> operations) {
+    public void addOperationToGroup(
+            String tag,
+            String resourcePath,
+            Operation operation,
+            CodegenOperation co,
+            Map<String, List<CodegenOperation>> operations) {
         super.addOperationToGroup(tag, resourcePath, operation, co, operations);
         if (HELIDON_MP.equals(getLibrary())) {
             co.subresourceOperation = !co.path.isEmpty();
@@ -185,53 +192,79 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
         apiFolder = Paths.get(outputFolder).relativize(Paths.get(apiFileFolder()));
 
         if (isLibrary(HELIDON_MP)) {
-            String apiExceptionFolder = Paths.get(sourceFolder,
-                    apiPackage().replace('.', File.separatorChar)).toString();
+            String apiExceptionFolder =
+                    Paths.get(sourceFolder, apiPackage().replace('.', File.separatorChar))
+                            .toString();
 
             List<SupportingFile> modifiable = new ArrayList<>();
             modifiable.add(new SupportingFile("pom.mustache", "", "pom.xml"));
             modifiable.add(new SupportingFile("README.mustache", "", "README.md"));
             List<SupportingFile> unmodifiable = new ArrayList<>();
-            unmodifiable.add(new SupportingFile("api_exception.mustache", apiExceptionFolder, "ApiException.java"));
-            unmodifiable.add(new SupportingFile("api_exception_mapper.mustache", apiExceptionFolder, "ApiExceptionMapper.java"));
+            unmodifiable.add(
+                    new SupportingFile(
+                            "api_exception.mustache", apiExceptionFolder, "ApiException.java"));
+            unmodifiable.add(
+                    new SupportingFile(
+                            "api_exception_mapper.mustache",
+                            apiExceptionFolder,
+                            "ApiExceptionMapper.java"));
             if (additionalProperties.containsKey("jsr310")) {
-                unmodifiable.add(new SupportingFile("JavaTimeFormatter.mustache",
-                        invokerFolder.toString(), "JavaTimeFormatter.java"));
+                unmodifiable.add(
+                        new SupportingFile(
+                                "JavaTimeFormatter.mustache",
+                                invokerFolder.toString(),
+                                "JavaTimeFormatter.java"));
             }
             processSupportingFiles(modifiable, unmodifiable);
         } else if (isLibrary(HELIDON_SE)) {
             apiTemplateFiles.put("api_impl.mustache", ".java");
             importMapping.put("StringJoiner", "java.util.StringJoiner");
-            importMapping.put("WebClientRequestHeaders", "io.helidon.webclient.WebClientRequestHeaders");
+            importMapping.put(
+                    "WebClientRequestHeaders", "io.helidon.webclient.WebClientRequestHeaders");
             importMapping.put("Pair", invokerPackage + ".Pair");
-
 
             List<SupportingFile> modifiable = new ArrayList<>();
             modifiable.add(new SupportingFile("pom.mustache", "", "pom.xml"));
             modifiable.add(new SupportingFile("README.mustache", "", "README.md"));
 
             List<SupportingFile> unmodifiable = new ArrayList<>();
-            unmodifiable.add(new SupportingFile("ApiResponse.mustache", invokerFolder.toString(), "ApiResponse.java"));
-            unmodifiable.add(new SupportingFile("ApiResponseBase.mustache", invokerFolder.toString(), "ApiResponseBase.java"));
-            unmodifiable.add(new SupportingFile("ApiClient.mustache", invokerFolder.toString(), "ApiClient.java"));
-            unmodifiable.add(new SupportingFile("Pair.mustache", invokerFolder.toString(), "Pair.java"));
-            unmodifiable.add(new SupportingFile("ResponseType.mustache", apiFolder.toString(), "ResponseType.java"));
+            unmodifiable.add(
+                    new SupportingFile(
+                            "ApiResponse.mustache", invokerFolder.toString(), "ApiResponse.java"));
+            unmodifiable.add(
+                    new SupportingFile(
+                            "ApiResponseBase.mustache",
+                            invokerFolder.toString(),
+                            "ApiResponseBase.java"));
+            unmodifiable.add(
+                    new SupportingFile(
+                            "ApiClient.mustache", invokerFolder.toString(), "ApiClient.java"));
+            unmodifiable.add(
+                    new SupportingFile("Pair.mustache", invokerFolder.toString(), "Pair.java"));
+            unmodifiable.add(
+                    new SupportingFile(
+                            "ResponseType.mustache", apiFolder.toString(), "ResponseType.java"));
 
             processSupportingFiles(modifiable, unmodifiable);
-        }
-        else {
+        } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
         }
 
         if (getSerializationLibrary() == null) {
-            LOGGER.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_JACKSON);
+            LOGGER.info(
+                    "No serializationLibrary configured, using '{}' as fallback",
+                    SERIALIZATION_LIBRARY_JACKSON);
             setSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         }
         switch (getSerializationLibrary()) {
             case SERIALIZATION_LIBRARY_JACKSON:
                 additionalProperties.put(SERIALIZATION_LIBRARY_JACKSON, "true");
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
-                supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder.toString(), "RFC3339DateFormat.java"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "RFC3339DateFormat.mustache",
+                                invokerFolder.toString(),
+                                "RFC3339DateFormat.java"));
                 break;
             case SERIALIZATION_LIBRARY_JSONB:
                 openApiNullable = false;
@@ -261,7 +294,8 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         if (isLibrary(HELIDON_MP)) {
             super.postProcessOperationsWithModels(objs, allModels);
             return AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
@@ -272,20 +306,23 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
             Set<String> requiredImplImportClassNames = new HashSet<>();
             for (CodegenOperation op : objs.getOperations().getOperation()) {
-                requiredImplImportClassNames.addAll((Set) op.vendorExtensions.get(X_HELIDON_REQUIRED_IMPL_IMPORTS));
+                requiredImplImportClassNames.addAll(
+                        (Set) op.vendorExtensions.get(X_HELIDON_REQUIRED_IMPL_IMPORTS));
             }
 
             Set<String> missingImportClassNames = new TreeSet<>(requiredImplImportClassNames);
-            imports.stream()
-                .map(m -> m.get("classname"))
-                .forEach(missingImportClassNames::remove);
+            imports.stream().map(m -> m.get("classname")).forEach(missingImportClassNames::remove);
 
-            missingImportClassNames.forEach(c -> {
-                    Map<String, String> singleImportMap = new HashMap<>();
-                    singleImportMap.put("classname", c);
-                    singleImportMap.put("import", Objects.requireNonNull(importMapping.get(c), "no mapping for " + c));
-                    implImports.add(singleImportMap);
-                });
+            missingImportClassNames.forEach(
+                    c -> {
+                        Map<String, String> singleImportMap = new HashMap<>();
+                        singleImportMap.put("classname", c);
+                        singleImportMap.put(
+                                "import",
+                                Objects.requireNonNull(
+                                        importMapping.get(c), "no mapping for " + c));
+                        implImports.add(singleImportMap);
+                    });
 
             objs.put(X_HELIDON_IMPL_IMPORTS, implImports);
             return objs;
@@ -293,7 +330,8 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+    public CodegenOperation fromOperation(
+            String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         // We use two templates, one for the API interface and one for the impl class.
         // Add to the normal imports for this operation only those imports used in both
@@ -321,14 +359,14 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
             requiredImplImports.add("StringJoiner");
         }
         if (op.bodyParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsArray)
-            || op.allParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsArray)
-            || op.responses.stream().anyMatch(CodegenResponse::getIsArray)) {
+                || op.allParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsArray)
+                || op.responses.stream().anyMatch(CodegenResponse::getIsArray)) {
             requiredImplImports.add("List");
             op.imports.add("List");
         }
         if (op.bodyParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsMap)
-            || op.allParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsMap)
-            || op.responses.stream().anyMatch(CodegenResponse::getIsMap)) {
+                || op.allParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsMap)
+                || op.responses.stream().anyMatch(CodegenResponse::getIsMap)) {
             requiredImplImports.add("Map");
             op.imports.add("Map");
         }
@@ -411,10 +449,13 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
                 for (CodegenProperty var : cm.vars) {
                     if (this.openApiNullable) {
-                        boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
+                        boolean isOptionalNullable =
+                                Boolean.FALSE.equals(var.required)
+                                        && Boolean.TRUE.equals(var.isNullable);
                         // only add JsonNullable and related imports to optional and nullable values
                         addImports |= isOptionalNullable;
-                        var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+                        var.getVendorExtensions()
+                                .put("x-is-jackson-optional-nullable", isOptionalNullable);
                     }
 
                     if (Boolean.TRUE.equals(var.getVendorExtensions().get("x-enum-as-string"))) {
@@ -422,10 +463,15 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
                         var.datatypeWithEnum = var.dataType;
 
                         if (StringUtils.isNotEmpty(var.defaultValue)) { // has default value
-                            String defaultValue = var.defaultValue.substring(var.defaultValue.lastIndexOf('.') + 1);
-                            for (Map<String, Object> enumVars : (List<Map<String, Object>>) var.getAllowableValues().get("enumVars")) {
+                            String defaultValue =
+                                    var.defaultValue.substring(
+                                            var.defaultValue.lastIndexOf('.') + 1);
+                            for (Map<String, Object> enumVars :
+                                    (List<Map<String, Object>>)
+                                            var.getAllowableValues().get("enumVars")) {
                                 if (defaultValue.equals(enumVars.get("name"))) {
-                                    // update default to use the string directly instead of enum string
+                                    // update default to use the string directly instead of enum
+                                    // string
                                     var.defaultValue = (String) enumVars.get("value");
                                 }
                             }
@@ -440,13 +486,14 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
                         importsHashSet.put("import", "java.util.HashSet");
                         imports.add(importsHashSet);
                     }
-
                 }
 
                 if (addImports) {
                     Map<String, String> imports2Classnames = new HashMap<>();
-                    imports2Classnames.put("NoSuchElementException", "java.util.NoSuchElementException");
-                    imports2Classnames.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
+                    imports2Classnames.put(
+                            "NoSuchElementException", "java.util.NoSuchElementException");
+                    imports2Classnames.put(
+                            "JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
                     for (Map.Entry<String, String> entry : imports2Classnames.entrySet()) {
                         cm.imports.add(entry.getKey());
                         Map<String, String> importsItem = new HashMap<>();
@@ -490,7 +537,8 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
         } else if (SERIALIZATION_LIBRARY_JSONB.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_JSONB;
         } else {
-            throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
+            throw new IllegalArgumentException(
+                    "Unexpected serializationLibrary value: " + serializationLibrary);
         }
     }
 

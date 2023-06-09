@@ -1,6 +1,12 @@
 package org.openapitools.codegen.utils;
 
+import static org.mockito.Mockito.*;
+import static org.openapitools.codegen.utils.OnceLogger.*;
+import static org.testng.Assert.*;
+
 import com.google.common.testing.FakeTicker;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.mockito.Mockito;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.slf4j.Logger;
@@ -10,20 +16,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static org.mockito.Mockito.*;
-import static org.openapitools.codegen.utils.OnceLogger.*;
-import static org.testng.Assert.*;
-
 @SuppressWarnings({"SameParameterValue", "UnstableApiUsage"})
 public class OnceLoggerTest {
     private Logger mockLogger = Mockito.mock(Logger.class);
     private FakeTicker ticker = new FakeTicker();
 
     @BeforeTest
-    public void setUp(){
+    public void setUp() {
         OnceLogger.caffeineCache(ticker::read, 1000);
     }
 
@@ -105,9 +104,7 @@ public class OnceLoggerTest {
     }
 
     private void resetGlobalProperty(String key, String value) {
-        if (value != null)
-            GlobalSettings.setProperty(key, value);
-        else
-            GlobalSettings.clearProperty(key);
+        if (value != null) GlobalSettings.setProperty(key, value);
+        else GlobalSettings.clearProperty(key);
     }
 }

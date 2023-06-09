@@ -17,14 +17,18 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.escape;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import java.io.File;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -34,12 +38,6 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.escape;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonClientCodegen extends AbstractPythonCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
@@ -55,7 +53,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     protected String apiDocPath = "docs" + File.separator;
     protected String modelDocPath = "docs" + File.separator;
     protected boolean hasModelsToImport = Boolean.FALSE;
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    protected boolean useOneOfDiscriminatorLookup =
+            false; // use oneOf discriminator's mapping for model lookup
     protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
     protected String dateFormat = "%Y-%m-%d";
     protected String mapNumberTo = "Union[StrictFloat, StrictInt]";
@@ -75,30 +74,34 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         // force sortParamsByRequiredFlag to true to make the api method signature less complicated
         sortParamsByRequiredFlag = true;
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
-                .includeSecurityFeatures(SecurityFeature.SignatureAuth)
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism,
-                        SchemaSupportFeature.allOf,
-                        SchemaSupportFeature.oneOf,
-                        SchemaSupportFeature.anyOf
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(
+                                                WireFormatFeature.JSON,
+                                                WireFormatFeature.XML,
+                                                WireFormatFeature.Custom))
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.BasicAuth,
+                                                SecurityFeature.BearerToken,
+                                                SecurityFeature.ApiKey,
+                                                SecurityFeature.OAuth2_Implicit))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .includeSchemaSupportFeatures(
+                                        SchemaSupportFeature.Polymorphism,
+                                        SchemaSupportFeature.allOf,
+                                        SchemaSupportFeature.oneOf,
+                                        SchemaSupportFeature.anyOf)
+                                .excludeParameterFeatures(ParameterFeature.Cookie));
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.STABLE)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.STABLE).build();
 
         // clear import mapping (from default generator) as python does not use it
         // at the moment
@@ -143,16 +146,51 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // pydantic keyword
-                        "schema", "base64", "json",
+                        "schema",
+                        "base64",
+                        "json",
                         "date",
                         // @property
                         "property",
                         // python reserved words
-                        "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
-                        "assert", "else", "if", "pass", "yield", "break", "except", "import",
-                        "print", "class", "exec", "in", "raise", "continue", "finally", "is",
-                        "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True",
-                        "False", "async", "await"));
+                        "and",
+                        "del",
+                        "from",
+                        "not",
+                        "while",
+                        "as",
+                        "elif",
+                        "global",
+                        "or",
+                        "with",
+                        "assert",
+                        "else",
+                        "if",
+                        "pass",
+                        "yield",
+                        "break",
+                        "except",
+                        "import",
+                        "print",
+                        "class",
+                        "exec",
+                        "in",
+                        "raise",
+                        "continue",
+                        "finally",
+                        "is",
+                        "return",
+                        "def",
+                        "for",
+                        "lambda",
+                        "try",
+                        "self",
+                        "nonlocal",
+                        "None",
+                        "True",
+                        "False",
+                        "async",
+                        "await"));
 
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IGNORECASE");
@@ -163,42 +201,71 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         regexModifiers.put('x', "VERBOSE");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
-                .defaultValue("openapi_client"));
-        cliOptions.add(new CliOption(CodegenConstants.PROJECT_NAME, "python project name in setup.py (e.g. petstore-api)."));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "python package version.")
-                .defaultValue("1.0.0"));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.PACKAGE_NAME,
+                                "python package name (convention: snake_case).")
+                        .defaultValue("openapi_client"));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.PROJECT_NAME,
+                        "python project name in setup.py (e.g. petstore-api)."));
+        cliOptions.add(
+                new CliOption(CodegenConstants.PACKAGE_VERSION, "python package version.")
+                        .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(PACKAGE_URL, "python package URL."));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
-                .defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(CodegenConstants.SOURCECODEONLY_GENERATION, CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
-                .defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
-        cliOptions.add(new CliOption(MAP_NUMBER_TO, "Map number to Union[StrictFloat, StrictInt], StrictStr or float.")
-                .defaultValue("Union[StrictFloat, StrictInt]"));
-        cliOptions.add(new CliOption(DATETIME_FORMAT, "datetime format for query parameters")
-                .defaultValue("%Y-%m-%dT%H:%M:%S%z"));
-        cliOptions.add(new CliOption(DATE_FORMAT, "date format for query parameters")
-                .defaultValue("%Y-%m-%d"));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
+                        .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.SOURCECODEONLY_GENERATION,
+                                CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
+                        .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(
+                new CliOption(
+                        RECURSION_LIMIT,
+                        "Set the recursion limit. If not set, use the system default value."));
+        cliOptions.add(
+                new CliOption(
+                                MAP_NUMBER_TO,
+                                "Map number to Union[StrictFloat, StrictInt], StrictStr or float.")
+                        .defaultValue("Union[StrictFloat, StrictInt]"));
+        cliOptions.add(
+                new CliOption(DATETIME_FORMAT, "datetime format for query parameters")
+                        .defaultValue("%Y-%m-%dT%H:%M:%S%z"));
+        cliOptions.add(
+                new CliOption(DATE_FORMAT, "date format for query parameters")
+                        .defaultValue("%Y-%m-%d"));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
         supportedLibraries.put("tornado", "tornado-based client (deprecated)");
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado (deprecated), urllib3");
+        CliOption libraryOption =
+                new CliOption(
+                        CodegenConstants.LIBRARY,
+                        "library template (sub-template) to use: asyncio, tornado (deprecated), urllib3");
         libraryOption.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(libraryOption);
         setLibrary(DEFAULT_LIBRARY);
 
         // option to change how we process + set the data in the 'additionalProperties' keyword.
-        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
-                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
-                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
+        CliOption disallowAdditionalPropertiesIfNotPresentOpt =
+                CliOption.newBoolean(
+                                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC)
+                        .defaultValue(Boolean.TRUE.toString());
         Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
-        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
+        disallowAdditionalPropertiesIfNotPresentOpts.put(
+                "false",
                 "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
-        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
+        disallowAdditionalPropertiesIfNotPresentOpts.put(
+                "true",
                 "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
-        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
+        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(
+                disallowAdditionalPropertiesIfNotPresentOpts);
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
     }
@@ -213,8 +280,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         specialCharReplacements.put(".", "Dot");
 
         if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info(
+                    "Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
+            LOGGER.info(
+                    "NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         Boolean excludeTests = false;
@@ -240,12 +309,18 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
         if (additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
-            excludeTests = Boolean.valueOf(additionalProperties.get(CodegenConstants.EXCLUDE_TESTS).toString());
+            excludeTests =
+                    Boolean.valueOf(
+                            additionalProperties.get(CodegenConstants.EXCLUDE_TESTS).toString());
         }
 
         Boolean generateSourceCodeOnly = false;
         if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
-            generateSourceCodeOnly = Boolean.valueOf(additionalProperties.get(CodegenConstants.SOURCECODEONLY_GENERATION).toString());
+            generateSourceCodeOnly =
+                    Boolean.valueOf(
+                            additionalProperties
+                                    .get(CodegenConstants.SOURCECODEONLY_GENERATION)
+                                    .toString());
         }
 
         if (generateSourceCodeOnly) {
@@ -273,9 +348,12 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         }
 
         if (additionalProperties.containsKey(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP)) {
-            setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
+            setUseOneOfDiscriminatorLookup(
+                    convertPropertyToBooleanAndWriteBack(
+                            CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
         } else {
-            additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
+            additionalProperties.put(
+                    CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
         }
 
         if (additionalProperties.containsKey(MAP_NUMBER_TO)) {
@@ -294,8 +372,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             additionalProperties.put(DATE_FORMAT, dateFormat);
         }
 
-        String modelPath = packagePath() + File.separatorChar + modelPackage.replace('.', File.separatorChar);
-        String apiPath = packagePath() + File.separatorChar + apiPackage.replace('.', File.separatorChar);
+        String modelPath =
+                packagePath() + File.separatorChar + modelPackage.replace('.', File.separatorChar);
+        String apiPath =
+                packagePath() + File.separatorChar + apiPackage.replace('.', File.separatorChar);
 
         String readmePath = "README.md";
         String readmeTemplate = "README.mustache";
@@ -307,31 +387,44 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         if (!generateSourceCodeOnly) {
             supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
-            supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
-            supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
+            supportingFiles.add(
+                    new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
+            supportingFiles.add(
+                    new SupportingFile("requirements.mustache", "", "requirements.txt"));
             supportingFiles.add(new SupportingFile("setup_cfg.mustache", "", "setup.cfg"));
 
             supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
             supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
             supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
-            supportingFiles.add(new SupportingFile("github-workflow.mustache", ".github/workflows", "python.yml"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "github-workflow.mustache", ".github/workflows", "python.yml"));
             supportingFiles.add(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
             supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
             supportingFiles.add(new SupportingFile("pyproject.mustache", "", "pyproject.toml"));
         }
-        supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
-        supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
+        supportingFiles.add(
+                new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
+        supportingFiles.add(
+                new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", modelPath, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__api.mustache", apiPath, "__init__.py"));
-        // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
-        Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
-                (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
+        // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is
+        // specified in the OAS.
+        Map<String, SecurityScheme> securitySchemeMap =
+                openAPI != null
+                        ? (openAPI.getComponents() != null
+                                ? openAPI.getComponents().getSecuritySchemes()
+                                : null)
+                        : null;
         List<CodegenSecurity> authMethods = fromSecurity(securitySchemeMap);
         if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
-            supportingFiles.add(new SupportingFile("signing.mustache", packagePath(), "signing.py"));
+            supportingFiles.add(
+                    new SupportingFile("signing.mustache", packagePath(), "signing.py"));
         }
 
-        // If the package name consists of dots(openapi.client), then we need to create the directory structure like openapi/client with __init__ files.
+        // If the package name consists of dots(openapi.client), then we need to create the
+        // directory structure like openapi/client with __init__ files.
         String[] packageNameSplits = packageName.split("\\.");
         String currentPackagePath = "";
         for (int i = 0; i < packageNameSplits.length - 1; i++) {
@@ -339,23 +432,29 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 currentPackagePath = currentPackagePath + File.separatorChar;
             }
             currentPackagePath = currentPackagePath + packageNameSplits[i];
-            supportingFiles.add(new SupportingFile("__init__.mustache", currentPackagePath, "__init__.py"));
+            supportingFiles.add(
+                    new SupportingFile("__init__.mustache", currentPackagePath, "__init__.py"));
         }
 
-        supportingFiles.add(new SupportingFile("exceptions.mustache", packagePath(), "exceptions.py"));
+        supportingFiles.add(
+                new SupportingFile("exceptions.mustache", packagePath(), "exceptions.py"));
 
         if (Boolean.FALSE.equals(excludeTests)) {
             supportingFiles.add(new SupportingFile("__init__.mustache", testFolder, "__init__.py"));
         }
 
-        supportingFiles.add(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
-        supportingFiles.add(new SupportingFile("api_response.mustache", packagePath(), "api_response.py"));
+        supportingFiles.add(
+                new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
+        supportingFiles.add(
+                new SupportingFile("api_response.mustache", packagePath(), "api_response.py"));
 
         if ("asyncio".equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packagePath(), "rest.py"));
+            supportingFiles.add(
+                    new SupportingFile("asyncio/rest.mustache", packagePath(), "rest.py"));
             additionalProperties.put("asyncio", "true");
         } else if ("tornado".equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("tornado/rest.mustache", packagePath(), "rest.py"));
+            supportingFiles.add(
+                    new SupportingFile("tornado/rest.mustache", packagePath(), "rest.py"));
             additionalProperties.put("tornado", "true");
         } else {
             supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
@@ -415,16 +514,18 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
      * @return pydantic type
      *
      */
-    private String getPydanticType(CodegenParameter cp,
-                                   Set<String> typingImports,
-                                   Set<String> pydanticImports,
-                                   Set<String> datetimeImports,
-                                   Set<String> modelImports,
-                                   Set<String> exampleImports,
-                                   String classname) {
+    private String getPydanticType(
+            CodegenParameter cp,
+            Set<String> typingImports,
+            Set<String> pydanticImports,
+            Set<String> datetimeImports,
+            Set<String> modelImports,
+            Set<String> exampleImports,
+            String classname) {
         if (cp == null) {
             // if codegen parameter (e.g. map/dict of undefined type) is null, default to string
-            LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to typing.Any.");
+            LOGGER.warn(
+                    "Codegen property is null (e.g. map/dict of undefined type). Default to typing.Any.");
             typingImports.add("Any");
             return "Any";
         }
@@ -441,13 +542,31 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 constraints += ", unique_items=True";
             }
             pydanticImports.add("conlist");
-            return String.format(Locale.ROOT, "conlist(%s%s)",
-                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, classname),
+            return String.format(
+                    Locale.ROOT,
+                    "conlist(%s%s)",
+                    getPydanticType(
+                            cp.items,
+                            typingImports,
+                            pydanticImports,
+                            datetimeImports,
+                            modelImports,
+                            exampleImports,
+                            classname),
                     constraints);
         } else if (cp.isMap) {
             typingImports.add("Dict");
-            return String.format(Locale.ROOT, "Dict[str, %s]",
-                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, classname));
+            return String.format(
+                    Locale.ROOT,
+                    "Dict[str, %s]",
+                    getPydanticType(
+                            cp.items,
+                            typingImports,
+                            pydanticImports,
+                            datetimeImports,
+                            modelImports,
+                            exampleImports,
+                            classname));
         } else if (cp.isString) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
@@ -462,12 +581,15 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 if (cp.getPattern() != null) {
                     pydanticImports.add("validator");
                     // use validator instead as regex doesn't support flags, e.g. IGNORECASE
-                    //fieldCustomization.add(String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
+                    // fieldCustomization.add(String.format(Locale.ROOT, "regex=r'%s'",
+                    // cp.getPattern()));
                 }
                 pydanticImports.add("constr");
-                return String.format(Locale.ROOT, "constr(%s)", StringUtils.join(fieldCustomization, ", "));
+                return String.format(
+                        Locale.ROOT, "constr(%s)", StringUtils.join(fieldCustomization, ", "));
             } else {
-                if ("password".equals(cp.getFormat())) { // TDOO avoid using format, use `is` boolean flag instead
+                if ("password".equals(cp.getFormat())) { // TDOO avoid using format, use `is`
+                    // boolean flag instead
                     pydanticImports.add("SecretStr");
                     return "SecretStr";
                 } else {
@@ -484,19 +606,29 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 if (cp.getMaximum() != null) {
                     if (cp.getExclusiveMaximum()) {
                         fieldCustomization.add("lt=" + cp.getMaximum());
-                        intFieldCustomization.add("lt=" + Math.ceil(Double.valueOf(cp.getMaximum()))); // e.g. < 7.59 becomes < 8
+                        intFieldCustomization.add(
+                                "lt=" + Math.ceil(Double.valueOf(cp.getMaximum()))); // e.g. < 7.59
+                        // becomes < 8
                     } else {
                         fieldCustomization.add("le=" + cp.getMaximum());
-                        intFieldCustomization.add("le=" + Math.floor(Double.valueOf(cp.getMaximum()))); // e.g. <= 7.59 becomes <= 7
+                        intFieldCustomization.add(
+                                "le="
+                                        + Math.floor(
+                                                Double.valueOf(cp.getMaximum()))); // e.g. <= 7.59
+                        // becomes <= 7
                     }
                 }
                 if (cp.getMinimum() != null) {
                     if (cp.getExclusiveMinimum()) {
                         fieldCustomization.add("gt=" + cp.getMinimum());
-                        intFieldCustomization.add("gt=" + Math.floor(Double.valueOf(cp.getMinimum()))); // e.g. > 7.59 becomes > 7
+                        intFieldCustomization.add(
+                                "gt=" + Math.floor(Double.valueOf(cp.getMinimum()))); // e.g. > 7.59
+                        // becomes > 7
                     } else {
                         fieldCustomization.add("ge=" + cp.getMinimum());
-                        intFieldCustomization.add("ge=" + Math.ceil(Double.valueOf(cp.getMinimum()))); // e.g. >= 7.59 becomes >= 8
+                        intFieldCustomization.add(
+                                "ge=" + Math.ceil(Double.valueOf(cp.getMinimum()))); // e.g. >= 7.59
+                        // becomes >= 8
                     }
                 }
                 if (cp.getMultipleOf() != null) {
@@ -509,19 +641,27 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                     pydanticImports.add("confloat");
                     pydanticImports.add("conint");
                     typingImports.add("Union");
-                    return String.format(Locale.ROOT, "Union[%s(%s), %s(%s)]", "confloat",
+                    return String.format(
+                            Locale.ROOT,
+                            "Union[%s(%s), %s(%s)]",
+                            "confloat",
                             StringUtils.join(fieldCustomization, ", "),
                             "conint",
-                            StringUtils.join(intFieldCustomization, ", ")
-                    );
+                            StringUtils.join(intFieldCustomization, ", "));
                 } else if ("StrictFloat".equals(mapNumberTo)) {
                     fieldCustomization.add("strict=True");
                     pydanticImports.add("confloat");
-                    return String.format(Locale.ROOT, "%s(%s)", "confloat",
+                    return String.format(
+                            Locale.ROOT,
+                            "%s(%s)",
+                            "confloat",
                             StringUtils.join(fieldCustomization, ", "));
                 } else { // float
                     pydanticImports.add("confloat");
-                    return String.format(Locale.ROOT, "%s(%s)", "confloat",
+                    return String.format(
+                            Locale.ROOT,
+                            "%s(%s)",
+                            "confloat",
                             StringUtils.join(fieldCustomization, ", "));
                 }
             } else {
@@ -561,7 +701,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 }
 
                 pydanticImports.add("conint");
-                return String.format(Locale.ROOT, "%s(%s)", "conint",
+                return String.format(
+                        Locale.ROOT,
+                        "%s(%s)",
+                        "conint",
                         StringUtils.join(fieldCustomization, ", "));
             } else {
                 pydanticImports.add("StrictInt");
@@ -581,13 +724,17 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 if (cp.getPattern() != null) {
                     pydanticImports.add("validator");
                     // use validator instead as regex doesn't support flags, e.g. IGNORECASE
-                    //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
+                    // fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'",
+                    // cp.getPattern()));
                 }
 
                 pydanticImports.add("conbytes");
                 pydanticImports.add("constr");
                 typingImports.add("Union");
-                return String.format(Locale.ROOT, "Union[conbytes(%s), constr(%<s)]", StringUtils.join(fieldCustomization, ", "));
+                return String.format(
+                        Locale.ROOT,
+                        "Union[conbytes(%s), constr(%<s)]",
+                        StringUtils.join(fieldCustomization, ", "));
             } else {
                 // same as above which has validation
                 pydanticImports.add("StrictBytes");
@@ -621,7 +768,11 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                     fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
                 }
                 pydanticImports.add("condecimal");
-                return String.format(Locale.ROOT, "%s(%s)", "condecimal", StringUtils.join(fieldCustomization, ", "));
+                return String.format(
+                        Locale.ROOT,
+                        "%s(%s)",
+                        "condecimal",
+                        StringUtils.join(fieldCustomization, ", "));
             } else {
                 pydanticImports.add("condecimal");
                 return "condecimal()";
@@ -656,11 +807,20 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 CodegenMediaType cmt = contents.get(key);
                 // TODO process the first one only at the moment
                 if (cmt != null)
-                    return getPydanticType(cmt.getSchema(), typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, classname);
+                    return getPydanticType(
+                            cmt.getSchema(),
+                            typingImports,
+                            pydanticImports,
+                            datetimeImports,
+                            modelImports,
+                            exampleImports,
+                            classname);
             }
-            throw new RuntimeException("Error! Failed to process getPydanticType when getting the content: " + cp);
+            throw new RuntimeException(
+                    "Error! Failed to process getPydanticType when getting the content: " + cp);
         } else {
-            throw new RuntimeException("Error! Codegen Parameter not yet supported in getPydanticType: " + cp);
+            throw new RuntimeException(
+                    "Error! Codegen Parameter not yet supported in getPydanticType: " + cp);
         }
     }
 
@@ -677,16 +837,18 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
      * @return pydantic type
      *
      */
-    private String getPydanticType(CodegenProperty cp,
-                                   Set<String> typingImports,
-                                   Set<String> pydanticImports,
-                                   Set<String> datetimeImports,
-                                   Set<String> modelImports,
-                                   Set<String> exampleImports,
-                                   String classname) {
+    private String getPydanticType(
+            CodegenProperty cp,
+            Set<String> typingImports,
+            Set<String> pydanticImports,
+            Set<String> datetimeImports,
+            Set<String> modelImports,
+            Set<String> exampleImports,
+            String classname) {
         if (cp == null) {
             // if codegen property (e.g. map/dict of undefined type) is null, default to string
-            LOGGER.warn("Codegen property is null (e.g. map/dict of undefined type). Default to typing.Any.");
+            LOGGER.warn(
+                    "Codegen property is null (e.g. map/dict of undefined type). Default to typing.Any.");
             typingImports.add("Any");
             return "Any";
         }
@@ -722,12 +884,31 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             }
             pydanticImports.add("conlist");
             typingImports.add("List"); // for return type
-            return String.format(Locale.ROOT, "conlist(%s%s)",
-                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, classname),
+            return String.format(
+                    Locale.ROOT,
+                    "conlist(%s%s)",
+                    getPydanticType(
+                            cp.items,
+                            typingImports,
+                            pydanticImports,
+                            datetimeImports,
+                            modelImports,
+                            exampleImports,
+                            classname),
                     constraints);
         } else if (cp.isMap) {
             typingImports.add("Dict");
-            return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, classname));
+            return String.format(
+                    Locale.ROOT,
+                    "Dict[str, %s]",
+                    getPydanticType(
+                            cp.items,
+                            typingImports,
+                            pydanticImports,
+                            datetimeImports,
+                            modelImports,
+                            exampleImports,
+                            classname));
         } else if (cp.isString) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
@@ -742,12 +923,15 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 if (cp.getPattern() != null) {
                     pydanticImports.add("validator");
                     // use validator instead as regex doesn't support flags, e.g. IGNORECASE
-                    //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
+                    // fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'",
+                    // cp.getPattern()));
                 }
                 pydanticImports.add("constr");
-                return String.format(Locale.ROOT, "constr(%s)", StringUtils.join(fieldCustomization, ", "));
+                return String.format(
+                        Locale.ROOT, "constr(%s)", StringUtils.join(fieldCustomization, ", "));
             } else {
-                if ("password".equals(cp.getFormat())) { // TDOO avoid using format, use `is` boolean flag instead
+                if ("password".equals(cp.getFormat())) { // TDOO avoid using format, use `is`
+                    // boolean flag instead
                     pydanticImports.add("SecretStr");
                     return "SecretStr";
                 } else {
@@ -764,19 +948,42 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 if (cp.getMaximum() != null) {
                     if (cp.getExclusiveMaximum()) {
                         fieldCustomization.add("lt=" + cp.getMaximum());
-                        intFieldCustomization.add("lt=" + (int) Math.ceil(Double.valueOf(cp.getMaximum()))); // e.g. < 7.59 => < 8
+                        intFieldCustomization.add(
+                                "lt=" + (int) Math.ceil(Double.valueOf(cp.getMaximum()))); // e.g. <
+                        // 7.59 =>
+                        // < 8
                     } else {
                         fieldCustomization.add("le=" + cp.getMaximum());
-                        intFieldCustomization.add("le=" + (int) Math.floor(Double.valueOf(cp.getMaximum()))); // e.g. <= 7.59 => <= 7
+                        intFieldCustomization.add(
+                                "le="
+                                        + (int)
+                                                Math.floor(
+                                                        Double.valueOf(
+                                                                cp.getMaximum()))); // e.g. <=
+                        // 7.59 =>
+                        // <= 7
                     }
                 }
                 if (cp.getMinimum() != null) {
                     if (cp.getExclusiveMinimum()) {
                         fieldCustomization.add("gt=" + cp.getMinimum());
-                        intFieldCustomization.add("gt=" + (int) Math.floor(Double.valueOf(cp.getMinimum()))); // e.g. > 7.59 => > 7
+                        intFieldCustomization.add(
+                                "gt="
+                                        + (int)
+                                                Math.floor(
+                                                        Double.valueOf(cp.getMinimum()))); // e.g. >
+                        // 7.59 =>
+                        // > 7
                     } else {
                         fieldCustomization.add("ge=" + cp.getMinimum());
-                        intFieldCustomization.add("ge=" + (int) Math.ceil(Double.valueOf(cp.getMinimum()))); // e.g. >= 7.59 => >= 8
+                        intFieldCustomization.add(
+                                "ge="
+                                        + (int)
+                                                Math.ceil(
+                                                        Double.valueOf(
+                                                                cp.getMinimum()))); // e.g. >=
+                        // 7.59 =>
+                        // >= 8
                     }
                 }
                 if (cp.getMultipleOf() != null) {
@@ -789,19 +996,27 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                     pydanticImports.add("confloat");
                     pydanticImports.add("conint");
                     typingImports.add("Union");
-                    return String.format(Locale.ROOT, "Union[%s(%s), %s(%s)]", "confloat",
+                    return String.format(
+                            Locale.ROOT,
+                            "Union[%s(%s), %s(%s)]",
+                            "confloat",
                             StringUtils.join(fieldCustomization, ", "),
                             "conint",
-                            StringUtils.join(intFieldCustomization, ", ")
-                    );
+                            StringUtils.join(intFieldCustomization, ", "));
                 } else if ("StrictFloat".equals(mapNumberTo)) {
                     fieldCustomization.add("strict=True");
                     pydanticImports.add("confloat");
-                    return String.format(Locale.ROOT, "%s(%s)", "confloat",
+                    return String.format(
+                            Locale.ROOT,
+                            "%s(%s)",
+                            "confloat",
                             StringUtils.join(fieldCustomization, ", "));
                 } else { // float
                     pydanticImports.add("confloat");
-                    return String.format(Locale.ROOT, "%s(%s)", "confloat",
+                    return String.format(
+                            Locale.ROOT,
+                            "%s(%s)",
+                            "confloat",
                             StringUtils.join(fieldCustomization, ", "));
                 }
             } else {
@@ -841,7 +1056,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 }
 
                 pydanticImports.add("conint");
-                return String.format(Locale.ROOT, "%s(%s)", "conint",
+                return String.format(
+                        Locale.ROOT,
+                        "%s(%s)",
+                        "conint",
                         StringUtils.join(fieldCustomization, ", "));
             } else {
                 pydanticImports.add("StrictInt");
@@ -861,13 +1079,17 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 if (cp.getPattern() != null) {
                     pydanticImports.add("validator");
                     // use validator instead as regex doesn't support flags, e.g. IGNORECASE
-                    //fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'", cp.getPattern()));
+                    // fieldCustomization.add(Locale.ROOT, String.format(Locale.ROOT, "regex=r'%s'",
+                    // cp.getPattern()));
                 }
 
                 pydanticImports.add("conbytes");
                 pydanticImports.add("constr");
                 typingImports.add("Union");
-                return String.format(Locale.ROOT, "Union[conbytes(%s), constr(%<s)]", StringUtils.join(fieldCustomization, ", "));
+                return String.format(
+                        Locale.ROOT,
+                        "Union[conbytes(%s), constr(%<s)]",
+                        StringUtils.join(fieldCustomization, ", "));
             } else {
                 // same as above which has validation
                 pydanticImports.add("StrictBytes");
@@ -901,7 +1123,11 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                     fieldCustomization.add("multiple_of=" + cp.getMultipleOf());
                 }
                 pydanticImports.add("condecimal");
-                return String.format(Locale.ROOT, "%s(%s)", "condecimal", StringUtils.join(fieldCustomization, ", "));
+                return String.format(
+                        Locale.ROOT,
+                        "%s(%s)",
+                        "condecimal",
+                        StringUtils.join(fieldCustomization, ", "));
             } else {
                 pydanticImports.add("condecimal");
                 return "condecimal()";
@@ -933,8 +1159,12 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             } else {
                 if (circularImports.containsKey(cp.dataType)) {
                     if (circularImports.get(cp.dataType).contains(classname)) {
-                        // cp.dataType import map of set contains this model (classname), don't import
-                        LOGGER.debug("Skipped importing {} in {} due to circular import.", cp.dataType, classname);
+                        // cp.dataType import map of set contains this model (classname), don't
+                        // import
+                        LOGGER.debug(
+                                "Skipped importing {} in {} due to circular import.",
+                                cp.dataType,
+                                classname);
                     } else {
                         // not circular import, so ok to import it
                         hasModelsToImport = true;
@@ -942,17 +1172,21 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                         exampleImports.add(cp.dataType);
                     }
                 } else {
-                    LOGGER.error("Failed to look up {} from the imports (map of set) of models.", cp.dataType);
+                    LOGGER.error(
+                            "Failed to look up {} from the imports (map of set) of models.",
+                            cp.dataType);
                 }
             }
             return cp.dataType;
         } else {
-            throw new RuntimeException("Error! Codegen Property not yet supported in getPydanticType: " + cp);
+            throw new RuntimeException(
+                    "Error! Codegen Property not yet supported in getPydanticType: " + cp);
         }
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         hasModelsToImport = false;
         TreeSet<String> typingImports = new TreeSet<>();
         TreeSet<String> pydanticImports = new TreeSet<>();
@@ -962,15 +1196,24 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
-            TreeSet<String> exampleImports = new TreeSet<>(); // import for each operation to be show in sample code
+            TreeSet<String> exampleImports =
+                    new TreeSet<>(); // import for each operation to be show in sample code
             List<CodegenParameter> params = operation.allParams;
 
             for (CodegenParameter param : params) {
-                String typing = getPydanticType(param, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, null);
+                String typing =
+                        getPydanticType(
+                                param,
+                                typingImports,
+                                pydanticImports,
+                                datetimeImports,
+                                modelImports,
+                                exampleImports,
+                                null);
                 List<String> fields = new ArrayList<>();
                 String firstField = "";
 
-                if (!param.required) { //optional
+                if (!param.required) { // optional
                     firstField = "None";
                     typing = "Optional[" + typing + "]";
                     typingImports.add("Optional");
@@ -1003,7 +1246,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                         fields.add(0, fieldCustomization);
                     }
                     pydanticImports.add("Field");
-                    fieldCustomization = String.format(Locale.ROOT, "Field(%s)", StringUtils.join(fields, ", "));
+                    fieldCustomization =
+                            String.format(Locale.ROOT, "Field(%s)", StringUtils.join(fields, ", "));
                 } else {
                     fieldCustomization = "Field()";
                 }
@@ -1011,14 +1255,24 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 if ("Field()".equals(fieldCustomization)) {
                     param.vendorExtensions.put("x-py-typing", typing);
                 } else {
-                    param.vendorExtensions.put("x-py-typing", String.format(Locale.ROOT, "Annotated[%s, %s]", typing, fieldCustomization));
+                    param.vendorExtensions.put(
+                            "x-py-typing",
+                            String.format(
+                                    Locale.ROOT, "Annotated[%s, %s]", typing, fieldCustomization));
                 }
             }
 
             // update typing import for operation return type
             if (!StringUtils.isEmpty(operation.returnType)) {
-                String typing = getPydanticType(operation.returnProperty, typingImports,
-                        new TreeSet<>() /* skip pydantic import for return type */, datetimeImports, modelImports, exampleImports, null);
+                String typing =
+                        getPydanticType(
+                                operation.returnProperty,
+                                typingImports,
+                                new TreeSet<>() /* skip pydantic import for return type */,
+                                datetimeImports,
+                                modelImports,
+                                exampleImports,
+                                null);
             }
 
             // add import for code samples
@@ -1026,7 +1280,13 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             if (!exampleImports.isEmpty()) {
                 List<String> imports = new ArrayList<>();
                 for (String exampleImport : exampleImports) {
-                    imports.add("from " + packageName + ".models." + underscore(exampleImport) + " import " + exampleImport);
+                    imports.add(
+                            "from "
+                                    + packageName
+                                    + ".models."
+                                    + underscore(exampleImport)
+                                    + " import "
+                                    + exampleImport);
                 }
                 operation.vendorExtensions.put("x-py-example-import", imports);
             }
@@ -1037,21 +1297,36 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         // need datetime import
         if (!datetimeImports.isEmpty()) {
             Map<String, String> item = new HashMap<>();
-            item.put("import", String.format(Locale.ROOT, "from datetime import %s\n", StringUtils.join(datetimeImports, ", ")));
+            item.put(
+                    "import",
+                    String.format(
+                            Locale.ROOT,
+                            "from datetime import %s\n",
+                            StringUtils.join(datetimeImports, ", ")));
             newImports.add(item);
         }
 
         // need pydantic imports
         if (!pydanticImports.isEmpty()) {
             Map<String, String> item = new HashMap<>();
-            item.put("import", String.format(Locale.ROOT, "from pydantic import %s\n", StringUtils.join(pydanticImports, ", ")));
+            item.put(
+                    "import",
+                    String.format(
+                            Locale.ROOT,
+                            "from pydantic import %s\n",
+                            StringUtils.join(pydanticImports, ", ")));
             newImports.add(item);
         }
 
         // need typing imports
         if (!typingImports.isEmpty()) {
             Map<String, String> item = new HashMap<>();
-            item.put("import", String.format(Locale.ROOT, "from typing import %s\n", StringUtils.join(typingImports, ", ")));
+            item.put(
+                    "import",
+                    String.format(
+                            Locale.ROOT,
+                            "from typing import %s\n",
+                            StringUtils.join(typingImports, ", ")));
             newImports.add(item);
         }
 
@@ -1059,7 +1334,14 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         if (!modelImports.isEmpty()) {
             for (String modelImport : modelImports) {
                 Map<String, String> item = new HashMap<>();
-                item.put("import", "from " + packageName + ".models." + underscore(modelImport) + " import " + modelImport);
+                item.put(
+                        "import",
+                        "from "
+                                + packageName
+                                + ".models."
+                                + underscore(modelImport)
+                                + " import "
+                                + modelImport);
                 newImports.add(item);
             }
         }
@@ -1094,7 +1376,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     /**
      * Update circularImports with the model name (key) and its imports gathered recursively
      *
-     * @param modelName       model name
+     * @param modelName model name
      * @param codegenModelMap a map of CodegenModel
      */
     void createImportMapOfSet(String modelName, Map<String, CodegenModel> codegenModelMap) {
@@ -1121,8 +1403,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             String modelNameFromDataType = getModelNameFromDataType(cp);
             if (modelNameFromDataType != null) { // model
                 imports.add(modelNameFromDataType); // update import
-                // go through properties or sub-schemas of the model recursively to identify more (model) import if any
-                updateImportsFromCodegenModel(modelNameFromDataType, codegenModelMap.get(modelNameFromDataType), imports);
+                // go through properties or sub-schemas of the model recursively to identify more
+                // (model) import if any
+                updateImportsFromCodegenModel(
+                        modelNameFromDataType, codegenModelMap.get(modelNameFromDataType), imports);
             }
         }
     }
@@ -1131,10 +1415,11 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
      * Update set of imports from codegen model recursivly
      *
      * @param modelName model name
-     * @param cm        codegen model
-     * @param imports   set of imports
+     * @param cm codegen model
+     * @param imports set of imports
      */
-    public void updateImportsFromCodegenModel(String modelName, CodegenModel cm, Set<String> imports) {
+    public void updateImportsFromCodegenModel(
+            String modelName, CodegenModel cm, Set<String> imports) {
         if (cm == null) {
             LOGGER.warn("Failed to lookup model in createImportMapOfSet " + modelName);
             return;
@@ -1158,16 +1443,20 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                     continue;
                 } else {
                     imports.add(modelNameFromDataType); // update import
-                    // go through properties of the model recursively to identify more (model) import if any
-                    updateImportsFromCodegenModel(modelNameFromDataType, codegenModelMap.get(modelNameFromDataType), imports);
+                    // go through properties of the model recursively to identify more (model)
+                    // import if any
+                    updateImportsFromCodegenModel(
+                            modelNameFromDataType,
+                            codegenModelMap.get(modelNameFromDataType),
+                            imports);
                 }
             }
         }
     }
 
     /**
-     * Returns the model name (if any) from data type of codegen property.
-     * Returns null if it's not a model.
+     * Returns the model name (if any) from data type of codegen property. Returns null if it's not
+     * a model.
      *
      * @param cp Codegen property
      * @return model name
@@ -1205,7 +1494,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             CodegenModel model = m.getModel();
 
             // handle null type in oneOf
-            if (model.getComposedSchemas() != null && model.getComposedSchemas().getOneOf() != null
+            if (model.getComposedSchemas() != null
+                    && model.getComposedSchemas().getOneOf() != null
                     && !model.getComposedSchemas().getOneOf().isEmpty()) {
                 int index = 0;
                 List<CodegenProperty> oneOfs = model.getComposedSchemas().getOneOf();
@@ -1237,9 +1527,17 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 codegenProperties = model.vars;
             }
 
-            //loop through properties/schemas to set up typing, pydantic
+            // loop through properties/schemas to set up typing, pydantic
             for (CodegenProperty cp : codegenProperties) {
-                String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, model.classname);
+                String typing =
+                        getPydanticType(
+                                cp,
+                                typingImports,
+                                pydanticImports,
+                                datetimeImports,
+                                modelImports,
+                                exampleImports,
+                                model.classname);
                 List<String> fields = new ArrayList<>();
                 String firstField = "";
 
@@ -1248,7 +1546,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                     readOnlyFields.add(cp.name);
                 }
 
-                if (!cp.required) { //optional
+                if (!cp.required) { // optional
                     firstField = "None";
                     typing = "Optional[" + typing + "]";
                     typingImports.add("Optional");
@@ -1261,7 +1559,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 }
 
                 // field
-                if (cp.baseName != null && !cp.baseName.equals(cp.name)) { // base name not the same as name
+                if (cp.baseName != null
+                        && !cp.baseName.equals(cp.name)) { // base name not the same as name
                     fields.add(String.format(Locale.ROOT, "alias=\"%s\"", cp.baseName));
                 }
 
@@ -1293,7 +1592,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 if (!fields.isEmpty()) {
                     fields.add(0, fieldCustomization);
                     pydanticImports.add("Field");
-                    fieldCustomization = String.format(Locale.ROOT, "Field(%s)", StringUtils.join(fields, ", "));
+                    fieldCustomization =
+                            String.format(Locale.ROOT, "Field(%s)", StringUtils.join(fields, ", "));
                 }
 
                 if ("...".equals(fieldCustomization)) {
@@ -1306,9 +1606,15 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
                 // setup x-py-name for each oneOf/anyOf schema
                 if (!model.oneOf.isEmpty()) { // oneOf
-                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "oneof_schema_%d_validator", property_count++));
+                    cp.vendorExtensions.put(
+                            "x-py-name",
+                            String.format(
+                                    Locale.ROOT, "oneof_schema_%d_validator", property_count++));
                 } else if (!model.anyOf.isEmpty()) { // anyOf
-                    cp.vendorExtensions.put("x-py-name", String.format(Locale.ROOT, "anyof_schema_%d_validator", property_count++));
+                    cp.vendorExtensions.put(
+                            "x-py-name",
+                            String.format(
+                                    Locale.ROOT, "anyof_schema_%d_validator", property_count++));
                 }
             }
 
@@ -1323,14 +1629,17 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
             // set enum type in extensions and update `name` in enumVars
             if (model.isEnum) {
-                for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
+                for (Map<String, Object> enumVars :
+                        (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
                     if ((Boolean) enumVars.get("isString")) {
                         model.vendorExtensions.putIfAbsent("x-py-enum-type", "str");
                         // update `name`, e.g.
-                        enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
+                        enumVars.put(
+                                "name", toEnumVariableName((String) enumVars.get("value"), "str"));
                     } else {
                         model.vendorExtensions.putIfAbsent("x-py-enum-type", "int");
-                        enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "int"));
+                        enumVars.put(
+                                "name", toEnumVariableName((String) enumVars.get("value"), "int"));
                     }
                 }
             }
@@ -1349,7 +1658,13 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                         // skip self import
                         continue;
                     }
-                    modelsToImport.add("from " + packageName + ".models." + underscore(modelImport) + " import " + modelImport);
+                    modelsToImport.add(
+                            "from "
+                                    + packageName
+                                    + ".models."
+                                    + underscore(modelImport)
+                                    + " import "
+                                    + modelImport);
                 }
 
                 model.getVendorExtensions().putIfAbsent("x-py-model-imports", modelsToImport);
@@ -1386,10 +1701,13 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             int i = pattern.lastIndexOf('/');
 
             // TOOD update the check below follow python convention
-            //Must follow Perl /pattern/modifiers convention
+            // Must follow Perl /pattern/modifiers convention
             if (pattern.charAt(0) != '/' || i < 2) {
-                throw new IllegalArgumentException("Pattern must follow the Perl "
-                        + "/pattern/modifiers convention. " + pattern + " is not valid.");
+                throw new IllegalArgumentException(
+                        "Pattern must follow the Perl "
+                                + "/pattern/modifiers convention. "
+                                + pattern
+                                + " is not valid.");
             }
 
             String regex = pattern.substring(1, i).replace("'", "\\'");
@@ -1487,9 +1805,9 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
     /**
      * Generate Python package name from String `packageName`
-     * <p>
-     * (PEP 0008) Python packages should also have short, all-lowercase names,
-     * although the use of underscores is discouraged.
+     *
+     * <p>(PEP 0008) Python packages should also have short, all-lowercase names, although the use
+     * of underscores is discouraged.
      *
      * @param packageName Package name
      * @return Python package name that conforms to PEP 0008
@@ -1544,8 +1862,21 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         if (reservedWords.contains(name)) {
             name = name.toUpperCase(Locale.ROOT);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character)))) {
-            name = underscore(escape(name, specialCharReplacements, Collections.singletonList("_"), "_")).toUpperCase(Locale.ROOT);
+        } else if (((CharSequence) name)
+                .chars()
+                .anyMatch(
+                        character ->
+                                specialCharReplacements
+                                        .keySet()
+                                        .contains(String.valueOf((char) character)))) {
+            name =
+                    underscore(
+                                    escape(
+                                            name,
+                                            specialCharReplacements,
+                                            Collections.singletonList("_"),
+                                            "_"))
+                            .toUpperCase(Locale.ROOT);
         } else {
             name = name.toUpperCase(Locale.ROOT);
         }
@@ -1576,9 +1907,9 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     }
 
     /**
-     * checks if the data should be classified as "string" in enum
-     * e.g. double in C# needs to be double-quoted (e.g. "2.8") by treating it as a string
-     * In the future, we may rename this function to "isEnumString"
+     * checks if the data should be classified as "string" in enum e.g. double in C# needs to be
+     * double-quoted (e.g. "2.8") by treating it as a string In the future, we may rename this
+     * function to "isEnumString"
      *
      * @param dataType data type
      * @return true if it's a enum string
@@ -1602,7 +1933,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 || "float".equals(mapNumberTo)) {
             this.mapNumberTo = mapNumberTo;
         } else {
-            throw new IllegalArgumentException("mapNumberTo value must be Union[StrictFloat, StrictInt], StrictStr or float");
+            throw new IllegalArgumentException(
+                    "mapNumberTo value must be Union[StrictFloat, StrictInt], StrictStr or float");
         }
     }
 

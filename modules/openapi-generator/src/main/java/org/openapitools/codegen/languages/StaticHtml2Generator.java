@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -25,6 +27,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -35,10 +38,6 @@ import org.openapitools.codegen.utils.Markdown;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(StaticHtml2Generator.class);
@@ -57,15 +56,15 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     public StaticHtml2Generator() {
         super();
 
-        modifyFeatureSet(features -> features
-                .documentationFeatures(EnumSet.allOf(DocumentationFeature.class))
-                .dataTypeFeatures(EnumSet.allOf(DataTypeFeature.class))
-                .wireFormatFeatures(EnumSet.allOf(WireFormatFeature.class))
-                .securityFeatures(EnumSet.allOf(SecurityFeature.class))
-                .globalFeatures(EnumSet.allOf(GlobalFeature.class))
-                .parameterFeatures(EnumSet.allOf(ParameterFeature.class))
-                .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class))
-        );
+        modifyFeatureSet(
+                features ->
+                        features.documentationFeatures(EnumSet.allOf(DocumentationFeature.class))
+                                .dataTypeFeatures(EnumSet.allOf(DataTypeFeature.class))
+                                .wireFormatFeatures(EnumSet.allOf(WireFormatFeature.class))
+                                .securityFeatures(EnumSet.allOf(SecurityFeature.class))
+                                .globalFeatures(EnumSet.allOf(GlobalFeature.class))
+                                .parameterFeatures(EnumSet.allOf(ParameterFeature.class))
+                                .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class)));
 
         outputFolder = "docs";
         embeddedTemplateDir = templateDir = "htmlDocs2";
@@ -74,18 +73,37 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
 
         cliOptions.add(new CliOption("appName", "short name of the application"));
         cliOptions.add(new CliOption("appDescription", "description of the application"));
-        cliOptions.add(new CliOption("infoUrl", "a URL where users can get more information about the application"));
-        cliOptions.add(new CliOption("infoEmail", "an email address to contact for inquiries about the application"));
+        cliOptions.add(
+                new CliOption(
+                        "infoUrl",
+                        "a URL where users can get more information about the application"));
+        cliOptions.add(
+                new CliOption(
+                        "infoEmail",
+                        "an email address to contact for inquiries about the application"));
         cliOptions.add(new CliOption("licenseInfo", "a short description of the license"));
         cliOptions.add(new CliOption("licenseUrl", "a URL pointing to the full license"));
-        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.PHP_INVOKER_PACKAGE, CodegenConstants.PHP_INVOKER_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.PERL_MODULE_NAME, CodegenConstants.PERL_MODULE_NAME_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.PYTHON_PACKAGE_NAME, CodegenConstants.PYTHON_PACKAGE_NAME_DESC));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.PHP_INVOKER_PACKAGE,
+                        CodegenConstants.PHP_INVOKER_PACKAGE_DESC));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.PERL_MODULE_NAME, CodegenConstants.PERL_MODULE_NAME_DESC));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.PYTHON_PACKAGE_NAME,
+                        CodegenConstants.PYTHON_PACKAGE_NAME_DESC));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "C# package name"));
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
+        cliOptions.add(
+                new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
 
         additionalProperties.put("appName", "OpenAPI Sample");
         additionalProperties.put("appDescription", "A sample OpenAPI server");
@@ -144,7 +162,8 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
@@ -187,28 +206,36 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         Map<String, Object> vendorExtensions = openAPI.getExtensions();
         if (vendorExtensions != null) {
             for (Map.Entry<String, Object> vendorExtension : vendorExtensions.entrySet()) {
-                // Vendor extensions could be Maps (objects). If we wanted to iterate through them in our template files
-                // without knowing the keys beforehand, the default `toString` method renders them unusable. Instead, we
+                // Vendor extensions could be Maps (objects). If we wanted to iterate through them
+                // in our template files
+                // without knowing the keys beforehand, the default `toString` method renders them
+                // unusable. Instead, we
                 // convert them to JSON strings now, which means we can easily use them later.
                 if (vendorExtension.getValue() instanceof Map) {
-                    this.vendorExtensions().put(vendorExtension.getKey(), Json.mapper().convertValue(vendorExtension.getValue(), JsonNode.class));
+                    this.vendorExtensions()
+                            .put(
+                                    vendorExtension.getKey(),
+                                    Json.mapper()
+                                            .convertValue(
+                                                    vendorExtension.getValue(), JsonNode.class));
                 } else {
-                    this.vendorExtensions().put(vendorExtension.getKey(), vendorExtension.getValue());
+                    this.vendorExtensions()
+                            .put(vendorExtension.getKey(), vendorExtension.getValue());
                 }
             }
         }
         openAPI.setExtensions(this.vendorExtensions);
-
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+    public CodegenOperation fromOperation(
+            String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         if (op.returnType != null) {
             op.returnType = normalizeType(op.returnType);
         }
 
-        //path is an unescaped variable in the mustache template api.mustache line 82 '<&path>'
+        // path is an unescaped variable in the mustache template api.mustache line 82 '<&path>'
         op.path = sanitizePath(op.path);
 
         String methodUpperCase = httpMethod.toUpperCase(Locale.ROOT);
@@ -264,7 +291,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     }
 
     private String sanitizePath(String p) {
-        //prefer replace a ', instead of a fuLL URL encode for readability
+        // prefer replace a ', instead of a fuLL URL encode for readability
         return p.replaceAll("'", "%27");
     }
 
@@ -291,5 +318,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return null; }
+    public GeneratorLanguage generatorLanguage() {
+        return null;
+    }
 }

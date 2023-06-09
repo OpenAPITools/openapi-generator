@@ -18,16 +18,15 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.util.EnumSet;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.util.EnumSet;
 
 public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
     public static final String OUTPUT_NAME = "outputFileName";
@@ -39,22 +38,23 @@ public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
     public OpenAPIGenerator() {
         super();
 
-        modifyFeatureSet(features -> features
-                .documentationFeatures(EnumSet.allOf(DocumentationFeature.class))
-                .dataTypeFeatures(EnumSet.allOf(DataTypeFeature.class))
-                .wireFormatFeatures(EnumSet.allOf(WireFormatFeature.class))
-                .securityFeatures(EnumSet.allOf(SecurityFeature.class))
-                .globalFeatures(EnumSet.allOf(GlobalFeature.class))
-                .parameterFeatures(EnumSet.allOf(ParameterFeature.class))
-                .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class))
-        );
+        modifyFeatureSet(
+                features ->
+                        features.documentationFeatures(EnumSet.allOf(DocumentationFeature.class))
+                                .dataTypeFeatures(EnumSet.allOf(DataTypeFeature.class))
+                                .wireFormatFeatures(EnumSet.allOf(WireFormatFeature.class))
+                                .securityFeatures(EnumSet.allOf(SecurityFeature.class))
+                                .globalFeatures(EnumSet.allOf(GlobalFeature.class))
+                                .parameterFeatures(EnumSet.allOf(ParameterFeature.class))
+                                .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class)));
 
         embeddedTemplateDir = templateDir = "openapi";
         outputFolder = "generated-code/openapi";
 
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
 
-        cliOptions.add(CliOption.newString(OUTPUT_NAME, "Output file name").defaultValue(outputFileName));
+        cliOptions.add(
+                CliOption.newString(OUTPUT_NAME, "Output file name").defaultValue(outputFileName));
     }
 
     @Override
@@ -108,5 +108,7 @@ public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return null; }
+    public GeneratorLanguage generatorLanguage() {
+        return null;
+    }
 }

@@ -20,12 +20,11 @@ package org.openapitools.codegen.examples;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.XML;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.*;
 
 public class XmlExampleGenerator {
     protected final Logger LOGGER = LoggerFactory.getLogger(XmlExampleGenerator.class);
@@ -84,7 +83,10 @@ public class XmlExampleGenerator {
             for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
                 String pName = propertiesEntry.getKey();
                 Schema property = propertiesEntry.getValue();
-                if (property != null && property.getXml() != null && property.getXml().getAttribute() != null && property.getXml().getAttribute()) {
+                if (property != null
+                        && property.getXml() != null
+                        && property.getXml().getAttribute() != null
+                        && property.getXml().getAttribute()) {
                     attributes.put(pName, property);
                 } else {
                     elements.put(pName, property);
@@ -131,7 +133,9 @@ public class XmlExampleGenerator {
             ArraySchema as = (ArraySchema) schema;
             Schema inner = as.getItems();
             boolean wrapped = false;
-            if (schema.getXml() != null && schema.getXml().getWrapped() != null && schema.getXml().getWrapped()) {
+            if (schema.getXml() != null
+                    && schema.getXml().getWrapped() != null
+                    && schema.getXml().getWrapped()) {
                 wrapped = true;
             }
             if (wrapped) {
@@ -175,7 +179,7 @@ public class XmlExampleGenerator {
     /**
      * Get the example string value for the given schema.
      *
-     * If an example value was not provided in the specification, a default will be generated.
+     * <p>If an example value was not provided in the specification, a default will be generated.
      *
      * @param schema Schema to get example string for
      * @return Example String
@@ -207,11 +211,13 @@ public class XmlExampleGenerator {
         } else if (ModelUtils.isIntegerSchema(schema)) {
             if (ModelUtils.isLongSchema(schema)) { // long
                 return "123456789";
-            } else { //integer
+            } else { // integer
                 return "123";
             }
         } else {
-            LOGGER.debug("default example value not implemented for {}. Default to UNDEFINED_EXAMPLE_VALUE", schema);
+            LOGGER.debug(
+                    "default example value not implemented for {}. Default to UNDEFINED_EXAMPLE_VALUE",
+                    schema);
             return "UNDEFINED_EXAMPLE_VALUE";
         }
     }

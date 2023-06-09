@@ -19,6 +19,8 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.util.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -27,9 +29,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.*;
 
 public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaFinchServerCodegen.class);
@@ -43,23 +42,22 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
     public ScalaFinchServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(
+                                                WireFormatFeature.JSON,
+                                                WireFormatFeature.XML,
+                                                WireFormatFeature.Custom))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie));
 
         outputFolder = "generated-code/finch";
         modelTemplateFiles.put("model.mustache", ".scala");
@@ -72,43 +70,82 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // Scala
-                        "abstract", "case", "catch", "class", "def",
-                        "do", "else", "extends", "false", "final",
-                        "finally", "for", "forSome", "if", "implicit",
-                        "import", "lazy", "match", "new", "null",
-                        "object", "override", "package", "private", "protected",
-                        "return", "sealed", "super", "this", "throw",
-                        "trait", "try", "true", "type", "val",
-                        "var", "while", "with", "yield",
+                        "abstract",
+                        "case",
+                        "catch",
+                        "class",
+                        "def",
+                        "do",
+                        "else",
+                        "extends",
+                        "false",
+                        "final",
+                        "finally",
+                        "for",
+                        "forSome",
+                        "if",
+                        "implicit",
+                        "import",
+                        "lazy",
+                        "match",
+                        "new",
+                        "null",
+                        "object",
+                        "override",
+                        "package",
+                        "private",
+                        "protected",
+                        "return",
+                        "sealed",
+                        "super",
+                        "this",
+                        "throw",
+                        "trait",
+                        "try",
+                        "true",
+                        "type",
+                        "val",
+                        "var",
+                        "while",
+                        "with",
+                        "yield",
                         // Scala-interop languages keywords
-                        "abstract", "continue", "switch", "assert",
-                        "default", "synchronized", "goto",
-                        "break", "double", "implements", "byte",
-                        "public", "throws", "enum", "instanceof", "transient",
-                        "int", "short", "char", "interface", "static",
-                        "void", "finally", "long", "strictfp", "volatile", "const", "float",
-                        "native")
-        );
-
-        defaultIncludes = new HashSet<>(
-                Arrays.asList("double",
-                        "Int",
-                        "Long",
-                        "Float",
-                        "Double",
+                        "abstract",
+                        "continue",
+                        "switch",
+                        "assert",
+                        "default",
+                        "synchronized",
+                        "goto",
+                        "break",
+                        "double",
+                        "implements",
+                        "byte",
+                        "public",
+                        "throws",
+                        "enum",
+                        "instanceof",
+                        "transient",
+                        "int",
+                        "short",
                         "char",
+                        "interface",
+                        "static",
+                        "void",
+                        "finally",
+                        "long",
+                        "strictfp",
+                        "volatile",
+                        "const",
                         "float",
-                        "String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Integer",
-                        "Long",
-                        "Float",
-                        "List",
-                        "Set",
-                        "Map")
-        );
+                        "native"));
+
+        defaultIncludes =
+                new HashSet<>(
+                        Arrays.asList(
+                                "double", "Int", "Long", "Float", "Double", "char", "float",
+                                "String", "boolean", "Boolean", "Double", "Integer", "Long",
+                                "Float", "List", "Set", "Map"));
 
         typeMapping = new HashMap<>();
         typeMapping.put("string", "String");
@@ -152,29 +189,23 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt", "", "build.sbt"));
         supportingFiles.add(new SupportingFile("Server.mustache", sourceFolder, "Server.scala"));
-        supportingFiles.add(new SupportingFile("DataAccessor.mustache", sourceFolder, "DataAccessor.scala"));
+        supportingFiles.add(
+                new SupportingFile("DataAccessor.mustache", sourceFolder, "DataAccessor.scala"));
 
-        supportingFiles.add(new SupportingFile("project/build.properties", "project", "build.properties"));
+        supportingFiles.add(
+                new SupportingFile("project/build.properties", "project", "build.properties"));
         supportingFiles.add(new SupportingFile("project/plugins.sbt", "project", "plugins.sbt"));
         supportingFiles.add(new SupportingFile("sbt", "", "sbt"));
 
-        supportingFiles.add(new SupportingFile("endpoint.mustache", sourceFolder, "endpoint.scala"));
+        supportingFiles.add(
+                new SupportingFile("endpoint.mustache", sourceFolder, "endpoint.scala"));
         supportingFiles.add(new SupportingFile("errors.mustache", sourceFolder, "errors.scala"));
 
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
-                        "String",
-                        "Boolean",
-                        "Double",
-                        "Int",
-                        "Integer",
-                        "Long",
-                        "Float",
-                        "Any",
-                        "AnyVal",
-                        "AnyRef",
-                        "Object")
-        );
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "String", "Boolean", "Double", "Int", "Integer", "Long", "Float",
+                                "Any", "AnyVal", "AnyRef", "Object"));
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
 
@@ -195,10 +226,15 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         importMapping.put("ZonedDateTime", "java.time.ZonedDateTime");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Finch package name (e.g. org.openapitools).")
-                .defaultValue(this.packageName));
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.PACKAGE_NAME,
+                                "Finch package name (e.g. org.openapitools).")
+                        .defaultValue(this.packageName));
+        cliOptions.add(
+                new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
+        cliOptions.add(
+                new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
     }
 
     @Override
@@ -223,16 +259,25 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+        return outputFolder
+                + File.separator
+                + sourceFolder
+                + File.separator
+                + apiPackage().replace('.', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
+        return outputFolder
+                + File.separator
+                + sourceFolder
+                + File.separator
+                + modelPackage().replace('.', File.separatorChar);
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
@@ -240,22 +285,23 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
             // Converts GET /foo/bar => get("foo" :: "bar")
             generateScalaPath(op);
 
-            // Generates e.g. uuid :: header("boo") :: params("baa") under key "x-codegen-path-params"
-            // Generates e.g. (id: UUID, headerBoo: String, paramBaa: String) under key "x-codegen-typed-input-params"
+            // Generates e.g. uuid :: header("boo") :: params("baa") under key
+            // "x-codegen-path-params"
+            // Generates e.g. (id: UUID, headerBoo: String, paramBaa: String) under key
+            // "x-codegen-typed-input-params"
             // Generates e.g. (id, headerBoo, paramBaa) under key "x-codegen-input-params"
             generateInputParameters(op);
 
-            //Generate Auth parameters using security: definition
-            //Results in header("apiKey") or param("apiKey")
+            // Generate Auth parameters using security: definition
+            // Results in header("apiKey") or param("apiKey")
             authParameters(op);
 
-            //Concatenates all parameters
+            // Concatenates all parameters
             concatParameters(op);
         }
 
         return objs;
     }
-
 
     @SuppressWarnings("Duplicates")
     @Override
@@ -302,10 +348,9 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         this.packageName = packageName;
     }
 
-
     /**
-     * @param prim          primitive type
-     * @param isRequired    true if it's required
+     * @param prim primitive type
+     * @param isRequired true if it's required
      * @param canBeOptional true if it can be optional
      * @return string representation of the primitive type
      */
@@ -315,12 +360,17 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         return (canBeOptional ? (isRequired ? converter : ".map(_" + converter + ")") : "");
     }
 
-    //All path parameters are String initially, for primitives these need to be converted
+    // All path parameters are String initially, for primitives these need to be converted
     private String toPathParameter(CodegenParameter p, String paramType, Boolean canBeOptional) {
 
         Boolean isNotAString = !"String".equals(p.dataType);
 
-        return paramType + (canBeOptional && !p.required ? "Option" : "") + "(\"" + p.baseName + "\")" + (isNotAString ? toPrimitive(p.dataType, p.required, canBeOptional) : "");
+        return paramType
+                + (canBeOptional && !p.required ? "Option" : "")
+                + "(\""
+                + p.baseName
+                + "\")"
+                + (isNotAString ? toPrimitive(p.dataType, p.required, canBeOptional) : "");
     }
 
     private String toInputParameter(CodegenParameter p) {
@@ -346,7 +396,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         String authInputParams = "";
         String typedAuthInputParams = "";
 
-        //Append apikey security to path params and create input parameters for functions
+        // Append apikey security to path params and create input parameters for functions
         if (op.authMethods != null) {
 
             for (CodegenSecurity s : op.authMethods) {
@@ -356,7 +406,8 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
                     authParams = colConcat(authParams, "param(\"" + s.keyParamName + "\")");
                 }
                 if (s.isApiKey) {
-                    typedAuthInputParams = csvConcat(typedAuthInputParams, "authParam" + s.name + ": String");
+                    typedAuthInputParams =
+                            csvConcat(typedAuthInputParams, "authParam" + s.name + ": String");
                     authInputParams = csvConcat(authInputParams, "authParam" + s.name);
                 }
             }
@@ -402,22 +453,29 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
         }
 
         op.vendorExtensions.put("x-codegen-path", scalaPath);
-
     }
 
-
     private void concatParameters(CodegenOperation op) {
-        String path = colConcat(colConcat(op.vendorExtensions.get("x-codegen-path").toString(), op.vendorExtensions.get("x-codegen-path-params").toString()), op.vendorExtensions.get("x-codegen-auth-params").toString());
-        String parameters = csvConcat(op.vendorExtensions.get("x-codegen-input-params").toString(), op.vendorExtensions.get("x-codegen-auth-input-params").toString());
-        String typedParameters = csvConcat(op.vendorExtensions.get("x-codegen-typed-input-params").toString(), op.vendorExtensions.get("x-codegen-typed-auth-input-params").toString());
+        String path =
+                colConcat(
+                        colConcat(
+                                op.vendorExtensions.get("x-codegen-path").toString(),
+                                op.vendorExtensions.get("x-codegen-path-params").toString()),
+                        op.vendorExtensions.get("x-codegen-auth-params").toString());
+        String parameters =
+                csvConcat(
+                        op.vendorExtensions.get("x-codegen-input-params").toString(),
+                        op.vendorExtensions.get("x-codegen-auth-input-params").toString());
+        String typedParameters =
+                csvConcat(
+                        op.vendorExtensions.get("x-codegen-typed-input-params").toString(),
+                        op.vendorExtensions.get("x-codegen-typed-auth-input-params").toString());
 
         // The input parameters for functions
         op.vendorExtensions.put("x-codegen-paths", path);
         op.vendorExtensions.put("x-codegen-params", parameters);
         op.vendorExtensions.put("x-codegen-typed-params", typedParameters);
-
     }
-
 
     private void generateInputParameters(CodegenOperation op) {
 
@@ -430,40 +488,61 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
             // This could also be done using template imports
 
             if (p.isBodyParam) {
-                p.vendorExtensions.put("x-codegen-normalized-path-type", "jsonBody[" + p.dataType + "]");
+                p.vendorExtensions.put(
+                        "x-codegen-normalized-path-type", "jsonBody[" + p.dataType + "]");
                 p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
             } else if (p.isContainer || p.isArray) {
-                p.vendorExtensions.put("x-codegen-normalized-path-type", toPathParameter(p, "params", false));
-                p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType.replaceAll("^[^\\[]+", "Seq"));
+                p.vendorExtensions.put(
+                        "x-codegen-normalized-path-type", toPathParameter(p, "params", false));
+                p.vendorExtensions.put(
+                        "x-codegen-normalized-input-type",
+                        p.dataType.replaceAll("^[^\\[]+", "Seq"));
             } else if (p.isQueryParam) {
-                p.vendorExtensions.put("x-codegen-normalized-path-type", toPathParameter(p, "param", true));
+                p.vendorExtensions.put(
+                        "x-codegen-normalized-path-type", toPathParameter(p, "param", true));
                 p.vendorExtensions.put("x-codegen-normalized-input-type", toInputParameter(p));
             } else if (p.isHeaderParam) {
-                p.vendorExtensions.put("x-codegen-normalized-path-type", toPathParameter(p, "header", true));
+                p.vendorExtensions.put(
+                        "x-codegen-normalized-path-type", toPathParameter(p, "header", true));
                 p.vendorExtensions.put("x-codegen-normalized-input-type", toInputParameter(p));
             } else if (p.isFile) {
-                p.vendorExtensions.put("x-codegen-normalized-path-type", "fileUpload(\"" + p.paramName + "\")");
+                p.vendorExtensions.put(
+                        "x-codegen-normalized-path-type", "fileUpload(\"" + p.paramName + "\")");
                 p.vendorExtensions.put("x-codegen-normalized-input-type", "FileUpload");
             } else if (p.isPrimitiveType && !p.isPathParam) {
                 if (!p.required) {
-                    // Generator's current version of Finch doesn't support something like stringOption, but finch aggregates all
-                    // parameter types under "param", so optional params can be grabbed by "paramOption".
-                    p.vendorExtensions.put("x-codegen-normalized-path-type", toPathParameter(p, "param", true));
+                    // Generator's current version of Finch doesn't support something like
+                    // stringOption, but finch aggregates all
+                    // parameter types under "param", so optional params can be grabbed by
+                    // "paramOption".
+                    p.vendorExtensions.put(
+                            "x-codegen-normalized-path-type", toPathParameter(p, "param", true));
                 } else {
-                    // If parameter is primitive and required, we can rely on data types like "string" or "long"
-                    p.vendorExtensions.put("x-codegen-normalized-path-type", p.dataType.toLowerCase(Locale.ROOT));
+                    // If parameter is primitive and required, we can rely on data types like
+                    // "string" or "long"
+                    p.vendorExtensions.put(
+                            "x-codegen-normalized-path-type", p.dataType.toLowerCase(Locale.ROOT));
                 }
                 p.vendorExtensions.put("x-codegen-normalized-input-type", toInputParameter(p));
             } else {
-                //Path parameters are handled in generateScalaPath()
+                // Path parameters are handled in generateScalaPath()
                 p.vendorExtensions.put("x-codegen-normalized-input-type", p.dataType);
             }
             if (p.vendorExtensions.get("x-codegen-normalized-path-type") != null) {
-                pathParams = colConcat(pathParams, p.vendorExtensions.get("x-codegen-normalized-path-type").toString());
+                pathParams =
+                        colConcat(
+                                pathParams,
+                                p.vendorExtensions
+                                        .get("x-codegen-normalized-path-type")
+                                        .toString());
             }
             inputParams = csvConcat(inputParams, p.paramName);
-            typedInputParams = csvConcat(typedInputParams, p.paramName + ": " + p.vendorExtensions.get("x-codegen-normalized-input-type"));
-
+            typedInputParams =
+                    csvConcat(
+                            typedInputParams,
+                            p.paramName
+                                    + ": "
+                                    + p.vendorExtensions.get("x-codegen-normalized-input-type"));
         }
 
         // All body, path, query and header parameters
@@ -476,16 +555,26 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
-        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
-        System.out.println("################################################################################");
+        System.out.println(
+                "################################################################################");
+        System.out.println(
+                "# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println(
+                "# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println(
+                "# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println(
+                "#                                                                              #");
+        System.out.println(
+                "# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
+        System.out.println(
+                "# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
+        System.out.println(
+                "################################################################################");
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.SCALA; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.SCALA;
+    }
 }

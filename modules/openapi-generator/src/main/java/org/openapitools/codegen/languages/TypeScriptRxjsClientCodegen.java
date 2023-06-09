@@ -17,9 +17,11 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.io.File;
+import java.util.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
@@ -28,9 +30,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.*;
 
 public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
@@ -44,7 +43,8 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     public TypeScriptRxjsClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(
+                features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         outputFolder = "generated-code/typescript-rxjs";
         embeddedTemplateDir = templateDir = "typescript-rxjs";
@@ -58,8 +58,16 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         languageSpecificPrimitives.add("Blob");
         typeMapping.put("file", "Blob");
 
-        this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(new CliOption(WITH_PROGRESS_SUBSCRIBER, "Setting this property to true will generate API controller methods with support for subscribing to request progress.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(
+                new CliOption(
+                        NPM_REPOSITORY,
+                        "Use this property to set an url your private npmRepo in the package.json"));
+        this.cliOptions.add(
+                new CliOption(
+                                WITH_PROGRESS_SUBSCRIBER,
+                                "Setting this property to true will generate API controller methods with support for subscribing to request progress.",
+                                SchemaTypeUtil.BOOLEAN_TYPE)
+                        .defaultValue(Boolean.FALSE.toString()));
 
         // these are used in the api template for more efficient destructuring
         this.reservedParamNames.add("headers");
@@ -91,8 +99,16 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", "", "runtime.ts"));
         supportingFiles.add(new SupportingFile("servers.mustache", "", "servers.ts"));
-        supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
-        supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "apis.index.mustache",
+                        apiPackage().replace('.', File.separatorChar),
+                        "index.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "models.index.mustache",
+                        modelPackage().replace('.', File.separatorChar),
+                        "index.ts"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         if (additionalProperties.containsKey(NPM_NAME)) {
@@ -132,20 +148,22 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
                     // behaviour for enum names is specific for typescript to not use namespaces
-                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
+                    var.datatypeWithEnum =
+                            var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
-                        var.datatypeWithEnum = var.datatypeWithEnum
-                                .replace(var.enumName, cm.classname + var.enumName);
+                        var.datatypeWithEnum =
+                                var.datatypeWithEnum.replace(
+                                        var.enumName, cm.classname + var.enumName);
                     }
                 }
             }
         }
 
-         return objs;
+        return objs;
     }
 
     @Override
@@ -198,7 +216,8 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap operations, List<ModelMap> allModels) {
         // Convert List of CodegenOperation to List of ExtendedCodegenOperation
         List<CodegenOperation> os = operations.getOperations().getOperation();
         List<ExtendedCodegenOperation> newOs = new ArrayList<>();
@@ -233,8 +252,9 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             for (CodegenParameter param : op.allParams) {
                 if (Boolean.TRUE.equals(param.isEnum)) {
                     hasEnums = true;
-                    param.datatypeWithEnum = param.datatypeWithEnum
-                            .replace(param.enumName, op.operationIdCamelCase + param.enumName);
+                    param.datatypeWithEnum =
+                            param.datatypeWithEnum.replace(
+                                    param.enumName, op.operationIdCamelCase + param.enumName);
                 }
             }
         }
@@ -242,7 +262,8 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         operations.put("hasEnums", hasEnums);
     }
 
-    private void setParamNameAlternative(CodegenParameter param, String paramName, String paramNameAlternative) {
+    private void setParamNameAlternative(
+            CodegenParameter param, String paramName, String paramNameAlternative) {
 
         if (param.paramName.equals(paramName)) {
             param.vendorExtensions.put("x-param-name-alternative", paramNameAlternative);
@@ -250,7 +271,8 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     private void addConditionalImportInformation(OperationsMap operations) {
-        // This method will determine if there are required parameters and if there are list containers
+        // This method will determine if there are required parameters and if there are list
+        // containers
 
         boolean hasRequiredParams = false;
         boolean hasListContainers = false;
@@ -264,10 +286,10 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
                 hasRequiredParams = true;
             }
 
-            for (CodegenParameter p: op.allParams) {
+            for (CodegenParameter p : op.allParams) {
                 String paramNameAlternative = null;
 
-                if(this.reservedParamNames.contains(p.paramName)){
+                if (this.reservedParamNames.contains(p.paramName)) {
                     paramNameAlternative = p.paramName + "Alias";
                     LOGGER.info("param: {} isReserved ––> {}", p.paramName, paramNameAlternative);
                 }
@@ -417,13 +439,16 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
             // new fields
             this.hasHttpHeaders = o.getHasHeaderParams() || o.getHasBodyParam() || o.hasAuthMethods;
-            this.hasRequiredQueryParams = false; // will be updated within addConditionalImportInformation
-            this.hasOptionalQueryParams = false; // will be updated within addConditionalImportInformation
+            this.hasRequiredQueryParams =
+                    false; // will be updated within addConditionalImportInformation
+            this.hasOptionalQueryParams =
+                    false; // will be updated within addConditionalImportInformation
         }
     }
 
     @Override
-    protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName) {
+    protected void addImport(
+            ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName) {
         // import everything (including child schema of a composed schema)
         addImport(model, modelName);
     }

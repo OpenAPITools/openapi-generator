@@ -23,6 +23,4 @@ public interface BeanValidationExtendedFeatures {
     String USE_BEANVALIDATION_FEATURE = "useBeanValidationFeature";
 
     void setUseBeanValidationFeature(boolean useBeanValidationFeature);
-
-
 }

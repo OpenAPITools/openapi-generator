@@ -21,36 +21,36 @@
  */
 package org.openapitools.codegen.cmd;
 
+import static com.google.common.collect.Lists.newArrayList;
+import static io.airlift.airline.ParserUtil.createInstance;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import io.airlift.airline.*;
 import io.airlift.airline.model.*;
-
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
-
-import static com.google.common.collect.Lists.newArrayList;
-import static io.airlift.airline.ParserUtil.createInstance;
+import javax.inject.Inject;
 
 @SuppressWarnings({"java:S106"})
-@Command(name = "completion", description = "Complete commands (for using in tooling such as Bash Completions).", hidden = true)
-public class CompletionCommand extends OpenApiGeneratorCommand
-        implements Runnable, Callable<Void> {
-    private static final Map<Context, Class<? extends Suggester>> BUILTIN_SUGGESTERS = ImmutableMap.<Context, Class<? extends Suggester>>builder()
-            .put(Context.GLOBAL, GlobalSuggester.class)
-            .put(Context.GROUP, GroupSuggester.class)
-            .put(Context.COMMAND, CommandSuggester.class)
-            .build();
+@Command(
+        name = "completion",
+        description = "Complete commands (for using in tooling such as Bash Completions).",
+        hidden = true)
+public class CompletionCommand extends OpenApiGeneratorCommand implements Runnable, Callable<Void> {
+    private static final Map<Context, Class<? extends Suggester>> BUILTIN_SUGGESTERS =
+            ImmutableMap.<Context, Class<? extends Suggester>>builder()
+                    .put(Context.GLOBAL, GlobalSuggester.class)
+                    .put(Context.GROUP, GroupSuggester.class)
+                    .put(Context.COMMAND, CommandSuggester.class)
+                    .build();
 
-    @Inject
-    public GlobalMetadata metadata;
+    @Inject public GlobalMetadata metadata;
 
-    @Arguments
-    public List<String> arguments = newArrayList();
+    @Arguments public List<String> arguments = newArrayList();
 
     @Override
     public Void call() {
@@ -68,8 +68,9 @@ public class CompletionCommand extends OpenApiGeneratorCommand
             SuggesterMetadata suggesterMetadata = MetadataLoader.loadSuggester(suggesterClass);
 
             if (suggesterMetadata != null) {
-                ImmutableMap.Builder<Class<?>, Object> bindings = ImmutableMap.<Class<?>, Object>builder()
-                        .put(GlobalMetadata.class, metadata);
+                ImmutableMap.Builder<Class<?>, Object> bindings =
+                        ImmutableMap.<Class<?>, Object>builder()
+                                .put(GlobalMetadata.class, metadata);
 
                 if (state.getGroup() != null) {
                     bindings.put(CommandGroupMetadata.class, state.getGroup());
@@ -79,14 +80,16 @@ public class CompletionCommand extends OpenApiGeneratorCommand
                     bindings.put(CommandMetadata.class, state.getCommand());
                 }
 
-                Suggester suggester = createInstance(suggesterMetadata.getSuggesterClass(),
-                        ImmutableList.<OptionMetadata>of(),
-                        null,
-                        null,
-                        null,
-                        suggesterMetadata.getMetadataInjections(),
-                        bindings.build(),
-                        new DefaultCommandFactory<Suggester>());
+                Suggester suggester =
+                        createInstance(
+                                suggesterMetadata.getSuggesterClass(),
+                                ImmutableList.<OptionMetadata>of(),
+                                null,
+                                null,
+                                null,
+                                suggesterMetadata.getMetadataInjections(),
+                                bindings.build(),
+                                new DefaultCommandFactory<Suggester>());
 
                 return suggester.suggest();
             }

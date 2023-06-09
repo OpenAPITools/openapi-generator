@@ -35,14 +35,16 @@ public class TypeScriptNestjsModelTest {
 
     @Test(description = "convert a simple TypeScript Nestjs model")
     public void simpleModelTest() {
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("name", new StringSchema())
-                .addProperties("createdAt", new DateTimeSchema())
-                .addProperties("birthDate", new DateSchema())
-                .addRequiredItem("id")
-                .addRequiredItem("name");
+        final Schema model =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                        .addProperties("name", new StringSchema())
+                        .addProperties("createdAt", new DateTimeSchema())
+                        .addProperties("birthDate", new DateSchema())
+                        .addRequiredItem("id")
+                        .addRequiredItem("name");
         final DefaultCodegen codegen = new TypeScriptNestjsClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -94,11 +96,13 @@ public class TypeScriptNestjsModelTest {
 
     @Test(description = "convert a model with list property")
     public void listPropertyTest() {
-        final Schema schema = new Schema()
-                .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("urls", new ArraySchema().items(new StringSchema()))
-                .addRequiredItem("id");
+        final Schema schema =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                        .addProperties("urls", new ArraySchema().items(new StringSchema()))
+                        .addRequiredItem("id");
         final DefaultCodegen codegen = new TypeScriptNestjsClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -128,9 +132,10 @@ public class TypeScriptNestjsModelTest {
 
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
-        final Schema schema = new Schema()
-                .description("a sample model")
-                .addProperties("children", new Schema().$ref("#/definitions/Children"));
+        final Schema schema =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new TypeScriptNestjsClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -152,10 +157,13 @@ public class TypeScriptNestjsModelTest {
 
     @Test(description = "convert a model with complex list property")
     public void complexListPropertyTest() {
-        final Schema schema = new Schema()
-                .description("a sample model")
-                .addProperties("children", new ArraySchema()
-                        .items(new Schema().$ref("#/definitions/Children")));
+        final Schema schema =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "children",
+                                new ArraySchema()
+                                        .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new TypeScriptNestjsClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -177,9 +185,10 @@ public class TypeScriptNestjsModelTest {
 
     @Test(description = "convert an array model")
     public void arrayModelTest() {
-        final Schema schema = new ArraySchema()
-                .items(new Schema().$ref("#/definitions/Children"))
-                .description("an array model");
+        final Schema schema =
+                new ArraySchema()
+                        .items(new Schema().$ref("#/definitions/Children"))
+                        .description("an array model");
         final DefaultCodegen codegen = new TypeScriptNestjsClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -193,9 +202,10 @@ public class TypeScriptNestjsModelTest {
 
     @Test(description = "convert a map model")
     public void mapModelTest() {
-        final Schema schema = new Schema()
-                .description("a map model")
-                .additionalProperties(new Schema().$ref("#/definitions/Children"));
+        final Schema schema =
+                new Schema()
+                        .description("a map model")
+                        .additionalProperties(new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new TypeScriptNestjsClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -212,10 +222,11 @@ public class TypeScriptNestjsModelTest {
 
     @Test(description = "convert a model with a name starting with decimal")
     public void beginDecimalNameTest() {
-        final Schema schema = new Schema()
-                .description("a model with a name starting with decimal")
-                .addProperties("1list", new StringSchema())
-                .addRequiredItem("1list");
+        final Schema schema =
+                new Schema()
+                        .description("a model with a name starting with decimal")
+                        .addProperties("1list", new StringSchema())
+                        .addRequiredItem("1list");
         final DefaultCodegen codegen = new TypeScriptNestjsClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -234,5 +245,4 @@ public class TypeScriptNestjsModelTest {
         Assert.assertTrue(property.required);
         Assert.assertFalse(property.isContainer);
     }
-
 }

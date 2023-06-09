@@ -5,12 +5,11 @@ import static org.openapitools.codegen.languages.AbstractPythonConnexionServerCo
 import static org.openapitools.codegen.languages.AbstractPythonConnexionServerCodegen.PYTHON_SRC_ROOT;
 import static org.openapitools.codegen.languages.AbstractPythonConnexionServerCodegen.USE_PYTHON_SRC_ROOT_IN_IMPORTS;
 
+import com.google.common.collect.ImmutableMap;
 import java.io.File;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
-
-import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.AbstractPythonConnexionServerCodegen;
@@ -20,15 +19,21 @@ import org.testng.annotations.Test;
 public class AbstractPythonConnexionServerCodegenTest {
 
     /**
-     * Passing "description" as first param to succinctly identify the significance of test parameters.
+     * Passing "description" as first param to succinctly identify the significance of test
+     * parameters.
      */
     @Test(dataProvider = "data")
-    public void test(String description, Map<String, Object> additionalProperties, String modelName,
-                     ExpectedValues expectedValues) {
-        AbstractPythonConnexionServerCodegen codegen = new MockAbstractPythonConnexionServerCodegen("", false);
+    public void test(
+            String description,
+            Map<String, Object> additionalProperties,
+            String modelName,
+            ExpectedValues expectedValues) {
+        AbstractPythonConnexionServerCodegen codegen =
+                new MockAbstractPythonConnexionServerCodegen("", false);
         codegen.additionalProperties().putAll(additionalProperties);
         codegen.processOpts();
-        String pythonSrcRoot = Objects.toString(codegen.additionalProperties().get(PYTHON_SRC_ROOT), null);
+        String pythonSrcRoot =
+                Objects.toString(codegen.additionalProperties().get(PYTHON_SRC_ROOT), null);
         assertThat(pythonSrcRoot).isEqualTo(expectedValues.pythonSrcRoot);
         assertThat(codegen.apiPackage()).isEqualTo(expectedValues.expectedApiPackage);
         assertThat(codegen.modelFileFolder()).isEqualTo(expectedValues.expectedModelFileFolder);
@@ -39,84 +44,159 @@ public class AbstractPythonConnexionServerCodegenTest {
 
     @DataProvider
     public Object[][] data() {
-        return new Object[][]{
-            new Object[]{
+        return new Object[][] {
+            new Object[] {
                 "Default setup",
                 Collections.emptyMap(),
                 "TestModel",
-                new ExpectedValues("from openapi_server.models.test_model import TestModel",
-                    "openapi_server.controllers",
-                    platformAgnosticPath("generated-code", "connexion", "openapi_server", "models"),
-                    platformAgnosticPath("generated-code", "connexion", "openapi_server", "controllers"),
-                    platformAgnosticPath("generated-code", "connexion", "test"),
-                    null)
+                new ExpectedValues(
+                        "from openapi_server.models.test_model import TestModel",
+                        "openapi_server.controllers",
+                        platformAgnosticPath(
+                                "generated-code", "connexion", "openapi_server", "models"),
+                        platformAgnosticPath(
+                                "generated-code", "connexion", "openapi_server", "controllers"),
+                        platformAgnosticPath("generated-code", "connexion", "test"),
+                        null)
             },
-            new Object[]{
+            new Object[] {
                 "Default setup with Python src root",
                 ImmutableMap.of(PYTHON_SRC_ROOT, "test_root"),
                 "TestModel",
-                new ExpectedValues("from openapi_server.models.test_model import TestModel",
-                    "openapi_server.controllers",
-                    platformAgnosticPath("generated-code", "connexion", "test_root", "openapi_server", "models"),
-                    platformAgnosticPath("generated-code", "connexion", "test_root", "openapi_server", "controllers"),
-                    platformAgnosticPath("generated-code", "connexion", "test"),
-                    "test_root")
+                new ExpectedValues(
+                        "from openapi_server.models.test_model import TestModel",
+                        "openapi_server.controllers",
+                        platformAgnosticPath(
+                                "generated-code",
+                                "connexion",
+                                "test_root",
+                                "openapi_server",
+                                "models"),
+                        platformAgnosticPath(
+                                "generated-code",
+                                "connexion",
+                                "test_root",
+                                "openapi_server",
+                                "controllers"),
+                        platformAgnosticPath("generated-code", "connexion", "test"),
+                        "test_root")
             },
-            new Object[]{
+            new Object[] {
                 "Python src in import",
-                ImmutableMap.of(PYTHON_SRC_ROOT, "test_root", USE_PYTHON_SRC_ROOT_IN_IMPORTS, "true"),
+                ImmutableMap.of(
+                        PYTHON_SRC_ROOT, "test_root", USE_PYTHON_SRC_ROOT_IN_IMPORTS, "true"),
                 "TestModel",
-                new ExpectedValues("from test_root.openapi_server.models.test_model import TestModel",
-                    "test_root.openapi_server.controllers",
-                    platformAgnosticPath("generated-code", "connexion", "test_root", "openapi_server", "models"),
-                    platformAgnosticPath("generated-code", "connexion", "test_root", "openapi_server", "controllers"),
-                    platformAgnosticPath("generated-code", "connexion", "test"),
-                    null)
+                new ExpectedValues(
+                        "from test_root.openapi_server.models.test_model import TestModel",
+                        "test_root.openapi_server.controllers",
+                        platformAgnosticPath(
+                                "generated-code",
+                                "connexion",
+                                "test_root",
+                                "openapi_server",
+                                "models"),
+                        platformAgnosticPath(
+                                "generated-code",
+                                "connexion",
+                                "test_root",
+                                "openapi_server",
+                                "controllers"),
+                        platformAgnosticPath("generated-code", "connexion", "test"),
+                        null)
             },
-            new Object[]{
+            new Object[] {
                 "Python src in import and tests under python src root",
-                ImmutableMap.of(PYTHON_SRC_ROOT, "test_root", USE_PYTHON_SRC_ROOT_IN_IMPORTS, "true",
-                    MOVE_TESTS_UNDER_PYTHON_SRC_ROOT, "true"),
+                ImmutableMap.of(
+                        PYTHON_SRC_ROOT,
+                        "test_root",
+                        USE_PYTHON_SRC_ROOT_IN_IMPORTS,
+                        "true",
+                        MOVE_TESTS_UNDER_PYTHON_SRC_ROOT,
+                        "true"),
                 "TestModel",
-                new ExpectedValues("from test_root.openapi_server.models.test_model import TestModel",
-                    "test_root.openapi_server.controllers",
-                    platformAgnosticPath("generated-code", "connexion", "test_root", "openapi_server", "models"),
-                    platformAgnosticPath("generated-code", "connexion", "test_root", "openapi_server", "controllers"),
-                    platformAgnosticPath("generated-code", "connexion", "test_root", "test"),
-                    null)
+                new ExpectedValues(
+                        "from test_root.openapi_server.models.test_model import TestModel",
+                        "test_root.openapi_server.controllers",
+                        platformAgnosticPath(
+                                "generated-code",
+                                "connexion",
+                                "test_root",
+                                "openapi_server",
+                                "models"),
+                        platformAgnosticPath(
+                                "generated-code",
+                                "connexion",
+                                "test_root",
+                                "openapi_server",
+                                "controllers"),
+                        platformAgnosticPath("generated-code", "connexion", "test_root", "test"),
+                        null)
             },
-            new Object[]{
+            new Object[] {
                 "Python src in import with specified package",
-                ImmutableMap.of(PYTHON_SRC_ROOT, "test_root",
-                    USE_PYTHON_SRC_ROOT_IN_IMPORTS, "true",
-                    CodegenConstants.PACKAGE_NAME, "test_package"),
+                ImmutableMap.of(
+                        PYTHON_SRC_ROOT,
+                        "test_root",
+                        USE_PYTHON_SRC_ROOT_IN_IMPORTS,
+                        "true",
+                        CodegenConstants.PACKAGE_NAME,
+                        "test_package"),
                 "TestModel",
-                new ExpectedValues("from test_root.test_package.models.test_model import TestModel",
-                    "test_root.test_package.controllers",
-                    platformAgnosticPath("generated-code", "connexion", "test_root", "test_package", "models"),
-                    platformAgnosticPath("generated-code", "connexion", "test_root", "test_package", "controllers"),
-                    platformAgnosticPath("generated-code", "connexion", "test"),
-                    null)
+                new ExpectedValues(
+                        "from test_root.test_package.models.test_model import TestModel",
+                        "test_root.test_package.controllers",
+                        platformAgnosticPath(
+                                "generated-code",
+                                "connexion",
+                                "test_root",
+                                "test_package",
+                                "models"),
+                        platformAgnosticPath(
+                                "generated-code",
+                                "connexion",
+                                "test_root",
+                                "test_package",
+                                "controllers"),
+                        platformAgnosticPath("generated-code", "connexion", "test"),
+                        null)
             },
-            new Object[]{
+            new Object[] {
                 "Python src in import with specified package and tests under python src root",
-                ImmutableMap.of(PYTHON_SRC_ROOT, "test_root",
-                    USE_PYTHON_SRC_ROOT_IN_IMPORTS, "true",
-                    CodegenConstants.PACKAGE_NAME, "test_package",
-                    MOVE_TESTS_UNDER_PYTHON_SRC_ROOT, "true"),
+                ImmutableMap.of(
+                        PYTHON_SRC_ROOT,
+                        "test_root",
+                        USE_PYTHON_SRC_ROOT_IN_IMPORTS,
+                        "true",
+                        CodegenConstants.PACKAGE_NAME,
+                        "test_package",
+                        MOVE_TESTS_UNDER_PYTHON_SRC_ROOT,
+                        "true"),
                 "TestModel",
-                new ExpectedValues("from test_root.test_package.models.test_model import TestModel",
-                    "test_root.test_package.controllers",
-                    platformAgnosticPath("generated-code", "connexion", "test_root", "test_package", "models"),
-                    platformAgnosticPath("generated-code", "connexion", "test_root", "test_package", "controllers"),
-                    platformAgnosticPath("generated-code", "connexion", "test_root", "test"),
-                    null)
+                new ExpectedValues(
+                        "from test_root.test_package.models.test_model import TestModel",
+                        "test_root.test_package.controllers",
+                        platformAgnosticPath(
+                                "generated-code",
+                                "connexion",
+                                "test_root",
+                                "test_package",
+                                "models"),
+                        platformAgnosticPath(
+                                "generated-code",
+                                "connexion",
+                                "test_root",
+                                "test_package",
+                                "controllers"),
+                        platformAgnosticPath("generated-code", "connexion", "test_root", "test"),
+                        null)
             }
         };
     }
 
-    private static class MockAbstractPythonConnexionServerCodegen extends AbstractPythonConnexionServerCodegen {
-        public MockAbstractPythonConnexionServerCodegen(String templateDirectory, boolean fixBodyNameValue) {
+    private static class MockAbstractPythonConnexionServerCodegen
+            extends AbstractPythonConnexionServerCodegen {
+        public MockAbstractPythonConnexionServerCodegen(
+                String templateDirectory, boolean fixBodyNameValue) {
             super(templateDirectory, fixBodyNameValue);
         }
     }
@@ -129,8 +209,13 @@ public class AbstractPythonConnexionServerCodegenTest {
         public final String expectedApiTestFileFolder;
         public final String pythonSrcRoot;
 
-        public ExpectedValues(String expectedImport, String expectedApiPackage, String expectedModelFileFolder,
-                              String expectedApiFileFolder, String expectedApiTestFileFolder, String pythonSrcRoot) {
+        public ExpectedValues(
+                String expectedImport,
+                String expectedApiPackage,
+                String expectedModelFileFolder,
+                String expectedApiFileFolder,
+                String expectedApiTestFileFolder,
+                String pythonSrcRoot) {
             this.expectedImport = expectedImport;
             this.expectedApiPackage = expectedApiPackage;
             this.expectedModelFileFolder = expectedModelFileFolder;
@@ -143,5 +228,4 @@ public class AbstractPythonConnexionServerCodegenTest {
     private static String platformAgnosticPath(String... nodes) {
         return StringUtils.join(nodes, File.separatorChar);
     }
-
 }

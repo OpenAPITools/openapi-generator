@@ -18,6 +18,11 @@
 package org.openapitools.codegen.yaml;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import java.io.File;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
@@ -25,12 +30,6 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.OpenAPIYamlGenerator;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class YamlGeneratorTest {
 
@@ -40,11 +39,12 @@ public class YamlGeneratorTest {
 
         File output = Files.createTempDirectory("test").toFile();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("openapi-yaml")
-                .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/3_0/ping.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("openapi-yaml")
+                        .setAdditionalProperties(properties)
+                        .setInputSpec("src/test/resources/3_0/ping.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -59,7 +59,6 @@ public class YamlGeneratorTest {
         output.deleteOnExit();
     }
 
-
     @Test
     public void testGeneratePingOtherOutputFile() throws Exception {
         Map<String, Object> properties = new HashMap<>();
@@ -67,11 +66,12 @@ public class YamlGeneratorTest {
 
         File output = Files.createTempDirectory("test").toFile();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("openapi-yaml")
-                .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/3_0/ping.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("openapi-yaml")
+                        .setAdditionalProperties(properties)
+                        .setInputSpec("src/test/resources/3_0/ping.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -95,11 +95,12 @@ public class YamlGeneratorTest {
         File output = Files.createTempDirectory("issue_9086").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("openapi-yaml")
-                .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/2_0/issue_9086.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("openapi-yaml")
+                        .setAdditionalProperties(properties)
+                        .setInputSpec("src/test/resources/2_0/issue_9086.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -115,10 +116,24 @@ public class YamlGeneratorTest {
         OpenAPI actual = TestUtils.parseSpec("src/test/resources/2_0/issue_9086.yaml");
         OpenAPI expected = TestUtils.parseSpec("src/test/resources/2_0/issue_9086_expected.yaml");
 
-        // use #toString because the equals methods is a little stricter than necessary for this test
-        Assert.assertEquals(actual.getComponents().getSchemas().get("bar2").getAdditionalProperties(),
+        // use #toString because the equals methods is a little stricter than necessary for this
+        // test
+        Assert.assertEquals(
+                actual.getComponents().getSchemas().get("bar2").getAdditionalProperties(),
                 expected.getComponents().getSchemas().get("bar2").getAdditionalProperties());
-        Assert.assertEquals(actual.getPaths().get("/foo/bar").getPost().getResponses().get("200").getContent().get("*/*").getSchema().getAdditionalProperties(),
-                expected.getComponents().getSchemas().get("_foo_bar_post_200_response").getAdditionalProperties());
+        Assert.assertEquals(
+                actual.getPaths()
+                        .get("/foo/bar")
+                        .getPost()
+                        .getResponses()
+                        .get("200")
+                        .getContent()
+                        .get("*/*")
+                        .getSchema()
+                        .getAdditionalProperties(),
+                expected.getComponents()
+                        .getSchemas()
+                        .get("_foo_bar_post_200_response")
+                        .getAdditionalProperties());
     }
 }

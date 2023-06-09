@@ -16,6 +16,9 @@
 
 package org.openapitools.codegen.haskellservant;
 
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,10 +28,6 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.HaskellServantCodegen;
 import org.testng.annotations.Test;
-
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.parser.core.models.ParseOptions;
 
 public class HaskellServantCodegenTest {
 
@@ -42,9 +41,13 @@ public class HaskellServantCodegenTest {
         final HaskellServantCodegen codegen = new HaskellServantCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/rootOperation.yaml", null, new ParseOptions())
-                .getOpenAPI();
+        OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation(
+                                "src/test/resources/3_0/rootOperation.yaml",
+                                null,
+                                new ParseOptions())
+                        .getOpenAPI();
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -56,6 +59,7 @@ public class HaskellServantCodegenTest {
         generator.opts(input).generate();
 
         // then
-        TestUtils.assertFileNotContains(Paths.get(outputPath + "/lib/RootOperation/API.hs"), "\"\" :>");
+        TestUtils.assertFileNotContains(
+                Paths.get(outputPath + "/lib/RootOperation/API.hs"), "\"\" :>");
     }
 }

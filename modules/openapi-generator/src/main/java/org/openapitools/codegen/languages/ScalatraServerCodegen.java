@@ -17,14 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
+import java.io.File;
+import java.util.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-
-import java.io.File;
-import java.util.*;
 
 public class ScalatraServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
 
@@ -35,23 +34,22 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
     public ScalatraServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-         );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(
+                                                WireFormatFeature.JSON,
+                                                WireFormatFeature.XML,
+                                                WireFormatFeature.Custom))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie));
 
         outputFolder = "generated-code/scalatra";
         modelTemplateFiles.put("model.mustache", ".scala");
@@ -61,24 +59,12 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         apiPackage = "org.openapitools.server.api";
         modelPackage = "org.openapitools.server.model";
 
-        defaultIncludes = new HashSet<>(
-                Arrays.asList("double",
-                        "Int",
-                        "Long",
-                        "Float",
-                        "Double",
-                        "char",
-                        "float",
-                        "String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Integer",
-                        "Long",
-                        "Float",
-                        "Set",
-                        "Map")
-        );
+        defaultIncludes =
+                new HashSet<>(
+                        Arrays.asList(
+                                "double", "Int", "Long", "Float", "Double", "char", "float",
+                                "String", "boolean", "Boolean", "Double", "Integer", "Long",
+                                "Float", "Set", "Map"));
 
         typeMapping = new HashMap<>();
         typeMapping.put("array", "List");
@@ -125,18 +111,32 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
     @Override
     public void processOpts() {
         super.processOpts();
-        
+
         String appPackage = invokerPackage + ".app";
-        
+
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.mustache", "", "build.sbt"));
         supportingFiles.add(new SupportingFile("web.xml", "/src/main/webapp/WEB-INF", "web.xml"));
-        supportingFiles.add(new SupportingFile("logback.xml", "/src/main/resources", "logback.xml"));
+        supportingFiles.add(
+                new SupportingFile("logback.xml", "/src/main/resources", "logback.xml"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("JettyMain.mustache", sourceFolderByPackage(invokerPackage), "JettyMain.scala"));
-        supportingFiles.add(new SupportingFile("Bootstrap.mustache", sourceFolderByPackage(invokerPackage), "ScalatraBootstrap.scala"));
-        supportingFiles.add(new SupportingFile("ServletApp.mustache", sourceFolderByPackage(appPackage), "ServletApp.scala"));
-        supportingFiles.add(new SupportingFile("project/build.properties", "project", "build.properties"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "JettyMain.mustache",
+                        sourceFolderByPackage(invokerPackage),
+                        "JettyMain.scala"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "Bootstrap.mustache",
+                        sourceFolderByPackage(invokerPackage),
+                        "ScalatraBootstrap.scala"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ServletApp.mustache",
+                        sourceFolderByPackage(appPackage),
+                        "ServletApp.scala"));
+        supportingFiles.add(
+                new SupportingFile("project/build.properties", "project", "build.properties"));
         supportingFiles.add(new SupportingFile("project/plugins.sbt", "project", "plugins.sbt"));
         supportingFiles.add(new SupportingFile("sbt", "", "sbt"));
 
@@ -144,7 +144,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         additionalProperties.put("appDescription", appDescription);
         additionalProperties.put("infoUrl", infoUrl);
         additionalProperties.put("infoEmail", infoEmail);
-        additionalProperties.put("apiVersion", apiVersion) ;
+        additionalProperties.put("apiVersion", apiVersion);
         additionalProperties.put("licenseInfo", licenseInfo);
         additionalProperties.put("licenseUrl", licenseUrl);
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
@@ -152,7 +152,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
     }
-    
+
     @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -169,7 +169,8 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {

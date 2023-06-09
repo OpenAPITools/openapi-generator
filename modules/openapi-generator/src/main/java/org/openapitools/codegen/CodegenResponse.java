@@ -82,7 +82,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public Number multipleOf;
     public CodegenProperty items;
     public CodegenProperty additionalProperties;
-    public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
+    public List<CodegenProperty> vars =
+            new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>();
     private boolean hasValidation;
     private boolean additionalPropertiesIsAnyType;
@@ -98,16 +99,81 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(headers, code, message, examples, dataType, baseType, containerType, hasHeaders,
-                isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
-                isDateTime, isUuid, isEmail, isPassword, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
-                isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
-                vars, requiredVars, isNull, isVoid, hasValidation, isShort, isUnboundedInteger,
-                getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
-                getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
-                is1xx, is2xx, is3xx, is4xx, is5xx, additionalPropertiesIsAnyType, hasVars, hasRequired,
-                hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, responseHeaders, content,
-                requiredVarsMap, ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties);
+        return Objects.hash(
+                headers,
+                code,
+                message,
+                examples,
+                dataType,
+                baseType,
+                containerType,
+                hasHeaders,
+                isString,
+                isNumeric,
+                isInteger,
+                isLong,
+                isNumber,
+                isFloat,
+                isDouble,
+                isDecimal,
+                isByteArray,
+                isBoolean,
+                isDate,
+                isDateTime,
+                isUuid,
+                isEmail,
+                isPassword,
+                isModel,
+                isFreeFormObject,
+                isAnyType,
+                isDefault,
+                simpleType,
+                primitiveType,
+                isMap,
+                isArray,
+                isBinary,
+                isFile,
+                schema,
+                jsonSchema,
+                vendorExtensions,
+                items,
+                additionalProperties,
+                vars,
+                requiredVars,
+                isNull,
+                isVoid,
+                hasValidation,
+                isShort,
+                isUnboundedInteger,
+                getMaxProperties(),
+                getMinProperties(),
+                uniqueItems,
+                getMaxItems(),
+                getMinItems(),
+                getMaxLength(),
+                getMinLength(),
+                exclusiveMinimum,
+                exclusiveMaximum,
+                getMinimum(),
+                getMaximum(),
+                getPattern(),
+                is1xx,
+                is2xx,
+                is3xx,
+                is4xx,
+                is5xx,
+                additionalPropertiesIsAnyType,
+                hasVars,
+                hasRequired,
+                hasDiscriminatorWithNonEmptyMapping,
+                composedSchemas,
+                hasMultipleTypes,
+                responseHeaders,
+                content,
+                requiredVarsMap,
+                ref,
+                uniqueItemsBoolean,
+                schemaIsFromAdditionalProperties);
     }
 
     @Override
@@ -115,82 +181,83 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         if (this == o) return true;
         if (!(o instanceof CodegenResponse)) return false;
         CodegenResponse that = (CodegenResponse) o;
-        return hasHeaders == that.hasHeaders &&
-                isString == that.isString &&
-                isNumeric == that.isNumeric &&
-                isInteger == that.isInteger &&
-                isShort == that.isShort &&
-                isLong == that.isLong &&
-                isUnboundedInteger == that.isUnboundedInteger &&
-                isNumber == that.isNumber &&
-                isFloat == that.isFloat &&
-                isDouble == that.isDouble &&
-                isDecimal == that.isDecimal &&
-                isByteArray == that.isByteArray &&
-                isBoolean == that.isBoolean &&
-                isDate == that.isDate &&
-                isDateTime == that.isDateTime &&
-                isUuid == that.isUuid &&
-                isEmail == that.isEmail &&
-                isPassword == that.isPassword &&
-                isModel == that.isModel &&
-                isFreeFormObject == that.isFreeFormObject &&
-                isAnyType == that.isAnyType &&
-                isDefault == that.isDefault &&
-                simpleType == that.simpleType &&
-                primitiveType == that.primitiveType &&
-                isMap == that.isMap &&
-                isArray == that.isArray &&
-                isBinary == that.isBinary &&
-                isFile == that.isFile &&
-                items == that.items &&
-                additionalProperties == that.additionalProperties &&
-                isNull == that.isNull &&
-                isVoid == that.isVoid &&
-                hasValidation == that.hasValidation &&
-                is1xx == that.is1xx &&
-                is2xx == that.is2xx &&
-                is3xx == that.is3xx &&
-                is4xx == that.is4xx &&
-                is5xx == that.is5xx &&
-                hasDiscriminatorWithNonEmptyMapping == that.getHasDiscriminatorWithNonEmptyMapping() &&
-                hasMultipleTypes == that.getHasMultipleTypes() &&
-                getSchemaIsFromAdditionalProperties() == that.getSchemaIsFromAdditionalProperties() &&
-                getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType() &&
-                getHasVars() == that.getHasVars() &&
-                getHasRequired() == that.getHasRequired() &&
-                Objects.equals(uniqueItemsBoolean, that.getUniqueItemsBoolean()) &&
-                Objects.equals(ref, that.getRef()) &&
-                Objects.equals(requiredVarsMap, that.getRequiredVarsMap()) &&
-                Objects.equals(content, that.getContent()) &&
-                Objects.equals(responseHeaders, that.getResponseHeaders()) &&
-                Objects.equals(composedSchemas, that.getComposedSchemas()) &&
-                Objects.equals(vars, that.vars) &&
-                Objects.equals(requiredVars, that.requiredVars) &&
-                Objects.equals(headers, that.headers) &&
-                Objects.equals(code, that.code) &&
-                Objects.equals(message, that.message) &&
-                Objects.equals(examples, that.examples) &&
-                Objects.equals(dataType, that.dataType) &&
-                Objects.equals(baseType, that.baseType) &&
-                Objects.equals(containerType, that.containerType) &&
-                Objects.equals(schema, that.schema) &&
-                Objects.equals(jsonSchema, that.jsonSchema) &&
-                Objects.equals(vendorExtensions, that.vendorExtensions) &&
-                Objects.equals(getMaxProperties(), that.getMaxProperties()) &&
-                Objects.equals(getMinProperties(), that.getMinProperties()) &&
-                Objects.equals(uniqueItems, that.uniqueItems) &&
-                Objects.equals(getMaxItems(), that.getMaxItems()) &&
-                Objects.equals(getMinItems(), that.getMinItems()) &&
-                Objects.equals(getMaxLength(), that.getMaxLength()) &&
-                Objects.equals(getMinLength(), that.getMinLength()) &&
-                Objects.equals(exclusiveMinimum, that.exclusiveMinimum) &&
-                Objects.equals(exclusiveMaximum, that.exclusiveMaximum) &&
-                Objects.equals(getMinimum(), that.getMinimum()) &&
-                Objects.equals(getMaximum(), that.getMaximum()) &&
-                Objects.equals(getPattern(), that.getPattern()) &&
-                Objects.equals(getMultipleOf(), that.getMultipleOf());
-
+        return hasHeaders == that.hasHeaders
+                && isString == that.isString
+                && isNumeric == that.isNumeric
+                && isInteger == that.isInteger
+                && isShort == that.isShort
+                && isLong == that.isLong
+                && isUnboundedInteger == that.isUnboundedInteger
+                && isNumber == that.isNumber
+                && isFloat == that.isFloat
+                && isDouble == that.isDouble
+                && isDecimal == that.isDecimal
+                && isByteArray == that.isByteArray
+                && isBoolean == that.isBoolean
+                && isDate == that.isDate
+                && isDateTime == that.isDateTime
+                && isUuid == that.isUuid
+                && isEmail == that.isEmail
+                && isPassword == that.isPassword
+                && isModel == that.isModel
+                && isFreeFormObject == that.isFreeFormObject
+                && isAnyType == that.isAnyType
+                && isDefault == that.isDefault
+                && simpleType == that.simpleType
+                && primitiveType == that.primitiveType
+                && isMap == that.isMap
+                && isArray == that.isArray
+                && isBinary == that.isBinary
+                && isFile == that.isFile
+                && items == that.items
+                && additionalProperties == that.additionalProperties
+                && isNull == that.isNull
+                && isVoid == that.isVoid
+                && hasValidation == that.hasValidation
+                && is1xx == that.is1xx
+                && is2xx == that.is2xx
+                && is3xx == that.is3xx
+                && is4xx == that.is4xx
+                && is5xx == that.is5xx
+                && hasDiscriminatorWithNonEmptyMapping
+                        == that.getHasDiscriminatorWithNonEmptyMapping()
+                && hasMultipleTypes == that.getHasMultipleTypes()
+                && getSchemaIsFromAdditionalProperties()
+                        == that.getSchemaIsFromAdditionalProperties()
+                && getAdditionalPropertiesIsAnyType() == that.getAdditionalPropertiesIsAnyType()
+                && getHasVars() == that.getHasVars()
+                && getHasRequired() == that.getHasRequired()
+                && Objects.equals(uniqueItemsBoolean, that.getUniqueItemsBoolean())
+                && Objects.equals(ref, that.getRef())
+                && Objects.equals(requiredVarsMap, that.getRequiredVarsMap())
+                && Objects.equals(content, that.getContent())
+                && Objects.equals(responseHeaders, that.getResponseHeaders())
+                && Objects.equals(composedSchemas, that.getComposedSchemas())
+                && Objects.equals(vars, that.vars)
+                && Objects.equals(requiredVars, that.requiredVars)
+                && Objects.equals(headers, that.headers)
+                && Objects.equals(code, that.code)
+                && Objects.equals(message, that.message)
+                && Objects.equals(examples, that.examples)
+                && Objects.equals(dataType, that.dataType)
+                && Objects.equals(baseType, that.baseType)
+                && Objects.equals(containerType, that.containerType)
+                && Objects.equals(schema, that.schema)
+                && Objects.equals(jsonSchema, that.jsonSchema)
+                && Objects.equals(vendorExtensions, that.vendorExtensions)
+                && Objects.equals(getMaxProperties(), that.getMaxProperties())
+                && Objects.equals(getMinProperties(), that.getMinProperties())
+                && Objects.equals(uniqueItems, that.uniqueItems)
+                && Objects.equals(getMaxItems(), that.getMaxItems())
+                && Objects.equals(getMinItems(), that.getMinItems())
+                && Objects.equals(getMaxLength(), that.getMaxLength())
+                && Objects.equals(getMinLength(), that.getMinLength())
+                && Objects.equals(exclusiveMinimum, that.exclusiveMinimum)
+                && Objects.equals(exclusiveMaximum, that.exclusiveMaximum)
+                && Objects.equals(getMinimum(), that.getMinimum())
+                && Objects.equals(getMaximum(), that.getMaximum())
+                && Objects.equals(getPattern(), that.getPattern())
+                && Objects.equals(getMultipleOf(), that.getMultipleOf());
     }
 
     // use content.mediaType.schema.getContains instead of this
@@ -368,7 +435,6 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public void setUniqueItemsBoolean(Boolean uniqueItemsBoolean) {
         this.uniqueItemsBoolean = uniqueItemsBoolean;
     }
-
 
     @Override
     public Integer getMinProperties() {
@@ -610,7 +676,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", getAdditionalPropertiesIsAnyType=").append(additionalPropertiesIsAnyType);
         sb.append(", getHasVars=").append(hasVars);
         sb.append(", getHasRequired=").append(hasRequired);
-        sb.append(", getHasDiscriminatorWithNonEmptyMapping=").append(hasDiscriminatorWithNonEmptyMapping);
+        sb.append(", getHasDiscriminatorWithNonEmptyMapping=")
+                .append(hasDiscriminatorWithNonEmptyMapping);
         sb.append(", composedSchemas=").append(composedSchemas);
         sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
         sb.append(", responseHeaders=").append(responseHeaders);
@@ -693,11 +760,11 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean getHasDiscriminatorWithNonEmptyMapping() {
         return hasDiscriminatorWithNonEmptyMapping;
     }
-
     ;
 
     @Override
-    public void setHasDiscriminatorWithNonEmptyMapping(boolean hasDiscriminatorWithNonEmptyMapping) {
+    public void setHasDiscriminatorWithNonEmptyMapping(
+            boolean hasDiscriminatorWithNonEmptyMapping) {
         this.hasDiscriminatorWithNonEmptyMapping = hasDiscriminatorWithNonEmptyMapping;
     }
 
@@ -757,16 +824,24 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public Map<String, CodegenProperty> getRequiredVarsMap() { return requiredVarsMap; }
+    public Map<String, CodegenProperty> getRequiredVarsMap() {
+        return requiredVarsMap;
+    }
 
     @Override
-    public void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap) { this.requiredVarsMap=requiredVarsMap; }
+    public void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap) {
+        this.requiredVarsMap = requiredVarsMap;
+    }
 
     @Override
-    public String getRef() { return ref; }
+    public String getRef() {
+        return ref;
+    }
 
     @Override
-    public void setRef(String ref) { this.ref=ref; }
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
 
     @Override
     public boolean getSchemaIsFromAdditionalProperties() {

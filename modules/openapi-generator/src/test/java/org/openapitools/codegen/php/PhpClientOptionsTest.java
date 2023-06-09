@@ -17,13 +17,13 @@
 
 package org.openapitools.codegen.php;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PhpClientCodegen;
 import org.openapitools.codegen.options.PhpClientOptionsProvider;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class PhpClientOptionsTest extends AbstractOptionsTest {
     private PhpClientCodegen clientCodegen = mock(PhpClientCodegen.class, mockSettings);
@@ -42,12 +42,19 @@ public class PhpClientOptionsTest extends AbstractOptionsTest {
     protected void verifyOptions() {
         verify(clientCodegen).setModelPackage(PhpClientOptionsProvider.MODEL_PACKAGE_VALUE);
         verify(clientCodegen).setApiPackage(PhpClientOptionsProvider.API_PACKAGE_VALUE);
-        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(PhpClientOptionsProvider.SORT_PARAMS_VALUE));
-        verify(clientCodegen).setParameterNamingConvention(PhpClientOptionsProvider.VARIABLE_NAMING_CONVENTION_VALUE);
+        verify(clientCodegen)
+                .setSortParamsByRequiredFlag(
+                        Boolean.valueOf(PhpClientOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen)
+                .setParameterNamingConvention(
+                        PhpClientOptionsProvider.VARIABLE_NAMING_CONVENTION_VALUE);
         verify(clientCodegen).setInvokerPackage(PhpClientOptionsProvider.INVOKER_PACKAGE_VALUE);
         verify(clientCodegen).setPackageName(PhpClientOptionsProvider.PACKAGE_NAME_VALUE);
         verify(clientCodegen).setSrcBasePath(PhpClientOptionsProvider.SRC_BASE_PATH_VALUE);
         verify(clientCodegen).setArtifactVersion(PhpClientOptionsProvider.ARTIFACT_VERSION_VALUE);
-        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(PhpClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen)
+                .setEnumUnknownDefaultCase(
+                        Boolean.parseBoolean(
+                                PhpClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

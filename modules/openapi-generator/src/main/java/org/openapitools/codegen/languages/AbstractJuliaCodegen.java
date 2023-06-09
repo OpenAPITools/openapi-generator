@@ -16,8 +16,20 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
+import com.google.common.base.CaseFormat;
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache.Lambda;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.servers.Server;
+import java.io.File;
+import java.util.*;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
@@ -25,30 +37,11 @@ import org.openapitools.codegen.meta.features.ParameterFeature;
 import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
-
-import java.io.File;
-import java.util.*;
-
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.servers.Server;
-
-import org.apache.commons.lang3.StringUtils;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
+import org.openapitools.codegen.templating.mustache.EscapeChar;
 import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.base.CaseFormat;
-import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache.Lambda;
-import org.openapitools.codegen.templating.mustache.EscapeChar;
 
 public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     protected final Logger LOGGER = LoggerFactory.getLogger(AbstractJuliaCodegen.class);
@@ -67,44 +60,92 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     public AbstractJuliaCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Union, SchemaSupportFeature.allOf,
-                        SchemaSupportFeature.anyOf, SchemaSupportFeature.oneOf
-                )
-                .excludeWireFormatFeatures(
-                        WireFormatFeature.XML
-                )
-                .excludeSecurityFeatures(
-                        SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
-                        SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-                .excludeGlobalFeatures(
-                        GlobalFeature.Callbacks, GlobalFeature.Examples,
-                        GlobalFeature.Produces, GlobalFeature.Consumes
-                )
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.BasePath, ClientModificationFeature.UserAgent
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .includeSchemaSupportFeatures(
+                                        SchemaSupportFeature.Union, SchemaSupportFeature.allOf,
+                                        SchemaSupportFeature.anyOf, SchemaSupportFeature.oneOf)
+                                .excludeWireFormatFeatures(WireFormatFeature.XML)
+                                .excludeSecurityFeatures(
+                                        SecurityFeature.OAuth2_Implicit,
+                                                SecurityFeature.OAuth2_Password,
+                                        SecurityFeature.OAuth2_ClientCredentials,
+                                                SecurityFeature.OAuth2_AuthorizationCode)
+                                .excludeParameterFeatures(ParameterFeature.Cookie)
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.Callbacks, GlobalFeature.Examples,
+                                        GlobalFeature.Produces, GlobalFeature.Consumes)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath,
+                                        ClientModificationFeature.UserAgent));
 
-        reservedWords = new HashSet<String>(
-                Arrays.asList(
-                        "if", "else", "elseif", "while", "for", "begin", "end", "quote",
-                        "try", "catch", "return", "local", "function", "macro", "ccall", "finally", "break", "continue",
-                        "global", "module", "using", "import", "export", "const", "let", "do", "baremodule",
-                        "Type", "Enum", "Any", "DataType", "Base"
-                )
-        );
+        reservedWords =
+                new HashSet<String>(
+                        Arrays.asList(
+                                "if",
+                                "else",
+                                "elseif",
+                                "while",
+                                "for",
+                                "begin",
+                                "end",
+                                "quote",
+                                "try",
+                                "catch",
+                                "return",
+                                "local",
+                                "function",
+                                "macro",
+                                "ccall",
+                                "finally",
+                                "break",
+                                "continue",
+                                "global",
+                                "module",
+                                "using",
+                                "import",
+                                "export",
+                                "const",
+                                "let",
+                                "do",
+                                "baremodule",
+                                "Type",
+                                "Enum",
+                                "Any",
+                                "DataType",
+                                "Base"));
 
-        // Language Specific Primitives.  These types will not trigger imports by the client generator
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList("Integer", "Int128", "Int64", "Int32", "Int16", "Int8", "UInt128", "UInt64", "UInt32", "UInt16", "UInt8", "Float64", "Float32", "Float16", "Char", "Vector", "Dict", "Vector{UInt8}", "Bool", "String", "Date", "DateTime", "ZonedDateTime", "Nothing", "Any")
-        );
+        // Language Specific Primitives.  These types will not trigger imports by the client
+        // generator
+        languageSpecificPrimitives =
+                new HashSet<String>(
+                        Arrays.asList(
+                                "Integer",
+                                "Int128",
+                                "Int64",
+                                "Int32",
+                                "Int16",
+                                "Int8",
+                                "UInt128",
+                                "UInt64",
+                                "UInt32",
+                                "UInt16",
+                                "UInt8",
+                                "Float64",
+                                "Float32",
+                                "Float16",
+                                "Char",
+                                "Vector",
+                                "Dict",
+                                "Vector{UInt8}",
+                                "Bool",
+                                "String",
+                                "Date",
+                                "DateTime",
+                                "ZonedDateTime",
+                                "Nothing",
+                                "Any"));
 
         typeMapping.clear();
         typeMapping.put("int", "Int64");
@@ -157,31 +198,29 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     }
 
     /**
-     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
-     * those terms here.  This logic is only called if a variable matches the reseved words
+     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping those terms
+     * here. This logic is only called if a variable matches the reseved words
      *
      * @return the escaped term
      */
     @Override
     public String escapeReservedWord(String name) {
         if (reservedWords.contains(name)) {
-            return "__" + name + "__";  // add underscores to reserved words, and also to obscure it to lessen chances of clashing with any other names
+            return "__" + name
+                    + "__"; // add underscores to reserved words, and also to obscure it to lessen
+            // chances of clashing with any other names
         } else {
             return name;
         }
     }
 
-    /**
-     * Location to write model files.
-     */
+    /** Location to write model files. */
     @Override
     public String modelFileFolder() {
         return (outputFolder + "/" + modelSrcPath).replace('/', File.separatorChar);
     }
 
-    /**
-     * Location to write api files.
-     */
+    /** Location to write api files. */
     @Override
     public String apiFileFolder() {
         return (outputFolder + "/" + apiSrcPath).replace('/', File.separatorChar);
@@ -270,7 +309,8 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     }
 
     protected boolean needsVarEscape(String name) {
-        return (!name.matches("[a-zA-Z0-9_]*") && !name.matches("var\".*\"")) || reservedWords.contains(name);
+        return (!name.matches("[a-zA-Z0-9_]*") && !name.matches("var\".*\""))
+                || reservedWords.contains(name);
     }
 
     /**
@@ -288,13 +328,19 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(result)) {
-            LOGGER.warn(result + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + result));
+            LOGGER.warn(
+                    result
+                            + " (reserved word) cannot be used as model name. Renamed to "
+                            + camelize("model_" + result));
             result = "model_" + result; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (result.matches("^\\d.*")) {
-            LOGGER.warn(result + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + result));
+            LOGGER.warn(
+                    result
+                            + " (model name starts with number) cannot be used as model name. Renamed to "
+                            + camelize("model_" + result));
             result = "model_" + result; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -330,7 +376,6 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         return super.getTypeDeclaration(schema);
     }
 
-
     /**
      * Return the type declaration for a given schema
      *
@@ -343,7 +388,8 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         String type = null;
 
         if (openAPIType == null) {
-            LOGGER.error("OpenAPI Type for {} is null. Default to Object instead.", schema.getName());
+            LOGGER.error(
+                    "OpenAPI Type for {} is null. Default to Object instead.", schema.getName());
             openAPIType = "Object";
         }
 
@@ -375,7 +421,9 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
             // TODO
         } else if (ModelUtils.isDateTimeSchema(schema)) {
             // TODO
-        } else if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isLongSchema(schema) || ModelUtils.isNumberSchema(schema)) {
+        } else if (ModelUtils.isIntegerSchema(schema)
+                || ModelUtils.isLongSchema(schema)
+                || ModelUtils.isNumberSchema(schema)) {
             if (schema.getDefault() != null) {
                 return schema.getDefault().toString();
             }
@@ -420,7 +468,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
      * Convert OpenAPI Parameter object to Codegen Parameter object
      *
      * @param imports set of imports for library/package/module
-     * @param param   OpenAPI parameter object
+     * @param param OpenAPI parameter object
      * @return Codegen Parameter object
      */
     @Override
@@ -434,16 +482,16 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
 
     /**
      * Convert OAS Property schema to Codegen Property object.
-     * <p>
-     * The return value is cached. An internal cache is looked up to determine
-     * if the CodegenProperty return value has already been instantiated for
-     * the (String name, Schema schema) arguments.
-     * Any subsequent processing of the CodegenModel return value must be idempotent
-     * for a given (String name, Schema schema).
      *
-     * @param name     name of the property
-     * @param schema   OAS property schema
-     * @param required true if the property is required in the next higher object schema, false otherwise
+     * <p>The return value is cached. An internal cache is looked up to determine if the
+     * CodegenProperty return value has already been instantiated for the (String name, Schema
+     * schema) arguments. Any subsequent processing of the CodegenModel return value must be
+     * idempotent for a given (String name, Schema schema).
+     *
+     * @param name name of the property
+     * @param schema OAS property schema
+     * @param required true if the property is required in the next higher object schema, false
+     *     otherwise
      * @return Codegen Property object
      */
     @Override
@@ -473,7 +521,8 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         return sanitizeName(operationId);
     }
 
-    private void changeParamNames(List<CodegenParameter> paramsList, HashSet<String> reservedNames) {
+    private void changeParamNames(
+            List<CodegenParameter> paramsList, HashSet<String> reservedNames) {
         // check if any param name clashes with type name and rename it
         for (CodegenParameter param : paramsList) {
             if (reservedNames.contains(param.paramName)) {
@@ -489,16 +538,14 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
      * Convert OAS Operation object to Codegen Operation object
      *
      * @param httpMethod HTTP method
-     * @param operation  OAS operation object
-     * @param path       the path of the operation
-     * @param servers    list of servers
+     * @param operation OAS operation object
+     * @param path the path of the operation
+     * @param servers list of servers
      * @return Codegen Operation object
      */
     @Override
-    public CodegenOperation fromOperation(String path,
-                                          String httpMethod,
-                                          Operation operation,
-                                          List<Server> servers) {
+    public CodegenOperation fromOperation(
+            String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
         // collect all reserved names

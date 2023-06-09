@@ -3,20 +3,21 @@ package org.openapitools.codegen.templating.mustache;
 import com.google.common.base.CaseFormat;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import org.openapitools.codegen.CodegenConfig;
-
 import java.io.IOException;
 import java.io.Writer;
+import org.openapitools.codegen.CodegenConfig;
 
 /**
  * Converts text from CaseFormat to another CaseFormat
  *
- * Register:
+ * <p>Register:
+ *
  * <pre>
  * additionalProperties.put("convert", new CaseFormatLambda(LOWER_CAMEL, UPPER_UNDERSCORE));
  * </pre>
  *
  * Use:
+ *
  * <pre>
  * {{#convert}}{{name}}{{/convert}}
  * </pre>

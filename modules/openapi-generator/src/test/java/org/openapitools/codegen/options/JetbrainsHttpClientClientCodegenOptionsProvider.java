@@ -1,11 +1,8 @@
 package org.openapitools.codegen.options;
 
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.JetbrainsHttpClientClientCodegen;
-
 import com.google.common.collect.ImmutableMap;
-
 import java.util.Map;
+import org.openapitools.codegen.languages.JetbrainsHttpClientClientCodegen;
 
 public class JetbrainsHttpClientClientCodegenOptionsProvider implements OptionsProvider {
     public static final String PROJECT_NAME_VALUE = "OpenAPI";
@@ -18,8 +15,7 @@ public class JetbrainsHttpClientClientCodegenOptionsProvider implements OptionsP
     @Override
     public Map<String, String> createOptions() {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
-        return builder
-                .put(JetbrainsHttpClientClientCodegen.PROJECT_NAME, PROJECT_NAME_VALUE)
+        return builder.put(JetbrainsHttpClientClientCodegen.PROJECT_NAME, PROJECT_NAME_VALUE)
                 .build();
     }
 
@@ -28,4 +24,3 @@ public class JetbrainsHttpClientClientCodegenOptionsProvider implements OptionsP
         return false;
     }
 }
-

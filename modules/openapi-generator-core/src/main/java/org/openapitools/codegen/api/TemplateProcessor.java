@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
 
-/**
- * Interface for abstractions around writing templated data to a file.
- */
+/** Interface for abstractions around writing templated data to a file. */
 public interface TemplateProcessor {
     /**
      * Writes data to a compiled template
@@ -15,7 +13,6 @@ public interface TemplateProcessor {
      * @param data Input data
      * @param template Input template location
      * @param target The targeted file output location
-     *
      * @return The actual file
      * @throws IOException If file cannot be written.
      */
@@ -25,7 +22,7 @@ public interface TemplateProcessor {
      * Write bytes to a file
      *
      * @param filename The name of file to write
-     * @param contents The contents bytes.  Typically this is a UTF-8 formatted string.
+     * @param contents The contents bytes. Typically this is a UTF-8 formatted string.
      * @return File representing the written file.
      * @throws IOException If file cannot be written.
      */
@@ -53,5 +50,5 @@ public interface TemplateProcessor {
      * @param path The path which has caused an error
      * @param context The reason for the error
      */
-    default void error(Path path, String context) { }
+    default void error(Path path, String context) {}
 }

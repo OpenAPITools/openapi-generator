@@ -17,13 +17,13 @@
 
 package org.openapitools.codegen.elixir;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.ElixirClientCodegen;
 import org.openapitools.codegen.options.ElixirClientOptionsProvider;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class ElixirClientOptionsTest extends AbstractOptionsTest {
 
@@ -42,6 +42,9 @@ public class ElixirClientOptionsTest extends AbstractOptionsTest {
     @Override
     protected void verifyOptions() {
         verify(clientCodegen).setModuleName(ElixirClientOptionsProvider.INVOKER_PACKAGE_VALUE);
-        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(ElixirClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen)
+                .setEnumUnknownDefaultCase(
+                        Boolean.parseBoolean(
+                                ElixirClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

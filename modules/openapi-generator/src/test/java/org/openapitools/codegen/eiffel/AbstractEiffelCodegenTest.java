@@ -30,7 +30,9 @@ public class AbstractEiffelCodegenTest {
         final AbstractEiffelCodegen codegen = new P_AbstractEiffelCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.FALSE);
         Assert.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
@@ -40,7 +42,9 @@ public class AbstractEiffelCodegenTest {
         codegen.setHideGenerationTimestamp(true);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.TRUE);
         Assert.assertTrue(codegen.isHideGenerationTimestamp());
     }
 
@@ -50,7 +54,9 @@ public class AbstractEiffelCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, true);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.TRUE);
         Assert.assertTrue(codegen.isHideGenerationTimestamp());
     }
 

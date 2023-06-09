@@ -1,5 +1,7 @@
 package org.openapitools.codegen.cmd;
 
+import static org.openapitools.codegen.Constants.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.DateTimeException;
@@ -9,11 +11,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Locale;
 import java.util.Properties;
 
-import static org.openapitools.codegen.Constants.*;
-
-/**
- * Presents build-time information
- */
+/** Presents build-time information */
 @SuppressWarnings({"java:S108"})
 public class BuildInfo {
     private static final String VERSION_PLACEHOLDER = "${project.version}";
@@ -31,7 +29,8 @@ public class BuildInfo {
             }
         } catch (IOException ignored) {
         }
-        try (InputStream is = BuildInfo.class.getResourceAsStream("/openapi-generator-git.properties")) {
+        try (InputStream is =
+                BuildInfo.class.getResourceAsStream("/openapi-generator-git.properties")) {
             if (is != null) {
                 Properties gitProps = new Properties();
                 gitProps.load(is);
@@ -67,12 +66,14 @@ public class BuildInfo {
     /**
      * Gets the time when this tool was built.
      *
-     * @return The time as {@link OffsetDateTime}, or {@link OffsetDateTime#MIN} if metadata cannot be parsed.
+     * @return The time as {@link OffsetDateTime}, or {@link OffsetDateTime#MIN} if metadata cannot
+     *     be parsed.
      */
     public OffsetDateTime getBuildTime() {
         try {
             String time = (String) properties.getOrDefault("git.build.time", "");
-            return OffsetDateTime.parse(time, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ROOT));
+            return OffsetDateTime.parse(
+                    time, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ROOT));
         } catch (DateTimeParseException e) {
             return OffsetDateTime.MIN;
         }

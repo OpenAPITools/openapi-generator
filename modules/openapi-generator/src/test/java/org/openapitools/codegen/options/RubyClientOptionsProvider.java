@@ -18,10 +18,9 @@
 package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.RubyClientCodegen;
-
-import java.util.Map;
 
 public class RubyClientOptionsProvider implements OptionsProvider {
     public static final String GEM_NAME_VALUE = "openapi_client_ruby";
@@ -62,11 +61,15 @@ public class RubyClientOptionsProvider implements OptionsProvider {
                 .put(RubyClientCodegen.GEM_AUTHOR, GEM_AUTHOR_VALUE)
                 .put(RubyClientCodegen.GEM_AUTHOR_EMAIL, GEM_AUTHOR_EMAIL_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
-                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
+                .put(
+                        CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG,
+                        SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
-                .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(
+                        CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                        PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(CodegenConstants.LIBRARY, LIBRARY)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")

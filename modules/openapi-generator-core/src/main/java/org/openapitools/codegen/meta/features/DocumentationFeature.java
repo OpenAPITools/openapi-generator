@@ -18,25 +18,17 @@ package org.openapitools.codegen.meta.features;
 
 import org.openapitools.codegen.meta.features.annotations.ToolingExtension;
 
-/**
- * Defines the documentation type available in generated output.
- */
+/** Defines the documentation type available in generated output. */
 public enum DocumentationFeature {
-    /**
-     * Generated output includes a README.
-     */
+    /** Generated output includes a README. */
     @ToolingExtension
     Readme,
 
-    /**
-     * Generated output includes documentation for all generated models.
-     */
+    /** Generated output includes documentation for all generated models. */
     @ToolingExtension
     Model,
 
-    /**
-     * Generated output includes documentation for all generated APIs.
-     */
+    /** Generated output includes documentation for all generated APIs. */
     @ToolingExtension
     Api;
 }

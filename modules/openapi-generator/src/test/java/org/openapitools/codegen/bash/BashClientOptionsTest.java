@@ -17,13 +17,13 @@
 
 package org.openapitools.codegen.bash;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.BashClientCodegen;
 import org.openapitools.codegen.options.BashClientOptionsProvider;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class BashClientOptionsTest extends AbstractOptionsTest {
     private BashClientCodegen clientCodegen = mock(BashClientCodegen.class, mockSettings);
@@ -40,25 +40,29 @@ public class BashClientOptionsTest extends AbstractOptionsTest {
     @SuppressWarnings("unused")
     @Override
     protected void verifyOptions() {
-        verify(clientCodegen).setCurlOptions(
-                BashClientOptionsProvider.CURL_OPTIONS);
-        verify(clientCodegen).setProcessMarkdown(
-                Boolean.parseBoolean(
-                        BashClientOptionsProvider.PROCESS_MARKDOWN));
-        verify(clientCodegen).setScriptName(
-                BashClientOptionsProvider.SCRIPT_NAME);
-        verify(clientCodegen).setGenerateBashCompletion(
-                Boolean.parseBoolean(
-                        BashClientOptionsProvider.GENERATE_BASH_COMPLETION));
-        verify(clientCodegen).setGenerateZshCompletion(
-                Boolean.parseBoolean(
-                        BashClientOptionsProvider.GENERATE_ZSH_COMPLETION));
-        verify(clientCodegen).setHostEnvironmentVariable(
-                BashClientOptionsProvider.HOST_ENVIRONMENT_VARIABLE_NAME);
-        verify(clientCodegen).setApiKeyAuthEnvironmentVariable(
-                BashClientOptionsProvider.APIKEY_AUTH_ENVIRONMENT_VARIABLE_NAME);
-        verify(clientCodegen).setAllowUnicodeIdentifiers(Boolean.valueOf(BashClientOptionsProvider.ALLOW_UNICODE_IDENTIFIERS_VALUE));
-        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(BashClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen).setCurlOptions(BashClientOptionsProvider.CURL_OPTIONS);
+        verify(clientCodegen)
+                .setProcessMarkdown(
+                        Boolean.parseBoolean(BashClientOptionsProvider.PROCESS_MARKDOWN));
+        verify(clientCodegen).setScriptName(BashClientOptionsProvider.SCRIPT_NAME);
+        verify(clientCodegen)
+                .setGenerateBashCompletion(
+                        Boolean.parseBoolean(BashClientOptionsProvider.GENERATE_BASH_COMPLETION));
+        verify(clientCodegen)
+                .setGenerateZshCompletion(
+                        Boolean.parseBoolean(BashClientOptionsProvider.GENERATE_ZSH_COMPLETION));
+        verify(clientCodegen)
+                .setHostEnvironmentVariable(
+                        BashClientOptionsProvider.HOST_ENVIRONMENT_VARIABLE_NAME);
+        verify(clientCodegen)
+                .setApiKeyAuthEnvironmentVariable(
+                        BashClientOptionsProvider.APIKEY_AUTH_ENVIRONMENT_VARIABLE_NAME);
+        verify(clientCodegen)
+                .setAllowUnicodeIdentifiers(
+                        Boolean.valueOf(BashClientOptionsProvider.ALLOW_UNICODE_IDENTIFIERS_VALUE));
+        verify(clientCodegen)
+                .setEnumUnknownDefaultCase(
+                        Boolean.parseBoolean(
+                                BashClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }
-

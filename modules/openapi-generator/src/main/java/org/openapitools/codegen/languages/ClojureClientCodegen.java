@@ -17,12 +17,17 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.dashize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -32,12 +37,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.dashize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ClojureClientCodegen.class);
@@ -65,43 +64,52 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         super();
 
         // TODO: Clojure maintainer review
-        modifyFeatureSet(features -> features
-                .excludeDocumentationFeatures(
-                        DocumentationFeature.Readme
-                )
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey
-                ))
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism,
-                        SchemaSupportFeature.Union
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.excludeDocumentationFeatures(DocumentationFeature.Readme)
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.OAuth2_Implicit,
+                                                SecurityFeature.BasicAuth,
+                                                SecurityFeature.ApiKey))
+                                .excludeParameterFeatures(ParameterFeature.Cookie)
+                                .excludeSchemaSupportFeatures(
+                                        SchemaSupportFeature.Polymorphism,
+                                        SchemaSupportFeature.Union));
 
         outputFolder = "generated-code" + File.separator + "clojure";
         modelTemplateFiles.put("spec.mustache", ".clj");
         apiTemplateFiles.put("api.mustache", ".clj");
         embeddedTemplateDir = templateDir = "clojure";
 
-        cliOptions.add(new CliOption(PROJECT_NAME,
-                "name of the project (Default: generated from info.title or \"openapi-clj-client\")"));
-        cliOptions.add(new CliOption(PROJECT_DESCRIPTION,
-                "description of the project (Default: using info.description or \"Client library of <projectName>\")"));
-        cliOptions.add(new CliOption(PROJECT_VERSION,
-                "version of the project (Default: using info.version or \"1.0.0\")"));
-        cliOptions.add(new CliOption(PROJECT_URL,
-                "URL of the project (Default: using info.contact.url or not included in project.clj)"));
-        cliOptions.add(new CliOption(PROJECT_LICENSE_NAME,
-                "name of the license the project uses (Default: using info.license.name or not included in project.clj)"));
-        cliOptions.add(new CliOption(PROJECT_LICENSE_URL,
-                "URL of the license the project uses (Default: using info.license.url or not included in project.clj)"));
-        cliOptions.add(new CliOption(BASE_NAMESPACE,
-                "the base/top namespace (Default: generated from projectName)"));
+        cliOptions.add(
+                new CliOption(
+                        PROJECT_NAME,
+                        "name of the project (Default: generated from info.title or \"openapi-clj-client\")"));
+        cliOptions.add(
+                new CliOption(
+                        PROJECT_DESCRIPTION,
+                        "description of the project (Default: using info.description or \"Client library of <projectName>\")"));
+        cliOptions.add(
+                new CliOption(
+                        PROJECT_VERSION,
+                        "version of the project (Default: using info.version or \"1.0.0\")"));
+        cliOptions.add(
+                new CliOption(
+                        PROJECT_URL,
+                        "URL of the project (Default: using info.contact.url or not included in project.clj)"));
+        cliOptions.add(
+                new CliOption(
+                        PROJECT_LICENSE_NAME,
+                        "name of the license the project uses (Default: using info.license.name or not included in project.clj)"));
+        cliOptions.add(
+                new CliOption(
+                        PROJECT_LICENSE_URL,
+                        "URL of the license the project uses (Default: using info.license.url or not included in project.clj)"));
+        cliOptions.add(
+                new CliOption(
+                        BASE_NAMESPACE,
+                        "the base/top namespace (Default: generated from projectName)"));
 
         typeMapping.clear();
 
@@ -124,7 +132,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
         // But some type mappings are not really worth/meaningful to check for:
         typeMapping.put("object", "any?"); // Like, everything is an object.
-        typeMapping.put("file", "any?");   // We don't really have specs for files,
+        typeMapping.put("file", "any?"); // We don't really have specs for files,
         typeMapping.put("binary", "any?"); // nor binary.
         // And while there is a way to easily check if something is a bytearray,
         // (https://stackoverflow.com/questions/14796964/), it's not possible
@@ -132,20 +140,19 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         typeMapping.put("ByteArray", "any?");
 
         // Set of base specs that don't need to be imported
-        baseSpecs = new HashSet<>(
-                Arrays.asList(
-                        "int?",
-                        "float?",
-                        "list?",
-                        "map?",
-                        "boolean?",
-                        "string?",
-                        "char?",
-                        "inst?",
-                        "uuid?",
-                        "any?"
-                )
-        );
+        baseSpecs =
+                new HashSet<>(
+                        Arrays.asList(
+                                "int?",
+                                "float?",
+                                "list?",
+                                "map?",
+                                "boolean?",
+                                "string?",
+                                "char?",
+                                "inst?",
+                                "uuid?",
+                                "any?"));
     }
 
     @Override
@@ -205,9 +212,11 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         CodegenModel model = super.fromModel(name, mod);
         // If a var is a base spec we won't need to import it
         for (CodegenProperty var : model.vars) {
-            var.vendorExtensions.put(VENDOR_EXTENSION_X_BASE_SPEC, baseSpecs.contains(var.complexType));
+            var.vendorExtensions.put(
+                    VENDOR_EXTENSION_X_BASE_SPEC, baseSpecs.contains(var.complexType));
             if (var.items != null) {
-                var.items.vendorExtensions.put(VENDOR_EXTENSION_X_BASE_SPEC, baseSpecs.contains(var.items.complexType));
+                var.items.vendorExtensions.put(
+                        VENDOR_EXTENSION_X_BASE_SPEC, baseSpecs.contains(var.items.complexType));
             }
         }
 
@@ -289,7 +298,8 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
-        final String baseNamespaceFolder = sourceFolder + File.separator + namespaceToFolder(baseNamespace);
+        final String baseNamespaceFolder =
+                sourceFolder + File.separator + namespaceToFolder(baseNamespace);
         supportingFiles.add(new SupportingFile("project.mustache", "", "project.clj"));
         supportingFiles.add(new SupportingFile("core.mustache", baseNamespaceFolder, "core.clj"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
@@ -303,12 +313,20 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + namespaceToFolder(apiPackage);
+        return outputFolder
+                + File.separator
+                + sourceFolder
+                + File.separator
+                + namespaceToFolder(apiPackage);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + namespaceToFolder(modelPackage);
+        return outputFolder
+                + File.separator
+                + sourceFolder
+                + File.separator
+                + namespaceToFolder(modelPackage);
     }
 
     @Override
@@ -343,7 +361,11 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toVarName(String name) {
-        name = name.replaceAll("[^a-zA-Z0-9_-]+", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name =
+                name.replaceAll(
+                        "[^a-zA-Z0-9_-]+",
+                        ""); // FIXME: a parameter should not be assigned. Also declare the methods
+        // parameters as 'final'.
         return name;
     }
 
@@ -356,7 +378,8 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap operations, List<ModelMap> allModels) {
         OperationMap objs = operations.getOperations();
         List<CodegenOperation> ops = objs.getOperation();
         for (CodegenOperation op : ops) {
@@ -387,5 +410,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.CLOJURE; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.CLOJURE;
+    }
 }

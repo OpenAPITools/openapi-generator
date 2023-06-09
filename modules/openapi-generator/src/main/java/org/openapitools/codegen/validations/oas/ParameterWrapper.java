@@ -1,11 +1,9 @@
 package org.openapitools.codegen.validations.oas;
 
-import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.parameters.Parameter;
 
-/**
- * Encapsulates an OAS parameter.
- */
+/** Encapsulates an OAS parameter. */
 public class ParameterWrapper {
     OpenAPI specification;
     private Parameter parameter;

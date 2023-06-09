@@ -23,18 +23,6 @@ import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.GeneratorMetadata;
-import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.utils.URLPathUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.net.URL;
 import java.util.List;
@@ -43,6 +31,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.URLPathUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(JavaVertXServerCodegen.class);
@@ -59,20 +57,22 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
 
     /**
      * A Java Vert.X generator. It uses java8 date API. It can be configured with 2 CLI options :
-     * <p>
-     * rxInterface : type Boolean if true, API interfaces are generated with RX and methods return
-     * Single and Comparable. default : false
-     * <p>
-     * vertxSwaggerRouterVersion : type String Specify the version of the swagger router library
+     *
+     * <p>rxInterface : type Boolean if true, API interfaces are generated with RX and methods
+     * return Single and Comparable. default : false
+     *
+     * <p>vertxSwaggerRouterVersion : type String Specify the version of the swagger router library
      */
     public JavaVertXServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(
+                features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-            .stability(Stability.DEPRECATED)
-            .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata)
+                        .stability(Stability.DEPRECATED)
+                        .build();
 
         // set the output folder here
         outputFolder = "generated-code" + File.separator + "javaVertXServer";
@@ -102,15 +102,20 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
 
         additionalProperties.put(ROOT_PACKAGE, rootPackage);
 
-        cliOptions.add(CliOption.newBoolean(RX_INTERFACE_OPTION,
-                "When specified, API interfaces are generated with RX "
-                        + "and methods return Single<> and Comparable."));
-        cliOptions.add(CliOption.newBoolean(RX_VERSION_2_OPTION,
-                "When specified in combination with rxInterface, "
-                        + "API interfaces are generated with RxJava2."));
-        cliOptions.add(CliOption.newString(VERTX_SWAGGER_ROUTER_VERSION_OPTION,
-                "Specify the version of the swagger router library"));
-
+        cliOptions.add(
+                CliOption.newBoolean(
+                        RX_INTERFACE_OPTION,
+                        "When specified, API interfaces are generated with RX "
+                                + "and methods return Single<> and Comparable."));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        RX_VERSION_2_OPTION,
+                        "When specified in combination with rxInterface, "
+                                + "API interfaces are generated with RxJava2."));
+        cliOptions.add(
+                CliOption.newString(
+                        VERTX_SWAGGER_ROUTER_VERSION_OPTION,
+                        "Specify the version of the swagger router library"));
     }
 
     /**
@@ -147,7 +152,8 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     public void processOpts() {
         super.processOpts();
 
-        LOGGER.warn("IMPORTANT: This generator has been deprecated. Please use `java-vertx-web` instead");
+        LOGGER.warn(
+                "IMPORTANT: This generator has been deprecated. Please use `java-vertx-web` instead");
 
         apiTestTemplateFiles.clear();
 
@@ -163,20 +169,26 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
 
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("openapi.mustache", resourceFolder, "openapi.json"));
-        supportingFiles.add(new SupportingFile("MainApiVerticle.mustache",
-                sourceFolder + File.separator + rootPackage.replace(".", File.separator),
-                "MainApiVerticle.java"));
-        supportingFiles.add(new SupportingFile("MainApiException.mustache",
-                sourceFolder + File.separator + rootPackage.replace(".", File.separator),
-                "MainApiException.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "MainApiVerticle.mustache",
+                        sourceFolder + File.separator + rootPackage.replace(".", File.separator),
+                        "MainApiVerticle.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "MainApiException.mustache",
+                        sourceFolder + File.separator + rootPackage.replace(".", File.separator),
+                        "MainApiException.java"));
 
-        supportingFiles.add(new SupportingFile("vertx-default-jul-logging.mustache",
-                resourceFolder, "vertx-default-jul-logging.properties")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-                .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile(
+                                "vertx-default-jul-logging.mustache",
+                                resourceFolder,
+                                "vertx-default-jul-logging.properties")
+                        .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
     }
 
     @Override
@@ -189,11 +201,11 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
                 model.imports.add("JsonValue");
             }
         }
-
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationsMap newObjs = super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = newObjs.getOperations();
         if (operations != null) {
@@ -208,7 +220,6 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
                 if (operation.getHasPathParams()) {
                     operation.path = camelizePath(operation.path);
                 }
-
             }
         }
         return newObjs;
@@ -220,9 +231,9 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         return super.postProcessSupportingFileData(objs);
     }
 
-
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+    public CodegenOperation fromOperation(
+            String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation codegenOperation =
                 super.fromOperation(path, httpMethod, operation, servers);
         codegenOperation.imports.add("MainApiException");
@@ -275,17 +286,20 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
             for (Entry<HttpMethod, Operation> entry : operationMap.entrySet()) {
                 serviceIdTemp = computeServiceId(pathname, entry);
                 entry.getValue().addExtension("x-serviceid", serviceIdTemp);
-                entry.getValue().addExtension("x-serviceid-varname",
-                        serviceIdTemp.toUpperCase(Locale.ROOT) + "_SERVICE_ID");
+                entry.getValue()
+                        .addExtension(
+                                "x-serviceid-varname",
+                                serviceIdTemp.toUpperCase(Locale.ROOT) + "_SERVICE_ID");
             }
         }
     }
 
     private String computeServiceId(String pathname, Entry<HttpMethod, Operation> entry) {
         String operationId = entry.getValue().getOperationId();
-        return (operationId != null) ? operationId
+        return (operationId != null)
+                ? operationId
                 : entry.getKey().name()
-                + pathname.replaceAll("-", "_").replaceAll("/", "_").replaceAll("[{}]", "");
+                        + pathname.replaceAll("-", "_").replaceAll("/", "_").replaceAll("[{}]", "");
     }
 
     protected String extractPortFromHost(String host) {

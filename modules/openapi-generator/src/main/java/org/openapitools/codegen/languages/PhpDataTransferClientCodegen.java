@@ -27,6 +27,8 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import java.io.File;
+import java.util.*;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
@@ -38,14 +40,12 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.*;
-
 public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PhpDataTransferClientCodegen.class);
     // Custom generator option names
     public static final String OPT_MODERN = "modern";
-    // Internal vendor extension names for extra template data that should not be set in specification
+    // Internal vendor extension names for extra template data that should not be set in
+    // specification
     public static final String VEN_PARAMETER_LOCATION = "internal.parameterLocation";
     public static final String VEN_FROM_PARAMETERS = "internal.fromParameters";
     public static final String VEN_COLLECTION_FORMAT = "internal.collectionFormat";
@@ -73,28 +73,20 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
 
     public PhpDataTransferClientCodegen() {
         super();
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.BearerToken,
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism));
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         // remove these from primitive types to make the output works
         languageSpecificPrimitives.remove("\\DateTime");
@@ -107,14 +99,17 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
         modelDocTemplateFiles.clear();
 
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, "1.0.0");
-        //Register custom CLI options
-        addSwitch(OPT_MODERN, "use modern language features (generated code will require PHP 8.0)", useModernSyntax);
+        // Register custom CLI options
+        addSwitch(
+                OPT_MODERN,
+                "use modern language features (generated code will require PHP 8.0)",
+                useModernSyntax);
     }
 
     @Override
     public void processOpts() {
         setSrcBasePath("src");
-        //Preserve and process options mangled in parent class
+        // Preserve and process options mangled in parent class
         String rootNamespace = "App";
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             rootNamespace = (String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE);
@@ -124,12 +119,12 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
             modelNamespace = (String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE);
         }
         super.processOpts();
-        //Restore mangled options
+        // Restore mangled options
         setInvokerPackage(rootNamespace);
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, rootNamespace);
         setModelPackage(modelNamespace);
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelNamespace);
-        //Process custom options
+        // Process custom options
         if (additionalProperties.containsKey(OPT_MODERN)) {
             embeddedTemplateDir = templateDir = "php-dt-modern";
             useModernSyntax = true;
@@ -138,8 +133,16 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
         }
 
         supportingFiles.add(new SupportingFile("composer.json.mustache", "", "composer.json"));
-        supportingFiles.add(new SupportingFile("ApiClient.php.mustache", toSrcPath(invokerPackage, srcBasePath), "ApiClient.php"));
-        supportingFiles.add(new SupportingFile("ApiClientFactory.php.mustache", toSrcPath(invokerPackage, srcBasePath), "ApiClientFactory.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ApiClient.php.mustache",
+                        toSrcPath(invokerPackage, srcBasePath),
+                        "ApiClient.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ApiClientFactory.php.mustache",
+                        toSrcPath(invokerPackage, srcBasePath),
+                        "ApiClientFactory.php"));
         supportingFiles.add(new SupportingFile("README.md.mustache", "", "README.md"));
     }
 
@@ -168,14 +171,19 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
     }
 
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        //Do not use tags for operation grouping
+    public void addOperationToGroup(
+            String tag,
+            String resourcePath,
+            Operation operation,
+            CodegenOperation co,
+            Map<String, List<CodegenOperation>> operations) {
+        // Do not use tags for operation grouping
         super.addOperationToGroup("", resourcePath, operation, co, operations);
     }
 
     @Override
     protected String getContentType(RequestBody requestBody) {
-        //Awfully nasty workaround to skip formParams generation
+        // Awfully nasty workaround to skip formParams generation
         return null;
     }
 
@@ -207,7 +215,8 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
                 PathItem path = pathsEntry.getValue();
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
                 if (operationMap != null) {
-                    for (Map.Entry<HttpMethod, Operation> operationMapEntry : operationMap.entrySet()) {
+                    for (Map.Entry<HttpMethod, Operation> operationMapEntry :
+                            operationMap.entrySet()) {
                         HttpMethod method = operationMapEntry.getKey();
                         Operation operation = operationMapEntry.getValue();
                         Map<String, Schema> propertySchemas = new HashMap<>();
@@ -217,8 +226,10 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
 
                         List<String> requiredProperties = new ArrayList<>();
                         for (Parameter parameter : operation.getParameters()) {
-                            Parameter referencedParameter = ModelUtils.getReferencedParameter(openAPI, parameter);
-                            Schema propertySchema = convertParameterToSchema(openAPI, referencedParameter);
+                            Parameter referencedParameter =
+                                    ModelUtils.getReferencedParameter(openAPI, parameter);
+                            Schema propertySchema =
+                                    convertParameterToSchema(openAPI, referencedParameter);
                             if (propertySchema != null) {
                                 propertySchemas.put(propertySchema.getName(), propertySchema);
                                 if (Boolean.TRUE.equals(referencedParameter.getRequired())) {
@@ -229,16 +240,21 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
 
                         if (!propertySchemas.isEmpty()) {
                             ObjectSchema schema = new ObjectSchema();
-                            String operationId = getOrGenerateOperationId(operation, pathname, method.name());
+                            String operationId =
+                                    getOrGenerateOperationId(operation, pathname, method.name());
                             schema.setDescription("Parameters for " + operationId);
                             schema.setProperties(propertySchemas);
                             schema.setRequired(requiredProperties);
                             addInternalExtensionToSchema(schema, VEN_FROM_PARAMETERS, Boolean.TRUE);
-                            String schemaName = generateUniqueSchemaName(openAPI, operationId + "ParameterData");
+                            String schemaName =
+                                    generateUniqueSchemaName(
+                                            openAPI, operationId + "ParameterData");
                             openAPI.getComponents().addSchemas(schemaName, schema);
                             String schemaDataType = getTypeDeclaration(toModelName(schemaName));
-                            addInternalExtensionToOperation(operation, VEN_PARAMETER_DATA_TYPE, schemaDataType);
-                            addInternalExtensionToOperation(operation, VEN_HAS_PARAMETER_DATA, Boolean.TRUE);
+                            addInternalExtensionToOperation(
+                                    operation, VEN_PARAMETER_DATA_TYPE, schemaDataType);
+                            addInternalExtensionToOperation(
+                                    operation, VEN_HAS_PARAMETER_DATA, Boolean.TRUE);
                         }
                     }
                 }
@@ -306,7 +322,7 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
     }
 
     protected void addInternalExtensionToSchema(Schema schema, String name, Object value) {
-        //Add internal extension directly, because addExtension filters extension names
+        // Add internal extension directly, because addExtension filters extension names
         if (schema.getExtensions() == null) {
             schema.setExtensions(new HashMap<>());
         }
@@ -314,7 +330,7 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
     }
 
     protected void addInternalExtensionToOperation(Operation operation, String name, Object value) {
-        //Add internal extension directly, because addExtension filters extension names
+        // Add internal extension directly, because addExtension filters extension names
         if (operation.getExtensions() == null) {
             operation.setExtensions(new HashMap<>());
         }
@@ -345,25 +361,32 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
                 List<Parameter> parameters = operation.getParameters();
                 if (parameters != null) {
                     for (Parameter parameter : parameters) {
-                        generateContainerSchemas(openAPI, ModelUtils.getReferencedParameter(openAPI, parameter).getSchema());
+                        generateContainerSchemas(
+                                openAPI,
+                                ModelUtils.getReferencedParameter(openAPI, parameter).getSchema());
                     }
                 }
-                RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
+                RequestBody requestBody =
+                        ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
                 if (requestBody != null) {
                     Content requestBodyContent = requestBody.getContent();
                     if (requestBodyContent != null) {
                         for (String mediaTypeName : requestBodyContent.keySet()) {
-                            generateContainerSchemas(openAPI, requestBodyContent.get(mediaTypeName).getSchema());
+                            generateContainerSchemas(
+                                    openAPI, requestBodyContent.get(mediaTypeName).getSchema());
                         }
                     }
                 }
                 ApiResponses responses = operation.getResponses();
                 for (String responseCode : responses.keySet()) {
-                    ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, responses.get(responseCode));
+                    ApiResponse response =
+                            ModelUtils.getReferencedApiResponse(
+                                    openAPI, responses.get(responseCode));
                     Content responseContent = response.getContent();
                     if (responseContent != null) {
                         for (String mediaTypeName : responseContent.keySet()) {
-                            generateContainerSchemas(openAPI, responseContent.get(mediaTypeName).getSchema());
+                            generateContainerSchemas(
+                                    openAPI, responseContent.get(mediaTypeName).getSchema());
                         }
                     }
                 }
@@ -375,16 +398,16 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
      * Generate additional model definitions for containers in specified schema
      *
      * @param openAPI OpenAPI object
-     * @param schema  OAS schema to process
+     * @param schema OAS schema to process
      */
     protected void generateContainerSchemas(OpenAPI openAPI, Schema schema) {
         if (schema != null) {
-            //Dereference schema
+            // Dereference schema
             schema = ModelUtils.getReferencedSchema(openAPI, schema);
             Boolean isContainer = Boolean.FALSE;
 
             if (ModelUtils.isObjectSchema(schema)) {
-                //Recursively process all schemas of object properties
+                // Recursively process all schemas of object properties
                 Map<String, Schema> properties = schema.getProperties();
                 if (properties != null) {
                     for (String propertyName : properties.keySet()) {
@@ -392,11 +415,11 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
                     }
                 }
             } else if (ModelUtils.isArraySchema(schema)) {
-                //Recursively process schema of array items
+                // Recursively process schema of array items
                 generateContainerSchemas(openAPI, ((ArraySchema) schema).getItems());
                 isContainer = Boolean.TRUE;
             } else if (ModelUtils.isMapSchema(schema)) {
-                //Recursively process schema of map items
+                // Recursively process schema of map items
                 Object itemSchema = schema.getAdditionalProperties();
                 if (itemSchema instanceof Schema) {
                     generateContainerSchemas(openAPI, (Schema) itemSchema);
@@ -405,7 +428,7 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
             }
 
             if (isContainer) {
-                //Generate special component schema for container
+                // Generate special component schema for container
                 String containerSchemaName = generateUniqueSchemaName(openAPI, "Collection");
                 Schema containerSchema = new ObjectSchema();
                 containerSchema.addProperties("inner", schema);
@@ -418,9 +441,9 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
     }
 
     /**
-     * Awfully nasty workaround - add quotation marks for all media types to prevent special treatment of form media types
-     * in org/openapitools/codegen/DefaultGenerator.java:873
-     * TODO find a better way to prevent special form media type treatment
+     * Awfully nasty workaround - add quotation marks for all media types to prevent special
+     * treatment of form media types in org/openapitools/codegen/DefaultGenerator.java:873 TODO find
+     * a better way to prevent special form media type treatment
      *
      * @param openAPI OpenAPI object
      */
@@ -433,13 +456,18 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
                 List<Operation> operations = path.readOperations();
                 if (operations != null) {
                     for (Operation operation : operations) {
-                        RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
+                        RequestBody requestBody =
+                                ModelUtils.getReferencedRequestBody(
+                                        openAPI, operation.getRequestBody());
                         if (requestBody != null) {
-                            requestBody.setContent(copyWithQuotedMediaTypes(requestBody.getContent()));
+                            requestBody.setContent(
+                                    copyWithQuotedMediaTypes(requestBody.getContent()));
                         }
                         ApiResponses responses = operation.getResponses();
                         for (String responseCode : responses.keySet()) {
-                            ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, responses.get(responseCode));
+                            ApiResponse response =
+                                    ModelUtils.getReferencedApiResponse(
+                                            openAPI, responses.get(responseCode));
                             response.setContent(copyWithQuotedMediaTypes(response.getContent()));
                         }
                     }

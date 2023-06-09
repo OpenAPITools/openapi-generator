@@ -19,15 +19,21 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.oas.models.servers.ServerVariables;
 import io.swagger.v3.oas.models.servers.ServerVariable;
-import org.openapitools.codegen.*;
+import io.swagger.v3.oas.models.servers.ServerVariables;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
@@ -36,23 +42,17 @@ import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
+public abstract class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
 
     protected static final String RESERVED_WORD_PREFIX_OPTION = "reservedWordPrefix";
-    protected static final String RESERVED_WORD_PREFIX_DESC = "Prefix to prepend to reserved words in order to avoid conflicts";
+    protected static final String RESERVED_WORD_PREFIX_DESC =
+            "Prefix to prepend to reserved words in order to avoid conflicts";
     protected String reservedWordPrefix = "r_";
-    protected static final String VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION = "variableNameFirstCharacterUppercase";
-    protected static final String VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC = "Make first character of variable name uppercase (eg. value -> Value)";
+    protected static final String VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION =
+            "variableNameFirstCharacterUppercase";
+    protected static final String VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC =
+            "Make first character of variable name uppercase (eg. value -> Value)";
     protected boolean variableNameFirstCharacterUppercase = true;
 
     public AbstractCppCodegen() {
@@ -149,15 +149,13 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                         "wchar_t",
                         "while",
                         "xor",
-                        "xor_eq")
-        );
+                        "xor_eq"));
 
-        addOption(RESERVED_WORD_PREFIX_OPTION,
-                RESERVED_WORD_PREFIX_DESC,
-                this.reservedWordPrefix);
-        addOption(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION,
-                  VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC,
-                  Boolean.toString(this.variableNameFirstCharacterUppercase));
+        addOption(RESERVED_WORD_PREFIX_OPTION, RESERVED_WORD_PREFIX_DESC, this.reservedWordPrefix);
+        addOption(
+                VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION,
+                VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC,
+                Boolean.toString(this.variableNameFirstCharacterUppercase));
     }
 
     @Override
@@ -191,12 +189,18 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             type = "UnknownModel";
         }
 
-        if (typeMapping.keySet().contains(type) || typeMapping.values().contains(type)
-                || importMapping.values().contains(type) || defaultIncludes.contains(type)
+        if (typeMapping.keySet().contains(type)
+                || typeMapping.values().contains(type)
+                || importMapping.values().contains(type)
+                || defaultIncludes.contains(type)
                 || languageSpecificPrimitives.contains(type)) {
             return type;
         } else {
-            String sanitizedName = sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1));
+            String sanitizedName =
+                    sanitizeName(
+                            modelNamePrefix
+                                    + Character.toUpperCase(type.charAt(0))
+                                    + type.substring(1));
             sanitizedName = sanitizedName.replaceFirst("^([^_a-zA-Z])", reservedWordPrefix + "$1");
             return sanitizedName;
         }
@@ -209,8 +213,10 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toVarName(String name) {
-        if (typeMapping.keySet().contains(name) || typeMapping.values().contains(name)
-                || importMapping.values().contains(name) || defaultIncludes.contains(name)
+        if (typeMapping.keySet().contains(name)
+                || typeMapping.values().contains(name)
+                || importMapping.values().contains(name)
+                || defaultIncludes.contains(name)
                 || languageSpecificPrimitives.contains(name)) {
             return sanitizeName(name);
         }
@@ -227,9 +233,8 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     /**
-     * Escapes a reserved word as defined in the `reservedWords` array. Handle
-     * escaping those terms here. This logic is only called if a variable
-     * matches the reserved words
+     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping those terms
+     * here. This logic is only called if a variable matches the reserved words
      *
      * @return the escaped term
      */
@@ -244,7 +249,10 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     @Override
     public String toOperationId(String operationId) {
         if (isReservedWord(operationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, escapeReservedWord(operationId));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    escapeReservedWord(operationId));
             return escapeReservedWord(operationId);
         }
         return sanitizeName(super.toOperationId(operationId));
@@ -265,7 +273,10 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         CodegenProperty property = super.fromProperty(name, p, required);
         String nameInCamelCase = property.nameInCamelCase;
         if (nameInCamelCase.length() > 1) {
-            nameInCamelCase = sanitizeName(Character.toLowerCase(nameInCamelCase.charAt(0)) + nameInCamelCase.substring(1));
+            nameInCamelCase =
+                    sanitizeName(
+                            Character.toLowerCase(nameInCamelCase.charAt(0))
+                                    + nameInCamelCase.substring(1));
         } else {
             nameInCamelCase = sanitizeName(nameInCamelCase);
         }
@@ -297,8 +308,10 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("CPP_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable CPP_POST_PROCESS_FILE not defined so the C++ code may not be properly formatted. To define it, try 'export CPP_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info(
+                    "Environment variable CPP_POST_PROCESS_FILE not defined so the C++ code may not be properly formatted. To define it, try 'export CPP_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
+            LOGGER.info(
+                    "NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(RESERVED_WORD_PREFIX_OPTION)) {
@@ -309,8 +322,11 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
         if (additionalProperties.containsKey(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION))
             variableNameFirstCharacterUppercase =
-                    convertPropertyToBooleanAndWriteBack(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION);
-        additionalProperties.put(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION, variableNameFirstCharacterUppercase);
+                    convertPropertyToBooleanAndWriteBack(
+                            VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION);
+        additionalProperties.put(
+                VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION,
+                variableNameFirstCharacterUppercase);
     }
 
     @Override
@@ -329,19 +345,22 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             return; // skip if CPP_POST_PROCESS_FILE env variable is not defined
         }
         // only process files with cpp extension
-        if ("cpp".equals(FilenameUtils.getExtension(file.toString())) || "h".equals(FilenameUtils.getExtension(file.toString()))) {
+        if ("cpp".equals(FilenameUtils.getExtension(file.toString()))
+                || "h".equals(FilenameUtils.getExtension(file.toString()))) {
             String command = cppPostProcessFile + " " + file;
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
                 int exitValue = p.exitValue();
                 if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                    LOGGER.error(
+                            "Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
                     LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                LOGGER.error(
+                        "Error running the command ({}). Exception: {}", command, e.getMessage());
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
@@ -373,16 +392,18 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 s.url = server.getUrl();
                 s.variables = new ArrayList<CodegenServerVariable>();
                 ServerVariables serverVars = server.getVariables();
-                if(serverVars != null){
-                serverVars.forEach((key,value) -> {
-                    CodegenServerVariable codegenServerVar= new CodegenServerVariable();
-                    ServerVariable ServerVar = value;
-                    codegenServerVar.name = key;
-                    codegenServerVar.description = ServerVar.getDescription();
-                    codegenServerVar.defaultValue = ServerVar.getDefault();
-                    codegenServerVar.enumValues = ServerVar.getEnum();
-                    s.variables.add(codegenServerVar);
-                    });
+                if (serverVars != null) {
+                    serverVars.forEach(
+                            (key, value) -> {
+                                CodegenServerVariable codegenServerVar =
+                                        new CodegenServerVariable();
+                                ServerVariable ServerVar = value;
+                                codegenServerVar.name = key;
+                                codegenServerVar.description = ServerVar.getDescription();
+                                codegenServerVar.defaultValue = ServerVar.getDefault();
+                                codegenServerVar.enumValues = ServerVar.getEnum();
+                                s.variables.add(codegenServerVar);
+                            });
                 }
                 CodegenServerList.add(s);
             }
@@ -395,7 +416,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
             // cannot handle inheritance from maps and arrays in C++
-            if((cm.isArray || cm.isMap ) && (cm.parentModel == null)) {
+            if ((cm.isArray || cm.isMap) && (cm.parentModel == null)) {
                 cm.parent = null;
             }
         }
@@ -403,7 +424,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs){
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         Map<String, ModelsMap> models = super.postProcessAllModels(objs);
         for (final String key : models.keySet()) {
             CodegenModel mo = ModelUtils.getModelByName(key, models);
@@ -414,27 +435,31 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     private void addForwardDeclarations(CodegenModel parentModel, Map<String, ModelsMap> objs) {
         List<String> forwardDeclarations = new ArrayList<>();
-        if(!parentModel.hasVars) {
+        if (!parentModel.hasVars) {
             return;
         }
-        for(CodegenProperty property : parentModel.vars){
-            if(!( (property.isContainer && property.mostInnerItems.isModel) || (property.isModel) ) ){
+        for (CodegenProperty property : parentModel.vars) {
+            if (!((property.isContainer && property.mostInnerItems.isModel)
+                    || (property.isModel))) {
                 continue;
             }
-            String childPropertyType = property.isContainer? property.mostInnerItems.baseType : property.baseType;
-            for(final String key : objs.keySet()) {
+            String childPropertyType =
+                    property.isContainer ? property.mostInnerItems.baseType : property.baseType;
+            for (final String key : objs.keySet()) {
                 CodegenModel childModel = ModelUtils.getModelByName(key, objs);
-                if( !childPropertyType.equals(childModel.classname) || childPropertyType.equals(parentModel.classname) || !childModel.hasVars ){
+                if (!childPropertyType.equals(childModel.classname)
+                        || childPropertyType.equals(parentModel.classname)
+                        || !childModel.hasVars) {
                     continue;
                 }
 
                 String forwardDecl = "class " + childPropertyType + ";";
-                if(!forwardDeclarations.contains(forwardDecl)) {
+                if (!forwardDeclarations.contains(forwardDecl)) {
                     forwardDeclarations.add(forwardDecl);
                 }
             }
         }
-        if(!forwardDeclarations.isEmpty()){
+        if (!forwardDeclarations.isEmpty()) {
             parentModel.vendorExtensions.put("x-has-forward-declarations", true);
             parentModel.vendorExtensions.put("x-forward-declarations", forwardDeclarations);
         }
@@ -442,5 +467,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.C_PLUS_PLUS; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.C_PLUS_PLUS;
+    }
 }

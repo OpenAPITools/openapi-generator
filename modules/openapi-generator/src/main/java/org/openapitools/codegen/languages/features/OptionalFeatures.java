@@ -23,5 +23,4 @@ public interface OptionalFeatures {
     String USE_OPTIONAL = "useOptional";
 
     void setUseOptional(boolean useOptional);
-
 }

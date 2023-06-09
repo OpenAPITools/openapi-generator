@@ -17,13 +17,13 @@
 
 package org.openapitools.codegen.scalaakka;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.ScalaAkkaClientCodegen;
 import org.openapitools.codegen.options.ScalaAkkaClientOptionsProvider;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class ScalaAkkaClientOptionsTest extends AbstractOptionsTest {
     private ScalaAkkaClientCodegen clientCodegen = mock(ScalaAkkaClientCodegen.class, mockSettings);
@@ -42,11 +42,21 @@ public class ScalaAkkaClientOptionsTest extends AbstractOptionsTest {
     protected void verifyOptions() {
         verify(clientCodegen).setModelPackage(ScalaAkkaClientOptionsProvider.MODEL_PACKAGE_VALUE);
         verify(clientCodegen).setApiPackage(ScalaAkkaClientOptionsProvider.API_PACKAGE_VALUE);
-        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(ScalaAkkaClientOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen)
+                .setSortParamsByRequiredFlag(
+                        Boolean.valueOf(ScalaAkkaClientOptionsProvider.SORT_PARAMS_VALUE));
         verify(clientCodegen).setSourceFolder(ScalaAkkaClientOptionsProvider.SOURCE_FOLDER_VALUE);
-        verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(ScalaAkkaClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
+        verify(clientCodegen)
+                .setPrependFormOrBodyParameters(
+                        Boolean.valueOf(
+                                ScalaAkkaClientOptionsProvider
+                                        .PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
         verify(clientCodegen).setMainPackage(ScalaAkkaClientOptionsProvider.MAIN_PACKAGE_VALUE);
-        verify(clientCodegen).setModelPropertyNaming(ScalaAkkaClientOptionsProvider.MODEL_PROPERTY_NAMING);
-        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(ScalaAkkaClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen)
+                .setModelPropertyNaming(ScalaAkkaClientOptionsProvider.MODEL_PROPERTY_NAMING);
+        verify(clientCodegen)
+                .setEnumUnknownDefaultCase(
+                        Boolean.parseBoolean(
+                                ScalaAkkaClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

@@ -17,18 +17,16 @@
 
 package org.openapitools.codegen.templating.mustache;
 
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template.Fragment;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Locale;
 
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template.Fragment;
-
 /**
- * Splits long fragments into smaller strings and uses a StringBuilder to merge
- * them back.
+ * Splits long fragments into smaller strings and uses a StringBuilder to merge them back.
  *
- * Register:
+ * <p>Register:
  *
  * <pre>
  * additionalProperties.put("lambdaSplitString", new SplitStringLambda());
@@ -83,13 +81,19 @@ public class SplitStringLambda implements Mustache.Lambda {
                     --currentStringLength;
                 }
 
-                builder.append(String.format(Locale.ROOT, SPLIT_PART, input.substring(currentPosition, currentPosition + currentStringLength)));
+                builder.append(
+                        String.format(
+                                Locale.ROOT,
+                                SPLIT_PART,
+                                input.substring(
+                                        currentPosition, currentPosition + currentStringLength)));
                 currentPosition += currentStringLength;
             }
 
             // Append last part if necessary
             if (currentPosition < input.length()) {
-                builder.append(String.format(Locale.ROOT, SPLIT_PART, input.substring(currentPosition)));
+                builder.append(
+                        String.format(Locale.ROOT, SPLIT_PART, input.substring(currentPosition)));
             }
 
             // Close the builder and merge everything back to a string
@@ -100,5 +104,4 @@ public class SplitStringLambda implements Mustache.Lambda {
 
         writer.write(builder.toString());
     }
-
 }

@@ -19,19 +19,20 @@ package org.openapitools.codegen.templating.mustache;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template.Fragment;
-
 import java.io.IOException;
 import java.io.Writer;
 
 /**
  * Replaces duplicate whitespace characters in a fragment with single space.
  *
- * Register:
+ * <p>Register:
+ *
  * <pre>
  * additionalProperties.put("lambdaPrefixWithHash", new PrefixWithHashLambda());
  * </pre>
  *
  * Use:
+ *
  * <pre>
  * {{#lambdaPrefixWithHash}}{{name}}{{/lambdaPrefixWithHash}}
  * </pre>
@@ -45,5 +46,4 @@ public class PrefixWithHashLambda implements Mustache.Lambda {
     public void execute(Fragment fragment, Writer writer) throws IOException {
         writer.write(fragment.execute().replaceAll(NEWLINE_REGEX, WITH_HASH));
     }
-
 }

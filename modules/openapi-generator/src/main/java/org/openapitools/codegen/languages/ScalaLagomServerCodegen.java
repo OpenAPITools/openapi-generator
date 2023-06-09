@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -26,11 +30,6 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.*;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaLagomServerCodegen.class);
@@ -43,23 +42,22 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
 
     public ScalaLagomServerCodegen() {
         super();
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(
+                                                WireFormatFeature.JSON,
+                                                WireFormatFeature.XML,
+                                                WireFormatFeature.Custom))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie));
 
         outputFolder = "generated-code/scala-lagom-server";
         modelTemplateFiles.put("model.mustache", ".scala");
@@ -71,16 +69,57 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // local variable names used in API methods (endpoints)
-                        "path", "contentTypes", "contentType", "queryParams", "headerParams",
-                        "formParams", "postBody", "mp", "basePath", "apiInvoker",
+                        "path",
+                        "contentTypes",
+                        "contentType",
+                        "queryParams",
+                        "headerParams",
+                        "formParams",
+                        "postBody",
+                        "mp",
+                        "basePath",
+                        "apiInvoker",
 
                         // scala reserved words
-                        "abstract", "case", "catch", "class", "def", "do", "else", "extends",
-                        "false", "final", "finally", "for", "forSome", "if", "implicit",
-                        "import", "lazy", "match", "new", "null", "object", "override", "package",
-                        "private", "protected", "return", "sealed", "super", "this", "throw",
-                        "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
-        );
+                        "abstract",
+                        "case",
+                        "catch",
+                        "class",
+                        "def",
+                        "do",
+                        "else",
+                        "extends",
+                        "false",
+                        "final",
+                        "finally",
+                        "for",
+                        "forSome",
+                        "if",
+                        "implicit",
+                        "import",
+                        "lazy",
+                        "match",
+                        "new",
+                        "null",
+                        "object",
+                        "override",
+                        "package",
+                        "private",
+                        "protected",
+                        "return",
+                        "sealed",
+                        "super",
+                        "this",
+                        "throw",
+                        "trait",
+                        "try",
+                        "true",
+                        "type",
+                        "val",
+                        "var",
+                        "while",
+                        "with",
+                        "yield"));
 
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
@@ -91,7 +130,8 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
-        supportingFiles.add(new SupportingFile("build.properties.mustache", "", "project/build.properties"));
+        supportingFiles.add(
+                new SupportingFile("build.properties.mustache", "", "project/build.properties"));
         supportingFiles.add(new SupportingFile("plugins.sbt.mustache", "", "project/plugins.sbt"));
 
         importMapping.remove("List");
@@ -117,7 +157,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
         typeMapping.put("object", "Any");
         typeMapping.put("file", "File");
 
-        //TODO binary should be mapped to byte array
+        // TODO binary should be mapped to byte array
         // mapped to String as a workaround
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
@@ -161,7 +201,8 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+            throw new RuntimeException(
+                    operationId + " (reserved word) cannot be used as method name");
         }
 
         return camelize(operationId, LOWERCASE_FIRST_LETTER);
@@ -185,7 +226,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
             }
         }
 
-        //Needed import for Gson based libraries
+        // Needed import for Gson based libraries
         if (additionalProperties.containsKey("gson")) {
             List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
 
@@ -205,7 +246,8 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> oplist = operations.getOperation();
 
@@ -215,6 +257,4 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
         }
         return objs;
     }
-
-
 }

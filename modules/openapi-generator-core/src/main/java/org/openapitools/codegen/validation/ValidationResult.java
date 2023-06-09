@@ -21,14 +21,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Encapsulates details about the result of a validation test.
- */
+/** Encapsulates details about the result of a validation test. */
 public final class ValidationResult {
     private final List<Validated> validations;
 
     /**
-     * Constructs a new {@link ValidationResult} instance, backed by the provided validations (useful for testing).
+     * Constructs a new {@link ValidationResult} instance, backed by the provided validations
+     * (useful for testing).
      *
      * @param validations A pre-defined set of validations to begin with.
      */
@@ -36,20 +35,19 @@ public final class ValidationResult {
         this.validations = Collections.synchronizedList(validations);
     }
 
-    /**
-     * Constructs a new {@link ValidationResult} instance.
-     */
+    /** Constructs a new {@link ValidationResult} instance. */
     public ValidationResult() {
         this(new ArrayList<>());
     }
 
     /**
-     * Gets all the validated states resulting from the evaluation. This includes all {@link Valid} and {@link Invalid} instances.
+     * Gets all the validated states resulting from the evaluation. This includes all {@link Valid}
+     * and {@link Invalid} instances.
      *
      * @return All validated results.
      */
     public List<Validated> getAll() {
-        return  validations;
+        return validations;
     }
 
     /**
@@ -57,8 +55,11 @@ public final class ValidationResult {
      *
      * @return A list containing only {@link Valid} states.
      */
-    public List<Valid> getValid(){
-        return validations.stream().filter(Validated::isValid).map(it -> (Valid)it).collect(Collectors.toList());
+    public List<Valid> getValid() {
+        return validations.stream()
+                .filter(Validated::isValid)
+                .map(it -> (Valid) it)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -66,10 +67,10 @@ public final class ValidationResult {
      *
      * @return A list of all validation errors.
      */
-    public List<Invalid> getErrors(){
+    public List<Invalid> getErrors() {
         return validations.stream()
                 .filter(it -> !it.isValid())
-                .map(it -> (Invalid)it)
+                .map(it -> (Invalid) it)
                 .filter(it -> it.getSeverity().equals(Severity.ERROR))
                 .collect(Collectors.toList());
     }
@@ -79,10 +80,10 @@ public final class ValidationResult {
      *
      * @return A list of all validation warnings.
      */
-    public List<Invalid> getWarnings(){
+    public List<Invalid> getWarnings() {
         return validations.stream()
                 .filter(it -> !it.isValid())
-                .map(it -> (Invalid)it)
+                .map(it -> (Invalid) it)
                 .filter(it -> it.getSeverity().equals(Severity.WARNING))
                 .collect(Collectors.toList());
     }
@@ -95,7 +96,9 @@ public final class ValidationResult {
     public void addResult(Validated validated) {
         synchronized (validations) {
             ValidationRule rule = validated.getRule();
-            if (rule != null && !rule.equals(ValidationRule.empty()) && !validations.contains(validated)) {
+            if (rule != null
+                    && !rule.equals(ValidationRule.empty())
+                    && !validations.contains(validated)) {
                 validations.add(validated);
             }
         }

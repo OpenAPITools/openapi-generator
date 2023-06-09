@@ -16,19 +16,17 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.GeneratorMetadata;
-import org.openapitools.codegen.meta.Stability;
-
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.model.ModelsMap;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashSet;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelsMap;
 
 public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String AVRO = "avro-schema";
@@ -37,23 +35,22 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     public AvroSchemaCodegen() {
         super();
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         // TODO: Avro maintainer review.
-        modifyFeatureSet(features -> features
-                .parameterFeatures(EnumSet.noneOf(ParameterFeature.class))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .wireFormatFeatures(EnumSet.noneOf(WireFormatFeature.class))
-                .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
-                .globalFeatures(EnumSet.noneOf(GlobalFeature.class))
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism,
-                        SchemaSupportFeature.Union
-                )
-                .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class))
-        );
+        modifyFeatureSet(
+                features ->
+                        features.parameterFeatures(EnumSet.noneOf(ParameterFeature.class))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .wireFormatFeatures(EnumSet.noneOf(WireFormatFeature.class))
+                                .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
+                                .globalFeatures(EnumSet.noneOf(GlobalFeature.class))
+                                .excludeSchemaSupportFeatures(
+                                        SchemaSupportFeature.Polymorphism,
+                                        SchemaSupportFeature.Union)
+                                .clientModificationFeatures(
+                                        EnumSet.noneOf(ClientModificationFeature.class)));
 
         outputFolder = "generated-code/avro-schema";
         modelTemplateFiles.put("model.mustache", ".avsc");
@@ -65,10 +62,23 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
 
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList("null", "boolean", "int", "integer", "long", "float", "double", "bytes", "string",
-                        "BigDecimal", "UUID", "number", "date", "DateTime")
-        );
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "null",
+                                "boolean",
+                                "int",
+                                "integer",
+                                "long",
+                                "float",
+                                "double",
+                                "bytes",
+                                "string",
+                                "BigDecimal",
+                                "UUID",
+                                "number",
+                                "date",
+                                "DateTime"));
         defaultIncludes = new HashSet<>(languageSpecificPrimitives);
 
         instantiationTypes.put("array", "Array");
@@ -87,7 +97,8 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("UUID", "string");
         typeMapping.put("BigDecimal", "string");
 
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, CodegenConstants.PACKAGE_NAME_DESC));
+        cliOptions.add(
+                new CliOption(CodegenConstants.PACKAGE_NAME, CodegenConstants.PACKAGE_NAME_DESC));
     }
 
     @Override
@@ -147,5 +158,4 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         // do nothing as it's a schema conversion
         return input;
     }
-
 }

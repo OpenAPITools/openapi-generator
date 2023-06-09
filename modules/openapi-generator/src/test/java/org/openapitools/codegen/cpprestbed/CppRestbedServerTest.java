@@ -1,5 +1,8 @@
 package org.openapitools.codegen.cpprestbed;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.languages.CppRestbedServerCodegen;
@@ -8,11 +11,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class CppRestbedServerTest {
 
@@ -38,7 +36,8 @@ public class CppRestbedServerTest {
         OperationsMap objs = setupOperationWithPath(providedPath);
 
         // Act
-        OperationsMap processedObjs = codegen.postProcessOperationsWithModels(objs, new ArrayList<>());
+        OperationsMap processedObjs =
+                codegen.postProcessOperationsWithModels(objs, new ArrayList<>());
 
         // Assert
         List<CodegenOperation> processedObjsOperationList = extractOperationsList(processedObjs);
@@ -48,8 +47,10 @@ public class CppRestbedServerTest {
     }
 
     private static List<CodegenOperation> extractOperationsList(Map<String, Object> processedObjs) {
-        Map<String, Object> processedOperations = (Map<String, Object>) processedObjs.get("operations");
-        List<CodegenOperation> processedObjsOperationList = (List<CodegenOperation>) processedOperations.get("operation");
+        Map<String, Object> processedOperations =
+                (Map<String, Object>) processedObjs.get("operations");
+        List<CodegenOperation> processedObjsOperationList =
+                (List<CodegenOperation>) processedOperations.get("operation");
         return processedObjsOperationList;
     }
 

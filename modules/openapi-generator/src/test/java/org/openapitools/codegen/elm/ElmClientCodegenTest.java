@@ -40,13 +40,17 @@ public class ElmClientCodegenTest {
         return recursiveListOfType(new UUIDSchema(), 6);
     }
 
-    @Test(description = "Operation that takes list of UUID (and recursive lists of UUID) includes import from UUID", dataProvider = "recursive-lists-of-uuid")
+    @Test(
+            description =
+                    "Operation that takes list of UUID (and recursive lists of UUID) includes import from UUID",
+            dataProvider = "recursive-lists-of-uuid")
     public void operationThatTakesListOfListOfUuidImportsUuid(Schema p) throws Exception {
         final ElmClientCodegen codegen = new ElmClientCodegen();
 
-        Operation operation = new Operation()
-                .operationId("opId")
-                .addParametersItem(new QueryParameter().name("listOfUuid").schema(p));
+        Operation operation =
+                new Operation()
+                        .operationId("opId")
+                        .addParametersItem(new QueryParameter().name("listOfUuid").schema(p));
 
         CodegenOperation co = codegen.fromOperation("/some/path", "get", operation, null);
 
@@ -56,7 +60,8 @@ public class ElmClientCodegenTest {
         OperationsMap operationsMap = new OperationsMap();
         operationsMap.setOperation(operationMap);
 
-        OperationsMap postProcessed = codegen.postProcessOperationsWithModels(operationsMap, Collections.emptyList());
+        OperationsMap postProcessed =
+                codegen.postProcessOperationsWithModels(operationsMap, Collections.emptyList());
 
         Assert.assertEquals(postProcessed.get("includeUuid"), true);
     }
@@ -66,13 +71,17 @@ public class ElmClientCodegenTest {
         return recursiveListOfType(new DateTimeSchema(), 6);
     }
 
-    @Test(description = "Operation that takes list of DateTime (and recursive lists of DateTime) includes import from Api.Time", dataProvider = "recursive-lists-of-datetime")
+    @Test(
+            description =
+                    "Operation that takes list of DateTime (and recursive lists of DateTime) includes import from Api.Time",
+            dataProvider = "recursive-lists-of-datetime")
     public void operationThatTakesListOfListOfDateTimeImportsApiTime(Schema p) throws Exception {
         final ElmClientCodegen codegen = new ElmClientCodegen();
 
-        Operation operation = new Operation()
-                .operationId("opId")
-                .addParametersItem(new QueryParameter().name("listOfDateTime").schema(p));
+        Operation operation =
+                new Operation()
+                        .operationId("opId")
+                        .addParametersItem(new QueryParameter().name("listOfDateTime").schema(p));
 
         CodegenOperation co = codegen.fromOperation("/some/path", "get", operation, null);
 
@@ -82,13 +91,15 @@ public class ElmClientCodegenTest {
         OperationsMap operationsMap = new OperationsMap();
         operationsMap.setOperation(operationMap);
 
-        OperationsMap postProcessed = codegen.postProcessOperationsWithModels(operationsMap, Collections.emptyList());
+        OperationsMap postProcessed =
+                codegen.postProcessOperationsWithModels(operationsMap, Collections.emptyList());
 
         Assert.assertEquals(postProcessed.get("includeTime"), true);
     }
 
     // HELPERS
-    private static <TSchema extends Schema> Schema[] recursiveListOfType(TSchema type, int levelsOfRecursion) {
+    private static <TSchema extends Schema> Schema[] recursiveListOfType(
+            TSchema type, int levelsOfRecursion) {
         final List<Schema> output = new ArrayList<Schema>();
 
         for (int levels = 0; levels < levelsOfRecursion; ++levels) {

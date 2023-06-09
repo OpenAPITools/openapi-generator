@@ -1,12 +1,12 @@
 package org.openapitools.codegen.validations.oas;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.OpenAPI;
 
 /**
- * Encapsulates an operation with its HTTP Method. In OAS, the {@link PathItem} structure contains more than what we'd
- * want to evaluate for operation-only checks.
+ * Encapsulates an operation with its HTTP Method. In OAS, the {@link PathItem} structure contains
+ * more than what we'd want to evaluate for operation-only checks.
  */
 public class OperationWrapper {
     OpenAPI specification;
@@ -42,7 +42,6 @@ public class OperationWrapper {
     public PathItem.HttpMethod getHttpMethod() {
         return httpMethod;
     }
-
 
     /**
      * Returns the OpenAPI specification.

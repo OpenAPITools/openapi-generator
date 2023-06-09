@@ -29,7 +29,8 @@ public class CodegenConfigLoader {
      * @return config class
      */
     public static CodegenConfig forName(String name) {
-        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, CodegenConfig.class.getClassLoader());
+        ServiceLoader<CodegenConfig> loader =
+                ServiceLoader.load(CodegenConfig.class, CodegenConfig.class.getClassLoader());
 
         StringBuilder availableConfigs = new StringBuilder();
 
@@ -45,12 +46,17 @@ public class CodegenConfigLoader {
         try {
             return (CodegenConfig) Class.forName(name).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            throw new GeneratorNotFoundException("Can't load config class with name '".concat(name) + "'\nAvailable:\n" + availableConfigs, e);
+            throw new GeneratorNotFoundException(
+                    "Can't load config class with name '".concat(name)
+                            + "'\nAvailable:\n"
+                            + availableConfigs,
+                    e);
         }
     }
 
     public static List<CodegenConfig> getAll() {
-        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, CodegenConfig.class.getClassLoader());
+        ServiceLoader<CodegenConfig> loader =
+                ServiceLoader.load(CodegenConfig.class, CodegenConfig.class.getClassLoader());
         List<CodegenConfig> output = new ArrayList<CodegenConfig>();
         for (CodegenConfig aLoader : loader) {
             output.add(aLoader);

@@ -17,8 +17,15 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import java.io.File;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -28,16 +35,8 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
-public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
+public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen
+        implements BeanValidationFeatures {
     private final Logger LOGGER = LoggerFactory.getLogger(JavaPlayFrameworkCodegen.class);
     public static final String TITLE = "title";
     public static final String CONFIG_PACKAGE = "configPackage";
@@ -51,7 +50,6 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
     private static final String X_JWKS_URL = "x-jwksUrl";
     private static final String X_TOKEN_INTROSPECT_URL = "x-tokenIntrospectUrl";
-
 
     protected String title = "openapi-java-playframework";
     protected String configPackage = "org.openapitools.configuration";
@@ -67,7 +65,8 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     public JavaPlayFrameworkCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(
+                features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         outputFolder = "generated-code/javaPlayFramework";
         apiTestTemplateFiles.clear();
@@ -92,18 +91,50 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         additionalProperties.put("java8", true);
         additionalProperties.put(JACKSON, "true");
 
-        cliOptions.add(new CliOption(TITLE, "server title name or client service name").defaultValue(title));
-        cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code").defaultValue(getConfigPackage()));
-        cliOptions.add(new CliOption(BASE_PACKAGE, "base package for generated code").defaultValue(getBasePackage()));
+        cliOptions.add(
+                new CliOption(TITLE, "server title name or client service name")
+                        .defaultValue(title));
+        cliOptions.add(
+                new CliOption(CONFIG_PACKAGE, "configuration package for generated code")
+                        .defaultValue(getConfigPackage()));
+        cliOptions.add(
+                new CliOption(BASE_PACKAGE, "base package for generated code")
+                        .defaultValue(getBasePackage()));
 
-        //Custom options for this generator
-        cliOptions.add(createBooleanCliWithDefault(CONTROLLER_ONLY, "Whether to generate only API interface stubs without the server files.", controllerOnly));
-        cliOptions.add(createBooleanCliWithDefault(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
-        cliOptions.add(createBooleanCliWithDefault(USE_INTERFACES, "Makes the controllerImp implements an interface to facilitate automatic completion when updating from version x to y of your spec", useInterfaces));
-        cliOptions.add(createBooleanCliWithDefault(HANDLE_EXCEPTIONS, "Add a 'throw exception' to each controller function. Add also a custom error handler where you can put your custom logic", handleExceptions));
-        cliOptions.add(createBooleanCliWithDefault(WRAP_CALLS, "Add a wrapper to each controller function to handle things like metrics, response modification, etc..", wrapCalls));
-        cliOptions.add(createBooleanCliWithDefault(USE_SWAGGER_UI, "Add a route to /api which show your documentation in swagger-ui. Will also import needed dependencies", useSwaggerUI));
-        cliOptions.add(createBooleanCliWithDefault(SUPPORT_ASYNC, "Support Async operations", supportAsync));
+        // Custom options for this generator
+        cliOptions.add(
+                createBooleanCliWithDefault(
+                        CONTROLLER_ONLY,
+                        "Whether to generate only API interface stubs without the server files.",
+                        controllerOnly));
+        cliOptions.add(
+                createBooleanCliWithDefault(
+                        USE_BEANVALIDATION,
+                        "Use BeanValidation API annotations",
+                        useBeanValidation));
+        cliOptions.add(
+                createBooleanCliWithDefault(
+                        USE_INTERFACES,
+                        "Makes the controllerImp implements an interface to facilitate automatic completion when updating from version x to y of your spec",
+                        useInterfaces));
+        cliOptions.add(
+                createBooleanCliWithDefault(
+                        HANDLE_EXCEPTIONS,
+                        "Add a 'throw exception' to each controller function. Add also a custom error handler where you can put your custom logic",
+                        handleExceptions));
+        cliOptions.add(
+                createBooleanCliWithDefault(
+                        WRAP_CALLS,
+                        "Add a wrapper to each controller function to handle things like metrics, response modification, etc..",
+                        wrapCalls));
+        cliOptions.add(
+                createBooleanCliWithDefault(
+                        USE_SWAGGER_UI,
+                        "Add a route to /api which show your documentation in swagger-ui. Will also import needed dependencies",
+                        useSwaggerUI));
+        cliOptions.add(
+                createBooleanCliWithDefault(
+                        SUPPORT_ASYNC, "Support Async operations", supportAsync));
     }
 
     @Override
@@ -127,7 +158,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
-        //TODO: add doc templates
+        // TODO: add doc templates
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
@@ -182,45 +213,58 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         }
         writePropertyBack(SUPPORT_ASYNC, supportAsync);
 
-        //We don't use annotation anymore
+        // We don't use annotation anymore
         importMapping.remove("ApiModelProperty");
         importMapping.remove("ApiModel");
 
-        //Root folder
+        // Root folder
         supportingFiles.add(new SupportingFile("README.mustache", "", "README"));
         supportingFiles.add(new SupportingFile("LICENSE.mustache", "", "LICENSE"));
         supportingFiles.add(new SupportingFile("build.mustache", "", "build.sbt"));
 
-        //Project folder
-        supportingFiles.add(new SupportingFile("buildproperties.mustache", "project", "build.properties"));
+        // Project folder
+        supportingFiles.add(
+                new SupportingFile("buildproperties.mustache", "project", "build.properties"));
         supportingFiles.add(new SupportingFile("plugins.mustache", "project", "plugins.sbt"));
 
-        //Conf folder
+        // Conf folder
         supportingFiles.add(new SupportingFile("logback.mustache", "conf", "logback.xml"));
         supportingFiles.add(new SupportingFile("application.mustache", "conf", "application.conf"));
         supportingFiles.add(new SupportingFile("routes.mustache", "conf", "routes"));
 
-        //App/Utils folder
+        // App/Utils folder
         if (!this.controllerOnly && this.useInterfaces) {
             supportingFiles.add(new SupportingFile("module.mustache", "app", "Module.java"));
         }
-        supportingFiles.add(new SupportingFile("openapiUtils.mustache", "app/openapitools", "OpenAPIUtils.java"));
-        supportingFiles.add(new SupportingFile("securityApiUtils.mustache", "app/openapitools", "SecurityAPIUtils.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "openapiUtils.mustache", "app/openapitools", "OpenAPIUtils.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "securityApiUtils.mustache", "app/openapitools", "SecurityAPIUtils.java"));
         if (this.handleExceptions) {
-            supportingFiles.add(new SupportingFile("errorHandler.mustache", "app/openapitools", "ErrorHandler.java"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "errorHandler.mustache", "app/openapitools", "ErrorHandler.java"));
         }
 
         if (this.wrapCalls) {
-            supportingFiles.add(new SupportingFile("apiCall.mustache", "app/openapitools", "ApiCall.java"));
+            supportingFiles.add(
+                    new SupportingFile("apiCall.mustache", "app/openapitools", "ApiCall.java"));
         }
 
         if (this.useSwaggerUI) {
-            //App/Controllers
+            // App/Controllers
             supportingFiles.add(new SupportingFile("openapi.mustache", "public", "openapi.json"));
-            supportingFiles.add(new SupportingFile("apiDocController.mustache", String.format(Locale.ROOT, "app/%s", apiPackage.replace(".", File.separator)), "ApiDocController.java"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "apiDocController.mustache",
+                            String.format(
+                                    Locale.ROOT, "app/%s", apiPackage.replace(".", File.separator)),
+                            "ApiDocController.java"));
         }
 
-        //We remove the default api.mustache that is used
+        // We remove the default api.mustache that is used
         apiTemplateFiles.remove("api.mustache");
         apiTemplateFiles.put("newApiController.mustache", "Controller.java");
         if (!this.controllerOnly) {
@@ -245,7 +289,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
-        //We don't use annotation anymore
+        // We don't use annotation anymore
         model.imports.remove("ApiModelProperty");
         model.imports.remove("ApiModel");
     }
@@ -308,7 +352,8 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
 
         if (operations != null) {
@@ -347,15 +392,20 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                         int end = rt.lastIndexOf(">");
                         if (end > 0) {
                             operation.returnType = rt.substring("List<".length(), end).trim();
-                            operation.returnTypeIsPrimitive = languageSpecificPrimitives().contains(operation.returnType) || operation.returnType == null;
+                            operation.returnTypeIsPrimitive =
+                                    languageSpecificPrimitives().contains(operation.returnType)
+                                            || operation.returnType == null;
                             operation.returnContainer = "List";
                         }
                     } else if (operation.returnType.startsWith("Map")) {
                         String rt = operation.returnType;
                         int end = rt.lastIndexOf(">");
                         if (end > 0) {
-                            operation.returnType = rt.substring("Map<".length(), end).split(",")[1].trim();
-                            operation.returnTypeIsPrimitive = languageSpecificPrimitives().contains(operation.returnType) || operation.returnType == null;
+                            operation.returnType =
+                                    rt.substring("Map<".length(), end).split(",")[1].trim();
+                            operation.returnTypeIsPrimitive =
+                                    languageSpecificPrimitives().contains(operation.returnType)
+                                            || operation.returnType == null;
                             operation.returnContainer = "Map";
                         }
                     } else if (operation.returnType.startsWith("Set")) {
@@ -363,7 +413,9 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                         int end = rt.lastIndexOf(">");
                         if (end > 0) {
                             operation.returnType = rt.substring("Set<".length(), end).trim();
-                            operation.returnTypeIsPrimitive = languageSpecificPrimitives().contains(operation.returnType) || operation.returnType == null;
+                            operation.returnTypeIsPrimitive =
+                                    languageSpecificPrimitives().contains(operation.returnType)
+                                            || operation.returnType == null;
                             operation.returnContainer = "Set";
                         }
                     }
@@ -374,7 +426,8 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         return objs;
     }
 
-    private CliOption createBooleanCliWithDefault(String optionName, String description, boolean defaultValue) {
+    private CliOption createBooleanCliWithDefault(
+            String optionName, String description, boolean defaultValue) {
         CliOption defaultOption = CliOption.newBoolean(optionName, description);
         defaultOption.setDefault(Boolean.toString(defaultValue));
         return defaultOption;
@@ -392,13 +445,13 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         List<CodegenSecurity> extendedSecurities = new ArrayList<>();
 
         for (CodegenSecurity codegenSecurity : securities) {
-            ExtendedCodegenSecurity extendedCodegenSecurity = new ExtendedCodegenSecurity(codegenSecurity);
+            ExtendedCodegenSecurity extendedCodegenSecurity =
+                    new ExtendedCodegenSecurity(codegenSecurity);
             extendedSecurities.add(extendedCodegenSecurity);
         }
 
         return extendedSecurities;
     }
-
 
     class ExtendedCodegenSecurity extends CodegenSecurity {
         public String jwksUrl;
@@ -421,7 +474,8 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         @Override
         public CodegenSecurity filterByScopeNames(List<String> filterScopes) {
             CodegenSecurity codegenSecurity = super.filterByScopeNames(filterScopes);
-            ExtendedCodegenSecurity extendedCodegenSecurity =  new ExtendedCodegenSecurity(codegenSecurity);
+            ExtendedCodegenSecurity extendedCodegenSecurity =
+                    new ExtendedCodegenSecurity(codegenSecurity);
             extendedCodegenSecurity.jwksUrl = this.jwksUrl;
             extendedCodegenSecurity.tokenIntrospectUrl = this.tokenIntrospectUrl;
             return extendedCodegenSecurity;
@@ -438,11 +492,11 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             }
 
             boolean result = super.equals(o);
-            JavaPlayFrameworkCodegen.ExtendedCodegenSecurity that = (JavaPlayFrameworkCodegen.ExtendedCodegenSecurity) o;
-            return result &&
-                    Objects.equals(jwksUrl, that.jwksUrl) &&
-                    Objects.equals(tokenIntrospectUrl, that.tokenIntrospectUrl);
-
+            JavaPlayFrameworkCodegen.ExtendedCodegenSecurity that =
+                    (JavaPlayFrameworkCodegen.ExtendedCodegenSecurity) o;
+            return result
+                    && Objects.equals(jwksUrl, that.jwksUrl)
+                    && Objects.equals(tokenIntrospectUrl, that.tokenIntrospectUrl);
         }
 
         @Override
@@ -459,6 +513,5 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
             sb.append(", tokenIntrospectUrl='").append(tokenIntrospectUrl).append('\'');
             return sb.toString();
         }
-
     }
 }

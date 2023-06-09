@@ -1,10 +1,18 @@
 package org.openapitools.codegen.kotlin;
 
+import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.*;
+import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
+import static org.testng.Assert.*;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import java.io.File;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
@@ -14,15 +22,6 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.io.File;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.*;
-import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
-import static org.testng.Assert.*;
 
 public class AbstractKotlinCodegenTest {
 
@@ -43,6 +42,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1LONG_NAME");
         assertEquals(codegen.toEnumVarName("not1long Name", null), "NOT1LONG_NAME");
     }
+
     @Test
     public void snake_caseEnumConverter() {
         codegen.setEnumPropertyNaming(snake_case.name());
@@ -58,6 +58,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumVarName("1long Name", null), "_1long_Name");
         assertEquals(codegen.toEnumVarName("not1long Name", null), "not1long_Name");
     }
+
     @Test
     public void pascalCaseEnumConverter() {
         codegen.setEnumPropertyNaming(PascalCase.name());
@@ -165,7 +166,10 @@ public class AbstractKotlinCodegenTest {
         codegen.setOutputDir("/User/open/api/tools");
         codegen.setSourceFolder("src/folder");
         codegen.setApiPackage("org.openapitools.codegen.api");
-        Assert.assertEquals(codegen.apiFileFolder(), "/User/open/api/tools/src/folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+        Assert.assertEquals(
+                codegen.apiFileFolder(),
+                "/User/open/api/tools/src/folder/org/openapitools/codegen/api"
+                        .replace('/', File.separatorChar));
     }
 
     @Test
@@ -173,65 +177,77 @@ public class AbstractKotlinCodegenTest {
         codegen.setOutputDir("/User/open/api/tools");
         codegen.setTestFolder("test/folder");
         codegen.setApiPackage("org.openapitools.codegen.api");
-        Assert.assertEquals(codegen.apiTestFileFolder(), "/User/open/api/tools/test/folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+        Assert.assertEquals(
+                codegen.apiTestFileFolder(),
+                "/User/open/api/tools/test/folder/org/openapitools/codegen/api"
+                        .replace('/', File.separatorChar));
     }
 
     @Test
     public void processOptsBooleanTrueFromString() {
         codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, "true");
         codegen.processOpts();
-        Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+        Assert.assertTrue(
+                (boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
     }
 
     @Test
     public void processOptsBooleanTrueFromBoolean() {
         codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
         codegen.processOpts();
-        Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+        Assert.assertTrue(
+                (boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
     }
 
     @Test
     public void processOptsBooleanFalseFromString() {
         codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, "false");
         codegen.processOpts();
-        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+        Assert.assertFalse(
+                (boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
     }
 
     @Test
     public void processOptsBooleanFalseFromBoolean() {
         codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, false);
         codegen.processOpts();
-        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+        Assert.assertFalse(
+                (boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
     }
 
     @Test
     public void processOptsBooleanFalseFromGarbage() {
         codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, "blibb");
         codegen.processOpts();
-        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+        Assert.assertFalse(
+                (boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
     }
 
     @Test
     public void processOptsBooleanFalseFromNumeric() {
         codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, 42L);
         codegen.processOpts();
-        Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
+        Assert.assertFalse(
+                (boolean) codegen.additionalProperties().get(CodegenConstants.SERIALIZABLE_MODEL));
     }
 
     @Test
     public void handleInheritance() {
-        Schema parent = new ObjectSchema()
-                .addProperties("a", new StringSchema())
-                .addProperties("b", new StringSchema())
-                .addRequiredItem("a")
-                .name("Parent");
-        Schema child = new ComposedSchema()
-                .addAllOfItem(new Schema().$ref("Parent"))
-                .addAllOfItem(new ObjectSchema()
-                        .addProperties("c", new StringSchema())
-                        .addProperties("d", new StringSchema())
-                        .addRequiredItem("c"))
-                .name("Child");
+        Schema parent =
+                new ObjectSchema()
+                        .addProperties("a", new StringSchema())
+                        .addProperties("b", new StringSchema())
+                        .addRequiredItem("a")
+                        .name("Parent");
+        Schema child =
+                new ComposedSchema()
+                        .addAllOfItem(new Schema().$ref("Parent"))
+                        .addAllOfItem(
+                                new ObjectSchema()
+                                        .addProperties("c", new StringSchema())
+                                        .addProperties("d", new StringSchema())
+                                        .addRequiredItem("c"))
+                        .name("Child");
         OpenAPI openAPI = TestUtils.createOpenAPI();
         openAPI.getComponents().addSchemas(parent.getName(), parent);
         openAPI.getComponents().addSchemas(child.getName(), child);
@@ -239,33 +255,36 @@ public class AbstractKotlinCodegenTest {
         final DefaultCodegen codegen = new P_AbstractKotlinCodegen();
         codegen.setOpenAPI(openAPI);
 
-        final CodegenModel pm = codegen
-                .fromModel("Child", child);
-        Map<String, CodegenProperty> allVarsMap = pm.allVars.stream()
-                .collect(Collectors.toMap(CodegenProperty::getBaseName, Function.identity()));
+        final CodegenModel pm = codegen.fromModel("Child", child);
+        Map<String, CodegenProperty> allVarsMap =
+                pm.allVars.stream()
+                        .collect(
+                                Collectors.toMap(
+                                        CodegenProperty::getBaseName, Function.identity()));
         for (CodegenProperty p : pm.requiredVars) {
             Assert.assertEquals(allVarsMap.get(p.baseName).isInherited, p.isInherited);
         }
         Assert.assertEqualsNoOrder(
-            pm.requiredVars.stream().map(CodegenProperty::getBaseName).toArray(),
-            new String[] {"a", "c"}
-        );
+                pm.requiredVars.stream().map(CodegenProperty::getBaseName).toArray(),
+                new String[] {"a", "c"});
         for (CodegenProperty p : pm.optionalVars) {
             Assert.assertEquals(allVarsMap.get(p.baseName).isInherited, p.isInherited);
         }
         Assert.assertEqualsNoOrder(
-            pm.optionalVars.stream().map(CodegenProperty::getBaseName).toArray(),
-            new String[] {"b", "d"}
-        );
+                pm.optionalVars.stream().map(CodegenProperty::getBaseName).toArray(),
+                new String[] {"b", "d"});
     }
 
     @Test(description = "Issue #10591")
     public void testEnumPropertyWithDefaultValue() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue10591-enum-defaultValue.yaml");
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec(
+                        "src/test/resources/3_0/kotlin/issue10591-enum-defaultValue.yaml");
         final AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
         codegen.setOpenAPI(openAPI);
 
-        Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
+        Schema test1 =
+                openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
         CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
 
         // Make sure we got the container object.
@@ -283,24 +302,29 @@ public class AbstractKotlinCodegenTest {
 
     @Test(description = "Issue #10792")
     public void handleInheritanceWithObjectTypeShouldNotBeAMap() {
-        Schema parent = new ObjectSchema()
-            .addProperties("a", new StringSchema())
-            .addProperties("b", new StringSchema())
-            .addRequiredItem("a")
-            .name("Parent");
-        Schema child = new ComposedSchema()
-            .addAllOfItem(new Schema().$ref("Parent"))
-            .addAllOfItem(new ObjectSchema()
-                .addProperties("c", new StringSchema())
-                .addProperties("d", new StringSchema())
-                .addRequiredItem("c"))
-            .name("Child")
-            .type("object"); // Without the object type it is not wrongly recognized as map
-        Schema mapSchema = new ObjectSchema()
-            .addProperties("a", new StringSchema())
-            .additionalProperties(Boolean.TRUE)
-            .name("MapSchema")
-            .type("object");
+        Schema parent =
+                new ObjectSchema()
+                        .addProperties("a", new StringSchema())
+                        .addProperties("b", new StringSchema())
+                        .addRequiredItem("a")
+                        .name("Parent");
+        Schema child =
+                new ComposedSchema()
+                        .addAllOfItem(new Schema().$ref("Parent"))
+                        .addAllOfItem(
+                                new ObjectSchema()
+                                        .addProperties("c", new StringSchema())
+                                        .addProperties("d", new StringSchema())
+                                        .addRequiredItem("c"))
+                        .name("Child")
+                        .type("object"); // Without the object type it is not wrongly recognized
+        // as map
+        Schema mapSchema =
+                new ObjectSchema()
+                        .addProperties("a", new StringSchema())
+                        .additionalProperties(Boolean.TRUE)
+                        .name("MapSchema")
+                        .type("object");
 
         OpenAPI openAPI = TestUtils.createOpenAPI();
         openAPI.getComponents().addSchemas(parent.getName(), parent);
@@ -310,14 +334,12 @@ public class AbstractKotlinCodegenTest {
         final DefaultCodegen codegen = new P_AbstractKotlinCodegen();
         codegen.setOpenAPI(openAPI);
 
-        final CodegenModel pm = codegen
-            .fromModel("Child", child);
+        final CodegenModel pm = codegen.fromModel("Child", child);
 
         Assert.assertFalse(pm.isMap);
 
         // Make sure a real map is still flagged as map
-        final CodegenModel mapSchemaModel = codegen
-            .fromModel("MapSchema", mapSchema);
+        final CodegenModel mapSchemaModel = codegen.fromModel("MapSchema", mapSchema);
         Assert.assertTrue(mapSchemaModel.isMap);
     }
 

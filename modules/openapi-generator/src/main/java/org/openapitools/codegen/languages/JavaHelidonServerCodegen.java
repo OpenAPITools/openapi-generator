@@ -17,6 +17,11 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,10 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -44,8 +45,6 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
 
@@ -64,11 +63,11 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
     public JavaHelidonServerCodegen() {
         super();
         // beta for now
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(
+                features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         outputFolder = "generated-code" + File.separator + "java";
         embeddedTemplateDir = templateDir = "java-helidon" + File.separator + "server";
@@ -88,10 +87,16 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
 
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use Bean Validation"));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
-        cliOptions.add(CliOption.newBoolean(USE_ABSTRACT_CLASS,
-                "Whether to generate abstract classes for REST API instead of interfaces.", useAbstractClass));
-        cliOptions.add(CliOption.newBoolean(GRADLE_PROJECT,
-                "Whether to generate gradle project instead of maven.", gradleProject));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_ABSTRACT_CLASS,
+                        "Whether to generate abstract classes for REST API instead of interfaces.",
+                        useAbstractClass));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        GRADLE_PROJECT,
+                        "Whether to generate gradle project instead of maven.",
+                        gradleProject));
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
@@ -107,17 +112,22 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
         supportedLibraries.put(HELIDON_NIMA, "Helidon NIMA Server");
         supportedLibraries.put(HELIDON_NIMA_ANNOTATIONS, "Helidon NIMA Annotations Server");
 
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        CliOption libraryOption =
+                new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
         libraryOption.setDefault(HELIDON_SE);
         cliOptions.add(libraryOption);
         setLibrary(HELIDON_SE);
 
-        CliOption serializationLibrary = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY,
-                "Serialization library, defaults to Jackson");
+        CliOption serializationLibrary =
+                new CliOption(
+                        CodegenConstants.SERIALIZATION_LIBRARY,
+                        "Serialization library, defaults to Jackson");
         Map<String, String> serializationOptions = new HashMap<>();
-        serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
-        serializationOptions.put(SERIALIZATION_LIBRARY_JSONB, "Use JSON-B as serialization library");
+        serializationOptions.put(
+                SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
+        serializationOptions.put(
+                SERIALIZATION_LIBRARY_JSONB, "Use JSON-B as serialization library");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
         setSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
@@ -136,13 +146,22 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
         addApiTemplateFiles();
         SupportingFile pomFile = new SupportingFile("pom.mustache", "", "pom.xml");
         SupportingFile readmeFile = new SupportingFile("README.mustache", "", "README.md");
-        SupportingFile openApiFile = new SupportingFile("openapi.mustache",
-                ("src/main/resources/META-INF").replace("/", File.separator), "openapi.yml");
-        SupportingFile logFile = new SupportingFile("logging.mustache",
-                ("src.main.resources").replace(".", File.separator), "logging.properties");
-        SupportingFile packageInfoFile = new SupportingFile("package-info.mustache",
-                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator),
-                "package-info.java");
+        SupportingFile openApiFile =
+                new SupportingFile(
+                        "openapi.mustache",
+                        ("src/main/resources/META-INF").replace("/", File.separator),
+                        "openapi.yml");
+        SupportingFile logFile =
+                new SupportingFile(
+                        "logging.mustache",
+                        ("src.main.resources").replace(".", File.separator),
+                        "logging.properties");
+        SupportingFile packageInfoFile =
+                new SupportingFile(
+                        "package-info.mustache",
+                        (sourceFolder + File.separator + invokerPackage)
+                                .replace(".", File.separator),
+                        "package-info.java");
         List<SupportingFile> modifiable = new ArrayList<>();
         modifiable.add(pomFile);
         modifiable.add(readmeFile);
@@ -161,14 +180,16 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
         importMapping.put("JsonbBuilder", rootJavaEEPackage() + ".json.bind.JsonbBuilder");
 
         if (additionalProperties.containsKey(USE_ABSTRACT_CLASS)) {
-            useAbstractClass = Boolean.parseBoolean(additionalProperties.get(USE_ABSTRACT_CLASS).toString());
+            useAbstractClass =
+                    Boolean.parseBoolean(additionalProperties.get(USE_ABSTRACT_CLASS).toString());
         }
         if (!useAbstractClass) {
             additionalProperties.remove(USE_ABSTRACT_CLASS);
         }
 
         if (additionalProperties.containsKey(GRADLE_PROJECT)) {
-            gradleProject = Boolean.parseBoolean(additionalProperties.get(GRADLE_PROJECT).toString());
+            gradleProject =
+                    Boolean.parseBoolean(additionalProperties.get(GRADLE_PROJECT).toString());
         }
         if (!gradleProject) {
             additionalProperties.remove(GRADLE_PROJECT);
@@ -179,42 +200,64 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
-            setSerializationLibrary(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString());
+            setSerializationLibrary(
+                    additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString());
         }
 
         String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
 
         if (additionalProperties.containsKey("jsr310") && isLibrary(HELIDON_MP)) {
-            supportingFiles.add(new SupportingFile("JavaTimeFormatter.mustache", invokerFolder, "JavaTimeFormatter.java"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "JavaTimeFormatter.mustache", invokerFolder, "JavaTimeFormatter.java"));
         }
 
         if (isLibrary(HELIDON_MP)) {
             String resourceFolder = "src" + File.separator + "main" + File.separator + "resources";
             String metaInfFolder = resourceFolder + File.separator + "META-INF";
-            supportingFiles.add(new SupportingFile("RestApplication.mustache", invokerFolder, "RestApplication.java"));
-            supportingFiles.add(new SupportingFile("microprofile-config.properties.mustache", metaInfFolder, "microprofile" +
-                    "-config.properties"));
-            supportingFiles.add(new SupportingFile("beans.xml.mustache", metaInfFolder, "beans.xml"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "RestApplication.mustache", invokerFolder, "RestApplication.java"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "microprofile-config.properties.mustache",
+                            metaInfFolder,
+                            "microprofile" + "-config.properties"));
+            supportingFiles.add(
+                    new SupportingFile("beans.xml.mustache", metaInfFolder, "beans.xml"));
             processSupportingFiles(modifiable, unmodifiable);
         } else if (isLibrary(HELIDON_SE)) {
             artifactId = "openapi-helidon-se-server";
 
-            modifiable.add(new SupportingFile("application.mustache",
-                    ("src.main.resources").replace(".", java.io.File.separator), "application.yaml"));
-            modifiable.add(new SupportingFile("mainTest.mustache",
-                    (testFolder + File.separator + invokerPackage).replace(".", java.io.File.separator),
-                    "MainTest.java"));
-            modifiable.add(new SupportingFile("main.mustache",
-                    (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator),
-                    "Main.java"));
-            unmodifiable.add(new SupportingFile("validatorUtils.mustache",
-                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator),
-                    "ValidatorUtils.java"));
+            modifiable.add(
+                    new SupportingFile(
+                            "application.mustache",
+                            ("src.main.resources").replace(".", java.io.File.separator),
+                            "application.yaml"));
+            modifiable.add(
+                    new SupportingFile(
+                            "mainTest.mustache",
+                            (testFolder + File.separator + invokerPackage)
+                                    .replace(".", java.io.File.separator),
+                            "MainTest.java"));
+            modifiable.add(
+                    new SupportingFile(
+                            "main.mustache",
+                            (sourceFolder + File.separator + invokerPackage)
+                                    .replace(".", java.io.File.separator),
+                            "Main.java"));
+            unmodifiable.add(
+                    new SupportingFile(
+                            "validatorUtils.mustache",
+                            (sourceFolder + File.separator + apiPackage)
+                                    .replace(".", java.io.File.separator),
+                            "ValidatorUtils.java"));
             if (useAbstractClass) {
                 importMapping.put("Map", "java.util.Map");
                 importMapping.put("HashMap", "java.util.HashMap");
                 importMapping.put("InputStream", "java.io.InputStream");
-                importMapping.put("ReadableBodyPart", "io.helidon.media.multipart.ReadableBodyPart");
+                importMapping.put(
+                        "ReadableBodyPart", "io.helidon.media.multipart.ReadableBodyPart");
                 importMapping.put("ArrayList", "java.util.ArrayList");
                 importMapping.put("ByteArrayOutputStream", "java.io.ByteArrayOutputStream");
                 importMapping.put("DataChunk", "io.helidon.common.http.DataChunk");
@@ -231,26 +274,34 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
         } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
             throw new IllegalArgumentException(
-                    String.format(Locale.ROOT,
+                    String.format(
+                            Locale.ROOT,
                             "Unknown library option %s for Helidon Server",
-                            getLibrary()
-                    )
-            );
+                            getLibrary()));
         }
 
         if (getSerializationLibrary() == null) {
-            LOGGER.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_JACKSON);
+            LOGGER.info(
+                    "No serializationLibrary configured, using '{}' as fallback",
+                    SERIALIZATION_LIBRARY_JACKSON);
             setSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         }
         switch (getSerializationLibrary()) {
             case SERIALIZATION_LIBRARY_JACKSON:
                 additionalProperties.put(SERIALIZATION_LIBRARY_JACKSON, "true");
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
-                supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "RFC3339DateFormat.mustache",
+                                invokerFolder,
+                                "RFC3339DateFormat.java"));
                 if (isLibrary(HELIDON_SE)) {
-                    supportingFiles.add(new SupportingFile("jsonProvider.mustache",
-                            (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator),
-                            "JsonProvider.java"));
+                    supportingFiles.add(
+                            new SupportingFile(
+                                    "jsonProvider.mustache",
+                                    (sourceFolder + File.separator + apiPackage)
+                                            .replace(".", java.io.File.separator),
+                                    "JsonProvider.java"));
                 }
                 break;
             case SERIALIZATION_LIBRARY_JSONB:
@@ -268,8 +319,10 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
     }
 
     private void addApiTemplateFiles() {
-        Boolean fullProject = !additionalProperties.containsKey(FULL_PROJECT) ? null :
-                Boolean.parseBoolean(additionalProperties.get(FULL_PROJECT).toString());
+        Boolean fullProject =
+                !additionalProperties.containsKey(FULL_PROJECT)
+                        ? null
+                        : Boolean.parseBoolean(additionalProperties.get(FULL_PROJECT).toString());
         if (fullProject == null && !projectFilesExist()) {
             apiTemplateFiles.put("apiImpl.mustache", "Impl.java");
         } else if (Boolean.TRUE.equals(fullProject)) {
@@ -278,8 +331,10 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
+    public CodegenOperation fromOperation(
+            String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation codegenOperation =
+                super.fromOperation(path, httpMethod, operation, servers);
         if (HELIDON_SE.equals(getLibrary())) {
             if (additionalProperties.containsKey(JACKSON)) {
                 codegenOperation.imports.add("ObjectMapper");
@@ -336,7 +391,8 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         if (HELIDON_MP.equals(getLibrary())) {
             return AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
@@ -380,7 +436,6 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
         return "Generates a Java Helidon Server application.";
     }
 
-
     @Override
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
@@ -401,7 +456,8 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
         } else if (SERIALIZATION_LIBRARY_JSONB.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_JSONB;
         } else {
-            throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
+            throw new IllegalArgumentException(
+                    "Unexpected serializationLibrary value: " + serializationLibrary);
         }
     }
 
@@ -415,8 +471,9 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
         Path projectFolder = Paths.get(getOutputTestFolder());
         Path pom = projectFolder.resolve("pom.xml");
         Path buildGradle = projectFolder.resolve("build.gradle");
-        Path src = projectFolder.resolve(Paths.get(sourceFolder, invokerPackage.replace('.', File.separatorChar)));
+        Path src =
+                projectFolder.resolve(
+                        Paths.get(sourceFolder, invokerPackage.replace('.', File.separatorChar)));
         return (pom.toFile().exists() || buildGradle.toFile().exists()) && src.toFile().exists();
     }
 }
-

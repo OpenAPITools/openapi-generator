@@ -16,13 +16,12 @@
 
 package org.openapitools.codegen.validation;
 
-import org.testng.annotations.Test;
-
 import static org.testng.Assert.*;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import org.testng.annotations.Test;
 
 public class GenericValidatorTest {
     static class Person {
@@ -44,28 +43,42 @@ public class GenericValidatorTest {
     }
 
     private static ValidationRule.Result checkName(Person person) {
-        return (person.name != null && person.name.length() > 0) ? ValidationRule.Pass.empty() : ValidationRule.Fail.empty();
+        return (person.name != null && person.name.length() > 0)
+                ? ValidationRule.Pass.empty()
+                : ValidationRule.Fail.empty();
     }
 
     private static ValidationRule.Result checkNamePattern(Person person) {
         String pattern = "^[A-Z][a-z]*$";
-        return person.name.matches(pattern) ? ValidationRule.Pass.empty() : ValidationRule.Fail.empty();
+        return person.name.matches(pattern)
+                ? ValidationRule.Pass.empty()
+                : ValidationRule.Fail.empty();
     }
 
     private static ValidationRule.Result checkNameNormalLength(Person person) {
-        return person.name.length() < 10? ValidationRule.Pass.empty() : ValidationRule.Fail.empty();
+        return person.name.length() < 10
+                ? ValidationRule.Pass.empty()
+                : ValidationRule.Fail.empty();
     }
 
-    private List<ValidationRule> validationRules = Arrays.asList(
-            ValidationRule.error("Age must be positive and more than zero", GenericValidatorTest::checkAge),
-            ValidationRule.error("Only adults (18 years old and older)", GenericValidatorTest::checkAdult),
-            ValidationRule.error("Name isn't set!", GenericValidatorTest::checkName),
-            ValidationRule.error("Name isn't formatted correct", GenericValidatorTest::checkNamePattern),
-            ValidationRule.warn("Name too long?", "Name may be too long.", GenericValidatorTest::checkNameNormalLength)
-    );
+    private List<ValidationRule> validationRules =
+            Arrays.asList(
+                    ValidationRule.error(
+                            "Age must be positive and more than zero",
+                            GenericValidatorTest::checkAge),
+                    ValidationRule.error(
+                            "Only adults (18 years old and older)",
+                            GenericValidatorTest::checkAdult),
+                    ValidationRule.error("Name isn't set!", GenericValidatorTest::checkName),
+                    ValidationRule.error(
+                            "Name isn't formatted correct", GenericValidatorTest::checkNamePattern),
+                    ValidationRule.warn(
+                            "Name too long?",
+                            "Name may be too long.",
+                            GenericValidatorTest::checkNameNormalLength));
 
     @Test
-    public void testGenericValidatorSuccesses(){
+    public void testGenericValidatorSuccesses() {
         Person person = new Person("Jim", 23);
         GenericValidator<Person> validator = new GenericValidator<>(validationRules);
         ValidationResult result = validator.validate(person);
@@ -79,7 +92,7 @@ public class GenericValidatorTest {
     }
 
     @Test
-    public void testGenericValidatorSingleConditionFails(){
+    public void testGenericValidatorSingleConditionFails() {
         Person person = new Person("Jim", 3);
         GenericValidator<Person> validator = new GenericValidator<>(validationRules);
         ValidationResult result = validator.validate(person);
@@ -98,7 +111,7 @@ public class GenericValidatorTest {
     }
 
     @Test
-    public void testGenericValidatorMultipleConditionsFail(){
+    public void testGenericValidatorMultipleConditionsFail() {
         Person person = new Person("asdf", 3);
         GenericValidator<Person> validator = new GenericValidator<>(validationRules);
         ValidationResult result = validator.validate(person);
@@ -112,8 +125,10 @@ public class GenericValidatorTest {
         assertEquals(errors.size(), 2, "Expected 2 validations to fail.");
         assertEquals(warnings.size(), 0, "Expected no warnings to be triggered.");
 
-        Optional<Invalid> nameValidation = errors.stream().filter(it -> it.getMessage().contains("formatted")).findFirst();
-        Optional<Invalid> ageValidation = errors.stream().filter(it -> it.getMessage().contains("adults")).findFirst();
+        Optional<Invalid> nameValidation =
+                errors.stream().filter(it -> it.getMessage().contains("formatted")).findFirst();
+        Optional<Invalid> ageValidation =
+                errors.stream().filter(it -> it.getMessage().contains("adults")).findFirst();
 
         assertTrue(nameValidation.isPresent(), "Expected validation on name formatting to fail.");
         assertTrue(ageValidation.isPresent(), "Expected validation on age requirements to fail.");
@@ -122,7 +137,7 @@ public class GenericValidatorTest {
     }
 
     @Test
-    public void testGenericValidatorErrorsAndWarnings(){
+    public void testGenericValidatorErrorsAndWarnings() {
         Person person = new Person("0123456789asdfghjkl", 3);
         GenericValidator<Person> validator = new GenericValidator<>(validationRules);
         ValidationResult result = validator.validate(person);
@@ -136,8 +151,10 @@ public class GenericValidatorTest {
         assertEquals(errors.size(), 2, "Expected 2 validations to fail.");
         assertEquals(warnings.size(), 1, "Expected 1 warning to be triggered.");
 
-        Optional<Invalid> nameValidation = errors.stream().filter(it -> it.getMessage().contains("formatted")).findFirst();
-        Optional<Invalid> ageValidation = errors.stream().filter(it -> it.getMessage().contains("adults")).findFirst();
+        Optional<Invalid> nameValidation =
+                errors.stream().filter(it -> it.getMessage().contains("formatted")).findFirst();
+        Optional<Invalid> ageValidation =
+                errors.stream().filter(it -> it.getMessage().contains("adults")).findFirst();
         Invalid nameLengthWarning = warnings.get(0);
 
         assertTrue(nameValidation.isPresent(), "Expected validation on name formatting to fail.");

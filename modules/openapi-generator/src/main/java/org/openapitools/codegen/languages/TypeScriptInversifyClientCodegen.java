@@ -17,22 +17,21 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import io.swagger.v3.oas.models.media.BinarySchema;
 import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.io.File;
+import java.util.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-
-import java.io.File;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCodegen {
 
@@ -48,7 +47,8 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
     public TypeScriptInversifyClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(
+                features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         this.outputFolder = "generated-code/typescript-inversify";
 
@@ -62,20 +62,34 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
 
         this.reservedWords.add("map");
 
-        this.cliOptions.add(new CliOption(NPM_REPOSITORY,
-                "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(new CliOption(WITH_INTERFACES,
-                "Setting this property to true will generate interfaces next to the default class implementations.",
-                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(USE_PROMISE,
-                "Setting this property to use promise instead of observable inside every service.",
-                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(USE_RXJS6,
-                "Setting this property to use rxjs 6 instead of rxjs 5.",
-                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(TAGGED_UNIONS,
-                "Use discriminators to create tagged unions instead of extending interfaces.",
-                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(
+                new CliOption(
+                        NPM_REPOSITORY,
+                        "Use this property to set an url your private npmRepo in the package.json"));
+        this.cliOptions.add(
+                new CliOption(
+                                WITH_INTERFACES,
+                                "Setting this property to true will generate interfaces next to the default class implementations.",
+                                SchemaTypeUtil.BOOLEAN_TYPE)
+                        .defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(
+                new CliOption(
+                                USE_PROMISE,
+                                "Setting this property to use promise instead of observable inside every service.",
+                                SchemaTypeUtil.BOOLEAN_TYPE)
+                        .defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(
+                new CliOption(
+                                USE_RXJS6,
+                                "Setting this property to use rxjs 6 instead of rxjs 5.",
+                                SchemaTypeUtil.BOOLEAN_TYPE)
+                        .defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(
+                new CliOption(
+                                TAGGED_UNIONS,
+                                "Use discriminators to create tagged unions instead of extending interfaces.",
+                                SchemaTypeUtil.BOOLEAN_TYPE)
+                        .defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -98,21 +112,32 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
     public void processOpts() {
         super.processOpts();
         // HttpClient
-        supportingFiles.add(new SupportingFile("IHttpClient.mustache", getIndexDirectory(), "IHttpClient.ts"));
-        supportingFiles.add(new SupportingFile("IAPIConfiguration.mustache", getIndexDirectory(), "IAPIConfiguration.ts"));
-        supportingFiles.add(new SupportingFile("HttpClient.mustache", getIndexDirectory(), "HttpClient.ts"));
-        supportingFiles.add(new SupportingFile("HttpResponse.mustache", getIndexDirectory(), "HttpResponse.ts"));
-        supportingFiles.add(new SupportingFile("Headers.mustache", getIndexDirectory(), "Headers.ts"));
+        supportingFiles.add(
+                new SupportingFile("IHttpClient.mustache", getIndexDirectory(), "IHttpClient.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "IAPIConfiguration.mustache", getIndexDirectory(), "IAPIConfiguration.ts"));
+        supportingFiles.add(
+                new SupportingFile("HttpClient.mustache", getIndexDirectory(), "HttpClient.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "HttpResponse.mustache", getIndexDirectory(), "HttpResponse.ts"));
+        supportingFiles.add(
+                new SupportingFile("Headers.mustache", getIndexDirectory(), "Headers.ts"));
 
-        supportingFiles.add(new SupportingFile("ApiServiceBinder.mustache", getIndexDirectory(), "ApiServiceBinder.ts"));
-        supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ApiServiceBinder.mustache", getIndexDirectory(), "ApiServiceBinder.ts"));
+        supportingFiles.add(
+                new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
 
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
 
         if (additionalProperties.containsKey(WITH_INTERFACES)) {
-            boolean withInterfaces = Boolean.parseBoolean(additionalProperties.get(WITH_INTERFACES).toString());
+            boolean withInterfaces =
+                    Boolean.parseBoolean(additionalProperties.get(WITH_INTERFACES).toString());
             if (withInterfaces) {
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
@@ -129,15 +154,24 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
 
-        //Files for building our lib
-        supportingFiles.add(new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
-        supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
+        // Files for building our lib
+        supportingFiles.add(
+                new SupportingFile(
+                        "models.mustache",
+                        modelPackage().replace('.', File.separatorChar),
+                        "models.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
-        supportingFiles.add(new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
-        supportingFiles.add(new SupportingFile("tsconfig.mustache", getIndexDirectory(), "tsconfig.json"));
+        supportingFiles.add(
+                new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
+        supportingFiles.add(
+                new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
+        supportingFiles.add(
+                new SupportingFile("tsconfig.mustache", getIndexDirectory(), "tsconfig.json"));
     }
 
     private String getIndexDirectory() {
@@ -158,7 +192,6 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
             return super.getTypeDeclaration(p);
         }
     }
-
 
     @Override
     public String getSchemaType(Schema p) {
@@ -200,7 +233,8 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap operations, List<ModelMap> allModels) {
         OperationMap objs = operations.getOperations();
 
         // Add filename information for api imports
@@ -351,5 +385,4 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
         String name = filename.substring((modelPackage() + "/").length());
         return camelize(name);
     }
-
 }

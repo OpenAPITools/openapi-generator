@@ -16,9 +16,19 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -29,17 +39,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractPhpCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -80,35 +79,102 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // local variables used in api methods (endpoints)
-                        "resourcePath", "httpBody", "queryParams", "headerParams",
-                        "formParams", "_header_accept", "_tempBody",
+                        "resourcePath",
+                        "httpBody",
+                        "queryParams",
+                        "headerParams",
+                        "formParams",
+                        "_header_accept",
+                        "_tempBody",
 
                         // PHP reserved words
-                        "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
-        );
+                        "__halt_compiler",
+                        "abstract",
+                        "and",
+                        "array",
+                        "as",
+                        "break",
+                        "callable",
+                        "case",
+                        "catch",
+                        "class",
+                        "clone",
+                        "const",
+                        "continue",
+                        "declare",
+                        "default",
+                        "die",
+                        "do",
+                        "echo",
+                        "else",
+                        "elseif",
+                        "empty",
+                        "enddeclare",
+                        "endfor",
+                        "endforeach",
+                        "endif",
+                        "endswitch",
+                        "endwhile",
+                        "eval",
+                        "exit",
+                        "extends",
+                        "final",
+                        "for",
+                        "foreach",
+                        "function",
+                        "global",
+                        "goto",
+                        "if",
+                        "implements",
+                        "include",
+                        "include_once",
+                        "instanceof",
+                        "insteadof",
+                        "interface",
+                        "isset",
+                        "list",
+                        "namespace",
+                        "new",
+                        "or",
+                        "print",
+                        "private",
+                        "protected",
+                        "public",
+                        "require",
+                        "require_once",
+                        "return",
+                        "static",
+                        "switch",
+                        "throw",
+                        "trait",
+                        "try",
+                        "unset",
+                        "use",
+                        "var",
+                        "while",
+                        "xor"));
 
         // ref: http://php.net/manual/en/language.types.intro.php
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
-                        "bool",
-                        "boolean",
-                        "int",
-                        "integer",
-                        "float",
-                        "string",
-                        "object",
-                        "array",
-                        "\\DateTime",
-                        "\\SplFileObject",
-                        "mixed",
-                        "number",
-                        "void",
-                        "byte")
-        );
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "bool",
+                                "boolean",
+                                "int",
+                                "integer",
+                                "float",
+                                "string",
+                                "object",
+                                "array",
+                                "\\DateTime",
+                                "\\SplFileObject",
+                                "mixed",
+                                "number",
+                                "void",
+                                "byte"));
 
         instantiationTypes.put("array", "array");
         instantiationTypes.put("map", "array");
-
 
         // provide primitives to mustache template
         String primitives = "'" + StringUtils.join(languageSpecificPrimitives, "', '") + "'";
@@ -139,14 +205,27 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("URI", "string");
         typeMapping.put("AnyType", "mixed");
 
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
-        cliOptions.add(new CliOption(VARIABLE_NAMING_CONVENTION, "naming convention of variable name, e.g. camelCase.")
-                .defaultValue("snake_case"));
-        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, "The main namespace to use for all classes. e.g. Yay\\Pets"));
-        cliOptions.add(new CliOption(PACKAGE_NAME, "The main package name for classes. e.g. GeneratedPetstore"));
+        cliOptions.add(
+                new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
+        cliOptions.add(
+                new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
+        cliOptions.add(
+                new CliOption(
+                                VARIABLE_NAMING_CONVENTION,
+                                "naming convention of variable name, e.g. camelCase.")
+                        .defaultValue("snake_case"));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.INVOKER_PACKAGE,
+                        "The main namespace to use for all classes. e.g. Yay\\Pets"));
+        cliOptions.add(
+                new CliOption(
+                        PACKAGE_NAME, "The main package name for classes. e.g. GeneratedPetstore"));
         cliOptions.add(new CliOption(SRC_BASE_PATH, "The directory to serve as source root."));
-        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "The version to use in the composer package version field. e.g. 1.2.3"));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.ARTIFACT_VERSION,
+                        "The version to use in the composer package version field. e.g. 1.2.3"));
     }
 
     @Override
@@ -154,8 +233,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("PHP_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable PHP_POST_PROCESS_FILE not defined so the PHP code may not be properly formatted. To define it, try 'export PHP_POST_PROCESS_FILE=\"/usr/local/bin/prettier --write\"' (Linux/Mac)");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info(
+                    "Environment variable PHP_POST_PROCESS_FILE not defined so the PHP code may not be properly formatted. To define it, try 'export PHP_POST_PROCESS_FILE=\"/usr/local/bin/prettier --write\"' (Linux/Mac)");
+            LOGGER.info(
+                    "NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(PACKAGE_NAME)) {
@@ -171,7 +252,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
+            this.setInvokerPackage(
+                    (String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
 
             // Update the invokerPackage for the default apiPackage and modelPackage
             apiPackage = invokerPackage + "\\" + apiDirName;
@@ -181,25 +263,34 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
-            // Update model package to contain the specified model package name and the invoker package
-            modelPackage = invokerPackage + "\\" + (String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE);
+            // Update model package to contain the specified model package name and the invoker
+            // package
+            modelPackage =
+                    invokerPackage
+                            + "\\"
+                            + (String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE);
         }
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
         if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
             // Update api package to contain the specified api package name and the invoker package
-            apiPackage = invokerPackage + "\\" + (String) additionalProperties.get(CodegenConstants.API_PACKAGE);
+            apiPackage =
+                    invokerPackage
+                            + "\\"
+                            + (String) additionalProperties.get(CodegenConstants.API_PACKAGE);
         }
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
 
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
-            this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
+            this.setArtifactVersion(
+                    (String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
         } else {
             additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         }
 
         if (additionalProperties.containsKey(VARIABLE_NAMING_CONVENTION)) {
-            this.setParameterNamingConvention((String) additionalProperties.get(VARIABLE_NAMING_CONVENTION));
+            this.setParameterNamingConvention(
+                    (String) additionalProperties.get(VARIABLE_NAMING_CONVENTION));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.GIT_USER_ID)) {
@@ -240,7 +331,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         // apache v2 license
         // supportingFiles.add(new SupportingFile("LICENSE", "", "LICENSE"));
 
-        // all PHP codegens requires Composer, it means that we need to exclude from SVN at least vendor folder
+        // all PHP codegens requires Composer, it means that we need to exclude from SVN at least
+        // vendor folder
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
 
@@ -256,11 +348,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         // Trim prefix file separators from package path
-        String packagePath = StringUtils.removeStart(
-            // Replace period, backslash, forward slash with file separator in package name
-            modifiedPackageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
-            File.separator
-        );
+        String packagePath =
+                StringUtils.removeStart(
+                        // Replace period, backslash, forward slash with file separator in package
+                        // name
+                        modifiedPackageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+                        File.separator);
 
         // Trim trailing file separators from the overall path
         return StringUtils.removeEnd(modifiedBasePath + packagePath, File.separator);
@@ -320,22 +413,30 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             if (inner == null) {
-                LOGGER.warn("{}(array property) does not have a proper inner type defined.Default to string",
+                LOGGER.warn(
+                        "{}(array property) does not have a proper inner type defined.Default to string",
                         ap.getName());
-                inner = new StringSchema().description("TODO default missing array inner type to string");
+                inner =
+                        new StringSchema()
+                                .description("TODO default missing array inner type to string");
             }
             return getTypeDeclaration(inner) + "[]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             if (inner == null) {
-                LOGGER.warn("{}(map property) does not have a proper inner type defined. Default to string", p.getName());
-                inner = new StringSchema().description("TODO default missing map inner type to string");
+                LOGGER.warn(
+                        "{}(map property) does not have a proper inner type defined. Default to string",
+                        p.getName());
+                inner =
+                        new StringSchema()
+                                .description("TODO default missing map inner type to string");
             }
             return getSchemaType(p) + "<string," + getTypeDeclaration(inner) + ">";
         } else if (StringUtils.isNotBlank(p.get$ref())) { // model
             String type = super.getTypeDeclaration(p);
             return (!languageSpecificPrimitives.contains(type))
-                    ? "\\" + modelPackage + "\\" + type : type;
+                    ? "\\" + modelPackage + "\\" + type
+                    : type;
         }
         return super.getTypeDeclaration(p);
     }
@@ -354,7 +455,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         String type = null;
 
         if (openAPIType == null) {
-            LOGGER.error("OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.", p.getName());
+            LOGGER.error(
+                    "OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.",
+                    p.getName());
             openAPIType = "UNKNOWN_OPENAPI_TYPE";
         }
 
@@ -411,7 +514,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         name = name.replaceAll("^@", "at_");
 
         // sanitize name
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the
+        // methods parameters as 'final'.
 
         if ("camelCase".equals(variableNamingConvention)) {
             // return the name in camelCase style
@@ -445,20 +549,29 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         name = name.replaceAll("\\]", "");
 
         // Note: backslash ("\\") is allowed for e.g. "\\DateTime"
-        name = name.replaceAll("[^\\w\\\\]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name =
+                name.replaceAll(
+                        "[^\\w\\\\]+",
+                        "_"); // FIXME: a parameter should not be assigned. Also declare the methods
+        // parameters as 'final'.
 
         // remove dollar sign
         name = name.replaceAll("$", "");
 
         // model name cannot use reserved keyword
         if (isReservedWord(name)) {
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    name,
+                    camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+            LOGGER.warn(
+                    "{} (model name starts with number) cannot be used as model name. Renamed to {}",
+                    name,
                     camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
@@ -545,13 +658,19 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER));
             operationId = "call_" + operationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER));
+            LOGGER.warn(
+                    "{} (starting with a number) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER));
             operationId = "call_" + operationId;
         }
 
@@ -560,6 +679,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     /**
      * Return the default value of the property
+     *
      * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
@@ -677,7 +797,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             return "EMPTY";
         }
 
-        if(name.trim().length() == 0) {
+        if (name.trim().length() == 0) {
             return "SPACE_" + name.length();
         }
 
@@ -700,7 +820,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
+        if (isReservedWord(enumName)
+                || enumName.matches("\\d.*")) { // reserved word or starts with number
             return escapeReservedWord(enumName);
         } else {
             return enumName;
@@ -728,7 +849,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
@@ -757,7 +879,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         // If the string contains only "trim-able" characters, don't trim it
-        if(input.trim().length() == 0) {
+        if (input.trim().length() == 0) {
             return input;
         }
 
@@ -807,12 +929,14 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                 p.waitFor();
                 int exitValue = p.exitValue();
                 if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                    LOGGER.error(
+                            "Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
                     LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                LOGGER.error(
+                        "Error running the command ({}). Exception: {}", command, e.getMessage());
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
@@ -826,11 +950,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
      */
     public String getComposerPackageName() {
         String packageName = this.getGitUserId() + "/" + this.getGitRepoId();
-        if (
-            packageName.contentEquals("/")
-            || packageName.contentEquals("null/null")
-            || !Pattern.matches("^[a-z0-9]([_.-]?[a-z0-9]+)*/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*$", packageName)
-        ) {
+        if (packageName.contentEquals("/")
+                || packageName.contentEquals("null/null")
+                || !Pattern.matches(
+                        "^[a-z0-9]([_.-]?[a-z0-9]+)*/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*$",
+                        packageName)) {
             return "";
         }
 
@@ -843,5 +967,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PHP; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.PHP;
+    }
 }

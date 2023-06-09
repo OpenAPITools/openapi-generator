@@ -16,8 +16,14 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -26,13 +32,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -52,28 +51,24 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // data type
-                        "null", "Int", "Float", "String", "Boolean", "ID",
+                        "null",
+                        "Int",
+                        "Float",
+                        "String",
+                        "Boolean",
+                        "ID",
 
                         // reserved words: TODO
-                        "type", "implements", "query", "union", "interface"
-                )
-        );
+                        "type",
+                        "implements",
+                        "query",
+                        "union",
+                        "interface"));
 
-        defaultIncludes = new HashSet<>(
-                Arrays.asList(
-                        "map",
-                        "array")
-        );
+        defaultIncludes = new HashSet<>(Arrays.asList("map", "array"));
 
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
-                        "null",
-                        "ID",
-                        "Int",
-                        "String",
-                        "Float",
-                        "Boolean")
-        );
+        languageSpecificPrimitives =
+                new HashSet<>(Arrays.asList("null", "ID", "Int", "String", "Float", "Boolean"));
 
         instantiationTypes.clear();
 
@@ -144,12 +139,22 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + packageName + File.separator + "api" + File.separator;
+        return outputFolder
+                + File.separator
+                + packageName
+                + File.separator
+                + "api"
+                + File.separator;
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + packageName + File.separator + "model" + File.separator;
+        return outputFolder
+                + File.separator
+                + packageName
+                + File.separator
+                + "model"
+                + File.separator;
     }
 
     @Override
@@ -158,18 +163,15 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         name = sanitizeName(name.replaceAll("-", "_"));
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$"))
-            return name;
+        if (name.matches("^[A-Z_]*$")) return name;
 
         name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name))
-            name = escapeReservedWord(name);
+        if (isReservedWord(name)) name = escapeReservedWord(name);
 
         // for reserved word or word starting with number, append _
-        if (name.matches("^\\d.*"))
-            name = camelize("var_" + name);
+        if (name.matches("^\\d.*")) name = camelize("var_" + name);
 
         return name;
     }
@@ -198,13 +200,18 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    name,
+                    "model_" + name);
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+            LOGGER.warn(
+                    "{} (model name starts with number) cannot be used as model name. Renamed to {}",
+                    name,
                     "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
@@ -215,7 +222,11 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name =
+                name.replaceAll(
+                        "-",
+                        "_"); // FIXME: a parameter should not be assigned. Also declare the methods
+        // parameters as 'final'.
 
         // e.g. PetApi.graphql => pet_api.graphql
         return underscore(name) + "_api";
@@ -232,8 +243,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     }
 
     @Override
-    public void postProcessParameter(CodegenParameter parameter) {
-    }
+    public void postProcessParameter(CodegenParameter parameter) {}
 
     @Override
     public String apiTestFileFolder() {
@@ -309,8 +319,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         String type = null;
         if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
-            if (languageSpecificPrimitives.contains(type))
-                return (type);
+            if (languageSpecificPrimitives.contains(type)) return (type);
         } else {
             type = schemaType;
         }
@@ -323,7 +332,10 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore("call_" + operationId));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
@@ -332,8 +344,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
 
     @Override
     protected boolean needToImport(String type) {
-        return !defaultIncludes.contains(type)
-                && !languageSpecificPrimitives.contains(type);
+        return !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type);
     }
 
     @Override
@@ -393,7 +404,8 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
+        if (isReservedWord(enumName)
+                || enumName.matches("\\d.*")) { // reserved word or starts with number
             return escapeReservedWord(enumName);
         } else {
             return enumName;
@@ -424,12 +436,14 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap operations, List<ModelMap> allModels) {
         OperationMap objs = operations.getOperations();
 
         for (CodegenOperation op : objs.getOperation()) {
             // non GET/HEAD methods are mutation
-            if (!"GET".equals(op.httpMethod.toUpperCase(Locale.ROOT)) && !"HEAD".equals(op.httpMethod.toUpperCase(Locale.ROOT))) {
+            if (!"GET".equals(op.httpMethod.toUpperCase(Locale.ROOT))
+                    && !"HEAD".equals(op.httpMethod.toUpperCase(Locale.ROOT))) {
                 op.vendorExtensions.put("x-is-mutation", Boolean.TRUE);
             }
             for (CodegenParameter p : op.allParams) {
@@ -451,7 +465,9 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     }
 
     public String graphQlInputsFileFolder() {
-        return outputFolder + File.separator + graphQlInputsPackage().replace('.', File.separatorChar);
+        return outputFolder
+                + File.separator
+                + graphQlInputsPackage().replace('.', File.separatorChar);
     }
 
     public String graphQlInputsFilename(String templateName, String tag) {

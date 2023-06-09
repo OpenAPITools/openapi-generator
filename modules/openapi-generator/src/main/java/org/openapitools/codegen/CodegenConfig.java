@@ -24,17 +24,16 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
-
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public interface CodegenConfig {
     String getFilesMetadataFilename();
@@ -125,7 +124,8 @@ public interface CodegenConfig {
 
     CodegenModel fromModel(String name, Schema schema);
 
-    CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers);
+    CodegenOperation fromOperation(
+            String resourcePath, String httpMethod, Operation operation, List<Server> servers);
 
     List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemas);
 
@@ -193,7 +193,12 @@ public interface CodegenConfig {
 
     String toApiImport(String name);
 
-    void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations);
+    void addOperationToGroup(
+            String tag,
+            String resourcePath,
+            Operation operation,
+            CodegenOperation co,
+            Map<String, List<CodegenOperation>> operations);
 
     Map<String, ModelsMap> updateAllModels(Map<String, ModelsMap> objs);
 
@@ -291,7 +296,8 @@ public interface CodegenConfig {
     void setEnablePostProcessFile(boolean isEnablePostProcessFile);
 
     /**
-     * Set the OpenAPI instance. This method needs to be called right after the instantiation of the Codegen class.
+     * Set the OpenAPI instance. This method needs to be called right after the instantiation of the
+     * Codegen class.
      *
      * @param openAPI specification being generated
      */
@@ -334,5 +340,4 @@ public interface CodegenConfig {
     boolean getAddSuffixToDuplicateOperationNicknames();
 
     boolean getUseOpenAPINormalizer();
-
 }

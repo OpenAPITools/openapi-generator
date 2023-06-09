@@ -23,5 +23,4 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface OAS3 {
-}
+public @interface OAS3 {}

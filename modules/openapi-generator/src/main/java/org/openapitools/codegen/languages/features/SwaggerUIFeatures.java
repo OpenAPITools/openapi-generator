@@ -22,5 +22,4 @@ public interface SwaggerUIFeatures {
     String USE_SWAGGER_UI = "useSwaggerUI";
 
     void setUseSwaggerUI(boolean useSwaggerUI);
-
 }

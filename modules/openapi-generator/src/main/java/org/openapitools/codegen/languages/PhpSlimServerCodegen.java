@@ -17,11 +17,17 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
-import org.apache.commons.text.StringEscapeUtils;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -32,13 +38,6 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
@@ -53,28 +52,23 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     public PhpSlimServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.BearerToken,
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism));
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.DEPRECATED)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata)
+                        .stability(Stability.DEPRECATED)
+                        .build();
 
         // clear import mapping (from default generator) as slim does not use it
         // at the moment
@@ -127,7 +121,11 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     public String apiFileFolder() {
         if (apiPackage.startsWith(invokerPackage + "\\")) {
             // need to strip out invokerPackage from path
-            return (outputFolder + File.separator + toSrcPath(StringUtils.removeStart(apiPackage, invokerPackage + "\\"), srcBasePath));
+            return (outputFolder
+                    + File.separator
+                    + toSrcPath(
+                            StringUtils.removeStart(apiPackage, invokerPackage + "\\"),
+                            srcBasePath));
         }
         return (outputFolder + File.separator + toSrcPath(apiPackage, srcBasePath));
     }
@@ -136,7 +134,11 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     public String modelFileFolder() {
         if (modelPackage.startsWith(invokerPackage + "\\")) {
             // need to strip out invokerPackage from path
-            return (outputFolder + File.separator + toSrcPath(StringUtils.removeStart(modelPackage, invokerPackage + "\\"), srcBasePath));
+            return (outputFolder
+                    + File.separator
+                    + toSrcPath(
+                            StringUtils.removeStart(modelPackage, invokerPackage + "\\"),
+                            srcBasePath));
         }
         return (outputFolder + File.separator + toSrcPath(modelPackage, srcBasePath));
     }
@@ -158,13 +160,18 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
         supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
-        supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "SlimRouter.mustache",
+                        toSrcPath(invokerPackage, srcBasePath),
+                        "SlimRouter.php"));
         supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
         supportingFiles.add(new SupportingFile("phpcs.xml.mustache", "", "phpcs.xml.dist"));
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
         addUserClassnameToOperations(operations);
@@ -179,12 +186,14 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
             List<CodegenOperation> operationList = api.getOperations().getOperation();
 
             // Sort operations to avoid static routes shadowing
-            // ref: https://github.com/nikic/FastRoute/blob/master/src/DataGenerator/RegexBasedAbstract.php#L92-L101
-            operationList.sort((one, another) -> {
-                    if (one.getHasPathParams() && !another.getHasPathParams()) return 1;
-                    if (!one.getHasPathParams() && another.getHasPathParams()) return -1;
-                    return 0;
-            });
+            // ref:
+            // https://github.com/nikic/FastRoute/blob/master/src/DataGenerator/RegexBasedAbstract.php#L92-L101
+            operationList.sort(
+                    (one, another) -> {
+                        if (one.getHasPathParams() && !another.getHasPathParams()) return 1;
+                        if (!one.getHasPathParams() && another.getHasPathParams()) return -1;
+                        return 0;
+                    });
         }
         return objs;
     }
@@ -193,7 +202,11 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> securitySchemeMap) {
         List<CodegenSecurity> codegenSecurities = super.fromSecurity(securitySchemeMap);
         if (Boolean.FALSE.equals(codegenSecurities.isEmpty())) {
-            supportingFiles.add(new SupportingFile("abstract_authenticator.mustache", toSrcPath(authPackage, srcBasePath), toAbstractName("Authenticator") + ".php"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "abstract_authenticator.mustache",
+                            toSrcPath(authPackage, srcBasePath),
+                            toAbstractName("Authenticator") + ".php"));
         }
         return codegenSecurities;
     }
@@ -215,7 +228,8 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     }
 
     /**
-     * Strips out abstract prefix and suffix from classname and puts it in "userClassname" property of operations object.
+     * Strips out abstract prefix and suffix from classname and puts it in "userClassname" property
+     * of operations object.
      *
      * @param operations codegen object with operations
      */
@@ -238,12 +252,12 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         // replace " with \"
         // outer unescape to retain the original multi-byte characters
         // finally escalate characters avoiding code injection
-        input = super.escapeUnsafeCharacters(
-                StringEscapeUtils.unescapeJava(
-                        StringEscapeUtils.escapeJava(input)
-                                .replace("\\/", "/"))
-                        .replaceAll("[\\t\\n\\r]", " ")
-                        .replace("\\", "\\\\"));
+        input =
+                super.escapeUnsafeCharacters(
+                        StringEscapeUtils.unescapeJava(
+                                        StringEscapeUtils.escapeJava(input).replace("\\/", "/"))
+                                .replaceAll("[\\t\\n\\r]", " ")
+                                .replace("\\", "\\\\"));
         // .replace("\"", "\\\""));
 
         // from AbstractPhpCodegen.java
@@ -251,16 +265,17 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         input = input.trim();
         try {
 
-            input = URLEncoder.encode(input, "UTF-8")
-                    .replaceAll("\\+", "%20")
-                    .replaceAll("\\%2F", "/")
-                    .replaceAll("\\%7B", "{") // keep { part of complex placeholders
-                    .replaceAll("\\%7D", "}") // } part
-                    .replaceAll("\\%5B", "[") // [ part
-                    .replaceAll("\\%5D", "]") // ] part
-                    .replaceAll("\\%3A", ":") // : part
-                    .replaceAll("\\%2B", "+") // + part
-                    .replaceAll("\\%5C\\%5Cd", "\\\\d"); // \d part
+            input =
+                    URLEncoder.encode(input, "UTF-8")
+                            .replaceAll("\\+", "%20")
+                            .replaceAll("\\%2F", "/")
+                            .replaceAll("\\%7B", "{") // keep { part of complex placeholders
+                            .replaceAll("\\%7D", "}") // } part
+                            .replaceAll("\\%5B", "[") // [ part
+                            .replaceAll("\\%5D", "]") // ] part
+                            .replaceAll("\\%3A", ":") // : part
+                            .replaceAll("\\%2B", "+") // + part
+                            .replaceAll("\\%5C\\%5Cd", "\\\\d"); // \d part
         } catch (UnsupportedEncodingException e) {
             // continue
             LOGGER.error(e.getMessage(), e);
@@ -269,13 +284,10 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path,
-                                          String httpMethod,
-                                          Operation operation,
-                                          List<Server> servers) {
+    public CodegenOperation fromOperation(
+            String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         op.path = encodePath(path);
         return op;
     }
-
 }

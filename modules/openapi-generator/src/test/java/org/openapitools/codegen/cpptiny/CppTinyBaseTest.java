@@ -22,10 +22,8 @@ public class CppTinyBaseTest {
     }
 
     protected Schema testSchema() {
-        return new ObjectSchema()
-                .description("a sample model");
+        return new ObjectSchema().description("a sample model");
     }
-
 
     @Test(description = "An example of testing the code model before it is rendered")
     public void exampleOfATest() {
@@ -37,7 +35,6 @@ public class CppTinyBaseTest {
         // Arrange
         Schema schemaModel = testSchema();
         schemaModel.addProperties("id", new IntegerSchema().format("int64"));
-
 
         // Then we generated a codemodel, with the cpp tiny code generator.
         // Act
@@ -51,6 +48,5 @@ public class CppTinyBaseTest {
 
     // Make example test of assert that some codegen is generated correctly
     // Assert.assertEquals(generated_code, "long id = 0;"
-
 
 }

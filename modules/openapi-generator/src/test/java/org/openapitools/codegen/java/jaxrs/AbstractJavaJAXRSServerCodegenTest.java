@@ -19,6 +19,7 @@ package org.openapitools.codegen.java.jaxrs;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
+import java.util.*;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
@@ -28,11 +29,10 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.*;
-
 public class AbstractJavaJAXRSServerCodegenTest {
 
-    private final AbstractJavaJAXRSServerCodegen fakeJavaJAXRSCodegen = new P_AbstractJavaJAXRSServerCodegen();
+    private final AbstractJavaJAXRSServerCodegen fakeJavaJAXRSCodegen =
+            new P_AbstractJavaJAXRSServerCodegen();
 
     @Test
     public void convertApiName() {
@@ -40,7 +40,9 @@ public class AbstractJavaJAXRSServerCodegenTest {
         Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("$name"), "NameApi");
         Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("nam#e"), "NameApi");
         Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("$another-fake?"), "AnotherFakeApi");
-        Assert.assertEquals(fakeJavaJAXRSCodegen.toApiName("fake_classname_tags 123#$%^"), "FakeClassnameTags123Api");
+        Assert.assertEquals(
+                fakeJavaJAXRSCodegen.toApiName("fake_classname_tags 123#$%^"),
+                "FakeClassnameTags123Api");
     }
 
     @Test
@@ -52,15 +54,25 @@ public class AbstractJavaJAXRSServerCodegenTest {
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         codegen.preprocessOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.FALSE);
         Assert.assertFalse(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
+                "org.openapitools.model");
         Assert.assertEquals(codegen.apiPackage(), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),
+                "org.openapitools.api");
         Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaJAXRSServerCodegen.SERVER_PORT), "8082");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
+                "org.openapitools.api");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(AbstractJavaJAXRSServerCodegen.SERVER_PORT),
+                "8082");
     }
 
     @Test
@@ -72,14 +84,22 @@ public class AbstractJavaJAXRSServerCodegenTest {
         codegen.setInvokerPackage("xx.yyyyyyyy.invoker");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.TRUE);
         Assert.assertTrue(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
+                "xx.yyyyyyyy.model");
         Assert.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xx.yyyyyyyy.api");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),
+                "xx.yyyyyyyy.api");
         Assert.assertEquals(codegen.getInvokerPackage(), "xx.yyyyyyyy.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xx.yyyyyyyy.invoker");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
+                "xx.yyyyyyyy.invoker");
     }
 
     @Test
@@ -88,7 +108,8 @@ public class AbstractJavaJAXRSServerCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.mmmmm.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.aaaaa.api");
-        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
+        codegen.additionalProperties()
+                .put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
         codegen.additionalProperties().put("serverPort", "8088");
         codegen.processOpts();
 
@@ -96,15 +117,25 @@ public class AbstractJavaJAXRSServerCodegenTest {
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         codegen.preprocessOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.TRUE);
         Assert.assertTrue(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
+                "xyz.yyyyy.mmmmm.model");
         Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.aaaaa.api");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),
+                "xyz.yyyyy.aaaaa.api");
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaJAXRSServerCodegen.SERVER_PORT), "8088");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
+                "xyz.yyyyy.iiii.invoker");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(AbstractJavaJAXRSServerCodegen.SERVER_PORT),
+                "8088");
     }
 
     @Test

@@ -24,22 +24,21 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * Each templating engine is called by an Adapter, selected at runtime
- */
+/** Each templating engine is called by an Adapter, selected at runtime */
 public interface TemplatingEngineAdapter {
 
     /**
-     * Provides an identifier used to load the adapter. This could be a name, uuid, or any other string.
+     * Provides an identifier used to load the adapter. This could be a name, uuid, or any other
+     * string.
      *
      * @return A string identifier.
      */
     String getIdentifier();
 
     /**
-     * During generation, if a supporting file has a file extension that is
-     * inside that array, then it is considered a templated supporting file
-     * and we use the templating engine adapter to generate it
+     * During generation, if a supporting file has a file extension that is inside that array, then
+     * it is considered a templated supporting file and we use the templating engine adapter to
+     * generate it
      *
      * @return string array of the valid file extensions for this templating engine
      */
@@ -47,68 +46,83 @@ public interface TemplatingEngineAdapter {
 
     /**
      * Determine if the adapter handles compilation of the file
-     * @param filename The template filename
      *
+     * @param filename The template filename
      * @return True if the file should be compiled by this adapter, else false.
      */
     default boolean handlesFile(String filename) {
-        return filename != null && filename.length() > 0 && Arrays.stream(getFileExtensions()).anyMatch(i -> filename.endsWith("." + i));
+        return filename != null
+                && filename.length() > 0
+                && Arrays.stream(getFileExtensions()).anyMatch(i -> filename.endsWith("." + i));
     }
 
     /**
      * Compiles a template into a string
      *
-     * @param executor    From where we can fetch the templates content (e.g. an instance of DefaultGenerator)
-     * @param bundle       The map of values to pass to the template
+     * @param executor From where we can fetch the templates content (e.g. an instance of
+     *     DefaultGenerator)
+     * @param bundle The map of values to pass to the template
      * @param templateFile The name of the template (e.g. model.mustache )
      * @return the processed template result
      * @throws IOException an error occurred in the template processing
      */
-    String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle,
-                           String templateFile) throws IOException;
+    String compileTemplate(
+            TemplatingExecutor executor, Map<String, Object> bundle, String templateFile)
+            throws IOException;
 
     /**
-     * Determines whether the template file with supported extensions exists. This may be on the filesystem,
-     * external filesystem, or classpath (implementation is up to TemplatingGenerator).
+     * Determines whether the template file with supported extensions exists. This may be on the
+     * filesystem, external filesystem, or classpath (implementation is up to TemplatingGenerator).
      *
-     * @param generator    The generator holding details about file resolution
+     * @param generator The generator holding details about file resolution
      * @param templateFile The original target filename
-     * @return True if the template is available in the template search path, false if it can not be found
+     * @return True if the template is available in the template search path, false if it can not be
+     *     found
      */
-    @SuppressWarnings({"java:S2093"}) // ignore java:S2093 because we have double-assignment to the closeable
+    @SuppressWarnings({
+        "java:S2093"
+    }) // ignore java:S2093 because we have double-assignment to the closeable
     default boolean templateExists(TemplatingExecutor generator, String templateFile) {
-        return Arrays.stream(getFileExtensions()).anyMatch(ext -> {
-            int idx = templateFile.lastIndexOf('.');
-            String baseName;
-            if (idx > 0 && idx < templateFile.length() - 1) {
-                baseName = templateFile.substring(0, idx);
-            } else {
-                baseName = templateFile;
-            }
+        return Arrays.stream(getFileExtensions())
+                .anyMatch(
+                        ext -> {
+                            int idx = templateFile.lastIndexOf('.');
+                            String baseName;
+                            if (idx > 0 && idx < templateFile.length() - 1) {
+                                baseName = templateFile.substring(0, idx);
+                            } else {
+                                baseName = templateFile;
+                            }
 
-            Path path = generator.getFullTemplatePath(String.format(Locale.ROOT, "%s.%s", baseName, ext));
+                            Path path =
+                                    generator.getFullTemplatePath(
+                                            String.format(Locale.ROOT, "%s.%s", baseName, ext));
 
-            InputStream is = null;
-            try {
-                String resourcePath = System.getProperty("os.name").startsWith("Windows") ?
-                        path.toString().replace("\\", "/") :
-                        path.toString();
-                is = this.getClass().getClassLoader().getResourceAsStream(resourcePath);
-                if (is == null) {
-                    is = new FileInputStream(path.toFile());
-                }
+                            InputStream is = null;
+                            try {
+                                String resourcePath =
+                                        System.getProperty("os.name").startsWith("Windows")
+                                                ? path.toString().replace("\\", "/")
+                                                : path.toString();
+                                is =
+                                        this.getClass()
+                                                .getClassLoader()
+                                                .getResourceAsStream(resourcePath);
+                                if (is == null) {
+                                    is = new FileInputStream(path.toFile());
+                                }
 
-                return is.available() > 0;
-            } catch (IOException e) {
-                // ignore
-            } finally {
-                try {
-                    if (is != null) is.close();
-                } catch (IOException e) {
-                    // ignore
-                }
-            }
-            return false;
-        });
+                                return is.available() > 0;
+                            } catch (IOException e) {
+                                // ignore
+                            } finally {
+                                try {
+                                    if (is != null) is.close();
+                                } catch (IOException e) {
+                                    // ignore
+                                }
+                            }
+                            return false;
+                        });
     }
 }

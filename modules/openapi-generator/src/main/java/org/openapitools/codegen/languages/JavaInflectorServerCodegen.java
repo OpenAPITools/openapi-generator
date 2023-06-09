@@ -17,7 +17,11 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import io.swagger.v3.oas.models.Operation;
+import java.io.File;
+import java.util.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -30,12 +34,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
-
 public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
@@ -46,20 +44,25 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
     public JavaInflectorServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(
+                features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
-        sourceFolder = "src"+ File.separator+"gen"+ File.separator +"java";
+        sourceFolder = "src" + File.separator + "gen" + File.separator + "java";
         apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaInflector";
         invokerPackage = "org.openapitools.controllers";
         artifactId = "openapi-inflector-server";
-        dateLibrary = "legacy"; //TODO: add joda support
-        apiPackage = GlobalSettings.getProperty("swagger.codegen.inflector.apipackage", "org.openapitools.controllers");
-        modelPackage = GlobalSettings.getProperty("swagger.codegen.inflector.modelpackage", "org.openapitools.model");
+        dateLibrary = "legacy"; // TODO: add joda support
+        apiPackage =
+                GlobalSettings.getProperty(
+                        "swagger.codegen.inflector.apipackage", "org.openapitools.controllers");
+        modelPackage =
+                GlobalSettings.getProperty(
+                        "swagger.codegen.inflector.modelpackage", "org.openapitools.model");
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
-        //TODO: add doc templates
+        // TODO: add doc templates
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
@@ -95,24 +98,30 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
     public void processOpts() {
         super.processOpts();
 
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("web.mustache", "src/main/webapp/WEB-INF", "web.xml")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("inflector.mustache", "", "inflector.yaml")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("openapi.mustache",
-                "src/main/openapi",
-                "openapi.yaml")
-        );
-        supportingFiles.add(new SupportingFile("StringUtil.mustache",
-                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "StringUtil.java"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("web.mustache", "src/main/webapp/WEB-INF", "web.xml")
+                        .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("inflector.mustache", "", "inflector.yaml").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("openapi.mustache", "src/main/openapi", "openapi.yaml"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "StringUtil.mustache",
+                        (sourceFolder + '/' + invokerPackage).replace(".", "/"),
+                        "StringUtil.java"));
     }
 
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+    public void addOperationToGroup(
+            String tag,
+            String resourcePath,
+            Operation operation,
+            CodegenOperation co,
+            Map<String, List<CodegenOperation>> operations) {
         String basePath = resourcePath;
         if (basePath.startsWith("/")) {
             basePath = basePath.substring(1);
@@ -140,7 +149,8 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         if (operations != null) {
             List<CodegenOperation> ops = operations.getOperation();
@@ -178,7 +188,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
-        //Add imports for Jackson
+        // Add imports for Jackson
         if (!BooleanUtils.toBoolean(model.isEnum)) {
             model.imports.add("JsonProperty");
 
@@ -192,7 +202,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
     public ModelsMap postProcessModelsEnum(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
 
-        //Add imports for Jackson
+        // Add imports for Jackson
         List<Map<String, String>> imports = objs.getImports();
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();

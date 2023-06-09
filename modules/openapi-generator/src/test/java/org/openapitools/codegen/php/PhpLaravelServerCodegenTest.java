@@ -29,7 +29,9 @@ public class PhpLaravelServerCodegenTest {
         final PhpLaravelServerCodegen codegen = new PhpLaravelServerCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.TRUE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
     }
 
@@ -39,7 +41,9 @@ public class PhpLaravelServerCodegenTest {
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
 
@@ -49,8 +53,9 @@ public class PhpLaravelServerCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
-
 }

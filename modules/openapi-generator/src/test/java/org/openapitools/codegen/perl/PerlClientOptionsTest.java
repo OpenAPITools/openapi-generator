@@ -17,13 +17,13 @@
 
 package org.openapitools.codegen.perl;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PerlClientCodegen;
 import org.openapitools.codegen.options.PerlClientOptionsProvider;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class PerlClientOptionsTest extends AbstractOptionsTest {
     private PerlClientCodegen clientCodegen = mock(PerlClientCodegen.class, mockSettings);
@@ -42,6 +42,9 @@ public class PerlClientOptionsTest extends AbstractOptionsTest {
     protected void verifyOptions() {
         verify(clientCodegen).setModuleName(PerlClientOptionsProvider.MODULE_NAME_VALUE);
         verify(clientCodegen).setModuleVersion(PerlClientOptionsProvider.MODULE_VERSION_VALUE);
-        verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(PerlClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
+        verify(clientCodegen)
+                .setPrependFormOrBodyParameters(
+                        Boolean.valueOf(
+                                PerlClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
     }
 }

@@ -18,11 +18,10 @@
 package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
-
-import java.util.Map;
 
 public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
     public static final String SUPPORTS_ES6_VALUE = "false";
@@ -61,20 +60,26 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
     public Map<String, String> createOptions() {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
-                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
+                .put(
+                        CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG,
+                        SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.PARAM_NAMING, PARAM_NAMING_VALUE)
                 .put(CodegenConstants.SUPPORTS_ES6, SUPPORTS_ES6_VALUE)
-                .put(AbstractTypeScriptClientCodegen.NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_VALUE)
+                .put(
+                        AbstractTypeScriptClientCodegen.NULL_SAFE_ADDITIONAL_PROPS,
+                        NULL_SAFE_ADDITIONAL_PROPS_VALUE)
                 .put(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX)
                 .put(TypeScriptAngularClientCodegen.STRING_ENUMS, STRING_ENUMS_VALUE)
                 .put(TypeScriptAngularClientCodegen.NPM_NAME, NPM_NAME)
                 .put(TypeScriptAngularClientCodegen.NPM_VERSION, NPM_VERSION)
                 .put(TypeScriptAngularClientCodegen.SNAPSHOT, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.WITH_INTERFACES, Boolean.FALSE.toString())
-                .put(TypeScriptAngularClientCodegen.USE_SINGLE_REQUEST_PARAMETER, Boolean.FALSE.toString())
+                .put(
+                        TypeScriptAngularClientCodegen.USE_SINGLE_REQUEST_PARAMETER,
+                        Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.PROVIDED_IN, PROVIDED_IN_LEVEL)
                 .put(TypeScriptAngularClientCodegen.TAGGED_UNIONS, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.NPM_REPOSITORY, NPM_REPOSITORY)
@@ -86,11 +91,15 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
                 .put(TypeScriptAngularClientCodegen.MODEL_SUFFIX, MODEL_SUFFIX)
                 .put(TypeScriptAngularClientCodegen.MODEL_FILE_SUFFIX, MODEL_FILE_SUFFIX)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
-                .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(
+                        CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                        PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(TypeScriptAngularClientCodegen.FILE_NAMING, FILE_NAMING_VALUE)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
-                .put(TypeScriptAngularClientCodegen.QUERY_PARAM_OBJECT_FORMAT, QUERY_PARAM_OBJECT_FORMAT_VALUE)
+                .put(
+                        TypeScriptAngularClientCodegen.QUERY_PARAM_OBJECT_FORMAT,
+                        QUERY_PARAM_OBJECT_FORMAT_VALUE)
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
                 .build();
     }

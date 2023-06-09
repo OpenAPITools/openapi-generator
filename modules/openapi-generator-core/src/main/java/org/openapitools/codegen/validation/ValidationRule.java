@@ -18,9 +18,7 @@ package org.openapitools.codegen.validation;
 
 import java.util.function.Function;
 
-/**
- * Defines a rule to be evaluated against some target object.
- */
+/** Defines a rule to be evaluated against some target object. */
 @SuppressWarnings("WeakerAccess")
 public class ValidationRule {
     private Severity severity;
@@ -32,12 +30,19 @@ public class ValidationRule {
      * Constructs a new instance of {@link ValidationRule}
      *
      * @param severity The declared severity if this validation rule fails.
-     * @param description A description to help differentiate this rule from others (not intended to be user-facing).
-     * @param failureMessage The message to be displayed in the event of a test failure (intended to be user-facing).
-     * @param test The test condition to be applied as a part of this rule, when this function returns <code>true</code>,
-     *             the evaluated instance will be considered "valid" according to this rule.
+     * @param description A description to help differentiate this rule from others (not intended to
+     *     be user-facing).
+     * @param failureMessage The message to be displayed in the event of a test failure (intended to
+     *     be user-facing).
+     * @param test The test condition to be applied as a part of this rule, when this function
+     *     returns <code>true</code>, the evaluated instance will be considered "valid" according to
+     *     this rule.
      */
-    ValidationRule(Severity severity, String description, String failureMessage, Function<Object, Result> test) {
+    ValidationRule(
+            Severity severity,
+            String description,
+            String failureMessage,
+            Function<Object, Result> test) {
         this.severity = severity;
         this.description = description;
         this.failureMessage = failureMessage;
@@ -57,26 +62,29 @@ public class ValidationRule {
      * Evaluate an instance of an object against this rule.
      *
      * @param input The instance to be evaluated.
-     *
-     * @return <code>true</code> if the object state is valid according to this rule, otherwise <code>false</code>.
+     * @return <code>true</code> if the object state is valid according to this rule, otherwise
+     *     <code>false</code>.
      */
     public Result evaluate(Object input) {
         return test.apply(input);
     }
 
     /**
-     * Get the level of severity which this rule considers a failure in evaluation. For example, if this is {@link Severity#WARNING} and
-     * a call to {@link ValidationRule#evaluate(Object)} returns <code>false</code>, a user should not expect an error to be thrown under
-     * normal operation.
+     * Get the level of severity which this rule considers a failure in evaluation. For example, if
+     * this is {@link Severity#WARNING} and a call to {@link ValidationRule#evaluate(Object)}
+     * returns <code>false</code>, a user should not expect an error to be thrown under normal
+     * operation.
      *
-     * @return An enum defining how severe a failure to evaluate this rule should be considered by the caller.
+     * @return An enum defining how severe a failure to evaluate this rule should be considered by
+     *     the caller.
      */
     public Severity getSeverity() {
         return severity;
     }
 
     /**
-     * Gets a description to help differentiate this rule from others (not intended to be user-facing).
+     * Gets a description to help differentiate this rule from others (not intended to be
+     * user-facing).
      *
      * @return A string description.
      */
@@ -90,67 +98,84 @@ public class ValidationRule {
      * @return An "empty" rule.
      */
     static ValidationRule empty() {
-        return new ValidationRule(Severity.ERROR, "empty", "failure message", (i) -> Fail.empty() );
+        return new ValidationRule(Severity.ERROR, "empty", "failure message", (i) -> Fail.empty());
     }
 
     /**
      * Create an instance of a {@link ValidationRule}
      *
      * @param severity The declared severity if this validation rule fails.
-     * @param description A description to help differentiate this rule from others (not intended to be user-facing).
-     * @param failureMessage The message to be displayed in the event of a test failure (intended to be user-facing).
-     * @param fn The test condition to be applied as a part of this rule, when this function returns <code>true</code>,
-     *             the evaluated instance will be considered "valid" according to this rule.
+     * @param description A description to help differentiate this rule from others (not intended to
+     *     be user-facing).
+     * @param failureMessage The message to be displayed in the event of a test failure (intended to
+     *     be user-facing).
+     * @param fn The test condition to be applied as a part of this rule, when this function returns
+     *     <code>true</code>, the evaluated instance will be considered "valid" according to this
+     *     rule.
      * @param <T> The type of the object being evaluated.
-     *
      * @return A new instance of a {@link ValidationRule}
      */
     @SuppressWarnings("unchecked")
-    public static <T> ValidationRule create(Severity severity, String description, String failureMessage, Function<T, Result> fn) {
-        return new ValidationRule(severity, description, failureMessage, (Function<Object, Result>) fn);
+    public static <T> ValidationRule create(
+            Severity severity, String description, String failureMessage, Function<T, Result> fn) {
+        return new ValidationRule(
+                severity, description, failureMessage, (Function<Object, Result>) fn);
     }
 
     /**
-     * Create an instance of a {@link ValidationRule} which should result in an error should the evaluate of this rule fail.
+     * Create an instance of a {@link ValidationRule} which should result in an error should the
+     * evaluate of this rule fail.
      *
-     * @param failureMessage The message to be displayed in the event of a test failure (intended to be user-facing).
-     * @param fn The test condition to be applied as a part of this rule, when this function returns <code>true</code>,
-     *             the evaluated instance will be considered "valid" according to this rule.
+     * @param failureMessage The message to be displayed in the event of a test failure (intended to
+     *     be user-facing).
+     * @param fn The test condition to be applied as a part of this rule, when this function returns
+     *     <code>true</code>, the evaluated instance will be considered "valid" according to this
+     *     rule.
      * @param <T> The type of the object being evaluated.
-     *
      * @return A new instance of a {@link ValidationRule}
      */
     @SuppressWarnings("unchecked")
     public static <T> ValidationRule error(String failureMessage, Function<T, Result> fn) {
-        return new ValidationRule(Severity.ERROR, null, failureMessage, (Function<Object, Result>) fn);
+        return new ValidationRule(
+                Severity.ERROR, null, failureMessage, (Function<Object, Result>) fn);
     }
 
     /**
-     * Create an instance of a {@link ValidationRule} which should result in a warning should the evaluate of this rule fail.
+     * Create an instance of a {@link ValidationRule} which should result in a warning should the
+     * evaluate of this rule fail.
      *
-     * @param description A description to help differentiate this rule from others (not intended to be user-facing).
-     * @param failureMessage The message to be displayed in the event of a test failure (intended to be user-facing).
-     * @param fn The test condition to be applied as a part of this rule, when this function returns <code>true</code>,
-     *             the evaluated instance will be considered "valid" according to this rule.
+     * @param description A description to help differentiate this rule from others (not intended to
+     *     be user-facing).
+     * @param failureMessage The message to be displayed in the event of a test failure (intended to
+     *     be user-facing).
+     * @param fn The test condition to be applied as a part of this rule, when this function returns
+     *     <code>true</code>, the evaluated instance will be considered "valid" according to this
+     *     rule.
      * @param <T> The type of the object being evaluated.
-     *
      * @return A new instance of a {@link ValidationRule}
      */
     @SuppressWarnings("unchecked")
-    public static <T> ValidationRule warn(String description, String failureMessage, Function<T, Result> fn) {
-        return new ValidationRule(Severity.WARNING, description, failureMessage, (Function<Object, Result>) fn);
+    public static <T> ValidationRule warn(
+            String description, String failureMessage, Function<T, Result> fn) {
+        return new ValidationRule(
+                Severity.WARNING, description, failureMessage, (Function<Object, Result>) fn);
     }
 
     @Override
     public String toString() {
-        return "ValidationRule{" +
-                "severity=" + severity +
-                ", description='" + description + '\'' +
-                ", failureMessage='" + failureMessage + '\'' +
-                '}';
+        return "ValidationRule{"
+                + "severity="
+                + severity
+                + ", description='"
+                + description
+                + '\''
+                + ", failureMessage='"
+                + failureMessage
+                + '\''
+                + '}';
     }
 
-    public static abstract class Result {
+    public abstract static class Result {
         protected String details = null;
         protected Throwable throwable = null;
 
@@ -164,17 +189,24 @@ public class ValidationRule {
         }
 
         public abstract boolean passed();
-        public final boolean failed() { return !passed(); }
+
+        public final boolean failed() {
+            return !passed();
+        }
 
         public Throwable getThrowable() {
             return throwable;
         }
 
-        public boolean thrown() { return this.throwable == null; }
+        public boolean thrown() {
+            return this.throwable == null;
+        }
     }
 
     public static final class Pass extends Result {
-        public static Result empty() { return new Pass(); }
+        public static Result empty() {
+            return new Pass();
+        }
 
         public Pass() {
             super();
@@ -192,7 +224,9 @@ public class ValidationRule {
     }
 
     public static final class Fail extends Result {
-        public static Result empty() { return new Fail(); }
+        public static Result empty() {
+            return new Fail();
+        }
 
         public Fail() {
             super();

@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.BooleanUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -25,11 +29,6 @@ import org.openapitools.codegen.languages.features.SwaggerFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         implements JbossFeature, BeanValidationFeatures, SwaggerFeatures {
@@ -40,7 +39,8 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
     public JavaResteasyEapServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(
+                features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         artifactId = "openapi-jaxrs-resteasy-eap-server";
         useBeanValidation = true;
@@ -54,15 +54,21 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         // clear model and api doc template as AbstractJavaJAXRSServerCodegen
         // does not support auto-generated markdown doc at the moment
-        //TODO: add doc templates
+        // TODO: add doc templates
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
-        embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "resteasy" + File.separator + "eap";
+        embeddedTemplateDir =
+                templateDir = "JavaJaxRS" + File.separator + "resteasy" + File.separator + "eap";
 
-        cliOptions.add(CliOption.newBoolean(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, "Generate Jboss Deployment Descriptor",generateJbossDeploymentDescriptor));
-        cliOptions.add(CliOption.newBoolean(USE_SWAGGER_FEATURE, "Use dynamic Swagger generator",useSwaggerFeature));
-
+        cliOptions.add(
+                CliOption.newBoolean(
+                        GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR,
+                        "Generate Jboss Deployment Descriptor",
+                        generateJbossDeploymentDescriptor));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_SWAGGER_FEATURE, "Use dynamic Swagger generator", useSwaggerFeature));
     }
 
     @Override
@@ -80,7 +86,8 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
         super.processOpts();
 
         if (additionalProperties.containsKey(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR)) {
-            boolean generateJbossDeploymentDescriptorProp = convertPropertyToBooleanAndWriteBack(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR);
+            boolean generateJbossDeploymentDescriptorProp =
+                    convertPropertyToBooleanAndWriteBack(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR);
             this.setGenerateJbossDeploymentDescriptor(generateJbossDeploymentDescriptorProp);
         }
 
@@ -96,27 +103,41 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         writePropertyBack(USE_SWAGGER_FEATURE, useSwaggerFeature);
 
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("gradle.mustache", "", "build.gradle")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("settingsGradle.mustache", "", "settings.gradle")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml")
-                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("gradle.mustache", "", "build.gradle").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("settingsGradle.mustache", "", "settings.gradle")
+                        .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml")
+                        .doNotOverwrite());
 
-        supportingFiles.add(new SupportingFile("JacksonConfig.mustache", (projectFolder + File.separator + "java" + '/' + invokerPackage).replace(".", "/"), "JacksonConfig.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "JacksonConfig.mustache",
+                        (projectFolder + File.separator + "java" + '/' + invokerPackage)
+                                .replace(".", "/"),
+                        "JacksonConfig.java"));
 
         if (generateJbossDeploymentDescriptor) {
-            supportingFiles.add(new SupportingFile("jboss-web.mustache", ("src/main/webapp/WEB-INF"), "jboss-web.xml")
-                .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "jboss-web.mustache",
+                                    ("src/main/webapp/WEB-INF"),
+                                    "jboss-web.xml")
+                            .doNotOverwrite());
         }
 
-        supportingFiles.add(new SupportingFile("RestApplication.mustache", (projectFolder + File.separator + "java" + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
-            .doNotOverwrite());
-
+        supportingFiles.add(
+                new SupportingFile(
+                                "RestApplication.mustache",
+                                (projectFolder + File.separator + "java" + '/' + invokerPackage)
+                                        .replace(".", "/"),
+                                "RestApplication.java")
+                        .doNotOverwrite());
     }
 
     @Override

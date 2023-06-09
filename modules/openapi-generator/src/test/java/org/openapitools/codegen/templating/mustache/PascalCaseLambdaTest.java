@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
-
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.openapitools.codegen.CodegenConfig;
@@ -16,8 +15,7 @@ import org.testng.annotations.Test;
 
 public class PascalCaseLambdaTest extends LambdaTest {
 
-    @Mock
-    CodegenConfig generator;
+    @Mock CodegenConfig generator;
 
     @BeforeMethod
     public void setup() {
@@ -33,7 +31,6 @@ public class PascalCaseLambdaTest extends LambdaTest {
         test("InputText", "{{#pascalcase}}Input-text{{/pascalcase}}", ctx);
         test("InputText", "{{#pascalcase}}Input_text{{/pascalcase}}", ctx);
         test("", "{{#pascalcase}}{{/pascalcase}}", ctx);
-
     }
 
     @Test
@@ -48,10 +45,12 @@ public class PascalCaseLambdaTest extends LambdaTest {
     @Test
     public void pascalCaseReservedWordTest() {
         // Given
-        Map<String, Object> ctx = context("pascalcase", new CamelCaseLambda(false).generator(generator));
+        Map<String, Object> ctx =
+                context("pascalcase", new CamelCaseLambda(false).generator(generator));
 
         when(generator.sanitizeName(anyString())).then(returnsFirstArg());
-        when(generator.reservedWords()).thenReturn(new HashSet<String>(Arrays.asList("ReservedWord")));
+        when(generator.reservedWords())
+                .thenReturn(new HashSet<String>(Arrays.asList("ReservedWord")));
         when(generator.escapeReservedWord("ReservedWord")).thenReturn("escapedReservedWord");
 
         // When & Then
@@ -61,8 +60,10 @@ public class PascalCaseLambdaTest extends LambdaTest {
     @Test
     public void pascalCaseEscapeParamTest() {
         // Given
-        Map<String, Object> ctx = context("pascalcase", new CamelCaseLambda(false)
-                .generator(generator).escapeAsParamName(true));
+        Map<String, Object> ctx =
+                context(
+                        "pascalcase",
+                        new CamelCaseLambda(false).generator(generator).escapeAsParamName(true));
 
         when(generator.sanitizeName(anyString())).then(returnsFirstArg());
         when(generator.reservedWords()).thenReturn(new HashSet<String>());
@@ -71,5 +72,4 @@ public class PascalCaseLambdaTest extends LambdaTest {
         // When & Then
         test("inputTextAsParam", "{{#pascalcase}}Input_text{{/pascalcase}}", ctx);
     }
-
 }

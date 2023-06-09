@@ -22,8 +22,6 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import java.io.File;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
-
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -36,32 +34,25 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 
-
 public class GroovyClientCodegen extends AbstractJavaCodegen {
 
     public GroovyClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.BasePath
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath));
 
         // avoid importing the following as models
         languageSpecificPrimitives.add("Date");
@@ -79,7 +70,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
-        //TODO: add doc templates
+        // TODO: add doc templates
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
@@ -87,7 +78,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
         modelPackage = "org.openapitools.model";
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-groovy";
-        dateLibrary = "legacy"; //TODO: add joda support to groovy
+        dateLibrary = "legacy"; // TODO: add joda support to groovy
 
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
@@ -98,7 +89,6 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
         updateOption(DATE_LIBRARY, this.getDateLibrary());
         removeOption(CodegenConstants.ARTIFACT_URL);
         removeOption(CodegenConstants.ARTIFACT_DESCRIPTION);
-
     }
 
     @Override
@@ -122,13 +112,17 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
 
         supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("ApiUtils.mustache",
-                (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtils.groovy"));
-
+        supportingFiles.add(
+                new SupportingFile(
+                        "ApiUtils.mustache",
+                        (sourceFolder + File.separator + apiPackage)
+                                .replace(".", java.io.File.separator),
+                        "ApiUtils.groovy"));
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap operations, List<ModelMap> allModels) {
         OperationMap objs = operations.getOperations();
         List<CodegenOperation> ops = objs.getOperation();
         for (CodegenOperation op : ops) {
@@ -159,5 +153,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.GROOVY; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.GROOVY;
+    }
 }

@@ -16,26 +16,23 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
+
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.io.File;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.io.File;
-
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-
-import static org.openapitools.codegen.utils.StringUtils.*;
 
 // This code was almost entirely based on MySqlSchemaCodegen.
 
@@ -83,60 +80,202 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     public KtormSchemaCodegen() {
         super();
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.noneOf(WireFormatFeature.class))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class))
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(EnumSet.noneOf(WireFormatFeature.class))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .clientModificationFeatures(
+                                        EnumSet.noneOf(ClientModificationFeature.class)));
 
         // http://www.sqlite.org/draft/tokenreq.html
         // https://sqlite.org/src/file/src/parse.y
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // SQL reserved words
-                        "ABORT", "ACTION", "ADD", "AFTER", "ALL", "ALTER", "ALWAYS",
-                        "ANALYZE", "AND", "ANY", "AS", "ASC", "ATTACH", "AUTOINCR",
-                        "AUTOINCREMENT", "BEFORE", "BEGIN", "BETWEEN", "BITAND", "BITNOT",
-                        "BITOR", "BLOB", "BY", "CASCADE", "CASE", "CAST", "CHECK",
-                        "COLLATE", "COLUMN", "COMMA", "COMMIT", "CONCAT", "CONFLICT",
-                        "CONSTRAINT", "CREATE", "CROSS", "CURRENT", "CURRENT_DATE",
-                        "CURRENT_TIME", "CURRENT_TIMESTAMP", "DATABASE", "DEFAULT",
-                        "DEFERRABLE", "DEFERRED", "DELETE", "DESC", "DETACH", "DISTINCT",
-                        "DO", "DOT", "DROP", "EACH", "ELSE", "END", "EQ", "ESCAPE",
-                        "EXCEPT", "EXCLUDE", "EXCLUSIVE", "EXISTS", "EXPLAIN", "FAIL",
-                        "FILTER", "FIRST", "FLOAT", "FOLLOWING", "FOR", "FOREIGN", "FROM",
-                        "FULL", "GE", "GENERATED", "GLOB", "GROUP", "GROUPS", "GT",
-                        "HAVING", "ID", "IF", "IGNORE", "IMMEDIATE", "IN", "INDEX",
-                        "INDEXED", "INITIALLY", "INNER", "INSERT", "INSTEAD", "INTEGER",
-                        "INTERSECT", "INTO", "IS", "ISNULL", "JOIN", "KEY", "LAST", "LE",
-                        "LEFT", "LIKE", "LIMIT", "LP", "LSHIFT", "LT", "MATCH", "MINUS",
-                        "NATURAL", "NE", "NO", "NOT", "NOTHING", "NOTNULL", "NULL", "NULLS",
-                        "OF", "OFFSET", "ON", "OR", "ORDER", "OTHERS", "OUTER", "OVER",
-                        "PARTITION", "PLAN", "PLUS", "PRAGMA", "PRECEDING", "PRIMARY",
-                        "QUERY", "RAISE", "RANGE", "RECURSIVE", "REFERENCES", "REGEXP",
-                        "REINDEX", "RELEASE", "REM", "RENAME", "REPLACE", "RESTRICT",
-                        "RIGHT", "ROLLBACK", "ROW", "ROWS", "RP", "RSHIFT", "SAVEPOINT",
-                        "SELECT", "SET", "SLASH", "STAR", "STRING", "TABLE", "TEMP",
-                        "TEMPORARY", "THEN", "TIES", "TO", "TRANSACTION", "TRIGGER",
-                        "UNBOUNDED", "UNION", "UNIQUE", "UPDATE", "USING", "VACUUM",
-                        "VALUES", "VARIABLE", "VIEW", "VIRTUAL", "WHEN", "WHERE",
-                        "WINDOW", "WITH", "WITHOUT"
-                )
-        );
+                        "ABORT",
+                        "ACTION",
+                        "ADD",
+                        "AFTER",
+                        "ALL",
+                        "ALTER",
+                        "ALWAYS",
+                        "ANALYZE",
+                        "AND",
+                        "ANY",
+                        "AS",
+                        "ASC",
+                        "ATTACH",
+                        "AUTOINCR",
+                        "AUTOINCREMENT",
+                        "BEFORE",
+                        "BEGIN",
+                        "BETWEEN",
+                        "BITAND",
+                        "BITNOT",
+                        "BITOR",
+                        "BLOB",
+                        "BY",
+                        "CASCADE",
+                        "CASE",
+                        "CAST",
+                        "CHECK",
+                        "COLLATE",
+                        "COLUMN",
+                        "COMMA",
+                        "COMMIT",
+                        "CONCAT",
+                        "CONFLICT",
+                        "CONSTRAINT",
+                        "CREATE",
+                        "CROSS",
+                        "CURRENT",
+                        "CURRENT_DATE",
+                        "CURRENT_TIME",
+                        "CURRENT_TIMESTAMP",
+                        "DATABASE",
+                        "DEFAULT",
+                        "DEFERRABLE",
+                        "DEFERRED",
+                        "DELETE",
+                        "DESC",
+                        "DETACH",
+                        "DISTINCT",
+                        "DO",
+                        "DOT",
+                        "DROP",
+                        "EACH",
+                        "ELSE",
+                        "END",
+                        "EQ",
+                        "ESCAPE",
+                        "EXCEPT",
+                        "EXCLUDE",
+                        "EXCLUSIVE",
+                        "EXISTS",
+                        "EXPLAIN",
+                        "FAIL",
+                        "FILTER",
+                        "FIRST",
+                        "FLOAT",
+                        "FOLLOWING",
+                        "FOR",
+                        "FOREIGN",
+                        "FROM",
+                        "FULL",
+                        "GE",
+                        "GENERATED",
+                        "GLOB",
+                        "GROUP",
+                        "GROUPS",
+                        "GT",
+                        "HAVING",
+                        "ID",
+                        "IF",
+                        "IGNORE",
+                        "IMMEDIATE",
+                        "IN",
+                        "INDEX",
+                        "INDEXED",
+                        "INITIALLY",
+                        "INNER",
+                        "INSERT",
+                        "INSTEAD",
+                        "INTEGER",
+                        "INTERSECT",
+                        "INTO",
+                        "IS",
+                        "ISNULL",
+                        "JOIN",
+                        "KEY",
+                        "LAST",
+                        "LE",
+                        "LEFT",
+                        "LIKE",
+                        "LIMIT",
+                        "LP",
+                        "LSHIFT",
+                        "LT",
+                        "MATCH",
+                        "MINUS",
+                        "NATURAL",
+                        "NE",
+                        "NO",
+                        "NOT",
+                        "NOTHING",
+                        "NOTNULL",
+                        "NULL",
+                        "NULLS",
+                        "OF",
+                        "OFFSET",
+                        "ON",
+                        "OR",
+                        "ORDER",
+                        "OTHERS",
+                        "OUTER",
+                        "OVER",
+                        "PARTITION",
+                        "PLAN",
+                        "PLUS",
+                        "PRAGMA",
+                        "PRECEDING",
+                        "PRIMARY",
+                        "QUERY",
+                        "RAISE",
+                        "RANGE",
+                        "RECURSIVE",
+                        "REFERENCES",
+                        "REGEXP",
+                        "REINDEX",
+                        "RELEASE",
+                        "REM",
+                        "RENAME",
+                        "REPLACE",
+                        "RESTRICT",
+                        "RIGHT",
+                        "ROLLBACK",
+                        "ROW",
+                        "ROWS",
+                        "RP",
+                        "RSHIFT",
+                        "SAVEPOINT",
+                        "SELECT",
+                        "SET",
+                        "SLASH",
+                        "STAR",
+                        "STRING",
+                        "TABLE",
+                        "TEMP",
+                        "TEMPORARY",
+                        "THEN",
+                        "TIES",
+                        "TO",
+                        "TRANSACTION",
+                        "TRIGGER",
+                        "UNBOUNDED",
+                        "UNION",
+                        "UNIQUE",
+                        "UPDATE",
+                        "USING",
+                        "VACUUM",
+                        "VALUES",
+                        "VARIABLE",
+                        "VIEW",
+                        "VIRTUAL",
+                        "WHEN",
+                        "WHERE",
+                        "WINDOW",
+                        "WITH",
+                        "WITHOUT"));
 
         typeMapping = new HashMap<String, String>();
         typeMapping.put("string", "kotlin.String");
@@ -158,19 +297,19 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         typeMapping.put("binary", "kotlin.ByteArray");
         typeMapping.put("Date", "java.time.LocalDate");
         typeMapping.put("DateTime", "java.time.LocalDateTime");
-        //missing on baseclass
+        // missing on baseclass
         typeMapping.put("byte", "kotlin.Byte");
         typeMapping.put("short", "kotlin.Short");
         typeMapping.put("char", "kotlin.String");
         typeMapping.put("real", "kotlin.Double");
-        typeMapping.put("UUID", "java.util.UUID"); //be explicit
-        typeMapping.put("URI", "java.net.URI"); //be explicit
+        typeMapping.put("UUID", "java.util.UUID"); // be explicit
+        typeMapping.put("URI", "java.net.URI"); // be explicit
         typeMapping.put("decimal", "java.math.BigDecimal");
         typeMapping.put("BigDecimal", "java.math.BigDecimal");
         typeMapping.put("AnyType", "kotlin.Any");
-        typeMapping.put("password", "kotlin.String"); //nice to have
+        typeMapping.put("password", "kotlin.String"); // nice to have
 
-        //mappings between kotlin and ktor
+        // mappings between kotlin and ktor
         // ref: https://ktorm.liuwj.me/en/schema-definition.html
         sqlTypeMapping.put("kotlin.String", SqlType.Text);
         sqlTypeMapping.put("kotlin.Boolean", SqlType.Boolean);
@@ -215,21 +354,34 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         removeOption(CodegenConstants.PARCELIZE_MODELS);
         removeOption(CodegenConstants.SERIALIZABLE_MODEL);
         removeOption(CodegenConstants.SERIALIZATION_LIBRARY);
-        addOption(DEFAULT_DATABASE_NAME, "Default database name for all queries", defaultDatabaseName);
-        addOption(IMPORT_MODEL_PACKAGE_NAME, "Package name of the imported models", importModelPackageName);
+        addOption(
+                DEFAULT_DATABASE_NAME,
+                "Default database name for all queries",
+                defaultDatabaseName);
+        addOption(
+                IMPORT_MODEL_PACKAGE_NAME,
+                "Package name of the imported models",
+                importModelPackageName);
         addOption(PRIMARY_KEY_CONVENTION, "Primary key naming convention", primaryKeyConvention);
-        addSwitch(ADD_SURROGATE_KEY, "Adds the surrogate key for all models that don't already have a primary key (named by the above convention)", addSurrogateKey);
+        addSwitch(
+                ADD_SURROGATE_KEY,
+                "Adds the surrogate key for all models that don't already have a primary key (named by the above convention)",
+                addSurrogateKey);
 
         // we used to snake_case table/column names, let's add this option
-        CliOption identifierNamingOpt = new CliOption(IDENTIFIER_NAMING_CONVENTION,
-                "Naming convention of Ktorm identifiers(table names and column names). This is not related to database name which is defined by " + DEFAULT_DATABASE_NAME + " option");
+        CliOption identifierNamingOpt =
+                new CliOption(
+                        IDENTIFIER_NAMING_CONVENTION,
+                        "Naming convention of Ktorm identifiers(table names and column names). This is not related to database name which is defined by "
+                                + DEFAULT_DATABASE_NAME
+                                + " option");
 
-        identifierNamingOpt.addEnum("original", "Do not transform original names")
+        identifierNamingOpt
+                .addEnum("original", "Do not transform original names")
                 .addEnum("snake_case", "Use snake_case names")
                 .setDefault("original");
 
         cliOptions.add(identifierNamingOpt);
-
     }
 
     public CodegenType getTag() {
@@ -259,7 +411,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         }
 
         if (additionalProperties.containsKey(IDENTIFIER_NAMING_CONVENTION)) {
-            setIdentifierNamingConvention((String) additionalProperties.get(IDENTIFIER_NAMING_CONVENTION));
+            setIdentifierNamingConvention(
+                    (String) additionalProperties.get(IDENTIFIER_NAMING_CONVENTION));
         }
 
         if (additionalProperties.containsKey(IMPORT_MODEL_PACKAGE_NAME)) {
@@ -296,15 +449,20 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             Map<String, Object> ktormSchema = new HashMap<>();
             Map<String, Object> tableDefinition = new HashMap<>();
 
-            if (getIdentifierNamingConvention().equals("snake_case") && !modelName.equals(tableName)) {
+            if (getIdentifierNamingConvention().equals("snake_case")
+                    && !modelName.equals(tableName)) {
                 // add original name in table comment
                 String commentExtra = "Original model name - " + modelName + ".";
-                modelDescription = (modelDescription == null || modelDescription.isEmpty()) ? commentExtra : modelDescription + ". " + commentExtra;
+                modelDescription =
+                        (modelDescription == null || modelDescription.isEmpty())
+                                ? commentExtra
+                                : modelDescription + ". " + commentExtra;
             }
 
             if (modelVendorExtensions.containsKey(VENDOR_EXTENSION_SCHEMA)) {
                 // user already specified schema values
-                LOGGER.info("Found vendor extension in '{}' model, autogeneration skipped", modelName);
+                LOGGER.info(
+                        "Found vendor extension in '{}' model, autogeneration skipped", modelName);
             } else {
                 modelVendorExtensions.put(VENDOR_EXTENSION_SCHEMA, ktormSchema);
                 ktormSchema.put("tableDefinition", tableDefinition);
@@ -322,7 +480,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
                     }
                 }
                 if (!hasPrimaryKey) {
-                    final IntegerSchema schema = new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT);
+                    final IntegerSchema schema =
+                            new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT);
                     CodegenProperty cp = super.fromProperty(primaryKeyConvention, schema, false);
                     cp.setRequired(true);
                     model.vars.add(0, cp);
@@ -345,7 +504,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     /**
      * Processes each model's property mapped
      *
-     * @param model    codegen model
+     * @param model codegen model
      * @param property model's property
      */
     @Override
@@ -362,7 +521,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_SCHEMA)) {
             // user already specified schema values
-            LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
+            LOGGER.info(
+                    "Found vendor extension in '{}' property, autogeneration skipped", baseName);
             return;
         }
 
@@ -371,7 +531,10 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         if (getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
             // add original name in column comment
             String commentExtra = "Original param name - " + baseName + ".";
-            description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
+            description =
+                    (description == null || description.isEmpty())
+                            ? commentExtra
+                            : description + ". " + commentExtra;
         }
 
         switch (actualType) {
@@ -413,12 +576,16 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     /**
      * Processes each model's property mapped to integer type and adds related vendor extensions
      *
-     * @param model       codegen model
-     * @param property    model's property
+     * @param model codegen model
+     * @param property model's property
      * @param description property custom description
      * @param ktormSchema schema
      */
-    public void processIntegerTypeProperty(CodegenModel model, CodegenProperty property, String description, KtormSchema ktormSchema) {
+    public void processIntegerTypeProperty(
+            CodegenModel model,
+            CodegenProperty property,
+            String description,
+            KtormSchema ktormSchema) {
         Map<String, Object> columnDefinition = new HashMap<String, Object>();
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
@@ -443,7 +610,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         long min = (cmin != null) ? cmin : Long.MIN_VALUE;
         long max = (cmax != null) ? cmax : Long.MAX_VALUE;
         long actualMin = Math.min(min, max); // sometimes min and max values can be mixed up
-        long actualMax = Math.max(min, max); // sometimes only minimum specified and it can be pretty high
+        long actualMax =
+                Math.max(min, max); // sometimes only minimum specified and it can be pretty high
 
         ktormSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
@@ -461,12 +629,16 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     /**
      * Processes each model's property mapped to some real type and adds related vendor extensions
      *
-     * @param model       codegen model
-     * @param property    model's property
+     * @param model codegen model
+     * @param property model's property
      * @param description property custom description
      * @param ktormSchema schema
      */
-    public void processRealTypeProperty(CodegenModel model, CodegenProperty property, String description, KtormSchema ktormSchema) {
+    public void processRealTypeProperty(
+            CodegenModel model,
+            CodegenProperty property,
+            String description,
+            KtormSchema ktormSchema) {
         Map<String, Object> columnDefinition = new HashMap<String, Object>();
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
@@ -486,7 +658,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         Float min = (cmin != null) ? cmin : Float.MIN_VALUE;
         Float max = (cmax != null) ? cmax : Float.MAX_VALUE;
         Float actualMin = Math.min(min, max); // sometimes min and max values can be mixed up
-        Float actualMax = Math.max(min, max); // sometimes only minimum specified and it can be pretty high
+        Float actualMax =
+                Math.max(min, max); // sometimes only minimum specified and it can be pretty high
 
         ktormSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
@@ -502,12 +675,16 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     /**
      * Processes each model's property mapped to boolean type and adds related vendor extensions
      *
-     * @param model       codegen model
-     * @param property    model's property
+     * @param model codegen model
+     * @param property model's property
      * @param description property custom description
      * @param ktormSchema schema
      */
-    public void processBooleanTypeProperty(CodegenModel model, CodegenProperty property, String description, KtormSchema ktormSchema) {
+    public void processBooleanTypeProperty(
+            CodegenModel model,
+            CodegenProperty property,
+            String description,
+            KtormSchema ktormSchema) {
         Map<String, Object> columnDefinition = new HashMap<String, Object>();
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
@@ -527,12 +704,16 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     /**
      * Processes each model's property mapped to string type and adds related vendor extensions
      *
-     * @param model       codegen model
-     * @param property    model's property
+     * @param model codegen model
+     * @param property model's property
      * @param description property custom description
      * @param ktormSchema schema
      */
-    public void processStringTypeProperty(CodegenModel model, CodegenProperty property, String description, KtormSchema ktormSchema) {
+    public void processStringTypeProperty(
+            CodegenModel model,
+            CodegenProperty property,
+            String description,
+            KtormSchema ktormSchema) {
         Map<String, Object> columnDefinition = new HashMap<String, Object>();
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
@@ -546,7 +727,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         Integer min = (minLength != null) ? minLength : 0;
         Integer max = (maxLength != null) ? maxLength : Integer.MAX_VALUE;
         int actualMin = Math.min(min, max); // sometimes min and max values can be mixed up
-        int actualMax = Math.max(min, max); // sometimes only minimum specified and it can be pretty high
+        int actualMax =
+                Math.max(min, max); // sometimes only minimum specified and it can be pretty high
 
         ktormSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
@@ -566,12 +748,16 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     /**
      * Processes each model's property mapped to date type and adds related vendor extensions
      *
-     * @param model       codegen model
-     * @param property    model's property
+     * @param model codegen model
+     * @param property model's property
      * @param description property custom description
      * @param ktormSchema schema
      */
-    public void processDateTypeProperty(CodegenModel model, CodegenProperty property, String description, KtormSchema ktormSchema) {
+    public void processDateTypeProperty(
+            CodegenModel model,
+            CodegenProperty property,
+            String description,
+            KtormSchema ktormSchema) {
         Map<String, Object> columnDefinition = new HashMap<String, Object>();
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
@@ -591,12 +777,16 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     /**
      * Processes each model's property mapped to JSON type and adds related vendor extensions
      *
-     * @param model       codegen model
-     * @param property    model's property
+     * @param model codegen model
+     * @param property model's property
      * @param description property custom description
      * @param ktormSchema schema
      */
-    public void processJsonTypeProperty(CodegenModel model, CodegenProperty property, String description, KtormSchema ktormSchema) {
+    public void processJsonTypeProperty(
+            CodegenModel model,
+            CodegenProperty property,
+            String description,
+            KtormSchema ktormSchema) {
         Map<String, Object> columnDefinition = new HashMap<String, Object>();
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
@@ -614,16 +804,19 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Processes each model's property not mapped to any type and adds related
-     * vendor extensions Most of time it's related to referenced properties eg.
-     * \Model\User
+     * Processes each model's property not mapped to any type and adds related vendor extensions
+     * Most of time it's related to referenced properties eg. \Model\User
      *
-     * @param model       codegen model
-     * @param property    model's property
+     * @param model codegen model
+     * @param property model's property
      * @param description property custom description
      * @param ktormSchema schema
      */
-    public void processUnknownTypeProperty(CodegenModel model, CodegenProperty property, String description, KtormSchema ktormSchema) {
+    public void processUnknownTypeProperty(
+            CodegenModel model,
+            CodegenProperty property,
+            String description,
+            KtormSchema ktormSchema) {
         Map<String, Object> columnDefinition = new HashMap<String, Object>();
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
@@ -643,13 +836,18 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     /**
      * Processes each model's property type arguments definitions
      *
-     * @param dataType         the chosen sql type
-     * @param dataFormat       the chosen sql format
-     * @param min              the minimum value, if specified, in the target type
-     * @param max              the maximum value, if specified, in the target type
+     * @param dataType the chosen sql type
+     * @param dataFormat the chosen sql format
+     * @param min the minimum value, if specified, in the target type
+     * @param max the maximum value, if specified, in the target type
      * @param columnDefinition resulting column definition dictionary
      */
-    public void processTypeArgs(String dataType, String dataFormat, Object min, Object max, Map<String, Object> columnDefinition) {
+    public void processTypeArgs(
+            String dataType,
+            String dataFormat,
+            Object min,
+            Object max,
+            Map<String, Object> columnDefinition) {
         HashMap<String, Object> a = new HashMap<String, Object>();
         SqlTypeArgs args = new SqlTypeArgs();
         toColumnTypeArgs(dataType, dataFormat, min, max, args);
@@ -665,20 +863,24 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         a.put("isBlob", args.isBlob);
         a.put("isJson", args.isJson);
         a.put("isNull", args.isNull);
-        //as we are using sqlite, it is not implemented for now
-        //columnDefinition.put("colTypeArgs", a);
+        // as we are using sqlite, it is not implemented for now
+        // columnDefinition.put("colTypeArgs", a);
         columnDefinition.put("colPrimaryKey", isPrimaryKey(columnDefinition));
     }
 
     /**
      * Processes each model's property null/default definitions
      *
-     * @param model            model's name
-     * @param property         model's property
-     * @param description      property's customized description
+     * @param model model's name
+     * @param property model's property
+     * @param description property's customized description
      * @param columnDefinition resulting column definition dictionary
      */
-    public void processNullAndDefault(CodegenModel model, CodegenProperty property, String description, Map<String, Object> columnDefinition) {
+    public void processNullAndDefault(
+            CodegenModel model,
+            CodegenProperty property,
+            String description,
+            Map<String, Object> columnDefinition) {
         String baseName = property.getBaseName();
         Boolean required = property.getRequired();
         String dataType = property.getDataType();
@@ -689,10 +891,13 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         } else {
             columnDefinition.put("colNotNull", false);
             try {
-                columnDefinition.put("colDefault", toColumnTypeDefault(defaultValue, dataType, dataFormat));
+                columnDefinition.put(
+                        "colDefault", toColumnTypeDefault(defaultValue, dataType, dataFormat));
             } catch (RuntimeException exception) {
-                LOGGER.warn("Property '{}' of model '{}' mapped to data type which doesn't support default value",
-                        baseName, model.getName());
+                LOGGER.warn(
+                        "Property '{}' of model '{}' mapped to data type which doesn't support default value",
+                        baseName,
+                        model.getName());
                 columnDefinition.put("colDefault", null);
             }
         }
@@ -704,19 +909,21 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     /**
      * Processes each model's property that relates to another model
      *
-     * @param model              model's name
-     * @param property           model's property
+     * @param model model's name
+     * @param property model's property
      * @param relationDefinition resulting relation definition dictionary
      * @return did we create the foreign key section.
      */
-    public boolean processForeignKey(CodegenModel model, CodegenProperty property, Map<String, Object> relationDefinition) {
+    public boolean processForeignKey(
+            CodegenModel model, CodegenProperty property, Map<String, Object> relationDefinition) {
         String dataType = property.getDataType();
         if (!property.isArray && !isRelation(dataType)) return false;
 
         String modelName = model.getName();
         String tryDataType = property.isArray ? property.items.dataType : property.dataType;
         String tryDataFormat = property.isArray ? property.items.dataFormat : property.dataFormat;
-        Boolean isPrimitive = (tryDataType.startsWith("kotlin.") || tryDataType.startsWith("java."));
+        Boolean isPrimitive =
+                (tryDataType.startsWith("kotlin.") || tryDataType.startsWith("java."));
         String propName = isPrimitive ? property.getName() : tryDataType;
 
         String pkName = toTitleCase(toModelName(modelName));
@@ -830,10 +1037,10 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Generates codegen type mapping between ktor and sqlite
-     * Ref: http://www.sqlite.org/draft/datatype3.html
+     * Generates codegen type mapping between ktor and sqlite Ref:
+     * http://www.sqlite.org/draft/datatype3.html
      *
-     * @param dataType   type name
+     * @param dataType type name
      * @param dataFormat type format
      * @return generated codegen type
      */
@@ -859,14 +1066,15 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Generates codegen type argument mapping between ktor and sqlite
-     * Ref: http://www.sqlite.org/draft/datatype3.html
+     * Generates codegen type argument mapping between ktor and sqlite Ref:
+     * http://www.sqlite.org/draft/datatype3.html
      *
-     * @param dataType   type name
+     * @param dataType type name
      * @param dataFormat type format
      * @return generated codegen type
      */
-    private void toColumnTypeArgs(String dataType, String dataFormat, Object min, Object max, SqlTypeArgs args) {
+    private void toColumnTypeArgs(
+            String dataType, String dataFormat, Object min, Object max, SqlTypeArgs args) {
         String sqlType = toColumnType(dataType, dataFormat);
         switch (sqlType) {
             case SqlType.Boolean:
@@ -940,21 +1148,22 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Generates codegen default value mapping between ktor and sqlite
-     * Ref: http://www.sqlite.org/draft/lang_createtable.html, sec3.2
+     * Generates codegen default value mapping between ktor and sqlite Ref:
+     * http://www.sqlite.org/draft/lang_createtable.html, sec3.2
      *
      * @param defaultValue value
-     * @param dataType     type name
-     * @param dataFormat   type format
+     * @param dataType type name
+     * @param dataFormat type format
      * @return generated codegen default
      */
-    private Map<String, Object> toColumnTypeDefault(String defaultValue, String dataType, String dataFormat) {
+    private Map<String, Object> toColumnTypeDefault(
+            String defaultValue, String dataType, String dataFormat) {
         String sqlType = toColumnType(dataType, dataFormat);
         String sqlDefault = "";
         if (defaultValue == null || defaultValue.toUpperCase(Locale.ROOT).equals("NULL")) {
             sqlType = "null";
         }
-        //special case for keywords if needed
+        // special case for keywords if needed
         switch (sqlType) {
             case SqlType.Boolean:
             case SqlType.Int:
@@ -969,7 +1178,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
                 sqlDefault = defaultValue;
             case SqlType.Blob:
             case SqlType.Json:
-                throw new RuntimeException("The BLOB and JSON data types cannot be assigned a default value");
+                throw new RuntimeException(
+                        "The BLOB and JSON data types cannot be assigned a default value");
             default:
                 sqlDefault = "NULL";
         }
@@ -980,8 +1190,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Converts name to valid database name
-     * Produced name must be used with backticks only, eg. `database_name`
+     * Converts name to valid database name Produced name must be used with backticks only, eg.
+     * `database_name`
      *
      * @param name source name
      * @return database name
@@ -996,8 +1206,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Converts name to valid column name
-     * Produced name must be used with backticks only, eg. `table_name`
+     * Converts name to valid column name Produced name must be used with backticks only, eg.
+     * `table_name`
      *
      * @param name source name
      * @return table name
@@ -1015,8 +1225,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Converts name to valid column name
-     * Produced name must be used with backticks only, eg. `column_name`
+     * Converts name to valid column name Produced name must be used with backticks only, eg.
+     * `column_name`
      *
      * @param name source name
      * @return column name
@@ -1034,10 +1244,10 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Converts name to valid identifier which can be used as database, table, column name
-     * Produced name must be used quoted only, eg. "column_name"
+     * Converts name to valid identifier which can be used as database, table, column name Produced
+     * name must be used quoted only, eg. "column_name"
      *
-     * @param name   source name
+     * @param name source name
      * @param prefix when escaped name is digits only, prefix will be prepended
      * @param suffix when escaped name is digits only, suffix will be appended
      * @return identifier name
@@ -1046,39 +1256,46 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String escapedName = escapeQuotedIdentifier(name);
         // Database, table, and column names cannot end with space characters.
         if (escapedName.matches(".*\\s$")) {
-            LOGGER.warn("Database, table, and column names cannot end with space characters. Check '{}' name", name);
+            LOGGER.warn(
+                    "Database, table, and column names cannot end with space characters. Check '{}' name",
+                    name);
             escapedName = escapedName.replaceAll("\\s+$", "");
         }
 
         // Identifiers may begin with a digit but unless quoted may not consist solely of digits.
         if (escapedName.matches("^\\d+$")) {
-            LOGGER.warn("Database, table, and column names cannot consist solely of digits. Check '{}' name", name);
+            LOGGER.warn(
+                    "Database, table, and column names cannot consist solely of digits. Check '{}' name",
+                    name);
             escapedName = prefix + escapedName + suffix;
         }
 
         // identifier name cannot be empty
         if (escapedName.isEmpty()) {
-            throw new RuntimeException("Empty database/table/column name for property '" + name + "' not allowed");
+            throw new RuntimeException(
+                    "Empty database/table/column name for property '" + name + "' not allowed");
         }
         return escapedName;
     }
 
     /**
      * Escapes identifier to use it in SQL statements with backticks, eg. SELECT "identifier" FROM
-     * Ref: https://www.sqlite.org/draft/tokenreq.html H41130
-     * Spec is similar to MySQL
+     * Ref: https://www.sqlite.org/draft/tokenreq.html H41130 Spec is similar to MySQL
      *
      * @param identifier source identifier
      * @return escaped identifier
      */
     public String escapeQuotedIdentifier(String identifier) {
-        // ASCII: [0-9,a-z,A-Z$_] (basic Latin letters, digits 0-9, dollar, underscore) Extended: U+0080 .. U+FFFF
-        // ASCII NUL (U+0000) and supplementary characters (U+10000 and higher) are not permitted in quoted or unquoted identifiers.
+        // ASCII: [0-9,a-z,A-Z$_] (basic Latin letters, digits 0-9, dollar, underscore) Extended:
+        // U+0080 .. U+FFFF
+        // ASCII NUL (U+0000) and supplementary characters (U+10000 and higher) are not permitted in
+        // quoted or unquoted identifiers.
         // This does in fact matches against >\xFFFF and against ^\x0000. works only on Java7+
         Pattern regexp = Pattern.compile("[^0-9a-zA-z$_\\x0080-\\xFFFF]");
         Matcher matcher = regexp.matcher(identifier);
         if (matcher.find()) {
-            LOGGER.warn("Identifier '{}' contains unsafe characters out of [0-9,a-z,A-Z$_] and U+0080..U+FFFF range",
+            LOGGER.warn(
+                    "Identifier '{}' contains unsafe characters out of [0-9,a-z,A-Z$_] and U+0080..U+FFFF range",
                     identifier);
             identifier = identifier.replaceAll("[^0-9a-zA-z$_\\x0080-\\xFFFF]", "");
         }
@@ -1087,7 +1304,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
     @Override
     public String escapeReservedWord(String name) {
-        //LOGGER.warn("'" + name + "' is reserved word. Do not use that word or properly escape it with backticks in mustache template");
+        // LOGGER.warn("'" + name + "' is reserved word. Do not use that word or properly escape it
+        // with backticks in mustache template");
         return name;
     }
 
@@ -1103,8 +1321,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Sets default database name for all queries
-     * Provided value will be escaped when necessary
+     * Sets default database name for all queries Provided value will be escaped when necessary
      *
      * @param databaseName source name
      */
@@ -1113,14 +1330,15 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         if (!escapedName.equals(databaseName)) {
             LOGGER.error(
                     "Invalid database name. '{}' cannot be used as identifier. Escaped value '{}' will be used instead.",
-                    databaseName, escapedName);
+                    databaseName,
+                    escapedName);
         }
         this.defaultDatabaseName = escapedName;
     }
 
     /**
-     * Returns default database name for all queries
-     * This value must be used with backticks only, eg. `database_name`
+     * Returns default database name for all queries This value must be used with backticks only,
+     * eg. `database_name`
      *
      * @return default database name
      */
@@ -1147,8 +1365,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     /**
-     * Sets identifier naming convention for table names and column names.
-     * This is not related to database name which is defined by defaultDatabaseName option.
+     * Sets identifier naming convention for table names and column names. This is not related to
+     * database name which is defined by defaultDatabaseName option.
      *
      * @param naming identifier naming convention (original|snake_case)
      */
@@ -1159,8 +1377,10 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
                 this.identifierNamingConvention = naming;
                 break;
             default:
-                LOGGER.warn("\"{}\" is invalid \"identifierNamingConvention\" argument. Current \"{}\" used instead.",
-                        naming, this.identifierNamingConvention);
+                LOGGER.warn(
+                        "\"{}\" is invalid \"identifierNamingConvention\" argument. Current \"{}\" used instead.",
+                        naming,
+                        this.identifierNamingConvention);
         }
     }
 
@@ -1217,11 +1437,12 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      */
     public String toSrcPath(String packageName) {
         // Trim prefix file separators from package path
-        String packagePath = StringUtils.removeStart(
-                // Replace period, backslash, forward slash with file separator in package name
-                packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
-                File.separator
-        );
+        String packagePath =
+                StringUtils.removeStart(
+                        // Replace period, backslash, forward slash with file separator in package
+                        // name
+                        packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+                        File.separator);
 
         // Trim trailing file separators from the overall path
         return StringUtils.removeEnd(packagePath, File.separator);

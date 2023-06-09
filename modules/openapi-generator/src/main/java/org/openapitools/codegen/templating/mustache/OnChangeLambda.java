@@ -1,24 +1,23 @@
 package org.openapitools.codegen.templating.mustache;
 
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import java.io.IOException;
 import java.io.Writer;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
-
 /**
- * Lambda writes current fragment to the output when it is different than
- * the previous fragment.
+ * Lambda writes current fragment to the output when it is different than the previous fragment.
  *
- * Register:
+ * <p>Register:
+ *
  * <pre>
  * additionalProperties.put("onchange", new OnChangeLambda());
  * </pre>
  *
  * Use:
+ *
  * <pre>
  * {{#onchange}}{{name}}{{/onchange}}
  * </pre>

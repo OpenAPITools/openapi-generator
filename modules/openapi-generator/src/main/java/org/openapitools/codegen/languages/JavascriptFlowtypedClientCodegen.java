@@ -17,19 +17,17 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.dashize;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
-
-import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.dashize;
 
 public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCodegen {
     public static final String NPM_REPOSITORY = "npmRepository";
@@ -39,43 +37,111 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
     public JavascriptFlowtypedClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey))
-                .includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(
+                features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
         importMapping.clear();
 
-        setReservedWordsLowerCase(Arrays.asList(
-                // local variable names used in API methods (endpoints)
-                "varLocalPath", "queryParameters", "headerParams", "formParams", "useFormData", "varLocalDeferred",
-                "requestOptions",
-                // Typescript reserved words
-                "abstract", "arguments", "boolean", "break", "byte",
-                "case", "catch", "char", "class", "const",
-                "continue", "debugger", "default", "delete", "do",
-                "double", "else", "enum", "eval", "export",
-                "extends", "false", "final", "finally", "float",
-                "for", "function", "goto", "if", "implements",
-                "import", "in", "instanceof", "int", "interface",
-                "let", "long", "native", "new", "null",
-                "package", "private", "protected", "public", "return",
-                "short", "static", "super", "switch", "synchronized",
-                "this", "throw", "throws", "transient", "true",
-                "try", "typeof", "var", "void", "volatile",
-                "while", "with", "yield",
-                "Array", "Date", "eval", "function", "hasOwnProperty",
-                "Infinity", "isFinite", "isNaN", "isPrototypeOf",
-                "Math", "NaN", "Number", "Object",
-                "prototype", "String", "toString", "undefined", "valueOf"));
+        setReservedWordsLowerCase(
+                Arrays.asList(
+                        // local variable names used in API methods (endpoints)
+                        "varLocalPath",
+                        "queryParameters",
+                        "headerParams",
+                        "formParams",
+                        "useFormData",
+                        "varLocalDeferred",
+                        "requestOptions",
+                        // Typescript reserved words
+                        "abstract",
+                        "arguments",
+                        "boolean",
+                        "break",
+                        "byte",
+                        "case",
+                        "catch",
+                        "char",
+                        "class",
+                        "const",
+                        "continue",
+                        "debugger",
+                        "default",
+                        "delete",
+                        "do",
+                        "double",
+                        "else",
+                        "enum",
+                        "eval",
+                        "export",
+                        "extends",
+                        "false",
+                        "final",
+                        "finally",
+                        "float",
+                        "for",
+                        "function",
+                        "goto",
+                        "if",
+                        "implements",
+                        "import",
+                        "in",
+                        "instanceof",
+                        "int",
+                        "interface",
+                        "let",
+                        "long",
+                        "native",
+                        "new",
+                        "null",
+                        "package",
+                        "private",
+                        "protected",
+                        "public",
+                        "return",
+                        "short",
+                        "static",
+                        "super",
+                        "switch",
+                        "synchronized",
+                        "this",
+                        "throw",
+                        "throws",
+                        "transient",
+                        "true",
+                        "try",
+                        "typeof",
+                        "var",
+                        "void",
+                        "volatile",
+                        "while",
+                        "with",
+                        "yield",
+                        "Array",
+                        "Date",
+                        "eval",
+                        "function",
+                        "hasOwnProperty",
+                        "Infinity",
+                        "isFinite",
+                        "isNaN",
+                        "isPrototypeOf",
+                        "Math",
+                        "NaN",
+                        "Number",
+                        "Object",
+                        "prototype",
+                        "String",
+                        "toString",
+                        "undefined",
+                        "valueOf"));
 
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList("string", "boolean", "number", "Array", "Object", "Date", "File", "Blob")
-        );
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "string", "boolean", "number", "Array", "Object", "Date", "File",
+                                "Blob"));
 
         instantiationTypes.put("array", "Array");
         instantiationTypes.put("list", "Array");
@@ -108,8 +174,10 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         outputFolder = "generated-code/javascript-flowtyped";
         embeddedTemplateDir = templateDir = "Javascript-Flowtyped";
 
-        this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
-
+        this.cliOptions.add(
+                new CliOption(
+                        NPM_REPOSITORY,
+                        "Use this property to set an url your private npmRepo in the package.json"));
     }
 
     @Override
@@ -123,7 +191,8 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         super.processOpts();
         supportingFiles.add(new SupportingFile("index.mustache", "src", "index.js"));
         supportingFiles.add(new SupportingFile("api.mustache", "src", "api.js"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", "src", "configuration.js"));
+        supportingFiles.add(
+                new SupportingFile("configuration.mustache", "src", "configuration.js"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
 
         addNpmPackageGeneration();
@@ -135,7 +204,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
 
-        //Files for building our lib
+        // Files for building our lib
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("flowconfig.mustache", "", ".flowconfig"));
@@ -181,14 +250,16 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
-                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
+                    var.datatypeWithEnum =
+                            var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
-                        var.datatypeWithEnum = var.datatypeWithEnum
-                                .replace(var.enumName, cm.classname + var.enumName);
+                        var.datatypeWithEnum =
+                                var.datatypeWithEnum.replace(
+                                        var.enumName, cm.classname + var.enumName);
                     }
                 }
             }
@@ -232,5 +303,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.JAVASCRIPT;
+    }
 }

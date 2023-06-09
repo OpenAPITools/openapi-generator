@@ -17,12 +17,18 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.*;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -34,13 +40,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class JavascriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
@@ -82,7 +81,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public JavascriptClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(
+                features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         outputFolder = "generated-code/js";
         modelTemplateFiles.put("model.mustache", ".js");
@@ -100,30 +100,96 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         hideGenerationTimestamp = Boolean.TRUE;
 
         // reference: http://www.w3schools.com/js/js_reserved.asp
-        reservedWords = new HashSet<>(
-                Arrays.asList(
-                        "abstract", "arguments", "boolean", "break", "byte",
-                        "case", "catch", "char", "class", "const",
-                        "continue", "debugger", "default", "delete", "do",
-                        "double", "else", "enum", "eval", "export",
-                        "extends", "false", "final", "finally", "float",
-                        "for", "function", "goto", "if", "implements",
-                        "import", "in", "instanceof", "int", "interface",
-                        "let", "long", "native", "new", "null",
-                        "package", "private", "protected", "public", "return",
-                        "short", "static", "super", "switch", "synchronized",
-                        "this", "throw", "throws", "transient", "true",
-                        "try", "typeof", "var", "void", "volatile",
-                        "while", "with", "yield",
-                        "Array", "Date", "eval", "function", "hasOwnProperty",
-                        "Infinity", "isFinite", "isNaN", "isPrototypeOf",
-                        "Math", "NaN", "Number", "Object",
-                        "prototype", "String", "toString", "undefined", "valueOf")
-        );
+        reservedWords =
+                new HashSet<>(
+                        Arrays.asList(
+                                "abstract",
+                                "arguments",
+                                "boolean",
+                                "break",
+                                "byte",
+                                "case",
+                                "catch",
+                                "char",
+                                "class",
+                                "const",
+                                "continue",
+                                "debugger",
+                                "default",
+                                "delete",
+                                "do",
+                                "double",
+                                "else",
+                                "enum",
+                                "eval",
+                                "export",
+                                "extends",
+                                "false",
+                                "final",
+                                "finally",
+                                "float",
+                                "for",
+                                "function",
+                                "goto",
+                                "if",
+                                "implements",
+                                "import",
+                                "in",
+                                "instanceof",
+                                "int",
+                                "interface",
+                                "let",
+                                "long",
+                                "native",
+                                "new",
+                                "null",
+                                "package",
+                                "private",
+                                "protected",
+                                "public",
+                                "return",
+                                "short",
+                                "static",
+                                "super",
+                                "switch",
+                                "synchronized",
+                                "this",
+                                "throw",
+                                "throws",
+                                "transient",
+                                "true",
+                                "try",
+                                "typeof",
+                                "var",
+                                "void",
+                                "volatile",
+                                "while",
+                                "with",
+                                "yield",
+                                "Array",
+                                "Date",
+                                "eval",
+                                "function",
+                                "hasOwnProperty",
+                                "Infinity",
+                                "isFinite",
+                                "isNaN",
+                                "isPrototypeOf",
+                                "Math",
+                                "NaN",
+                                "Number",
+                                "Object",
+                                "prototype",
+                                "String",
+                                "toString",
+                                "undefined",
+                                "valueOf"));
 
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList("String", "Boolean", "Number", "Array", "Object", "Date", "File", "Blob")
-        );
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "String", "Boolean", "Number", "Array", "Object", "Date", "File",
+                                "Blob"));
         defaultIncludes = new HashSet<>(languageSpecificPrimitives);
 
         instantiationTypes.put("array", "Array");
@@ -158,41 +224,75 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         importMapping.clear();
 
-        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC).defaultValue("src"));
-        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
-        cliOptions.add(new CliOption(PROJECT_NAME,
-                "name of the project (Default: generated from info.title or \"openapi-js-client\")"));
-        cliOptions.add(new CliOption(MODULE_NAME,
-                "module name for AMD, Node or globals (Default: generated from <projectName>)"));
-        cliOptions.add(new CliOption(PROJECT_DESCRIPTION,
-                "description of the project (Default: using info.description or \"Client library of <projectName>\")"));
-        cliOptions.add(new CliOption(PROJECT_VERSION,
-                "version of the project (Default: using info.version or \"1.0.0\")"));
-        cliOptions.add(new CliOption(CodegenConstants.LICENSE_NAME,
-                "name of the license the project uses (Default: using info.license.name)"));
-        cliOptions.add(new CliOption(USE_PROMISES,
-                "use Promises as return values from the client API, instead of superagent callbacks")
-                .defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(EMIT_MODEL_METHODS,
-                "generate getters and setters for model properties")
-                .defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(EMIT_JS_DOC,
-                "generate JSDoc comments")
-                .defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(USE_INHERITANCE,
-                "use JavaScript prototype chains & delegation for inheritance")
-                .defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
-                .defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
-        cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
+        cliOptions.add(
+                new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC)
+                        .defaultValue("src"));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
+        cliOptions.add(
+                new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
+        cliOptions.add(
+                new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
+        cliOptions.add(
+                new CliOption(
+                        PROJECT_NAME,
+                        "name of the project (Default: generated from info.title or \"openapi-js-client\")"));
+        cliOptions.add(
+                new CliOption(
+                        MODULE_NAME,
+                        "module name for AMD, Node or globals (Default: generated from <projectName>)"));
+        cliOptions.add(
+                new CliOption(
+                        PROJECT_DESCRIPTION,
+                        "description of the project (Default: using info.description or \"Client library of <projectName>\")"));
+        cliOptions.add(
+                new CliOption(
+                        PROJECT_VERSION,
+                        "version of the project (Default: using info.version or \"1.0.0\")"));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.LICENSE_NAME,
+                        "name of the license the project uses (Default: using info.license.name)"));
+        cliOptions.add(
+                new CliOption(
+                                USE_PROMISES,
+                                "use Promises as return values from the client API, instead of superagent callbacks")
+                        .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                EMIT_MODEL_METHODS,
+                                "generate getters and setters for model properties")
+                        .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(
+                new CliOption(EMIT_JS_DOC, "generate JSDoc comments")
+                        .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                USE_INHERITANCE,
+                                "use JavaScript prototype chains & delegation for inheritance")
+                        .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
+                        .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.MODEL_PROPERTY_NAMING,
+                                CodegenConstants.MODEL_PROPERTY_NAMING_DESC)
+                        .defaultValue("camelCase"));
+        cliOptions.add(
+                new CliOption(
+                        NPM_REPOSITORY,
+                        "Use this property to set an url your private npmRepo in the package.json"));
 
         supportedLibraries.put(LIBRARY_JAVASCRIPT, "JavaScript client library");
         supportedLibraries.put(LIBRARY_APOLLO, "Apollo REST DataSource");
         setLibrary(LIBRARY_JAVASCRIPT);
-        final CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(LIBRARY_JAVASCRIPT);
+        final CliOption library =
+                new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC)
+                        .defaultValue(LIBRARY_JAVASCRIPT);
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
     }
@@ -217,8 +317,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("JS_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable JS_POST_PROCESS_FILE not defined so the JS code may not be properly formatted. To define it, try 'export JS_POST_PROCESS_FILE=\"/usr/local/bin/js-beautify -r -f\"' (Linux/Mac)");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info(
+                    "Environment variable JS_POST_PROCESS_FILE not defined so the JS code may not be properly formatted. To define it, try 'export JS_POST_PROCESS_FILE=\"/usr/local/bin/js-beautify -r -f\"' (Linux/Mac)");
+            LOGGER.info(
+                    "NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(PROJECT_NAME)) {
@@ -258,7 +360,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             setEmitJSDoc(convertPropertyToBooleanAndWriteBack(EMIT_JS_DOC));
         }
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
-            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+            setModelPropertyNaming(
+                    (String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             setNpmRepository(((String) additionalProperties.get(NPM_REPOSITORY)));
@@ -292,7 +395,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
 
             // when licenceName is not specified, use info.license
-            if (additionalProperties.get(CodegenConstants.LICENSE_NAME) == null && info.getLicense() != null) {
+            if (additionalProperties.get(CodegenConstants.LICENSE_NAME) == null
+                    && info.getLicense() != null) {
                 License license = info.getLicense();
                 licenseName = license.getName();
             }
@@ -341,8 +445,14 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("mocha.opts", "mocha.opts"));
         supportingFiles.add(new SupportingFile("travis.yml", ".travis.yml"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", ".gitignore"));
-        supportingFiles.add(new SupportingFile("index.mustache", createPath(sourceFolder, invokerPackage), "index.js"));
-        supportingFiles.add(new SupportingFile("ApiClient.mustache", createPath(sourceFolder, invokerPackage), "ApiClient.js"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "index.mustache", createPath(sourceFolder, invokerPackage), "index.js"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ApiClient.mustache",
+                        createPath(sourceFolder, invokerPackage),
+                        "ApiClient.js"));
 
         if (useES6 || LIBRARY_APOLLO.equals(library)) {
             supportingFiles.add(new SupportingFile(".babelrc.mustache", ".babelrc"));
@@ -360,16 +470,16 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     /**
      * Concatenates an array of path segments into a path string.
      *
-     * @param segments The path segments to concatenate. A segment may contain either of the file separator characters '\' or '/'.
-     *                 A segment is ignored if it is <code>null</code>, empty or &quot;.&quot;.
+     * @param segments The path segments to concatenate. A segment may contain either of the file
+     *     separator characters '\' or '/'. A segment is ignored if it is <code>null</code>, empty
+     *     or &quot;.&quot;.
      * @return A path string using the correct platform-specific file separator character.
      */
     private String createPath(String... segments) {
         StringBuilder buf = new StringBuilder();
         for (String segment : segments) {
             if (!StringUtils.isEmpty(segment) && !segment.equals(".")) {
-                if (buf.length() != 0)
-                    buf.append(File.separatorChar);
+                if (buf.length() != 0) buf.append(File.separatorChar);
                 buf.append(segment);
             }
         }
@@ -499,16 +609,20 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             case snake_case:
                 return underscore(name);
             default:
-                throw new IllegalArgumentException("Invalid model property naming '" +
-                        name + "'. Must be 'original', 'camelCase', " +
-                        "'PascalCase' or 'snake_case'");
+                throw new IllegalArgumentException(
+                        "Invalid model property naming '"
+                                + name
+                                + "'. Must be 'original', 'camelCase', "
+                                + "'PascalCase' or 'snake_case'");
         }
     }
 
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name);  // FIXME parameter should not be assigned. Also declare it as "final"
+        name =
+                sanitizeName(
+                        name); // FIXME parameter should not be assigned. Also declare it as "final"
 
         if ("_".equals(name)) {
             name = "_u";
@@ -544,7 +658,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toModelName(String name) {
-        name = sanitizeName(name);  // FIXME parameter should not be assigned. Also declare it as "final"
+        name =
+                sanitizeName(
+                        name); // FIXME parameter should not be assigned. Also declare it as "final"
 
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
@@ -561,14 +677,20 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = "Model" + name;
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    name,
+                    modelName);
             return modelName;
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            String modelName = "Model" + name; // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+            String modelName =
+                    "Model" + name; // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn(
+                    "{} (model name starts with number) cannot be used as model name. Renamed to {}",
+                    name,
                     modelName);
             return modelName;
         }
@@ -633,13 +755,17 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     public void setModelPropertyNaming(String naming) {
-        if ("original".equals(naming) || "camelCase".equals(naming) ||
-                "PascalCase".equals(naming) || "snake_case".equals(naming)) {
+        if ("original".equals(naming)
+                || "camelCase".equals(naming)
+                || "PascalCase".equals(naming)
+                || "snake_case".equals(naming)) {
             this.modelPropertyNaming = naming;
         } else {
-            throw new IllegalArgumentException("Invalid model property naming '" +
-                    naming + "'. Must be 'original', 'camelCase', " +
-                    "'PascalCase' or 'snake_case'");
+            throw new IllegalArgumentException(
+                    "Invalid model property naming '"
+                            + naming
+                            + "'. Must be 'original', 'camelCase', "
+                            + "'PascalCase' or 'snake_case'");
         }
     }
 
@@ -831,14 +957,20 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
             String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
-            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, newOperationId);
+            LOGGER.warn(
+                    "{} (starting with a number) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    newOperationId);
             return newOperationId;
         }
 
@@ -851,11 +983,17 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel codegenModel = super.fromModel(name, model);
 
-        if (allDefinitions != null && codegenModel != null && codegenModel.parent != null && codegenModel.hasEnums) {
+        if (allDefinitions != null
+                && codegenModel != null
+                && codegenModel.parent != null
+                && codegenModel.hasEnums) {
             final Schema parentModel = allDefinitions.get(codegenModel.parentSchema);
             if (parentModel != null) {
-                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
-                codegenModel = JavascriptClientCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
+                final CodegenModel parentCodegenModel =
+                        super.fromModel(codegenModel.parent, parentModel);
+                codegenModel =
+                        JavascriptClientCodegen.reconcileInlineEnums(
+                                codegenModel, parentCodegenModel);
             }
         }
         if (ModelUtils.isArraySchema(model)) {
@@ -891,16 +1029,17 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (s != null) {
             int beginIdx = s.charAt(0) == '[' ? 1 : 0;
             int endIdx = s.length();
-            if (s.charAt(endIdx - 1) == ']')
-                endIdx--;
+            if (s.charAt(endIdx - 1) == ']') endIdx--;
             return s.substring(beginIdx, endIdx);
         }
         return null;
     }
 
     private String getModelledType(String dataType) {
-        return "module:" + (StringUtils.isEmpty(invokerPackage) ? "" : (invokerPackage + "/"))
-                + (StringUtils.isEmpty(modelPackage) ? "" : (modelPackage + "/")) + dataType;
+        return "module:"
+                + (StringUtils.isEmpty(invokerPackage) ? "" : (invokerPackage + "/"))
+                + (StringUtils.isEmpty(modelPackage) ? "" : (modelPackage + "/"))
+                + dataType;
     }
 
     private String getJSDocType(CodegenModel cm, CodegenProperty cp) {
@@ -914,20 +1053,21 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (cp.isEnum) {
             dataType = cm.classname + '.' + dataType;
         }
-        if (isModelledType(cp))
-            dataType = getModelledType(dataType);
+        if (isModelledType(cp)) dataType = getModelledType(dataType);
         return dataType;
     }
 
     private boolean isModelledType(CodegenProperty cp) {
-        // N.B. enums count as modelled types, file is not modelled (SuperAgent uses some 3rd party library).
-        return cp.isEnum || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.dataType : cp.baseType);
+        // N.B. enums count as modelled types, file is not modelled (SuperAgent uses some 3rd party
+        // library).
+        return cp.isEnum
+                || !languageSpecificPrimitives.contains(
+                        cp.baseType == null ? cp.dataType : cp.baseType);
     }
 
     private String getJSDocType(CodegenParameter cp) {
         String dataType = trimBrackets(cp.dataType);
-        if (isModelledType(cp))
-            dataType = getModelledType(dataType);
+        if (isModelledType(cp)) dataType = getModelledType(dataType);
         if (Boolean.TRUE.equals(cp.isArray)) {
             return "Array.<" + dataType + ">";
         } else if (Boolean.TRUE.equals(cp.isMap)) {
@@ -937,15 +1077,17 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     private boolean isModelledType(CodegenParameter cp) {
-        // N.B. enums count as modelled types, file is not modelled (SuperAgent uses some 3rd party library).
-        return cp.isEnum || !languageSpecificPrimitives.contains(cp.baseType == null ? cp.dataType : cp.baseType);
+        // N.B. enums count as modelled types, file is not modelled (SuperAgent uses some 3rd party
+        // library).
+        return cp.isEnum
+                || !languageSpecificPrimitives.contains(
+                        cp.baseType == null ? cp.dataType : cp.baseType);
     }
 
     private String getJSDocType(CodegenOperation co) {
         String returnType = trimBrackets(co.returnType);
         if (returnType != null) {
-            if (isModelledType(co))
-                returnType = getModelledType(returnType);
+            if (isModelledType(co)) returnType = getModelledType(returnType);
             if (Boolean.TRUE.equals(co.isArray)) {
                 return "Array.<" + returnType + ">";
             } else if (Boolean.TRUE.equals(co.isMap)) {
@@ -966,7 +1108,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         // Generate and store argument list string of each operation into
         // vendor-extension: x-codegen-argList.
         OperationMap operations = objs.getOperations();
@@ -1015,7 +1158,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
                 // Format the return type correctly
                 if (operation.returnType != null) {
-                    operation.vendorExtensions.put("x-return-type", normalizeType(operation.returnType));
+                    operation.vendorExtensions.put(
+                            "x-return-type", normalizeType(operation.returnType));
                 }
             }
         }
@@ -1030,10 +1174,13 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             CodegenModel cm = mo.getModel();
 
             // Collect each model's required property names in *document order*.
-            // NOTE: can't use 'mandatory' as it is built from ModelImpl.getRequired(), which sorts names
-            // alphabetically and in any case the document order of 'required' and 'properties' can differ.
+            // NOTE: can't use 'mandatory' as it is built from ModelImpl.getRequired(), which sorts
+            // names
+            // alphabetically and in any case the document order of 'required' and 'properties' can
+            // differ.
             List<CodegenProperty> required = new ArrayList<>();
-            List<CodegenProperty> allRequired = supportsInheritance || supportsMixins ? new ArrayList<>() : required;
+            List<CodegenProperty> allRequired =
+                    supportsInheritance || supportsMixins ? new ArrayList<>() : required;
             cm.vendorExtensions.put("x-required", required);
             cm.vendorExtensions.put("x-all-required", allRequired);
 
@@ -1073,13 +1220,17 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 }
             }
             for (CodegenProperty var : cm.vars) {
-                Optional.ofNullable(lastRequired).ifPresent(_lastRequired -> {
-                    if (var == _lastRequired) {
-                        var.vendorExtensions.put("x-codegen-has-more-required", false);
-                    } else if (var.required) {
-                        var.vendorExtensions.put("x-codegen-has-more-required", true);
-                    }
-                });
+                Optional.ofNullable(lastRequired)
+                        .ifPresent(
+                                _lastRequired -> {
+                                    if (var == _lastRequired) {
+                                        var.vendorExtensions.put(
+                                                "x-codegen-has-more-required", false);
+                                    } else if (var.required) {
+                                        var.vendorExtensions.put(
+                                                "x-codegen-has-more-required", true);
+                                    }
+                                });
             }
         }
         return objs;
@@ -1087,11 +1238,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     protected boolean needToImport(String type) {
-        return !defaultIncludes.contains(type)
-                && !languageSpecificPrimitives.contains(type);
+        return !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type);
     }
 
-    private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
+    private static CodegenModel reconcileInlineEnums(
+            CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
         // the parent and child models, look for enums that match, and remove
@@ -1115,7 +1266,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                     Iterator<CodegenProperty> iterator = codegenProperties.iterator();
                     while (iterator.hasNext()) {
                         CodegenProperty codegenProperty = iterator.next();
-                        if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
+                        if (codegenProperty.isEnum
+                                && codegenProperty.equals(parentModelCodegenProperty)) {
                             // We found an enum in the child class that is
                             // a duplicate of the one in the parent, so remove it.
                             iterator.remove();
@@ -1161,7 +1313,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
     }
 
-
     @Override
     public String escapeQuotationMark(String input) {
         if (input == null) {
@@ -1198,11 +1349,13 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 p.waitFor();
                 int exitValue = p.exitValue();
                 if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                    LOGGER.error(
+                            "Error running the command ({}). Exit code: {}", command, exitValue);
                 }
                 LOGGER.info("Successfully executed: {}", command);
             } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                LOGGER.error(
+                        "Error running the command ({}). Exception: {}", command, e.getMessage());
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
@@ -1211,8 +1364,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     protected String getCollectionFormat(CodegenParameter codegenParameter) {
-        // This method will return `passthrough` when the parameter data format is binary and an array.
-        // `passthrough` is not part of the OAS spec. However, this will act like a flag that we should
+        // This method will return `passthrough` when the parameter data format is binary and an
+        // array.
+        // `passthrough` is not part of the OAS spec. However, this will act like a flag that we
+        // should
         // not do any processing on the collection type (i.e. convert to tsv, csv, etc..). This is
         // critical to support multi file uploads correctly.
         if (codegenParameter.isArray && Objects.equals(codegenParameter.dataFormat, "binary")) {
@@ -1227,7 +1382,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName) {
+    protected void addImport(
+            ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName) {
         // import everything (including child schema of a composed schema)
         addImport(model, modelName);
     }

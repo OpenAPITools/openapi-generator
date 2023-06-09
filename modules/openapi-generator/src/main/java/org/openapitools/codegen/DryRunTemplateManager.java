@@ -1,18 +1,15 @@
 package org.openapitools.codegen;
 
-import org.openapitools.codegen.api.TemplateProcessor;
-import org.openapitools.codegen.templating.TemplateManagerOptions;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import org.openapitools.codegen.api.TemplateProcessor;
+import org.openapitools.codegen.templating.TemplateManagerOptions;
 
-/**
- * Manages templates for a generator "dry run"
- */
+/** Manages templates for a generator "dry run" */
 public class DryRunTemplateManager implements TemplateProcessor {
     private final TemplateManagerOptions options;
     private final Map<String, DryRunStatus> dryRunStatusMap = new HashMap<>();
@@ -38,20 +35,20 @@ public class DryRunTemplateManager implements TemplateProcessor {
     /**
      * Writes data to a compiled template
      *
-     * @param data     Input data
+     * @param data Input data
      * @param template Input template location
-     * @param target   The targeted file output location
+     * @param target The targeted file output location
      * @return The actual file
      */
     @Override
     public File write(Map<String, Object> data, String template, File target) throws IOException {
         if (this.options.isSkipOverwrite() && target.exists()) {
-            dryRunStatusMap.put(target.toString(),
+            dryRunStatusMap.put(
+                    target.toString(),
                     new DryRunStatus(
                             target.toPath(),
                             DryRunStatus.State.SkippedOverwrite,
-                            "File exists and skip overwrite option is enabled."
-                    ));
+                            "File exists and skip overwrite option is enabled."));
         }
 
         return target;
@@ -72,32 +69,21 @@ public class DryRunTemplateManager implements TemplateProcessor {
 
     @Override
     public void ignore(Path path, String context) {
-        dryRunStatusMap.put(path.toString(),
-                new DryRunStatus(
-                        path,
-                        DryRunStatus.State.Ignored,
-                        context
-                ));
+        dryRunStatusMap.put(
+                path.toString(), new DryRunStatus(path, DryRunStatus.State.Ignored, context));
     }
 
     @Override
     public void skip(Path path, String context) {
         if (this.options.isSkipOverwrite() && path.toFile().exists()) {
-            dryRunStatusMap.put(path.toString(),
-                    new DryRunStatus(
-                            path,
-                            DryRunStatus.State.SkippedOverwrite,
-                            context
-                    ));
+            dryRunStatusMap.put(
+                    path.toString(),
+                    new DryRunStatus(path, DryRunStatus.State.SkippedOverwrite, context));
             return;
         }
 
-        dryRunStatusMap.put(path.toString(),
-                new DryRunStatus(
-                        path,
-                        DryRunStatus.State.Skipped,
-                        context
-                ));
+        dryRunStatusMap.put(
+                path.toString(), new DryRunStatus(path, DryRunStatus.State.Skipped, context));
     }
 
     @Override

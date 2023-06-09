@@ -17,10 +17,8 @@
 
 package org.openapitools.codegen.options;
 
-import java.util.Map;
-
 import com.google.common.collect.ImmutableMap;
-
+import java.util.Map;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.DartClientCodegen;
 
@@ -52,7 +50,9 @@ public class DartClientOptionsProvider implements OptionsProvider {
     public Map<String, String> createOptions() {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
-                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
+                .put(
+                        CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG,
+                        SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(DartClientCodegen.PUB_LIBRARY, PUB_LIBRARY_VALUE)
                 .put(DartClientCodegen.PUB_NAME, PUB_NAME_VALUE)
@@ -66,7 +66,9 @@ public class DartClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.SOURCE_FOLDER, SOURCE_FOLDER_VALUE)
                 .put(DartClientCodegen.USE_ENUM_EXTENSION, USE_ENUM_EXTENSION)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
-                .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(
+                        CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                        PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put("serializationLibrary", "custom")

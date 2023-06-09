@@ -18,10 +18,9 @@
 package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.PerlClientCodegen;
-
-import java.util.Map;
 
 public class PerlClientOptionsProvider implements OptionsProvider {
     public static final String MODULE_NAME_VALUE = "";
@@ -41,7 +40,9 @@ public class PerlClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "true")
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, "true")
                 .put("hideGenerationTimestamp", "true")
-                .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(
+                        CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                        PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .build();
     }
 

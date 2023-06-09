@@ -15,11 +15,11 @@ public class CodegenServerVariable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CodegenServerVariable that = (CodegenServerVariable) o;
-        return Objects.equals(name, that.name) &&
-                Objects.equals(defaultValue, that.defaultValue) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(enumValues, that.enumValues) &&
-                Objects.equals(value, that.value);
+        return Objects.equals(name, that.name)
+                && Objects.equals(defaultValue, that.defaultValue)
+                && Objects.equals(description, that.description)
+                && Objects.equals(enumValues, that.enumValues)
+                && Objects.equals(value, that.value);
     }
 
     @Override

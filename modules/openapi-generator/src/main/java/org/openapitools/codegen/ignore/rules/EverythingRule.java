@@ -19,9 +19,7 @@ package org.openapitools.codegen.ignore.rules;
 
 import java.util.List;
 
-/**
- * An ignore rule which matches everything.
- */
+/** An ignore rule which matches everything. */
 public class EverythingRule extends Rule {
     EverythingRule(List<Part> syntax, String definition) {
         super(syntax, definition);
@@ -33,5 +31,7 @@ public class EverythingRule extends Rule {
     }
 
     @Override
-    protected Operation getExcludeOperation(){ return Operation.EXCLUDE_AND_TERMINATE; }
+    protected Operation getExcludeOperation() {
+        return Operation.EXCLUDE_AND_TERMINATE;
+    }
 }

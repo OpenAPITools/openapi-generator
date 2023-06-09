@@ -16,9 +16,7 @@
 
 package org.openapitools.codegen.validation;
 
-/**
- * Represents a {@link Validated} state which is "Invalid" to some degree of {@link Severity}.
- */
+/** Represents a {@link Validated} state which is "Invalid" to some degree of {@link Severity}. */
 @SuppressWarnings({"WeakerAccess"})
 public final class Invalid extends Validated {
     private String message;
@@ -63,8 +61,8 @@ public final class Invalid extends Validated {
     }
 
     /**
-     * Get details about the severity of this invalid state.
-     * For instance, is this an {@link Severity#ERROR} or simply a {@link Severity#WARNING}.
+     * Get details about the severity of this invalid state. For instance, is this an {@link
+     * Severity#ERROR} or simply a {@link Severity#WARNING}.
      *
      * @return The {@link Severity} enum detailing this state's severity.
      */

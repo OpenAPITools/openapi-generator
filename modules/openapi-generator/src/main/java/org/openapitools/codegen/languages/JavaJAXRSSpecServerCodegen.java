@@ -17,16 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
+
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.meta.features.SecurityFeature;
-
-import java.io.File;
-import java.util.Map;
-
-import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
 
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
@@ -34,7 +32,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String RETURN_RESPONSE = "returnResponse";
     public static final String GENERATE_POM = "generatePom";
     public static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
-    public static final String USE_MICROPROFILE_OPENAPI_ANNOTATIONS = "useMicroProfileOpenAPIAnnotations";
+    public static final String USE_MICROPROFILE_OPENAPI_ANNOTATIONS =
+            "useMicroProfileOpenAPIAnnotations";
     public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
     public static final String GENERATE_BUILDERS = "generateBuilders";
 
@@ -58,13 +57,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public JavaJAXRSSpecServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .includeSecurityFeatures(SecurityFeature.OpenIDConnect,//quarkus only
-                        SecurityFeature.OAuth2_ClientCredentials,
-                        SecurityFeature.OAuth2_AuthorizationCode,
-                        SecurityFeature.OAuth2_Password)
-        );
+        modifyFeatureSet(
+                features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-jaxrs-server";
@@ -86,7 +80,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
-        //TODO: add doc templates
+        // TODO: add doc templates
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
@@ -96,11 +90,16 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         importMapping.put("LocalDate", "org.joda.time.LocalDate");
 
-        super.embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "spec";
+        super.embeddedTemplateDir =
+                templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "spec";
 
         removeOption(CodegenConstants.LIBRARY);
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(DEFAULT_LIBRARY);
-        supportedLibraries.put(DEFAULT_LIBRARY, "JAXRS spec only, to be deployed in an app server (TomEE, JBoss, WLS, ...)");
+        CliOption library =
+                new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC)
+                        .defaultValue(DEFAULT_LIBRARY);
+        supportedLibraries.put(
+                DEFAULT_LIBRARY,
+                "JAXRS spec only, to be deployed in an app server (TomEE, JBoss, WLS, ...)");
         supportedLibraries.put(QUARKUS_LIBRARY, "Server using Quarkus");
         supportedLibraries.put(THORNTAIL_LIBRARY, "Server using Thorntail");
         supportedLibraries.put(OPEN_LIBERTY_LIBRARY, "Server using Open Liberty");
@@ -109,14 +108,43 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         library.setEnum(supportedLibraries);
 
         cliOptions.add(library);
-        cliOptions.add(CliOption.newBoolean(GENERATE_POM, "Whether to generate pom.xml if the file does not already exist.").defaultValue(String.valueOf(generatePom)));
-        cliOptions.add(CliOption.newBoolean(GENERATE_BUILDERS, "Whether to generate builders for models.").defaultValue(String.valueOf(generateBuilders)));
-        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.").defaultValue(String.valueOf(interfaceOnly)));
-        cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
-        cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));
-        cliOptions.add(CliOption.newBoolean(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, "Whether to generate Microprofile OpenAPI annotations. Only valid when library is set to quarkus.", useMicroProfileOpenAPIAnnotations));
-        cliOptions.add(CliOption.newString(OPEN_API_SPEC_FILE_LOCATION, "Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string."));
-        cliOptions.add(CliOption.newBoolean(SUPPORT_ASYNC, "Wrap responses in CompletionStage type, allowing asynchronous computation (requires JAX-RS 2.1).", supportAsync));
+        cliOptions.add(
+                CliOption.newBoolean(
+                                GENERATE_POM,
+                                "Whether to generate pom.xml if the file does not already exist.")
+                        .defaultValue(String.valueOf(generatePom)));
+        cliOptions.add(
+                CliOption.newBoolean(GENERATE_BUILDERS, "Whether to generate builders for models.")
+                        .defaultValue(String.valueOf(generateBuilders)));
+        cliOptions.add(
+                CliOption.newBoolean(
+                                INTERFACE_ONLY,
+                                "Whether to generate only API interface stubs without the server files.")
+                        .defaultValue(String.valueOf(interfaceOnly)));
+        cliOptions.add(
+                CliOption.newBoolean(
+                                RETURN_RESPONSE,
+                                "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.")
+                        .defaultValue(String.valueOf(returnResponse)));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_SWAGGER_ANNOTATIONS,
+                        "Whether to generate Swagger annotations.",
+                        useSwaggerAnnotations));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_MICROPROFILE_OPENAPI_ANNOTATIONS,
+                        "Whether to generate Microprofile OpenAPI annotations. Only valid when library is set to quarkus.",
+                        useMicroProfileOpenAPIAnnotations));
+        cliOptions.add(
+                CliOption.newString(
+                        OPEN_API_SPEC_FILE_LOCATION,
+                        "Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string."));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        SUPPORT_ASYNC,
+                        "Wrap responses in CompletionStage type, allowing asynchronous computation (requires JAX-RS 2.1).",
+                        supportAsync));
     }
 
     @Override
@@ -125,13 +153,15 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             generatePom = Boolean.parseBoolean(additionalProperties.get(GENERATE_POM).toString());
         }
         if (additionalProperties.containsKey(INTERFACE_ONLY)) {
-            interfaceOnly = Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString());
+            interfaceOnly =
+                    Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString());
             if (!interfaceOnly) {
                 additionalProperties.remove(INTERFACE_ONLY);
             }
         }
         if (additionalProperties.containsKey(RETURN_RESPONSE)) {
-            returnResponse = Boolean.parseBoolean(additionalProperties.get(RETURN_RESPONSE).toString());
+            returnResponse =
+                    Boolean.parseBoolean(additionalProperties.get(RETURN_RESPONSE).toString());
             if (!returnResponse) {
                 additionalProperties.remove(RETURN_RESPONSE);
             }
@@ -142,39 +172,54 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 additionalProperties.remove(SUPPORT_ASYNC);
             } else {
                 // java8 tag has been deprecated
-                //setJava8ModeAndAdditionalProperties(true);
+                // setJava8ModeAndAdditionalProperties(true);
             }
         }
-        if (QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || OPEN_LIBERTY_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
+        if (QUARKUS_LIBRARY.equals(library)
+                || THORNTAIL_LIBRARY.equals(library)
+                || HELIDON_LIBRARY.equals(library)
+                || OPEN_LIBERTY_LIBRARY.equals(library)
+                || KUMULUZEE_LIBRARY.equals(library)) {
             useSwaggerAnnotations = false;
         } else {
             if (additionalProperties.containsKey(USE_SWAGGER_ANNOTATIONS)) {
-                useSwaggerAnnotations = Boolean.parseBoolean(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString());
+                useSwaggerAnnotations =
+                        Boolean.parseBoolean(
+                                additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString());
             }
         }
-        if (KUMULUZEE_LIBRARY.equals(library)){
+        if (KUMULUZEE_LIBRARY.equals(library)) {
             super.setSourceFolder("src/main/java");
         }
         writePropertyBack(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
 
         if (QUARKUS_LIBRARY.equals(library)) {
             if (additionalProperties.containsKey(USE_MICROPROFILE_OPENAPI_ANNOTATIONS)) {
-                useMicroProfileOpenAPIAnnotations = Boolean.parseBoolean(additionalProperties.get(USE_MICROPROFILE_OPENAPI_ANNOTATIONS).toString());
+                useMicroProfileOpenAPIAnnotations =
+                        Boolean.parseBoolean(
+                                additionalProperties
+                                        .get(USE_MICROPROFILE_OPENAPI_ANNOTATIONS)
+                                        .toString());
             }
-            writePropertyBack(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, useMicroProfileOpenAPIAnnotations);
+            writePropertyBack(
+                    USE_MICROPROFILE_OPENAPI_ANNOTATIONS, useMicroProfileOpenAPIAnnotations);
         }
 
-
         if (additionalProperties.containsKey(GENERATE_BUILDERS)) {
-            generateBuilders = Boolean.parseBoolean(additionalProperties.get(GENERATE_BUILDERS).toString());
+            generateBuilders =
+                    Boolean.parseBoolean(additionalProperties.get(GENERATE_BUILDERS).toString());
         }
         additionalProperties.put(GENERATE_BUILDERS, generateBuilders);
 
         if (additionalProperties.containsKey(OPEN_API_SPEC_FILE_LOCATION)) {
-            openApiSpecFileLocation = additionalProperties.get(OPEN_API_SPEC_FILE_LOCATION).toString();
-        } else if(QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
+            openApiSpecFileLocation =
+                    additionalProperties.get(OPEN_API_SPEC_FILE_LOCATION).toString();
+        } else if (QUARKUS_LIBRARY.equals(library)
+                || THORNTAIL_LIBRARY.equals(library)
+                || HELIDON_LIBRARY.equals(library)
+                || KUMULUZEE_LIBRARY.equals(library)) {
             openApiSpecFileLocation = "src/main/resources/META-INF/openapi.yaml";
-        } else if(OPEN_LIBERTY_LIBRARY.equals(library)) {
+        } else if (OPEN_LIBERTY_LIBRARY.equals(library)) {
             openApiSpecFileLocation = "src/main/webapp/META-INF/openapi.yaml";
         }
 
@@ -183,34 +228,40 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         useJackson = convertPropertyToBoolean(JACKSON);
 
         if (interfaceOnly) {
-            // Change default artifactId if generating interfaces only, before command line options are applied in base class.
+            // Change default artifactId if generating interfaces only, before command line options
+            // are applied in base class.
             artifactId = "openapi-jaxrs-client";
         }
 
         super.processOpts();
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-            .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("RestResourceRoot.mustache",
-                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestResourceRoot.java")
-                .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile(
+                                "RestResourceRoot.mustache",
+                                (sourceFolder + '/' + invokerPackage).replace(".", "/"),
+                                "RestResourceRoot.java")
+                        .doNotOverwrite());
 
         if (generatePom) {
-            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-                .doNotOverwrite());
+            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml").doNotOverwrite());
         }
         if (!interfaceOnly) {
-            supportingFiles.add(new SupportingFile("RestApplication.mustache",
-                    (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
-                .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "RestApplication.mustache",
+                                    (sourceFolder + '/' + invokerPackage).replace(".", "/"),
+                                    "RestApplication.java")
+                            .doNotOverwrite());
         }
 
-        if(StringUtils.isNotEmpty(openApiSpecFileLocation)) {
+        if (StringUtils.isNotEmpty(openApiSpecFileLocation)) {
             int index = openApiSpecFileLocation.lastIndexOf('/');
             String fileFolder;
             String fileName;
-            if(index >= 0) {
+            if (index >= 0) {
                 fileFolder = openApiSpecFileLocation.substring(0, index);
                 fileName = openApiSpecFileLocation.substring(index + 1);
             } else {
@@ -220,40 +271,82 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             supportingFiles.add(new SupportingFile("openapi.mustache", fileFolder, fileName));
         }
 
-        if(QUARKUS_LIBRARY.equals(library)) {
-            supportingFiles.add(new SupportingFile("application.properties.mustache", "src/main/resources", "application.properties")
-                    .doNotOverwrite());
-            supportingFiles.add(new SupportingFile("Dockerfile.jvm.mustache", "src/main/docker", "Dockerfile.jvm")
-                    .doNotOverwrite());
-            supportingFiles.add(new SupportingFile("Dockerfile.native.mustache", "src/main/docker", "Dockerfile.native")
-                    .doNotOverwrite());
-            supportingFiles.add(new SupportingFile("dockerignore.mustache", "", ".dockerignore")
-                    .doNotOverwrite());
-        } else if(OPEN_LIBERTY_LIBRARY.equals(library)) {
-            supportingFiles.add(new SupportingFile("server.xml.mustache", "src/main/liberty/config", "server.xml")
-                    .doNotOverwrite());
-            supportingFiles.add(new SupportingFile("beans.xml.mustache", "src/main/webapp/META-INF", "beans.xml")
-                    .doNotOverwrite());
-            supportingFiles.add(new SupportingFile("MANIFEST.MF.mustache", "src/main/webapp/META-INF", "MANIFEST.MF")
-                    .doNotOverwrite());
-            supportingFiles.add(new SupportingFile("microprofile-config.properties.mustache", "src/main/webapp/META-INF", "microprofile-config.properties")
-                    .doNotOverwrite());
-            supportingFiles.add(new SupportingFile("ibm-web-ext.xml.mustache", "src/main/webapp/WEB-INF", "ibm-web-ext.xml")
-                    .doNotOverwrite());
-        } else if(HELIDON_LIBRARY.equals(library)) {
+        if (QUARKUS_LIBRARY.equals(library)) {
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "application.properties.mustache",
+                                    "src/main/resources",
+                                    "application.properties")
+                            .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "Dockerfile.jvm.mustache", "src/main/docker", "Dockerfile.jvm")
+                            .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "Dockerfile.native.mustache",
+                                    "src/main/docker",
+                                    "Dockerfile.native")
+                            .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile("dockerignore.mustache", "", ".dockerignore")
+                            .doNotOverwrite());
+        } else if (OPEN_LIBERTY_LIBRARY.equals(library)) {
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "server.xml.mustache", "src/main/liberty/config", "server.xml")
+                            .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "beans.xml.mustache", "src/main/webapp/META-INF", "beans.xml")
+                            .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "MANIFEST.MF.mustache",
+                                    "src/main/webapp/META-INF",
+                                    "MANIFEST.MF")
+                            .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "microprofile-config.properties.mustache",
+                                    "src/main/webapp/META-INF",
+                                    "microprofile-config.properties")
+                            .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "ibm-web-ext.xml.mustache",
+                                    "src/main/webapp/WEB-INF",
+                                    "ibm-web-ext.xml")
+                            .doNotOverwrite());
+        } else if (HELIDON_LIBRARY.equals(library)) {
             additionalProperties.computeIfAbsent("helidonVersion", key -> "2.4.1");
-            supportingFiles.add(new SupportingFile("logging.properties.mustache", "src/main/resources", "logging.properties")
-                    .doNotOverwrite());
-            supportingFiles.add(new SupportingFile("microprofile-config.properties.mustache", "src/main/resources/META-INF", "microprofile-config.properties")
-                    .doNotOverwrite());
-            supportingFiles.add(new SupportingFile("beans.xml.mustache", "src/main/resources/META-INF", "beans.xml")
-                    .doNotOverwrite());
-        } else if(KUMULUZEE_LIBRARY.equals(library)) {
-            supportingFiles.add(new SupportingFile("config.yaml.mustache", "src/main/resources", "config.yaml"));
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "logging.properties.mustache",
+                                    "src/main/resources",
+                                    "logging.properties")
+                            .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "microprofile-config.properties.mustache",
+                                    "src/main/resources/META-INF",
+                                    "microprofile-config.properties")
+                            .doNotOverwrite());
+            supportingFiles.add(
+                    new SupportingFile(
+                                    "beans.xml.mustache",
+                                    "src/main/resources/META-INF",
+                                    "beans.xml")
+                            .doNotOverwrite());
+        } else if (KUMULUZEE_LIBRARY.equals(library)) {
+            supportingFiles.add(
+                    new SupportingFile(
+                            "config.yaml.mustache", "src/main/resources", "config.yaml"));
         }
 
         if (additionalProperties.containsKey(USE_GZIP_FEATURE)) {
-            useGzipFeature = Boolean.parseBoolean(additionalProperties.get(USE_GZIP_FEATURE).toString());
+            useGzipFeature =
+                    Boolean.parseBoolean(additionalProperties.get(USE_GZIP_FEATURE).toString());
             if (!useGzipFeature) {
                 additionalProperties.remove(USE_GZIP_FEATURE);
             }
@@ -271,7 +364,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     /**
      * Location where the file containing the spec will be generated in the output folder.
-     * @param location location inside the output folder. No file generated when set to null or empty string.
+     *
+     * @param location location inside the output folder. No file generated when set to null or
+     *     empty string.
      */
     public void setOpenApiSpecFileLocation(String location) {
         this.openApiSpecFileLocation = location;
@@ -313,5 +408,4 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             model.imports.add("Arrays");
         }
     }
-
 }

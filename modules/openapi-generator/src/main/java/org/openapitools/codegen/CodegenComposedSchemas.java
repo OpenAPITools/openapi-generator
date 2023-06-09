@@ -24,7 +24,11 @@ public class CodegenComposedSchemas {
     private List<CodegenProperty> anyOf;
     private CodegenProperty not = null;
 
-    public CodegenComposedSchemas(List<CodegenProperty> allOf, List<CodegenProperty> oneOf, List<CodegenProperty> anyOf, CodegenProperty not) {
+    public CodegenComposedSchemas(
+            List<CodegenProperty> allOf,
+            List<CodegenProperty> oneOf,
+            List<CodegenProperty> anyOf,
+            CodegenProperty not) {
         this.allOf = allOf;
         this.oneOf = oneOf;
         this.anyOf = anyOf;
@@ -61,10 +65,10 @@ public class CodegenComposedSchemas {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CodegenComposedSchemas that = (CodegenComposedSchemas) o;
-        return Objects.equals(oneOf, that.oneOf) &&
-                Objects.equals(anyOf, that.anyOf) &&
-                Objects.equals(allOf, that.allOf) &&
-                Objects.equals(not, that.not);
+        return Objects.equals(oneOf, that.oneOf)
+                && Objects.equals(anyOf, that.anyOf)
+                && Objects.equals(allOf, that.allOf)
+                && Objects.equals(not, that.not);
     }
 
     @Override

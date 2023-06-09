@@ -22,7 +22,6 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.CSharpNetCoreClientCodegen;
-import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -47,7 +46,8 @@ public class CSharpNetCoreClientCodegenTest {
     @Test
     public void testUnsigned() {
         // test unsigned integer/long
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/unsigned-test.yaml");
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec("src/test/resources/3_0/unsigned-test.yaml");
         CSharpNetCoreClientCodegen codegen = new CSharpNetCoreClientCodegen();
 
         Schema test1 = openAPI.getComponents().getSchemas().get("format_test");

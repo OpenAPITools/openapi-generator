@@ -16,11 +16,10 @@
 
 package org.openapitools.codegen.languages;
 
+import java.io.File;
 import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
 
 public class PythonFlaskConnexionServerCodegen extends AbstractPythonConnexionServerCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PythonFlaskConnexionServerCodegen.class);
@@ -30,8 +29,8 @@ public class PythonFlaskConnexionServerCodegen extends AbstractPythonConnexionSe
     }
 
     /**
-     * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -g flag.
+     * Configures a friendly name for the generator. This will be used by the generator to select
+     * the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -50,11 +49,18 @@ public class PythonFlaskConnexionServerCodegen extends AbstractPythonConnexionSe
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("encoder.mustache", packagePath(), "encoder.py"));
-        supportingFiles.add(new SupportingFile("__init__test.mustache", packagePath() + File.separatorChar + testPackage, "__init__.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "__init__test.mustache",
+                        packagePath() + File.separatorChar + testPackage,
+                        "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__.mustache", packagePath(), "__init__.py"));
         testPackage = packageName + "." + testPackage;
     }
 
     @Override
-    public String generatorLanguageVersion() { return "3.5.2+"; };
+    public String generatorLanguageVersion() {
+        return "3.5.2+";
+    }
+    ;
 }

@@ -17,6 +17,11 @@
 
 package org.openapitools.codegen.languages;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -26,12 +31,6 @@ import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
-
 public class PhpClientCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(PhpClientCodegen.class);
@@ -39,24 +38,18 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
     public PhpClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.BearerToken,
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism));
 
         // clear import mapping (from default generator) as php does not use it
         // at the moment
@@ -80,8 +73,11 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
         String primitives = "'" + StringUtils.join(sortedLanguageSpecificPrimitives, "', '") + "'";
         additionalProperties.put("primitives", primitives);
 
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.ALLOW_UNICODE_IDENTIFIERS_DESC)
-                .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                                CodegenConstants.ALLOW_UNICODE_IDENTIFIERS_DESC)
+                        .defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -103,16 +99,37 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
     public void processOpts() {
         super.processOpts();
 
-        supportingFiles.add(new SupportingFile("ApiException.mustache", toSrcPath(invokerPackage, srcBasePath), "ApiException.php"));
-        supportingFiles.add(new SupportingFile("Configuration.mustache", toSrcPath(invokerPackage, srcBasePath), "Configuration.php"));
-        supportingFiles.add(new SupportingFile("ObjectSerializer.mustache", toSrcPath(invokerPackage, srcBasePath), "ObjectSerializer.php"));
-        supportingFiles.add(new SupportingFile("ModelInterface.mustache", toSrcPath(modelPackage, srcBasePath), "ModelInterface.php"));
-        supportingFiles.add(new SupportingFile("HeaderSelector.mustache", toSrcPath(invokerPackage, srcBasePath), "HeaderSelector.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ApiException.mustache",
+                        toSrcPath(invokerPackage, srcBasePath),
+                        "ApiException.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "Configuration.mustache",
+                        toSrcPath(invokerPackage, srcBasePath),
+                        "Configuration.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ObjectSerializer.mustache",
+                        toSrcPath(invokerPackage, srcBasePath),
+                        "ObjectSerializer.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ModelInterface.mustache",
+                        toSrcPath(modelPackage, srcBasePath),
+                        "ModelInterface.php"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "HeaderSelector.mustache",
+                        toSrcPath(invokerPackage, srcBasePath),
+                        "HeaderSelector.php"));
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
-        supportingFiles.add(new SupportingFile(".php-cs-fixer.dist.php", "", ".php-cs-fixer.dist.php"));
+        supportingFiles.add(
+                new SupportingFile(".php-cs-fixer.dist.php", "", ".php-cs-fixer.dist.php"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
     }
 }

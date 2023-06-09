@@ -30,11 +30,6 @@ import com.github.jknack.handlebars.io.AbstractTemplateLoader;
 import com.github.jknack.handlebars.io.StringTemplateSource;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.github.jknack.handlebars.io.TemplateSource;
-import org.openapitools.codegen.api.AbstractTemplatingEngineAdapter;
-import org.openapitools.codegen.api.TemplatingExecutor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.lang.reflect.AccessibleObject;
 import java.util.Arrays;
@@ -42,18 +37,24 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.openapitools.codegen.api.AbstractTemplatingEngineAdapter;
+import org.openapitools.codegen.api.TemplatingExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
-     final Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
+    final Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
     private final String[] extensions = {"handlebars", "hbs"};
 
-    // We use this as a simple lookup for valid file name extensions. This adapter will inspect .mustache (built-in) and infer the relevant handlebars filename
-    private final String[] canCompileFromExtensions = {".handlebars",".hbs",".mustache"};
+    // We use this as a simple lookup for valid file name extensions. This adapter will inspect
+    // .mustache (built-in) and infer the relevant handlebars filename
+    private final String[] canCompileFromExtensions = {".handlebars", ".hbs", ".mustache"};
     private boolean infiniteLoops = false;
     private boolean prettyPrint = false;
 
     /**
-     * Provides an identifier used to load the adapter. This could be a name, uuid, or any other string.
+     * Provides an identifier used to load the adapter. This could be a name, uuid, or any other
+     * string.
      *
      * @return A string identifier.
      */
@@ -62,56 +63,64 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
         return "handlebars";
     }
 
-    public String compileTemplate(TemplatingExecutor executor,
-                                  Map<String, Object> bundle, String templateFile) throws IOException {
-        TemplateLoader loader = new AbstractTemplateLoader() {
-            @Override
-            public TemplateSource sourceAt(String location) {
-                return findTemplate(executor, location);
-            }
-        };
+    public String compileTemplate(
+            TemplatingExecutor executor, Map<String, Object> bundle, String templateFile)
+            throws IOException {
+        TemplateLoader loader =
+                new AbstractTemplateLoader() {
+                    @Override
+                    public TemplateSource sourceAt(String location) {
+                        return findTemplate(executor, location);
+                    }
+                };
 
         // $ref: https://github.com/jknack/handlebars.java/issues/917
-        var MY_FIELD_VALUE_RESOLVER = new FieldValueResolver() {
-            @Override
-            protected Set<FieldWrapper> members(
-                    Class<?> clazz) {
-                var members = super.members(clazz);
-                return members.stream()
-                    .filter(fw -> isValidField(fw))
-                    .collect(Collectors.toSet());
-            }
+        var MY_FIELD_VALUE_RESOLVER =
+                new FieldValueResolver() {
+                    @Override
+                    protected Set<FieldWrapper> members(Class<?> clazz) {
+                        var members = super.members(clazz);
+                        return members.stream()
+                                .filter(fw -> isValidField(fw))
+                                .collect(Collectors.toSet());
+                    }
 
-            boolean isValidField(
-                    FieldWrapper fw) {
-                if (fw instanceof AccessibleObject) {
-                    if (isUseSetAccessible(fw)) {
+                    boolean isValidField(FieldWrapper fw) {
+                        if (fw instanceof AccessibleObject) {
+                            if (isUseSetAccessible(fw)) {
+                                return true;
+                            }
+                            return false;
+                        }
                         return true;
                     }
-                    return false;
-                }
-                return true;
-            }
-        };
+                };
 
-        Context context = Context
-                .newBuilder(bundle)
-                .resolver(
-                        MapValueResolver.INSTANCE,
-                        JavaBeanValueResolver.INSTANCE,
-                        MY_FIELD_VALUE_RESOLVER.INSTANCE,
-                        MethodValueResolver.INSTANCE)
-                .build();
+        Context context =
+                Context.newBuilder(bundle)
+                        .resolver(
+                                MapValueResolver.INSTANCE,
+                                JavaBeanValueResolver.INSTANCE,
+                                MY_FIELD_VALUE_RESOLVER.INSTANCE,
+                                MethodValueResolver.INSTANCE)
+                        .build();
 
         Handlebars handlebars = new Handlebars(loader);
-        handlebars.registerHelperMissing((obj, options) -> {
-            LOGGER.warn(String.format(Locale.ROOT, "Unregistered helper name '%s', processing template:%n%s", options.helperName, options.fn.text()));
-            return "";
-        });
+        handlebars.registerHelperMissing(
+                (obj, options) -> {
+                    LOGGER.warn(
+                            String.format(
+                                    Locale.ROOT,
+                                    "Unregistered helper name '%s', processing template:%n%s",
+                                    options.helperName,
+                                    options.fn.text()));
+                    return "";
+                });
         handlebars.registerHelper("json", Jackson2Helper.INSTANCE);
         StringHelpers.register(handlebars);
         handlebars.registerHelpers(ConditionalHelpers.class);
-        handlebars.registerHelpers(org.openapitools.codegen.templating.handlebars.StringHelpers.class);
+        handlebars.registerHelpers(
+                org.openapitools.codegen.templating.handlebars.StringHelpers.class);
         handlebars.setInfiniteLoops(infiniteLoops);
         handlebars.setPrettyPrint(prettyPrint);
         Template tmpl = handlebars.compile(templateFile);
@@ -128,9 +137,11 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
             }
         }
 
-        // allow lookup of files without extension modification (such as .openapi-generator-ignore, README.md, etc)
+        // allow lookup of files without extension modification (such as .openapi-generator-ignore,
+        // README.md, etc)
         try {
-            return new StringTemplateSource(templateFile, generator.getFullTemplateContents(templateFile));
+            return new StringTemplateSource(
+                    templateFile, generator.getFullTemplateContents(templateFile));
         } catch (Exception ignored) {
         }
 
@@ -150,12 +161,17 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
      */
     @Override
     public boolean handlesFile(String filename) {
-        // disallow any extension-only files like ".hbs" or ".mustache", and only consider a file compilable if it's handlebars or mustache (from which we later infer the handlebars filename)
-        return Arrays.stream(canCompileFromExtensions).anyMatch(suffix -> !suffix.equalsIgnoreCase(filename) && filename.endsWith(suffix));
+        // disallow any extension-only files like ".hbs" or ".mustache", and only consider a file
+        // compilable if it's handlebars or mustache (from which we later infer the handlebars
+        // filename)
+        return Arrays.stream(canCompileFromExtensions)
+                .anyMatch(
+                        suffix -> !suffix.equalsIgnoreCase(filename) && filename.endsWith(suffix));
     }
 
     /**
-     * Enable/disable infiniteLoops setting for the Handlebars engine. Enabling this allows for recursive partial inclusion.
+     * Enable/disable infiniteLoops setting for the Handlebars engine. Enabling this allows for
+     * recursive partial inclusion.
      *
      * @param infiniteLoops Whether to enable (true) or disable (false)
      * @return this object
@@ -169,4 +185,3 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
         this.prettyPrint = prettyPrint;
     }
 }
-

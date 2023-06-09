@@ -19,18 +19,16 @@ package org.openapitools.codegen.templating.mustache;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-
 import java.io.IOException;
 import java.io.Writer;
 
 /**
  * Escapes the desired character if not escaped already, e.g. {@code $ => \$}.
  *
- * Register:
- * {@code additionalProperties.put("escapeDollar", new EscapeChar("(?<!\\\\)\\$", "\\\\\\$")); }
+ * <p>Register: {@code additionalProperties.put("escapeDollar", new EscapeChar("(?<!\\\\)\\$",
+ * "\\\\\\$")); }
  *
- * Use:
- * {@code {{#lambda.escapeDollar}}{{name}}{{/lambda.escapeDollar}} }
+ * <p>Use: {@code {{#lambda.escapeDollar}}{{name}}{{/lambda.escapeDollar}} }
  */
 public class EscapeChar implements Mustache.Lambda {
     private String matchPattern;
@@ -38,7 +36,7 @@ public class EscapeChar implements Mustache.Lambda {
 
     /**
      * Constructs a new instance of {@link EscapeChar}, with the desired character to escape
-     * 
+     *
      * @param matchPattern the character to escape
      * @param replacement the escaped character
      */

@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import java.util.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -24,22 +25,19 @@ import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 
-import java.util.*;
-
 public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     protected static final String LIBRARY_JERSEY1 = "jersey1";
     protected static final String LIBRARY_JERSEY2 = "jersey2";
 
-    /**
-     * Default library template to use. (Default: jersey2)
-     */
+    /** Default library template to use. (Default: jersey2) */
     public static final String DEFAULT_JERSEY_LIBRARY = LIBRARY_JERSEY2;
 
     public JavaJerseyServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(
+                features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         outputFolder = "generated-code/JavaJaxRS-Jersey";
 
@@ -50,19 +48,23 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
-        //TODO: add doc templates
+        // TODO: add doc templates
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
         embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME;
 
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(DEFAULT_JERSEY_LIBRARY);
+        CliOption library =
+                new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC)
+                        .defaultValue(DEFAULT_JERSEY_LIBRARY);
         supportedLibraries.put(LIBRARY_JERSEY1, "Jersey core 1.x");
         supportedLibraries.put(LIBRARY_JERSEY2, "Jersey core 2.x");
         library.setEnum(supportedLibraries);
 
         cliOptions.add(library);
-        cliOptions.add(CliOption.newBoolean(SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1/2 library."));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1/2 library."));
     }
 
     @Override
@@ -82,7 +84,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
             property.example = null;
         }
 
-        //Add imports for Jackson
+        // Add imports for Jackson
         if (!BooleanUtils.toBoolean(model.isEnum)) {
             model.imports.add("JsonProperty");
 
@@ -106,39 +108,86 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
 
         if ("joda".equals(dateLibrary)) {
-            supportingFiles.add(new SupportingFile("JodaDateTimeProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaDateTimeProvider.java"));
-            supportingFiles.add(new SupportingFile("JodaLocalDateProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JodaLocalDateProvider.java"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "JodaDateTimeProvider.mustache",
+                            (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                            "JodaDateTimeProvider.java"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "JodaLocalDateProvider.mustache",
+                            (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                            "JodaLocalDateProvider.java"));
         } else if (dateLibrary.startsWith("java8")) {
-            supportingFiles.add(new SupportingFile("OffsetDateTimeProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "OffsetDateTimeProvider.java"));
-            supportingFiles.add(new SupportingFile("LocalDateProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "LocalDateProvider.java"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "OffsetDateTimeProvider.mustache",
+                            (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                            "OffsetDateTimeProvider.java"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "LocalDateProvider.mustache",
+                            (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                            "LocalDateProvider.java"));
         }
 
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("ApiException.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiException.java"));
-        supportingFiles.add(new SupportingFile("ApiOriginFilter.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiOriginFilter.java"));
-        supportingFiles.add(new SupportingFile("ApiResponseMessage.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiResponseMessage.java"));
-        supportingFiles.add(new SupportingFile("NotFoundException.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "NotFoundException.java"));
-        supportingFiles.add(new SupportingFile("jacksonJsonProvider.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "JacksonJsonProvider.java"));
-        supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "RFC3339DateFormat.java"));
-        supportingFiles.add(new SupportingFile("bootstrap.mustache", (implFolder + '/' + apiPackage).replace(".", "/"), "Bootstrap.java")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("StringUtil.mustache", (sourceFolder + '/' + apiPackage).replace(".", "/"), "StringUtil.java"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile(
+                        "ApiException.mustache",
+                        (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                        "ApiException.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ApiOriginFilter.mustache",
+                        (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                        "ApiOriginFilter.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "ApiResponseMessage.mustache",
+                        (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                        "ApiResponseMessage.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "NotFoundException.mustache",
+                        (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                        "NotFoundException.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "jacksonJsonProvider.mustache",
+                        (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                        "JacksonJsonProvider.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "RFC3339DateFormat.mustache",
+                        (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                        "RFC3339DateFormat.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                                "bootstrap.mustache",
+                                (implFolder + '/' + apiPackage).replace(".", "/"),
+                                "Bootstrap.java")
+                        .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml")
+                        .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile(
+                        "StringUtil.mustache",
+                        (sourceFolder + '/' + apiPackage).replace(".", "/"),
+                        "StringUtil.java"));
 
         // JsonNullable is not implemented for this generator
         openApiNullable = false;
     }
 
-
     @Override
     public ModelsMap postProcessModelsEnum(ModelsMap objs) {
         objs = super.postProcessModelsEnum(objs);
 
-        //Add imports for Jackson
+        // Add imports for Jackson
         List<Map<String, String>> imports = objs.getImports();
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
@@ -153,5 +202,4 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         return objs;
     }
-
 }

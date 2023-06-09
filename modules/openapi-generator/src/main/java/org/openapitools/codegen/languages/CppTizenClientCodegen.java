@@ -17,23 +17,22 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.io.File;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppTizenClientCodegen extends AbstractCppCodegen implements CodegenConfig {
     protected static String PREFIX = "ArtikCloud";
@@ -44,25 +43,18 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         super();
 
         // TODO: cpp-tizen maintainer review
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.BearerToken
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling,
-                        GlobalFeature.MultiServer
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .securityFeatures(EnumSet.of(SecurityFeature.BearerToken))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling,
+                                        GlobalFeature.MultiServer)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie));
 
         outputFolder = "";
         modelTemplateFiles.put("model-header.mustache", ".h");
@@ -72,44 +64,114 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         embeddedTemplateDir = templateDir = "cpp-tizen-client";
         modelPackage = "";
 
-        defaultIncludes = new HashSet<>(
-                Arrays.asList(
-                        "bool",
-                        "int",
-                        "long long",
-                        "double",
-                        "float")
-        );
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
-                        "bool",
-                        "int",
-                        "long long",
-                        "double",
-                        "float",
-                        "std::string")
-        );
+        defaultIncludes =
+                new HashSet<>(Arrays.asList("bool", "int", "long long", "double", "float"));
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "bool", "int", "long long", "double", "float", "std::string"));
 
         additionalProperties().put("prefix", PREFIX);
 
         setReservedWordsLowerCase(
                 Arrays.asList(
-                        "alignas", "alignof", "and", "and_eq", "asm", "atomic_cancel", "atomic_commit", "atomic_noexcept",
-                        "auto", "bitand", "bitor", "bool", "break", "case", "catch", "char", "char16_t", "char32_t",
-                        "class", "compl", "concept", "const", "constexpr", "const_cast", "continue", "decltype", "default",
-                        "delete", "do", "double", "dynamic_cast", "else", "enum", "explicit", "export", "extern", "false",
-                        "float", "for", "friend", "goto", "if", "inline", "int", "import", "long", "module", "mutable",
-                        "namespace", "new", "noexcept", "not", "not_eq", "nullptr", "operator", "or", "or_eq", "private",
-                        "protected", "public", "register", "reinterpret_cast", "requires", "return", "short", "signed",
-                        "sizeof", "static", "static_assert", "static_cast", "struct", "switch", "synchronized", "template",
-                        "this", "thread_local", "throw", "true", "try", "typedef", "typeid", "typename", "union",
-                        "unsigned", "using", "virtual", "void", "volatile", "wchar_t", "while", "xor", "xor_eq"
-                ));
+                        "alignas",
+                        "alignof",
+                        "and",
+                        "and_eq",
+                        "asm",
+                        "atomic_cancel",
+                        "atomic_commit",
+                        "atomic_noexcept",
+                        "auto",
+                        "bitand",
+                        "bitor",
+                        "bool",
+                        "break",
+                        "case",
+                        "catch",
+                        "char",
+                        "char16_t",
+                        "char32_t",
+                        "class",
+                        "compl",
+                        "concept",
+                        "const",
+                        "constexpr",
+                        "const_cast",
+                        "continue",
+                        "decltype",
+                        "default",
+                        "delete",
+                        "do",
+                        "double",
+                        "dynamic_cast",
+                        "else",
+                        "enum",
+                        "explicit",
+                        "export",
+                        "extern",
+                        "false",
+                        "float",
+                        "for",
+                        "friend",
+                        "goto",
+                        "if",
+                        "inline",
+                        "int",
+                        "import",
+                        "long",
+                        "module",
+                        "mutable",
+                        "namespace",
+                        "new",
+                        "noexcept",
+                        "not",
+                        "not_eq",
+                        "nullptr",
+                        "operator",
+                        "or",
+                        "or_eq",
+                        "private",
+                        "protected",
+                        "public",
+                        "register",
+                        "reinterpret_cast",
+                        "requires",
+                        "return",
+                        "short",
+                        "signed",
+                        "sizeof",
+                        "static",
+                        "static_assert",
+                        "static_cast",
+                        "struct",
+                        "switch",
+                        "synchronized",
+                        "template",
+                        "this",
+                        "thread_local",
+                        "throw",
+                        "true",
+                        "try",
+                        "typedef",
+                        "typeid",
+                        "typename",
+                        "union",
+                        "unsigned",
+                        "using",
+                        "virtual",
+                        "void",
+                        "volatile",
+                        "wchar_t",
+                        "while",
+                        "xor",
+                        "xor_eq"));
 
         super.typeMapping = new HashMap<>();
 
-        //typeMapping.put("Date", "DateTime");
-        //typeMapping.put("DateTime", "DateTime");
+        // typeMapping.put("Date", "DateTime");
+        // typeMapping.put("DateTime", "DateTime");
         typeMapping.put("string", "std::string");
         typeMapping.put("integer", "int");
         typeMapping.put("float", "float");
@@ -122,7 +184,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         typeMapping.put("object", "std::string");
         typeMapping.put("binary", "std::string");
         typeMapping.put("password", "std::string");
-        //TODO:Maybe use better formats for dateTime?
+        // TODO:Maybe use better formats for dateTime?
         typeMapping.put("file", "std::string");
         typeMapping.put("DateTime", "std::string");
         typeMapping.put("Date", "std::string");
@@ -132,17 +194,28 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         importMapping = new HashMap<>();
 
         supportingFiles.clear();
-        supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, "Helpers.h"));
-        supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder, "Helpers.cpp"));
-        supportingFiles.add(new SupportingFile("netclient-header.mustache", sourceFolder, "NetClient.h"));
-        supportingFiles.add(new SupportingFile("netclient-body.mustache", sourceFolder, "NetClient.cpp"));
+        supportingFiles.add(
+                new SupportingFile("helpers-header.mustache", sourceFolder, "Helpers.h"));
+        supportingFiles.add(
+                new SupportingFile("helpers-body.mustache", sourceFolder, "Helpers.cpp"));
+        supportingFiles.add(
+                new SupportingFile("netclient-header.mustache", sourceFolder, "NetClient.h"));
+        supportingFiles.add(
+                new SupportingFile("netclient-body.mustache", sourceFolder, "NetClient.cpp"));
         supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, "Object.h"));
-        supportingFiles.add(new SupportingFile("requestinfo.mustache", sourceFolder, "RequestInfo.h"));
+        supportingFiles.add(
+                new SupportingFile("requestinfo.mustache", sourceFolder, "RequestInfo.h"));
         supportingFiles.add(new SupportingFile("error-header.mustache", sourceFolder, "Error.h"));
         supportingFiles.add(new SupportingFile("error-body.mustache", sourceFolder, "Error.cpp"));
-        supportingFiles.add(new SupportingFile("Doxyfile.mustache", documentationFolder, "Doxyfile"));
-        supportingFiles.add(new SupportingFile("generateDocumentation.mustache", documentationFolder, "generateDocumentation.sh"));
-        supportingFiles.add(new SupportingFile("doc-readme.mustache", documentationFolder, "README.md"));
+        supportingFiles.add(
+                new SupportingFile("Doxyfile.mustache", documentationFolder, "Doxyfile"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "generateDocumentation.mustache",
+                        documentationFolder,
+                        "generateDocumentation.sh"));
+        supportingFiles.add(
+                new SupportingFile("doc-readme.mustache", documentationFolder, "README.md"));
     }
 
     @Override
@@ -207,11 +280,11 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
 
     @Override
     public String toModelName(String type) {
-        if (typeMapping.keySet().contains(type) ||
-                typeMapping.values().contains(type) ||
-                importMapping.values().contains(type) ||
-                defaultIncludes.contains(type) ||
-                languageSpecificPrimitives.contains(type)) {
+        if (typeMapping.keySet().contains(type)
+                || typeMapping.values().contains(type)
+                || importMapping.values().contains(type)
+                || defaultIncludes.contains(type)
+                || languageSpecificPrimitives.contains(type)) {
             return type;
         } else {
             return Character.toUpperCase(type.charAt(0)) + type.substring(1);
@@ -230,7 +303,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         return "#include \"" + name + ".h\"";
     }
 
-    //Might not be needed
+    // Might not be needed
     @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
@@ -260,7 +333,6 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         return "null";
     }
 
-
     @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + sourceFolder;
@@ -289,7 +361,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
     @Override
     public String toVarName(String name) {
         String paramName = name.replaceAll("[^a-zA-Z0-9_]", "");
-        if (name.length() > 0 ) {
+        if (name.length() > 0) {
             // additionalProperties name is "" so name.length() == 0
             paramName = Character.toLowerCase(paramName.charAt(0)) + paramName.substring(1);
         }
@@ -314,6 +386,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         // add_pet_by_id => addPetById
         return camelize(operationId, LOWERCASE_FIRST_LETTER);
     }
+
     /**
      * Output the Getter name for boolean property, e.g. getActive
      *

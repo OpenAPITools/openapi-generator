@@ -2,20 +2,19 @@ package org.openapitools.codegen.utils;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.model.ModelMap;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 public class ProcessUtils {
     /**
      * Add x-index extension to the model's properties
      *
-     * @param models       List of models
+     * @param models List of models
      * @param initialIndex starting index to use
      */
     public static void addIndexToProperties(List<ModelMap> models, int initialIndex) {
@@ -118,8 +117,8 @@ public class ProcessUtils {
 
     /**
      * Returns true if the specified OAS model has at least one operation with the HTTP basic
-     * security scheme.
-     * The HTTP signature scheme is defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
+     * security scheme. The HTTP signature scheme is defined in
+     * https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
      *
      * @param authMethods List of auth methods.
      * @return True if at least one operation has HTTP signature security scheme defined
@@ -221,7 +220,6 @@ public class ProcessUtils {
         return oauthMethods;
     }
 
-
     /**
      * Returns true if the specified OAS model has at least one operation with OAuth authentication.
      *
@@ -242,7 +240,8 @@ public class ProcessUtils {
     }
 
     /**
-     * Returns true if the specified OAS model has at least one operation with OpenIdConnect authentication.
+     * Returns true if the specified OAS model has at least one operation with OpenIdConnect
+     * authentication.
      *
      * @param openAPI An instance of OpenAPI
      * @return True if at least one operation has OpenIdConnect security scheme defined
@@ -295,9 +294,9 @@ public class ProcessUtils {
         return false;
     }
 
-
     /**
-     * Returns true if the specified OAS model has at least one operation with HTTP bearer authentication.
+     * Returns true if the specified OAS model has at least one operation with HTTP bearer
+     * authentication.
      *
      * @param openAPI An instance of OpenAPI
      * @return True if at least one operation has HTTP bearer security scheme defined
@@ -306,7 +305,8 @@ public class ProcessUtils {
         final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
         if (securitySchemes != null) {
             for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
-                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "bearer".equals(scheme.getValue().getScheme())) {
+                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType())
+                        && "bearer".equals(scheme.getValue().getScheme())) {
                     return true;
                 }
             }
@@ -316,7 +316,8 @@ public class ProcessUtils {
     }
 
     /**
-     * Returns true if the specified OAS model has at least one operation with HTTP basic authentication.
+     * Returns true if the specified OAS model has at least one operation with HTTP basic
+     * authentication.
      *
      * @param openAPI An instance of OpenAPI
      * @return True if at least one operation has HTTP basic security scheme defined
@@ -325,7 +326,8 @@ public class ProcessUtils {
         final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
         if (securitySchemes != null) {
             for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
-                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "basic".equals(scheme.getValue().getScheme())) {
+                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType())
+                        && "basic".equals(scheme.getValue().getScheme())) {
                     return true;
                 }
             }
@@ -335,7 +337,8 @@ public class ProcessUtils {
     }
 
     /**
-     * Returns true if the specified OAS model has at least one operation with HTTP signature authentication.
+     * Returns true if the specified OAS model has at least one operation with HTTP signature
+     * authentication.
      *
      * @param openAPI An instance of OpenAPI
      * @return True if at least one operation has HTTP signature security scheme defined
@@ -344,7 +347,8 @@ public class ProcessUtils {
         final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
         if (securitySchemes != null) {
             for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
-                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "signature".equals(scheme.getValue().getScheme())) {
+                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType())
+                        && "signature".equals(scheme.getValue().getScheme())) {
                     return true;
                 }
             }
@@ -354,7 +358,8 @@ public class ProcessUtils {
     }
 
     /**
-     * Returns true if the specified OAS model has at least one operation with API key authentication.
+     * Returns true if the specified OAS model has at least one operation with API key
+     * authentication.
      *
      * @param openAPI An instance of OpenAPI
      * @return True if at least one operation has API key security scheme defined
@@ -376,8 +381,9 @@ public class ProcessUtils {
         if (openAPI == null) {
             return null;
         } else {
-            return openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+            return openAPI.getComponents() != null
+                    ? openAPI.getComponents().getSecuritySchemes()
+                    : null;
         }
     }
 }
-

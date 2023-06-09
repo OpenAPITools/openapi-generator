@@ -17,7 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.util.EnumSet;
+import java.util.Map;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
@@ -25,13 +31,6 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.EnumSet;
-import java.util.Map;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
 
@@ -68,27 +67,25 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
     protected String vendorFolder = "vendor";
     protected String databaseAdapter = "sqlite";
 
-
     public RubyOnRailsServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(
+                                                WireFormatFeature.JSON,
+                                                WireFormatFeature.XML,
+                                                WireFormatFeature.Custom))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie));
 
         outputFolder = "generated-code" + File.separator + "rails5";
         apiPackage = "app/controllers";
@@ -111,8 +108,11 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         // remove modelPackage and apiPackage added by default
         cliOptions.clear();
 
-        cliOptions.add(new CliOption(CodegenConstants.DATABASE_ADAPTER, CodegenConstants.DATABASE_ADAPTER_DESC).
-                defaultValue("sqlite"));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.DATABASE_ADAPTER,
+                                CodegenConstants.DATABASE_ADAPTER_DESC)
+                        .defaultValue("sqlite"));
     }
 
     @Override
@@ -120,12 +120,13 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         super.processOpts();
 
         // use constant model/api package (folder path)
-        //setModelPackage("models");
+        // setModelPackage("models");
         setApiPackage("app/controllers");
 
         // determine which db adapter to use
         if (additionalProperties.containsKey(CodegenConstants.DATABASE_ADAPTER)) {
-            setDatabaseAdapter((String) additionalProperties.get(CodegenConstants.DATABASE_ADAPTER));
+            setDatabaseAdapter(
+                    (String) additionalProperties.get(CodegenConstants.DATABASE_ADAPTER));
         } else {
             // not set, pass the default value to template
             additionalProperties.put(CodegenConstants.DATABASE_ADAPTER, databaseAdapter);
@@ -145,30 +146,66 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("Rakefile", "", "Rakefile"));
         supportingFiles.add(new SupportingFile("config.ru", "", "config.ru"));
         supportingFiles.add(new SupportingFile("channel.rb", applicationCableFolder, "channel.rb"));
-        supportingFiles.add(new SupportingFile("connection.rb", applicationCableFolder, "connection.rb"));
-        supportingFiles.add(new SupportingFile("application_controller.rb", controllersFolder, "application_controller.rb"));
-        supportingFiles.add(new SupportingFile("application_job.rb", jobsFolder, "application_job.rb"));
-        supportingFiles.add(new SupportingFile("application_mailer.rb", mailersFolder, "application_mailer.rb"));
-        supportingFiles.add(new SupportingFile("application_record.rb", modelsFolder, "application_record.rb"));
-        supportingFiles.add(new SupportingFile("mailer.html.erb", layoutsFolder, "mailer.html.erb"));
-        supportingFiles.add(new SupportingFile("mailer.text.erb", layoutsFolder, "mailer.text.erb"));
+        supportingFiles.add(
+                new SupportingFile("connection.rb", applicationCableFolder, "connection.rb"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "application_controller.rb",
+                        controllersFolder,
+                        "application_controller.rb"));
+        supportingFiles.add(
+                new SupportingFile("application_job.rb", jobsFolder, "application_job.rb"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "application_mailer.rb", mailersFolder, "application_mailer.rb"));
+        supportingFiles.add(
+                new SupportingFile("application_record.rb", modelsFolder, "application_record.rb"));
+        supportingFiles.add(
+                new SupportingFile("mailer.html.erb", layoutsFolder, "mailer.html.erb"));
+        supportingFiles.add(
+                new SupportingFile("mailer.text.erb", layoutsFolder, "mailer.text.erb"));
         supportingFiles.add(new SupportingFile("bundle", binFolder, "bundle"));
         supportingFiles.add(new SupportingFile("rails", binFolder, "rails"));
         supportingFiles.add(new SupportingFile("rake", binFolder, "rake"));
         supportingFiles.add(new SupportingFile("setup", binFolder, "setup"));
         supportingFiles.add(new SupportingFile("update", binFolder, "update"));
-        supportingFiles.add(new SupportingFile("development.rb", environmentsFolder, "development.rb"));
-        supportingFiles.add(new SupportingFile("production.rb", environmentsFolder, "production.rb"));
-        supportingFiles.add(new SupportingFile("active_record_belongs_to_required_by_default.rb", initializersFolder, "active_record_belongs_to_required_by_default.rb"));
-        supportingFiles.add(new SupportingFile("application_controller_renderer.rb", initializersFolder, "application_controller_renderer.rb"));
-        supportingFiles.add(new SupportingFile("backtrace_silencers.rb", initializersFolder, "backtrace_silencers.rb"));
-        supportingFiles.add(new SupportingFile("callback_terminator.rb", initializersFolder, "callback_terminator.rb"));
+        supportingFiles.add(
+                new SupportingFile("development.rb", environmentsFolder, "development.rb"));
+        supportingFiles.add(
+                new SupportingFile("production.rb", environmentsFolder, "production.rb"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "active_record_belongs_to_required_by_default.rb",
+                        initializersFolder,
+                        "active_record_belongs_to_required_by_default.rb"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "application_controller_renderer.rb",
+                        initializersFolder,
+                        "application_controller_renderer.rb"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "backtrace_silencers.rb", initializersFolder, "backtrace_silencers.rb"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "callback_terminator.rb", initializersFolder, "callback_terminator.rb"));
         supportingFiles.add(new SupportingFile("cors.rb", initializersFolder, "cors.rb"));
-        supportingFiles.add(new SupportingFile("filter_parameter_logging.rb", initializersFolder, "filter_parameter_logging.rb"));
-        supportingFiles.add(new SupportingFile("inflections.rb", initializersFolder, "inflections.rb"));
-        supportingFiles.add(new SupportingFile("mime_types.rb", initializersFolder, "mime_types.rb"));
-        supportingFiles.add(new SupportingFile("ssl_options.rb", initializersFolder, "ssl_options.rb"));
-        supportingFiles.add(new SupportingFile("to_time_preserves_timezone.rb", initializersFolder, "to_time_preserves_timezone.rb"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "filter_parameter_logging.rb",
+                        initializersFolder,
+                        "filter_parameter_logging.rb"));
+        supportingFiles.add(
+                new SupportingFile("inflections.rb", initializersFolder, "inflections.rb"));
+        supportingFiles.add(
+                new SupportingFile("mime_types.rb", initializersFolder, "mime_types.rb"));
+        supportingFiles.add(
+                new SupportingFile("ssl_options.rb", initializersFolder, "ssl_options.rb"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "to_time_preserves_timezone.rb",
+                        initializersFolder,
+                        "to_time_preserves_timezone.rb"));
         supportingFiles.add(new SupportingFile("en.yml", localesFolder, "en.yml"));
         supportingFiles.add(new SupportingFile("application.rb", configFolder, "application.rb"));
         supportingFiles.add(new SupportingFile("boot.rb", configFolder, "boot.rb"));
@@ -180,7 +217,8 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("secrets.yml", configFolder, "secrets.yml"));
         supportingFiles.add(new SupportingFile("spring.rb", configFolder, "spring.rb"));
         supportingFiles.add(new SupportingFile(".keep", migrateFolder, ".keep"));
-        supportingFiles.add(new SupportingFile("migrate.mustache", migrateFolder, "0_init_tables.rb"));
+        supportingFiles.add(
+                new SupportingFile("migrate.mustache", migrateFolder, "0_init_tables.rb"));
         supportingFiles.add(new SupportingFile("schema.rb", dbFolder, "schema.rb"));
         supportingFiles.add(new SupportingFile("seeds.rb", dbFolder, "seeds.rb"));
         supportingFiles.add(new SupportingFile(".keep", tasksFolder, ".keep"));
@@ -188,8 +226,13 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("404.html", publicFolder, "404.html"));
         supportingFiles.add(new SupportingFile("422.html", publicFolder, "422.html"));
         supportingFiles.add(new SupportingFile("500.html", publicFolder, "500.html"));
-        supportingFiles.add(new SupportingFile("apple-touch-icon-precomposed.png", publicFolder, "apple-touch-icon-precomposed.png"));
-        supportingFiles.add(new SupportingFile("apple-touch-icon.png", publicFolder, "apple-touch-icon.png"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "apple-touch-icon-precomposed.png",
+                        publicFolder,
+                        "apple-touch-icon-precomposed.png"));
+        supportingFiles.add(
+                new SupportingFile("apple-touch-icon.png", publicFolder, "apple-touch-icon.png"));
         supportingFiles.add(new SupportingFile("favicon.ico", publicFolder, "favicon.ico"));
         supportingFiles.add(new SupportingFile("robots.txt", publicFolder, "robots.txt"));
         supportingFiles.add(new SupportingFile("robots.txt", publicFolder, "robots.txt"));
@@ -238,7 +281,10 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String modelName = camelize("Model" + name);
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    name,
+                    modelName);
             return modelName;
         }
 
@@ -252,7 +298,10 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
             String filename = underscore("model_" + name);
-            LOGGER.warn("{} (reserved word) cannot be used as model filename. Renamed to {}", name, filename);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model filename. Renamed to {}",
+                    name,
+                    filename);
             return filename;
         }
 
@@ -264,7 +313,11 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name =
+                name.replaceAll(
+                        "-",
+                        "_"); // FIXME: a parameter should not be assigned. Also declare the methods
+        // parameters as 'final'.
 
         // e.g. DefaultController => defaults_controller.rb
         return underscore(name) + "_controller";

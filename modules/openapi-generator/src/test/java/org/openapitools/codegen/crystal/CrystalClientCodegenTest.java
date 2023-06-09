@@ -17,24 +17,21 @@
 
 package org.openapitools.codegen.crystal;
 
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
+
 import io.swagger.v3.oas.models.OpenAPI;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.*;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.CrystalClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.*;
-
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
-
-/**
- * Tests for CrystalClientCodegen-generated templates
- */
+/** Tests for CrystalClientCodegen-generated templates */
 public class CrystalClientCodegenTest {
 
     @Test
@@ -43,7 +40,8 @@ public class CrystalClientCodegenTest {
         output.mkdirs();
         output.deleteOnExit();
 
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/pathWithHtmlEntity.yaml");
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec("src/test/resources/2_0/pathWithHtmlEntity.yaml");
         CodegenConfig codegenConfig = new CrystalClientCodegen();
         codegenConfig.setOutputDir(output.getAbsolutePath());
 
@@ -56,8 +54,9 @@ public class CrystalClientCodegenTest {
             if (file.getName().equals("default_api.cr")) {
                 apiFileGenerated = true;
                 // Crystal client should set the path unescaped in the api file
-                assertTrue(FileUtils.readFileToString(file, StandardCharsets.UTF_8)
-                        .contains("local_var_path = \"/foo=bar\""));
+                assertTrue(
+                        FileUtils.readFileToString(file, StandardCharsets.UTF_8)
+                                .contains("local_var_path = \"/foo=bar\""));
             }
         }
         if (!apiFileGenerated) {
@@ -70,11 +69,13 @@ public class CrystalClientCodegenTest {
         final CrystalClientCodegen codegen = new CrystalClientCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
                 Boolean.TRUE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
         Assert.assertEquals(codegen.modelPackage(), "models");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), null);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), null);
         Assert.assertEquals(codegen.apiPackage(), "api");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), null);
     }
@@ -85,7 +86,8 @@ public class CrystalClientCodegenTest {
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
                 Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
@@ -98,11 +100,15 @@ public class CrystalClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "crystal-api");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
                 Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "crystal-models");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "crystal-api");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
+                "crystal-models");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "crystal-api");
     }
 
     @Test
@@ -124,8 +130,9 @@ public class CrystalClientCodegenTest {
             if (file.getName().equals("default_api.cr")) {
                 apiFileGenerated = true;
                 // Crystal client should set the path unescaped in the api file
-                assertTrue(FileUtils.readFileToString(file, StandardCharsets.UTF_8)
-                        .contains("local_var_path = \"/default/Resources/{id}\""));
+                assertTrue(
+                        FileUtils.readFileToString(file, StandardCharsets.UTF_8)
+                                .contains("local_var_path = \"/default/Resources/{id}\""));
             }
         }
         if (!apiFileGenerated) {

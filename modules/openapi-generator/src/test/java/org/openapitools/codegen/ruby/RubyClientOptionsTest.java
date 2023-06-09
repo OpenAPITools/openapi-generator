@@ -17,13 +17,13 @@
 
 package org.openapitools.codegen.ruby;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.RubyClientCodegen;
 import org.openapitools.codegen.options.RubyClientOptionsProvider;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class RubyClientOptionsTest extends AbstractOptionsTest {
     private RubyClientCodegen clientCodegen = mock(RubyClientCodegen.class, mockSettings);
@@ -44,13 +44,19 @@ public class RubyClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setModuleName(RubyClientOptionsProvider.MODULE_NAME_VALUE);
         verify(clientCodegen).setGemVersion(RubyClientOptionsProvider.GEM_VERSION_VALUE);
         verify(clientCodegen).setGemLicense(RubyClientOptionsProvider.GEM_LICENSE_VALUE);
-        verify(clientCodegen).setGemRequiredRubyVersion(RubyClientOptionsProvider.GEM_REQUIRED_RUBY_VERSION_VALUE);
+        verify(clientCodegen)
+                .setGemRequiredRubyVersion(
+                        RubyClientOptionsProvider.GEM_REQUIRED_RUBY_VERSION_VALUE);
         verify(clientCodegen).setGemHomepage(RubyClientOptionsProvider.GEM_HOMEPAGE_VALUE);
         verify(clientCodegen).setGemDescription(RubyClientOptionsProvider.GEM_DESCRIPTION_VALUE);
         verify(clientCodegen).setGemSummary(RubyClientOptionsProvider.GEM_SUMMARY_VALUE);
         verify(clientCodegen).setGemAuthor(RubyClientOptionsProvider.GEM_AUTHOR_VALUE);
         verify(clientCodegen).setGemAuthorEmail(RubyClientOptionsProvider.GEM_AUTHOR_EMAIL_VALUE);
-        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(RubyClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
-        verify(clientCodegen).setUseAutoload(Boolean.parseBoolean(RubyClientOptionsProvider.USE_AUTOLOAD_VALUE));
+        verify(clientCodegen)
+                .setEnumUnknownDefaultCase(
+                        Boolean.parseBoolean(
+                                RubyClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen)
+                .setUseAutoload(Boolean.parseBoolean(RubyClientOptionsProvider.USE_AUTOLOAD_VALUE));
     }
 }

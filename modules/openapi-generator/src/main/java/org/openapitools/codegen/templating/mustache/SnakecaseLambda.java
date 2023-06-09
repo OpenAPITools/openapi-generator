@@ -16,24 +16,24 @@
 
 package org.openapitools.codegen.templating.mustache;
 
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Locale;
-
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 /**
  * Converts text in a fragment to snake case.
  *
- * Register:
+ * <p>Register:
+ *
  * <pre>
  * additionalProperties.put("snakecase", new SnakecaseLambda());
  * </pre>
  *
  * Use:
+ *
  * <pre>
  * {{#snakecase}}{{summary}}{{/snakecase}}
  * </pre>

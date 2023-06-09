@@ -17,17 +17,16 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-
-import java.io.File;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
 
@@ -37,9 +36,8 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
     public JavaVertXWebServerCodegen() {
         super();
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         // set the output folder here
         outputFolder = "generated-code" + File.separator + "java-vertx-web";
@@ -105,15 +103,26 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         modelDocTemplateFiles.clear();
         apiDocTemplateFiles.clear();
 
-        String sourcePackageFolder = sourceFolder + File.separator + invokerPackage.replace(".", File.separator);
+        String sourcePackageFolder =
+                sourceFolder + File.separator + invokerPackage.replace(".", File.separator);
         supportingFiles.clear();
-        supportingFiles.add(new SupportingFile("supportFiles/openapi.mustache", resourceFolder, "openapi.yaml"));
-        supportingFiles.add(new SupportingFile("supportFiles/HttpServerVerticle.mustache", sourcePackageFolder, "HttpServerVerticle.java"));
-        supportingFiles.add(new SupportingFile("supportFiles/ApiResponse.mustache", sourcePackageFolder, "ApiResponse.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "supportFiles/openapi.mustache", resourceFolder, "openapi.yaml"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "supportFiles/HttpServerVerticle.mustache",
+                        sourcePackageFolder,
+                        "HttpServerVerticle.java"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "supportFiles/ApiResponse.mustache",
+                        sourcePackageFolder,
+                        "ApiResponse.java"));
         supportingFiles.add(new SupportingFile("supportFiles/pom.mustache", "", "pom.xml"));
 
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-                .doNotOverwrite());
+        supportingFiles.add(
+                new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
     }
 
     @Override
@@ -129,7 +138,8 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationsMap newObjs = super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = newObjs.getOperations();
         if (operations != null) {
@@ -141,12 +151,12 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
                     operation.returnType = "Void";
                 }
                 if (operation.allParams.stream().anyMatch(p -> p.isFormParam && p.isFile)) {
-                    // If there is a file upload, exclude other form params since it's not clear how the user should access to these
-                    operation.allParams = operation
-                        .allParams
-                        .stream()
-                        .filter(p -> !p.isFormParam || p.isFile)
-                        .collect(Collectors.toList());
+                    // If there is a file upload, exclude other form params since it's not clear how
+                    // the user should access to these
+                    operation.allParams =
+                            operation.allParams.stream()
+                                    .filter(p -> !p.isFormParam || p.isFile)
+                                    .collect(Collectors.toList());
                 } else if (operation.allParams.stream().anyMatch(p -> p.isFormParam)) {
                     // In Vert.x 4 Web OpenAPI the forms are handled as single json object
                     // We create a dummy param here and remove the other ones
@@ -155,10 +165,12 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
                     dummyParam.isFile = false;
                     dummyParam.dataType = "JsonObject";
                     dummyParam.paramName = "formBody";
-                    operation.allParams = Stream.concat(
-                        operation.allParams.stream().filter(p -> !p.isFormParam),
-                        Stream.of(dummyParam)
-                    ).collect(Collectors.toList());
+                    operation.allParams =
+                            Stream.concat(
+                                            operation.allParams.stream()
+                                                    .filter(p -> !p.isFormParam),
+                                            Stream.of(dummyParam))
+                                    .collect(Collectors.toList());
                 }
             }
         }

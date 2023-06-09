@@ -21,76 +21,73 @@ import org.openapitools.codegen.meta.features.annotations.OAS3;
 import org.openapitools.codegen.meta.features.annotations.ToolingExtension;
 
 /**
- * Defines common data types supported by a generator.
- * Some of these features are defined in specs, and some are specific to the tool.
+ * Defines common data types supported by a generator. Some of these features are defined in specs,
+ * and some are specific to the tool.
  *
- * Where data types are listed as tool-specific, this either indicates that the data type is common enough that it is an officially
- * supported custom data type by the toolset (see {@link DataTypeFeature#Decimal}), or that the consideration of a special type isn't
- * explicitly mentioned by the specification(s) but differs enough across languages that it warrants a special callout (see {@link DataTypeFeature#ArrayOfModel}).
+ * <p>Where data types are listed as tool-specific, this either indicates that the data type is
+ * common enough that it is an officially supported custom data type by the toolset (see {@link
+ * DataTypeFeature#Decimal}), or that the consideration of a special type isn't explicitly mentioned
+ * by the specification(s) but differs enough across languages that it warrants a special callout
+ * (see {@link DataTypeFeature#ArrayOfModel}).
  */
 public enum DataTypeFeature {
     /**
-     * Supports a generator-specific support usually via type=string's format property (e.g. email, uuid, etc), should be documented in generator README.
+     * Supports a generator-specific support usually via type=string's format property (e.g. email,
+     * uuid, etc), should be documented in generator README.
      *
-     * <p>Loosely described in OpenAPI Specification(s). Generally means a custom "format" option applied to a string-typed property.</p>
+     * <p>Loosely described in OpenAPI Specification(s). Generally means a custom "format" option
+     * applied to a string-typed property.
      */
-    @OAS2 @OAS3
+    @OAS2
+    @OAS3
     Custom,
 
-    /**
-     * Supports integer/int32
-     */
-    @OAS2 @OAS3
+    /** Supports integer/int32 */
+    @OAS2
+    @OAS3
     Int32,
 
-    /**
-     * Supports integer/int64
-     */
-    @OAS2 @OAS3
+    /** Supports integer/int64 */
+    @OAS2
+    @OAS3
     Int64,
 
-    /**
-     * Supports number/float
-     */
-    @OAS2 @OAS3
+    /** Supports number/float */
+    @OAS2
+    @OAS3
     Float,
 
-    /**
-     * Supports number/double
-     */
-    @OAS2 @OAS3
+    /** Supports number/double */
+    @OAS2
+    @OAS3
     Double,
 
     /**
      * Supports number/decimal (a special case for some languages)
      *
-     * <p>Decimal is not a type defined by OAS 2.0 specification</p>
+     * <p>Decimal is not a type defined by OAS 2.0 specification
      */
     @ToolingExtension
     Decimal,
 
-    /**
-     * Supports string
-     */
-    @OAS2 @OAS3
+    /** Supports string */
+    @OAS2
+    @OAS3
     String,
 
-    /**
-     * Supports string/byte: base64 encoded
-     */
-    @OAS2 @OAS3
+    /** Supports string/byte: base64 encoded */
+    @OAS2
+    @OAS3
     Byte,
 
-    /**
-     * Supports string/binary: any collection of octets
-     */
-    @OAS2 @OAS3
+    /** Supports string/binary: any collection of octets */
+    @OAS2
+    @OAS3
     Binary,
 
-    /**
-     * Supports boolean
-     */
-    @OAS2 @OAS3
+    /** Supports boolean */
+    @OAS2
+    @OAS3
     Boolean,
 
     /**
@@ -98,7 +95,8 @@ public enum DataTypeFeature {
      *
      * @see <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>
      */
-    @OAS2 @OAS3
+    @OAS2
+    @OAS3
     Date,
 
     /**
@@ -106,79 +104,68 @@ public enum DataTypeFeature {
      *
      * @see <a href="https://tools.ietf.org/html/rfc3339">RFC3339</a>
      */
-    @OAS2 @OAS3
+    @OAS2
+    @OAS3
     DateTime,
 
     /**
      * Supports string/password: A hint to UIs to obscure input.
      *
-     *
-     * <p>
-     *     This should be used as an indicator for password best practices, such as assigning a variable to
-     *     a character array rather than string, avoiding logging the variable in clear text, and masking the value
-     *     in any user inputs. See OWASP for best practices.
-     * </p>
+     * <p>This should be used as an indicator for password best practices, such as assigning a
+     * variable to a character array rather than string, avoiding logging the variable in clear
+     * text, and masking the value in any user inputs. See OWASP for best practices.
      */
-    @OAS2 @OAS3
+    @OAS2
+    @OAS3
     Password,
 
     /**
      * Supports file inputs (e.g. multipart support).
      *
-     * <p>OAS 3.x defines files differently.</p>
-     * <p>
-     * OAS 3.x does not have an explicit "file" type and instead relies on ContentType or response types.
-     * That's not to say a generator doesn't support files, only that there's no direct
-     * "file" type defined in the spec document.
-     * </p>
-     * <p>
-     * NOTE: The default workflow may provide an "isFile" helper or synthesize the assumptions around files in the case of OAS 3.x.
-     * </p>
+     * <p>OAS 3.x defines files differently.
+     *
+     * <p>OAS 3.x does not have an explicit "file" type and instead relies on ContentType or
+     * response types. That's not to say a generator doesn't support files, only that there's no
+     * direct "file" type defined in the spec document.
+     *
+     * <p>NOTE: The default workflow may provide an "isFile" helper or synthesize the assumptions
+     * around files in the case of OAS 3.x.
      */
     @OAS2
     File,
 
-    /**
-     * String uuid data
-     */
+    /** String uuid data */
     Uuid,
 
-    /**
-     * Supports arrays of data
-     */
-    @OAS2 @OAS3
+    /** Supports arrays of data */
+    @OAS2
+    @OAS3
     Array,
 
-    /**
-     * A JSON "null" value added in openapi v3.1.0
-     */
+    /** A JSON "null" value added in openapi v3.1.0 */
     @OAS3
     Null,
 
-    /**
-     * When no type is defined, any data type is accepted
-     */
-    @OAS2 @OAS3
+    /** When no type is defined, any data type is accepted */
+    @OAS2
+    @OAS3
     AnyType,
 
-    /**
-     * An unordered set of properties mapping a string to an instance
-     */
-    @OAS2 @OAS3
+    /** An unordered set of properties mapping a string to an instance */
+    @OAS2
+    @OAS3
     Object,
 
-    /**
-     * Supports map of data
-     */
+    /** Supports map of data */
     @ToolingExtension
     Maps,
 
     /**
-     * Supports specifying the format of the array if type array is used (one of: csv, ssv, tsv, pipes).
+     * Supports specifying the format of the array if type array is used (one of: csv, ssv, tsv,
+     * pipes).
      *
-     * <p>
-     * For multi support, check {@link DataTypeFeature#CollectionFormatMulti}. OAS 3.x removes collectionFormat in favor of Style properties.
-     * </p>
+     * <p>For multi support, check {@link DataTypeFeature#CollectionFormatMulti}. OAS 3.x removes
+     * collectionFormat in favor of Style properties.
      */
     @OAS2
     CollectionFormat,
@@ -186,77 +173,54 @@ public enum DataTypeFeature {
     /**
      * Supports collection format=multi.
      *
-     * <p>
-     * This is special cased because it is not as easily implemented as a delimiter as with CollectionFormat.
-     * OAS 3.x removes collectionFormat for style properties.
-     * </p>
+     * <p>This is special cased because it is not as easily implemented as a delimiter as with
+     * CollectionFormat. OAS 3.x removes collectionFormat for style properties.
      */
     @OAS2
     CollectionFormatMulti,
 
-    /**
-     * Supports enum properties
-     */
-    @OAS2 @OAS3
+    /** Supports enum properties */
+    @OAS2
+    @OAS3
     Enum,
 
-    /**
-     * Supports an array of enum
-     */
+    /** Supports an array of enum */
     @ToolingExtension
     ArrayOfEnum,
 
-    /**
-     * Supports an array of models
-     */
+    /** Supports an array of models */
     @ToolingExtension
     ArrayOfModel,
 
-    /**
-     * Supports an array of arrays (primitives)
-     */
+    /** Supports an array of arrays (primitives) */
     @ToolingExtension
     ArrayOfCollectionOfPrimitives,
 
-    /**
-     * Supports an array of arrays (models)
-     */
+    /** Supports an array of arrays (models) */
     @ToolingExtension
     ArrayOfCollectionOfModel,
 
-    /**
-     * Supports an array of arrays (enums)
-     */
+    /** Supports an array of arrays (enums) */
     @ToolingExtension
     ArrayOfCollectionOfEnum,
 
-    /**
-     * Supports a map of enums
-     */
+    /** Supports a map of enums */
     @ToolingExtension
     MapOfEnum,
 
-    /**
-     * Supports a map of models
-     */
+    /** Supports a map of models */
     @ToolingExtension
     MapOfModel,
 
-    /**
-     * Supports a map of arrays (primitives)
-     */
+    /** Supports a map of arrays (primitives) */
     @ToolingExtension
     MapOfCollectionOfPrimitives,
 
-    /**
-     * Supports a map of arrays (models)
-     */
+    /** Supports a map of arrays (models) */
     @ToolingExtension
     MapOfCollectionOfModel,
 
-    /**
-     * Supports a map of arrays (enums)
-     */
+    /** Supports a map of arrays (enums) */
     @ToolingExtension
     MapOfCollectionOfEnum,
 }

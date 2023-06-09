@@ -16,10 +16,20 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -28,17 +38,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ErlangProperCodegen.class);
@@ -63,29 +62,22 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     public ErlangProperCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.BasicAuth
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.BasePath
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.ApiKey, SecurityFeature.BasicAuth))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath));
 
         outputFolder = "generated-code/erlang";
         modelTemplateFiles.put("model.mustache", ".erl");
@@ -96,11 +88,9 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
 
         setReservedWordsLowerCase(
                 Arrays.asList(
-                        "after", "and", "andalso", "band", "begin", "bnot", "bor", "bsl", "bsr", "bxor", "case",
-                        "catch", "cond", "div", "end", "fun", "if", "let", "not", "of", "or", "orelse", "receive",
-                        "rem", "try", "when", "xor"
-                )
-        );
+                        "after", "and", "andalso", "band", "begin", "bnot", "bor", "bsl", "bsr",
+                        "bxor", "case", "catch", "cond", "div", "end", "fun", "if", "let", "not",
+                        "of", "or", "orelse", "receive", "rem", "try", "when", "xor"));
 
         instantiationTypes.clear();
 
@@ -131,16 +121,20 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("password", "binary()");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Erlang application name (convention: lowercase).")
-                .defaultValue(this.packageName));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Erlang application version")
-                .defaultValue(this.packageVersion));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.PACKAGE_NAME,
+                                "Erlang application name (convention: lowercase).")
+                        .defaultValue(this.packageName));
+        cliOptions.add(
+                new CliOption(CodegenConstants.PACKAGE_VERSION, "Erlang application version")
+                        .defaultValue(this.packageVersion));
     }
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel cm = super.fromModel(name, model);
-        if(ModelUtils.isArraySchema(model)) {
+        if (ModelUtils.isArraySchema(model)) {
             return new CodegenArrayModel(cm, (ArraySchema) model);
         } else {
             return cm;
@@ -155,7 +149,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String getTypeDeclaration(Schema schema) {
         String typeDeclaration = super.getSchemaType(schema);
-        if(ModelUtils.isArraySchema(schema)) {
+        if (ModelUtils.isArraySchema(schema)) {
             ArraySchema arraySchema = (ArraySchema) schema;
             String complexType = getSchemaType(arraySchema.getItems());
 
@@ -173,7 +167,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String getSchemaType(Schema schema) {
         String schemaType = super.getSchemaType(schema);
-        if(ModelUtils.isArraySchema(schema)) {
+        if (ModelUtils.isArraySchema(schema)) {
             ArraySchema arraySchema = (ArraySchema) schema;
             String complexType = getSchemaType(arraySchema.getItems());
 
@@ -182,27 +176,27 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
 
             Integer minItems = schema.getMinItems();
             Integer maxItems = schema.getMaxItems();
-            if(minItems != null) sb.append(", ").append(minItems);
-            if(minItems != null && maxItems != null) sb.append(", ").append(maxItems);
+            if (minItems != null) sb.append(", ").append(minItems);
+            if (minItems != null && maxItems != null) sb.append(", ").append(maxItems);
 
             return sb.append(")").toString();
-        } else if(ModelUtils.isIntegerSchema(schema)) {
+        } else if (ModelUtils.isIntegerSchema(schema)) {
             StringBuilder sb = new StringBuilder("integer(");
 
             BigDecimal min = schema.getMinimum();
             BigDecimal max = schema.getMaximum();
-            if(min != null) sb.append(min);
-            if(min != null && max != null) sb.append(", ").append(max);
+            if (min != null) sb.append(min);
+            if (min != null && max != null) sb.append(", ").append(max);
 
             return sb.append(")").toString();
-        } else if(ModelUtils.isDateSchema(schema) || ModelUtils.isDateTimeSchema(schema)) {
+        } else if (ModelUtils.isDateSchema(schema) || ModelUtils.isDateTimeSchema(schema)) {
             return typeMapping.get(schemaType);
-        } else if(ModelUtils.isStringSchema(schema)) {
+        } else if (ModelUtils.isStringSchema(schema)) {
             StringBuilder sb = new StringBuilder("binary(");
             Integer min = schema.getMinLength();
             Integer max = schema.getMaxLength();
-            if(min != null) sb.append(min);
-            if(min != null && max != null) sb.append(", ").append(max);
+            if (min != null) sb.append(min);
+            if (min != null && max != null) sb.append(", ").append(max);
 
             return sb.append(")").toString();
         } else if (typeMapping.containsKey(schemaType)) {
@@ -231,36 +225,60 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
-        additionalProperties.put("length", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                writer.write(length(fragment.context()));
-            }
-        });
+        additionalProperties.put(
+                "length",
+                new Mustache.Lambda() {
+                    @Override
+                    public void execute(Template.Fragment fragment, Writer writer)
+                            throws IOException {
+                        writer.write(length(fragment.context()));
+                    }
+                });
 
-        additionalProperties.put("qsEncode", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                writer.write(qsEncode(fragment.context()));
-            }
-        });
+        additionalProperties.put(
+                "qsEncode",
+                new Mustache.Lambda() {
+                    @Override
+                    public void execute(Template.Fragment fragment, Writer writer)
+                            throws IOException {
+                        writer.write(qsEncode(fragment.context()));
+                    }
+                });
 
         modelPackage = packageName;
         apiPackage = packageName;
 
         supportingFiles.add(new SupportingFile("rebar.config.mustache", "", "rebar.config"));
-        supportingFiles.add(new SupportingFile("app.src.mustache", "", "src" + File.separator +
-            this.packageName + ".app.src"));
-        supportingFiles.add(new SupportingFile("utils.mustache", "", "src" + File.separator +
-            this.packageName + "_utils.erl"));
-        supportingFiles.add(new SupportingFile("gen.mustache", "", "src" + File.separator + this
-            .packageName + "_gen.erl"));
-        supportingFiles.add(new SupportingFile("include.mustache", "", "src" + File.separator +
-            this.packageName + ".hrl"));
-        supportingFiles.add(new SupportingFile("statem.hrl.mustache", "", "src" + File.separator +
-            this.packageName + "_statem.hrl"));
-        supportingFiles.add(new SupportingFile("test.mustache", "", "test" + File.separator +
-            "prop_" + this.packageName + ".erl"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app.src.mustache",
+                        "",
+                        "src" + File.separator + this.packageName + ".app.src"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "utils.mustache",
+                        "",
+                        "src" + File.separator + this.packageName + "_utils.erl"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "gen.mustache",
+                        "",
+                        "src" + File.separator + this.packageName + "_gen.erl"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "include.mustache",
+                        "",
+                        "src" + File.separator + this.packageName + ".hrl"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "statem.hrl.mustache",
+                        "",
+                        "src" + File.separator + this.packageName + "_statem.hrl"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "test.mustache",
+                        "",
+                        "test" + File.separator + "prop_" + this.packageName + ".erl"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
 
@@ -303,9 +321,12 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator
-            + sourceFolder + File.separator
-            + modelFolder + File.separator;
+        return outputFolder
+                + File.separator
+                + sourceFolder
+                + File.separator
+                + modelFolder
+                + File.separator;
     }
 
     @Override
@@ -313,8 +334,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name))
-            name = escapeReservedWord(name);
+        if (isReservedWord(name)) name = escapeReservedWord(name);
 
         return name;
     }
@@ -340,7 +360,9 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toModelName(String name) {
-        return this.packageName + "_" + underscore(name.replaceAll("-", "_").replaceAll("\\.", "_"));
+        return this.packageName
+                + "_"
+                + underscore(name.replaceAll("-", "_").replaceAll("\\.", "_"));
     }
 
     @Override
@@ -362,7 +384,10 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
             operationId = "call_" + operationId;
         }
 
@@ -370,7 +395,8 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> os = operations.getOperation();
         List<ExtendedCodegenOperation> newOs = new ArrayList<>();
@@ -414,8 +440,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     String length(Object os) {
         int l = 1;
         for (CodegenParameter o : ((ExtendedCodegenOperation) os).allParams) {
-            if (o.required)
-                l++;
+            if (o.required) l++;
         }
 
         return Integer.toString(l);
@@ -424,8 +449,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     private int lengthRequired(List<CodegenParameter> allParams) {
         int l = 0;
         for (CodegenParameter o : allParams) {
-            if (o.required || o.isBodyParam)
-                l++;
+            if (o.required || o.isBodyParam) l++;
         }
 
         return l;
@@ -578,5 +602,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.ERLANG;
+    }
 }

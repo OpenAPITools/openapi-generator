@@ -16,6 +16,9 @@
 
 package org.openapitools.codegen.typescript.typescriptnestjs;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptNestjsClientCodegen;
@@ -23,13 +26,11 @@ import org.openapitools.codegen.options.TypeScriptNestjsClientOptionsProvider;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_NESTJS})
 public class TypeScriptNestjsClientOptionsTest extends AbstractOptionsTest {
 
-    private TypeScriptNestjsClientCodegen clientCodegen = mock(TypeScriptNestjsClientCodegen.class, mockSettings);
+    private TypeScriptNestjsClientCodegen clientCodegen =
+            mock(TypeScriptNestjsClientCodegen.class, mockSettings);
 
     public TypeScriptNestjsClientOptionsTest() {
         super(new TypeScriptNestjsClientOptionsProvider());
@@ -43,12 +44,30 @@ public class TypeScriptNestjsClientOptionsTest extends AbstractOptionsTest {
     @SuppressWarnings("unused")
     @Override
     protected void verifyOptions() {
-        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptNestjsClientOptionsProvider.SORT_PARAMS_VALUE));
-        verify(clientCodegen).setModelPropertyNaming(TypeScriptNestjsClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
-        verify(clientCodegen).setParamNaming(TypeScriptNestjsClientOptionsProvider.PARAM_NAMING_VALUE);
-        verify(clientCodegen).setSupportsES6(Boolean.valueOf(TypeScriptNestjsClientOptionsProvider.SUPPORTS_ES6_VALUE));
-        verify(clientCodegen).setStringEnums(Boolean.parseBoolean(TypeScriptNestjsClientOptionsProvider.STRING_ENUMS_VALUE));
-        verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptNestjsClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
-        verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(TypeScriptNestjsClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen)
+                .setSortParamsByRequiredFlag(
+                        Boolean.valueOf(TypeScriptNestjsClientOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen)
+                .setModelPropertyNaming(
+                        TypeScriptNestjsClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
+        verify(clientCodegen)
+                .setParamNaming(TypeScriptNestjsClientOptionsProvider.PARAM_NAMING_VALUE);
+        verify(clientCodegen)
+                .setSupportsES6(
+                        Boolean.valueOf(TypeScriptNestjsClientOptionsProvider.SUPPORTS_ES6_VALUE));
+        verify(clientCodegen)
+                .setStringEnums(
+                        Boolean.parseBoolean(
+                                TypeScriptNestjsClientOptionsProvider.STRING_ENUMS_VALUE));
+        verify(clientCodegen)
+                .setPrependFormOrBodyParameters(
+                        Boolean.valueOf(
+                                TypeScriptNestjsClientOptionsProvider
+                                        .PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
+        verify(clientCodegen)
+                .setEnumUnknownDefaultCase(
+                        Boolean.parseBoolean(
+                                TypeScriptNestjsClientOptionsProvider
+                                        .ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
     }
 }

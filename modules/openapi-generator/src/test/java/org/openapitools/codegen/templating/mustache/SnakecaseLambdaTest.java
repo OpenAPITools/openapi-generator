@@ -16,7 +16,6 @@
 package org.openapitools.codegen.templating.mustache;
 
 import java.util.Map;
-
 import org.testng.annotations.Test;
 
 public class SnakecaseLambdaTest extends LambdaTest {
@@ -29,5 +28,4 @@ public class SnakecaseLambdaTest extends LambdaTest {
         // When & Then
         test("access_code", "{{#snakecase}}accessCode{{/snakecase}}", ctx);
     }
-
 }

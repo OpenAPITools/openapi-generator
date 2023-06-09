@@ -29,14 +29,22 @@ public class AndroidClientCodegenTest {
         final AndroidClientCodegen codegen = new AndroidClientCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.TRUE);
         Assert.assertTrue(codegen.isHideGenerationTimestamp());
         Assert.assertEquals(codegen.modelPackage(), "org.openapitools.client.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.client.model");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
+                "org.openapitools.client.model");
         Assert.assertEquals(codegen.apiPackage(), "org.openapitools.client.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.client.api");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),
+                "org.openapitools.client.api");
         Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools.client");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.client");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
+                "org.openapitools.client");
     }
 
     @Test
@@ -48,11 +56,17 @@ public class AndroidClientCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
+                "xx.yyyyyyyy.model");
         Assert.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xx.yyyyyyyy.api");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),
+                "xx.yyyyyyyy.api");
         Assert.assertEquals(codegen.getInvokerPackage(), "xx.yyyyyyyy.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xx.yyyyyyyy.invoker");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
+                "xx.yyyyyyyy.invoker");
     }
 
     @Test
@@ -60,14 +74,21 @@ public class AndroidClientCodegenTest {
         final AndroidClientCodegen codegen = new AndroidClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.mmmmm.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.aaaaa.api");
-        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE,"xyz.yyyyy.iiii.invoker");
+        codegen.additionalProperties()
+                .put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
         codegen.processOpts();
 
         Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE),
+                "xyz.yyyyy.mmmmm.model");
         Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.aaaaa.api");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),
+                "xyz.yyyyy.aaaaa.api");
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE),
+                "xyz.yyyyy.iiii.invoker");
     }
 }

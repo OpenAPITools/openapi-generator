@@ -8,19 +8,17 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_ANGULAR})
 public class TypeScriptAngularClientCodegenTest {
@@ -45,19 +43,28 @@ public class TypeScriptAngularClientCodegenTest {
         Assert.assertEquals(codegen.toEnumVarName("illegal-id+", "string"), "IllegalId");
 
         codegen = new TypeScriptAngularClientCodegen();
-        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original.name());
+        codegen.additionalProperties()
+                .put(
+                        CodegenConstants.ENUM_PROPERTY_NAMING,
+                        CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original.name());
         codegen.processOpts();
         Assert.assertEquals(codegen.toEnumVarName("valid_id", "string"), "valid_id");
         Assert.assertEquals(codegen.toEnumVarName("illegal-id+", "string"), "illegal_id");
 
         codegen = new TypeScriptAngularClientCodegen();
-        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.UPPERCASE.name());
+        codegen.additionalProperties()
+                .put(
+                        CodegenConstants.ENUM_PROPERTY_NAMING,
+                        CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.UPPERCASE.name());
         codegen.processOpts();
         Assert.assertEquals(codegen.toEnumVarName("valid_id", "string"), "VALID_ID");
         Assert.assertEquals(codegen.toEnumVarName("illegal-id+", "string"), "ILLEGAL_ID");
 
         codegen = new TypeScriptAngularClientCodegen();
-        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.snake_case.name());
+        codegen.additionalProperties()
+                .put(
+                        CodegenConstants.ENUM_PROPERTY_NAMING,
+                        CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.snake_case.name());
         codegen.processOpts();
         Assert.assertEquals(codegen.toEnumVarName("valid_ID", "string"), "valid_id");
         Assert.assertEquals(codegen.toEnumVarName("Illegal-Id+", "string"), "illegal_id");
@@ -114,14 +121,20 @@ public class TypeScriptAngularClientCodegenTest {
     @Test
     public void testOperationIdParser() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
-        Operation operation1 = new Operation().operationId("123_test_@#$%_special_tags").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")));
+        Operation operation1 =
+                new Operation()
+                        .operationId("123_test_@#$%_special_tags")
+                        .responses(
+                                new ApiResponses()
+                                        .addApiResponse(
+                                                "201", new ApiResponse().description("OK")));
         openAPI.path("another-fake/dummy/", new PathItem().get(operation1));
         final TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         codegen.setOpenAPI(openAPI);
 
-        CodegenOperation co1 = codegen.fromOperation("/another-fake/dummy/", "get", operation1, null);
+        CodegenOperation co1 =
+                codegen.fromOperation("/another-fake/dummy/", "get", operation1, null);
         org.testng.Assert.assertEquals(co1.operationId, "_123testSpecialTags");
-
     }
 
     @Test
@@ -145,7 +158,6 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1-SNAPSHOT.[0-9]{12}$"));
-
     }
 
     @Test
@@ -169,7 +181,6 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
-
     }
 
     @Test
@@ -221,15 +232,18 @@ public class TypeScriptAngularClientCodegenTest {
     @Test
     public void testKebabCasedModelFilenames() {
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
-        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.FILE_NAMING, "kebab-case");
+        codegen.additionalProperties()
+                .put(TypeScriptAngularClientCodegen.FILE_NAMING, "kebab-case");
         codegen.processOpts();
 
         final String modelName = "FooResponse__links";
-        final Schema schema = new Schema()
-            .name(modelName)
-            .description("an inline model with name previously prefixed with underscore")
-            .addRequiredItem("self")
-            .addProperties("self", new StringSchema());
+        final Schema schema =
+                new Schema()
+                        .name(modelName)
+                        .description(
+                                "an inline model with name previously prefixed with underscore")
+                        .addRequiredItem("self")
+                        .addProperties("self", new StringSchema());
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("test", schema);
         codegen.setOpenAPI(openAPI);
@@ -247,19 +261,28 @@ public class TypeScriptAngularClientCodegenTest {
         Assert.assertEquals(codegen.toParamName("illegal-id+"), "illegalId");
 
         codegen = new TypeScriptAngularClientCodegen();
-        codegen.additionalProperties().put(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_TYPE.original.name());
+        codegen.additionalProperties()
+                .put(
+                        CodegenConstants.PARAM_NAMING,
+                        CodegenConstants.PARAM_NAMING_TYPE.original.name());
         codegen.processOpts();
         Assert.assertEquals(codegen.toParamName("valid_id"), "valid_id");
         Assert.assertEquals(codegen.toParamName("illegal-id+"), "illegal_id");
 
         codegen = new TypeScriptAngularClientCodegen();
-        codegen.additionalProperties().put(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_TYPE.snake_case.name());
+        codegen.additionalProperties()
+                .put(
+                        CodegenConstants.PARAM_NAMING,
+                        CodegenConstants.PARAM_NAMING_TYPE.snake_case.name());
         codegen.processOpts();
         Assert.assertEquals(codegen.toParamName("valid_ID"), "valid_id");
         Assert.assertEquals(codegen.toParamName("Illegal-Id+"), "illegal_id");
 
         codegen = new TypeScriptAngularClientCodegen();
-        codegen.additionalProperties().put(CodegenConstants.PARAM_NAMING, CodegenConstants.PARAM_NAMING_TYPE.PascalCase.name());
+        codegen.additionalProperties()
+                .put(
+                        CodegenConstants.PARAM_NAMING,
+                        CodegenConstants.PARAM_NAMING_TYPE.PascalCase.name());
         codegen.processOpts();
         Assert.assertEquals(codegen.toParamName("valid_id"), "ValidId");
         Assert.assertEquals(codegen.toParamName("illegal-id+"), "IllegalId");
@@ -276,7 +299,8 @@ public class TypeScriptAngularClientCodegenTest {
 
     @Test
     public void testTaggedUnionImports() throws Exception {
-        final String specPath = "src/test/resources/3_0/allOf_composition_discriminator_recursive.yaml";
+        final String specPath =
+                "src/test/resources/3_0/allOf_composition_discriminator_recursive.yaml";
 
         Map<String, Object> properties = new HashMap<>();
         properties.put(TypeScriptAngularClientCodegen.TAGGED_UNIONS, "true");
@@ -284,11 +308,12 @@ public class TypeScriptAngularClientCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("typescript-angular")
-                .setInputSpec(specPath)
-                .setAdditionalProperties(properties)
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("typescript-angular")
+                        .setInputSpec(specPath)
+                        .setAdditionalProperties(properties)
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
@@ -298,19 +323,17 @@ public class TypeScriptAngularClientCodegenTest {
         TestUtils.assertFileContains(
                 Paths.get(output + "/model/expressionToken.ts"),
                 "import { Token } from './token'", // imports the parent schema
-                "import { TokenMetadata } from './tokenMetadata'", // imports a schema referenced in an inherited property
+                "import { TokenMetadata } from './tokenMetadata'", // imports a schema referenced in
+                // an inherited property
                 "export interface ExpressionToken {" // no inheritance
-        );
+                );
 
         TestUtils.assertFileNotContains(
-                Paths.get(output + "/model/stringToken.ts"),
-                "import { Token } from './token'"
-        );
+                Paths.get(output + "/model/stringToken.ts"), "import { Token } from './token'");
 
         TestUtils.assertFileContains(
                 Paths.get(output + "/model/token.ts"),
                 "import { ExpressionToken } from './expressionToken'",
-                "export type Token = ExpressionToken | StringToken"
-        );
+                "export type Token = ExpressionToken | StringToken");
     }
 }

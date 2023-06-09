@@ -17,8 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -31,12 +36,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(LuaClientCodegen.class);
@@ -63,31 +62,26 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     public LuaClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .includeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.BasicAuth,
+                                                SecurityFeature.ApiKey,
+                                                SecurityFeature.OAuth2_Implicit))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .includeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .includeParameterFeatures(ParameterFeature.Cookie));
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-            .stability(Stability.BETA)
-            .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         outputFolder = "generated-code/lua";
         modelTemplateFiles.put("model.mustache", ".lua");
@@ -104,30 +98,41 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // data type
-                        "nil", "string", "boolean", "number", "userdata", "thread",
-                        "table",
-
-                        // reserved words: http://www.lua.org/manual/5.1/manual.html#2.1
-                        "and", "break", "do", "else", "elseif",
-                        "end", "false", "for", "function", "if",
-                        "in", "local", "nil", "not", "or",
-                        "repeat", "return", "then", "true", "until", "while"
-                )
-        );
-
-        defaultIncludes = new HashSet<>(
-                Arrays.asList(
-                        "map",
-                        "array")
-        );
-
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
                         "nil",
                         "string",
                         "boolean",
-                        "number")
-        );
+                        "number",
+                        "userdata",
+                        "thread",
+                        "table",
+
+                        // reserved words: http://www.lua.org/manual/5.1/manual.html#2.1
+                        "and",
+                        "break",
+                        "do",
+                        "else",
+                        "elseif",
+                        "end",
+                        "false",
+                        "for",
+                        "function",
+                        "if",
+                        "in",
+                        "local",
+                        "nil",
+                        "not",
+                        "or",
+                        "repeat",
+                        "return",
+                        "then",
+                        "true",
+                        "until",
+                        "while"));
+
+        defaultIncludes = new HashSet<>(Arrays.asList("map", "array"));
+
+        languageSpecificPrimitives =
+                new HashSet<>(Arrays.asList("nil", "string", "boolean", "number"));
 
         instantiationTypes.clear();
         /*instantiationTypes.put("array", "LuaArray");
@@ -160,13 +165,19 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         importMapping.put("os", "io/ioutil");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Lua package name (convention: single word).")
-                .defaultValue("openapiclient"));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Lua package version.")
-                .defaultValue("1.0.0-1"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
-                .defaultValue(Boolean.TRUE.toString()));
-
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.PACKAGE_NAME,
+                                "Lua package name (convention: single word).")
+                        .defaultValue("openapiclient"));
+        cliOptions.add(
+                new CliOption(CodegenConstants.PACKAGE_VERSION, "Lua package version.")
+                        .defaultValue("1.0.0-1"));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
+                        .defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -199,14 +210,15 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelPackage = packageName;
         apiPackage = packageName;
 
-        //supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        // supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("luarocks.mustache", "", luaRocksFilename));
-        //supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.lua"));
-        //supportingFiles.add(new SupportingFile("api_client.mustache", "", "api_client.lua"));
-        //supportingFiles.add(new SupportingFile("api_response.mustache", "", "api_response.lua"));
-        //supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
+        // supportingFiles.add(new SupportingFile("configuration.mustache", "",
+        // "configuration.lua"));
+        // supportingFiles.add(new SupportingFile("api_client.mustache", "", "api_client.lua"));
+        // supportingFiles.add(new SupportingFile("api_response.mustache", "", "api_response.lua"));
+        // supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
     }
 
     @Override
@@ -230,11 +242,21 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + packageName + File.separator + "api" + File.separator;
+        return outputFolder
+                + File.separator
+                + packageName
+                + File.separator
+                + "api"
+                + File.separator;
     }
 
     public String modelFileFolder() {
-        return outputFolder + File.separator + packageName + File.separator + "model" + File.separator;
+        return outputFolder
+                + File.separator
+                + packageName
+                + File.separator
+                + "model"
+                + File.separator;
     }
 
     @Override
@@ -243,20 +265,17 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = sanitizeName(name.replaceAll("-", "_"));
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$"))
-            return name;
+        if (name.matches("^[A-Z_]*$")) return name;
 
         // convert variable name to snake case
         // PetId => pet_id
         name = underscore(name);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name))
-            name = escapeReservedWord(name);
+        if (isReservedWord(name)) name = escapeReservedWord(name);
 
         // for reserved word or word starting with number, append _
-        if (name.matches("^\\d.*"))
-            name = "Var" + name;
+        if (name.matches("^\\d.*")) name = "Var" + name;
 
         return name;
     }
@@ -285,13 +304,18 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, "model_" + name);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    name,
+                    "model_" + name);
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+            LOGGER.warn(
+                    "{} (model name starts with number) cannot be used as model name. Renamed to {}",
+                    name,
                     "model_" + name);
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
@@ -302,7 +326,11 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name =
+                name.replaceAll(
+                        "-",
+                        "_"); // FIXME: a parameter should not be assigned. Also declare the methods
+        // parameters as 'final'.
 
         // e.g. PetApi.lua => pet_api.lua
         return underscore(name) + "_api";
@@ -319,16 +347,14 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Overrides postProcessParameter to add a vendor extension "x-exportParamName".
-     * This is useful when paramName starts with a lowercase letter, but we need that
-     * param to be exportable (starts with an Uppercase letter).
+     * Overrides postProcessParameter to add a vendor extension "x-exportParamName". This is useful
+     * when paramName starts with a lowercase letter, but we need that param to be exportable
+     * (starts with an Uppercase letter).
      *
      * @param parameter CodegenParameter object to be processed.
      */
     @Override
-    public void postProcessParameter(CodegenParameter parameter) {
-
-    }
+    public void postProcessParameter(CodegenParameter parameter) {}
 
     @Override
     public String apiTestFileFolder() {
@@ -400,8 +426,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         String type = null;
         if (typeMapping.containsKey(schemaType)) {
             type = typeMapping.get(schemaType);
-            if (languageSpecificPrimitives.contains(type))
-                return (type);
+            if (languageSpecificPrimitives.contains(type)) return (type);
         } else {
             type = schemaType;
         }
@@ -414,7 +439,10 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore("call_" + operationId));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
@@ -422,7 +450,8 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation op : operations) {
@@ -434,15 +463,15 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
             for (String item : items) {
                 if (item.matches("^\\{(.*)\\}$")) { // wrap in {}
                     // find the datatype of the parameter
-                    //final CodegenParameter cp = op.pathParams.get(pathParamIndex);
+                    // final CodegenParameter cp = op.pathParams.get(pathParamIndex);
                     // TODO: Handle non-primitives…
-                    //luaPath = luaPath + cp.dataType.toLowerCase(Locale.ROOT);
+                    // luaPath = luaPath + cp.dataType.toLowerCase(Locale.ROOT);
                     luaPath = luaPath + "/%s";
                     pathParamIndex++;
                 } else if (item.length() != 0) {
                     luaPath = luaPath + "/" + item;
                 } else {
-                    //luaPath = luaPath + "/";
+                    // luaPath = luaPath + "/";
                 }
             }
             op.vendorExtensions.put("x-codegen-path", luaPath);
@@ -458,14 +487,12 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         Iterator<Map<String, String>> iterator = imports.iterator();
         while (iterator.hasNext()) {
             String _import = iterator.next().get("import");
-            if (_import.startsWith(prefix))
-                iterator.remove();
+            if (_import.startsWith(prefix)) iterator.remove();
         }
 
         // recursively add import for mapping one type to multiple imports
         List<Map<String, String>> recursiveImports = objs.getImports();
-        if (recursiveImports == null)
-            return objs;
+        if (recursiveImports == null) return objs;
 
         ListIterator<Map<String, String>> listIterator = imports.listIterator();
         while (listIterator.hasNext()) {
@@ -482,8 +509,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     protected boolean needToImport(String type) {
-        return !defaultIncludes.contains(type)
-                && !languageSpecificPrimitives.contains(type);
+        return !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type);
     }
 
     public void setPackageName(String packageName) {
@@ -555,7 +581,8 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
+        if (isReservedWord(enumName)
+                || enumName.matches("\\d.*")) { // reserved word or starts with number
             return escapeReservedWord(enumName);
         } else {
             return enumName;
@@ -587,16 +614,26 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator is contributed by daurnimator (https://github.com/daurnimator)#");
-        System.out.println("# Pls support his work directly via https://github.com/sponsors/daurnimator \uD83D\uDE4F #");
-        System.out.println("################################################################################");
+        System.out.println(
+                "################################################################################");
+        System.out.println(
+                "# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println(
+                "# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println(
+                "# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println(
+                "#                                                                              #");
+        System.out.println(
+                "# This generator is contributed by daurnimator (https://github.com/daurnimator)#");
+        System.out.println(
+                "# Pls support his work directly via https://github.com/sponsors/daurnimator \uD83D\uDE4F #");
+        System.out.println(
+                "################################################################################");
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.LUA; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.LUA;
+    }
 }

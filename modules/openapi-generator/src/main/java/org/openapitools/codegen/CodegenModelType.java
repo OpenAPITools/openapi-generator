@@ -18,7 +18,6 @@
 package org.openapitools.codegen;
 
 public enum CodegenModelType {
-
     MODEL(CodegenModel.class),
     OPERATION(CodegenOperation.class),
     PARAMETER(CodegenParameter.class),

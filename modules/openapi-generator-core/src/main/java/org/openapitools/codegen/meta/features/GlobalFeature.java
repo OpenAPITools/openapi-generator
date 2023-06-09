@@ -20,63 +20,64 @@ import org.openapitools.codegen.meta.features.annotations.OAS2;
 import org.openapitools.codegen.meta.features.annotations.OAS3;
 
 /**
- * Defines a set of globally available features. That is, support of these are often defined at the top-level of the spec, or
- * defines general support of a feature (e.g. Examples, XMLStructureDefinitions).
+ * Defines a set of globally available features. That is, support of these are often defined at the
+ * top-level of the spec, or defines general support of a feature (e.g. Examples,
+ * XMLStructureDefinitions).
  */
 public enum GlobalFeature {
     /**
-     * Supports specifying the host or ip of the target system. If not defined, this should fall back to the
-     * host/ip (and optional port) of the server which delivered the spec document.
+     * Supports specifying the host or ip of the target system. If not defined, this should fall
+     * back to the host/ip (and optional port) of the server which delivered the spec document.
      */
-    @OAS2 @OAS3
+    @OAS2
+    @OAS3
     Host,
 
     /**
      * Supports providing an API prefix, appended to the host.
      *
-     * <p>OAS 3.x supports this indirectly via servers with template variables.</p>
+     * <p>OAS 3.x supports this indirectly via servers with template variables.
      */
-    @OAS2 @OAS3
+    @OAS2
+    @OAS3
     BasePath,
 
     /**
      * Supports passing information about the target server to the client.
      *
-     * <p>
-     * Information passed to generated code should be explicitly documented in a generator's README.
-     * </p>
+     * <p>Information passed to generated code should be explicitly documented in a generator's
+     * README.
      */
-    @OAS2 @OAS3
+    @OAS2
+    @OAS3
     Info,
 
     /**
      * Supports customization of the scheme "http", "https", "ws", "wss".
      *
-     * <p>
-     * If a generator only supports partial schemes, please choose the PartialSchemes option.
-     * </p>
+     * <p>If a generator only supports partial schemes, please choose the PartialSchemes option.
      *
-     * <p>OAS 3.x supports this indirectly via servers with template variables.</p>
+     * <p>OAS 3.x supports this indirectly via servers with template variables.
      */
-    @OAS2 @OAS3
+    @OAS2
+    @OAS3
     Schemes,
 
     /**
      * Supports fewer than all schemes supported by OpenAPI Specification.
      *
-     * <p>
-     * Support should be explicitly documented in a generator's README.
-     * </p>
+     * <p>Support should be explicitly documented in a generator's README.
      *
-     * <p>OAS 3.x supports this indirectly via servers with template variables.</p>
+     * <p>OAS 3.x supports this indirectly via servers with template variables.
      */
-    @OAS2 @OAS3
+    @OAS2
+    @OAS3
     PartialSchemes,
 
     /**
      * Supports a globally defined array of consumable MimeTypes.
      *
-     * <p>Global support is undefined in OAS 3.x.</p>
+     * <p>Global support is undefined in OAS 3.x.
      */
     @OAS2
     Consumes,
@@ -84,42 +85,41 @@ public enum GlobalFeature {
     /**
      * Supports a globally defined array of produced MimeTypes.
      *
-     * <p>Global support is undefined in OAS 3.x.</p>
+     * <p>Global support is undefined in OAS 3.x.
      */
     @OAS2
     Produces,
 
-    /**
-     * Exposes external documentation defined in the specification document to generated code.
-     */
-    @OAS2 @OAS3
+    /** Exposes external documentation defined in the specification document to generated code. */
+    @OAS2
+    @OAS3
     ExternalDocumentation,
 
-    /**
-     * Allows the ability to provide example input/output structures, usually in JSON format.
-     */
-    @OAS2 @OAS3
+    /** Allows the ability to provide example input/output structures, usually in JSON format. */
+    @OAS2
+    @OAS3
     Examples,
 
     /**
-     * Differs from supporting the MimeType.XML feature, in that this option indicates whether XML structures can be defined by spec document and honored by the caller.
+     * Differs from supporting the MimeType.XML feature, in that this option indicates whether XML
+     * structures can be defined by spec document and honored by the caller.
      */
-    @OAS2 @OAS3
+    @OAS2
+    @OAS3
     XMLStructureDefinitions,
 
     /**
      * Supports targeting one or more servers.
      *
-     * <p>
-     * That is, server is not hard-coded (although there may be a default).
-     * This option is valid only for "servers" without open-ended values.
-     * </p>
+     * <p>That is, server is not hard-coded (although there may be a default). This option is valid
+     * only for "servers" without open-ended values.
      */
     @OAS3
     MultiServer,
 
     /**
-     * Supports targeting one or more servers, PLUS the ability to provide values for templated server parts
+     * Supports targeting one or more servers, PLUS the ability to provide values for templated
+     * server parts
      */
     @OAS3
     ParameterizedServer,
@@ -127,17 +127,14 @@ public enum GlobalFeature {
     /**
      * Supports OAS 3.x "style" for parameters.
      *
-     * <p>
-     * NOTE: This option is more relevant for documentation generators which support HTML stylesheets, but may be used
-     *       to determine structural characteristics of a property (as with OAS 3.x lack of collectionFormat).
-     * </p>
+     * <p>NOTE: This option is more relevant for documentation generators which support HTML
+     * stylesheets, but may be used to determine structural characteristics of a property (as with
+     * OAS 3.x lack of collectionFormat).
      */
     @OAS3
     ParameterStyling,
 
-    /**
-     * Supports OAS 3.x callbacks.
-     */
+    /** Supports OAS 3.x callbacks. */
     @OAS3
     Callbacks,
 

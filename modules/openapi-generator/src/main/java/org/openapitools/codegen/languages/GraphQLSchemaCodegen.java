@@ -16,12 +16,11 @@
 
 package org.openapitools.codegen.languages;
 
+import java.util.EnumSet;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.EnumSet;
 
 public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements CodegenConfig {
 
@@ -43,22 +42,19 @@ public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements Code
     public GraphQLSchemaCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-//                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-                .securityFeatures(EnumSet.noneOf(
-                        SecurityFeature.class
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features
+                                //
+                                // .includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism));
 
         outputFolder = "generated-code/graphql-schema";
         modelTemplateFiles.put("model.mustache", ".graphql");
@@ -66,27 +62,31 @@ public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements Code
         embeddedTemplateDir = templateDir = "graphql-schema";
         hideGenerationTimestamp = Boolean.TRUE;
 
-
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
-
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "GraphQL package name (convention: lowercase).")
-                .defaultValue("openapi2graphql"));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "GraphQL package version.")
-                .defaultValue("1.0.0"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
-                .defaultValue(Boolean.TRUE.toString()));
-
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.PACKAGE_NAME,
+                                "GraphQL package name (convention: lowercase).")
+                        .defaultValue("openapi2graphql"));
+        cliOptions.add(
+                new CliOption(CodegenConstants.PACKAGE_VERSION, "GraphQL package version.")
+                        .defaultValue("1.0.0"));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
+                        .defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
 
-        //apiTestTemplateFiles.put("api_test.mustache", ".graphql");
-        //modelTestTemplateFiles.put("model_test.mustache", ".graphql");
+        // apiTestTemplateFiles.put("api_test.mustache", ".graphql");
+        // modelTestTemplateFiles.put("model_test.mustache", ".graphql");
 
         apiDocTemplateFiles.clear(); // TODO: add api doc template
         modelDocTemplateFiles.clear(); // TODO: add model doc template
@@ -94,12 +94,14 @@ public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements Code
         modelPackage = packageName;
         apiPackage = packageName;
 
-        //supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        //supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        //supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"))
-        //supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
+        // supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        // supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        // supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"))
+        // supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.GRAPH_QL; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.GRAPH_QL;
+    }
 }

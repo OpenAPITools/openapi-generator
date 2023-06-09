@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import java.io.File;
+import java.util.EnumSet;
+import java.util.Locale;
+import java.util.UUID;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
@@ -24,11 +28,6 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.EnumSet;
-import java.util.Locale;
-import java.util.UUID;
 
 public class EiffelClientCodegen extends AbstractEiffelCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(EiffelClientCodegen.class);
@@ -61,30 +60,24 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
     public EiffelClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.BasePath,
-                        ClientModificationFeature.UserAgent
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.OAuth2_Implicit,
+                                                SecurityFeature.BasicAuth,
+                                                SecurityFeature.ApiKey))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .includeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath,
+                                        ClientModificationFeature.UserAgent));
 
         uuid = UUID.randomUUID();
         uuidTest = UUID.randomUUID();
@@ -134,36 +127,70 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("ecf.mustache", "", "api_client.ecf"));
         supportingFiles.add(new SupportingFile("test/ecf_test.mustache", "test", "api_test.ecf"));
-        supportingFiles.add(new SupportingFile("test/application.mustache", "test", "application.e"));
+        supportingFiles.add(
+                new SupportingFile("test/application.mustache", "test", "application.e"));
         supportingFiles.add(new SupportingFile("api_client.mustache", "src", "api_client.e"));
-        supportingFiles.add(new SupportingFile("framework/api_i.mustache", "src/framework", "api_i.e"));
         supportingFiles.add(
-                new SupportingFile("framework/api_client_request.mustache", "src/framework", "api_client_request.e"));
+                new SupportingFile("framework/api_i.mustache", "src/framework", "api_i.e"));
         supportingFiles.add(
-                new SupportingFile("framework/api_client_response.mustache", "src/framework", "api_client_response.e"));
-        supportingFiles.add(new SupportingFile("framework/api_error.mustache", "src/framework", "api_error.e"));
-        supportingFiles.add(new SupportingFile("framework/configuration.mustache", "src/framework", "configuration.e"));
-        supportingFiles
-                .add(new SupportingFile("framework/auth/authentication.mustache", authFolder, "authentication.e"));
-        supportingFiles.add(new SupportingFile("framework/auth/api_key_auth.mustache", authFolder, "api_key_auth.e"));
-        supportingFiles
-                .add(new SupportingFile("framework/auth/http_basic_auth.mustache", authFolder, "http_basic_auth.e"));
-        supportingFiles.add(new SupportingFile("framework/auth/oauth.mustache", authFolder, "oauth.e"));
-        supportingFiles.add(new SupportingFile("framework/serialization/api_deserializer.mustache", serializerFolder,
-                "api_deserializer.e"));
-        supportingFiles.add(new SupportingFile("framework/serialization/api_json_deserializer.mustache",
-                serializerFolder, "api_json_deserializer.e"));
-        supportingFiles.add(new SupportingFile("framework/serialization/api_json_serializer.mustache", serializerFolder,
-                "api_json_serializer.e"));
-        supportingFiles.add(new SupportingFile("framework/serialization/api_serializer.mustache", serializerFolder,
-                "api_serializer.e"));
-        supportingFiles.add(new SupportingFile("framework/serialization/json_basic_reflector_deserializer.mustache",
-                serializerFolder, "json_basic_reflector_deserializer.e"));
-        supportingFiles.add(new SupportingFile("framework/serialization/json_type_utilities_ext.mustache",
-                serializerFolder, "json_type_utilities_ext.e"));
-
+                new SupportingFile(
+                        "framework/api_client_request.mustache",
+                        "src/framework",
+                        "api_client_request.e"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "framework/api_client_response.mustache",
+                        "src/framework",
+                        "api_client_response.e"));
+        supportingFiles.add(
+                new SupportingFile("framework/api_error.mustache", "src/framework", "api_error.e"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "framework/configuration.mustache", "src/framework", "configuration.e"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "framework/auth/authentication.mustache", authFolder, "authentication.e"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "framework/auth/api_key_auth.mustache", authFolder, "api_key_auth.e"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "framework/auth/http_basic_auth.mustache",
+                        authFolder,
+                        "http_basic_auth.e"));
+        supportingFiles.add(
+                new SupportingFile("framework/auth/oauth.mustache", authFolder, "oauth.e"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "framework/serialization/api_deserializer.mustache",
+                        serializerFolder,
+                        "api_deserializer.e"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "framework/serialization/api_json_deserializer.mustache",
+                        serializerFolder,
+                        "api_json_deserializer.e"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "framework/serialization/api_json_serializer.mustache",
+                        serializerFolder,
+                        "api_json_serializer.e"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "framework/serialization/api_serializer.mustache",
+                        serializerFolder,
+                        "api_serializer.e"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "framework/serialization/json_basic_reflector_deserializer.mustache",
+                        serializerFolder,
+                        "json_basic_reflector_deserializer.e"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "framework/serialization/json_type_utilities_ext.mustache",
+                        serializerFolder,
+                        "json_type_utilities_ext.e"));
     }
-
 
     @Override
     public String apiFileFolder() {
@@ -196,7 +223,6 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
         this.packageVersion = packageVersion;
     }
 
-
     @Override
     public String toEnumName(CodegenProperty property) {
         return sanitizeName(property.name).toUpperCase(Locale.ROOT) + "_ENUM";
@@ -214,8 +240,10 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
         }
 
         // number
-        if ("INTEGER_32".equals(datatype) || "INTEGER_64".equals(datatype) ||
-                "REAL_32".equals(datatype) || "REAL_64".equals(datatype)) {
+        if ("INTEGER_32".equals(datatype)
+                || "INTEGER_64".equals(datatype)
+                || "REAL_32".equals(datatype)
+                || "REAL_64".equals(datatype)) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
@@ -236,12 +264,13 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("INTEGER_32".equals(datatype) || "INTEGER_64".equals(datatype) ||
-                "REAL_32".equals(datatype) || "REAL_64".equals(datatype)) {
+        if ("INTEGER_32".equals(datatype)
+                || "INTEGER_64".equals(datatype)
+                || "REAL_32".equals(datatype)
+                || "REAL_64".equals(datatype)) {
             return value;
         } else {
             return "\"" + escapeText(value) + "\"";
         }
     }
-
 }

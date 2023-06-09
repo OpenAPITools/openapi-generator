@@ -17,14 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
+import java.io.File;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
-
-import java.io.File;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppQtQHttpEngineServerCodegen extends CppQtAbstractCodegen implements CodegenConfig {
 
@@ -39,7 +38,8 @@ public class CppQtQHttpEngineServerCodegen extends CppQtAbstractCodegen implemen
     public CppQtQHttpEngineServerCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(
+                features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         // set the output folder here
         outputFolder = "generated-code/cpp-qt-qhttpengine-server";
@@ -50,13 +50,9 @@ public class CppQtQHttpEngineServerCodegen extends CppQtAbstractCodegen implemen
          * for multiple files for model, just put another entry in the `modelTemplateFiles` with
          * a different extension
          */
-        modelTemplateFiles.put(
-                "model-header.mustache",
-                ".h");
+        modelTemplateFiles.put("model-header.mustache", ".h");
 
-        modelTemplateFiles.put(
-                "model-body.mustache",
-                ".cpp");
+        modelTemplateFiles.put("model-body.mustache", ".cpp");
 
         /*
          * Api classes.  You can write classes for each Api file with the apiTemplateFiles map.
@@ -64,20 +60,20 @@ public class CppQtQHttpEngineServerCodegen extends CppQtAbstractCodegen implemen
          * class
          */
         apiTemplateFiles.put(
-                "apihandler.h.mustache",   // the template to use
-                ".h");       // the extension for each file to write
+                "apihandler.h.mustache", // the template to use
+                ".h"); // the extension for each file to write
 
         apiTemplateFiles.put(
-                "apihandler.cpp.mustache",   // the template to use
-                ".cpp");       // the extension for each file to write
+                "apihandler.cpp.mustache", // the template to use
+                ".cpp"); // the extension for each file to write
 
         apiTemplateFiles.put(
-                "apirequest.h.mustache",   // the template to use
-                ".h");       // the extension for each file to write
+                "apirequest.h.mustache", // the template to use
+                ".h"); // the extension for each file to write
 
         apiTemplateFiles.put(
-                "apirequest.cpp.mustache",   // the template to use
-                ".cpp");       // the extension for each file to write
+                "apirequest.cpp.mustache", // the template to use
+                ".cpp"); // the extension for each file to write
 
         /*
          * Template Location.  This is the location which templates will be read from.  The generator
@@ -85,26 +81,53 @@ public class CppQtQHttpEngineServerCodegen extends CppQtAbstractCodegen implemen
          */
         embeddedTemplateDir = templateDir = "cpp-qt-qhttpengine-server";
 
-        supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.h"));
-        supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.cpp"));
-        supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, PREFIX + "Object.h"));
-        supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder + MODEL_DIR, PREFIX + "Enum.h"));
-        supportingFiles.add(new SupportingFile("HttpFileElement.h.mustache", sourceFolder + MODEL_DIR, PREFIX + "HttpFileElement.h"));
-        supportingFiles.add(new SupportingFile("HttpFileElement.cpp.mustache", sourceFolder + MODEL_DIR, PREFIX + "HttpFileElement.cpp"));
-        supportingFiles.add(new SupportingFile("apirouter.h.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "ApiRouter.h"));
-        supportingFiles.add(new SupportingFile("apirouter.cpp.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "ApiRouter.cpp"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "helpers-header.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.h"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "helpers-body.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.cpp"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "object.mustache", sourceFolder + MODEL_DIR, PREFIX + "Object.h"));
+        supportingFiles.add(
+                new SupportingFile("enum.mustache", sourceFolder + MODEL_DIR, PREFIX + "Enum.h"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "HttpFileElement.h.mustache",
+                        sourceFolder + MODEL_DIR,
+                        PREFIX + "HttpFileElement.h"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "HttpFileElement.cpp.mustache",
+                        sourceFolder + MODEL_DIR,
+                        PREFIX + "HttpFileElement.cpp"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "apirouter.h.mustache",
+                        sourceFolder + APIHANDLER_DIR,
+                        PREFIX + "ApiRouter.h"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "apirouter.cpp.mustache",
+                        sourceFolder + APIHANDLER_DIR,
+                        PREFIX + "ApiRouter.cpp"));
 
-
-        supportingFiles.add(new SupportingFile("main.cpp.mustache", sourceFolder + SRC_DIR, "main.cpp"));
-        supportingFiles.add(new SupportingFile("src-CMakeLists.txt.mustache", sourceFolder + SRC_DIR, "CMakeLists.txt"));
+        supportingFiles.add(
+                new SupportingFile("main.cpp.mustache", sourceFolder + SRC_DIR, "main.cpp"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "src-CMakeLists.txt.mustache", sourceFolder + SRC_DIR, "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("README.md.mustache", sourceFolder, "README.MD"));
         supportingFiles.add(new SupportingFile("Makefile.mustache", sourceFolder, "Makefile"));
-        supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
+        supportingFiles.add(
+                new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", sourceFolder, "Dockerfile"));
-        supportingFiles.add(new SupportingFile("LICENSE.txt.mustache", sourceFolder, "LICENSE.txt"));
+        supportingFiles.add(
+                new SupportingFile("LICENSE.txt.mustache", sourceFolder, "LICENSE.txt"));
         typeMapping.put("file", PREFIX + "HttpFileElement");
-        importMapping.put(PREFIX + "HttpFileElement", "#include \"" + PREFIX + "HttpFileElement.h\"");
-
+        importMapping.put(
+                PREFIX + "HttpFileElement", "#include \"" + PREFIX + "HttpFileElement.h\"");
     }
 
     @Override
@@ -113,25 +136,65 @@ public class CppQtQHttpEngineServerCodegen extends CppQtAbstractCodegen implemen
 
         if (additionalProperties.containsKey("modelNamePrefix")) {
             supportingFiles.clear();
-            supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Helpers.h"));
-            supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Helpers.cpp"));
-            supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Object.h"));
-            supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Enum.h"));
-            supportingFiles.add(new SupportingFile("HttpFileElement.h.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "HttpFileElement.h"));
-            supportingFiles.add(new SupportingFile("HttpFileElement.cpp.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "HttpFileElement.cpp"));
-            supportingFiles.add(new SupportingFile("apirouter.h.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "ApiRouter.h"));
-            supportingFiles.add(new SupportingFile("apirouter.cpp.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "ApiRouter.cpp"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "helpers-header.mustache",
+                            sourceFolder + MODEL_DIR,
+                            modelNamePrefix + "Helpers.h"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "helpers-body.mustache",
+                            sourceFolder + MODEL_DIR,
+                            modelNamePrefix + "Helpers.cpp"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "object.mustache",
+                            sourceFolder + MODEL_DIR,
+                            modelNamePrefix + "Object.h"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "enum.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Enum.h"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "HttpFileElement.h.mustache",
+                            sourceFolder + MODEL_DIR,
+                            modelNamePrefix + "HttpFileElement.h"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "HttpFileElement.cpp.mustache",
+                            sourceFolder + MODEL_DIR,
+                            modelNamePrefix + "HttpFileElement.cpp"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "apirouter.h.mustache",
+                            sourceFolder + APIHANDLER_DIR,
+                            modelNamePrefix + "ApiRouter.h"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "apirouter.cpp.mustache",
+                            sourceFolder + APIHANDLER_DIR,
+                            modelNamePrefix + "ApiRouter.cpp"));
 
-
-            supportingFiles.add(new SupportingFile("main.cpp.mustache", sourceFolder + SRC_DIR, "main.cpp"));
-            supportingFiles.add(new SupportingFile("src-CMakeLists.txt.mustache", sourceFolder + SRC_DIR, "CMakeLists.txt"));
-            supportingFiles.add(new SupportingFile("README.md.mustache", sourceFolder, "README.MD"));
+            supportingFiles.add(
+                    new SupportingFile("main.cpp.mustache", sourceFolder + SRC_DIR, "main.cpp"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "src-CMakeLists.txt.mustache",
+                            sourceFolder + SRC_DIR,
+                            "CMakeLists.txt"));
+            supportingFiles.add(
+                    new SupportingFile("README.md.mustache", sourceFolder, "README.MD"));
             supportingFiles.add(new SupportingFile("Makefile.mustache", sourceFolder, "Makefile"));
-            supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
-            supportingFiles.add(new SupportingFile("Dockerfile.mustache", sourceFolder, "Dockerfile"));
-            supportingFiles.add(new SupportingFile("LICENSE.txt.mustache", sourceFolder, "LICENSE.txt"));
+            supportingFiles.add(
+                    new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
+            supportingFiles.add(
+                    new SupportingFile("Dockerfile.mustache", sourceFolder, "Dockerfile"));
+            supportingFiles.add(
+                    new SupportingFile("LICENSE.txt.mustache", sourceFolder, "LICENSE.txt"));
             typeMapping.put("file", modelNamePrefix + "HttpFileElement");
-            importMapping.put(modelNamePrefix + "HttpFileElement", "#include \"" + modelNamePrefix + "HttpFileElement.h\"");
+            importMapping.put(
+                    modelNamePrefix + "HttpFileElement",
+                    "#include \"" + modelNamePrefix + "HttpFileElement.h\"");
         }
     }
 
@@ -147,8 +210,8 @@ public class CppQtQHttpEngineServerCodegen extends CppQtAbstractCodegen implemen
     }
 
     /**
-     * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -g flag.
+     * Configures a friendly name for the generator. This will be used by the generator to select
+     * the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -158,8 +221,8 @@ public class CppQtQHttpEngineServerCodegen extends CppQtAbstractCodegen implemen
     }
 
     /**
-     * Returns human-friendly help for the generator. Provide the consumer with help
-     * tips, parameters here
+     * Returns human-friendly help for the generator. Provide the consumer with help tips,
+     * parameters here
      *
      * @return A string value for the help message
      */
@@ -169,25 +232,40 @@ public class CppQtQHttpEngineServerCodegen extends CppQtAbstractCodegen implemen
     }
 
     /**
-     * Location to write model files.  You can use the modelPackage() as defined when the class is
+     * Location to write model files. You can use the modelPackage() as defined when the class is
      * instantiated
      */
     @Override
     public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder + MODEL_DIR + "/" + modelPackage().replace("::", File.separator);
+        return outputFolder
+                + "/"
+                + sourceFolder
+                + MODEL_DIR
+                + "/"
+                + modelPackage().replace("::", File.separator);
     }
 
     /**
-     * Location to write api files.  You can use the apiPackage() as defined when the class is
+     * Location to write api files. You can use the apiPackage() as defined when the class is
      * instantiated
      */
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/" + sourceFolder + APIHANDLER_DIR + "/" + apiPackage().replace("::", File.separator);
+        return outputFolder
+                + "/"
+                + sourceFolder
+                + APIHANDLER_DIR
+                + "/"
+                + apiPackage().replace("::", File.separator);
     }
 
     private String requestFileFolder() {
-        return outputFolder + "/" + sourceFolder + APIREQUEST_DIR + "/" + apiPackage().replace("::", File.separator);
+        return outputFolder
+                + "/"
+                + sourceFolder
+                + APIREQUEST_DIR
+                + "/"
+                + apiPackage().replace("::", File.separator);
     }
 
     @Override
@@ -205,5 +283,4 @@ public class CppQtQHttpEngineServerCodegen extends CppQtAbstractCodegen implemen
     public String toApiFilename(String name) {
         return modelNamePrefix + sanitizeName(camelize(name)) + "ApiHandler";
     }
-
 }

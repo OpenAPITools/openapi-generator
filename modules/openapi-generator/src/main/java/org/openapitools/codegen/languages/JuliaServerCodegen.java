@@ -16,11 +16,10 @@
 
 package org.openapitools.codegen.languages;
 
+import java.io.File;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-
-import java.io.File;
 
 public class JuliaServerCodegen extends AbstractJuliaCodegen {
     /**
@@ -34,8 +33,8 @@ public class JuliaServerCodegen extends AbstractJuliaCodegen {
     }
 
     /**
-     * Configures the name of the generator.
-     * This will be used to refer to the generator when configuration is read from config files.
+     * Configures the name of the generator. This will be used to refer to the generator when
+     * configuration is read from config files.
      *
      * @return the name of the generator
      */
@@ -44,8 +43,7 @@ public class JuliaServerCodegen extends AbstractJuliaCodegen {
     }
 
     /**
-     * Configures a help message for the generator.
-     * TODO: add parameters, tips here
+     * Configures a help message for the generator. TODO: add parameters, tips here
      *
      * @return the help message for the generator
      */
@@ -56,9 +54,8 @@ public class JuliaServerCodegen extends AbstractJuliaCodegen {
     public JuliaServerCodegen() {
         super();
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         outputFolder = "generated-code" + File.separator + "julia-server";
         modelTemplateFiles.put("model.mustache", ".jl");
@@ -71,8 +68,12 @@ public class JuliaServerCodegen extends AbstractJuliaCodegen {
         supportingFiles.add(new SupportingFile("README.mustache", "README.md"));
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Julia server package name.").defaultValue("APIServer"));
-        cliOptions.add(new CliOption("exportModels", "Whether to generate code to export model names.").defaultValue("false"));
+        cliOptions.add(
+                new CliOption(CodegenConstants.PACKAGE_NAME, "Julia server package name.")
+                        .defaultValue("APIServer"));
+        cliOptions.add(
+                new CliOption("exportModels", "Whether to generate code to export model names.")
+                        .defaultValue("false"));
     }
 
     @Override
@@ -86,13 +87,15 @@ public class JuliaServerCodegen extends AbstractJuliaCodegen {
         }
 
         if (additionalProperties.containsKey("exportModels")) {
-            setExportModels(Boolean.parseBoolean((String) additionalProperties.get("exportModels")));
+            setExportModels(
+                    Boolean.parseBoolean((String) additionalProperties.get("exportModels")));
         }
         additionalProperties.put("exportModels", exportModels);
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
         supportingFiles.add(new SupportingFile("server.mustache", srcPath, packageName + ".jl"));
-        supportingFiles.add(new SupportingFile("modelincludes.mustache", srcPath, "modelincludes.jl"));
+        supportingFiles.add(
+                new SupportingFile("modelincludes.mustache", srcPath, "modelincludes.jl"));
     }
 }

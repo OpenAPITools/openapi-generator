@@ -16,14 +16,13 @@
 
 package org.openapitools.codegen.mysql;
 
-import org.openapitools.codegen.languages.MysqlSchemaCodegen;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
+import org.openapitools.codegen.languages.MysqlSchemaCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class MysqlSchemaCodegenTest {
 
@@ -38,17 +37,26 @@ public class MysqlSchemaCodegenTest {
         Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(500L, 100L, null), "SMALLINT");
         Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(500L, 100L, true), "SMALLINT");
         Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(500L, 100L, false), "SMALLINT");
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(-32768L, 32767L, false), "SMALLINT");
+        Assert.assertSame(
+                codegen.getMysqlMatchedIntegerDataType(-32768L, 32767L, false), "SMALLINT");
         Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(0L, 65535L, true), "SMALLINT");
 
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(-8388608L, 8388607L, false), "MEDIUMINT");
+        Assert.assertSame(
+                codegen.getMysqlMatchedIntegerDataType(-8388608L, 8388607L, false), "MEDIUMINT");
         Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(0L, 16777215L, true), "MEDIUMINT");
 
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(-2147483648L, 2147483647L, false), "INT");
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(Long.parseLong(String.valueOf(Integer.MIN_VALUE)), Long.parseLong(String.valueOf(Integer.MAX_VALUE)), false), "INT");
+        Assert.assertSame(
+                codegen.getMysqlMatchedIntegerDataType(-2147483648L, 2147483647L, false), "INT");
+        Assert.assertSame(
+                codegen.getMysqlMatchedIntegerDataType(
+                        Long.parseLong(String.valueOf(Integer.MIN_VALUE)),
+                        Long.parseLong(String.valueOf(Integer.MAX_VALUE)),
+                        false),
+                "INT");
         Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(0L, 4294967295L, true), "INT");
 
-        Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(-2147483649L, 2147483648L, false), "BIGINT");
+        Assert.assertSame(
+                codegen.getMysqlMatchedIntegerDataType(-2147483649L, 2147483648L, false), "BIGINT");
         Assert.assertSame(codegen.getMysqlMatchedIntegerDataType(0L, 4294967296L, true), "BIGINT");
     }
 
@@ -78,7 +86,8 @@ public class MysqlSchemaCodegenTest {
         Assert.assertSame(codegen.getMysqlMatchedStringDataType(null, 16777216), "LONGTEXT");
         Assert.assertSame(codegen.getMysqlMatchedStringDataType(16777216, 16777216), "LONGTEXT");
         Assert.assertSame(codegen.getMysqlMatchedStringDataType(100, 16777216), "LONGTEXT");
-        Assert.assertSame(codegen.getMysqlMatchedStringDataType(100, Integer.MAX_VALUE), "LONGTEXT");
+        Assert.assertSame(
+                codegen.getMysqlMatchedStringDataType(100, Integer.MAX_VALUE), "LONGTEXT");
     }
 
     @Test
@@ -113,10 +122,10 @@ public class MysqlSchemaCodegenTest {
     public void testToCodegenMysqlDataTypeDefault() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         HashMap<String, Object> defaultMap = null;
-        ArrayList<String> intFixture = new ArrayList<String>(Arrays.asList(
-            "TINYINT", "SmallInt", "Mediumint", "INT", "bigint"
-        ));
-        for(String intType : intFixture) {
+        ArrayList<String> intFixture =
+                new ArrayList<String>(
+                        Arrays.asList("TINYINT", "SmallInt", "Mediumint", "INT", "bigint"));
+        for (String intType : intFixture) {
             defaultMap = codegen.toCodegenMysqlDataTypeDefault("150", intType);
             Assert.assertTrue((Boolean) defaultMap.get("isNumeric"));
             Assert.assertFalse((Boolean) defaultMap.get("isString"));
@@ -129,10 +138,9 @@ public class MysqlSchemaCodegenTest {
         Assert.assertTrue((Boolean) defaultMap.get("isKeyword"));
         Assert.assertSame(defaultMap.get("defaultValue"), "SERIAL DEFAULT VALUE");
 
-        ArrayList<String> dateFixture = new ArrayList<String>(Arrays.asList(
-            "Timestamp", "DateTime"
-        ));
-        for(String dateType : dateFixture) {
+        ArrayList<String> dateFixture =
+                new ArrayList<String>(Arrays.asList("Timestamp", "DateTime"));
+        for (String dateType : dateFixture) {
             defaultMap = codegen.toCodegenMysqlDataTypeDefault("2018-08-12", dateType);
             Assert.assertFalse((Boolean) defaultMap.get("isNumeric"));
             Assert.assertTrue((Boolean) defaultMap.get("isString"));
@@ -145,10 +153,9 @@ public class MysqlSchemaCodegenTest {
         Assert.assertTrue((Boolean) defaultMap.get("isKeyword"));
         Assert.assertSame(defaultMap.get("defaultValue"), "CURRENT_TIMESTAMP");
 
-        ArrayList<String> restFixture = new ArrayList<String>(Arrays.asList(
-            "VARCHAR", "CHAR", "ENUM", "UNKNOWN"
-        ));
-        for(String restType : restFixture) {
+        ArrayList<String> restFixture =
+                new ArrayList<String>(Arrays.asList("VARCHAR", "CHAR", "ENUM", "UNKNOWN"));
+        for (String restType : restFixture) {
             defaultMap = codegen.toCodegenMysqlDataTypeDefault("sometext", restType);
             Assert.assertFalse((Boolean) defaultMap.get("isNumeric"));
             Assert.assertTrue((Boolean) defaultMap.get("isString"));
@@ -161,10 +168,20 @@ public class MysqlSchemaCodegenTest {
     public void testToCodegenMysqlDataTypeDefaultWithExceptionalColumnType() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         HashMap<String, Object> defaultMap = null;
-        ArrayList<String> specialFixture = new ArrayList<String>(Arrays.asList(
-            "TINYBLOB", "Blob", "MEDIUMBLOB", "LONGBLOB", "TINYTEXT", "TEXT", "MEDIUMTEXT", "LONGTEXT", "GEOMETRY", "JSON"
-        ));
-        for(String specialType : specialFixture) {
+        ArrayList<String> specialFixture =
+                new ArrayList<String>(
+                        Arrays.asList(
+                                "TINYBLOB",
+                                "Blob",
+                                "MEDIUMBLOB",
+                                "LONGBLOB",
+                                "TINYTEXT",
+                                "TEXT",
+                                "MEDIUMTEXT",
+                                "LONGTEXT",
+                                "GEOMETRY",
+                                "JSON"));
+        for (String specialType : specialFixture) {
             defaultMap = codegen.toCodegenMysqlDataTypeDefault("2018-08-12", specialType);
             Assert.assertNull(defaultMap);
         }
@@ -173,17 +190,34 @@ public class MysqlSchemaCodegenTest {
     @Test
     public void testIsMysqlDataType() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
-        ArrayList<String> trueFixture = new ArrayList<String>(Arrays.asList(
-            "INTEGER", "integer", "Integer", "DATETIME", "datetime", "DateTime", "VARCHAR", "varchar", "VarChar", "POINT", "Point", "point", "JSON", "json", "Json"
-        ));
-        ArrayList<String> falseFixture = new ArrayList<String>(Arrays.asList(
-            "unknown", "HashMap", "HASHMAP", "hashmap"
-        ));
-        for(String trueValue : trueFixture) {
-            Assert.assertTrue(codegen.isMysqlDataType(trueValue), "'" + trueValue + "' isn't MySQL data type");
+        ArrayList<String> trueFixture =
+                new ArrayList<String>(
+                        Arrays.asList(
+                                "INTEGER",
+                                "integer",
+                                "Integer",
+                                "DATETIME",
+                                "datetime",
+                                "DateTime",
+                                "VARCHAR",
+                                "varchar",
+                                "VarChar",
+                                "POINT",
+                                "Point",
+                                "point",
+                                "JSON",
+                                "json",
+                                "Json"));
+        ArrayList<String> falseFixture =
+                new ArrayList<String>(Arrays.asList("unknown", "HashMap", "HASHMAP", "hashmap"));
+        for (String trueValue : trueFixture) {
+            Assert.assertTrue(
+                    codegen.isMysqlDataType(trueValue),
+                    "'" + trueValue + "' isn't MySQL data type");
         }
-        for(String falseValue : falseFixture) {
-            Assert.assertFalse(codegen.isMysqlDataType(falseValue), "'" + falseValue + "' is MySQL data type");
+        for (String falseValue : falseFixture) {
+            Assert.assertFalse(
+                    codegen.isMysqlDataType(falseValue), "'" + falseValue + "' is MySQL data type");
         }
     }
 
@@ -205,10 +239,14 @@ public class MysqlSchemaCodegenTest {
     public void testEscapeMysqlUnquotedIdentifier() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         Assert.assertEquals(codegen.escapeMysqlUnquotedIdentifier("table1Z$_"), "table1Z$_");
-        Assert.assertEquals(codegen.escapeMysqlUnquotedIdentifier("table1Z$_!#%~&?()*+-./"), "table1Z$_");
-        Assert.assertEquals(codegen.escapeMysqlUnquotedIdentifier("table1Z$_русскийтекст"), "table1Z$_русскийтекст");
+        Assert.assertEquals(
+                codegen.escapeMysqlUnquotedIdentifier("table1Z$_!#%~&?()*+-./"), "table1Z$_");
+        Assert.assertEquals(
+                codegen.escapeMysqlUnquotedIdentifier("table1Z$_русскийтекст"),
+                "table1Z$_русскийтекст");
         Assert.assertEquals(codegen.escapeMysqlQuotedIdentifier("table𐀀"), "table");
-        Assert.assertEquals(codegen.escapeMysqlQuotedIdentifier("table_name!'()�"), "table_name!'()�");
+        Assert.assertEquals(
+                codegen.escapeMysqlQuotedIdentifier("table_name!'()�"), "table_name!'()�");
         Assert.assertEquals(codegen.escapeMysqlQuotedIdentifier("table_name𐌅𐌌 "), "table_name");
     }
 
@@ -217,7 +255,8 @@ public class MysqlSchemaCodegenTest {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         Assert.assertEquals(codegen.escapeMysqlQuotedIdentifier("table"), "table");
         Assert.assertEquals(codegen.escapeMysqlQuotedIdentifier("table𐀀"), "table");
-        Assert.assertEquals(codegen.escapeMysqlQuotedIdentifier("table_name!'()�"), "table_name!'()�");
+        Assert.assertEquals(
+                codegen.escapeMysqlQuotedIdentifier("table_name!'()�"), "table_name!'()�");
         Assert.assertEquals(codegen.escapeMysqlQuotedIdentifier("table_name𐌅𐌌 "), "table_name");
     }
 
@@ -225,17 +264,99 @@ public class MysqlSchemaCodegenTest {
     public void testIsReservedWord() {
         final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         Set<String> reservedWords = codegen.reservedWords();
-        ArrayList<String> trueFixture = new ArrayList<String>(Arrays.asList(
-            "accessible", "asc", "between", "blob", "change", "column", "day_hour", "distinct", "enclosed", "except", "explain", "float", "for", "function", "grant", "grouping", "high_priority", "groups", "hour_minute", "insensitive", "interval", "json_table", "keys", "kill", "leave", "left", "mediumblob", "modifies", "not", "null", "numeric", "optimize", "outer", "precision", "primary", "references", "replace", "select", "sql", "then", "tinytext", "unique", "unlock", "varchar", "virtual", "when", "where", "xor", "year_month", "zerofill"
-        ));
-        ArrayList<String> falseFixture = new ArrayList<String>(Arrays.asList(
-            "after", "boolean", "charset", "cpu", "current", "delay_key_write", "end", "format", "global", "host", "install", "json", "key_block_size", "local", "max_size", "none", "offset", "partial", "quarter", "relay", "second", "status", "timestamp", "until", "variables", "without", "xml", "year"
-        ));
-        for(String trueValue : trueFixture) {
-            Assert.assertTrue(reservedWords.contains(trueValue), "'" + trueValue + "' isn't MySQL reserved word");
+        ArrayList<String> trueFixture =
+                new ArrayList<String>(
+                        Arrays.asList(
+                                "accessible",
+                                "asc",
+                                "between",
+                                "blob",
+                                "change",
+                                "column",
+                                "day_hour",
+                                "distinct",
+                                "enclosed",
+                                "except",
+                                "explain",
+                                "float",
+                                "for",
+                                "function",
+                                "grant",
+                                "grouping",
+                                "high_priority",
+                                "groups",
+                                "hour_minute",
+                                "insensitive",
+                                "interval",
+                                "json_table",
+                                "keys",
+                                "kill",
+                                "leave",
+                                "left",
+                                "mediumblob",
+                                "modifies",
+                                "not",
+                                "null",
+                                "numeric",
+                                "optimize",
+                                "outer",
+                                "precision",
+                                "primary",
+                                "references",
+                                "replace",
+                                "select",
+                                "sql",
+                                "then",
+                                "tinytext",
+                                "unique",
+                                "unlock",
+                                "varchar",
+                                "virtual",
+                                "when",
+                                "where",
+                                "xor",
+                                "year_month",
+                                "zerofill"));
+        ArrayList<String> falseFixture =
+                new ArrayList<String>(
+                        Arrays.asList(
+                                "after",
+                                "boolean",
+                                "charset",
+                                "cpu",
+                                "current",
+                                "delay_key_write",
+                                "end",
+                                "format",
+                                "global",
+                                "host",
+                                "install",
+                                "json",
+                                "key_block_size",
+                                "local",
+                                "max_size",
+                                "none",
+                                "offset",
+                                "partial",
+                                "quarter",
+                                "relay",
+                                "second",
+                                "status",
+                                "timestamp",
+                                "until",
+                                "variables",
+                                "without",
+                                "xml",
+                                "year"));
+        for (String trueValue : trueFixture) {
+            Assert.assertTrue(
+                    reservedWords.contains(trueValue),
+                    "'" + trueValue + "' isn't MySQL reserved word");
         }
-        for(String falseValue : falseFixture) {
-            Assert.assertFalse(reservedWords.contains(falseValue), "'" + falseValue + "' is MySQL reserved word");
+        for (String falseValue : falseFixture) {
+            Assert.assertFalse(
+                    reservedWords.contains(falseValue),
+                    "'" + falseValue + "' is MySQL reserved word");
         }
     }
 
@@ -307,5 +428,4 @@ public class MysqlSchemaCodegenTest {
         codegen.setIdentifierNamingConvention("snake_case");
         Assert.assertSame("snake_case", codegen.getIdentifierNamingConvention());
     }
-
 }

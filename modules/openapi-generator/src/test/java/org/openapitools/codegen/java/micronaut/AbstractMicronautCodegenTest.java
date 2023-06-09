@@ -1,39 +1,35 @@
 package org.openapitools.codegen.java.micronaut;
 
+import static org.testng.Assert.*;
+
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.languages.JavaMicronautAbstractCodegen;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.regex.Pattern;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.languages.JavaMicronautAbstractCodegen;
 
-import static org.testng.Assert.*;
-
-
-/**
- * An abstract class with methods useful for testing
- */
+/** An abstract class with methods useful for testing */
 public abstract class AbstractMicronautCodegenTest {
-    /**
-     * Path to a common test configuration file
-     */
+    /** Path to a common test configuration file */
     protected final String PETSTORE_PATH = "src/test/resources/petstore.json";
 
     /**
-     *
      * @param codegen - the code generator
      * @param configPath - the path to the config starting from src/test/resources
-     * @param filesToGenerate - which files to generate - can be CodegenConstants.MODELS, APIS, SUPPORTING_FILES, ...
+     * @param filesToGenerate - which files to generate - can be CodegenConstants.MODELS, APIS,
+     *     SUPPORTING_FILES, ...
      * @return - the path to the generated folder
      */
-    protected String generateFiles(JavaMicronautAbstractCodegen codegen, String configPath, String... filesToGenerate) {
+    protected String generateFiles(
+            JavaMicronautAbstractCodegen codegen, String configPath, String... filesToGenerate) {
         File output = null;
         try {
             output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -44,8 +40,8 @@ public abstract class AbstractMicronautCodegenTest {
 
         // Create parser
         String outputPath = output.getAbsolutePath().replace('\\', '/');
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation(configPath, null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI =
+                new OpenAPIParser().readLocation(configPath, null, new ParseOptions()).getOpenAPI();
 
         // Configure codegen
         codegen.setOutputDir(outputPath);
@@ -66,7 +62,7 @@ public abstract class AbstractMicronautCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         // set all the files user wants to generate
-        for (String files: filesToGenerate) {
+        for (String files : filesToGenerate) {
             generator.setGeneratorPropertyDefault(files, "true");
         }
 
@@ -77,13 +73,13 @@ public abstract class AbstractMicronautCodegenTest {
 
     public static void assertFileContainsRegex(String path, String... regex) {
         String file = readFile(path);
-        for (String line: regex)
+        for (String line : regex)
             assertTrue(Pattern.compile(line.replace(" ", "\\s+")).matcher(file).find());
     }
 
     public static void assertFileNotContainsRegex(String path, String... regex) {
         String file = readFile(path);
-        for (String line: regex)
+        for (String line : regex)
             assertFalse(Pattern.compile(line.replace(" ", "\\s+")).matcher(file).find());
     }
 

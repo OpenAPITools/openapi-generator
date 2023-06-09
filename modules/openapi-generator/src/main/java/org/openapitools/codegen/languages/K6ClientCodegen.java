@@ -21,6 +21,23 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.dashize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
+import com.samskivert.mustache.Template;
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.examples.Example;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.servers.Server;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
@@ -33,44 +50,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
-
 import javax.annotation.Nullable;
-
-import com.google.common.collect.ImmutableMap;
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Mustache.Lambda;
-import com.samskivert.mustache.Template;
-
-import io.swagger.v3.core.util.Json;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.RequestBody;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.servers.Server;
 
 public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -88,17 +84,21 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     // value in body of response which should be extracted and assigned to variable
     // for later use by other operations
     private static final String X_OPERATION_DATAEXTRACT = "x-k6-openapi-operation-dataextract";
-    private static final String X_OPERATION_DATAEXTRACT_OPERATION_ID = "operationId"; // denotes ID of operation whose response body contains value to be extracted
-    private static final String X_OPERATION_DATAEXTRACT_VALUE_PATH = "valuePath"; // denotes path to value in body of response which should be extracted
-    private static final String X_OPERATION_DATAEXTRACT_PARAMETER_NAME = "parameterName"; // denotes name of parameter to which extracted value should be assigned
+    private static final String X_OPERATION_DATAEXTRACT_OPERATION_ID =
+            "operationId"; // denotes ID of operation whose response body contains value to be
+    // extracted
+    private static final String X_OPERATION_DATAEXTRACT_VALUE_PATH =
+            "valuePath"; // denotes path to value in body of response which should be extracted
+    private static final String X_OPERATION_DATAEXTRACT_PARAMETER_NAME =
+            "parameterName"; // denotes name of parameter to which extracted value should be
+
+    // assigned
 
     public K6ClientCodegen() {
         super();
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
-
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
     }
 
     static class Parameter {
@@ -130,12 +130,12 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj)
-                return true;
-            if (obj == null || getClass() != obj.getClass())
-                return false;
+            if (this == obj) return true;
+            if (obj == null || getClass() != obj.getClass()) return false;
             Parameter p = (Parameter) obj;
-            return key.equals(p.key) && value.equals(p.value) && hasExample == p.hasExample
+            return key.equals(p.key)
+                    && value.equals(p.value)
+                    && hasExample == p.hasExample
                     && initialize == p.initialize;
         }
     }
@@ -157,7 +157,8 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         String valuePath;
         String paramName;
 
-        public DataExtractSubstituteParameter(String operationId, String valuePath, String paramName) {
+        public DataExtractSubstituteParameter(
+                String operationId, String valuePath, String paramName) {
             this.operationId = operationId;
             this.valuePath = valuePath;
             this.paramName = paramName;
@@ -171,11 +172,14 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         public void execute(Template.Fragment fragment, Writer writer) throws IOException {
 
             // default used if no example is provided
-            String noExampleParamValue = String.join("",
-                    quoteExample(
-                            String.join("", NO_EXAMPLE_PARAM_VALUE_PREFIX, fragment.execute())),
-                    ";",
-                    " // specify value as there is no example value for this parameter in OpenAPI spec");
+            String noExampleParamValue =
+                    String.join(
+                            "",
+                            quoteExample(
+                                    String.join(
+                                            "", NO_EXAMPLE_PARAM_VALUE_PREFIX, fragment.execute())),
+                            ";",
+                            " // specify value as there is no example value for this parameter in OpenAPI spec");
 
             // param has example(s)
             if (fragment.context() instanceof K6ClientCodegen.Parameter
@@ -187,18 +191,27 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                 if (rawValue instanceof Map) {
 
                     @SuppressWarnings("unchecked")
-                    Set<String> exampleValues = ((Map<String, Example>) rawValue).values().stream()
-                            .map(x -> quoteExample(
-                                    StringEscapeUtils.escapeEcmaScript(
-                                            String.valueOf(x.getValue()))))
-                            .collect(Collectors.toCollection(TreeSet::new));
+                    Set<String> exampleValues =
+                            ((Map<String, Example>) rawValue)
+                                    .values().stream()
+                                            .map(
+                                                    x ->
+                                                            quoteExample(
+                                                                    StringEscapeUtils
+                                                                            .escapeEcmaScript(
+                                                                                    String.valueOf(
+                                                                                            x
+                                                                                                    .getValue()))))
+                                            .collect(Collectors.toCollection(TreeSet::new));
 
                     if (!exampleValues.isEmpty()) {
 
-                        writer.write(String.join("",
-                                Arrays.toString(exampleValues.toArray()),
-                                ".shift();",
-                                " // first element from list extracted from 'examples' field defined at the parameter level of OpenAPI spec"));
+                        writer.write(
+                                String.join(
+                                        "",
+                                        Arrays.toString(exampleValues.toArray()),
+                                        ".shift();",
+                                        " // first element from list extracted from 'examples' field defined at the parameter level of OpenAPI spec"));
 
                     } else {
                         writer.write(noExampleParamValue);
@@ -206,23 +219,30 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                     // handle as (single) 'example'
                 } else {
-                    writer.write(String.join("",
-                            quoteExample(
-                                    StringEscapeUtils.escapeEcmaScript(
-                                            String.valueOf(
-                                                    ((K6ClientCodegen.Parameter) fragment.context()).value))),
-                            ";",
-                            " // extracted from 'example' field defined at the parameter level of OpenAPI spec"));
+                    writer.write(
+                            String.join(
+                                    "",
+                                    quoteExample(
+                                            StringEscapeUtils.escapeEcmaScript(
+                                                    String.valueOf(
+                                                            ((K6ClientCodegen.Parameter)
+                                                                            fragment.context())
+                                                                    .value))),
+                                    ";",
+                                    " // extracted from 'example' field defined at the parameter level of OpenAPI spec"));
                 }
 
-                // param needs to be initialized for subsequent data extraction - see `X_OPERATION_DATAEXTRACT` K6 vendor extension
+                // param needs to be initialized for subsequent data extraction - see
+                // `X_OPERATION_DATAEXTRACT` K6 vendor extension
             } else if (fragment.context() instanceof K6ClientCodegen.Parameter
                     && ((K6ClientCodegen.Parameter) fragment.context()).initialize) {
 
-                writer.write(String.join("",
-                        "null",
-                        ";",
-                        " // parameter initialized for subsequent data extraction"));
+                writer.write(
+                        String.join(
+                                "",
+                                "null",
+                                ";",
+                                " // parameter initialized for subsequent data extraction"));
 
             } else {
                 writer.write(noExampleParamValue);
@@ -243,29 +263,26 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     static class HTTPParameters {
-        @Nullable
-        String auth;
-        @Nullable
-        List<Parameter> cookies;
-        @Nullable
-        List<Parameter> headers;
-        @Nullable
-        List<Parameter> jar;
-        @Nullable
-        Integer redirects;
-        @Nullable
-        List<Parameter> tags;
-        @Nullable
-        Integer timeout;
-        @Nullable
-        String compression;
-        @Nullable
-        String responseType;
+        @Nullable String auth;
+        @Nullable List<Parameter> cookies;
+        @Nullable List<Parameter> headers;
+        @Nullable List<Parameter> jar;
+        @Nullable Integer redirects;
+        @Nullable List<Parameter> tags;
+        @Nullable Integer timeout;
+        @Nullable String compression;
+        @Nullable String responseType;
 
-        public HTTPParameters(@Nullable String auth, @Nullable List<Parameter> cookies,
-                              @Nullable List<Parameter> headers, @Nullable List<Parameter> jar, @Nullable Integer redirects,
-                              @Nullable List<Parameter> tags, @Nullable Integer timeout, @Nullable String compression,
-                              @Nullable String responseType) {
+        public HTTPParameters(
+                @Nullable String auth,
+                @Nullable List<Parameter> cookies,
+                @Nullable List<Parameter> headers,
+                @Nullable List<Parameter> jar,
+                @Nullable Integer redirects,
+                @Nullable List<Parameter> tags,
+                @Nullable Integer timeout,
+                @Nullable String compression,
+                @Nullable String responseType) {
             this.auth = auth;
             this.cookies = cookies;
             this.headers = headers;
@@ -293,21 +310,23 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         String method;
         boolean isDelete;
         String path;
-        @Nullable
-        List<Parameter> query;
-        @Nullable
-        HTTPBody body;
+        @Nullable List<Parameter> query;
+        @Nullable HTTPBody body;
         boolean hasBodyExample;
-        @Nullable
-        HTTPParameters params;
-        @Nullable
-        List<k6Check> k6Checks;
-        @Nullable
-        DataExtractSubstituteParameter dataExtract;
+        @Nullable HTTPParameters params;
+        @Nullable List<k6Check> k6Checks;
+        @Nullable DataExtractSubstituteParameter dataExtract;
 
-        public HTTPRequest(String operationId, String method, String path, @Nullable List<Parameter> query, @Nullable HTTPBody body,
-                           boolean hasBodyExample, @Nullable HTTPParameters params, @Nullable List<k6Check> k6Checks,
-                           DataExtractSubstituteParameter dataExtract) {
+        public HTTPRequest(
+                String operationId,
+                String method,
+                String path,
+                @Nullable List<Parameter> query,
+                @Nullable HTTPBody body,
+                boolean hasBodyExample,
+                @Nullable HTTPParameters params,
+                @Nullable List<k6Check> k6Checks,
+                DataExtractSubstituteParameter dataExtract) {
             // NOTE: https://k6.io/docs/javascript-api/k6-http/del-url-body-params
             this.method = method.equals("delete") ? "del" : method;
             this.isDelete = method.equals("delete");
@@ -322,13 +341,14 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    static public class HTTPRequestGroup {
+    public static class HTTPRequestGroup {
         String groupName;
         Set<Parameter> variables; // query and path parameters
         List<HTTPRequest> requests;
         private final Map<Integer, HTTPRequest> requestsMap;
 
-        public HTTPRequestGroup(String groupName, Set<Parameter> variables, Map<Integer, HTTPRequest> requestsMap) {
+        public HTTPRequestGroup(
+                String groupName, Set<Parameter> variables, Map<Integer, HTTPRequest> requestsMap) {
             this.groupName = groupName;
             this.variables = variables;
             this.requestsMap = requestsMap;
@@ -357,9 +377,11 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_VERSION = "projectVersion";
     public static final String BASE_URL = "baseURL";
     public static final String PRESERVE_LEADING_PARAM_CHAR = "preserveLeadingParamChar";
-    static final Collection<String> INVOKER_PKG_SUPPORTING_FILES = Arrays.asList("script.mustache", "README.mustache");
+    static final Collection<String> INVOKER_PKG_SUPPORTING_FILES =
+            Arrays.asList("script.mustache", "README.mustache");
     static final String[][] JAVASCRIPT_SUPPORTING_FILES = {
-            new String[]{"script.mustache", "script.js"}, new String[]{"README.mustache", "README.md"}};
+        new String[] {"script.mustache", "script.js"}, new String[] {"README.mustache", "README.md"}
+    };
 
     protected String projectName;
     protected String moduleName;
@@ -415,9 +437,11 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
         }
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
-            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+            setModelPropertyNaming(
+                    (String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
-        boolean preserveLeadingParamChar = convertPropertyToBooleanAndWriteBack(PRESERVE_LEADING_PARAM_CHAR);
+        boolean preserveLeadingParamChar =
+                convertPropertyToBooleanAndWriteBack(PRESERVE_LEADING_PARAM_CHAR);
         this.setPreserveLeadingParamChar(preserveLeadingParamChar);
     }
 
@@ -441,7 +465,8 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
 
             // when licenceName is not specified, use info.license
-            if (additionalProperties.get(CodegenConstants.LICENSE_NAME) == null && info.getLicense() != null) {
+            if (additionalProperties.get(CodegenConstants.LICENSE_NAME) == null
+                    && info.getLicense() != null) {
                 License license = info.getLicense();
                 licenseName = license.getName();
             }
@@ -484,8 +509,8 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // if data is to be extracted from any of the operations' responses, this has to
         // be known prior to executing processing of OpenAPI spec further down
-        Map<String, DataExtractSubstituteParameter> dataExtractSubstituteParams = getDataExtractSubstituteParameters(
-                openAPI);
+        Map<String, DataExtractSubstituteParameter> dataExtractSubstituteParams =
+                getDataExtractSubstituteParameters(openAPI);
 
         Map<String, HTTPRequestGroup> requestGroups = new HashMap<>();
         Set<Parameter> extraParameters = new HashSet<>();
@@ -497,8 +522,8 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
             String groupName = path;
 
-            for (Map.Entry<PathItem.HttpMethod, Operation> methodOperation : openAPI.getPaths().get(path).
-                    readOperationsMap().entrySet()) {
+            for (Map.Entry<PathItem.HttpMethod, Operation> methodOperation :
+                    openAPI.getPaths().get(path).readOperationsMap().entrySet()) {
                 List<Parameter> httpParams = new ArrayList<>();
                 List<Parameter> queryParams = new ArrayList<>();
                 List<Parameter> bodyOrFormParams = new ArrayList<>();
@@ -515,8 +540,10 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                 // optionally group and order operations - see `X_OPERATION_GROUPING` K6 vendor
                 // extension
-                final CodegenOperation cgOperation = super.fromOperation(path, method.name(), operation, null);
-                Optional<OperationGrouping> operationGrouping = extractOperationGrouping(cgOperation);
+                final CodegenOperation cgOperation =
+                        super.fromOperation(path, method.name(), operation, null);
+                Optional<OperationGrouping> operationGrouping =
+                        extractOperationGrouping(cgOperation);
                 if (operationGrouping.isPresent()) {
                     groupName = operationGrouping.get().groupName;
                     operationGroupingOrder = OptionalInt.of(operationGrouping.get().order);
@@ -538,15 +565,21 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                 }
 
                 if (hasBodyParameter(openAPI, operation) || hasFormParameter(openAPI, operation)) {
-                    String defaultContentType = hasFormParameter(openAPI, operation) ? "application/x-www-form-urlencoded" : "application/json";
+                    String defaultContentType =
+                            hasFormParameter(openAPI, operation)
+                                    ? "application/x-www-form-urlencoded"
+                                    : "application/json";
                     List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
-                    String contentTypeValue = consumes.isEmpty() ? defaultContentType : consumes.get(0);
-                    if (contentTypeValue.equals("*/*"))
-                        contentTypeValue = "application/json";
-                    Parameter contentType = new Parameter("Content-Type", getDoubleQuotedString(contentTypeValue));
+                    String contentTypeValue =
+                            consumes.isEmpty() ? defaultContentType : consumes.get(0);
+                    if (contentTypeValue.equals("*/*")) contentTypeValue = "application/json";
+                    Parameter contentType =
+                            new Parameter("Content-Type", getDoubleQuotedString(contentTypeValue));
                     httpParams.add(contentType);
 
-                    RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
+                    RequestBody requestBody =
+                            ModelUtils.getReferencedRequestBody(
+                                    openAPI, operation.getRequestBody());
 
                     // extract request body example, if present
                     hasRequestBodyExample = hasRequestBodyExample(requestBody, contentTypeValue);
@@ -554,22 +587,27 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                         extractRequestBodyExample(requestBody, contentTypeValue, bodyOrFormParams);
                     }
 
-                    for (Map.Entry<String, ApiResponse> responseEntry : operation.getResponses().entrySet()) {
-                        CodegenResponse r = fromResponse(responseEntry.getKey(), responseEntry.getValue());
-                        if (r.baseType != null &&
-                                !defaultIncludes.contains(r.baseType) &&
-                                !languageSpecificPrimitives.contains(r.baseType)) {
+                    for (Map.Entry<String, ApiResponse> responseEntry :
+                            operation.getResponses().entrySet()) {
+                        CodegenResponse r =
+                                fromResponse(responseEntry.getKey(), responseEntry.getValue());
+                        if (r.baseType != null
+                                && !defaultIncludes.contains(r.baseType)
+                                && !languageSpecificPrimitives.contains(r.baseType)) {
                             imports.add(r.baseType);
                         }
                     }
 
-                    // if we have at least one request body example, we do not need to construct these dummies
+                    // if we have at least one request body example, we do not need to construct
+                    // these dummies
                     if (!hasRequestBodyExample) {
-                        List<CodegenParameter> formParameters = fromRequestBodyToFormParameters(requestBody, imports);
+                        List<CodegenParameter> formParameters =
+                                fromRequestBodyToFormParameters(requestBody, imports);
                         for (CodegenParameter parameter : formParameters) {
                             String reference = "";
                             if (parameter.isModel) {
-                                Schema nestedSchema = ModelUtils.getSchema(openAPI, parameter.baseType);
+                                Schema nestedSchema =
+                                        ModelUtils.getSchema(openAPI, parameter.baseType);
                                 CodegenModel model = fromModel(parameter.paramName, nestedSchema);
                                 reference = generateNestedModelTemplate(model);
                                 if (parameter.dataType.equals("List")) {
@@ -579,11 +617,19 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                             Parameter k6Parameter;
                             if (parameter.dataType.equals("File")) {
-                                k6Parameter = new Parameter(parameter.paramName,
-                                        "http.file(open(\"/path/to/file.bin\", \"b\"), \"test.bin\")");
+                                k6Parameter =
+                                        new Parameter(
+                                                parameter.paramName,
+                                                "http.file(open(\"/path/to/file.bin\", \"b\"), \"test.bin\")");
                             } else {
-                                k6Parameter = new Parameter(parameter.paramName, !reference.isEmpty() ? reference
-                                        : getDoubleQuotedString(parameter.dataType.toLowerCase(Locale.ROOT)));
+                                k6Parameter =
+                                        new Parameter(
+                                                parameter.paramName,
+                                                !reference.isEmpty()
+                                                        ? reference
+                                                        : getDoubleQuotedString(
+                                                                parameter.dataType.toLowerCase(
+                                                                        Locale.ROOT)));
                             }
 
                             bodyOrFormParams.add(k6Parameter);
@@ -596,31 +642,55 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                 try {
                     if (operation != null && operation.getParameters() != null) {
-                        for (io.swagger.v3.oas.models.parameters.Parameter parameter : operation.getParameters()) {
+                        for (io.swagger.v3.oas.models.parameters.Parameter parameter :
+                                operation.getParameters()) {
                             switch (parameter.getIn()) {
                                 case "header":
-                                    httpParams.add(new Parameter(parameter.getName(), getTemplateString(toVarName(parameter.getName()))));
-                                    extraParameters.add(new Parameter(toVarName(parameter.getName()), parameter.getName().toUpperCase(Locale.ROOT)));
+                                    httpParams.add(
+                                            new Parameter(
+                                                    parameter.getName(),
+                                                    getTemplateString(
+                                                            toVarName(parameter.getName()))));
+                                    extraParameters.add(
+                                            new Parameter(
+                                                    toVarName(parameter.getName()),
+                                                    parameter.getName().toUpperCase(Locale.ROOT)));
                                     break;
                                 case "path":
                                 case "query":
                                     if (parameter.getIn().equals("query"))
-                                        queryParams.add(new Parameter(parameter.getName(), getTemplateVariable(parameter.getName())));
+                                        queryParams.add(
+                                                new Parameter(
+                                                        parameter.getName(),
+                                                        getTemplateVariable(parameter.getName())));
                                     if (!pathVariables.containsKey(path)) {
-                                        // use 'example' field defined at the parameter level of OpenAPI spec
+                                        // use 'example' field defined at the parameter level of
+                                        // OpenAPI spec
                                         if (Objects.nonNull(parameter.getExample())) {
-                                            variables.add(new Parameter(toVarName(parameter.getName()),
-                                                    parameter.getExample(), true));
+                                            variables.add(
+                                                    new Parameter(
+                                                            toVarName(parameter.getName()),
+                                                            parameter.getExample(),
+                                                            true));
 
-                                            // use 'examples' field defined at the parameter level of OpenAPI spec
+                                            // use 'examples' field defined at the parameter level
+                                            // of OpenAPI spec
                                         } else if (Objects.nonNull(parameter.getExamples())) {
-                                            variables.add(new Parameter(toVarName(parameter.getName()),
-                                                    parameter.getExamples(), true));
+                                            variables.add(
+                                                    new Parameter(
+                                                            toVarName(parameter.getName()),
+                                                            parameter.getExamples(),
+                                                            true));
 
-                                            // no example provided, generated script will contain placeholder value
+                                            // no example provided, generated script will contain
+                                            // placeholder value
                                         } else {
-                                            variables.add(new Parameter(toVarName(parameter.getName()),
-                                                    parameter.getName().toUpperCase(Locale.ROOT)));
+                                            variables.add(
+                                                    new Parameter(
+                                                            toVarName(parameter.getName()),
+                                                            parameter
+                                                                    .getName()
+                                                                    .toUpperCase(Locale.ROOT)));
                                         }
                                     }
                                     break;
@@ -635,26 +705,44 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                 pathVariables.put(groupName, variables);
 
-                final HTTPParameters params = new HTTPParameters(null, null, httpParams, null, null, null, null, null,
-                        responseType.length() > 0 ? responseType : null);
+                final HTTPParameters params =
+                        new HTTPParameters(
+                                null,
+                                null,
+                                httpParams,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                responseType.length() > 0 ? responseType : null);
 
                 assert params.headers != null;
 
                 // check if data needs to be extracted from response of this operation
-                Optional<DataExtractSubstituteParameter> dataExtract = getDataExtractSubstituteParameter(
-                        dataExtractSubstituteParams, operationId);
+                Optional<DataExtractSubstituteParameter> dataExtract =
+                        getDataExtractSubstituteParameter(dataExtractSubstituteParams, operationId);
 
                 // calculate order for this current request
-                Integer requestOrder = calculateRequestOrder(operationGroupingOrder, requests.size());
+                Integer requestOrder =
+                        calculateRequestOrder(operationGroupingOrder, requests.size());
 
-                requests.put(requestOrder, new HTTPRequest(operationId, method.toString().toLowerCase(Locale.ROOT), path,
-                        queryParams.size() > 0 ? queryParams : null,
-                        bodyOrFormParams.size() > 0 ? new HTTPBody(bodyOrFormParams) : null, hasRequestBodyExample,
-                        params.headers.size() > 0 ? params : null, k6Checks.size() > 0 ? k6Checks : null,
-                        dataExtract.orElse(null)));
+                requests.put(
+                        requestOrder,
+                        new HTTPRequest(
+                                operationId,
+                                method.toString().toLowerCase(Locale.ROOT),
+                                path,
+                                queryParams.size() > 0 ? queryParams : null,
+                                bodyOrFormParams.size() > 0 ? new HTTPBody(bodyOrFormParams) : null,
+                                hasRequestBodyExample,
+                                params.headers.size() > 0 ? params : null,
+                                k6Checks.size() > 0 ? k6Checks : null,
+                                dataExtract.orElse(null)));
             }
 
-            addOrUpdateRequestGroup(requestGroups, groupName, pathVariables.get(groupName), requests);
+            addOrUpdateRequestGroup(
+                    requestGroups, groupName, pathVariables.get(groupName), requests);
         }
 
         for (HTTPRequestGroup requestGroup : requestGroups.values()) {
@@ -679,9 +767,9 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                 // #1150: script.js must be generated to invokerPackage, otherwise
                 // nothing works!
                 folder = createPath(sourceFolder, invokerPackage);
-            else
-                folder = "";
-            supportingFiles.add(new SupportingFile(templateFile, folder, supportingTemplateFile[1]));
+            else folder = "";
+            supportingFiles.add(
+                    new SupportingFile(templateFile, folder, supportingTemplateFile[1]));
         }
     }
 
@@ -689,9 +777,11 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         StringBuilder reference = new StringBuilder();
         int modelEntrySetSize = model.getAllVars().size();
         for (CodegenProperty property : model.getAllVars()) {
-            reference.append(getDoubleQuotedString(property.name)).append(": ").append(getDoubleQuotedString(property.dataType.toLowerCase(Locale.ROOT)));
-            if (modelEntrySetSize > 1)
-                reference.append(", ");
+            reference
+                    .append(getDoubleQuotedString(property.name))
+                    .append(": ")
+                    .append(getDoubleQuotedString(property.dataType.toLowerCase(Locale.ROOT)));
+            if (modelEntrySetSize > 1) reference.append(", ");
         }
         reference = new StringBuilder("{" + reference + "}");
         reference = new StringBuilder(reference.toString().replace(", }", "}"));
@@ -717,16 +807,20 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             case snake_case:
                 return underscore(name);
             default:
-                throw new IllegalArgumentException("Invalid model property naming '" +
-                        name + "'. Must be 'original', 'camelCase', " +
-                        "'PascalCase' or 'snake_case'");
+                throw new IllegalArgumentException(
+                        "Invalid model property naming '"
+                                + name
+                                + "'. Must be 'original', 'camelCase', "
+                                + "'PascalCase' or 'snake_case'");
         }
     }
 
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name);  // FIXME parameter should not be assigned. Also declare it as "final"
+        name =
+                sanitizeName(
+                        name); // FIXME parameter should not be assigned. Also declare it as "final"
 
         if ("_".equals(name)) {
             name = "_u";
@@ -768,19 +862,16 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     /**
      * Concatenates an array of path segments into a path string.
      *
-     * @param segments The path segments to concatenate. A segment may contain
-     *                 either of the file separator characters '\' or '/'. A segment
-     *                 is ignored if it is <code>null</code>, empty or
-     *                 &quot;.&quot;.
-     * @return A path string using the correct platform-specific file separator
-     * character.
+     * @param segments The path segments to concatenate. A segment may contain either of the file
+     *     separator characters '\' or '/'. A segment is ignored if it is <code>null</code>, empty
+     *     or &quot;.&quot;.
+     * @return A path string using the correct platform-specific file separator character.
      */
     private String createPath(String... segments) {
         StringBuilder buf = new StringBuilder();
         for (String segment : segments) {
             if (!StringUtils.isEmpty(segment) && !segment.equals(".")) {
-                if (buf.length() != 0)
-                    buf.append(File.separatorChar);
+                if (buf.length() != 0) buf.append(File.separatorChar);
                 buf.append(segment);
             }
         }
@@ -830,12 +921,17 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public void setModelPropertyNaming(String naming) {
-        if ("original".equals(naming) || "camelCase".equals(naming) || "PascalCase".equals(naming)
+        if ("original".equals(naming)
+                || "camelCase".equals(naming)
+                || "PascalCase".equals(naming)
                 || "snake_case".equals(naming)) {
             this.modelPropertyNaming = naming;
         } else {
-            throw new IllegalArgumentException("Invalid model property naming '" + naming
-                    + "'. Must be 'original', 'camelCase', " + "'PascalCase' or 'snake_case'");
+            throw new IllegalArgumentException(
+                    "Invalid model property naming '"
+                            + naming
+                            + "'. Must be 'original', 'camelCase', "
+                            + "'PascalCase' or 'snake_case'");
         }
     }
 
@@ -888,16 +984,19 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * We're iterating over paths but grouping requests across paths, therefore
-     * these need to be aggregated.
+     * We're iterating over paths but grouping requests across paths, therefore these need to be
+     * aggregated.
      *
      * @param requestGroups
      * @param groupName
      * @param variables
      * @param requests
      */
-    private void addOrUpdateRequestGroup(Map<String, HTTPRequestGroup> requestGroups, String groupName,
-                                         Set<Parameter> variables, Map<Integer, HTTPRequest> requests) {
+    private void addOrUpdateRequestGroup(
+            Map<String, HTTPRequestGroup> requestGroups,
+            String groupName,
+            Set<Parameter> variables,
+            Map<Integer, HTTPRequest> requests) {
         if (requestGroups.containsKey(groupName)) {
             HTTPRequestGroup existingHTTPRequestGroup = requestGroups.get(groupName);
             existingHTTPRequestGroup.addRequests(requests);
@@ -908,35 +1007,42 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * If `X_OPERATION_DATAEXTRACT` K6 vendor extension is present, extract info
-     * from it.
+     * If `X_OPERATION_DATAEXTRACT` K6 vendor extension is present, extract info from it.
      *
      * @param openAPI
      * @return
      */
-    private Map<String, DataExtractSubstituteParameter> getDataExtractSubstituteParameters(OpenAPI openAPI) {
+    private Map<String, DataExtractSubstituteParameter> getDataExtractSubstituteParameters(
+            OpenAPI openAPI) {
         Map<String, DataExtractSubstituteParameter> dataExtractSubstituteParams = new HashMap<>();
 
         for (String path : openAPI.getPaths().keySet()) {
-            for (Map.Entry<PathItem.HttpMethod, Operation> methodOperation : openAPI.getPaths().get(path)
-                    .readOperationsMap().entrySet()) {
+            for (Map.Entry<PathItem.HttpMethod, Operation> methodOperation :
+                    openAPI.getPaths().get(path).readOperationsMap().entrySet()) {
 
                 final PathItem.HttpMethod method = methodOperation.getKey();
                 final Operation operation = methodOperation.getValue();
-                final CodegenOperation cgOperation = super.fromOperation(path, method.name(), operation, null);
+                final CodegenOperation cgOperation =
+                        super.fromOperation(path, method.name(), operation, null);
 
                 if (cgOperation.getHasVendorExtensions()
                         && cgOperation.vendorExtensions.containsKey(X_OPERATION_DATAEXTRACT)
-                        && cgOperation.vendorExtensions.get(X_OPERATION_DATAEXTRACT) instanceof java.util.Map) {
+                        && cgOperation.vendorExtensions.get(X_OPERATION_DATAEXTRACT)
+                                instanceof java.util.Map) {
 
-                    Optional<DataExtractSubstituteParameter> dataExtractSubstituteParameter = getDataExtractSubstituteParameter(
-                            (Map<?, ?>) cgOperation.vendorExtensions.get(X_OPERATION_DATAEXTRACT));
+                    Optional<DataExtractSubstituteParameter> dataExtractSubstituteParameter =
+                            getDataExtractSubstituteParameter(
+                                    (Map<?, ?>)
+                                            cgOperation.vendorExtensions.get(
+                                                    X_OPERATION_DATAEXTRACT));
 
                     // TODO: add support for extracting data for multiple params
-                    dataExtractSubstituteParameter.ifPresent(extractSubstituteParameter -> dataExtractSubstituteParams.put(extractSubstituteParameter.operationId,
-                            extractSubstituteParameter));
+                    dataExtractSubstituteParameter.ifPresent(
+                            extractSubstituteParameter ->
+                                    dataExtractSubstituteParams.put(
+                                            extractSubstituteParameter.operationId,
+                                            extractSubstituteParameter));
                 }
-
             }
         }
 
@@ -944,8 +1050,8 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Optionally, retrieve information specified in the `X_OPERATION_DATAEXTRACT`
-     * K6 vendor extension
+     * Optionally, retrieve information specified in the `X_OPERATION_DATAEXTRACT` K6 vendor
+     * extension
      *
      * @param xOperationDataExtractProperties
      * @return optional as only returned if all required info is present
@@ -957,25 +1063,36 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         Optional<String> valuePath = Optional.empty();
         Optional<String> parameterName = Optional.empty();
 
-        for (Map.Entry<?, ?> xOperationDataExtractPropertiesEntry : xOperationDataExtractProperties.entrySet()) {
+        for (Map.Entry<?, ?> xOperationDataExtractPropertiesEntry :
+                xOperationDataExtractProperties.entrySet()) {
 
             switch (String.valueOf(xOperationDataExtractPropertiesEntry.getKey())) {
                 case X_OPERATION_DATAEXTRACT_OPERATION_ID:
-                    operationId = Optional.of(String.valueOf(xOperationDataExtractPropertiesEntry.getValue()));
+                    operationId =
+                            Optional.of(
+                                    String.valueOf(
+                                            xOperationDataExtractPropertiesEntry.getValue()));
                     continue;
 
                 case X_OPERATION_DATAEXTRACT_VALUE_PATH:
-                    valuePath = Optional.of(String.valueOf(xOperationDataExtractPropertiesEntry.getValue()));
+                    valuePath =
+                            Optional.of(
+                                    String.valueOf(
+                                            xOperationDataExtractPropertiesEntry.getValue()));
                     continue;
 
                 case X_OPERATION_DATAEXTRACT_PARAMETER_NAME:
-                    parameterName = Optional.of(String.valueOf(xOperationDataExtractPropertiesEntry.getValue()));
+                    parameterName =
+                            Optional.of(
+                                    String.valueOf(
+                                            xOperationDataExtractPropertiesEntry.getValue()));
             }
         }
 
         if (operationId.isPresent() && valuePath.isPresent() && parameterName.isPresent()) {
-            return Optional
-                    .of(new DataExtractSubstituteParameter(operationId.get(), valuePath.get(), parameterName.get()));
+            return Optional.of(
+                    new DataExtractSubstituteParameter(
+                            operationId.get(), valuePath.get(), parameterName.get()));
 
         } else {
             return Optional.empty();
@@ -990,16 +1107,17 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @return optional as only returned if present for given operation
      */
     private Optional<DataExtractSubstituteParameter> getDataExtractSubstituteParameter(
-            Map<String, DataExtractSubstituteParameter> dataExtractSubstituteParams, String operationId) {
+            Map<String, DataExtractSubstituteParameter> dataExtractSubstituteParams,
+            String operationId) {
 
-        return (!dataExtractSubstituteParams.isEmpty() && dataExtractSubstituteParams.containsKey(operationId))
+        return (!dataExtractSubstituteParams.isEmpty()
+                        && dataExtractSubstituteParams.containsKey(operationId))
                 ? Optional.of(dataExtractSubstituteParams.get(operationId))
                 : Optional.empty();
     }
 
     /**
-     * Optionally, retrieve information specified in the `X_OPERATION_GROUPING` K6
-     * vendor extension
+     * Optionally, retrieve information specified in the `X_OPERATION_GROUPING` K6 vendor extension
      *
      * @param cgOperation
      * @return optional as only returned if required info is present
@@ -1007,13 +1125,19 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     private Optional<OperationGrouping> extractOperationGrouping(CodegenOperation cgOperation) {
         Optional<OperationGrouping> operationGrouping = Optional.empty();
 
-        if (cgOperation.getHasVendorExtensions() && cgOperation.vendorExtensions.containsKey(X_OPERATION_GROUPING)
-                && cgOperation.vendorExtensions.get(X_OPERATION_GROUPING) instanceof java.util.Map) {
-            Map.Entry<?, ?> operationGroupingEntry = ((Map<?, ?>) cgOperation.vendorExtensions
-                    .get(X_OPERATION_GROUPING)).entrySet().stream().findFirst().orElse(null);
+        if (cgOperation.getHasVendorExtensions()
+                && cgOperation.vendorExtensions.containsKey(X_OPERATION_GROUPING)
+                && cgOperation.vendorExtensions.get(X_OPERATION_GROUPING)
+                        instanceof java.util.Map) {
+            Map.Entry<?, ?> operationGroupingEntry =
+                    ((Map<?, ?>) cgOperation.vendorExtensions.get(X_OPERATION_GROUPING))
+                            .entrySet().stream().findFirst().orElse(null);
             if (operationGroupingEntry != null) {
-                return Optional.of(new OperationGrouping(String.valueOf(operationGroupingEntry.getKey()),
-                        Integer.parseInt(String.valueOf(operationGroupingEntry.getValue()))));
+                return Optional.of(
+                        new OperationGrouping(
+                                String.valueOf(operationGroupingEntry.getKey()),
+                                Integer.parseInt(
+                                        String.valueOf(operationGroupingEntry.getValue()))));
             }
         }
 
@@ -1021,8 +1145,8 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * If `X_OPERATION_RESPONSE` K6 vendor extension is present, check if given
-     * operation response should be hidden.
+     * If `X_OPERATION_RESPONSE` K6 vendor extension is present, check if given operation response
+     * should be hidden.
      *
      * @param resp
      * @return true if should be hidden, false otherwise
@@ -1030,7 +1154,8 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     private boolean shouldHideOperationResponse(ApiResponse resp) {
         boolean hideOperationResponse = false;
 
-        if (Objects.nonNull(resp.getExtensions()) && !resp.getExtensions().isEmpty()
+        if (Objects.nonNull(resp.getExtensions())
+                && !resp.getExtensions().isEmpty()
                 && resp.getExtensions().containsKey(X_OPERATION_RESPONSE)) {
 
             Map<?, ?> respExtensions = (Map<?, ?>) resp.getExtensions().get(X_OPERATION_RESPONSE);
@@ -1052,7 +1177,8 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @return true if present, false otherwise
      */
     private boolean hasRequestBodyExample(RequestBody requestBody, String contentTypeValue) {
-        return (Objects.nonNull(requestBody.getContent()) && requestBody.getContent().containsKey(contentTypeValue)
+        return (Objects.nonNull(requestBody.getContent())
+                && requestBody.getContent().containsKey(contentTypeValue)
                 && Objects.nonNull(requestBody.getContent().get(contentTypeValue).getExamples())
                 && !requestBody.getContent().get(contentTypeValue).getExamples().isEmpty());
     }
@@ -1064,29 +1190,34 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @param contentTypeValue
      * @param bodyOrFormParams
      */
-    private void extractRequestBodyExample(RequestBody requestBody, String contentTypeValue,
-                                           List<Parameter> bodyOrFormParams) {
+    private void extractRequestBodyExample(
+            RequestBody requestBody, String contentTypeValue, List<Parameter> bodyOrFormParams) {
 
-        Optional<Map.Entry<String, Example>> requestBodyExampleEntry = requestBody.getContent().get(contentTypeValue)
-                .getExamples().entrySet().stream().findFirst();
+        Optional<Map.Entry<String, Example>> requestBodyExampleEntry =
+                requestBody.getContent().get(contentTypeValue).getExamples().entrySet().stream()
+                        .findFirst();
 
         if (requestBodyExampleEntry.isPresent()) {
 
             Example requestBodyExample = requestBodyExampleEntry.get().getValue();
 
             try {
-                JsonNode requestBodyExampleValueJsonNode = Json.mapper()
-                        .readTree(String.valueOf(requestBodyExample.getValue()));
+                JsonNode requestBodyExampleValueJsonNode =
+                        Json.mapper().readTree(String.valueOf(requestBodyExample.getValue()));
 
-                Iterator<Map.Entry<String, JsonNode>> fields = requestBodyExampleValueJsonNode.fields();
+                Iterator<Map.Entry<String, JsonNode>> fields =
+                        requestBodyExampleValueJsonNode.fields();
                 while (fields.hasNext()) {
                     Map.Entry<String, JsonNode> fieldsEntry = fields.next();
 
                     JsonNode exampleValueAsJsonNode = fieldsEntry.getValue();
 
-                    Parameter k6Parameter = new Parameter(fieldsEntry.getKey(),
-                            exampleValueAsJsonNode.isNumber() ? exampleValueAsJsonNode.asText()
-                                    : exampleValueAsJsonNode.toString());
+                    Parameter k6Parameter =
+                            new Parameter(
+                                    fieldsEntry.getKey(),
+                                    exampleValueAsJsonNode.isNumber()
+                                            ? exampleValueAsJsonNode.asText()
+                                            : exampleValueAsJsonNode.toString());
 
                     bodyOrFormParams.add(k6Parameter);
                 }
@@ -1129,24 +1260,27 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
     //
 
     /**
-     * Any variables not defined yet but used for subsequent data extraction must be
-     * initialized
+     * Any variables not defined yet but used for subsequent data extraction must be initialized
      *
      * @param dataExtractSubstituteParams
      * @param requestGroup
      */
     private void initializeDataExtractSubstituteParameters(
-            Map<String, DataExtractSubstituteParameter> dataExtractSubstituteParams, HTTPRequestGroup requestGroup) {
+            Map<String, DataExtractSubstituteParameter> dataExtractSubstituteParams,
+            HTTPRequestGroup requestGroup) {
 
         if (!dataExtractSubstituteParams.isEmpty()) {
-            Set<String> existingVariablesNames = requestGroup.variables.stream().map(v -> v.key)
-                    .collect(Collectors.toSet());
+            Set<String> existingVariablesNames =
+                    requestGroup.variables.stream().map(v -> v.key).collect(Collectors.toSet());
 
-            Set<DataExtractSubstituteParameter> initializeVariables = dataExtractSubstituteParams.values().stream()
-                    .filter(p -> !existingVariablesNames.contains(toVarName(p.paramName))).collect(Collectors.toSet());
+            Set<DataExtractSubstituteParameter> initializeVariables =
+                    dataExtractSubstituteParams.values().stream()
+                            .filter(p -> !existingVariablesNames.contains(toVarName(p.paramName)))
+                            .collect(Collectors.toSet());
 
             for (DataExtractSubstituteParameter initializeVariable : initializeVariables) {
-                requestGroup.variables.add(new Parameter(toVarName(initializeVariable.paramName), true));
+                requestGroup.variables.add(
+                        new Parameter(toVarName(initializeVariable.paramName), true));
             }
         }
     }

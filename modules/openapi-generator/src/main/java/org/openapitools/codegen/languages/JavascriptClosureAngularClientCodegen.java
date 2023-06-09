@@ -17,9 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -29,14 +34,9 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
 public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private final Logger LOGGER = LoggerFactory.getLogger(JavascriptClosureAngularClientCodegen.class);
+    private final Logger LOGGER =
+            LoggerFactory.getLogger(JavascriptClosureAngularClientCodegen.class);
 
     public static final String USE_ES6 = "useEs6";
 
@@ -50,22 +50,56 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         hideGenerationTimestamp = Boolean.TRUE;
 
         supportsInheritance = false;
-        setReservedWordsLowerCase(Arrays.asList("abstract",
-            "continue", "for", "new", "switch", "assert", "default", "if",
-            "package", "synchronized", "do", "goto", "private",
-            "this", "break", "double", "implements", "protected", "throw",
-            "byte", "else", "import", "public", "throws", "case", "enum",
-            "instanceof", "return", "transient", "catch", "extends", "int",
-            "short", "try", "char", "final", "interface", "static", "void",
-            "class", "finally", "const", "super", "while"));
+        setReservedWordsLowerCase(
+                Arrays.asList(
+                        "abstract",
+                        "continue",
+                        "for",
+                        "new",
+                        "switch",
+                        "assert",
+                        "default",
+                        "if",
+                        "package",
+                        "synchronized",
+                        "do",
+                        "goto",
+                        "private",
+                        "this",
+                        "break",
+                        "double",
+                        "implements",
+                        "protected",
+                        "throw",
+                        "byte",
+                        "else",
+                        "import",
+                        "public",
+                        "throws",
+                        "case",
+                        "enum",
+                        "instanceof",
+                        "return",
+                        "transient",
+                        "catch",
+                        "extends",
+                        "int",
+                        "short",
+                        "try",
+                        "char",
+                        "final",
+                        "interface",
+                        "static",
+                        "void",
+                        "class",
+                        "finally",
+                        "const",
+                        "super",
+                        "while"));
 
-        languageSpecificPrimitives = new HashSet<>(Arrays.asList(
-                "string",
-                "boolean",
-                "number",
-                "Object",
-                "Blob",
-                "Date"));
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList("string", "boolean", "number", "Object", "Blob", "Date"));
         instantiationTypes.put("array", "Array");
 
         typeMapping = new HashMap<>();
@@ -91,19 +125,17 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         typeMapping.put("DateTime", "Date");
 
         importMapping = new HashMap<>();
-        defaultIncludes = new HashSet<>(Arrays.asList(
-                "Object",
-                "Array",
-                "Blob"
-        ));
+        defaultIncludes = new HashSet<>(Arrays.asList("Object", "Array", "Blob"));
 
         typeMapping.put("binary", "string");
 
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
-                .defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(USE_ES6,
-                "use ES6 templates")
-                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
+                        .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(
+                new CliOption(USE_ES6, "use ES6 templates").defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -140,8 +172,8 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
     @Override
     public String getHelp() {
-        return "Generates a Javascript AngularJS client library (beta) annotated with Google Closure Compiler annotations" +
-            "(https://developers.google.com/closure/compiler/docs/js-for-compiler?hl=en)";
+        return "Generates a Javascript AngularJS client library (beta) annotated with Google Closure Compiler annotations"
+                + "(https://developers.google.com/closure/compiler/docs/js-for-compiler?hl=en)";
     }
 
     @Override
@@ -151,7 +183,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
     @Override
     public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -175,16 +207,14 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         name = name.replaceAll("-", "_");
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$"))
-            return name;
+        if (name.matches("^[A-Z_]*$")) return name;
 
         // camelize the variable name
         // pet_id => PetId
         name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*"))
-            name = escapeReservedWord(name);
+        if (isReservedWord(name) || name.matches("^\\d.*")) name = escapeReservedWord(name);
 
         return name;
     }
@@ -207,7 +237,10 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    name,
+                    camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
@@ -230,17 +263,17 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
             return getSchemaType(p) + "<!" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
-            return "Object<!string, "+ getTypeDeclaration(inner) + ">";
+            return "Object<!string, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isFileSchema(p)) {
             return "Object";
         }
         String type = super.getTypeDeclaration(p);
-        if (type.equals("boolean") ||
-                type.equals("Date") ||
-                type.equals("number") ||
-                type.equals("string")) {
+        if (type.equals("boolean")
+                || type.equals("Date")
+                || type.equals("number")
+                || type.equals("string")) {
             return type;
-                }
+        }
         return apiPackage + "." + type;
     }
 
@@ -253,8 +286,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
-        } else
-            type = schemaType;
+        } else type = schemaType;
         return type;
     }
 
@@ -274,7 +306,8 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         List<Map<String, String>> imports = objs.getImports();
         imports.sort(Comparator.comparing(o -> o.get("import")));
         objs.put("imports", imports);
@@ -293,7 +326,10 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    newOperationId);
             return newOperationId;
         }
 
@@ -316,5 +352,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.JAVASCRIPT;
+    }
 }

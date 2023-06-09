@@ -1,9 +1,20 @@
 package org.openapitools.codegen.postman;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.openapitools.codegen.TestUtils.*;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.LinkedHashMap;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openapitools.codegen.ClientOptInput;
@@ -12,19 +23,6 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PostmanCollectionCodegen;
-
-import java.io.File;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.openapitools.codegen.TestUtils.*;
 
 public class PostmanCollectionCodegenTest {
 
@@ -36,21 +34,27 @@ public class PostmanCollectionCodegenTest {
         Assert.assertEquals(postmanCollectionCodegen.folderStrategy, "Tags");
         Assert.assertEquals(postmanCollectionCodegen.postmanFile, "postman.json");
 
-        Assert.assertNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsList"));
-        Assert.assertNotNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsByTag"));
+        Assert.assertNull(
+                postmanCollectionCodegen.additionalProperties().get("codegenOperationsList"));
+        Assert.assertNotNull(
+                postmanCollectionCodegen.additionalProperties().get("codegenOperationsByTag"));
     }
 
     @Test
     public void testConfigWithFolderStrategyTags() throws Exception {
         final PostmanCollectionCodegen postmanCollectionCodegen = new PostmanCollectionCodegen();
 
-        postmanCollectionCodegen.additionalProperties().put(postmanCollectionCodegen.FOLDER_STRATEGY, "Tags");
+        postmanCollectionCodegen
+                .additionalProperties()
+                .put(postmanCollectionCodegen.FOLDER_STRATEGY, "Tags");
         postmanCollectionCodegen.processOpts();
 
         Assert.assertEquals(postmanCollectionCodegen.folderStrategy, "Tags");
 
-        Assert.assertNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsList"));
-        Assert.assertNotNull(postmanCollectionCodegen.additionalProperties().get("codegenOperationsByTag"));
+        Assert.assertNull(
+                postmanCollectionCodegen.additionalProperties().get("codegenOperationsList"));
+        Assert.assertNotNull(
+                postmanCollectionCodegen.additionalProperties().get("codegenOperationsByTag"));
     }
 
     @Test
@@ -59,10 +63,11 @@ public class PostmanCollectionCodegenTest {
         File output = Files.createTempDirectory("postmantest_").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .setInputSpec("src/test/resources/3_0/postman-collection/Basic.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("postman-collection")
+                        .setInputSpec("src/test/resources/3_0/postman-collection/Basic.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -72,11 +77,12 @@ public class PostmanCollectionCodegenTest {
 
         Path path = Paths.get(output + "/postman.json");
         assertFileExists(path);
-        assertFileContains(path, "\"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"");
+        assertFileContains(
+                path,
+                "\"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"");
 
         // verify request name (from summary)
         assertFileContains(path, "\"name\": \"Get User\"");
-
     }
 
     @Test
@@ -85,10 +91,11 @@ public class PostmanCollectionCodegenTest {
         File output = Files.createTempDirectory("postmantest_").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .setInputSpec("src/test/resources/3_0/postman-collection/BasicJson.json")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("postman-collection")
+                        .setInputSpec("src/test/resources/3_0/postman-collection/BasicJson.json")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -99,7 +106,9 @@ public class PostmanCollectionCodegenTest {
 
         Path path = Paths.get(output + "/postman.json");
         assertFileExists(path);
-        assertFileContains(path, "\"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"");
+        assertFileContains(
+                path,
+                "\"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"");
     }
 
     @Test
@@ -108,10 +117,12 @@ public class PostmanCollectionCodegenTest {
         File output = Files.createTempDirectory("postmantest_").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("postman-collection")
+                        .setInputSpec(
+                                "src/test/resources/3_0/postman-collection/SampleProject.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -121,7 +132,6 @@ public class PostmanCollectionCodegenTest {
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.readTree(new File(output + "/postman.json"));
-
     }
 
     @Test
@@ -130,10 +140,12 @@ public class PostmanCollectionCodegenTest {
         File output = Files.createTempDirectory("postmantest_").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("postman-collection")
+                        .setInputSpec(
+                                "src/test/resources/3_0/postman-collection/SampleProject.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -156,10 +168,12 @@ public class PostmanCollectionCodegenTest {
         File output = Files.createTempDirectory("postmantest_").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .setInputSpec("src/test/resources/3_0/postman-collection/BasicVariablesInExample.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("postman-collection")
+                        .setInputSpec(
+                                "src/test/resources/3_0/postman-collection/BasicVariablesInExample.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -178,7 +192,6 @@ public class PostmanCollectionCodegenTest {
         assertEquals(4, ((ArrayNode) jsonNode.get("variable")).size());
 
         assertFileContains(path, "{{MY_VAR_NAME}}");
-
     }
 
     @Test
@@ -187,11 +200,13 @@ public class PostmanCollectionCodegenTest {
         File output = Files.createTempDirectory("postmantest_").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .addAdditionalProperty(PostmanCollectionCodegen.POSTMAN_VARIABLES, false)
-                .setInputSpec("src/test/resources/3_0/postman-collection/BasicVariablesInExample.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("postman-collection")
+                        .addAdditionalProperty(PostmanCollectionCodegen.POSTMAN_VARIABLES, false)
+                        .setInputSpec(
+                                "src/test/resources/3_0/postman-collection/BasicVariablesInExample.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -216,11 +231,14 @@ public class PostmanCollectionCodegenTest {
         File output = Files.createTempDirectory("postmantest_").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .addAdditionalProperty(PostmanCollectionCodegen.PATH_PARAMS_AS_VARIABLES, false)
-                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("postman-collection")
+                        .addAdditionalProperty(
+                                PostmanCollectionCodegen.PATH_PARAMS_AS_VARIABLES, false)
+                        .setInputSpec(
+                                "src/test/resources/3_0/postman-collection/SampleProject.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
@@ -243,10 +261,12 @@ public class PostmanCollectionCodegenTest {
         File output = Files.createTempDirectory("postmantest_").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("postman-collection")
+                        .setInputSpec(
+                                "src/test/resources/3_0/postman-collection/SampleProject.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -259,7 +279,9 @@ public class PostmanCollectionCodegenTest {
         assertFileExists(path);
         // verify response body comes from components/examples
         assertFileContains(path, "\"name\": \"Example request for Get User\"");
-        assertFileContains(path, "\"raw\": \"{\\n  \\\"id\\\" : 777,\\n  \\\"firstName\\\" : \\\"Alotta\\\",\\n \\\"lastName\\\" : \\\"Rotta\\\",\\n ");
+        assertFileContains(
+                path,
+                "\"raw\": \"{\\n  \\\"id\\\" : 777,\\n  \\\"firstName\\\" : \\\"Alotta\\\",\\n \\\"lastName\\\" : \\\"Rotta\\\",\\n ");
     }
 
     @Test
@@ -268,10 +290,12 @@ public class PostmanCollectionCodegenTest {
         File output = Files.createTempDirectory("postmantest_").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("postman-collection")
+                        .setInputSpec(
+                                "src/test/resources/3_0/postman-collection/SampleProject.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -292,11 +316,14 @@ public class PostmanCollectionCodegenTest {
         File output = Files.createTempDirectory("postmantest_").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .addAdditionalProperty(PostmanCollectionCodegen.REQUEST_PARAMETER_GENERATION, "Schema")
-                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("postman-collection")
+                        .addAdditionalProperty(
+                                PostmanCollectionCodegen.REQUEST_PARAMETER_GENERATION, "Schema")
+                        .setInputSpec(
+                                "src/test/resources/3_0/postman-collection/SampleProject.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
@@ -307,8 +334,9 @@ public class PostmanCollectionCodegenTest {
         Path path = Paths.get(output + "/postman.json");
         assertFileExists(path);
         // verify request name (from path)
-        assertFileContains(path, "{\\n \\\"firstName\\\": \\\"<string>\\\",\\n \\\"lastName\\\": \\\"<string>\\\",\\n \\\"email\\\": \\\"<string>\\\",\\n \\\"dateOfBirth\\\": \\\"<date>\\\"\\n}");
-
+        assertFileContains(
+                path,
+                "{\\n \\\"firstName\\\": \\\"<string>\\\",\\n \\\"lastName\\\": \\\"<string>\\\",\\n \\\"email\\\": \\\"<string>\\\",\\n \\\"dateOfBirth\\\": \\\"<date>\\\"\\n}");
     }
 
     @Test
@@ -317,10 +345,12 @@ public class PostmanCollectionCodegenTest {
         File output = Files.createTempDirectory("postmantest_").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("postman-collection")
+                        .setInputSpec(
+                                "src/test/resources/3_0/postman-collection/SampleProject.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -371,10 +401,12 @@ public class PostmanCollectionCodegenTest {
         File output = Files.createTempDirectory("postmantest_").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .setInputSpec("src/test/resources/3_0/postman-collection/JsonWithCommasInJsonExample.json")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("postman-collection")
+                        .setInputSpec(
+                                "src/test/resources/3_0/postman-collection/JsonWithCommasInJsonExample.json")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -386,7 +418,9 @@ public class PostmanCollectionCodegenTest {
         Path path = Paths.get(output + "/postman.json");
         assertFileExists(path);
         // check value with commas within quotes
-        assertFileContains(path, "\\\"acceptHeader\\\" : \\\"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8\\\"");
+        assertFileContains(
+                path,
+                "\\\"acceptHeader\\\" : \\\"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8\\\"");
     }
 
     @Test
@@ -395,10 +429,12 @@ public class PostmanCollectionCodegenTest {
         File output = Files.createTempDirectory("postmantest_").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("postman-collection")
+                        .setInputSpec(
+                                "src/test/resources/3_0/postman-collection/SampleProject.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
@@ -418,10 +454,12 @@ public class PostmanCollectionCodegenTest {
         File output = Files.createTempDirectory("postmantest_").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .setInputSpec("src/test/resources/3_0/postman-collection/BasicVariablesInExample.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("postman-collection")
+                        .setInputSpec(
+                                "src/test/resources/3_0/postman-collection/BasicVariablesInExample.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -435,7 +473,6 @@ public class PostmanCollectionCodegenTest {
 
         assertFileContains(path, "\\\"createDate\\\" : \\\"{{$guid}}\\\"");
         assertFileContains(path, "\\\"dateOfBirth\\\" : \\\"{{$isoTimestamp}}\\\"");
-
     }
 
     @Test
@@ -444,12 +481,15 @@ public class PostmanCollectionCodegenTest {
         File output = Files.createTempDirectory("postmantest_").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .addAdditionalProperty(PostmanCollectionCodegen.POSTMAN_GUID, false)
-                .addAdditionalProperty(PostmanCollectionCodegen.POSTMAN_ISO_TIMESTAMP, false)
-                .setInputSpec("src/test/resources/3_0/postman-collection/BasicVariablesInExample.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("postman-collection")
+                        .addAdditionalProperty(PostmanCollectionCodegen.POSTMAN_GUID, false)
+                        .addAdditionalProperty(
+                                PostmanCollectionCodegen.POSTMAN_ISO_TIMESTAMP, false)
+                        .setInputSpec(
+                                "src/test/resources/3_0/postman-collection/BasicVariablesInExample.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -463,7 +503,6 @@ public class PostmanCollectionCodegenTest {
 
         assertFileNotContains(path, "\\\"createDate\\\" : \\\"{{$guid}}\\\"");
         assertFileNotContains(path, "\\\"dateOfBirth\\\" : \\\"{{$isoTimestamp}}\\\"");
-
     }
 
     @Test
@@ -484,7 +523,8 @@ public class PostmanCollectionCodegenTest {
 
     @Test
     public void testExtractWithDuplicatePlaceholders() {
-        final String INPUT = "Input with {{placeholder_1}}, {{placeholder_2}} and again {{placeholder_2}}";
+        final String INPUT =
+                "Input with {{placeholder_1}}, {{placeholder_2}} and again {{placeholder_2}}";
 
         assertEquals(2, new PostmanCollectionCodegen().extractPlaceholders(INPUT).size());
     }
@@ -528,25 +568,38 @@ public class PostmanCollectionCodegenTest {
 
     @Test
     public void getExampleFromSchema() {
-        final String EXPECTED = "{\\n \\\"firstname\\\": \\\"<string>\\\",\\n \\\"lastname\\\": \\\"<string>\\\",\\n \\\"age\\\": \\\"<number>\\\",\\n \\\"birthDate\\\": \\\"<date>\\\"\\n}";
+        final String EXPECTED =
+                "{\\n \\\"firstname\\\": \\\"<string>\\\",\\n \\\"lastname\\\": \\\"<string>\\\",\\n \\\"age\\\": \\\"<number>\\\",\\n \\\"birthDate\\\": \\\"<date>\\\"\\n}";
 
         CodegenParameter codegenParameter = new CodegenParameter();
-        codegenParameter.vars.add(new CodegenProperty() {{
-            baseName = "firstname";
-            isString = true;
-        }});
-        codegenParameter.vars.add(new CodegenProperty() {{
-            baseName = "lastname";
-            isString = true;
-        }});
-        codegenParameter.vars.add(new CodegenProperty() {{
-            baseName = "age";
-            isNumeric = true;
-        }});
-        codegenParameter.vars.add(new CodegenProperty() {{
-            baseName = "birthDate";
-            isDate = true;
-        }});
+        codegenParameter.vars.add(
+                new CodegenProperty() {
+                    {
+                        baseName = "firstname";
+                        isString = true;
+                    }
+                });
+        codegenParameter.vars.add(
+                new CodegenProperty() {
+                    {
+                        baseName = "lastname";
+                        isString = true;
+                    }
+                });
+        codegenParameter.vars.add(
+                new CodegenProperty() {
+                    {
+                        baseName = "age";
+                        isNumeric = true;
+                    }
+                });
+        codegenParameter.vars.add(
+                new CodegenProperty() {
+                    {
+                        baseName = "birthDate";
+                        isDate = true;
+                    }
+                });
 
         assertEquals(EXPECTED, new PostmanCollectionCodegen().getJsonFromSchema(codegenParameter));
     }
@@ -558,7 +611,6 @@ public class PostmanCollectionCodegenTest {
         final String JSON = "{\"id\":1,\"city\":\"Amsterdam\"}";
 
         assertEquals(EXPECTED, new PostmanCollectionCodegen().formatJson(JSON));
-
     }
 
     @Test
@@ -568,7 +620,6 @@ public class PostmanCollectionCodegenTest {
         final String JSON = "{\"id\":1,\"list\":\"AMS,LON,ROM\"}";
 
         assertEquals(EXPECTED, new PostmanCollectionCodegen().formatJson(JSON));
-
     }
 
     @Test
@@ -576,7 +627,6 @@ public class PostmanCollectionCodegenTest {
 
         final String JSON = "{\"id\":1,\"list\":\"AMS,LON,ROM\"}";
         assertEquals(2, new PostmanCollectionCodegen().getAttributes(JSON).length);
-
     }
 
     @Test
@@ -591,13 +641,13 @@ public class PostmanCollectionCodegenTest {
         city.put("city", "Amsterdam");
 
         assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
-
     }
 
     @Test
     public void convertObjectNodeIncludingDoubleQuoteToJson() {
 
-        final String EXPECTED = "{\\n  \\\"id\\\" : 1,\\n  \\\"city\\\" : \\\"it is \\\\\"Amsterdam\\\\\" \\\"\\n}";
+        final String EXPECTED =
+                "{\\n  \\\"id\\\" : 1,\\n  \\\"city\\\" : \\\"it is \\\\\"Amsterdam\\\\\" \\\"\\n}";
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode city = mapper.createObjectNode();
@@ -606,7 +656,6 @@ public class PostmanCollectionCodegenTest {
         city.put("city", "it is \"Amsterdam\" ");
 
         assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
-
     }
 
     @Test
@@ -619,17 +668,16 @@ public class PostmanCollectionCodegenTest {
         city.put("city", "Amsterdam");
 
         assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
-
     }
 
     @Test
     public void convertNestedLinkedHashMapToJson() {
 
         final String EXPECTED =
-                "{\\n " +
-                        "\\\"id\\\": 1,\\n \\\"city\\\": \\\"Amsterdam\\\",\\n " +
-                        "\\\"country\\\": {\\n \\\"id\\\": 2,\\n \\\"code\\\": \\\"NL\\\"\\n}" +
-                        "\\n}";
+                "{\\n "
+                        + "\\\"id\\\": 1,\\n \\\"city\\\": \\\"Amsterdam\\\",\\n "
+                        + "\\\"country\\\": {\\n \\\"id\\\": 2,\\n \\\"code\\\": \\\"NL\\\"\\n}"
+                        + "\\n}";
 
         LinkedHashMap<String, Object> city = new LinkedHashMap<>();
         city.put("id", 1);
@@ -640,7 +688,5 @@ public class PostmanCollectionCodegenTest {
         city.put("country", country);
 
         assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
-
     }
-
 }

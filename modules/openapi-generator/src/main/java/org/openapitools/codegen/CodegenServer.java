@@ -13,9 +13,9 @@ public class CodegenServer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CodegenServer that = (CodegenServer) o;
-        return Objects.equals(url, that.url) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(variables, that.variables);
+        return Objects.equals(url, that.url)
+                && Objects.equals(description, that.description)
+                && Objects.equals(variables, that.variables);
     }
 
     @Override

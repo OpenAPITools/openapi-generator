@@ -16,8 +16,9 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
+import io.swagger.v3.oas.models.OpenAPI;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
@@ -27,15 +28,10 @@ import java.nio.file.Paths;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
-
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
-
-import io.swagger.v3.oas.models.OpenAPI;
 
 /**
  * basic asciidoc markup generator.
@@ -55,8 +51,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     public static final String USE_TABLE_TITLES_FLAG = "useTableTitles";
 
     /**
-     * Lambda emitting an asciidoc "include::filename.adoc[]" if file is found in
-     * path. Use:
+     * Lambda emitting an asciidoc "include::filename.adoc[]" if file is found in path. Use:
      *
      * <pre>
      * {{#includemarkup}}{{name}}/description.adoc{{/includemarkup}}
@@ -75,7 +70,13 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         }
 
         public String resetCounter() {
-            String msg = "included: " + includeCount + " notFound: " + notFoundCount + " from " + basePath;
+            String msg =
+                    "included: "
+                            + includeCount
+                            + " notFound: "
+                            + notFoundCount
+                            + " from "
+                            + basePath;
             includeCount = 0;
             notFoundCount = 0;
             return msg;
@@ -87,18 +88,29 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
             final String relativeFileName = AsciidocDocumentationCodegen.sanitize(frag.execute());
             final Path filePathToInclude = Paths.get(basePath, relativeFileName).toAbsolutePath();
 
-            String includeStatement = "include::{" + attributePathReference + "}" + escapeCurlyBrackets(relativeFileName) + "[opts=optional]";
+            String includeStatement =
+                    "include::{"
+                            + attributePathReference
+                            + "}"
+                            + escapeCurlyBrackets(relativeFileName)
+                            + "[opts=optional]";
             if (Files.isRegularFile(filePathToInclude)) {
-                LOGGER.debug("including {}. file into markup from: {}", ++includeCount, filePathToInclude);
+                LOGGER.debug(
+                        "including {}. file into markup from: {}",
+                        ++includeCount,
+                        filePathToInclude);
                 out.write("\n" + includeStatement + "\n");
             } else {
-                LOGGER.debug("{}. file not found, skip include for: {}", ++notFoundCount, filePathToInclude);
+                LOGGER.debug(
+                        "{}. file not found, skip include for: {}",
+                        ++notFoundCount,
+                        filePathToInclude);
                 out.write("\n// markup not found, no " + includeStatement + "\n");
             }
         }
 
         private String escapeCurlyBrackets(String relativeFileName) {
-            return relativeFileName.replaceAll("\\{","\\\\{").replaceAll("\\}","\\\\}");
+            return relativeFileName.replaceAll("\\{", "\\\\{").replaceAll("\\}", "\\\\}");
         }
     }
 
@@ -120,7 +132,13 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         }
 
         public String resetCounter() {
-            String msg = "linked:" + linkedCount + " notFound: " + notFoundLinkCount + " from " + basePath;
+            String msg =
+                    "linked:"
+                            + linkedCount
+                            + " notFound: "
+                            + notFoundLinkCount
+                            + " from "
+                            + basePath;
             linkedCount = 0;
             notFoundLinkCount = 0;
             return msg;
@@ -134,17 +152,26 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 
             final String linkName = tokens.length > 0 ? tokens[0] : "";
 
-            final String relativeFileName = AsciidocDocumentationCodegen
-                    .sanitize(tokens.length > 1 ? tokens[1] : linkName);
+            final String relativeFileName =
+                    AsciidocDocumentationCodegen.sanitize(tokens.length > 1 ? tokens[1] : linkName);
 
             final Path filePathToLinkTo = Paths.get(basePath, relativeFileName).toAbsolutePath();
 
             if (Files.isRegularFile(filePathToLinkTo)) {
-                LOGGER.debug("linking {}. file into markup from: {}", ++linkedCount, filePathToLinkTo);
+                LOGGER.debug(
+                        "linking {}. file into markup from: {}", ++linkedCount, filePathToLinkTo);
                 out.write("\n" + linkName + " link:" + relativeFileName + "[]\n");
             } else {
-                LOGGER.debug("{}. file not found, skip link for: {}", ++notFoundLinkCount, filePathToLinkTo);
-                out.write("\n// file not found, no " + linkName + " link :" + relativeFileName + "[]\n");
+                LOGGER.debug(
+                        "{}. file not found, skip link for: {}",
+                        ++notFoundLinkCount,
+                        filePathToLinkTo);
+                out.write(
+                        "\n// file not found, no "
+                                + linkName
+                                + " link :"
+                                + relativeFileName
+                                + "[]\n");
             }
         }
     }
@@ -169,17 +196,21 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
     }
 
     /**
-     * extracted filter value should be relative to be of use as link or include
-     * file.
+     * extracted filter value should be relative to be of use as link or include file.
      *
      * @param name filename to sanitize
      * @return trimmed and striped path part or empty string.
      */
     static String sanitize(final String name) {
         String sanitized = name == null ? "" : name.trim();
-        sanitized = sanitized.replace("//", "/"); // rest paths may or may not end with slashes, leading to redundant
+        sanitized =
+                sanitized.replace(
+                        "//",
+                        "/"); // rest paths may or may not end with slashes, leading to redundant
         // path separators.
-        return sanitized.startsWith(File.separator) || sanitized.startsWith("/") ? sanitized.substring(1) : sanitized;
+        return sanitized.startsWith(File.separator) || sanitized.startsWith("/")
+                ? sanitized.substring(1)
+                : sanitized;
     }
 
     @Override
@@ -204,13 +235,14 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         super();
 
         // TODO: Asciidoc maintainer review.
-        modifyFeatureSet(features -> features
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
-                .globalFeatures(EnumSet.noneOf(GlobalFeature.class))
-                .schemaSupportFeatures(EnumSet.noneOf(SchemaSupportFeature.class))
-                .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class))
-        );
+        modifyFeatureSet(
+                features ->
+                        features.securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
+                                .globalFeatures(EnumSet.noneOf(GlobalFeature.class))
+                                .schemaSupportFeatures(EnumSet.noneOf(SchemaSupportFeature.class))
+                                .clientModificationFeatures(
+                                        EnumSet.noneOf(ClientModificationFeature.class)));
 
         LOGGER.trace("start asciidoc codegen");
 
@@ -221,43 +253,68 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 
         cliOptions.add(new CliOption("appName", "short name of the application"));
         cliOptions.add(new CliOption("appDescription", "description of the application"));
-        cliOptions.add(new CliOption("infoUrl", "a URL where users can get more information about the application"));
-        cliOptions.add(new CliOption("infoEmail", "an email address to contact for inquiries about the application"));
+        cliOptions.add(
+                new CliOption(
+                        "infoUrl",
+                        "a URL where users can get more information about the application"));
+        cliOptions.add(
+                new CliOption(
+                        "infoEmail",
+                        "an email address to contact for inquiries about the application"));
         cliOptions.add(new CliOption("licenseInfo", "a short description of the license"));
-        cliOptions.add(new CliOption(CodegenConstants.LICENSE_URL, "a URL pointing to the full license"));
-        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
+        cliOptions.add(
+                new CliOption(CodegenConstants.LICENSE_URL, "a URL pointing to the full license"));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
+        cliOptions.add(
+                new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
 
-        cliOptions.add(new CliOption(SNIPPET_DIR,
-                "path with includable markup snippets (e.g. test output generated by restdoc, default: .)")
-                .defaultValue("."));
-        cliOptions.add(new CliOption(SPEC_DIR,
-                "path with includable markup spec files (e.g. handwritten additional docs, default: ..)")
-                .defaultValue(".."));
-        cliOptions.add(CliOption.newBoolean(HEADER_ATTRIBUTES_FLAG,
-                "generation of asciidoc header meta data attributes (set to false to suppress, default: true)",
-                true));
-        cliOptions.add(CliOption.newBoolean(USE_INTRODUCTION_FLAG,
-                "use introduction section, rather than an initial abstract (default: false)",
-                false));
-        cliOptions.add(CliOption.newBoolean(SKIP_EXAMPLES_FLAG,
-                "skip examples sections (default: false)",
-                false));
-        cliOptions.add(CliOption.newBoolean(USE_METHOD_AND_PATH_FLAG,
-                "Use HTTP method and path as operation heading, instead of operation id (default: false)",
-                false));
-        cliOptions.add(CliOption.newBoolean(USE_TABLE_TITLES_FLAG,
-                "Use titles for tables, rather than wrapping tables instead their own section (default: false)",
-                false));
+        cliOptions.add(
+                new CliOption(
+                                SNIPPET_DIR,
+                                "path with includable markup snippets (e.g. test output generated by restdoc, default: .)")
+                        .defaultValue("."));
+        cliOptions.add(
+                new CliOption(
+                                SPEC_DIR,
+                                "path with includable markup spec files (e.g. handwritten additional docs, default: ..)")
+                        .defaultValue(".."));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        HEADER_ATTRIBUTES_FLAG,
+                        "generation of asciidoc header meta data attributes (set to false to suppress, default: true)",
+                        true));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_INTRODUCTION_FLAG,
+                        "use introduction section, rather than an initial abstract (default: false)",
+                        false));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        SKIP_EXAMPLES_FLAG, "skip examples sections (default: false)", false));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_METHOD_AND_PATH_FLAG,
+                        "Use HTTP method and path as operation heading, instead of operation id (default: false)",
+                        false));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        USE_TABLE_TITLES_FLAG,
+                        "Use titles for tables, rather than wrapping tables instead their own section (default: false)",
+                        false));
 
         additionalProperties.put("appName", "OpenAPI Sample description");
         additionalProperties.put("appDescription", "A sample OpenAPI documentation");
         additionalProperties.put("infoUrl", "https://openapi-generator.tech");
         additionalProperties.put("infoEmail", "team@openapitools.org");
         additionalProperties.put("licenseInfo", "All rights reserved");
-        additionalProperties.put(CodegenConstants.LICENSE_URL, "http://apache.org/licenses/LICENSE-2.0.html");
+        additionalProperties.put(
+                CodegenConstants.LICENSE_URL, "http://apache.org/licenses/LICENSE-2.0.html");
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
@@ -268,7 +325,6 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 
         languageSpecificPrimitives = new HashSet<>();
         importMapping = new HashMap<>();
-
     }
 
     @Override
@@ -327,18 +383,24 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 
         String specDir = String.valueOf(this.additionalProperties.get(SPEC_DIR));
         if (!Files.isDirectory(Paths.get(specDir))) {
-            LOGGER.warn("base part for include markup lambda not found: {} as {}", specDir, Paths.get(specDir).toAbsolutePath());
+            LOGGER.warn(
+                    "base part for include markup lambda not found: {} as {}",
+                    specDir,
+                    Paths.get(specDir).toAbsolutePath());
         }
 
-        this.includeSpecMarkupLambda = new IncludeMarkupLambda(SPEC_DIR,specDir);
+        this.includeSpecMarkupLambda = new IncludeMarkupLambda(SPEC_DIR, specDir);
         additionalProperties.put("specinclude", this.includeSpecMarkupLambda);
 
         String snippetDir = String.valueOf(this.additionalProperties.get(SNIPPET_DIR));
         if (!Files.isDirectory(Paths.get(snippetDir))) {
-            LOGGER.warn("base part for include markup lambda not found: {} as {}", snippetDir, Paths.get(snippetDir).toAbsolutePath());
+            LOGGER.warn(
+                    "base part for include markup lambda not found: {} as {}",
+                    snippetDir,
+                    Paths.get(snippetDir).toAbsolutePath());
         }
 
-        this.includeSnippetMarkupLambda = new IncludeMarkupLambda(SNIPPET_DIR,snippetDir);
+        this.includeSnippetMarkupLambda = new IncludeMarkupLambda(SNIPPET_DIR, snippetDir);
         additionalProperties.put("snippetinclude", this.includeSnippetMarkupLambda);
 
         this.linkSnippetMarkupLambda = new LinkMarkupLambda(snippetDir);
@@ -369,5 +431,4 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         }
         super.processOpenAPI(openAPI);
     }
-
 }

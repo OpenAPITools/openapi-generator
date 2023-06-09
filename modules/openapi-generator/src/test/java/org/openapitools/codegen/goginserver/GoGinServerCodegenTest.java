@@ -17,21 +17,14 @@
 
 package org.openapitools.codegen.goginserver;
 
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.languages.GoClientCodegen;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
+import org.testng.annotations.Test;
 
 public class GoGinServerCodegenTest {
 
@@ -40,23 +33,23 @@ public class GoGinServerCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("go-gin-server")
-                .setGitUserId("my-user")
-                .setGitRepoId("my-repo")
-                .setPackageName("my-package")
-                .setInputSpec("src/test/resources/3_0/petstore.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("go-gin-server")
+                        .setGitUserId("my-user")
+                        .setGitRepoId("my-repo")
+                        .setPackageName("my-package")
+                        .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileExists(Paths.get(output + "/go.mod"));
-        TestUtils.assertFileContains(Paths.get(output + "/go.mod"),
-                "module github.com/my-user/my-repo");
-        TestUtils.assertFileContains(Paths.get(output + "/go.mod"),
-                "require github.com/gin-gonic/gin v1.9.0");
+        TestUtils.assertFileContains(
+                Paths.get(output + "/go.mod"), "module github.com/my-user/my-repo");
+        TestUtils.assertFileContains(
+                Paths.get(output + "/go.mod"), "require github.com/gin-gonic/gin v1.9.0");
     }
-
 }

@@ -1,7 +1,13 @@
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import java.math.BigInteger;
+import java.util.*;
+import java.util.function.Function;
+import javax.annotation.Nullable;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
@@ -10,39 +16,80 @@ import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
-import java.math.BigInteger;
-import java.util.*;
-import java.util.function.Function;
-
-import static org.openapitools.codegen.utils.StringUtils.*;
-
 public abstract class AbstractRustCodegen extends DefaultCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractRustCodegen.class);
 
     protected List<String> charactersToAllow = Collections.singletonList("_");
-    protected Set<String> keywordsThatDoNotSupportRawIdentifiers = new HashSet<>(
-            Arrays.asList("super", "self", "Self", "extern", "crate"));
+    protected Set<String> keywordsThatDoNotSupportRawIdentifiers =
+            new HashSet<>(Arrays.asList("super", "self", "Self", "extern", "crate"));
     protected String enumSuffix = "";
 
     public AbstractRustCodegen() {
         super();
-        // All 'Strict' and 'Reserved' keywords from https://doc.rust-lang.org/reference/keywords.html
+        // All 'Strict' and 'Reserved' keywords from
+        // https://doc.rust-lang.org/reference/keywords.html
         // Note: These are case-sensitive
-        this.reservedWords = new HashSet<>(
-                Arrays.asList(
-                        "as", "break", "const", "continue", "crate", "else", "enum", "extern", "false", "fn", "for",
-                        "if", "impl", "in", "let", "loop", "match", "mod", "move", "mut", "pub", "ref", "return",
-                        "self", "Self", "static", "struct", "super", "trait", "true", "type", "unsafe", "use", "where",
-                        "while", "async", "await", "dyn", "abstract", "become", "box", "do", "final", "macro",
-                        "override", "priv", "typeof", "unsized", "virtual", "yield", "try"
-                )
-        );
+        this.reservedWords =
+                new HashSet<>(
+                        Arrays.asList(
+                                "as",
+                                "break",
+                                "const",
+                                "continue",
+                                "crate",
+                                "else",
+                                "enum",
+                                "extern",
+                                "false",
+                                "fn",
+                                "for",
+                                "if",
+                                "impl",
+                                "in",
+                                "let",
+                                "loop",
+                                "match",
+                                "mod",
+                                "move",
+                                "mut",
+                                "pub",
+                                "ref",
+                                "return",
+                                "self",
+                                "Self",
+                                "static",
+                                "struct",
+                                "super",
+                                "trait",
+                                "true",
+                                "type",
+                                "unsafe",
+                                "use",
+                                "where",
+                                "while",
+                                "async",
+                                "await",
+                                "dyn",
+                                "abstract",
+                                "become",
+                                "box",
+                                "do",
+                                "final",
+                                "macro",
+                                "override",
+                                "priv",
+                                "typeof",
+                                "unsized",
+                                "virtual",
+                                "yield",
+                                "try"));
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.RUST; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.RUST;
+    }
 
     @Override
     public String escapeQuotationMark(String input) {
@@ -62,38 +109,47 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     }
 
     /**
-     * Determine the best fitting Rust type for an integer property. This is intended for use when a specific format
-     * has not been defined in the specification. Where the minimum or maximum is not known then the returned type
-     * will default to having at least 32 bits.
+     * Determine the best fitting Rust type for an integer property. This is intended for use when a
+     * specific format has not been defined in the specification. Where the minimum or maximum is
+     * not known then the returned type will default to having at least 32 bits.
+     *
      * @param minimum The minimum value as set in the specification.
      * @param exclusiveMinimum If the minimum value itself is excluded by the specification.
      * @param maximum The maximum value as set in the specification.
      * @param exclusiveMaximum If the maximum value itself is excluded by the specification.
-     * @param preferUnsigned Use unsigned types where the effective minimum is greater than or equal to zero.
+     * @param preferUnsigned Use unsigned types where the effective minimum is greater than or equal
+     *     to zero.
      * @return The Rust data type name.
      */
     @VisibleForTesting
-    public String bestFittingIntegerType(@Nullable BigInteger minimum,
-                                  boolean exclusiveMinimum,
-                                  @Nullable BigInteger maximum,
-                                  boolean exclusiveMaximum,
-                                  boolean preferUnsigned) {
+    public String bestFittingIntegerType(
+            @Nullable BigInteger minimum,
+            boolean exclusiveMinimum,
+            @Nullable BigInteger maximum,
+            boolean exclusiveMaximum,
+            boolean preferUnsigned) {
         if (exclusiveMinimum) {
             minimum = Optional.ofNullable(minimum).map(min -> min.add(BigInteger.ONE)).orElse(null);
         }
         if (exclusiveMaximum) {
-            maximum = Optional.ofNullable(maximum).map(max -> max.subtract(BigInteger.ONE)).orElse(null);
+            maximum =
+                    Optional.ofNullable(maximum)
+                            .map(max -> max.subtract(BigInteger.ONE))
+                            .orElse(null);
         }
 
-        // If the minimum value is greater than or equal to zero, then it is safe to use an unsigned type
-        boolean guaranteedPositive = Optional.ofNullable(minimum).map(min -> min.signum() >= 0).orElse(false);
+        // If the minimum value is greater than or equal to zero, then it is safe to use an unsigned
+        // type
+        boolean guaranteedPositive =
+                Optional.ofNullable(minimum).map(min -> min.signum() >= 0).orElse(false);
 
-        int requiredBits = Math.max(
-                Optional.ofNullable(minimum).map(BigInteger::bitLength).orElse(0),
-                Optional.ofNullable(maximum).map(BigInteger::bitLength).orElse(0)
-        );
+        int requiredBits =
+                Math.max(
+                        Optional.ofNullable(minimum).map(BigInteger::bitLength).orElse(0),
+                        Optional.ofNullable(maximum).map(BigInteger::bitLength).orElse(0));
 
-        // We will only enable the smaller types (less than 32 bits) if we know both the minimum and maximum
+        // We will only enable the smaller types (less than 32 bits) if we know both the minimum and
+        // maximum
         boolean knownRange = !(Objects.isNull(minimum) || Objects.isNull(maximum));
 
         if (guaranteedPositive && preferUnsigned) {
@@ -127,38 +183,54 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     /**
      * Determine if an integer property can be guaranteed to fit into an unsigned data type.
+     *
      * @param minimum The minimum value as set in the specification.
      * @param exclusiveMinimum If boundary values are excluded by the specification.
      * @return True if the effective minimum is greater than or equal to zero.
      */
     @VisibleForTesting
     public boolean canFitIntoUnsigned(@Nullable BigInteger minimum, boolean exclusiveMinimum) {
-        return Optional.ofNullable(minimum).map(min -> {
-            if (exclusiveMinimum) {
-                min = min.add(BigInteger.ONE);
-            }
-            return min.signum() >= 0;
-        }).orElse(false);
+        return Optional.ofNullable(minimum)
+                .map(
+                        min -> {
+                            if (exclusiveMinimum) {
+                                min = min.add(BigInteger.ONE);
+                            }
+                            return min.signum() >= 0;
+                        })
+                .orElse(false);
     }
 
-    public enum CasingType {CAMEL_CASE, SNAKE_CASE};
+    public enum CasingType {
+        CAMEL_CASE,
+        SNAKE_CASE
+    };
 
     /**
-     * General purpose sanitizing function for Rust identifiers (fields, variables, structs, parameters, etc.).<br>
+     * General purpose sanitizing function for Rust identifiers (fields, variables, structs,
+     * parameters, etc.).<br>
      * Rules for Rust are fairly simple:
+     *
      * <ul>
-     *     <li>Characters must belong to [A-Za-z0-9_]
-     *     <li>Cannot use reserved words (but can sometimes prefix with "r#")
-     *     <li>Cannot begin with a number
+     *   <li>Characters must belong to [A-Za-z0-9_]
+     *   <li>Cannot use reserved words (but can sometimes prefix with "r#")
+     *   <li>Cannot begin with a number
      * </ul>
+     *
      * @param name The input string
      * @param casingType Which casing type to apply
      * @param escapePrefix Prefix to escape words beginning with numbers or reserved words
      * @param type The type of identifier (used for logging)
-     * @param allowRawIdentifiers Raw identifiers can't always be used, because of filename vs import mismatch.
+     * @param allowRawIdentifiers Raw identifiers can't always be used, because of filename vs
+     *     import mismatch.
      * @return Sanitized string
      */
-    public String sanitizeIdentifier(String name, CasingType casingType, String escapePrefix, String type, boolean allowRawIdentifiers) {
+    public String sanitizeIdentifier(
+            String name,
+            CasingType casingType,
+            String escapePrefix,
+            String type,
+            boolean allowRawIdentifiers) {
         String originalName = name;
 
         Function<String, String> casingFunction;
@@ -210,16 +282,22 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         // https://internals.rust-lang.org/t/raw-identifiers-dont-work-for-all-identifiers/9094
         if (isReservedWord(name)) {
             nameWasModified = true;
-            if (this.keywordsThatDoNotSupportRawIdentifiers.contains(name) || !allowRawIdentifiers) {
+            if (this.keywordsThatDoNotSupportRawIdentifiers.contains(name)
+                    || !allowRawIdentifiers) {
                 name = casingFunction.apply(escapePrefix + '_' + name);
             } else {
                 name = "r#" + name;
-            };
+            }
+            ;
         }
 
         // If the name had to be modified (not just because of casing), log the change
         if (nameWasModified) {
-            LOGGER.warn("{} cannot be used as a {} name. Renamed to {}", casingFunction.apply(originalName), type, name);
+            LOGGER.warn(
+                    "{} cannot be used as a {} name. Renamed to {}",
+                    casingFunction.apply(originalName),
+                    type,
+                    name);
         }
 
         return name;
@@ -254,12 +332,18 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toModelName(String name) {
-        return sanitizeIdentifier(addModelNamePrefixAndSuffix(name), CasingType.CAMEL_CASE, "model", "model", false);
+        return sanitizeIdentifier(
+                addModelNamePrefixAndSuffix(name), CasingType.CAMEL_CASE, "model", "model", false);
     }
 
     @Override
     public String toModelFilename(String name) {
-        return sanitizeIdentifier(addModelNamePrefixAndSuffix(name), CasingType.SNAKE_CASE, "model", "model file", false);
+        return sanitizeIdentifier(
+                addModelNamePrefixAndSuffix(name),
+                CasingType.SNAKE_CASE,
+                "model",
+                "model file",
+                false);
     }
 
     @Override
@@ -282,7 +366,8 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        // Note: Strangely this function is only used for inline enums, schema enums go through the toModelName function
+        // Note: Strangely this function is only used for inline enums, schema enums go through the
+        // toModelName function
         String name = property.name;
         if (!Strings.isNullOrEmpty(enumSuffix)) {
             name = name + "_" + enumSuffix;
@@ -293,13 +378,15 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     @Override
     public String toEnumValue(String value, String datatype) {
         // This is the representation of the enum that will be serialized / deserialized
-        // Note: generators currently only support string enums, so checking the type here is pointless
+        // Note: generators currently only support string enums, so checking the type here is
+        // pointless
         return escapeText(value);
     }
 
     @Override
     public String toEnumDefaultValue(String value, String datatype) {
-        // TODO: Bug: currently the templates ignore this function and just use `Self::{{ enumVars.0.name }}`
+        // TODO: Bug: currently the templates ignore this function and just use `Self::{{
+        // enumVars.0.name }}`
         // Return the Rust type name of the variant so we can `impl Default` with it
         return toEnumVarName(value, datatype);
     }
@@ -321,17 +408,18 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toApiName(String name) {
-        return sanitizeIdentifier(addApiNamePrefixAndSuffix(name), CasingType.CAMEL_CASE, "api", "API", false);
+        return sanitizeIdentifier(
+                addApiNamePrefixAndSuffix(name), CasingType.CAMEL_CASE, "api", "API", false);
     }
 
     @Override
     public String toApiFilename(String name) {
-        return sanitizeIdentifier(addApiNamePrefixAndSuffix(name), CasingType.SNAKE_CASE, "api", "API file", false);
+        return sanitizeIdentifier(
+                addApiNamePrefixAndSuffix(name), CasingType.SNAKE_CASE, "api", "API file", false);
     }
 
     @Override
     public String toApiDocFilename(String name) {
         return toApiName(name);
     }
-
 }

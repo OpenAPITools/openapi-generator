@@ -17,10 +17,9 @@
 package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.DartDioClientCodegen;
-
-import java.util.Map;
 
 public class DartDioClientOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "true";
@@ -50,7 +49,9 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
     public Map<String, String> createOptions() {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
-                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
+                .put(
+                        CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG,
+                        SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(DartDioClientCodegen.PUB_LIBRARY, PUB_LIBRARY_VALUE)
                 .put(DartDioClientCodegen.PUB_NAME, PUB_NAME_VALUE)
@@ -61,13 +62,19 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
                 .put(DartDioClientCodegen.PUB_HOMEPAGE, PUB_HOMEPAGE_VALUE)
                 .put(DartDioClientCodegen.PUB_REPOSITORY, PUB_REPOSITORY_VALUE)
                 .put(DartDioClientCodegen.PUB_PUBLISH_TO, PUB_PUBLISH_TO_VALUE)
-                .put(CodegenConstants.SERIALIZATION_LIBRARY, DartDioClientCodegen.SERIALIZATION_LIBRARY_DEFAULT)
+                .put(
+                        CodegenConstants.SERIALIZATION_LIBRARY,
+                        DartDioClientCodegen.SERIALIZATION_LIBRARY_DEFAULT)
                 .put(DartDioClientCodegen.DATE_LIBRARY, DartDioClientCodegen.DATE_LIBRARY_DEFAULT)
-                .put(DartDioClientCodegen.FINAL_PROPERTIES, DartDioClientCodegen.FINAL_PROPERTIES_DEFAULT_VALUE)
+                .put(
+                        DartDioClientCodegen.FINAL_PROPERTIES,
+                        DartDioClientCodegen.FINAL_PROPERTIES_DEFAULT_VALUE)
                 .put(CodegenConstants.SOURCE_FOLDER, SOURCE_FOLDER_VALUE)
                 .put(DartDioClientCodegen.USE_ENUM_EXTENSION, USE_ENUM_EXTENSION)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
-                .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(
+                        CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                        PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)

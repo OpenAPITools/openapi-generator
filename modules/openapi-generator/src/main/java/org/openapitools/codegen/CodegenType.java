@@ -19,13 +19,17 @@ package org.openapitools.codegen;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 public enum CodegenType {
-    CLIENT, SERVER, DOCUMENTATION, SCHEMA, CONFIG, OTHER;
+    CLIENT,
+    SERVER,
+    DOCUMENTATION,
+    SCHEMA,
+    CONFIG,
+    OTHER;
 
     private static Map<String, CodegenType> names = new HashMap<String, CodegenType>();
 

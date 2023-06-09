@@ -21,13 +21,12 @@ import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.math.BigDecimal;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 public class ExampleGenerator {
     private final Logger LOGGER = LoggerFactory.getLogger(ExampleGenerator.class);
@@ -55,8 +54,10 @@ public class ExampleGenerator {
         this.random = new Random("ExampleGenerator".hashCode());
     }
 
-    public List<Map<String, String>> generateFromResponseSchema(String statusCode, Schema responseSchema, Set<String> producesInfo) {
-        List<Map<String, String>> examples = generateFromResponseSchema(responseSchema, producesInfo);
+    public List<Map<String, String>> generateFromResponseSchema(
+            String statusCode, Schema responseSchema, Set<String> producesInfo) {
+        List<Map<String, String>> examples =
+                generateFromResponseSchema(responseSchema, producesInfo);
         if (examples == null) {
             return null;
         }
@@ -68,8 +69,11 @@ public class ExampleGenerator {
         return examples;
     }
 
-    private List<Map<String, String>> generateFromResponseSchema(Schema responseSchema, Set<String> producesInfo) {
-        if (responseSchema.getExample() == null && StringUtils.isEmpty(responseSchema.get$ref()) && !ModelUtils.isArraySchema(responseSchema)) {
+    private List<Map<String, String>> generateFromResponseSchema(
+            Schema responseSchema, Set<String> producesInfo) {
+        if (responseSchema.getExample() == null
+                && StringUtils.isEmpty(responseSchema.get$ref())
+                && !ModelUtils.isArraySchema(responseSchema)) {
             // no example provided
             return null;
         }
@@ -81,35 +85,50 @@ public class ExampleGenerator {
         if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
             ArraySchema as = (ArraySchema) responseSchema;
             if (as.getItems() != null) { // array of primitive types
-                return generate((Map<String, Object>) responseSchema.getExample(),
-                        new ArrayList<>(producesInfo), as);
+                return generate(
+                        (Map<String, Object>) responseSchema.getExample(),
+                        new ArrayList<>(producesInfo),
+                        as);
             } else {
                 // TODO log warning message as such case is not handled at the moment
                 return null;
             }
-        } else if (StringUtils.isEmpty(responseSchema.get$ref())) { // primitive type (e.g. integer, string)
-            return generate((Map<String, Object>) responseSchema.getExample(),
-                    new ArrayList<String>(producesInfo), responseSchema);
+        } else if (StringUtils.isEmpty(
+                responseSchema.get$ref())) { // primitive type (e.g. integer, string)
+            return generate(
+                    (Map<String, Object>) responseSchema.getExample(),
+                    new ArrayList<String>(producesInfo),
+                    responseSchema);
         } else { // model
-            return generate((Map<String, Object>) responseSchema.getExample(),
-                    new ArrayList<String>(producesInfo), ModelUtils.getSimpleRef(responseSchema.get$ref()));
+            return generate(
+                    (Map<String, Object>) responseSchema.getExample(),
+                    new ArrayList<String>(producesInfo),
+                    ModelUtils.getSimpleRef(responseSchema.get$ref()));
         }
     }
 
-    public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, Schema property) {
+    public List<Map<String, String>> generate(
+            Map<String, Object> examples, List<String> mediaTypes, Schema property) {
         LOGGER.debug("debugging generate in ExampleGenerator");
         List<Map<String, String>> output = new ArrayList<>();
         Set<String> processedModels = new HashSet<>();
         if (examples == null) {
             if (mediaTypes == null) {
                 // assume application/json for this
-                mediaTypes = Collections.singletonList(MIME_TYPE_JSON); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+                mediaTypes =
+                        Collections.singletonList(
+                                MIME_TYPE_JSON); // FIXME: a parameter should not be assigned. Also
+                // declare the methods parameters as 'final'.
             }
             for (String mediaType : mediaTypes) {
                 Map<String, String> kv = new HashMap<>();
                 kv.put(CONTENT_TYPE, mediaType);
-                if (property != null && (mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
-                    String example = Json.pretty(resolvePropertyToExample("", mediaType, property, processedModels));
+                if (property != null
+                        && (mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
+                    String example =
+                            Json.pretty(
+                                    resolvePropertyToExample(
+                                            "", mediaType, property, processedModels));
                     if (example != null) {
                         kv.put(EXAMPLE, example);
                         output.add(kv);
@@ -139,21 +158,29 @@ public class ExampleGenerator {
         return output;
     }
 
-    public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, String modelName) {
+    public List<Map<String, String>> generate(
+            Map<String, Object> examples, List<String> mediaTypes, String modelName) {
         List<Map<String, String>> output = new ArrayList<>();
         Set<String> processedModels = new HashSet<>();
         if (examples == null) {
             if (mediaTypes == null) {
                 // assume application/json for this
-                mediaTypes = Collections.singletonList(MIME_TYPE_JSON); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+                mediaTypes =
+                        Collections.singletonList(
+                                MIME_TYPE_JSON); // FIXME: a parameter should not be assigned. Also
+                // declare the methods parameters as 'final'.
             }
             for (String mediaType : mediaTypes) {
                 Map<String, String> kv = new HashMap<>();
                 kv.put(CONTENT_TYPE, mediaType);
-                if (modelName != null && (mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
+                if (modelName != null
+                        && (mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
                     final Schema schema = this.examples.get(modelName);
                     if (schema != null) {
-                        String example = Json.pretty(resolveModelToExample(modelName, mediaType, schema, processedModels));
+                        String example =
+                                Json.pretty(
+                                        resolveModelToExample(
+                                                modelName, mediaType, schema, processedModels));
 
                         if (example != null) {
                             kv.put(EXAMPLE, example);
@@ -162,7 +189,9 @@ public class ExampleGenerator {
                     }
                 } else if (modelName != null && mediaType.startsWith(MIME_TYPE_XML)) {
                     final Schema schema = this.examples.get(modelName);
-                    String example = new XmlExampleGenerator(this.examples).toXml(schema, 0, Collections.emptySet());
+                    String example =
+                            new XmlExampleGenerator(this.examples)
+                                    .toXml(schema, 0, Collections.emptySet());
                     if (example != null) {
                         kv.put(EXAMPLE, example);
                         output.add(kv);
@@ -204,7 +233,9 @@ public class ExampleGenerator {
                     output.add(kv);
                 } else if (mediaType.startsWith(MIME_TYPE_XML)) {
                     // TODO
-                    LOGGER.warn("XML example value of (array/primitive) is not handled at the moment: {}", example);
+                    LOGGER.warn(
+                            "XML example value of (array/primitive) is not handled at the moment: {}",
+                            example);
                 }
             }
         }
@@ -217,10 +248,13 @@ public class ExampleGenerator {
         return output;
     }
 
-    private Object resolvePropertyToExample(String propertyName, String mediaType, Schema property, Set<String> processedModels) {
+    private Object resolvePropertyToExample(
+            String propertyName, String mediaType, Schema property, Set<String> processedModels) {
         LOGGER.debug("Resolving example for property {}...", property);
         if (property.getExample() != null) {
-            LOGGER.debug("Example set in openapi spec, returning example: '{}'", property.getExample().toString());
+            LOGGER.debug(
+                    "Example set in openapi spec, returning example: '{}'",
+                    property.getExample().toString());
             return property.getExample();
         } else if (ModelUtils.isBooleanSchema(property)) {
             Object defaultValue = property.getDefault();
@@ -231,11 +265,16 @@ public class ExampleGenerator {
         } else if (ModelUtils.isArraySchema(property)) {
             Schema innerType = ((ArraySchema) property).getItems();
             if (innerType != null) {
-                int arrayLength = null == ((ArraySchema) property).getMaxItems() ? 2 : ((ArraySchema) property).getMaxItems();
+                int arrayLength =
+                        null == ((ArraySchema) property).getMaxItems()
+                                ? 2
+                                : ((ArraySchema) property).getMaxItems();
                 // avoid memory issues by limiting to max. 5 items
                 arrayLength = Math.min(arrayLength, 5);
                 Object[] objectProperties = new Object[arrayLength];
-                Object objProperty = resolvePropertyToExample(propertyName, mediaType, innerType, processedModels);
+                Object objProperty =
+                        resolvePropertyToExample(
+                                propertyName, mediaType, innerType, processedModels);
                 for (int i = 0; i < arrayLength; i++) {
                     objectProperties[i] = objProperty;
                 }
@@ -256,7 +295,7 @@ public class ExampleGenerator {
                 return randomNumber(min, max);
             }
         } else if (ModelUtils.isFileSchema(property)) {
-            return "";  // TODO
+            return ""; // TODO
 
         } else if (ModelUtils.isIntegerSchema(property)) {
             Double min = getPropertyValue(property.getMinimum());
@@ -268,11 +307,21 @@ public class ExampleGenerator {
         } else if (ModelUtils.isMapSchema(property)) {
             Map<String, Object> mp = new HashMap<String, Object>();
             if (property.getName() != null) {
-                mp.put(property.getName(),
-                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(openAPI, property), processedModels));
+                mp.put(
+                        property.getName(),
+                        resolvePropertyToExample(
+                                propertyName,
+                                mediaType,
+                                ModelUtils.getAdditionalProperties(openAPI, property),
+                                processedModels));
             } else {
-                mp.put("key",
-                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(openAPI, property), processedModels));
+                mp.put(
+                        "key",
+                        resolvePropertyToExample(
+                                propertyName,
+                                mediaType,
+                                ModelUtils.getAdditionalProperties(openAPI, property),
+                                processedModels));
             }
             return mp;
         } else if (ModelUtils.isUUIDSchema(property)) {
@@ -330,7 +379,8 @@ public class ExampleGenerator {
         }
     }
 
-    private Object resolveModelToExample(String name, String mediaType, Schema schema, Set<String> processedModels) {
+    private Object resolveModelToExample(
+            String name, String mediaType, Schema schema, Set<String> processedModels) {
         if (processedModels.contains(name)) {
             return schema.getExample();
         }
@@ -345,7 +395,10 @@ public class ExampleGenerator {
             LOGGER.debug("Creating example from model values");
             for (Object propertyName : schema.getProperties().keySet()) {
                 Schema property = (Schema) schema.getProperties().get(propertyName.toString());
-                values.put(propertyName.toString(), resolvePropertyToExample(propertyName.toString(), mediaType, property, processedModels));
+                values.put(
+                        propertyName.toString(),
+                        resolvePropertyToExample(
+                                propertyName.toString(), mediaType, property, processedModels));
             }
             schema.setExample(values);
             return schema.getExample();

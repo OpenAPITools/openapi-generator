@@ -33,18 +33,20 @@ public class Swift5ModelTest {
 
     @Test(description = "convert a simple java model", enabled = true)
     public void simpleModelTest() {
-        final Schema schema = new Schema()
-                .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("name", new StringSchema())
-                .addProperties("createdAt", new DateTimeSchema())
-                .addProperties("binary", new BinarySchema())
-                .addProperties("byte", new ByteArraySchema())
-                .addProperties("uuid", new UUIDSchema())
-                .addProperties("dateOfBirth", new DateSchema())
-                .addRequiredItem("id")
-                .addRequiredItem("name")
-                .discriminator(new Discriminator().propertyName("test"));
+        final Schema schema =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                        .addProperties("name", new StringSchema())
+                        .addProperties("createdAt", new DateTimeSchema())
+                        .addProperties("binary", new BinarySchema())
+                        .addProperties("byte", new ByteArraySchema())
+                        .addProperties("uuid", new UUIDSchema())
+                        .addProperties("dateOfBirth", new DateSchema())
+                        .addRequiredItem("id")
+                        .addRequiredItem("name")
+                        .discriminator(new Discriminator().propertyName("test"));
         final DefaultCodegen codegen = new Swift5ClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -54,7 +56,7 @@ public class Swift5ModelTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 7);
-        Assert.assertEquals(cm.getDiscriminatorName(),"test");
+        Assert.assertEquals(cm.getDiscriminatorName(), "test");
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
@@ -124,18 +126,20 @@ public class Swift5ModelTest {
 
     @Test(description = "convert a simple java model", enabled = true)
     public void useCustomDateTimeTest() {
-        final Schema schema = new Schema()
-                .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("name", new StringSchema())
-                .addProperties("createdAt", new DateTimeSchema())
-                .addProperties("binary", new BinarySchema())
-                .addProperties("byte", new ByteArraySchema())
-                .addProperties("uuid", new UUIDSchema())
-                .addProperties("dateOfBirth", new DateSchema())
-                .addRequiredItem("id")
-                .addRequiredItem("name")
-                .discriminator(new Discriminator().propertyName("test"));
+        final Schema schema =
+                new Schema()
+                        .description("a sample model")
+                        .addProperties(
+                                "id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                        .addProperties("name", new StringSchema())
+                        .addProperties("createdAt", new DateTimeSchema())
+                        .addProperties("binary", new BinarySchema())
+                        .addProperties("byte", new ByteArraySchema())
+                        .addProperties("uuid", new UUIDSchema())
+                        .addProperties("dateOfBirth", new DateSchema())
+                        .addRequiredItem("id")
+                        .addRequiredItem("name")
+                        .discriminator(new Discriminator().propertyName("test"));
         final DefaultCodegen codegen = new Swift5ClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -162,5 +166,4 @@ public class Swift5ModelTest {
         Assert.assertFalse(property7.required);
         Assert.assertFalse(property7.isContainer);
     }
-
 }

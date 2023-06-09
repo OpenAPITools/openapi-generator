@@ -4,7 +4,8 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 /**
- * TemplateDefinition is a type which defines the basics of a template file and target output location.
+ * TemplateDefinition is a type which defines the basics of a template file and target output
+ * location.
  */
 @SuppressWarnings("unused")
 public class TemplateDefinition {
@@ -15,33 +16,38 @@ public class TemplateDefinition {
     protected TemplateFileType templateType;
 
     /**
-     * <p>Constructor for TemplateDefinition.</p>
+     * Constructor for TemplateDefinition.
      *
      * @param templateFile a template path relative to user template or embedded template.
-     * @param destinationFilename a target output location for the file, relative to the output directory.
+     * @param destinationFilename a target output location for the file, relative to the output
+     *     directory.
      */
     public TemplateDefinition(String templateFile, String destinationFilename) {
         this(templateFile, "", destinationFilename);
     }
 
     /**
-     * Parameter-less constructor for TemplateDefinition, used for simplified serialization (see DynamicSettings).
+     * Parameter-less constructor for TemplateDefinition, used for simplified serialization (see
+     * DynamicSettings).
      */
     public TemplateDefinition() {
         this("", "", "");
     }
 
     /**
-     * <p>Constructor for TemplateDefinition.</p>
+     * Constructor for TemplateDefinition.
      *
      * @param templateFile a template path relative to user template or embedded template.
      * @param folder a folder in the target output directory in which to place the target file.
-     * @param destinationFilename a target output location for the file, relative to the output directory.
+     * @param destinationFilename a target output location for the file, relative to the output
+     *     directory.
      */
     public TemplateDefinition(String templateFile, String folder, String destinationFilename) {
-        if (templateFile == null) throw new IllegalArgumentException("templateFile may not be null.");
+        if (templateFile == null)
+            throw new IllegalArgumentException("templateFile may not be null.");
         if (folder == null) throw new IllegalArgumentException("folder may not be null.");
-        if (destinationFilename == null) throw new IllegalArgumentException("destinationFilename may not be null.");
+        if (destinationFilename == null)
+            throw new IllegalArgumentException("destinationFilename may not be null.");
 
         this.templateFile = templateFile;
         this.folder = folder;
@@ -100,16 +106,17 @@ public class TemplateDefinition {
         if (this == o) return true;
         if (!(o instanceof TemplateDefinition)) return false;
         TemplateDefinition that = (TemplateDefinition) o;
-        return getTemplateFile().equals(that.getTemplateFile()) &&
-                getFolder().equals(that.getFolder()) &&
-                getDestinationFilename().equals(that.getDestinationFilename()) &&
-                getTemplateType() == that.getTemplateType();
+        return getTemplateFile().equals(that.getTemplateFile())
+                && getFolder().equals(that.getFolder())
+                && getDestinationFilename().equals(that.getDestinationFilename())
+                && getTemplateType() == that.getTemplateType();
     }
 
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
-        return Objects.hash(getTemplateFile(), getFolder(), getDestinationFilename(), getTemplateType());
+        return Objects.hash(
+                getTemplateFile(), getFolder(), getDestinationFilename(), getTemplateType());
     }
 
     /** {@inheritDoc} */

@@ -17,15 +17,21 @@
 
 package org.openapitools.codegen.languages;
 
-import com.samskivert.mustache.Mustache.Lambda;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-
-//import com.sun.media.sound.InvalidDataException;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.*;
+import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -36,16 +42,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.*;
-import java.util.regex.Pattern;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(RClientCodegen.class);
@@ -77,7 +73,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String errorObjectType;
     protected String operationIdNaming;
     protected boolean generateWrapper;
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    protected boolean useOneOfDiscriminatorLookup =
+            false; // use oneOf discriminator's mapping for model lookup
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -96,32 +93,29 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public RClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.BearerToken
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.BasePath,
-                        ClientModificationFeature.UserAgent
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(
+                                                WireFormatFeature.JSON,
+                                                WireFormatFeature.XML,
+                                                WireFormatFeature.Custom))
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.BasicAuth,
+                                                SecurityFeature.ApiKey,
+                                                SecurityFeature.OAuth2_Implicit))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath,
+                                        ClientModificationFeature.UserAgent));
 
         outputFolder = "generated-code/r";
         modelTemplateFiles.put("model.mustache", ".R");
@@ -137,16 +131,33 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         setReservedWordsLowerCase(
                 Arrays.asList(
-                        // reserved words: https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html
-                        "if", "else", "repeat", "while", "function", "for", "in",
-                        "next", "break", "TRUE", "FALSE", "NULL", "Inf", "NaN",
-                        "NA", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_",
+                        // reserved words:
+                        // https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html
+                        "if",
+                        "else",
+                        "repeat",
+                        "while",
+                        "function",
+                        "for",
+                        "in",
+                        "next",
+                        "break",
+                        "TRUE",
+                        "FALSE",
+                        "NULL",
+                        "Inf",
+                        "NaN",
+                        "NA",
+                        "NA_integer_",
+                        "NA_real_",
+                        "NA_complex_",
+                        "NA_character_",
                         // reserved words in API client
-                        "ApiResponse", "data_file"
-                )
-        );
+                        "ApiResponse",
+                        "data_file"));
 
-        // these are reserved words in items: https://github.com/r-lib/R6/blob/main/R/r6_class.R#L484
+        // these are reserved words in items:
+        // https://github.com/r-lib/R6/blob/main/R/r6_class.R#L484
         itemReservedWords.add("self");
         itemReservedWords.add("private");
         itemReservedWords.add("super");
@@ -183,16 +194,29 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         importMapping.clear();
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "R package name (convention: lowercase).")
-                .defaultValue("openapi"));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "R package version.")
-                .defaultValue("1.0.0"));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
-                .defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(CodegenConstants.EXCEPTION_ON_FAILURE, CodegenConstants.EXCEPTION_ON_FAILURE_DESC)
-                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.PACKAGE_NAME,
+                                "R package name (convention: lowercase).")
+                        .defaultValue("openapi"));
+        cliOptions.add(
+                new CliOption(CodegenConstants.PACKAGE_VERSION, "R package version.")
+                        .defaultValue("1.0.0"));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP,
+                                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
+                        .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.EXCEPTION_ON_FAILURE,
+                                CodegenConstants.EXCEPTION_ON_FAILURE_DESC)
+                        .defaultValue(Boolean.FALSE.toString()));
 
-        CliOption operationIdNaming = CliOption.newString(OPERATIONID_NAMING, "Naming convention for operationId (function name in the API)");
+        CliOption operationIdNaming =
+                CliOption.newString(
+                        OPERATIONID_NAMING,
+                        "Naming convention for operationId (function name in the API)");
         Map<String, String> operationIdNamingOptions = new HashMap<>();
         operationIdNamingOptions.put("snake_case", "Snake case");
         operationIdNamingOptions.put("camelCase", "Camel case");
@@ -203,38 +227,50 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         exceptionPackages.put(DEFAULT, "Use stop() for raising exceptions.");
         exceptionPackages.put(RLANG, "Use rlang package for exceptions.");
 
-        CliOption exceptionPackage = new CliOption(EXCEPTION_PACKAGE, "Specify the exception handling package");
+        CliOption exceptionPackage =
+                new CliOption(EXCEPTION_PACKAGE, "Specify the exception handling package");
         exceptionPackage.setEnum(exceptionPackages);
         exceptionPackage.setDefault(DEFAULT);
         cliOptions.add(exceptionPackage);
 
-        cliOptions.add(CliOption.newString(CodegenConstants.ERROR_OBJECT_TYPE, "Error object type."));
+        cliOptions.add(
+                CliOption.newString(CodegenConstants.ERROR_OBJECT_TYPE, "Error object type."));
 
         supportedLibraries.put(HTTR2, "httr2 (https://httr2.r-lib.org/)");
-        supportedLibraries.put(HTTR, "httr (https://cran.r-project.org/web/packages/httr/index.html)");
+        supportedLibraries.put(
+                HTTR, "httr (https://cran.r-project.org/web/packages/httr/index.html)");
 
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
+        CliOption libraryOption =
+                new CliOption(
+                        CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
         // set httr as the default
         libraryOption.setDefault(HTTR);
         cliOptions.add(libraryOption);
         setLibrary(HTTR);
 
-        cliOptions.add(CliOption.newBoolean(GENERATE_WRAPPER, "Generate a wrapper class (single point of access) for the R client. This option only works with `httr2` library."));
+        cliOptions.add(
+                CliOption.newBoolean(
+                        GENERATE_WRAPPER,
+                        "Generate a wrapper class (single point of access) for the R client. This option only works with `httr2` library."));
 
         // option to change how we process + set the data in the 'additionalProperties' keyword.
-        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
-                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
-                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
+        CliOption disallowAdditionalPropertiesIfNotPresentOpt =
+                CliOption.newBoolean(
+                                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC)
+                        .defaultValue(Boolean.TRUE.toString());
         Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
-        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
+        disallowAdditionalPropertiesIfNotPresentOpts.put(
+                "false",
                 "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
-        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
+        disallowAdditionalPropertiesIfNotPresentOpts.put(
+                "true",
                 "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
-        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
+        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(
+                disallowAdditionalPropertiesIfNotPresentOpts);
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
-
     }
 
     @Override
@@ -254,8 +290,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.EXCEPTION_ON_FAILURE)) {
-            setReturnExceptionOnFailure(Boolean.parseBoolean(
-                    additionalProperties.get(CodegenConstants.EXCEPTION_ON_FAILURE).toString()));
+            setReturnExceptionOnFailure(
+                    Boolean.parseBoolean(
+                            additionalProperties
+                                    .get(CodegenConstants.EXCEPTION_ON_FAILURE)
+                                    .toString()));
         } else {
             setReturnExceptionOnFailure(false);
         }
@@ -267,33 +306,44 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ERROR_OBJECT_TYPE)) {
-            this.setErrorObjectType(additionalProperties.get(CodegenConstants.ERROR_OBJECT_TYPE).toString());
+            this.setErrorObjectType(
+                    additionalProperties.get(CodegenConstants.ERROR_OBJECT_TYPE).toString());
         }
         additionalProperties.put(CodegenConstants.ERROR_OBJECT_TYPE, errorObjectType);
 
         if (additionalProperties.containsKey(OPERATIONID_NAMING)) {
             this.setOperationIdNaming(additionalProperties.get(OPERATIONID_NAMING).toString());
         } else {
-            this.setOperationIdNaming("PascalCase"); // default to PascalCase for backward compatibility
+            this.setOperationIdNaming(
+                    "PascalCase"); // default to PascalCase for backward compatibility
         }
         additionalProperties.put(CodegenConstants.ERROR_OBJECT_TYPE, errorObjectType);
 
         if (additionalProperties.containsKey(GENERATE_WRAPPER)) {
-            this.setGenerateWrapper(Boolean.parseBoolean(
-                    additionalProperties.get(GENERATE_WRAPPER).toString()));
+            this.setGenerateWrapper(
+                    Boolean.parseBoolean(additionalProperties.get(GENERATE_WRAPPER).toString()));
         } else {
             this.setGenerateWrapper(false);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP)) {
-            setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
+            setUseOneOfDiscriminatorLookup(
+                    convertPropertyToBooleanAndWriteBack(
+                            CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
         } else {
-            additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
+            additionalProperties.put(
+                    CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
-            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
-                    .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
+        if (additionalProperties.containsKey(
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            this.setDisallowAdditionalPropertiesIfNotPresent(
+                    Boolean.parseBoolean(
+                            additionalProperties
+                                    .get(
+                                            CodegenConstants
+                                                    .DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)
+                                    .toString()));
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
@@ -320,11 +370,18 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("description.mustache", "", "DESCRIPTION"));
         supportingFiles.add(new SupportingFile("Rbuildignore.mustache", "", ".Rbuildignore"));
         supportingFiles.add(new SupportingFile(".travis.yml.mustache", "", ".travis.yml"));
-        supportingFiles.add(new SupportingFile("ApiResponse.mustache", File.separator + "R", "api_response.R"));
-        supportingFiles.add(new SupportingFile("api_client.mustache", File.separator + "R", "api_client.R"));
+        supportingFiles.add(
+                new SupportingFile("ApiResponse.mustache", File.separator + "R", "api_response.R"));
+        supportingFiles.add(
+                new SupportingFile("api_client.mustache", File.separator + "R", "api_client.R"));
         supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
-        supportingFiles.add(new SupportingFile("testthat.mustache", File.separator + "tests", "testthat.R"));
-        supportingFiles.add(new SupportingFile("r-client.mustache", File.separator + ".github" + File.separator + "workflows", "r-client.yaml"));
+        supportingFiles.add(
+                new SupportingFile("testthat.mustache", File.separator + "tests", "testthat.R"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "r-client.mustache",
+                        File.separator + ".github" + File.separator + "workflows",
+                        "r-client.yaml"));
         supportingFiles.add(new SupportingFile("lintr.mustache", "", ".lintr"));
 
         if (HTTR.equals(getLibrary())) {
@@ -335,32 +392,42 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             setLibrary(HTTR2);
             additionalProperties.put("isHttr2", Boolean.TRUE);
             if (generateWrapper) { // generateWrapper option only supports in httr2 library
-                supportingFiles.add(new SupportingFile("api_wrapper.mustache", "R", packageName.toLowerCase(Locale.ROOT) + "_api.R"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "api_wrapper.mustache",
+                                "R",
+                                packageName.toLowerCase(Locale.ROOT) + "_api.R"));
             }
         } else {
-            throw new IllegalArgumentException("Invalid HTTP library " + getLibrary() + ". Only httr, httr2 are supported.");
+            throw new IllegalArgumentException(
+                    "Invalid HTTP library " + getLibrary() + ". Only httr, httr2 are supported.");
         }
 
         // add lambda for mustache templates to fix license field
-        additionalProperties.put("lambdaLicense", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                String content = fragment.execute();
-                content = content.trim().replace("Apache-2.0", "Apache License 2.0");
-                writer.write(content);
-            }
-        });
+        additionalProperties.put(
+                "lambdaLicense",
+                new Mustache.Lambda() {
+                    @Override
+                    public void execute(Template.Fragment fragment, Writer writer)
+                            throws IOException {
+                        String content = fragment.execute();
+                        content = content.trim().replace("Apache-2.0", "Apache License 2.0");
+                        writer.write(content);
+                    }
+                });
 
         // add lambda for mustache templates to escape %
-        additionalProperties.put("lambdaRdocEscape", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                String content = fragment.execute();
-                content = content.trim().replace("%", "\\%");
-                writer.write(content);
-            }
-        });
-
+        additionalProperties.put(
+                "lambdaRdocEscape",
+                new Mustache.Lambda() {
+                    @Override
+                    public void execute(Template.Fragment fragment, Writer writer)
+                            throws IOException {
+                        String content = fragment.execute();
+                        content = content.trim().replace("%", "\\%");
+                        writer.write(content);
+                    }
+                });
     }
 
     @Override
@@ -397,20 +464,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = sanitizeName(name.replaceAll("-", "_"));
 
         // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$"))
-            return name;
+        if (name.matches("^[A-Z_]*$")) return name;
 
         // convert variable name to snake case
         // PetId => pet_id
         name = underscore(name);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name))
-            name = "var_" + name;
+        if (isReservedWord(name)) name = "var_" + name;
 
         // for reserved word or word starting with number, append _
-        if (name.matches("^\\d.*"))
-            name = "var_" + name;
+        if (name.matches("^\\d.*")) name = "var_" + name;
 
         return name;
     }
@@ -419,12 +483,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toVarName(String name) {
         // escape item reserved words with "item_" prefix
         if (itemReservedWords.contains(name)) {
-            LOGGER.info("The item `{}` has been renamed to `item_{}` as it's a reserved word.", name, name);
+            LOGGER.info(
+                    "The item `{}` has been renamed to `item_{}` as it's a reserved word.",
+                    name,
+                    name);
             return "item_" + name;
         }
 
         if ("".equals(name)) {
-            LOGGER.warn("Empty item name `` (empty string) has been renamed to `empty_string` to avoid compilation errors.");
+            LOGGER.warn(
+                    "Empty item name `` (empty string) has been renamed to `empty_string` to avoid compilation errors.");
             return "empty_string";
         }
 
@@ -463,13 +531,18 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    name,
+                    camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+            LOGGER.warn(
+                    "{} (model name starts with number) cannot be used as model name. Renamed to {}",
+                    name,
                     camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
@@ -481,7 +554,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toApiFilename(String name) {
         // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name =
+                name.replaceAll(
+                        "-",
+                        "_"); // FIXME: a parameter should not be assigned. Also declare the methods
+        // parameters as 'final'.
 
         // e.g. PetApi.r => pet_api.r
         return underscore(name + "_api");
@@ -547,8 +624,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         String type = null;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type))
-                return (type);
+            if (languageSpecificPrimitives.contains(type)) return (type);
         } else {
             type = openAPIType;
         }
@@ -561,7 +637,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, underscore("call_" + operationId));
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
@@ -572,7 +651,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else if ("snake_case".equals(operationIdNaming)) {
             return underscore(sanitizedOperationId);
         } else {
-            LOGGER.error("Invalid operationIdNaming: {}. Please report the issue. Default to PascalCase for the time being", operationIdNaming);
+            LOGGER.error(
+                    "Invalid operationIdNaming: {}. Please report the issue. Default to PascalCase for the time being",
+                    operationIdNaming);
             return camelize(sanitizedOperationId);
         }
     }
@@ -584,7 +665,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             for (CodegenProperty var : cm.vars) {
                 // check to see if base name is an empty string
                 if ("".equals(var.baseName)) {
-                    LOGGER.debug("Empty baseName `` (empty string) in the model `{}` has been renamed to `empty_string` to avoid compilation errors.", cm.classname);
+                    LOGGER.debug(
+                            "Empty baseName `` (empty string) in the model `{}` has been renamed to `empty_string` to avoid compilation errors.",
+                            cm.classname);
                     var.baseName = "empty_string";
                 }
 
@@ -596,7 +679,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             for (CodegenProperty var : cm.allVars) {
                 // check to see if base name is an empty string
                 if ("".equals(var.baseName)) {
-                    LOGGER.debug("Empty baseName `` (empty string) in the model `{}` has been renamed to `empty_string` to avoid compilation errors.", cm.classname);
+                    LOGGER.debug(
+                            "Empty baseName `` (empty string) in the model `{}` has been renamed to `empty_string` to avoid compilation errors.",
+                            cm.classname);
                     var.baseName = "empty_string";
                 }
 
@@ -625,10 +710,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public void setExceptionPackageToUse(String exceptionPackage) {
-        if (DEFAULT.equals(exceptionPackage))
-            this.useDefaultExceptionHandling = true;
+        if (DEFAULT.equals(exceptionPackage)) this.useDefaultExceptionHandling = true;
         if (RLANG.equals(exceptionPackage)) {
-            supportingFiles.add(new SupportingFile("api_exception.mustache", File.separator + "R", "api_exception.R"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "api_exception.mustache", File.separator + "R", "api_exception.R"));
             this.useRlangExceptionHandling = true;
         }
     }
@@ -650,10 +736,13 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public void setOperationIdNaming(final String operationIdNaming) {
-        if (!("PascalCase".equals(operationIdNaming) || "camelCase".equals(operationIdNaming) ||
-                "snake_case".equals(operationIdNaming))) {
-            throw new IllegalArgumentException("Invalid operationIdNaming: " + operationIdNaming +
-                    ". Must be PascalCase, camelCase or snake_case");
+        if (!("PascalCase".equals(operationIdNaming)
+                || "camelCase".equals(operationIdNaming)
+                || "snake_case".equals(operationIdNaming))) {
+            throw new IllegalArgumentException(
+                    "Invalid operationIdNaming: "
+                            + operationIdNaming
+                            + ". Must be PascalCase, camelCase or snake_case");
         }
 
         if ("snake_case".equals(operationIdNaming)) {
@@ -722,7 +811,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
+        if (isReservedWord(enumName)
+                || enumName.matches("\\d.*")) { // reserved word or starts with number
             return escapeReservedWord(enumName);
         } else {
             return enumName;
@@ -795,13 +885,12 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     /**
      * Return the example value of the parameter. Overrides the
-     * setParameterExampleValue(CodegenParameter, Parameter) method in
-     * DefaultCodegen to always call setParameterExampleValue(CodegenParameter)
-     * in this class, which adds single quotes around strings from the
-     * x-example property.
+     * setParameterExampleValue(CodegenParameter, Parameter) method in DefaultCodegen to always call
+     * setParameterExampleValue(CodegenParameter) in this class, which adds single quotes around
+     * strings from the x-example property.
      *
      * @param codegenParameter Codegen parameter
-     * @param parameter        Parameter
+     * @param parameter Parameter
      */
     public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
         if (parameter.getExample() != null) {
@@ -831,10 +920,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                if (!Boolean.valueOf(p.getDefault().toString()))
-                    return "FALSE";
-                else
-                    return "TRUE";
+                if (!Boolean.valueOf(p.getDefault().toString())) return "FALSE";
+                else return "TRUE";
             }
         } else if (ModelUtils.isDateSchema(p)) {
             if (p.getDefault() != null) {
@@ -857,7 +944,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 if (Pattern.compile("\r\n|\r|\n").matcher((String.valueOf(p.getDefault()))).find())
                     return "'''" + p.getDefault().toString() + "'''";
                 else
-                    return "\"" + ((String.valueOf(p.getDefault()))).replaceAll("\"", "\\\"") + "\"";
+                    return "\""
+                            + ((String.valueOf(p.getDefault()))).replaceAll("\"", "\\\"")
+                            + "\"";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
@@ -889,7 +978,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
 
         HashMap<String, CodegenModel> modelMaps = new HashMap<>();
@@ -926,25 +1016,30 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
+    public String constructExampleCode(
+            CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
         if (codegenParameter.isArray) { // array
             return "c(" + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
         } else if (codegenParameter.isMap) { // map
             return "c(key = " + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
-        } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
+        } else if (languageSpecificPrimitives.contains(
+                codegenParameter.dataType)) { // primitive type
             return codegenParameter.example;
         } else { // model
             // look up the model
             if (modelMaps.containsKey(codegenParameter.dataType)) {
                 return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, 0);
             } else {
-                LOGGER.error("Error in constructing examples. Failed to look up the model {}", codegenParameter.dataType);
+                LOGGER.error(
+                        "Error in constructing examples. Failed to look up the model {}",
+                        codegenParameter.dataType);
                 return "TODO";
             }
         }
     }
 
-    public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, int depth) {
+    public String constructExampleCode(
+            CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, int depth) {
         if (depth > 10) return "...";
         depth++;
 
@@ -952,13 +1047,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             return "c(" + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
         } else if (codegenProperty.isMap) { // map
             return "c(key = " + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
-        } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
+        } else if (languageSpecificPrimitives.contains(
+                codegenProperty.dataType)) { // primitive type
             if ("character".equals(codegenProperty.dataType)) {
                 if (StringUtils.isEmpty(codegenProperty.example)) {
                     return "\"" + codegenProperty.example + "\"";
                 } else {
                     if (Boolean.TRUE.equals(codegenProperty.isEnum)) { // enum
-                        return "\"" + ((List<Object>) codegenProperty.allowableValues.get("values")).get(0) + "\"";
+                        return "\""
+                                + ((List<Object>) codegenProperty.allowableValues.get("values"))
+                                        .get(0)
+                                + "\"";
                     } else {
                         return "\"" + codegenProperty.name + "_example\"";
                     }
@@ -973,15 +1072,19 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             // look up the model
             if (modelMaps.containsKey(codegenProperty.dataType)) {
-                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, depth);
+                return constructExampleCode(
+                        modelMaps.get(codegenProperty.dataType), modelMaps, depth);
             } else {
-                LOGGER.error("Error in constructing examples. Failed to look up the model {}", codegenProperty.dataType);
+                LOGGER.error(
+                        "Error in constructing examples. Failed to look up the model {}",
+                        codegenProperty.dataType);
                 return "TODO";
             }
         }
     }
 
-    public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, int depth) {
+    public String constructExampleCode(
+            CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, int depth) {
         if (depth > 10) return "...";
         depth++;
 
@@ -1005,15 +1108,24 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator has been refactored by wing328 (https://github.com/wing328)   #");
-        System.out.println("# Please support his work directly by purchasing a copy of the eBook \ud83d\udcd8        #");
-        System.out.println("# - OpenAPI Generator for R Developers                http://bit.ly/3lpywTG    #");
-        System.out.println("################################################################################");
+        System.out.println(
+                "################################################################################");
+        System.out.println(
+                "# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println(
+                "# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println(
+                "# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println(
+                "#                                                                              #");
+        System.out.println(
+                "# This generator has been refactored by wing328 (https://github.com/wing328)   #");
+        System.out.println(
+                "# Please support his work directly by purchasing a copy of the eBook \ud83d\udcd8        #");
+        System.out.println(
+                "# - OpenAPI Generator for R Developers                http://bit.ly/3lpywTG    #");
+        System.out.println(
+                "################################################################################");
     }
 
     @Override

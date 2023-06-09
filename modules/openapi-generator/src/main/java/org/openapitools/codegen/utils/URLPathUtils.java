@@ -17,22 +17,21 @@
 
 package org.openapitools.codegen.utils;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.oas.models.servers.ServerVariables;
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CodegenConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static org.openapitools.codegen.utils.OnceLogger.once;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CodegenConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class URLPathUtils {
 
@@ -40,25 +39,33 @@ public class URLPathUtils {
     public static final String LOCAL_HOST = "http://localhost";
     public static final Pattern VARIABLE_PATTERN = Pattern.compile("\\{([^\\}]+)\\}");
 
-    // TODO: This should probably be moved into generator/workflow type rather than a static like this.
+    // TODO: This should probably be moved into generator/workflow type rather than a static like
+    // this.
     public static URL getServerURL(OpenAPI openAPI, Map<String, String> userDefinedVariables) {
         final List<Server> servers = openAPI.getServers();
         if (servers == null || servers.isEmpty()) {
-            once(LOGGER).warn("Server information seems not defined in the spec. Default to {}.", LOCAL_HOST);
+            once(LOGGER)
+                    .warn(
+                            "Server information seems not defined in the spec. Default to {}.",
+                            LOCAL_HOST);
             return getDefaultUrl();
         }
         // TODO need a way to obtain all server URLs
         return getServerURL(servers.get(0), userDefinedVariables);
     }
 
-    public static URL getServerURL(final Server server, final Map<String, String> userDefinedVariables) {
+    public static URL getServerURL(
+            final Server server, final Map<String, String> userDefinedVariables) {
         String url = server.getUrl();
         ServerVariables variables = server.getVariables();
         if (variables == null) {
             variables = new ServerVariables();
         }
 
-        Map<String, String> userVariables = userDefinedVariables == null ? new HashMap<>() : Collections.unmodifiableMap(userDefinedVariables);
+        Map<String, String> userVariables =
+                userDefinedVariables == null
+                        ? new HashMap<>()
+                        : Collections.unmodifiableMap(userDefinedVariables);
 
         if (StringUtils.isNotBlank(url)) {
             url = extractUrl(server, url, variables, userVariables);
@@ -73,7 +80,11 @@ public class URLPathUtils {
         return getDefaultUrl();
     }
 
-    private static String extractUrl(Server server, String url, ServerVariables variables, Map<String, String> userVariables) {
+    private static String extractUrl(
+            Server server,
+            String url,
+            ServerVariables variables,
+            Map<String, String> userVariables) {
         Set<String> replacedVariables = new HashSet<>();
         Matcher matcher = VARIABLE_PATTERN.matcher(url);
         while (matcher.find()) {
@@ -83,9 +94,10 @@ public class URLPathUtils {
                 String replacement;
                 if (variable != null) {
                     String defaultValue = variable.getDefault();
-                    List<String> enumValues = variable.getEnum() == null ? new ArrayList<>() : variable.getEnum();
+                    List<String> enumValues =
+                            variable.getEnum() == null ? new ArrayList<>() : variable.getEnum();
                     if (defaultValue == null && !enumValues.isEmpty()) {
-                       defaultValue = enumValues.get(0);
+                        defaultValue = enumValues.get(0);
                     } else if (defaultValue == null) {
                         defaultValue = "";
                     }
@@ -93,7 +105,10 @@ public class URLPathUtils {
                     replacement = userVariables.getOrDefault(variableName, defaultValue);
 
                     if (!enumValues.isEmpty() && !enumValues.contains(replacement)) {
-                        LOGGER.warn("Variable override of '{}' is not listed in the enum of allowed values ({}).", replacement, StringUtils.join(enumValues, ","));
+                        LOGGER.warn(
+                                "Variable override of '{}' is not listed in the enum of allowed values ({}).",
+                                replacement,
+                                StringUtils.join(enumValues, ","));
                     }
                 } else {
                     replacement = userVariables.getOrDefault(variableName, "");
@@ -101,7 +116,10 @@ public class URLPathUtils {
 
                 if (StringUtils.isEmpty(replacement)) {
                     replacement = "";
-                    LOGGER.warn("No value found for variable '{}' in server definition '{}' and no user override specified, default to empty string.", variableName, server.getUrl());
+                    LOGGER.warn(
+                            "No value found for variable '{}' in server definition '{}' and no user override specified, default to empty string.",
+                            variableName,
+                            server.getUrl());
                 }
 
                 url = url.replace(matcher.group(), replacement);
@@ -130,11 +148,10 @@ public class URLPathUtils {
         return scheme;
     }
 
-
     /**
      * Return the port, example value <code>8080</code>
      *
-     * @param url         server url
+     * @param url server url
      * @param defaultPort if the port is not set
      * @return port
      */
@@ -145,7 +162,7 @@ public class URLPathUtils {
     /**
      * Return the port, example value <code>8080</code>
      *
-     * @param url         server url
+     * @param url server url
      * @param defaultPort if the port is not set
      * @return port
      */
@@ -160,7 +177,7 @@ public class URLPathUtils {
     /**
      * Return the path, example value <code>/abcdef/xyz</code>
      *
-     * @param url         server url
+     * @param url server url
      * @param defaultPath if the path is not empty
      * @return path
      */
@@ -206,10 +223,17 @@ public class URLPathUtils {
         if (url != null) {
             if (url.startsWith("//")) {
                 url = "http:" + url;
-                once(LOGGER).warn("'scheme' not defined in the spec (2.0). Default to [http] for server URL [{}]", url);
+                once(LOGGER)
+                        .warn(
+                                "'scheme' not defined in the spec (2.0). Default to [http] for server URL [{}]",
+                                url);
             } else if (url.startsWith("/")) {
                 url = LOCAL_HOST + url;
-                once(LOGGER).info("'host' (OAS 2.0) or 'servers' (OAS 3.0) not defined in the spec. Default to [{}] for server URL [{}]", LOCAL_HOST, url);
+                once(LOGGER)
+                        .info(
+                                "'host' (OAS 2.0) or 'servers' (OAS 3.0) not defined in the spec. Default to [{}] for server URL [{}]",
+                                LOCAL_HOST,
+                                url);
             } else if (!url.matches("[a-zA-Z][0-9a-zA-Z.+\\-]+://.+")) {
                 // Add http scheme for urls without a scheme.
                 // 2.0 spec is restricted to the following schemes: "http", "https", "ws", "wss"
@@ -218,7 +242,10 @@ public class URLPathUtils {
                 // can have alpha-numeric characters and [.+-]. Examples are here:
                 // https://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml
                 url = "http://" + url;
-                once(LOGGER).warn("'scheme' not defined in the spec (2.0). Default to [http] for server URL [{}]", url);
+                once(LOGGER)
+                        .warn(
+                                "'scheme' not defined in the spec (2.0). Default to [http] for server URL [{}]",
+                                url);
             }
         }
         return url;

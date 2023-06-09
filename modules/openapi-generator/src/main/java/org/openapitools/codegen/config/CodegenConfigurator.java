@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen.config;
 
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
@@ -27,6 +30,9 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -38,19 +44,12 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
-import static org.apache.commons.lang3.StringUtils.isEmpty;
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-
 /**
- * A class which manages the contextual configuration for code generation.
- * This includes configuring the generator, templating, and the workflow which orchestrates these.
+ * A class which manages the contextual configuration for code generation. This includes configuring
+ * the generator, templating, and the workflow which orchestrates these.
  *
- * This helper also enables the deserialization of {@link GeneratorSettings} via application-specific Jackson JSON usage
- * (see {@link DynamicSettings}.
+ * <p>This helper also enables the deserialization of {@link GeneratorSettings} via
+ * application-specific Jackson JSON usage (see {@link DynamicSettings}.
  */
 @SuppressWarnings("UnusedReturnValue")
 public class CodegenConfigurator {
@@ -79,12 +78,11 @@ public class CodegenConfigurator {
 
     private List<TemplateDefinition> userDefinedTemplates = new ArrayList<>();
 
-    public CodegenConfigurator() {
-
-    }
+    public CodegenConfigurator() {}
 
     public static CodegenConfigurator fromFile(String configFile, Module... modules) {
-        // NOTE: some config parameters may be missing from the configFile and may be passed in as command line args
+        // NOTE: some config parameters may be missing from the configFile and may be passed in as
+        // command line args
 
         if (isNotEmpty(configFile)) {
             DynamicSettings settings = readDynamicSettings(configFile, modules);
@@ -95,45 +93,52 @@ public class CodegenConfigurator {
             WorkflowSettings workflowSettings = settings.getWorkflowSettings();
             List<TemplateDefinition> userDefinedTemplateSettings = settings.getFiles();
 
-            // We copy "cached" properties into configurator so it is appropriately configured with all settings in external files.
-            // FIXME: target is to eventually move away from CodegenConfigurator properties except gen/workflow settings.
+            // We copy "cached" properties into configurator so it is appropriately configured with
+            // all settings in external files.
+            // FIXME: target is to eventually move away from CodegenConfigurator properties except
+            // gen/workflow settings.
             configurator.generatorName = generatorSettings.getGeneratorName();
             configurator.inputSpec = workflowSettings.getInputSpec();
             configurator.templatingEngineName = workflowSettings.getTemplatingEngineName();
             if (workflowSettings.getGlobalProperties() != null) {
                 configurator.globalProperties.putAll(workflowSettings.getGlobalProperties());
             }
-            if(generatorSettings.getInstantiationTypes() != null) {
+            if (generatorSettings.getInstantiationTypes() != null) {
                 configurator.instantiationTypes.putAll(generatorSettings.getInstantiationTypes());
             }
-            if(generatorSettings.getTypeMappings() != null) {
+            if (generatorSettings.getTypeMappings() != null) {
                 configurator.typeMappings.putAll(generatorSettings.getTypeMappings());
             }
-            if(generatorSettings.getAdditionalProperties() != null) {
-                configurator.additionalProperties.putAll(generatorSettings.getAdditionalProperties());
+            if (generatorSettings.getAdditionalProperties() != null) {
+                configurator.additionalProperties.putAll(
+                        generatorSettings.getAdditionalProperties());
             }
-            if(generatorSettings.getImportMappings() != null) {
+            if (generatorSettings.getImportMappings() != null) {
                 configurator.importMappings.putAll(generatorSettings.getImportMappings());
             }
-            if(generatorSettings.getSchemaMappings() != null) {
+            if (generatorSettings.getSchemaMappings() != null) {
                 configurator.schemaMappings.putAll(generatorSettings.getSchemaMappings());
             }
-            if(generatorSettings.getInlineSchemaNameMappings() != null) {
-                configurator.inlineSchemaNameMappings.putAll(generatorSettings.getInlineSchemaNameMappings());
+            if (generatorSettings.getInlineSchemaNameMappings() != null) {
+                configurator.inlineSchemaNameMappings.putAll(
+                        generatorSettings.getInlineSchemaNameMappings());
             }
-            if(generatorSettings.getInlineSchemaNameDefaults() != null) {
-                configurator.inlineSchemaNameDefaults.putAll(generatorSettings.getInlineSchemaNameDefaults());
+            if (generatorSettings.getInlineSchemaNameDefaults() != null) {
+                configurator.inlineSchemaNameDefaults.putAll(
+                        generatorSettings.getInlineSchemaNameDefaults());
             }
-            if(generatorSettings.getOpenAPINormalizer() != null) {
+            if (generatorSettings.getOpenAPINormalizer() != null) {
                 configurator.openapiNormalizer.putAll(generatorSettings.getOpenAPINormalizer());
             }
-            if(generatorSettings.getLanguageSpecificPrimitives() != null) {
-                configurator.languageSpecificPrimitives.addAll(generatorSettings.getLanguageSpecificPrimitives());
+            if (generatorSettings.getLanguageSpecificPrimitives() != null) {
+                configurator.languageSpecificPrimitives.addAll(
+                        generatorSettings.getLanguageSpecificPrimitives());
             }
-            if(generatorSettings.getReservedWordsMappings() != null) {
-                configurator.reservedWordsMappings.putAll(generatorSettings.getReservedWordsMappings());
+            if (generatorSettings.getReservedWordsMappings() != null) {
+                configurator.reservedWordsMappings.putAll(
+                        generatorSettings.getReservedWordsMappings());
             }
-            if(generatorSettings.getServerVariables() != null) {
+            if (generatorSettings.getServerVariables() != null) {
                 configurator.serverVariables.putAll(generatorSettings.getServerVariables());
             }
 
@@ -152,7 +157,8 @@ public class CodegenConfigurator {
     private static DynamicSettings readDynamicSettings(String configFile, Module... modules) {
         ObjectMapper mapper;
 
-        if (FilenameUtils.isExtension(configFile.toLowerCase(Locale.ROOT), new String[]{"yml", "yaml"})) {
+        if (FilenameUtils.isExtension(
+                configFile.toLowerCase(Locale.ROOT), new String[] {"yml", "yaml"})) {
             mapper = Yaml.mapper().copy();
         } else {
             mapper = Json.mapper().copy();
@@ -310,9 +316,9 @@ public class CodegenConfigurator {
 
     /**
      * Sets the name of the target generator.
-     * <p>
-     * The generator's name is used to uniquely identify the generator as a mechanism to lookup the
-     * desired implementation at runtime.
+     *
+     * <p>The generator's name is used to uniquely identify the generator as a mechanism to lookup
+     * the desired implementation at runtime.
      *
      * @param generatorName The name of the generator.
      * @return The fluent instance of {@link CodegenConfigurator}
@@ -380,13 +386,15 @@ public class CodegenConfigurator {
         return this;
     }
 
-    public CodegenConfigurator setInlineSchemaNameMappings(Map<String, String> inlineSchemaNameMappings) {
+    public CodegenConfigurator setInlineSchemaNameMappings(
+            Map<String, String> inlineSchemaNameMappings) {
         this.inlineSchemaNameMappings = inlineSchemaNameMappings;
         generatorSettingsBuilder.withInlineSchemaNameMappings(inlineSchemaNameMappings);
         return this;
     }
 
-    public CodegenConfigurator setInlineSchemaNameDefaults(Map<String, String> inlineSchemaNameDefaults) {
+    public CodegenConfigurator setInlineSchemaNameDefaults(
+            Map<String, String> inlineSchemaNameDefaults) {
         this.inlineSchemaNameDefaults = inlineSchemaNameDefaults;
         generatorSettingsBuilder.withInlineSchemaNameDefaults(inlineSchemaNameDefaults);
         return this;
@@ -556,15 +564,17 @@ public class CodegenConfigurator {
             workflowSettingsBuilder.withTemplatingEngineName(templatingEngineName);
         }
 
-        // at this point, all "additionalProperties" are set, and are now immutable per GeneratorSettings instance.
+        // at this point, all "additionalProperties" are set, and are now immutable per
+        // GeneratorSettings instance.
         WorkflowSettings workflowSettings = workflowSettingsBuilder.build();
 
         if (workflowSettings.isVerbose()) {
-            LOGGER.info("\nVERBOSE MODE: ON. Additional debug options are injected"
-                    + "\n - [debugOpenAPI] prints the OpenAPI specification as interpreted by the codegen"
-                    + "\n - [debugModels] prints models passed to the template engine"
-                    + "\n - [debugOperations] prints operations passed to the template engine"
-                    + "\n - [debugSupportingFiles] prints additional data passed to the template engine");
+            LOGGER.info(
+                    "\nVERBOSE MODE: ON. Additional debug options are injected"
+                            + "\n - [debugOpenAPI] prints the OpenAPI specification as interpreted by the codegen"
+                            + "\n - [debugModels] prints models passed to the template engine"
+                            + "\n - [debugOperations] prints operations passed to the template engine"
+                            + "\n - [debugSupportingFiles] prints additional data passed to the template engine");
 
             GlobalSettings.setProperty("debugOpenAPI", "");
             GlobalSettings.setProperty("debugModels", "");
@@ -579,22 +589,28 @@ public class CodegenConfigurator {
             GlobalSettings.setProperty(entry.getKey(), entry.getValue());
         }
 
-        // if caller resets GlobalSettings, we'll need to reset generateAliasAsModel. As noted in this method, this should be moved.
+        // if caller resets GlobalSettings, we'll need to reset generateAliasAsModel. As noted in
+        // this method, this should be moved.
         ModelUtils.setGenerateAliasAsModel(workflowSettings.isGenerateAliasAsModel());
 
-        // TODO: Support custom spec loader implementations (https://github.com/OpenAPITools/openapi-generator/issues/844)
+        // TODO: Support custom spec loader implementations
+        // (https://github.com/OpenAPITools/openapi-generator/issues/844)
         final List<AuthorizationValue> authorizationValues = AuthParser.parse(this.auth);
         ParseOptions options = new ParseOptions();
         options.setResolve(true);
-        SwaggerParseResult result = new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
+        SwaggerParseResult result =
+                new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
 
         // TODO: Move custom validations to a separate type as part of a "Workflow"
-        Set<String> validationMessages = new HashSet<>(null != result.getMessages() ? result.getMessages() : new ArrayList<>());
+        Set<String> validationMessages =
+                new HashSet<>(
+                        null != result.getMessages() ? result.getMessages() : new ArrayList<>());
         OpenAPI specification = result.getOpenAPI();
-        // TODO: The line below could be removed when at least one of the issue below has been resolved.
+        // TODO: The line below could be removed when at least one of the issue below has been
+        // resolved.
         // https://github.com/swagger-api/swagger-parser/issues/1369
         // https://github.com/swagger-api/swagger-parser/pull/1374
-        //ModelUtils.getOpenApiVersion(specification, inputSpec, authorizationValues);
+        // ModelUtils.getOpenApiVersion(specification, inputSpec, authorizationValues);
 
         // NOTE: We will only expose errors+warnings if there are already errors in the spec.
         if (validationMessages.size() > 0) {
@@ -603,20 +619,24 @@ public class CodegenConfigurator {
 
                 // Wrap the getUnusedSchemas() in try catch block so it catches the NPE
                 // when the input spec file is not correct
-                try{
+                try {
                     List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
                     if (unusedModels != null) {
                         unusedModels.forEach(name -> warnings.add("Unused model: " + name));
                     }
-                } catch (Exception e){
-                    System.err.println("[error] There is an error with OpenAPI specification parsed from the input spec file: " + inputSpec);
-                    System.err.println("[error] Please make sure the spec file has correct format and all required fields are populated with valid value.");
+                } catch (Exception e) {
+                    System.err.println(
+                            "[error] There is an error with OpenAPI specification parsed from the input spec file: "
+                                    + inputSpec);
+                    System.err.println(
+                            "[error] Please make sure the spec file has correct format and all required fields are populated with valid value.");
                 }
             }
 
             if (workflowSettings.isValidateSpec()) {
-                String sb = "There were issues with the specification. The option can be disabled via validateSpec (Maven/Gradle) or --skip-validate-spec (CLI)." +
-                        System.lineSeparator();
+                String sb =
+                        "There were issues with the specification. The option can be disabled via validateSpec (Maven/Gradle) or --skip-validate-spec (CLI)."
+                                + System.lineSeparator();
                 SpecValidationException ex = new SpecValidationException(sb);
                 ex.setErrors(validationMessages);
                 ex.setWarnings(warnings);
@@ -648,15 +668,18 @@ public class CodegenConfigurator {
         WorkflowSettings workflowSettings = context.getWorkflowSettings();
         GeneratorSettings generatorSettings = context.getGeneratorSettings();
 
-        // We load the config via generatorSettings.getGeneratorName() because this is guaranteed to be set
-        // regardless of entrypoint (CLI sets properties on this type, config deserialization sets on generatorSettings).
+        // We load the config via generatorSettings.getGeneratorName() because this is guaranteed to
+        // be set
+        // regardless of entrypoint (CLI sets properties on this type, config deserialization sets
+        // on generatorSettings).
         CodegenConfig config = CodegenConfigLoader.forName(generatorSettings.getGeneratorName());
 
         if (isNotEmpty(generatorSettings.getLibrary())) {
             config.setLibrary(generatorSettings.getLibrary());
         }
 
-        // TODO: Work toward CodegenConfig having a "WorkflowSettings" property, or better a "Workflow" object which itself has a "WorkflowSettings" property.
+        // TODO: Work toward CodegenConfig having a "WorkflowSettings" property, or better a
+        // "Workflow" object which itself has a "WorkflowSettings" property.
         config.setInputSpec(workflowSettings.getInputSpec());
         config.setOutputDir(workflowSettings.getOutputDir());
         config.setSkipOverwrite(workflowSettings.isSkipOverwrite());
@@ -667,7 +690,8 @@ public class CodegenConfigurator {
         config.setEnableMinimalUpdate(workflowSettings.isEnableMinimalUpdate());
         config.setStrictSpecBehavior(workflowSettings.isStrictSpecBehavior());
 
-        TemplatingEngineAdapter templatingEngine = TemplatingEngineLoader.byIdentifier(workflowSettings.getTemplatingEngineName());
+        TemplatingEngineAdapter templatingEngine =
+                TemplatingEngineLoader.byIdentifier(workflowSettings.getTemplatingEngineName());
         config.setTemplatingEngine(templatingEngine);
 
         // TODO: Work toward CodegenConfig having a "GeneratorSettings" property.
@@ -678,7 +702,8 @@ public class CodegenConfigurator {
         config.inlineSchemaNameMapping().putAll(generatorSettings.getInlineSchemaNameMappings());
         config.inlineSchemaNameDefault().putAll(generatorSettings.getInlineSchemaNameDefaults());
         config.openapiNormalizer().putAll(generatorSettings.getOpenAPINormalizer());
-        config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
+        config.languageSpecificPrimitives()
+                .addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.reservedWordsMappings().putAll(generatorSettings.getReservedWordsMappings());
         config.additionalProperties().putAll(generatorSettings.getAdditionalProperties());
 
@@ -692,13 +717,13 @@ public class CodegenConfigurator {
         // any other additional properties?
         String templateDir = workflowSettings.getTemplateDir();
         if (templateDir != null) {
-            config.additionalProperties().put(CodegenConstants.TEMPLATE_DIR, workflowSettings.getTemplateDir());
+            config.additionalProperties()
+                    .put(CodegenConstants.TEMPLATE_DIR, workflowSettings.getTemplateDir());
         }
 
-        ClientOptInput input = new ClientOptInput()
-                .config(config)
-                .userDefinedTemplates(userDefinedTemplates);
+        ClientOptInput input =
+                new ClientOptInput().config(config).userDefinedTemplates(userDefinedTemplates);
 
-        return input.openAPI((OpenAPI)context.getSpecDocument());
+        return input.openAPI((OpenAPI) context.getSpecDocument());
     }
 }

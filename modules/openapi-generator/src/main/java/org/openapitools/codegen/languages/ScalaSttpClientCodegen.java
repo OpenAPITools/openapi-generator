@@ -16,13 +16,17 @@
 
 package org.openapitools.codegen.languages;
 
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
+import static org.openapitools.codegen.utils.CamelizeOption.*;
+
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import java.io.File;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -32,43 +36,39 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static org.openapitools.codegen.utils.CamelizeOption.*;
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
 public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
-    private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
-            "sttp client", "3.3.18");
-    private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
-            "Whether to return response as " +
-                    "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
-                    "response's error raising them through enclosing monad (F[ReturnType]).", true);
-    private static final StringProperty JODA_TIME_VERSION = new StringProperty("jodaTimeVersion", "The version of " +
-            "joda-time library", "2.10.13");
-    private static final StringProperty JSON4S_VERSION = new StringProperty("json4sVersion", "The version of json4s " +
-            "library", "3.6.11");
+    private static final StringProperty STTP_CLIENT_VERSION =
+            new StringProperty("sttpClientVersion", "The version of " + "sttp client", "3.3.18");
+    private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL =
+            new BooleanProperty(
+                    "separateErrorChannel",
+                    "Whether to return response as "
+                            + "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten "
+                            + "response's error raising them through enclosing monad (F[ReturnType]).",
+                    true);
+    private static final StringProperty JODA_TIME_VERSION =
+            new StringProperty(
+                    "jodaTimeVersion", "The version of " + "joda-time library", "2.10.13");
+    private static final StringProperty JSON4S_VERSION =
+            new StringProperty("json4sVersion", "The version of json4s " + "library", "3.6.11");
 
     private static final JsonLibraryProperty JSON_LIBRARY_PROPERTY = new JsonLibraryProperty();
 
     public static final String DEFAULT_PACKAGE_NAME = "org.openapitools.client";
     private static final PackageProperty PACKAGE_PROPERTY = new PackageProperty();
 
-    private static final List<Property<?>> properties = Arrays.asList(
-            STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL, JODA_TIME_VERSION,
-            JSON4S_VERSION, JSON_LIBRARY_PROPERTY, PACKAGE_PROPERTY);
+    private static final List<Property<?>> properties =
+            Arrays.asList(
+                    STTP_CLIENT_VERSION,
+                    USE_SEPARATE_ERROR_CHANNEL,
+                    JODA_TIME_VERSION,
+                    JSON4S_VERSION,
+                    JSON_LIBRARY_PROPERTY,
+                    PACKAGE_PROPERTY);
 
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaSttpClientCodegen.class);
 
@@ -83,35 +83,32 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
     public ScalaSttpClientCodegen() {
         super();
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.BearerToken
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.BasePath,
-                        ClientModificationFeature.UserAgent
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(
+                                                WireFormatFeature.JSON,
+                                                WireFormatFeature.XML,
+                                                WireFormatFeature.Custom))
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.BasicAuth,
+                                                SecurityFeature.ApiKey,
+                                                SecurityFeature.BearerToken))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath,
+                                        ClientModificationFeature.UserAgent));
 
         outputFolder = "generated-code/scala-sttp";
         modelTemplateFiles.put("model.mustache", ".scala");
@@ -132,12 +129,13 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         additionalProperties.put("fnCamelize", new CamelizeLambda(false));
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
 
-//        importMapping.remove("Seq");
-//        importMapping.remove("List");
-//        importMapping.remove("Set");
-//        importMapping.remove("Map");
+        //        importMapping.remove("Seq");
+        //        importMapping.remove("List");
+        //        importMapping.remove("Set");
+        //        importMapping.remove("Map");
 
-        // TODO: there is no specific sttp mapping. All Scala Type mappings should be in AbstractScala
+        // TODO: there is no specific sttp mapping. All Scala Type mappings should be in
+        // AbstractScala
         typeMapping = new HashMap<>();
         typeMapping.put("array", "Seq");
         typeMapping.put("set", "Set");
@@ -178,11 +176,21 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
-        final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
-        supportingFiles.add(new SupportingFile("jsonSupport.mustache", invokerFolder, "JsonSupport.scala"));
-        supportingFiles.add(new SupportingFile("additionalTypeSerializers.mustache", invokerFolder, "AdditionalTypeSerializers.scala"));
-        supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
-        supportingFiles.add(new SupportingFile("dateSerializers.mustache", invokerFolder, "DateSerializers.scala"));
+        final String invokerFolder =
+                (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
+        supportingFiles.add(
+                new SupportingFile("jsonSupport.mustache", invokerFolder, "JsonSupport.scala"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "additionalTypeSerializers.mustache",
+                        invokerFolder,
+                        "AdditionalTypeSerializers.scala"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "project/build.properties.mustache", "project", "build.properties"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "dateSerializers.mustache", invokerFolder, "DateSerializers.scala"));
     }
 
     @Override
@@ -211,10 +219,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public CodegenOperation fromOperation(String path,
-                                          String httpMethod,
-                                          Operation operation,
-                                          List<Server> servers) {
+    public CodegenOperation fromOperation(
+            String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         op.path = encodePath(path);
         return op;
@@ -239,8 +245,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     /**
-     * Invoked by {@link DefaultGenerator} after all models have been post-processed,
-     * allowing for a last pass of codegen-specific model cleanup.
+     * Invoked by {@link DefaultGenerator} after all models have been post-processed, allowing for a
+     * last pass of codegen-specific model cleanup.
      *
      * @param objs Current state of codegen object model.
      * @return An in-place modified state of the codegen object model.
@@ -255,8 +261,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     /**
      * Update/clean up model imports
      *
-     * append '._" if the import is a Enum class, otherwise
-     * remove model imports to avoid warnings for importing class in the same package in Scala
+     * <p>append '._" if the import is a Enum class, otherwise remove model imports to avoid
+     * warnings for importing class in the same package in Scala
      *
      * @param models processed models to be further processed
      */
@@ -269,7 +275,9 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         for (String openAPIName : models.keySet()) {
             CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
             if (model == null) {
-                LOGGER.warn("Expected to retrieve model {} by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
+                LOGGER.warn(
+                        "Expected to retrieve model {} by name, but no model was found. Check your -Dmodels inclusions.",
+                        openAPIName);
                 continue;
             }
 
@@ -288,8 +296,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
                         item.put("import", importPath.concat("._"));
                         newImports.add(item);
                     }
-                }
-                else {
+                } else {
                     item.put("import", importPath);
                     newImports.add(item);
                 }
@@ -331,7 +338,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         if (registerNonStandardStatusCodes) {
             try {
                 OperationMap opsMap = objs.getOperations();
@@ -369,8 +377,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
                 Map<String, String> item = new HashMap<>();
                 if (isEnumClass(importPath, enumRefs)) {
                     item.put("import", importPath.concat("._"));
-                }
-                else {
+                } else {
                     item.put("import", importPath);
                 }
                 newImports.add(item);
@@ -447,8 +454,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     @Override
     protected void updateDataTypeWithEnumForArray(CodegenProperty property) {
         CodegenProperty baseItem = property.items;
-        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
-                || Boolean.TRUE.equals(baseItem.isArray))) {
+        while (baseItem != null
+                && (Boolean.TRUE.equals(baseItem.isMap) || Boolean.TRUE.equals(baseItem.isArray))) {
             baseItem = baseItem.items;
         }
         if (baseItem != null) {
@@ -463,7 +470,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         }
     }
 
-    public static abstract class Property<T> {
+    public abstract static class Property<T> {
         final String name;
         final String description;
         final T defaultValue;
@@ -492,7 +499,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
         @Override
         public List<CliOption> toCliOptions() {
-            return Collections.singletonList(CliOption.newString(name, description).defaultValue(defaultValue));
+            return Collections.singletonList(
+                    CliOption.newString(name, description).defaultValue(defaultValue));
         }
 
         @Override
@@ -526,7 +534,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
         @Override
         public Boolean getValue(Map<String, Object> additionalProperties) {
-            return Boolean.valueOf(additionalProperties.getOrDefault(name, defaultValue.toString()).toString());
+            return Boolean.valueOf(
+                    additionalProperties.getOrDefault(name, defaultValue.toString()).toString());
         }
     }
 
@@ -535,7 +544,10 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         private static final String CIRCE = "circe";
 
         public JsonLibraryProperty() {
-            super("jsonLibrary", "Json library to use. Possible values are: json4s and circe.", JSON4S);
+            super(
+                    "jsonLibrary",
+                    "Json library to use. Possible values are: json4s and circe.",
+                    JSON4S);
         }
 
         @Override
@@ -546,8 +558,14 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
                 additionalProperties.put(JSON4S, JSON4S.equals(value));
             } else {
                 IllegalArgumentException exception =
-                        new IllegalArgumentException("Invalid json library: " + value + ". Must be " + CIRCE + " " +
-                                "or " + JSON4S);
+                        new IllegalArgumentException(
+                                "Invalid json library: "
+                                        + value
+                                        + ". Must be "
+                                        + CIRCE
+                                        + " "
+                                        + "or "
+                                        + JSON4S);
                 throw exception;
             }
         }
@@ -556,8 +574,11 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     public static class PackageProperty extends StringProperty {
 
         public PackageProperty() {
-            super("mainPackage", "Top-level package name, which defines 'apiPackage', 'modelPackage', " +
-                    "'invokerPackage'", DEFAULT_PACKAGE_NAME);
+            super(
+                    "mainPackage",
+                    "Top-level package name, which defines 'apiPackage', 'modelPackage', "
+                            + "'invokerPackage'",
+                    DEFAULT_PACKAGE_NAME);
         }
 
         @Override
@@ -578,15 +599,21 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         }
 
         public String getApiPackage(Map<String, Object> additionalProperties) {
-            return additionalProperties.getOrDefault(CodegenConstants.API_PACKAGE, DEFAULT_PACKAGE_NAME + ".api").toString();
+            return additionalProperties
+                    .getOrDefault(CodegenConstants.API_PACKAGE, DEFAULT_PACKAGE_NAME + ".api")
+                    .toString();
         }
 
         public String getModelPackage(Map<String, Object> additionalProperties) {
-            return additionalProperties.getOrDefault(CodegenConstants.MODEL_PACKAGE, DEFAULT_PACKAGE_NAME + ".model").toString();
+            return additionalProperties
+                    .getOrDefault(CodegenConstants.MODEL_PACKAGE, DEFAULT_PACKAGE_NAME + ".model")
+                    .toString();
         }
 
         public String getInvokerPackage(Map<String, Object> additionalProperties) {
-            return additionalProperties.getOrDefault(CodegenConstants.INVOKER_PACKAGE, DEFAULT_PACKAGE_NAME + ".core").toString();
+            return additionalProperties
+                    .getOrDefault(CodegenConstants.INVOKER_PACKAGE, DEFAULT_PACKAGE_NAME + ".core")
+                    .toString();
         }
     }
 
@@ -617,5 +644,4 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             return formatIdentifier(fragment, true);
         }
     }
-
 }

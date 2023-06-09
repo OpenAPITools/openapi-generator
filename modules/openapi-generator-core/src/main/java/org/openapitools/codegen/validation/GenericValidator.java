@@ -36,24 +36,28 @@ public class GenericValidator<TInput> implements Validator<TInput> {
     }
 
     /**
-     * Validates input, resulting in a instance of {@link ValidationResult} which provides details on all validations performed (success, error, warning).
+     * Validates input, resulting in a instance of {@link ValidationResult} which provides details
+     * on all validations performed (success, error, warning).
      *
      * @param input The object instance to be validated.
-     *
-     * @return A {@link ValidationResult} which details the success, error, and warning validation results.
+     * @return A {@link ValidationResult} which details the success, error, and warning validation
+     *     results.
      */
     @Override
     public ValidationResult validate(TInput input) {
         ValidationResult result = new ValidationResult();
         if (rules != null) {
-            rules.forEach(it -> {
-                ValidationRule.Result attempt = it.evaluate(input);
-                if (attempt.passed()) {
-                    result.addResult(Validated.valid(it));
-                } else {
-                    result.addResult(Validated.invalid(it, it.getFailureMessage(), attempt.getDetails()));
-                }
-            });
+            rules.forEach(
+                    it -> {
+                        ValidationRule.Result attempt = it.evaluate(input);
+                        if (attempt.passed()) {
+                            result.addResult(Validated.valid(it));
+                        } else {
+                            result.addResult(
+                                    Validated.invalid(
+                                            it, it.getFailureMessage(), attempt.getDetails()));
+                        }
+                    });
         }
         return result;
     }

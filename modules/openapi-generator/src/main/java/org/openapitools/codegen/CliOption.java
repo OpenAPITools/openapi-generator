@@ -19,7 +19,6 @@ package org.openapitools.codegen;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -80,7 +79,7 @@ public class CliOption {
     }
 
     public void setOptValue(String optValue) {
-        if (this.enumValues!=null && this.enumValues.containsKey(optValue)) {
+        if (this.enumValues != null && this.enumValues.containsKey(optValue)) {
             this.optValue = optValue;
         } else {
             this.optValue = null;
@@ -125,7 +124,8 @@ public class CliOption {
      * @return the CliOption created
      */
     public static CliOption newBoolean(String opt, String description, boolean defaultValue) {
-        return new CliOption(opt, description, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(String.valueOf(defaultValue));
+        return new CliOption(opt, description, SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(String.valueOf(defaultValue));
     }
 
     public static CliOption newString(String opt, String description) {
@@ -135,7 +135,7 @@ public class CliOption {
     @JsonIgnore
     public String getOptionHelp() {
         StringBuilder sb = new StringBuilder(description);
-        if(defaultValue != null) {
+        if (defaultValue != null) {
             sb.append(" (Default: ").append(defaultValue).append(")");
         }
         if (enumValues != null) {
@@ -151,12 +151,12 @@ public class CliOption {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CliOption cliOption = (CliOption) o;
-        return Objects.equals(opt, cliOption.opt) &&
-                Objects.equals(description, cliOption.description) &&
-                Objects.equals(type, cliOption.type) &&
-                Objects.equals(defaultValue, cliOption.defaultValue) &&
-                Objects.equals(optValue, cliOption.optValue) &&
-                Objects.equals(enumValues, cliOption.enumValues);
+        return Objects.equals(opt, cliOption.opt)
+                && Objects.equals(description, cliOption.description)
+                && Objects.equals(type, cliOption.type)
+                && Objects.equals(defaultValue, cliOption.defaultValue)
+                && Objects.equals(optValue, cliOption.optValue)
+                && Objects.equals(enumValues, cliOption.enumValues);
     }
 
     @Override

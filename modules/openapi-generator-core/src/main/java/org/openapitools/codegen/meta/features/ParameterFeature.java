@@ -19,34 +19,27 @@ package org.openapitools.codegen.meta.features;
 import org.openapitools.codegen.meta.features.annotations.OAS2;
 import org.openapitools.codegen.meta.features.annotations.OAS3;
 
-/**
- * Defines parameters supported by endpoints in the generated code.
- */
+/** Defines parameters supported by endpoints in the generated code. */
 public enum ParameterFeature {
-    /**
-     * Supports path parameters.
-     */
-    @OAS2 @OAS3
+    /** Supports path parameters. */
+    @OAS2
+    @OAS3
     Path,
 
-    /**
-     * Supports query parameters.
-     */
-    @OAS2 @OAS3
+    /** Supports query parameters. */
+    @OAS2
+    @OAS3
     Query,
 
-    /**
-     * Supports header parameters.
-     */
-    @OAS2 @OAS3
+    /** Supports header parameters. */
+    @OAS2
+    @OAS3
     Header,
 
     /**
      * Supports body parameters.
      *
-     * <p>
-     *     OAS 3.x specification supports this structurally rather than as an "in" parameter.
-     * </p>
+     * <p>OAS 3.x specification supports this structurally rather than as an "in" parameter.
      */
     @OAS2
     Body,
@@ -54,7 +47,8 @@ public enum ParameterFeature {
     /**
      * Supports form encoded parameters.
      *
-     * OAS 3.x specification supports this structurally via content types rather than as an "in" parameter.
+     * <p>OAS 3.x specification supports this structurally via content types rather than as an "in"
+     * parameter.
      */
     @OAS2
     FormUnencoded,
@@ -62,7 +56,8 @@ public enum ParameterFeature {
     /**
      * Supports multipart parameters.
      *
-     * <p>OAS 3.x specification supports this structurally via content types rather than as an "in" parameter.</p>
+     * <p>OAS 3.x specification supports this structurally via content types rather than as an "in"
+     * parameter.
      */
     @OAS2
     FormMultipart,
@@ -70,7 +65,7 @@ public enum ParameterFeature {
     /**
      * Supports Cookie parameters.
      *
-     * <p>Not defined in OAS 2.0 and no tooling extensions currently supported for OAS 2.0 support.</p>
+     * <p>Not defined in OAS 2.0 and no tooling extensions currently supported for OAS 2.0 support.
      */
     @OAS3
     Cookie

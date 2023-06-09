@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
-
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.openapitools.codegen.CodegenConfig;
@@ -16,8 +15,7 @@ import org.testng.annotations.Test;
 
 public class LowercaseLambdaTest extends LambdaTest {
 
-    @Mock
-    CodegenConfig generator;
+    @Mock CodegenConfig generator;
 
     @BeforeMethod
     public void setup() {
@@ -45,5 +43,4 @@ public class LowercaseLambdaTest extends LambdaTest {
         // When & Then
         test("escaped-reserved", "{{#lowercase}}rEservEd{{/lowercase}}", ctx);
     }
-
 }

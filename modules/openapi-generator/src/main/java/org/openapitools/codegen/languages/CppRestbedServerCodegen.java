@@ -17,8 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.util.*;
+import java.util.Map.Entry;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -27,12 +32,6 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import java.io.File;
-import java.util.*;
-import java.util.Map.Entry;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
@@ -49,23 +48,18 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         super();
 
         // TODO: cpp-restbed-server maintainer review
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling,
-                        GlobalFeature.MultiServer
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling,
+                                        GlobalFeature.MultiServer)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie));
 
         apiPackage = "org.openapitools.server.api";
         modelPackage = "org.openapitools.server.model";
@@ -81,29 +75,40 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         cliOptions.clear();
 
         // CLI options
-        addOption(CodegenConstants.MODEL_PACKAGE, "C++ namespace for models (convention: name.space.model).",
+        addOption(
+                CodegenConstants.MODEL_PACKAGE,
+                "C++ namespace for models (convention: name.space.model).",
                 this.modelPackage);
-        addOption(CodegenConstants.API_PACKAGE, "C++ namespace for apis (convention: name.space.api).",
+        addOption(
+                CodegenConstants.API_PACKAGE,
+                "C++ namespace for apis (convention: name.space.api).",
                 this.apiPackage);
         addOption(CodegenConstants.PACKAGE_VERSION, "C++ package version.", this.packageVersion);
-        addOption(DECLSPEC, "C++ preprocessor to place before the class name for handling dllexport/dllimport.",
+        addOption(
+                DECLSPEC,
+                "C++ preprocessor to place before the class name for handling dllexport/dllimport.",
                 this.declspec);
-        addOption(DEFAULT_INCLUDE,
+        addOption(
+                DEFAULT_INCLUDE,
                 "The default include statement that should be placed in all headers for including things like the declspec (convention: #include \"Commons.h\" ",
                 this.defaultInclude);
-        addOption(RESERVED_WORD_PREFIX_OPTION,
-                RESERVED_WORD_PREFIX_DESC,
-                this.reservedWordPrefix);
+        addOption(RESERVED_WORD_PREFIX_OPTION, RESERVED_WORD_PREFIX_DESC, this.reservedWordPrefix);
 
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("model-helpers-header.mustache", modelFileFolder(), "helpers.h"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "model-helpers-header.mustache", modelFileFolder(), "helpers.h"));
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", "", "CMakeLists.txt"));
-        supportingFiles.add(new SupportingFile("FindRestbedAndBoost.cmake", "", "FindRestbedAndBoost.cmake"));
+        supportingFiles.add(
+                new SupportingFile("FindRestbedAndBoost.cmake", "", "FindRestbedAndBoost.cmake"));
 
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "int", "char", "bool", "long", "float", "double", "int32_t",
+                                "int64_t"));
 
         typeMapping = new HashMap<>();
         typeMapping.put("date", "std::string");
@@ -144,7 +149,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 List<String> newIntf = new ArrayList<>(cm.getValue().getInterfaces());
 
                 for (String intf : allModels.get(cm.getKey()).getInterfaces()) {
-                    if (allModels.get(intf).getInterfaces() != null && !allModels.get(intf).getInterfaces().isEmpty()) {
+                    if (allModels.get(intf).getInterfaces() != null
+                            && !allModels.get(intf).getInterfaces().isEmpty()) {
                         for (String intfInner : allModels.get(intf).getInterfaces()) {
                             newIntf.remove(intfInner);
                         }
@@ -190,8 +196,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Configures a friendly name for the generator. This will be used by the
-     * generator to select the library with the -g flag.
+     * Configures a friendly name for the generator. This will be used by the generator to select
+     * the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -201,8 +207,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Returns human-friendly help for the generator. Provide the consumer with
-     * help tips, parameters here
+     * Returns human-friendly help for the generator. Provide the consumer with help tips,
+     * parameters here
      *
      * @return A string value for the help message
      */
@@ -242,8 +248,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Location to write model files. You can use the modelPackage() as defined
-     * when the class is instantiated
+     * Location to write model files. You can use the modelPackage() as defined when the class is
+     * instantiated
      */
     @Override
     public String modelFileFolder() {
@@ -251,8 +257,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Location to write api files. You can use the apiPackage() as defined when
-     * the class is instantiated
+     * Location to write api files. You can use the apiPackage() as defined when the class is
+     * instantiated
      */
     @Override
     public String apiFileFolder() {
@@ -293,7 +299,6 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         return toApiName(name);
     }
 
-
     private String capitalizeFirstChar(String str) {
         if (str.length() > 1) {
             return Character.toUpperCase(str.charAt(0)) + str.substring(1);
@@ -320,7 +325,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
         List<CodegenOperation> newOpList = new ArrayList<>();
@@ -333,24 +339,24 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 resourceNameCamelCase += convertPathSegmentToResourceNamePart(pathSegment);
                 String convertedPathSegment = convertPathParamPattern(pathSegment);
                 joiner.add(convertedPathSegment);
-                    }
+            }
 
             op.path = joiner.toString();
             op.vendorExtensions.put("x-codegen-resource-name", resourceNameCamelCase);
 
-
-            CodegenOperation op1 = newOpList.stream()
-                    .filter(opInList -> opInList.path.equals(op.path))
-                    .findAny()
-                    .orElse(null);
+            CodegenOperation op1 =
+                    newOpList.stream()
+                            .filter(opInList -> opInList.path.equals(op.path))
+                            .findAny()
+                            .orElse(null);
 
             if (op1 != null) {
-                List<CodegenOperation> currentOtherMethodList = getCodegenXCodegenOtherMethodsOperations(op1);
-                        op.operationIdCamelCase = op1.operationIdCamelCase;
-                        currentOtherMethodList.add(op);
-                        op1.vendorExtensions.put(X_CODEGEN_OTHER_METHODS, currentOtherMethodList);
-                    }
-            else {
+                List<CodegenOperation> currentOtherMethodList =
+                        getCodegenXCodegenOtherMethodsOperations(op1);
+                op.operationIdCamelCase = op1.operationIdCamelCase;
+                currentOtherMethodList.add(op);
+                op1.vendorExtensions.put(X_CODEGEN_OTHER_METHODS, currentOtherMethodList);
+            } else {
                 newOpList.add(op);
             }
         }
@@ -358,8 +364,10 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         return objs;
     }
 
-    private List<CodegenOperation> getCodegenXCodegenOtherMethodsOperations(CodegenOperation newOperation) {
-        List<CodegenOperation> currentOtherMethodList = (List<CodegenOperation>) newOperation.vendorExtensions.get(X_CODEGEN_OTHER_METHODS);
+    private List<CodegenOperation> getCodegenXCodegenOtherMethodsOperations(
+            CodegenOperation newOperation) {
+        List<CodegenOperation> currentOtherMethodList =
+                (List<CodegenOperation>) newOperation.vendorExtensions.get(X_CODEGEN_OTHER_METHODS);
         if (currentOtherMethodList == null) {
             currentOtherMethodList = new ArrayList<>();
         }
@@ -367,12 +375,11 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Optional - type declaration. This is a String which is used by the
-     * templates to instantiate your types. There is typically special handling
-     * for different property types
+     * Optional - type declaration. This is a String which is used by the templates to instantiate
+     * your types. There is typically special handling for different property types
      *
-     * @return a string value used as the `dataType` field for model templates,
-     * `returnType` for api templates
+     * @return a string value used as the `dataType` field for model templates, `returnType` for api
+     *     templates
      */
     @Override
     public String getTypeDeclaration(Schema p) {
@@ -494,15 +501,18 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         boolean isArray = parameter.isArray == Boolean.TRUE;
         boolean isString = parameter.isString == Boolean.TRUE;
 
-        if (!isPrimitiveType && !isArray && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
-            parameter.defaultValue =  parameter.dataType + "{}";
+        if (!isPrimitiveType
+                && !isArray
+                && !isString
+                && !parameter.dataType.startsWith("std::shared_ptr")) {
+            parameter.defaultValue = parameter.dataType + "{}";
         }
     }
 
     /**
-     * Optional - OpenAPI type conversion. This is used to map OpenAPI types in
-     * a `Schema` into either language specific types via `typeMapping` or
-     * into complex models if there is not a mapping.
+     * Optional - OpenAPI type conversion. This is used to map OpenAPI types in a `Schema` into
+     * either language specific types via `typeMapping` or into complex models if there is not a
+     * mapping.
      *
      * @return a string value of the type or complex model for this property
      */
@@ -512,10 +522,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         String type = null;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type))
-                return toModelName(type);
-        } else
-            type = openAPIType;
+            if (languageSpecificPrimitives.contains(type)) return toModelName(type);
+        } else type = openAPIType;
         return toModelName(type);
     }
 

@@ -22,17 +22,16 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.utils.ModelUtils;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Map;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.utils.ModelUtils;
 
 public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -52,8 +51,8 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     /**
-     * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -g flag.
+     * Configures a friendly name for the generator. This will be used by the generator to select
+     * the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -63,8 +62,8 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     /**
-     * Returns human-friendly help for the generator.  Provide the consumer with help
-     * tips, parameters here
+     * Returns human-friendly help for the generator. Provide the consumer with help tips,
+     * parameters here
      *
      * @return A string value for the help message
      */
@@ -76,29 +75,24 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
     public JMeterClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .includeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-                .includeClientModificationFeatures(
-                        ClientModificationFeature.BasePath
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.wireFormatFeatures(
+                                        EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.BasicAuth,
+                                                SecurityFeature.ApiKey,
+                                                SecurityFeature.OAuth2_Implicit))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .includeParameterFeatures(ParameterFeature.Cookie)
+                                .includeClientModificationFeatures(
+                                        ClientModificationFeature.BasePath));
 
         // set the output folder here
         outputFolder = "generated-code/JMeterClientCodegen";
@@ -109,8 +103,8 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
          * class
          */
         apiTemplateFiles.put(
-                "api.mustache",   // the template to use
-                ".jmx");       // the extension for each file to write
+                "api.mustache", // the template to use
+                ".jmx"); // the extension for each file to write
 
         apiTemplateFiles.put("testdata-localhost.mustache", ".csv");
 
@@ -133,18 +127,19 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
         /*
          * Reserved words.  Override this with reserved words specific to your language
          */
-        reservedWords = new HashSet<>(
-                Arrays.asList(
-                        "sample1",  // replace with static values
-                        "sample2")
-        );
+        reservedWords =
+                new HashSet<>(
+                        Arrays.asList(
+                                "sample1", // replace with static values
+                                "sample2"));
 
         /*
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
          */
         additionalProperties.put("apiVersion", apiVersion);
-        // supportingFiles.add(new SupportingFile("testdata-localhost.mustache", "input", "testdata-localhost.csv"));
+        // supportingFiles.add(new SupportingFile("testdata-localhost.mustache", "input",
+        // "testdata-localhost.csv"));
     }
 
     @Override
@@ -164,8 +159,8 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     /**
-     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
-     * those terms here.  This logic is only called if a variable matches the reserved words
+     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping those terms
+     * here. This logic is only called if a variable matches the reserved words
      *
      * @return the escaped term
      */
@@ -178,28 +173,37 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     /**
-     * Location to write model files.  You can use the modelPackage() as defined when the class is
+     * Location to write model files. You can use the modelPackage() as defined when the class is
      * instantiated
      */
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
+        return outputFolder
+                + File.separator
+                + sourceFolder
+                + File.separator
+                + modelPackage().replace('.', File.separatorChar);
     }
 
     /**
-     * Location to write api files.  You can use the apiPackage() as defined when the class is
+     * Location to write api files. You can use the apiPackage() as defined when the class is
      * instantiated
      */
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+        return outputFolder
+                + File.separator
+                + sourceFolder
+                + File.separator
+                + apiPackage().replace('.', File.separatorChar);
     }
 
     /**
-     * Optional - type declaration.  This is a String which is used by the templates to instantiate your
-     * types.  There is typically special handling for different property types
+     * Optional - type declaration. This is a String which is used by the templates to instantiate
+     * your types. There is typically special handling for different property types
      *
-     * @return a string value used as the `dataType` field for model templates, `returnType` for api templates
+     * @return a string value used as the `dataType` field for model templates, `returnType` for api
+     *     templates
      */
     @Override
     public String getTypeDeclaration(Schema p) {
@@ -215,8 +219,9 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     /**
-     * Optional - OpenAPI type conversion.  This is used to map OpenAPI types in a `Schema` into
-     * either language specific types via `typeMapping` or into complex models if there is not a mapping.
+     * Optional - OpenAPI type conversion. This is used to map OpenAPI types in a `Schema` into
+     * either language specific types via `typeMapping` or into complex models if there is not a
+     * mapping.
      *
      * @return a string value of the type or complex model for this property
      */
@@ -226,10 +231,8 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
         String type = null;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type))
-                return toModelName(type);
-        } else
-            type = openAPIType;
+            if (languageSpecificPrimitives.contains(type)) return toModelName(type);
+        } else type = openAPIType;
         return toModelName(type);
     }
 
@@ -243,5 +246,4 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
-
 }

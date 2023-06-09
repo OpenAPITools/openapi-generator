@@ -15,14 +15,13 @@
  */
 package org.openapitools.codegen.languages;
 
+import java.io.File;
+import java.util.EnumSet;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.EnumSet;
 
 public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServerCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(PythonBluePlanetServerCodegen.class);
@@ -33,37 +32,35 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
     public PythonBluePlanetServerCodegen() {
         super("python-blueplanet", true);
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
-                .securityFeatures(EnumSet.of(
-                        SecurityFeature.BasicAuth,
-                        SecurityFeature.BearerToken,
-                        SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
-                ))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .wireFormatFeatures(
+                                        EnumSet.of(
+                                                WireFormatFeature.JSON,
+                                                WireFormatFeature.XML,
+                                                WireFormatFeature.Custom))
+                                .securityFeatures(
+                                        EnumSet.of(
+                                                SecurityFeature.BasicAuth,
+                                                SecurityFeature.BearerToken,
+                                                SecurityFeature.ApiKey,
+                                                SecurityFeature.OAuth2_Implicit))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie));
 
         testPackage = "tests";
         embeddedTemplateDir = templateDir = "python-blueplanet";
     }
 
-
     /**
-     * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -g flag.
+     * Configures a friendly name for the generator. This will be used by the generator to select
+     * the library with the -g flag.
      *
      * @return the friendly name for the generator
      */
@@ -75,7 +72,7 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
     @Override
     public void processOpts() {
         super.processOpts();
-        //apiTemplateFiles.clear();
+        // apiTemplateFiles.clear();
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
@@ -128,28 +125,60 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
 
         // App Directory
         supportingFiles.add(new SupportingFile("app/Dockerfile.mustache", APP_PATH, "Dockerfile"));
-        supportingFiles.add(new SupportingFile("app/dockerignore.mustache", APP_PATH, ".dockerignore"));
+        supportingFiles.add(
+                new SupportingFile("app/dockerignore.mustache", APP_PATH, ".dockerignore"));
         supportingFiles.add(new SupportingFile("app/gitignore.mustache", APP_PATH, ".gitignore"));
         supportingFiles.add(new SupportingFile("app/README.mustache", APP_PATH, "README.md"));
-        supportingFiles.add(new SupportingFile("app/requirements.mustache", APP_PATH, "requirements.txt"));
+        supportingFiles.add(
+                new SupportingFile("app/requirements.mustache", APP_PATH, "requirements.txt"));
         supportingFiles.add(new SupportingFile("app/setup.mustache", APP_PATH, "setup.py"));
         supportingFiles.add(new SupportingFile("app/tox.mustache", APP_PATH, "tox.ini"));
-        supportingFiles.add(new SupportingFile("app/test-requirements.mustache", APP_PATH, "test-requirements.txt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/test-requirements.mustache", APP_PATH, "test-requirements.txt"));
 
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/__init__.mustache", APP_PACKAGE_PATH, "__init__.py"));
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/__main__.mustache", APP_PACKAGE_PATH, "__main__.py"));
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/encoder.mustache", APP_PACKAGE_PATH, "encoder.py"));
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/util.mustache", APP_PACKAGE_PATH, "util.py"));
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/typing_utils.mustache", APP_PACKAGE_PATH, "typing_utils.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/__init__.mustache", APP_PACKAGE_PATH, "__init__.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/__main__.mustache", APP_PACKAGE_PATH, "__main__.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/encoder.mustache", APP_PACKAGE_PATH, "encoder.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/util.mustache", APP_PACKAGE_PATH, "util.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/typing_utils.mustache",
+                        APP_PACKAGE_PATH,
+                        "typing_utils.py"));
 
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/controllers/__init__.mustache", CONTROLLER_PATH, "__init__.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/controllers/__init__.mustache",
+                        CONTROLLER_PATH,
+                        "__init__.py"));
 
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/models/__init__.mustache", MODEL_PATH, "__init__.py"));
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/models/base_model_.mustache", MODEL_PATH, "base_model_.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/models/__init__.mustache", MODEL_PATH, "__init__.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/models/base_model_.mustache",
+                        MODEL_PATH,
+                        "base_model_.py"));
 
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/test/__init__.mustache", TEST_PATH, "__init__.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/test/__init__.mustache", TEST_PATH, "__init__.py"));
 
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/swagger/swagger.mustache", SWAGGER_PATH, "swagger.yaml"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/swagger/swagger.mustache",
+                        SWAGGER_PATH,
+                        "swagger.yaml"));
 
         // Solution Directory
         supportingFiles.add(new SupportingFile("solution/fig.mustache", SOLUTION_PATH, "fig.yml"));
@@ -169,12 +198,19 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
 
         // hack: Use ModelDoc to generate tosca files  TODO: implement new Java class
         modelDocPath = "model-definitions.types.tosca." + packageName;
-        modelDocTemplateFiles.put("model-definitions/types/tosca/{{packageName}}/{{model}}.mustache", ".tosca");
+        modelDocTemplateFiles.put(
+                "model-definitions/types/tosca/{{packageName}}/{{model}}.mustache", ".tosca");
 
         // hack: Use ModelTest to generate ui files  TODO: implement new Java class
-        modelTestTemplateFiles.put("model-definitions/types/ddui-views/{{packageName}}.resourceTypes.{{model}}/create.mustache", "create.json");
-        modelTestTemplateFiles.put("model-definitions/types/ddui-views/{{packageName}}.resourceTypes.{{model}}/high.mustache", "high.json");
-        modelTestTemplateFiles.put("model-definitions/types/ddui-views/{{packageName}}.resourceTypes.{{model}}/low.mustache", "low.json");
+        modelTestTemplateFiles.put(
+                "model-definitions/types/ddui-views/{{packageName}}.resourceTypes.{{model}}/create.mustache",
+                "create.json");
+        modelTestTemplateFiles.put(
+                "model-definitions/types/ddui-views/{{packageName}}.resourceTypes.{{model}}/high.mustache",
+                "high.json");
+        modelTestTemplateFiles.put(
+                "model-definitions/types/ddui-views/{{packageName}}.resourceTypes.{{model}}/low.mustache",
+                "low.json");
         modelTestPath = "model-definitions" + File.separator + "types";
     }
 
@@ -203,28 +239,60 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
 
         // App Directory
         supportingFiles.add(new SupportingFile("app/Dockerfile.mustache", APP_PATH, "Dockerfile"));
-        supportingFiles.add(new SupportingFile("app/dockerignore.mustache", APP_PATH, ".dockerignore"));
+        supportingFiles.add(
+                new SupportingFile("app/dockerignore.mustache", APP_PATH, ".dockerignore"));
         supportingFiles.add(new SupportingFile("app/gitignore.mustache", APP_PATH, ".gitignore"));
         supportingFiles.add(new SupportingFile("app/README.mustache", APP_PATH, "README.md"));
-        supportingFiles.add(new SupportingFile("app/requirements.mustache", APP_PATH, "requirements.txt"));
+        supportingFiles.add(
+                new SupportingFile("app/requirements.mustache", APP_PATH, "requirements.txt"));
         supportingFiles.add(new SupportingFile("app/setup.mustache", APP_PATH, "setup.py"));
         supportingFiles.add(new SupportingFile("app/tox.mustache", APP_PATH, "tox.ini"));
-        supportingFiles.add(new SupportingFile("app/test-requirements.mustache", APP_PATH, "test-requirements.txt"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/test-requirements.mustache", APP_PATH, "test-requirements.txt"));
 
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/__init__.mustache", APP_PACKAGE_PATH, "__init__.py"));
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/__main__.mustache", APP_PACKAGE_PATH, "__main__.py"));
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/encoder.mustache", APP_PACKAGE_PATH, "encoder.py"));
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/util.mustache", APP_PACKAGE_PATH, "util.py"));
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/typing_utils.mustache", APP_PACKAGE_PATH, "typing_utils.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/__init__.mustache", APP_PACKAGE_PATH, "__init__.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/__main__.mustache", APP_PACKAGE_PATH, "__main__.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/encoder.mustache", APP_PACKAGE_PATH, "encoder.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/util.mustache", APP_PACKAGE_PATH, "util.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/typing_utils.mustache",
+                        APP_PACKAGE_PATH,
+                        "typing_utils.py"));
 
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/controllers/__init__.mustache", CONTROLLER_PATH, "__init__.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/controllers/__init__.mustache",
+                        CONTROLLER_PATH,
+                        "__init__.py"));
 
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/models/__init__.mustache", MODEL_PATH, "__init__.py"));
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/models/base_model_.mustache", MODEL_PATH, "base_model_.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/models/__init__.mustache", MODEL_PATH, "__init__.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/models/base_model_.mustache",
+                        MODEL_PATH,
+                        "base_model_.py"));
 
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/test/__init__.mustache", TEST_PATH, "__init__.py"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/test/__init__.mustache", TEST_PATH, "__init__.py"));
 
-        supportingFiles.add(new SupportingFile("app/{{packageName}}/swagger/swagger.mustache", SWAGGER_PATH, "swagger.yaml"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "app/{{packageName}}/swagger/swagger.mustache",
+                        SWAGGER_PATH,
+                        "swagger.yaml"));
 
         // Solution Directory
         supportingFiles.add(new SupportingFile("solution/fig.mustache", SOLUTION_PATH, "fig.yml"));
@@ -232,13 +300,14 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
 
     @Override
     public String modelDocFileFolder() {
-        // character replaces should _only_ occur on paths we define. Don't replace on outputFolder (which is supplied by the user and should always be considered correct)
+        // character replaces should _only_ occur on paths we define. Don't replace on outputFolder
+        // (which is supplied by the user and should always be considered correct)
         return outputFolder + File.separator + modelDocPath.replace('.', File.separatorChar);
     }
 
     @Override
-    public String toModelDocFilename( String name ) {
-        return toModelName( name ) + "_ResourceType";
+    public String toModelDocFilename(String name) {
+        return toModelName(name) + "_ResourceType";
     }
 
     @Override
@@ -248,12 +317,13 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
 
     @Override
     public String toModelTestFilename(String name) {
-        String resourceTypeFolder = packageName + ".resourceTypes." + toModelName(name) + File.separator;
+        String resourceTypeFolder =
+                packageName + ".resourceTypes." + toModelName(name) + File.separator;
         return resourceTypeFolder;
     }
 
     /**
-     * Location to write api files.  You can use the apiPackage() as defined when the class is
+     * Location to write api files. You can use the apiPackage() as defined when the class is
      * instantiated
      */
     @Override
@@ -262,5 +332,8 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
     }
 
     @Override
-    public String generatorLanguageVersion() { return "3.5.2+"; };
+    public String generatorLanguageVersion() {
+        return "3.5.2+";
+    }
+    ;
 }

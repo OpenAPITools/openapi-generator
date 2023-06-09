@@ -23,5 +23,4 @@ public interface PerformBeanValidationFeatures {
     String PERFORM_BEANVALIDATION = "performBeanValidation";
 
     void setPerformBeanValidation(boolean performBeanValidation);
-
 }

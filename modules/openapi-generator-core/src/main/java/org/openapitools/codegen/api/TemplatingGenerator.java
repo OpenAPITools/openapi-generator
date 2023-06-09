@@ -18,13 +18,10 @@ package org.openapitools.codegen.api;
 
 // TODO: 6.0 Remove
 /**
- * interface to the full template content
- * implementers might take into account the -t cli option,
+ * interface to the full template content implementers might take into account the -t cli option,
  * look in the resources for a language specific template, etc
  *
  * @deprecated as of 5.0, replaced by {@link TemplatingExecutor}.
  */
 @Deprecated
-public interface TemplatingGenerator extends TemplatingExecutor {
-
-}
+public interface TemplatingGenerator extends TemplatingExecutor {}

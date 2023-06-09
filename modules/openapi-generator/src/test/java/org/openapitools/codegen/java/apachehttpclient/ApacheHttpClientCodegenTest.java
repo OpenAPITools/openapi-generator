@@ -16,14 +16,7 @@
 
 package org.openapitools.codegen.java.apachehttpclient;
 
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.languages.JavaClientCodegen;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,8 +25,14 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class ApacheHttpClientCodegenTest {
 
@@ -45,12 +44,13 @@ public class ApacheHttpClientCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
-                .setLibrary(JavaClientCodegen.APACHE)
-                .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/3_0/issue4808.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("java")
+                        .setLibrary(JavaClientCodegen.APACHE)
+                        .setAdditionalProperties(properties)
+                        .setInputSpec("src/test/resources/3_0/issue4808.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -59,12 +59,12 @@ public class ApacheHttpClientCodegenTest {
         Assert.assertEquals(files.size(), 41);
         validateJavaSourceFiles(files);
 
-        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
+        TestUtils.assertFileContains(
+                Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
                 "localVarQueryParams.addAll(apiClient.parameterToPair(\"since\", queryObject.getSince()));",
                 "localVarQueryParams.addAll(apiClient.parameterToPair(\"sinceBuild\", queryObject.getSinceBuild()));",
                 "localVarQueryParams.addAll(apiClient.parameterToPair(\"maxBuilds\", queryObject.getMaxBuilds()));",
-                "localVarQueryParams.addAll(apiClient.parameterToPair(\"maxWaitSecs\", queryObject.getMaxWaitSecs()));"
-        );
+                "localVarQueryParams.addAll(apiClient.parameterToPair(\"maxWaitSecs\", queryObject.getMaxWaitSecs()));");
     }
 
     @Test
@@ -75,19 +75,20 @@ public class ApacheHttpClientCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("java")
-            .setLibrary(JavaClientCodegen.APACHE)
-            .setAdditionalProperties(properties)
-            .setInputSpec("src/test/resources/3_0/exploded-query-param-array.yaml")
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("java")
+                        .setLibrary(JavaClientCodegen.APACHE)
+                        .setAdditionalProperties(properties)
+                        .setInputSpec("src/test/resources/3_0/exploded-query-param-array.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(clientOptInput).generate();
 
-        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
-            "localVarQueryParams.addAll(apiClient.parameterToPairs(\"multi\", \"values\", queryObject.getValues()))"
-        );
+        TestUtils.assertFileContains(
+                Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
+                "localVarQueryParams.addAll(apiClient.parameterToPairs(\"multi\", \"values\", queryObject.getValues()))");
     }
 }

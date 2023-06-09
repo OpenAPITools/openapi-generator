@@ -17,15 +17,14 @@
 
 package org.openapitools.codegen.typescript.typescriptnode;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.openapitools.codegen.AbstractIntegrationTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
 import org.openapitools.codegen.testutils.IntegrationTestPathsConfig;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_NODE})
 public class TypescriptNodeES5IntegrationTest extends AbstractIntegrationTest {

@@ -1,13 +1,11 @@
 package org.openapitools.codegen.rust;
 
+import java.math.BigInteger;
+import java.util.function.Function;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.languages.AbstractRustCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.math.BigInteger;
-import java.util.function.Function;
-
 
 public class AbstractRustCodegenTest {
 
@@ -25,15 +23,20 @@ public class AbstractRustCodegenTest {
     @Test
     public void testSanitizeIdentifier() {
         // Functions to make this less verbose
-        Function<String, String> sanitizeSnakeCase = (String name) ->
-                codegen.sanitizeIdentifier(name, AbstractRustCodegen.CasingType.SNAKE_CASE, "p", "Rust", true);
-        Function<String, String> sanitizeCamelCase = (String name) ->
-                codegen.sanitizeIdentifier(name, AbstractRustCodegen.CasingType.CAMEL_CASE, "p", "Rust", true);
+        Function<String, String> sanitizeSnakeCase =
+                (String name) ->
+                        codegen.sanitizeIdentifier(
+                                name, AbstractRustCodegen.CasingType.SNAKE_CASE, "p", "Rust", true);
+        Function<String, String> sanitizeCamelCase =
+                (String name) ->
+                        codegen.sanitizeIdentifier(
+                                name, AbstractRustCodegen.CasingType.CAMEL_CASE, "p", "Rust", true);
 
         // Underscores should be allowed through
         Assert.assertEquals(sanitizeSnakeCase.apply("pet_name"), "pet_name");
 
-        // Hyphens should be replaced (https://github.com/OpenAPITools/openapi-generator/commit/4cb7f1d6135aa3a42ff38cf89771105c40e7e5a9)
+        // Hyphens should be replaced
+        // (https://github.com/OpenAPITools/openapi-generator/commit/4cb7f1d6135aa3a42ff38cf89771105c40e7e5a9)
         Assert.assertEquals(sanitizeSnakeCase.apply("pet-name"), "pet_name");
 
         // Special character mappings are applied
@@ -114,8 +117,10 @@ public class AbstractRustCodegenTest {
     public void testToEnumVarName() {
         // Should be converted to camel case
         Assert.assertEquals(codegen.toEnumVarName("pending", null), "Pending");
-        // Enums are often represented in SCREAMING_SNAKE_CASE, check these are also converted to Rust enum camel case
-        Assert.assertEquals(codegen.toEnumVarName("SCREAMING_SNAKE_CASE", null), "ScreamingSnakeCase");
+        // Enums are often represented in SCREAMING_SNAKE_CASE, check these are also converted to
+        // Rust enum camel case
+        Assert.assertEquals(
+                codegen.toEnumVarName("SCREAMING_SNAKE_CASE", null), "ScreamingSnakeCase");
         // Prefix is added when starting with a number
         Assert.assertEquals(codegen.toEnumVarName("1_pending", null), "Variant1Pending");
         // Empty strings need to be mapped to "Empty"
@@ -125,11 +130,12 @@ public class AbstractRustCodegenTest {
 
     @Test
     public void testToEnumName() {
-        Function<String, String> toEnumName = (String name) -> {
-            CodegenProperty property = new CodegenProperty();
-            property.name = name;
-            return codegen.toEnumName(property);
-        };
+        Function<String, String> toEnumName =
+                (String name) -> {
+                    CodegenProperty property = new CodegenProperty();
+                    property.name = name;
+                    return codegen.toEnumName(property);
+                };
         // Should be converted to camel case
         Assert.assertEquals(toEnumName.apply("pet_status"), "PetStatusWithSuffix");
         // Prefix is added when starting with a number
@@ -182,45 +188,99 @@ public class AbstractRustCodegenTest {
         Assert.assertEquals(codegen.bestFittingIntegerType(null, false, null, false, true), "i32");
 
         // Test when only minimum specified (prefer unsigned)
-        Assert.assertEquals(codegen.bestFittingIntegerType(i32_MIN.subtract(BigInteger.ONE), false, null, false, true), "i64");
-        Assert.assertEquals(codegen.bestFittingIntegerType(i32_MIN, false, null, false, true), "i32");
-        Assert.assertEquals(codegen.bestFittingIntegerType(BigInteger.valueOf(-1), false, null, false, true), "i32");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(
+                        i32_MIN.subtract(BigInteger.ONE), false, null, false, true),
+                "i64");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(i32_MIN, false, null, false, true), "i32");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(BigInteger.valueOf(-1), false, null, false, true),
+                "i32");
 
-        Assert.assertEquals(codegen.bestFittingIntegerType(BigInteger.ZERO, false, null, false, true), "u32");
-        Assert.assertEquals(codegen.bestFittingIntegerType(u32_MAX, false, null, false, true), "u32");
-        Assert.assertEquals(codegen.bestFittingIntegerType(u32_MAX.add(BigInteger.ONE), false, null, false, true), "u64");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(BigInteger.ZERO, false, null, false, true), "u32");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(u32_MAX, false, null, false, true), "u32");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(
+                        u32_MAX.add(BigInteger.ONE), false, null, false, true),
+                "u64");
 
         // Test when only minimum specified (disable unsigned)
-        Assert.assertEquals(codegen.bestFittingIntegerType(BigInteger.ZERO, false, null, false, false), "i32");
-        Assert.assertEquals(codegen.bestFittingIntegerType(i32_MAX, false, null, false, false), "i32");
-        Assert.assertEquals(codegen.bestFittingIntegerType(i32_MAX.add(BigInteger.ONE), false, null, false, false), "i64");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(BigInteger.ZERO, false, null, false, false), "i32");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(i32_MAX, false, null, false, false), "i32");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(
+                        i32_MAX.add(BigInteger.ONE), false, null, false, false),
+                "i64");
 
         // Test when only maximum specified
-        Assert.assertEquals(codegen.bestFittingIntegerType(null, false, i32_MIN.subtract(BigInteger.ONE), false, true), "i64");
-        Assert.assertEquals(codegen.bestFittingIntegerType(null, false, i32_MIN, false, true), "i32");
-        Assert.assertEquals(codegen.bestFittingIntegerType(null, false, BigInteger.ZERO, false, true), "i32");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(
+                        null, false, i32_MIN.subtract(BigInteger.ONE), false, true),
+                "i64");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(null, false, i32_MIN, false, true), "i32");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(null, false, BigInteger.ZERO, false, true), "i32");
 
         // Test when maximum bits biggest (prefer unsigned)
-        Assert.assertEquals(codegen.bestFittingIntegerType(BigInteger.ZERO, false, u8_MAX, false, true), "u8");
-        Assert.assertEquals(codegen.bestFittingIntegerType(BigInteger.ZERO, false, u8_MAX.add(BigInteger.ONE), false, true), "u16");
-        Assert.assertEquals(codegen.bestFittingIntegerType(BigInteger.ZERO, false, u16_MAX, false, true), "u16");
-        Assert.assertEquals(codegen.bestFittingIntegerType(BigInteger.ZERO, false, u16_MAX.add(BigInteger.ONE), false, true), "u32");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(BigInteger.ZERO, false, u8_MAX, false, true), "u8");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(
+                        BigInteger.ZERO, false, u8_MAX.add(BigInteger.ONE), false, true),
+                "u16");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(BigInteger.ZERO, false, u16_MAX, false, true),
+                "u16");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(
+                        BigInteger.ZERO, false, u16_MAX.add(BigInteger.ONE), false, true),
+                "u32");
 
         // Test when maximum bits biggest (disable unsigned)
-        Assert.assertEquals(codegen.bestFittingIntegerType(BigInteger.ZERO, false, i8_MAX, false, false), "i8");
-        Assert.assertEquals(codegen.bestFittingIntegerType(BigInteger.ZERO, false, i8_MAX.add(BigInteger.ONE), false, false), "i16");
-        Assert.assertEquals(codegen.bestFittingIntegerType(BigInteger.ZERO, false, i16_MAX, false, false), "i16");
-        Assert.assertEquals(codegen.bestFittingIntegerType(BigInteger.ZERO, false, i16_MAX.add(BigInteger.ONE), false, false), "i32");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(BigInteger.ZERO, false, i8_MAX, false, false), "i8");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(
+                        BigInteger.ZERO, false, i8_MAX.add(BigInteger.ONE), false, false),
+                "i16");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(BigInteger.ZERO, false, i16_MAX, false, false),
+                "i16");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(
+                        BigInteger.ZERO, false, i16_MAX.add(BigInteger.ONE), false, false),
+                "i32");
 
         // Test when minimum bits biggest
-        Assert.assertEquals(codegen.bestFittingIntegerType(i16_MIN.subtract(BigInteger.ONE), false, BigInteger.ZERO, false, true), "i32");
-        Assert.assertEquals(codegen.bestFittingIntegerType(i16_MIN, false, BigInteger.ZERO, false, true), "i16");
-        Assert.assertEquals(codegen.bestFittingIntegerType(i8_MIN.subtract(BigInteger.ONE), false, BigInteger.ZERO, false, true), "i16");
-        Assert.assertEquals(codegen.bestFittingIntegerType(i8_MIN, false, BigInteger.ZERO, false, true), "i8");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(
+                        i16_MIN.subtract(BigInteger.ONE), false, BigInteger.ZERO, false, true),
+                "i32");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(i16_MIN, false, BigInteger.ZERO, false, true),
+                "i16");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(
+                        i8_MIN.subtract(BigInteger.ONE), false, BigInteger.ZERO, false, true),
+                "i16");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(i8_MIN, false, BigInteger.ZERO, false, true), "i8");
 
         // Test when exclusive bounds
-        Assert.assertEquals(codegen.bestFittingIntegerType(i8_MIN.subtract(BigInteger.ONE), true, BigInteger.ZERO, false, false), "i8");
-        Assert.assertEquals(codegen.bestFittingIntegerType(BigInteger.ZERO, true, i8_MAX.add(BigInteger.ONE), true, false), "i8");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(
+                        i8_MIN.subtract(BigInteger.ONE), true, BigInteger.ZERO, false, false),
+                "i8");
+        Assert.assertEquals(
+                codegen.bestFittingIntegerType(
+                        BigInteger.ZERO, true, i8_MAX.add(BigInteger.ONE), true, false),
+                "i8");
     }
 
     @Test
@@ -232,13 +292,11 @@ public class AbstractRustCodegenTest {
         Assert.assertTrue(codegen.canFitIntoUnsigned(BigInteger.valueOf(-1), true));
     }
 
-
     private static class P_AbstractRustCodegen extends AbstractRustCodegen {
 
         P_AbstractRustCodegen() {
             this.enumSuffix = "WithSuffix";
             this.apiNameSuffix = "WithSuffix";
         }
-
     }
 }

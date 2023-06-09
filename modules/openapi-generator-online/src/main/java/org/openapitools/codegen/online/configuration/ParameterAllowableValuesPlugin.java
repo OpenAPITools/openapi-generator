@@ -1,5 +1,7 @@
 package org.openapitools.codegen.online.configuration;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.CodegenType;
@@ -8,9 +10,6 @@ import springfox.documentation.service.AllowableListValues;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.ParameterBuilderPlugin;
 import springfox.documentation.spi.service.contexts.ParameterContext;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class ParameterAllowableValuesPlugin implements ParameterBuilderPlugin {
@@ -39,11 +38,15 @@ public class ParameterAllowableValuesPlugin implements ParameterBuilderPlugin {
         switch (name) {
             case "getClientOptions":
             case "generateClient":
-                parameterContext.parameterBuilder().allowableValues(new AllowableListValues(clients, "string"));
+                parameterContext
+                        .parameterBuilder()
+                        .allowableValues(new AllowableListValues(clients, "string"));
                 break;
             case "getServerOptions":
             case "generateServerForLanguage":
-                parameterContext.parameterBuilder().allowableValues(new AllowableListValues(servers, "string"));
+                parameterContext
+                        .parameterBuilder()
+                        .allowableValues(new AllowableListValues(servers, "string"));
         }
     }
 

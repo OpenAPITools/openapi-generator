@@ -18,10 +18,9 @@
 package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.HaskellServantCodegen;
-
-import java.util.Map;
 
 public class HaskellServantOptionsProvider implements OptionsProvider {
     public static final String MODEL_PACKAGE_VALUE = "Model";
@@ -44,15 +43,23 @@ public class HaskellServantOptionsProvider implements OptionsProvider {
         return builder.put(CodegenConstants.MODEL_PACKAGE, MODEL_PACKAGE_VALUE)
                 .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
-                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
+                .put(
+                        CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG,
+                        SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
-                .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
-                .put(HaskellServantCodegen.PROP_SERVE_STATIC, HaskellServantCodegen.PROP_SERVE_STATIC_DEFAULT.toString())
+                .put(
+                        CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                        PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(
+                        HaskellServantCodegen.PROP_SERVE_STATIC,
+                        HaskellServantCodegen.PROP_SERVE_STATIC_DEFAULT.toString())
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
-                .put(HaskellServantCodegen.USE_CUSTOM_MONAD, HaskellServantCodegen.USE_CUSTOM_MONAD_DEFAULT.toString())
+                .put(
+                        HaskellServantCodegen.USE_CUSTOM_MONAD,
+                        HaskellServantCodegen.USE_CUSTOM_MONAD_DEFAULT.toString())
                 .build();
     }
 

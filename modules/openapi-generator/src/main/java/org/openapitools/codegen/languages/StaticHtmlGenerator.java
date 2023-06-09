@@ -17,12 +17,15 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.escape;
+
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache.Compiler;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.util.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -30,10 +33,6 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.Markdown;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.escape;
 
 public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "org.openapitools.client";
@@ -44,15 +43,15 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     public StaticHtmlGenerator() {
         super();
 
-        modifyFeatureSet(features -> features
-                .documentationFeatures(EnumSet.allOf(DocumentationFeature.class))
-                .dataTypeFeatures(EnumSet.allOf(DataTypeFeature.class))
-                .wireFormatFeatures(EnumSet.allOf(WireFormatFeature.class))
-                .securityFeatures(EnumSet.allOf(SecurityFeature.class))
-                .globalFeatures(EnumSet.allOf(GlobalFeature.class))
-                .parameterFeatures(EnumSet.allOf(ParameterFeature.class))
-                .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class))
-        );
+        modifyFeatureSet(
+                features ->
+                        features.documentationFeatures(EnumSet.allOf(DocumentationFeature.class))
+                                .dataTypeFeatures(EnumSet.allOf(DataTypeFeature.class))
+                                .wireFormatFeatures(EnumSet.allOf(WireFormatFeature.class))
+                                .securityFeatures(EnumSet.allOf(SecurityFeature.class))
+                                .globalFeatures(EnumSet.allOf(GlobalFeature.class))
+                                .parameterFeatures(EnumSet.allOf(ParameterFeature.class))
+                                .schemaSupportFeatures(EnumSet.allOf(SchemaSupportFeature.class)));
 
         outputFolder = "docs";
         embeddedTemplateDir = templateDir = "htmlDocs";
@@ -61,14 +60,25 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
 
         cliOptions.add(new CliOption("appName", "short name of the application"));
         cliOptions.add(new CliOption("appDescription", "description of the application"));
-        cliOptions.add(new CliOption("infoUrl", "a URL where users can get more information about the application"));
-        cliOptions.add(new CliOption("infoEmail", "an email address to contact for inquiries about the application"));
+        cliOptions.add(
+                new CliOption(
+                        "infoUrl",
+                        "a URL where users can get more information about the application"));
+        cliOptions.add(
+                new CliOption(
+                        "infoEmail",
+                        "an email address to contact for inquiries about the application"));
         cliOptions.add(new CliOption("licenseInfo", "a short description of the license"));
         cliOptions.add(new CliOption("licenseUrl", "a URL pointing to the full license"));
-        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
+        cliOptions.add(
+                new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
+        cliOptions.add(
+                new CliOption(
+                        CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
 
         additionalProperties.put("appName", "OpenAPI Sample");
         additionalProperties.put("appDescription", "A sample OpenAPI server");
@@ -89,8 +99,8 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     }
 
     /**
-     * Convert Markdown (CommonMark) to HTML. This class also disables normal HTML
-     * escaping in the Mustache engine.
+     * Convert Markdown (CommonMark) to HTML. This class also disables normal HTML escaping in the
+     * Mustache engine.
      */
     @Override
     public String escapeText(String input) {
@@ -127,7 +137,8 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
@@ -140,7 +151,6 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         }
         return objs;
     }
-
 
     @Override
     public String escapeQuotationMark(String input) {
@@ -155,14 +165,12 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     }
 
     /**
-     * Markdown conversion emits HTML and by default, the Mustache
-     * {@link Compiler} will escape HTML. For example a summary
-     * <code>"Text with **bold**"</code> is converted from Markdown to HTML as
-     * <code>"Text with &lt;strong&gt;bold&lt;/strong&gt; text"</code> and then
-     * the default compiler with HTML escaping on turns this into
-     * <code>"Text with &amp;lt;strong&amp;gt;bold&amp;lt;/strong&amp;gt; text"</code>.
-     * Here, we disable escaping by setting the compiler to {@link Escapers#NONE
-     * Escapers.NONE}
+     * Markdown conversion emits HTML and by default, the Mustache {@link Compiler} will escape
+     * HTML. For example a summary <code>"Text with **bold**"</code> is converted from Markdown to
+     * HTML as <code>"Text with &lt;strong&gt;bold&lt;/strong&gt; text"</code> and then the default
+     * compiler with HTML escaping on turns this into <code>
+     * "Text with &amp;lt;strong&amp;gt;bold&amp;lt;/strong&amp;gt; text"</code>. Here, we disable
+     * escaping by setting the compiler to {@link Escapers#NONE Escapers.NONE}
      */
     @Override
     public Compiler processCompiler(Compiler compiler) {
@@ -180,8 +188,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
      * @return the text, converted to Markdown. For null input, "" is returned.
      */
     public String toHtml(String input) {
-        if (input == null)
-            return "";
+        if (input == null) return "";
         return markdownConverter.toHtml(input);
     }
 
@@ -199,7 +206,13 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     public String toVarName(String name) {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains(String.valueOf((char) character)))) {
+        } else if (((CharSequence) name)
+                .chars()
+                .anyMatch(
+                        character ->
+                                specialCharReplacements
+                                        .keySet()
+                                        .contains(String.valueOf((char) character)))) {
             return escape(name, specialCharReplacements, Arrays.asList("_"), null);
         } else {
             return name;
@@ -220,18 +233,17 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
     // override to post-process any parameters
     public void postProcessParameter(CodegenParameter parameter) {
         parameter.description = toHtml(parameter.description);
-        parameter.unescapedDescription = toHtml(
-                parameter.unescapedDescription);
+        parameter.unescapedDescription = toHtml(parameter.unescapedDescription);
     }
 
     // override to post-process any model properties
-    public void postProcessModelProperty(CodegenModel model,
-                                         CodegenProperty property) {
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         property.description = toHtml(property.description);
-        property.unescapedDescription = toHtml(
-                property.unescapedDescription);
+        property.unescapedDescription = toHtml(property.unescapedDescription);
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return null; }
+    public GeneratorLanguage generatorLanguage() {
+        return null;
+    }
 }

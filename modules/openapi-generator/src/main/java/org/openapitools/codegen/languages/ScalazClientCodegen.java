@@ -17,17 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -35,10 +32,12 @@ import java.io.Writer;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
-
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ScalazClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ScalazClientCodegen.class);
@@ -46,22 +45,17 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
     public ScalazClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
-                        GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
-                )
-                .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism
-                )
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie
-                )
-        );
+        modifyFeatureSet(
+                features ->
+                        features.wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                                .excludeGlobalFeatures(
+                                        GlobalFeature.XMLStructureDefinitions,
+                                        GlobalFeature.Callbacks,
+                                        GlobalFeature.LinkObjects,
+                                        GlobalFeature.ParameterStyling)
+                                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                                .excludeParameterFeatures(ParameterFeature.Cookie));
 
         outputFolder = "generated-code/scalaz";
         embeddedTemplateDir = templateDir = "scalaz";
@@ -74,25 +68,80 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // local variable names used in API methods (endpoints)
-                        "path", "contentTypes", "contentType", "queryParams", "headerParams",
-                        "formParams", "postBody", "mp", "basePath", "apiInvoker",
+                        "path",
+                        "contentTypes",
+                        "contentType",
+                        "queryParams",
+                        "headerParams",
+                        "formParams",
+                        "postBody",
+                        "mp",
+                        "basePath",
+                        "apiInvoker",
 
                         // scala reserved words
-                        "abstract", "case", "catch", "class", "def", "do", "else", "extends",
-                        "false", "final", "finally", "for", "forSome", "if", "implicit",
-                        "import", "lazy", "match", "new", "null", "object", "override", "package",
-                        "private", "protected", "return", "sealed", "super", "this", "throw",
-                        "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
-        );
+                        "abstract",
+                        "case",
+                        "catch",
+                        "class",
+                        "def",
+                        "do",
+                        "else",
+                        "extends",
+                        "false",
+                        "final",
+                        "finally",
+                        "for",
+                        "forSome",
+                        "if",
+                        "implicit",
+                        "import",
+                        "lazy",
+                        "match",
+                        "new",
+                        "null",
+                        "object",
+                        "override",
+                        "package",
+                        "private",
+                        "protected",
+                        "return",
+                        "sealed",
+                        "super",
+                        "this",
+                        "throw",
+                        "trait",
+                        "try",
+                        "true",
+                        "type",
+                        "val",
+                        "var",
+                        "while",
+                        "with",
+                        "yield"));
 
         additionalProperties.put("apiPackage", apiPackage);
 
-        // Explicitly defining build.properties helps guarantee our sample remains compilable against the embedded target 2.11 scala
-        supportingFiles.add(new SupportingFile("build.properties.mustache", "", "project/build.properties"));
+        // Explicitly defining build.properties helps guarantee our sample remains compilable
+        // against the embedded target 2.11 scala
+        supportingFiles.add(
+                new SupportingFile("build.properties.mustache", "", "project/build.properties"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
-        supportingFiles.add(new SupportingFile("dateTimeCodecs.mustache", (sourceFolder + File.separator + apiPackage).replace(".", File.separator), "DateTimeCodecs.scala"));
-        supportingFiles.add(new SupportingFile("HelperCodecs.mustache", (sourceFolder + File.separator + apiPackage).replace(".", File.separator), "HelperCodecs.scala"));
-        supportingFiles.add(new SupportingFile("QueryParamTypeclass.mustache", (sourceFolder + File.separator + apiPackage).replace(".", File.separator), "QueryParamTypeclass.scala"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "dateTimeCodecs.mustache",
+                        (sourceFolder + File.separator + apiPackage).replace(".", File.separator),
+                        "DateTimeCodecs.scala"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "HelperCodecs.mustache",
+                        (sourceFolder + File.separator + apiPackage).replace(".", File.separator),
+                        "HelperCodecs.scala"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "QueryParamTypeclass.mustache",
+                        (sourceFolder + File.separator + apiPackage).replace(".", File.separator),
+                        "QueryParamTypeclass.scala"));
 
         importMapping.remove("List");
         importMapping.remove("Set");
@@ -159,11 +208,12 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
             case snake_case:
                 return underscore(name);
             default:
-                throw new IllegalArgumentException("Invalid model property naming '" +
-                        name + "'. Must be 'original', 'camelCase', " +
-                        "'PascalCase' or 'snake_case'");
+                throw new IllegalArgumentException(
+                        "Invalid model property naming '"
+                                + name
+                                + "'. Must be 'original', 'camelCase', "
+                                + "'PascalCase' or 'snake_case'");
         }
-
     }
 
     @Override
@@ -190,10 +240,13 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            String collectionType = ModelUtils.isSet(ap) ? typeMapping.get("set") : typeMapping.get("array");
+            String collectionType =
+                    ModelUtils.isSet(ap) ? typeMapping.get("set") : typeMapping.get("array");
 
-            // We assume that users would map these collections to a monoid with an identity function
-            // There's no reason to assume mutable structure here (which may make consumption more difficult)
+            // We assume that users would map these collections to a monoid with an identity
+            // function
+            // There's no reason to assume mutable structure here (which may make consumption more
+            // difficult)
             return collectionType + ".empty[" + inner + "] ";
         } else if (ModelUtils.isStringSchema(p)) {
             return null;
@@ -226,13 +279,14 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
+            throw new RuntimeException(
+                    operationId + " (reserved word) cannot be used as method name");
         }
 
         return camelize(operationId, LOWERCASE_FIRST_LETTER);
     }
 
-    private static abstract class CustomLambda implements Mustache.Lambda {
+    private abstract static class CustomLambda implements Mustache.Lambda {
         @Override
         public void execute(Template.Fragment frag, Writer out) throws IOException {
             final StringWriter tempWriter = new StringWriter();

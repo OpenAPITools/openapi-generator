@@ -1,13 +1,13 @@
 package org.openapitools.codegen.typescript.axios;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.testng.Assert.assertEquals;
+
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_AXIOS})
 public class TypeScriptAxiosClientCodegenTest {
@@ -16,7 +16,10 @@ public class TypeScriptAxiosClientCodegenTest {
 
     @Test
     public void testToEnumVarNameOriginalNamingType() {
-        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original.name());
+        codegen.additionalProperties()
+                .put(
+                        CodegenConstants.ENUM_PROPERTY_NAMING,
+                        CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original.name());
         codegen.processOpts();
         assertEquals(codegen.toEnumVarName("SCIENCE", "string"), "SCIENCE");
         assertEquals(codegen.toEnumVarName("SCIENCE_FICTION", "string"), "SCIENCE_FICTION");
@@ -30,7 +33,10 @@ public class TypeScriptAxiosClientCodegenTest {
 
     @Test
     public void testToEnumVarNameCamelCaseNamingType() {
-        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase.name());
+        codegen.additionalProperties()
+                .put(
+                        CodegenConstants.ENUM_PROPERTY_NAMING,
+                        CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase.name());
         codegen.processOpts();
         assertEquals(codegen.toEnumVarName("SCIENCE", "string"), "science");
         assertEquals(codegen.toEnumVarName("SCIENCE_FICTION", "string"), "scienceFiction");
@@ -42,7 +48,10 @@ public class TypeScriptAxiosClientCodegenTest {
 
     @Test
     public void testToEnumVarNamePascalCaseNamingType() {
-        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.PascalCase.name());
+        codegen.additionalProperties()
+                .put(
+                        CodegenConstants.ENUM_PROPERTY_NAMING,
+                        CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.PascalCase.name());
         codegen.processOpts();
         assertEquals(codegen.toEnumVarName("SCIENCE", "string"), "Science");
         assertEquals(codegen.toEnumVarName("SCIENCE_FICTION", "string"), "ScienceFiction");
@@ -56,7 +65,10 @@ public class TypeScriptAxiosClientCodegenTest {
 
     @Test
     public void testToEnumVarNameSnakeCaseNamingType() {
-        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.snake_case.name());
+        codegen.additionalProperties()
+                .put(
+                        CodegenConstants.ENUM_PROPERTY_NAMING,
+                        CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.snake_case.name());
         codegen.processOpts();
         assertEquals(codegen.toEnumVarName("SCIENCE", "string"), "science");
         assertEquals(codegen.toEnumVarName("SCIENCE_FICTION", "string"), "science_fiction");
@@ -70,7 +82,10 @@ public class TypeScriptAxiosClientCodegenTest {
 
     @Test
     public void testToEnumVarNameUpperCaseNamingType() {
-        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.UPPERCASE.name());
+        codegen.additionalProperties()
+                .put(
+                        CodegenConstants.ENUM_PROPERTY_NAMING,
+                        CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.UPPERCASE.name());
         codegen.processOpts();
         assertEquals(codegen.toEnumVarName("SCIENCE", "string"), "SCIENCE");
         assertEquals(codegen.toEnumVarName("SCIENCE_FICTION", "string"), "SCIENCE_FICTION");
@@ -93,8 +108,10 @@ public class TypeScriptAxiosClientCodegenTest {
 
         codegen.processOpts();
 
-        assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
-        assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
+        assertThat(codegen.supportingFiles())
+                .contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        assertThat(codegen.supportingFiles())
+                .contains(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
     }
 
     @Test
@@ -108,7 +125,10 @@ public class TypeScriptAxiosClientCodegenTest {
 
         codegen.processOpts();
 
-        assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
-        assertThat(codegen.supportingFiles()).doesNotContain(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
+        assertThat(codegen.supportingFiles())
+                .contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        assertThat(codegen.supportingFiles())
+                .doesNotContain(
+                        new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
     }
 }

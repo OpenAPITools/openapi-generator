@@ -10,7 +10,12 @@ public class CodegenEncoding {
     private boolean explode;
     private boolean allowReserved;
 
-    public CodegenEncoding(String contentType, List<CodegenParameter> headers, String style, boolean explode, boolean allowReserved) {
+    public CodegenEncoding(
+            String contentType,
+            List<CodegenParameter> headers,
+            String style,
+            boolean explode,
+            boolean allowReserved) {
         this.contentType = contentType;
         this.headers = headers;
         this.style = style;
@@ -53,11 +58,11 @@ public class CodegenEncoding {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CodegenEncoding that = (CodegenEncoding) o;
-        return contentType == that.getContentType() &&
-                Objects.equals(headers, that.getHeaders()) &&
-                style == that.getStyle() &&
-                explode == that.getExplode() &&
-                allowReserved == that.getAllowReserved();
+        return contentType == that.getContentType()
+                && Objects.equals(headers, that.getHeaders())
+                && style == that.getStyle()
+                && explode == that.getExplode()
+                && allowReserved == that.getAllowReserved();
     }
 
     @Override

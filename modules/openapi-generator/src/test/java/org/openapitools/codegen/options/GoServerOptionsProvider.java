@@ -18,9 +18,8 @@
 package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
-import org.openapitools.codegen.CodegenConstants;
-
 import java.util.Map;
+import org.openapitools.codegen.CodegenConstants;
 
 public class GoServerOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "false";

@@ -17,17 +17,16 @@
 
 package org.openapitools.codegen.auth;
 
-import io.swagger.v3.parser.core.models.AuthorizationValue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+import io.swagger.v3.parser.core.models.AuthorizationValue;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AuthParser {
 
@@ -41,7 +40,11 @@ public class AuthParser {
                 String[] kvPair = part.split(":");
                 if (kvPair.length == 2) {
                     try {
-                        auths.add(new AuthorizationValue(URLDecoder.decode(kvPair[0], "UTF-8"), URLDecoder.decode(kvPair[1], "UTF-8"), "header"));
+                        auths.add(
+                                new AuthorizationValue(
+                                        URLDecoder.decode(kvPair[0], "UTF-8"),
+                                        URLDecoder.decode(kvPair[1], "UTF-8"),
+                                        "header"));
                     } catch (UnsupportedEncodingException e) {
                         LOGGER.warn(e.getMessage());
                     }

@@ -16,13 +16,13 @@
 
 package org.openapitools.codegen.mysql;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.MysqlSchemaCodegen;
 import org.openapitools.codegen.options.MysqlSchemaOptionsProvider;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class MysqlSchemaOptionsTest extends AbstractOptionsTest {
     private MysqlSchemaCodegen clientCodegen = mock(MysqlSchemaCodegen.class, mockSettings);
@@ -39,9 +39,16 @@ public class MysqlSchemaOptionsTest extends AbstractOptionsTest {
     @SuppressWarnings("unused")
     @Override
     protected void verifyOptions() {
-        verify(clientCodegen).setDefaultDatabaseName(MysqlSchemaOptionsProvider.DEFAULT_DATABASE_NAME_VALUE);
-        verify(clientCodegen).setJsonDataTypeEnabled(Boolean.valueOf(MysqlSchemaOptionsProvider.JSON_DATA_TYPE_ENABLED_VALUE));
-        verify(clientCodegen).setIdentifierNamingConvention(MysqlSchemaOptionsProvider.IDENTIFIER_NAMING_CONVENTION_VALUE);
-        verify(clientCodegen).setNamedParametersEnabled(Boolean.valueOf(MysqlSchemaOptionsProvider.NAMED_PARAMETERS_ENABLED_VALUE));
+        verify(clientCodegen)
+                .setDefaultDatabaseName(MysqlSchemaOptionsProvider.DEFAULT_DATABASE_NAME_VALUE);
+        verify(clientCodegen)
+                .setJsonDataTypeEnabled(
+                        Boolean.valueOf(MysqlSchemaOptionsProvider.JSON_DATA_TYPE_ENABLED_VALUE));
+        verify(clientCodegen)
+                .setIdentifierNamingConvention(
+                        MysqlSchemaOptionsProvider.IDENTIFIER_NAMING_CONVENTION_VALUE);
+        verify(clientCodegen)
+                .setNamedParametersEnabled(
+                        Boolean.valueOf(MysqlSchemaOptionsProvider.NAMED_PARAMETERS_ENABLED_VALUE));
     }
 }

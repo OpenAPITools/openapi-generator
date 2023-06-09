@@ -16,13 +16,6 @@
 
 package org.openapitools.codegen.plugin.stubs;
 
-import org.apache.maven.model.Build;
-import org.apache.maven.model.Model;
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
-import org.apache.maven.plugin.testing.stubs.ArtifactStub;
-import org.apache.maven.plugin.testing.stubs.DefaultArtifactHandlerStub;
-import org.apache.maven.plugin.testing.stubs.MavenProjectStub;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -31,6 +24,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.maven.model.Build;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.apache.maven.plugin.testing.stubs.ArtifactStub;
+import org.apache.maven.plugin.testing.stubs.DefaultArtifactHandlerStub;
+import org.apache.maven.plugin.testing.stubs.MavenProjectStub;
 
 public abstract class StubUtility {
     private StubUtility() {
@@ -39,23 +38,34 @@ public abstract class StubUtility {
 
     /**
      * Configures a stub to conventional directories based on test name and pom file name.
-     * <p>
-     * Taken largely from PMD plugin:
+     *
+     * <p>Taken largely from PMD plugin:
      * https://github.com/apache/maven-pmd-plugin/blob/d766fdb0c93a6630ad7a788f260746b05c804a71/src/test/java/org/apache/maven/plugins/pmd/stubs/CustomConfigurationMavenProjectStub.java
      * License: Apache 2.0
      *
-     * @param configure   The stub to configure
-     * @param testName    A name used to identify this stub, used in resource lookup
+     * @param configure The stub to configure
+     * @param testName A name used to identify this stub, used in resource lookup
      * @param pomFileName The filename and extension, e.g. "my-test-pom.xml"
      */
-    public static void configureStub(MavenProjectStub configure, String testName, String pomFileName) {
+    public static void configureStub(
+            MavenProjectStub configure, String testName, String pomFileName) {
         MavenXpp3Reader pomReader = new MavenXpp3Reader();
         Model model = null;
         try {
-            File pomFile = basedPath(
-                    configure.getBasedir(), "src", "test", "resources", "unit", testName, pomFileName
-            ).toFile();
-            model = pomReader.read(new InputStreamReader(new FileInputStream(pomFile), StandardCharsets.UTF_8));
+            File pomFile =
+                    basedPath(
+                                    configure.getBasedir(),
+                                    "src",
+                                    "test",
+                                    "resources",
+                                    "unit",
+                                    testName,
+                                    pomFileName)
+                            .toFile();
+            model =
+                    pomReader.read(
+                            new InputStreamReader(
+                                    new FileInputStream(pomFile), StandardCharsets.UTF_8));
             configure.setModel(model);
         } catch (Exception ignored) {
 
@@ -70,12 +80,25 @@ public abstract class StubUtility {
 
         Build build = new Build();
         build.setFinalName(model.getBuild().getFinalName());
-        build.setDirectory(basedPath(configure.getBasedir(), "target", "test", "unit", testName, "target").toString());
-        build.setSourceDirectory(basedPath(configure.getBasedir(), "src", "test", "resources", "unit", testName).toString());
+        build.setDirectory(
+                basedPath(configure.getBasedir(), "target", "test", "unit", testName, "target")
+                        .toString());
+        build.setSourceDirectory(
+                basedPath(configure.getBasedir(), "src", "test", "resources", "unit", testName)
+                        .toString());
         configure.setBuild(build);
 
         List<String> compileSourceRoots = new ArrayList<>();
-        compileSourceRoots.add(basedPath(configure.getBasedir(), "src", "test", "resources", "unit", testName, "src").toString());
+        compileSourceRoots.add(
+                basedPath(
+                                configure.getBasedir(),
+                                "src",
+                                "test",
+                                "resources",
+                                "unit",
+                                testName,
+                                "src")
+                        .toString());
         configure.setCompileSourceRoots(compileSourceRoots);
 
         ArtifactStub artifactStub = new ArtifactStub();

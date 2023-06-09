@@ -17,13 +17,23 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
-
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -33,22 +43,11 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.*;
-
-import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
 public abstract class AbstractScalaCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractScalaCodegen.class);
 
-    protected String modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase.name();
+    protected String modelPropertyNaming =
+            CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase.name();
     protected String invokerPackage = "org.openapitools.client";
     protected String sourceFolder = "src/main/scala";
     protected String appName = "OpenAPI Sample";
@@ -76,72 +75,61 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     public AbstractScalaCodegen() {
         super();
 
-        languageSpecificPrimitives.addAll(Arrays.asList(
-                "String",
-                "boolean",
-                "Boolean",
-                "Double",
-                "Int",
-                "Long",
-                "Float",
-                "Object",
-                "Any",
-                "List",
-                "Seq",
-                "Map",
-                "Array",
-                "Byte"));
+        languageSpecificPrimitives.addAll(
+                Arrays.asList(
+                        "String", "boolean", "Boolean", "Double", "Int", "Long", "Float", "Object",
+                        "Any", "List", "Seq", "Map", "Array", "Byte"));
 
-        reservedWords.addAll(Arrays.asList(
-                "abstract",
-                "case",
-                "catch",
-                "class",
-                "clone",
-                "def",
-                "do",
-                "else",
-                "extends",
-                "false",
-                "final",
-                "finally",
-                "for",
-                "forSome",
-                "if",
-                "implicit",
-                "import",
-                "lazy",
-                "match",
-                "new",
-                "null",
-                "object",
-                "override",
-                "package",
-                "private",
-                "protected",
-                "return",
-                "sealed",
-                "super",
-                "this",
-                "throw",
-                "trait",
-                "try",
-                "true",
-                "type",
-                "val",
-                "var",
-                "while",
-                "with",
-                "yield"
-        ));
+        reservedWords.addAll(
+                Arrays.asList(
+                        "abstract",
+                        "case",
+                        "catch",
+                        "class",
+                        "clone",
+                        "def",
+                        "do",
+                        "else",
+                        "extends",
+                        "false",
+                        "final",
+                        "finally",
+                        "for",
+                        "forSome",
+                        "if",
+                        "implicit",
+                        "import",
+                        "lazy",
+                        "match",
+                        "new",
+                        "null",
+                        "object",
+                        "override",
+                        "package",
+                        "private",
+                        "protected",
+                        "return",
+                        "sealed",
+                        "super",
+                        "this",
+                        "throw",
+                        "trait",
+                        "try",
+                        "true",
+                        "type",
+                        "val",
+                        "var",
+                        "while",
+                        "with",
+                        "yield"));
 
         // Scala specific openApi types mapping
         typeMapping.put("ByteArray", "Array[Byte]");
 
-
         importMapping = new HashMap<String, String>();
         importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
-        // although Seq is a predef, before Scala 2.13, it _could_ refer to a mutable Seq in some cases.
+        // although Seq is a predef, before Scala 2.13, it _could_ refer to a mutable Seq in some
+        // cases.
         importMapping.put("Seq", "scala.collection.immutable.Seq");
         importMapping.put("Set", "scala.collection.immutable.Set");
         importMapping.put("ListSet", "scala.collection.immutable.ListSet");
@@ -160,15 +148,23 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         importMapping.put("LocalDate", "org.joda.time.*");
         importMapping.put("LocalTime", "org.joda.time.*");
 
-
         instantiationTypes.put("set", "Set");
 
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue(modelPropertyNaming));
+        cliOptions.add(
+                new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
+        cliOptions.add(
+                new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
+        cliOptions.add(
+                new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
+        cliOptions.add(
+                new CliOption(
+                                CodegenConstants.MODEL_PROPERTY_NAMING,
+                                CodegenConstants.MODEL_PROPERTY_NAMING_DESC)
+                        .defaultValue(modelPropertyNaming));
 
-        CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.dateLibrary);
+        CliOption dateLibrary =
+                new CliOption(DATE_LIBRARY, "Option. Date library to use")
+                        .defaultValue(this.dateLibrary);
         Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put(DateLibraries.java8.name(), DateLibraries.java8.description);
         dateOptions.put(DateLibraries.joda.name(), DateLibraries.joda.description);
@@ -181,7 +177,6 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         specialCharReplacements.put("&lt;", "Less_Than");
         specialCharReplacements.put("&gt;&#x3D;", "Greater_Than_Or_Equal_To");
         specialCharReplacements.put("&lt;&#x3D;", "Less_Than_Or_Equal_To");
-
     }
 
     @Override
@@ -189,32 +184,90 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("SCALA_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable SCALA_POST_PROCESS_FILE not defined so the Scala code may not be properly formatted. To define it, try 'export SCALA_POST_PROCESS_FILE=/usr/local/bin/scalafmt' (Linux/Mac)");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info(
+                    "Environment variable SCALA_POST_PROCESS_FILE not defined so the Scala code may not be properly formatted. To define it, try 'export SCALA_POST_PROCESS_FILE=/usr/local/bin/scalafmt' (Linux/Mac)");
+            LOGGER.info(
+                    "NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
-        this.appName = Optional.ofNullable(openAPI).map(o -> o.getInfo()).filter(i -> i != null).map(i -> i.getTitle()).filter(t -> t != null).orElse(this.appName);
-        this.appDescription = Optional.ofNullable(openAPI).map(o -> o.getInfo()).filter(i -> i != null).map(i -> i.getDescription()).filter(d -> d != null).orElse(this.appDescription);
-        this.infoUrl = Optional.ofNullable(openAPI).map(o -> o.getInfo()).filter(i -> i != null).map(i -> i.getContact()).filter(c -> c != null).map(c -> c.getUrl()).filter(u -> u != null).orElse(this.infoUrl);
-        this.infoEmail = Optional.ofNullable(openAPI).map(o -> o.getInfo()).filter(i -> i != null).map(i -> i.getContact()).filter(c -> c != null).map(c -> c.getEmail()).filter(v -> v != null).orElse(this.infoEmail);
-        this.licenseInfo = Optional.ofNullable(openAPI).map(o -> o.getInfo()).filter(i -> i != null).map(i -> i.getLicense()).filter(l -> l != null).map(l -> l.getName()).filter(n -> n != null).orElse(this.licenseInfo);
-        this.licenseUrl = Optional.ofNullable(openAPI).map(o -> o.getInfo()).filter(i -> i != null).map(i -> i.getLicense()).filter(l -> l != null).map(l -> l.getUrl()).filter(u -> u != null).orElse(this.licenseUrl);
+        this.appName =
+                Optional.ofNullable(openAPI)
+                        .map(o -> o.getInfo())
+                        .filter(i -> i != null)
+                        .map(i -> i.getTitle())
+                        .filter(t -> t != null)
+                        .orElse(this.appName);
+        this.appDescription =
+                Optional.ofNullable(openAPI)
+                        .map(o -> o.getInfo())
+                        .filter(i -> i != null)
+                        .map(i -> i.getDescription())
+                        .filter(d -> d != null)
+                        .orElse(this.appDescription);
+        this.infoUrl =
+                Optional.ofNullable(openAPI)
+                        .map(o -> o.getInfo())
+                        .filter(i -> i != null)
+                        .map(i -> i.getContact())
+                        .filter(c -> c != null)
+                        .map(c -> c.getUrl())
+                        .filter(u -> u != null)
+                        .orElse(this.infoUrl);
+        this.infoEmail =
+                Optional.ofNullable(openAPI)
+                        .map(o -> o.getInfo())
+                        .filter(i -> i != null)
+                        .map(i -> i.getContact())
+                        .filter(c -> c != null)
+                        .map(c -> c.getEmail())
+                        .filter(v -> v != null)
+                        .orElse(this.infoEmail);
+        this.licenseInfo =
+                Optional.ofNullable(openAPI)
+                        .map(o -> o.getInfo())
+                        .filter(i -> i != null)
+                        .map(i -> i.getLicense())
+                        .filter(l -> l != null)
+                        .map(l -> l.getName())
+                        .filter(n -> n != null)
+                        .orElse(this.licenseInfo);
+        this.licenseUrl =
+                Optional.ofNullable(openAPI)
+                        .map(o -> o.getInfo())
+                        .filter(i -> i != null)
+                        .map(i -> i.getLicense())
+                        .filter(l -> l != null)
+                        .map(l -> l.getUrl())
+                        .filter(u -> u != null)
+                        .orElse(this.licenseUrl);
 
-        this.apiVersion = Optional.ofNullable(openAPI).map(o -> o.getInfo()).filter(i -> i != null).map(i -> i.getVersion()).filter(v -> v != null).orElse(this.apiVersion);
+        this.apiVersion =
+                Optional.ofNullable(openAPI)
+                        .map(o -> o.getInfo())
+                        .filter(i -> i != null)
+                        .map(i -> i.getVersion())
+                        .filter(v -> v != null)
+                        .orElse(this.apiVersion);
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
+            this.setInvokerPackage(
+                    (String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
-        if (additionalProperties.containsKey(CodegenConstants.STRIP_PACKAGE_NAME) &&
-                "false".equalsIgnoreCase(additionalProperties.get(CodegenConstants.STRIP_PACKAGE_NAME).toString())) {
+        if (additionalProperties.containsKey(CodegenConstants.STRIP_PACKAGE_NAME)
+                && "false"
+                        .equalsIgnoreCase(
+                                additionalProperties
+                                        .get(CodegenConstants.STRIP_PACKAGE_NAME)
+                                        .toString())) {
             this.stripPackageName = false;
             additionalProperties.put(CodegenConstants.STRIP_PACKAGE_NAME, false);
-            LOGGER.warn("stripPackageName=false. Compilation errors may occur if API type names clash with types " +
-                    "in the default imports");
+            LOGGER.warn(
+                    "stripPackageName=false. Compilation errors may occur if API type names clash with types "
+                            + "in the default imports");
         }
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming(
@@ -261,18 +314,20 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     public void setModelPropertyNaming(String naming) {
         try {
-            this.modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.valueOf(naming).name();
+            this.modelPropertyNaming =
+                    CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.valueOf(naming).name();
         } catch (IllegalArgumentException ex) {
-            throw new IllegalArgumentException("Invalid model property naming '" +
-                    naming + "'. Must be 'original', 'camelCase', " +
-                    "'PascalCase' or 'snake_case'");
+            throw new IllegalArgumentException(
+                    "Invalid model property naming '"
+                            + naming
+                            + "'. Must be 'original', 'camelCase', "
+                            + "'PascalCase' or 'snake_case'");
         }
     }
 
     public String getModelPropertyNaming() {
         return this.modelPropertyNaming;
     }
-
 
     @Override
     public String toVarName(String name) {
@@ -305,9 +360,11 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             case snake_case:
                 return underscore(name);
             default:
-                throw new IllegalArgumentException("Invalid model property naming '" +
-                        name + "'. Must be 'original', 'camelCase', " +
-                        "'PascalCase' or 'snake_case'");
+                throw new IllegalArgumentException(
+                        "Invalid model property naming '"
+                                + name
+                                + "'. Must be 'original', 'camelCase', "
+                                + "'PascalCase' or 'snake_case'");
         }
     }
 
@@ -325,40 +382,54 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             return this.reservedWordsMappings().get(name);
         }
         // Reserved words will be further escaped at the mustache compiler level.
-        // Scala escaping done here (via `, without compiler escaping) would otherwise be HTML encoded.
+        // Scala escaping done here (via `, without compiler escaping) would otherwise be HTML
+        // encoded.
         return "`" + name + "`";
     }
 
     @Override
     public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
-        Mustache.Escaper SCALA = new Mustache.Escaper() {
-            @Override
-            public String escape(String text) {
-                // Fix included as suggested by akkie in #6393
-                // The given text is a reserved word which is escaped by enclosing it with grave accents. If we would
-                // escape that with the default Mustache `HTML` escaper, then the escaper would also escape our grave
-                // accents. So we remove the grave accents before the escaping and add it back after the escaping.
-                if (text.startsWith("`") && text.endsWith("`")) {
-                    String unescaped = text.substring(1, text.length() - 1);
-                    return "`" + Escapers.HTML.escape(unescaped) + "`";
-                }
+        Mustache.Escaper SCALA =
+                new Mustache.Escaper() {
+                    @Override
+                    public String escape(String text) {
+                        // Fix included as suggested by akkie in #6393
+                        // The given text is a reserved word which is escaped by enclosing it with
+                        // grave accents. If we would
+                        // escape that with the default Mustache `HTML` escaper, then the escaper
+                        // would also escape our grave
+                        // accents. So we remove the grave accents before the escaping and add it
+                        // back after the escaping.
+                        if (text.startsWith("`") && text.endsWith("`")) {
+                            String unescaped = text.substring(1, text.length() - 1);
+                            return "`" + Escapers.HTML.escape(unescaped) + "`";
+                        }
 
-                // All none reserved words will be escaped with the default Mustache `HTML` escaper
-                return Escapers.HTML.escape(text);
-            }
-        };
+                        // All none reserved words will be escaped with the default Mustache `HTML`
+                        // escaper
+                        return Escapers.HTML.escape(text);
+                    }
+                };
 
         return compiler.withEscaper(SCALA);
     }
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+        return outputFolder
+                + File.separator
+                + sourceFolder
+                + File.separator
+                + apiPackage().replace('.', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
+        return outputFolder
+                + File.separator
+                + sourceFolder
+                + File.separator
+                + modelPackage().replace('.', File.separatorChar);
     }
 
     @Override
@@ -371,8 +442,12 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         } else if (ModelUtils.isMapSchema(target)) {
             Schema<?> inner = getAdditionalProperties(target);
             if (inner == null) {
-                LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", p.getName());
-                inner = new StringSchema().description("TODO default missing map inner type to string");
+                LOGGER.error(
+                        "`{}` (map property) does not have a proper inner type defined. Default to type:string",
+                        p.getName());
+                inner =
+                        new StringSchema()
+                                .description("TODO default missing map inner type to string");
                 p.setAdditionalProperties(inner);
             }
             return getSchemaType(target) + "[String, " + getTypeDeclaration(inner) + "]";
@@ -401,7 +476,12 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            return (ModelUtils.isSet(ap) ? instantiationTypes.get("set") : instantiationTypes.get("array")) + "[" + inner + "]";
+            return (ModelUtils.isSet(ap)
+                            ? instantiationTypes.get("set")
+                            : instantiationTypes.get("array"))
+                    + "["
+                    + inner
+                    + "]";
         } else {
             return null;
         }
@@ -438,15 +518,14 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             }
 
             // test for immutable Monoids with .empty method for idiomatic defaults
-            if ("List".equals(genericType) ||
-                    "Set".equals(genericType) ||
-                    "Seq".equals(genericType) ||
-                    "Array".equals(genericType) ||
-                    "Vector".equals(genericType) ||
-                    "IndexedSeq".equals(genericType) ||
-                    "Iterable".equals(genericType) ||
-                    "ListSet".equals(genericType)
-            ) {
+            if ("List".equals(genericType)
+                    || "Set".equals(genericType)
+                    || "Seq".equals(genericType)
+                    || "Array".equals(genericType)
+                    || "Vector".equals(genericType)
+                    || "IndexedSeq".equals(genericType)
+                    || "Iterable".equals(genericType)
+                    || "ListSet".equals(genericType)) {
                 return genericType + ".empty[" + inner + "] ";
             }
 
@@ -463,7 +542,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
      * Convert OAS Property object to Codegen Property object
      *
      * @param name name of the property
-     * @param p    OAS property object
+     * @param p OAS property object
      * @return Codegen Property object
      */
     @Override
@@ -494,7 +573,8 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     @Override
     public String toModelName(final String name) {
-        final String sanitizedName = sanitizeName(modelNamePrefix + this.stripPackageName(name) + modelNameSuffix);
+        final String sanitizedName =
+                sanitizeName(modelNamePrefix + this.stripPackageName(name) + modelNameSuffix);
 
         // camelize the model name
         // phone_number => PhoneNumber
@@ -503,14 +583,21 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
             final String modelName = "Model" + camelizedName;
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, modelName);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as model name. Renamed to {}",
+                    camelizedName,
+                    modelName);
             return modelName;
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            final String modelName = "Model" + camelizedName; // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+            final String modelName =
+                    "Model" + camelizedName; // e.g. 200Response => Model200Response (after
+            // camelize)
+            LOGGER.warn(
+                    "{} (model name starts with number) cannot be used as model name. Renamed to {}",
+                    name,
                     modelName);
             return modelName;
         }
@@ -575,12 +662,14 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
                 Process p = Runtime.getRuntime().exec(command);
                 int exitValue = p.waitFor();
                 if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                    LOGGER.error(
+                            "Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
                     LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+                LOGGER.error(
+                        "Error running the command ({}). Exception: {}", command, e.getMessage());
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
@@ -599,13 +688,20 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             String newOperationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
+            LOGGER.warn(
+                    "{} (reserved word) cannot be used as method name. Renamed to {}",
+                    operationId,
+                    newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
+            LOGGER.warn(
+                    operationId
+                            + " (starting with a number) cannot be used as method sname. Renamed to "
+                            + camelize("call_" + operationId),
+                    true);
             operationId = camelize("call_" + operationId, LOWERCASE_FIRST_LETTER);
         }
 
@@ -621,7 +717,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         return GeneratorLanguage.SCALA;
     }
 
-    protected static abstract class CustomLambda implements Mustache.Lambda {
+    protected abstract static class CustomLambda implements Mustache.Lambda {
         @Override
         public void execute(Template.Fragment frag, Writer out) throws IOException {
             final StringWriter tempWriter = new StringWriter();

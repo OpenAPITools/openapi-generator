@@ -16,8 +16,12 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.util.*;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
@@ -25,16 +29,13 @@ import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import java.io.File;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
 public class CppUE4ClientCodegen extends AbstractCppCodegen {
     public static final String CPP_NAMESPACE = "cppNamespace";
-    public static final String CPP_NAMESPACE_DESC = "C++ namespace (convention: name::space::for::api).";
+    public static final String CPP_NAMESPACE_DESC =
+            "C++ namespace (convention: name::space::for::api).";
     public static final String UNREAL_MODULE_NAME = "unrealModuleName";
-    public static final String UNREAL_MODULE_NAME_DESC = "Name of the generated unreal module (optional)";
+    public static final String UNREAL_MODULE_NAME_DESC =
+            "Name of the generated unreal module (optional)";
     public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate Build.cs";
 
     protected String unrealModuleName = "OpenAPI";
@@ -53,9 +54,8 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     public CppUE4ClientCodegen() {
         super();
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+        generatorMetadata =
+                GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         // set the output folder here
         outputFolder = "generated-code/cpp-ue4";
@@ -71,13 +71,9 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
          * for multiple files for model, just put another entry in the `modelTemplateFiles` with
          * a different extension
          */
-        modelTemplateFiles.put(
-                "model-header.mustache",
-                ".h");
+        modelTemplateFiles.put("model-header.mustache", ".h");
 
-        modelTemplateFiles.put(
-                "model-source.mustache",
-                ".cpp");
+        modelTemplateFiles.put("model-source.mustache", ".cpp");
 
         /*
          * Api classes.  You can write classes for each Api file with the apiTemplateFiles map.
@@ -85,20 +81,20 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
          * class
          */
         apiTemplateFiles.put(
-                "api-header.mustache",   // the template to use
-                ".h");       // the extension for each file to write
+                "api-header.mustache", // the template to use
+                ".h"); // the extension for each file to write
 
         apiTemplateFiles.put(
-                "api-source.mustache",   // the template to use
-                ".cpp");       // the extension for each file to write
+                "api-source.mustache", // the template to use
+                ".cpp"); // the extension for each file to write
 
         apiTemplateFiles.put(
-                "api-operations-header.mustache",   // the template to use
-                ".h");       // the extension for each file to write
+                "api-operations-header.mustache", // the template to use
+                ".h"); // the extension for each file to write
 
         apiTemplateFiles.put(
-                "api-operations-source.mustache",   // the template to use
-                ".cpp");       // the extension for each file to write
+                "api-operations-source.mustache", // the template to use
+                ".cpp"); // the extension for each file to write
 
         /*
          * Template Location.  This is the location which templates will be read from.  The generator
@@ -109,7 +105,10 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         // CLI options
         addOption(CPP_NAMESPACE, CPP_NAMESPACE_DESC, this.cppNamespace);
         addOption(UNREAL_MODULE_NAME, UNREAL_MODULE_NAME_DESC, this.unrealModuleName);
-        addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE, OPTIONAL_PROJECT_FILE_DESC, this.optionalProjectFileFlag);
+        addSwitch(
+                CodegenConstants.OPTIONAL_PROJECT_FILE,
+                OPTIONAL_PROJECT_FILE_DESC,
+                this.optionalProjectFileFlag);
 
         /*
          * Additional Properties.  These values can be passed to the templates and
@@ -132,38 +131,61 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
          * Language Specific Primitives.  These types will not trigger imports by
          * the client generator
          */
-        languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList(
-                        "bool",
-                        "int32",
-                        "int64",
-                        "float",
-                        "double",
-                        "FString",
-                        "FDateTime",
-                        "FGuid",
-                        "TArray",
-                        "TArray<uint8>",  // For byte arrays
-                        "TMap",
-                        "TSet",
-                        "TSharedPtr<FJsonObject>",
-                        "TSharedPtr<FJsonValue>")
-        );
+        languageSpecificPrimitives =
+                new HashSet<>(
+                        Arrays.asList(
+                                "bool",
+                                "int32",
+                                "int64",
+                                "float",
+                                "double",
+                                "FString",
+                                "FDateTime",
+                                "FGuid",
+                                "TArray",
+                                "TArray<uint8>", // For byte arrays
+                                "TMap",
+                                "TSet",
+                                "TSharedPtr<FJsonObject>",
+                                "TSharedPtr<FJsonValue>"));
 
-        supportingFiles.add(new SupportingFile("model-base-header.mustache", publicFolder, modelNamePrefix + "BaseModel.h"));
-        supportingFiles.add(new SupportingFile("model-base-source.mustache", privateFolder, modelNamePrefix + "BaseModel.cpp"));
-        supportingFiles.add(new SupportingFile("helpers-header.mustache", publicFolder, modelNamePrefix + "Helpers.h"));
-        supportingFiles.add(new SupportingFile("helpers-source.mustache", privateFolder, modelNamePrefix + "Helpers.cpp"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "model-base-header.mustache",
+                        publicFolder,
+                        modelNamePrefix + "BaseModel.h"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "model-base-source.mustache",
+                        privateFolder,
+                        modelNamePrefix + "BaseModel.cpp"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "helpers-header.mustache", publicFolder, modelNamePrefix + "Helpers.h"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "helpers-source.mustache", privateFolder, modelNamePrefix + "Helpers.cpp"));
         if (optionalProjectFileFlag) {
-            supportingFiles.add(new SupportingFile("Build.cs.mustache", unrealModuleName + ".Build.cs"));
-            supportingFiles.add(new SupportingFile("module-header.mustache", privateFolder, unrealModuleName + "Module.h"));
-            supportingFiles.add(new SupportingFile("module-source.mustache", privateFolder, unrealModuleName + "Module.cpp"));
+            supportingFiles.add(
+                    new SupportingFile("Build.cs.mustache", unrealModuleName + ".Build.cs"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "module-header.mustache",
+                            privateFolder,
+                            unrealModuleName + "Module.h"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "module-source.mustache",
+                            privateFolder,
+                            unrealModuleName + "Module.cpp"));
         }
 
         super.typeMapping = new HashMap<>();
 
-        // Maps C++ types during call to getSchemaType, see DefaultCodegen.getSchemaType and not the types/formats
-        // defined in openapi specification "array" is also used explicitly in the generator for containers
+        // Maps C++ types during call to getSchemaType, see DefaultCodegen.getSchemaType and not the
+        // types/formats
+        // defined in openapi specification "array" is also used explicitly in the generator for
+        // containers
         typeMapping.clear();
         typeMapping.put("integer", "int32");
         typeMapping.put("long", "int64");
@@ -209,7 +231,8 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         boolean updateSupportingFiles = false;
         if (additionalProperties.containsKey("unrealModuleName")) {
             unrealModuleName = (String) additionalProperties.get("unrealModuleName");
-            additionalProperties().put("dllapi", unrealModuleName.toUpperCase(Locale.ROOT) + "_API");
+            additionalProperties()
+                    .put("dllapi", unrealModuleName.toUpperCase(Locale.ROOT) + "_API");
             modelNamePrefix = unrealModuleName;
             updateSupportingFiles = true;
         }
@@ -220,22 +243,49 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         }
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE)) {
-            setOptionalProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));
+            setOptionalProjectFileFlag(
+                    convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));
         } else {
-            additionalProperties.put(CodegenConstants.OPTIONAL_PROJECT_FILE, optionalProjectFileFlag);
+            additionalProperties.put(
+                    CodegenConstants.OPTIONAL_PROJECT_FILE, optionalProjectFileFlag);
         }
 
         if (updateSupportingFiles) {
             supportingFiles.clear();
 
-            supportingFiles.add(new SupportingFile("model-base-header.mustache", publicFolder, modelNamePrefix + "BaseModel.h"));
-            supportingFiles.add(new SupportingFile("model-base-source.mustache", privateFolder, modelNamePrefix + "BaseModel.cpp"));
-            supportingFiles.add(new SupportingFile("helpers-header.mustache", publicFolder, modelNamePrefix + "Helpers.h"));
-            supportingFiles.add(new SupportingFile("helpers-source.mustache", privateFolder, modelNamePrefix + "Helpers.cpp"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "model-base-header.mustache",
+                            publicFolder,
+                            modelNamePrefix + "BaseModel.h"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "model-base-source.mustache",
+                            privateFolder,
+                            modelNamePrefix + "BaseModel.cpp"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "helpers-header.mustache",
+                            publicFolder,
+                            modelNamePrefix + "Helpers.h"));
+            supportingFiles.add(
+                    new SupportingFile(
+                            "helpers-source.mustache",
+                            privateFolder,
+                            modelNamePrefix + "Helpers.cpp"));
             if (optionalProjectFileFlag) {
-                supportingFiles.add(new SupportingFile("Build.cs.mustache", unrealModuleName + ".Build.cs"));
-                supportingFiles.add(new SupportingFile("module-header.mustache", privateFolder, unrealModuleName + "Module.h"));
-                supportingFiles.add(new SupportingFile("module-source.mustache", privateFolder, unrealModuleName + "Module.cpp"));
+                supportingFiles.add(
+                        new SupportingFile("Build.cs.mustache", unrealModuleName + ".Build.cs"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "module-header.mustache",
+                                privateFolder,
+                                unrealModuleName + "Module.h"));
+                supportingFiles.add(
+                        new SupportingFile(
+                                "module-source.mustache",
+                                privateFolder,
+                                unrealModuleName + "Module.cpp"));
             }
 
             importMapping.put("HttpFileInput", "#include \"" + modelNamePrefix + "Helpers.h\"");
@@ -258,8 +308,8 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Configures a friendly name for the generator.  This will be used by the generator
-     * to select the library with the -l flag.
+     * Configures a friendly name for the generator. This will be used by the generator to select
+     * the library with the -l flag.
      *
      * @return the friendly name for the generator
      */
@@ -269,8 +319,8 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Returns human-friendly help for the generator.  Provide the consumer with help
-     * tips, parameters here
+     * Returns human-friendly help for the generator. Provide the consumer with help tips,
+     * parameters here
      *
      * @return A string value for the help message
      */
@@ -288,8 +338,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         }
 
         String folder = modelPackage().replace("::", File.separator);
-        if (!folder.isEmpty())
-            folder += File.separator;
+        if (!folder.isEmpty()) folder += File.separator;
 
         return "#include \"" + folder + name + ".h\"";
     }
@@ -297,15 +346,13 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     @Override
     protected boolean needToImport(String type) {
         boolean shouldImport = super.needToImport(type);
-        if (shouldImport)
-            return !languageSpecificPrimitives.contains(type);
-        else
-            return false;
+        if (shouldImport) return !languageSpecificPrimitives.contains(type);
+        else return false;
     }
 
     /**
-     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
-     * those terms here.  This logic is only called if a variable matches the reserved words
+     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping those terms
+     * here. This logic is only called if a variable matches the reserved words
      *
      * @return the escaped term
      */
@@ -318,7 +365,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Location to write model files.  You can use the modelPackage() as defined when the class is
+     * Location to write model files. You can use the modelPackage() as defined when the class is
      * instantiated
      */
     @Override
@@ -327,7 +374,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Location to write api files.  You can use the apiPackage() as defined when the class is
+     * Location to write api files. You can use the apiPackage() as defined when the class is
      * instantiated
      */
     @Override
@@ -343,7 +390,12 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
             folder = publicFolder;
         }
 
-        return modelFileFolder() + File.separator + folder + File.separator + toModelFilename(modelName) + suffix;
+        return modelFileFolder()
+                + File.separator
+                + folder
+                + File.separator
+                + toModelFilename(modelName)
+                + suffix;
     }
 
     @Override
@@ -361,9 +413,20 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         }
 
         if (templateName.startsWith("api-operations")) {
-            return apiFileFolder() + File.separator + folder + File.separator + toApiFilename(tag) + "Operations" + suffix;
+            return apiFileFolder()
+                    + File.separator
+                    + folder
+                    + File.separator
+                    + toApiFilename(tag)
+                    + "Operations"
+                    + suffix;
         } else {
-            return apiFileFolder() + File.separator + folder + File.separator + toApiFilename(tag) + suffix;
+            return apiFileFolder()
+                    + File.separator
+                    + folder
+                    + File.separator
+                    + toApiFilename(tag)
+                    + suffix;
         }
     }
 
@@ -374,10 +437,11 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Optional - type declaration.  This is a String which is used by the templates to instantiate your
-     * types.  There is typically special handling for different property types
+     * Optional - type declaration. This is a String which is used by the templates to instantiate
+     * your types. There is typically special handling for different property types
      *
-     * @return a string value used as the `dataType` field for model templates, `returnType` for api templates
+     * @return a string value used as the `dataType` field for model templates, `returnType` for api
+     *     templates
      */
     @Override
     public String getTypeDeclaration(Schema p) {
@@ -387,7 +451,10 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
             ArraySchema ap = (ArraySchema) p;
             return getSchemaType(p) + "<" + getTypeDeclaration(ap.getItems()) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            return getSchemaType(p) + "<FString, " + getTypeDeclaration(getAdditionalProperties(p)) + ">";
+            return getSchemaType(p)
+                    + "<FString, "
+                    + getTypeDeclaration(getAdditionalProperties(p))
+                    + ">";
         }
 
         if (pointerClasses.contains(openAPIType)) {
@@ -452,8 +519,9 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Optional - OpenAPI type conversion.  This is used to map OpenAPI types in a `Property` into
-     * either language specific types via `typeMapping` or into complex models if there is not a mapping.
+     * Optional - OpenAPI type conversion. This is used to map OpenAPI types in a `Property` into
+     * either language specific types via `typeMapping` or into complex models if there is not a
+     * mapping.
      *
      * @return a string value of the type or complex model for this property
      * @see io.swagger.v3.oas.models.media.Schema
@@ -478,11 +546,11 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelName(String type) {
-        if (typeMapping.keySet().contains(type) ||
-                typeMapping.values().contains(type) ||
-                importMapping.values().contains(type) ||
-                defaultIncludes.contains(type) ||
-                languageSpecificPrimitives.contains(type)) {
+        if (typeMapping.keySet().contains(type)
+                || typeMapping.values().contains(type)
+                || importMapping.values().contains(type)
+                || defaultIncludes.contains(type)
+                || languageSpecificPrimitives.contains(type)) {
             return type;
         } else {
             return modelNamePrefix + camelize(sanitizeName(type));
@@ -492,18 +560,19 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the
+        // methods parameters as 'final'.
 
         // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
             name = name.toLowerCase(Locale.ROOT);
         }
 
-        //Unreal variable names are CamelCase
+        // Unreal variable names are CamelCase
         String camelCaseName = camelize(name);
 
-        //Avoid empty variable name at all costs
-        if(!camelCaseName.isEmpty()) {
+        // Avoid empty variable name at all costs
+        if (!camelCaseName.isEmpty()) {
             name = camelCaseName;
         }
 

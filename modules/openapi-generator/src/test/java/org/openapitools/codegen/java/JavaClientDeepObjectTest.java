@@ -16,18 +16,18 @@
 
 package org.openapitools.codegen.java;
 
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.JavaClientCodegen;
-import org.testng.annotations.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import static org.openapitools.codegen.TestUtils.assertFileContains;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.testng.annotations.Test;
 
 public class JavaClientDeepObjectTest {
 
@@ -37,8 +37,11 @@ public class JavaClientDeepObjectTest {
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/deepobject.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI =
+                new OpenAPIParser()
+                        .readLocation(
+                                "src/test/resources/3_0/deepobject.yaml", null, new ParseOptions())
+                        .getOpenAPI();
 
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setLibrary("native");
@@ -57,7 +60,9 @@ public class JavaClientDeepObjectTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/api/DefaultApi.java"),
+        assertFileContains(
+                Paths.get(
+                        outputPath + "/src/main/java/org/openapitools/client/api/DefaultApi.java"),
                 "options.toUrlQueryString(\"options\")",
                 "inputOptions.toUrlQueryString(\"inputOptions\"))");
     }

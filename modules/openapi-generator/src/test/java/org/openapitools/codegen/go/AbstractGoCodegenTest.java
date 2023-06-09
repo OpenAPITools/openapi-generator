@@ -38,7 +38,9 @@ public class AbstractGoCodegenTest {
         final AbstractGoCodegen codegen = new P_AbstractGoCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.FALSE);
         Assert.assertFalse(codegen.isHideGenerationTimestamp());
     }
 
@@ -48,7 +50,9 @@ public class AbstractGoCodegenTest {
         codegen.setHideGenerationTimestamp(true);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.TRUE);
         Assert.assertTrue(codegen.isHideGenerationTimestamp());
     }
 
@@ -58,7 +62,9 @@ public class AbstractGoCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, true);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
+        Assert.assertEquals(
+                codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP),
+                Boolean.TRUE);
         Assert.assertTrue(codegen.isHideGenerationTimestamp());
     }
 
@@ -68,10 +74,13 @@ public class AbstractGoCodegenTest {
 
         // Create an alias to an array schema
         Schema<?> nestedArraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
-        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("NestedArray", nestedArraySchema)));
+        codegen.setOpenAPI(
+                new OpenAPI()
+                        .components(new Components().addSchemas("NestedArray", nestedArraySchema)));
 
         // Create an array schema with item type set to the array alias
-        Schema<?> schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
+        Schema<?> schema =
+                new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
 
         ModelUtils.setGenerateAliasAsModel(false);
         String defaultValue = codegen.getTypeDeclaration(schema);
@@ -82,7 +91,10 @@ public class AbstractGoCodegenTest {
         Assert.assertEquals(defaultValue, "[]NestedArray");
 
         // Create a map schema with additionalProperties type set to array alias
-        schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
+        schema =
+                new MapSchema()
+                        .additionalProperties(
+                                new Schema().$ref("#/components/schemas/NestedArray"));
 
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.getTypeDeclaration(schema);

@@ -17,11 +17,18 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.*;
+
 import io.swagger.v3.oas.models.media.Schema;
+import java.io.File;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
-import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -31,15 +38,6 @@ import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.*;
-
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
 
@@ -47,8 +45,18 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 
-    public static enum QUERY_PARAM_OBJECT_FORMAT_TYPE {dot, json, key}
-    public static enum PROVIDED_IN_LEVEL {none, root, any, platform}
+    public static enum QUERY_PARAM_OBJECT_FORMAT_TYPE {
+        dot,
+        json,
+        key
+    }
+
+    public static enum PROVIDED_IN_LEVEL {
+        none,
+        root,
+        any,
+        platform
+    }
 
     private static final String DEFAULT_IMPORT_PREFIX = "./";
     private static final String DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX = "../";
@@ -59,7 +67,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NG_VERSION = "ngVersion";
     public static final String PROVIDED_IN = "providedIn";
-    public static final String ENFORCE_GENERIC_MODULE_WITH_PROVIDERS = "enforceGenericModuleWithProviders";
+    public static final String ENFORCE_GENERIC_MODULE_WITH_PROVIDERS =
+            "enforceGenericModuleWithProviders";
     public static final String HTTP_CONTEXT_IN_OPTIONS = "httpContextInOptions";
     public static final String API_MODULE_PREFIX = "apiModulePrefix";
     public static final String CONFIGURATION_PREFIX = "configurationPrefix";
@@ -69,7 +78,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String MODEL_FILE_SUFFIX = "modelFileSuffix";
     public static final String FILE_NAMING = "fileNaming";
     public static final String STRING_ENUMS = "stringEnums";
-    public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
+    public static final String STRING_ENUMS_DESC =
+            "Generate string enums instead of objects for enum values.";
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
 
     protected String ngVersion = "15.0.3";
@@ -81,7 +91,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     protected String modelFileSuffix = "";
     protected String fileNaming = "camelCase";
     protected Boolean stringEnums = false;
-    protected QUERY_PARAM_OBJECT_FORMAT_TYPE queryParamObjectFormat = QUERY_PARAM_OBJECT_FORMAT_TYPE.dot;
+    protected QUERY_PARAM_OBJECT_FORMAT_TYPE queryParamObjectFormat =
+            QUERY_PARAM_OBJECT_FORMAT_TYPE.dot;
     protected PROVIDED_IN_LEVEL providedIn = PROVIDED_IN_LEVEL.root;
 
     private boolean taggedUnions = false;
@@ -89,11 +100,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public TypeScriptAngularClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .includeSecurityFeatures(SecurityFeature.BearerToken)
-                .includeGlobalFeatures(GlobalFeature.ParameterStyling)
-        );
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .includeGlobalFeatures(GlobalFeature.ParameterStyling));
 
         this.outputFolder = "generated-code/typescript-angular";
 
@@ -107,36 +117,75 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         apiPackage = "api";
         modelPackage = "model";
 
-        this.cliOptions.add(new CliOption(NPM_REPOSITORY,
-                "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(CliOption.newBoolean(WITH_INTERFACES,
-                "Setting this property to true will generate interfaces next to the default class implementations.",
-                false));
-        this.cliOptions.add(CliOption.newBoolean(USE_SINGLE_REQUEST_PARAMETER,
-                "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.",
-                false));
-        this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
-                "Use discriminators to create tagged unions instead of extending interfaces.",
-                this.taggedUnions));
-        CliOption providedInCliOpt = new CliOption(PROVIDED_IN,
-                "Use this property to provide Injectables in wanted level.").defaultValue("root");
+        this.cliOptions.add(
+                new CliOption(
+                        NPM_REPOSITORY,
+                        "Use this property to set an url your private npmRepo in the package.json"));
+        this.cliOptions.add(
+                CliOption.newBoolean(
+                        WITH_INTERFACES,
+                        "Setting this property to true will generate interfaces next to the default class implementations.",
+                        false));
+        this.cliOptions.add(
+                CliOption.newBoolean(
+                        USE_SINGLE_REQUEST_PARAMETER,
+                        "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.",
+                        false));
+        this.cliOptions.add(
+                CliOption.newBoolean(
+                        TAGGED_UNIONS,
+                        "Use discriminators to create tagged unions instead of extending interfaces.",
+                        this.taggedUnions));
+        CliOption providedInCliOpt =
+                new CliOption(
+                                PROVIDED_IN,
+                                "Use this property to provide Injectables in wanted level.")
+                        .defaultValue("root");
         Map<String, String> providedInOptions = new HashMap<>();
         providedInOptions.put(PROVIDED_IN_LEVEL.none.toString(), "No providedIn)");
-        providedInOptions.put(PROVIDED_IN_LEVEL.root.toString(), "The application-level injector in most apps.");
-        providedInOptions.put(PROVIDED_IN_LEVEL.platform.toString(), "A special singleton platform injector shared by all applications on the page.");
-        providedInOptions.put(PROVIDED_IN_LEVEL.any.toString(), "Provides a unique instance in each lazy loaded module while all eagerly loaded modules share one instance.");
+        providedInOptions.put(
+                PROVIDED_IN_LEVEL.root.toString(), "The application-level injector in most apps.");
+        providedInOptions.put(
+                PROVIDED_IN_LEVEL.platform.toString(),
+                "A special singleton platform injector shared by all applications on the page.");
+        providedInOptions.put(
+                PROVIDED_IN_LEVEL.any.toString(),
+                "Provides a unique instance in each lazy loaded module while all eagerly loaded modules share one instance.");
         providedInCliOpt.setEnum(providedInOptions);
         this.cliOptions.add(providedInCliOpt);
-        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. (At least 9.0.0)").defaultValue(this.ngVersion));
-        this.cliOptions.add(new CliOption(API_MODULE_PREFIX, "The prefix of the generated ApiModule."));
-        this.cliOptions.add(new CliOption(CONFIGURATION_PREFIX, "The prefix of the generated Configuration."));
-        this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
-        this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts).").defaultValue(this.serviceFileSuffix));
+        this.cliOptions.add(
+                new CliOption(NG_VERSION, "The version of Angular. (At least 9.0.0)")
+                        .defaultValue(this.ngVersion));
+        this.cliOptions.add(
+                new CliOption(API_MODULE_PREFIX, "The prefix of the generated ApiModule."));
+        this.cliOptions.add(
+                new CliOption(CONFIGURATION_PREFIX, "The prefix of the generated Configuration."));
+        this.cliOptions.add(
+                new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.")
+                        .defaultValue(this.serviceSuffix));
+        this.cliOptions.add(
+                new CliOption(
+                                SERVICE_FILE_SUFFIX,
+                                "The suffix of the file of the generated service (service<suffix>.ts).")
+                        .defaultValue(this.serviceFileSuffix));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
-        this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts)."));
-        this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
-        this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
-        this.cliOptions.add(new CliOption(QUERY_PARAM_OBJECT_FORMAT, "The format for query param objects: 'dot', 'json', 'key'.").defaultValue(this.queryParamObjectFormat.name()));
+        this.cliOptions.add(
+                new CliOption(
+                        MODEL_FILE_SUFFIX,
+                        "The suffix of the file of the generated model (model<suffix>.ts)."));
+        this.cliOptions.add(
+                new CliOption(
+                                FILE_NAMING,
+                                "Naming convention for the output files: 'camelCase', 'kebab-case'.")
+                        .defaultValue(this.fileNaming));
+        this.cliOptions.add(
+                new CliOption(STRING_ENUMS, STRING_ENUMS_DESC)
+                        .defaultValue(String.valueOf(this.stringEnums)));
+        this.cliOptions.add(
+                new CliOption(
+                                QUERY_PARAM_OBJECT_FORMAT,
+                                "The format for query param objects: 'dot', 'json', 'key'.")
+                        .defaultValue(this.queryParamObjectFormat.name()));
     }
 
     @Override
@@ -159,18 +208,28 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public void processOpts() {
         super.processOpts();
         supportingFiles.add(
-                new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
-        supportingFiles
-                .add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
+                new SupportingFile(
+                        "models.mustache",
+                        modelPackage().replace('.', File.separatorChar),
+                        "models.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
-        supportingFiles.add(new SupportingFile("api.module.mustache", getIndexDirectory(), "api.module.ts"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", getIndexDirectory(), "configuration.ts"));
-        supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
-        supportingFiles.add(new SupportingFile("encoder.mustache", getIndexDirectory(), "encoder.ts"));
+        supportingFiles.add(
+                new SupportingFile("api.module.mustache", getIndexDirectory(), "api.module.ts"));
+        supportingFiles.add(
+                new SupportingFile(
+                        "configuration.mustache", getIndexDirectory(), "configuration.ts"));
+        supportingFiles.add(
+                new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
+        supportingFiles.add(
+                new SupportingFile("encoder.mustache", getIndexDirectory(), "encoder.ts"));
         supportingFiles.add(new SupportingFile("param.mustache", getIndexDirectory(), "param.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
+        supportingFiles.add(
+                new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
 
         // determine NG version
         SemVer ngVersion;
@@ -179,11 +238,13 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         } else {
             ngVersion = new SemVer(this.ngVersion);
             LOGGER.info("generating code for Angular {} ...", ngVersion);
-            LOGGER.info("  (you can select the angular version by setting the additionalProperties (--additional-properties in CLI) ngVersion)");
+            LOGGER.info(
+                    "  (you can select the angular version by setting the additionalProperties (--additional-properties in CLI) ngVersion)");
         }
 
         if (!ngVersion.atLeast("9.0.0")) {
-            throw new IllegalArgumentException("Invalid ngVersion: " + ngVersion + ". Only Angular v9+ is supported.");
+            throw new IllegalArgumentException(
+                    "Invalid ngVersion: " + ngVersion + ". Only Angular v9+ is supported.");
         }
 
         if (additionalProperties.containsKey(NPM_NAME)) {
@@ -199,14 +260,16 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         if (additionalProperties.containsKey(WITH_INTERFACES)) {
-            boolean withInterfaces = Boolean.parseBoolean(additionalProperties.get(WITH_INTERFACES).toString());
+            boolean withInterfaces =
+                    Boolean.parseBoolean(additionalProperties.get(WITH_INTERFACES).toString());
             if (withInterfaces) {
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
         }
 
         if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
-            this.setUseSingleRequestParameter(convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
+            this.setUseSingleRequestParameter(
+                    convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
         }
         writePropertyBack(USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
 
@@ -240,11 +303,15 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             String configurationPrefix = additionalProperties.get(CONFIGURATION_PREFIX).toString();
             validateClassPrefixArgument("Configuration", configurationPrefix);
 
-            additionalProperties.put("configurationClassName", configurationPrefix + "Configuration");
-            additionalProperties.put("configurationParametersInterfaceName", configurationPrefix + "ConfigurationParameters");
+            additionalProperties.put(
+                    "configurationClassName", configurationPrefix + "Configuration");
+            additionalProperties.put(
+                    "configurationParametersInterfaceName",
+                    configurationPrefix + "ConfigurationParameters");
         } else {
             additionalProperties.put("configurationClassName", "Configuration");
-            additionalProperties.put("configurationParametersInterfaceName", "ConfigurationParameters");
+            additionalProperties.put(
+                    "configurationParametersInterfaceName", "ConfigurationParameters");
         }
         if (additionalProperties.containsKey(SERVICE_SUFFIX)) {
             serviceSuffix = additionalProperties.get(SERVICE_SUFFIX).toString();
@@ -272,7 +339,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         additionalProperties.put("isQueryParamObjectFormatDot", getQueryParamObjectFormatDot());
         additionalProperties.put("isQueryParamObjectFormatJson", getQueryParamObjectFormatJson());
         additionalProperties.put("isQueryParamObjectFormatKey", getQueryParamObjectFormatKey());
-
     }
 
     private void addNpmPackageGeneration(SemVer ngVersion) {
@@ -305,7 +371,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             additionalProperties.put("rxjsVersion", "7.5.5");
         } else if (ngVersion.atLeast("14.0.0")) {
             additionalProperties.put("rxjsVersion", "7.5.5");
-        } else  if (ngVersion.atLeast("13.0.0")) {
+        } else if (ngVersion.atLeast("13.0.0")) {
             additionalProperties.put("rxjsVersion", "7.4.0");
         } else if (ngVersion.atLeast("10.0.0")) {
             additionalProperties.put("rxjsVersion", "6.6.0");
@@ -313,7 +379,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             additionalProperties.put("rxjsVersion", "6.5.3");
         }
 
-        supportingFiles.add(new SupportingFile("ng-package.mustache", getIndexDirectory(), "ng-package.json"));
+        supportingFiles.add(
+                new SupportingFile("ng-package.mustache", getIndexDirectory(), "ng-package.json"));
 
         // Specific ng-packagr configuration
         if (ngVersion.atLeast("15.0.0")) {
@@ -355,9 +422,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             additionalProperties.put("zonejsVersion", "0.9.1");
         }
 
-        //Files for building our lib
-        supportingFiles.add(new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
-        supportingFiles.add(new SupportingFile("tsconfig.mustache", getIndexDirectory(), "tsconfig.json"));
+        // Files for building our lib
+        supportingFiles.add(
+                new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
+        supportingFiles.add(
+                new SupportingFile("tsconfig.mustache", getIndexDirectory(), "tsconfig.json"));
     }
 
     private String getIndexDirectory() {
@@ -399,7 +468,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
     }
 
-
     private String applyLocalTypeMapping(String type) {
         if (typeMapping.containsKey(type)) {
             type = typeMapping.get(type);
@@ -414,7 +482,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     @Override
-    public OperationsMap postProcessOperationsWithModels(OperationsMap operations, List<ModelMap> allModels) {
+    public OperationsMap postProcessOperationsWithModels(
+            OperationsMap operations, List<ModelMap> allModels) {
         OperationMap objs = operations.getOperations();
 
         // Add filename information for api imports
@@ -428,7 +497,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 hasSomeFormParams = true;
             }
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ENGLISH);
-
 
             // Prep a string buffer where we're going to set up our new version of the string.
             StringBuilder pathBuffer = new StringBuilder();
@@ -499,18 +567,20 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                         }
                     }
 
-                    // with tagged union, a child model doesn't extend the parent (all properties are just copied over)
+                    // with tagged union, a child model doesn't extend the parent (all properties
+                    // are just copied over)
                     // it means we don't need to import that parent any more
                     if (cm.parent != null) {
                         cm.imports.remove(cm.parent);
 
-                        // however, it's possible that the child model contains a recursive reference to the parent
-                        // in order to support this case, we update the list of imports from properties once again
-                        for (CodegenProperty cp: cm.allVars) {
+                        // however, it's possible that the child model contains a recursive
+                        // reference to the parent
+                        // in order to support this case, we update the list of imports from
+                        // properties once again
+                        for (CodegenProperty cp : cm.allVars) {
                             addImportsForPropertyType(cm, cp);
                         }
                         removeSelfReferenceImports(cm);
-
                     }
                 }
                 // Add additional filename information for imports
@@ -522,15 +592,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     private void setChildDiscriminatorValue(CodegenModel parent, CodegenModel child) {
-        if (
-            child.vendorExtensions.isEmpty() ||
-            !child.vendorExtensions.containsKey("x-discriminator-value")
-            ) {
+        if (child.vendorExtensions.isEmpty()
+                || !child.vendorExtensions.containsKey("x-discriminator-value")) {
 
             for (CodegenProperty prop : child.allVars) {
                 if (prop.baseName.equals(parent.discriminator.getPropertyName())) {
 
-                    for (CodegenDiscriminator.MappedModel mappedModel : parent.discriminator.getMappedModels()) {
+                    for (CodegenDiscriminator.MappedModel mappedModel :
+                            parent.discriminator.getMappedModels()) {
                         if (mappedModel.getModelName().equals(child.classname)) {
                             prop.discriminatorValue = mappedModel.getMappingName();
                         }
@@ -540,9 +609,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
     }
 
-    /**
-     * Parse imports
-     */
+    /** Parse imports */
     private Set<String> parseImports(CodegenModel cm) {
         Set<String> newImports = new HashSet<>();
         if (cm.imports.size() > 0) {
@@ -601,7 +668,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
-        return DEFAULT_IMPORT_PREFIX + this.convertUsingFileNamingConvention(super.toModelFilename(name)) + modelFileSuffix;
+        return DEFAULT_IMPORT_PREFIX
+                + this.convertUsingFileNamingConvention(super.toModelFilename(name))
+                + modelFileSuffix;
     }
 
     @Override
@@ -609,7 +678,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
-        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + toModelFilename(removeModelPrefixSuffix(name)).substring(DEFAULT_IMPORT_PREFIX.length());
+        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX
+                + modelPackage()
+                + "/"
+                + toModelFilename(removeModelPrefixSuffix(name))
+                        .substring(DEFAULT_IMPORT_PREFIX.length());
     }
 
     public String getNpmRepository() {
@@ -660,44 +733,53 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      * Validates that the given string value only contains '-', '.' and alpha numeric characters.
      * Throws an IllegalArgumentException, if the string contains any other characters.
      *
-     * @param argument The name of the argument being validated. This is only used for displaying an error message.
-     * @param value    The value that is being validated.
+     * @param argument The name of the argument being validated. This is only used for displaying an
+     *     error message.
+     * @param value The value that is being validated.
      */
     private void validateFileSuffixArgument(String argument, String value) {
         if (!value.matches(FILE_NAME_SUFFIX_PATTERN)) {
             throw new IllegalArgumentException(
-                    String.format(Locale.ROOT, "%s file suffix only allows '.', '-' and alphanumeric characters.", argument)
-            );
+                    String.format(
+                            Locale.ROOT,
+                            "%s file suffix only allows '.', '-' and alphanumeric characters.",
+                            argument));
         }
     }
 
     /**
-     * Validates that the given string value only contains alpha numeric characters.
-     * Throws an IllegalArgumentException, if the string contains any other characters.
+     * Validates that the given string value only contains alpha numeric characters. Throws an
+     * IllegalArgumentException, if the string contains any other characters.
      *
-     * @param argument The name of the argument being validated. This is only used for displaying an error message.
-     * @param value    The value that is being validated.
+     * @param argument The name of the argument being validated. This is only used for displaying an
+     *     error message.
+     * @param value The value that is being validated.
      */
     private void validateClassPrefixArgument(String argument, String value) {
         if (!value.matches(CLASS_NAME_PREFIX_PATTERN)) {
             throw new IllegalArgumentException(
-                    String.format(Locale.ROOT, "%s class prefix only allows alphanumeric characters.", argument)
-            );
+                    String.format(
+                            Locale.ROOT,
+                            "%s class prefix only allows alphanumeric characters.",
+                            argument));
         }
     }
 
     /**
-     * Validates that the given string value only contains alpha numeric characters.
-     * Throws an IllegalArgumentException, if the string contains any other characters.
+     * Validates that the given string value only contains alpha numeric characters. Throws an
+     * IllegalArgumentException, if the string contains any other characters.
      *
-     * @param argument The name of the argument being validated. This is only used for displaying an error message.
-     * @param value    The value that is being validated.
+     * @param argument The name of the argument being validated. This is only used for displaying an
+     *     error message.
+     * @param value The value that is being validated.
      */
     private void validateClassSuffixArgument(String argument, String value) {
         if (!value.matches(CLASS_NAME_SUFFIX_PATTERN)) {
             throw new IllegalArgumentException(
-                    String.format(Locale.ROOT, "%s class suffix only allows alphanumeric characters.", argument)
-            );
+                    String.format(
+                            Locale.ROOT,
+                            "%s class suffix only allows alphanumeric characters.",
+                            argument));
         }
     }
 
@@ -710,11 +792,17 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         try {
             queryParamObjectFormat = QUERY_PARAM_OBJECT_FORMAT_TYPE.valueOf(format);
         } catch (IllegalArgumentException e) {
-            String values = Stream.of(QUERY_PARAM_OBJECT_FORMAT_TYPE.values())
-                    .map(value -> "'" + value.name() + "'")
-                    .collect(Collectors.joining(", "));
+            String values =
+                    Stream.of(QUERY_PARAM_OBJECT_FORMAT_TYPE.values())
+                            .map(value -> "'" + value.name() + "'")
+                            .collect(Collectors.joining(", "));
 
-            String msg = String.format(Locale.ROOT, "Invalid query param object format '%s'. Must be one of %s.", format, values);
+            String msg =
+                    String.format(
+                            Locale.ROOT,
+                            "Invalid query param object format '%s'. Must be one of %s.",
+                            format,
+                            values);
             throw new IllegalArgumentException(msg);
         }
     }
@@ -728,8 +816,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if ("camelCase".equals(fileNaming) || "kebab-case".equals(fileNaming)) {
             this.fileNaming = fileNaming;
         } else {
-            throw new IllegalArgumentException("Invalid file naming '" +
-                    fileNaming + "'. Must be 'camelCase' or 'kebab-case'");
+            throw new IllegalArgumentException(
+                    "Invalid file naming '"
+                            + fileNaming
+                            + "'. Must be 'camelCase' or 'kebab-case'");
         }
     }
 
@@ -754,22 +844,26 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      *
      * @param level the wanted level
      */
-    public void setProvidedIn (String level) {
+    public void setProvidedIn(String level) {
         try {
             providedIn = PROVIDED_IN_LEVEL.valueOf(level);
         } catch (IllegalArgumentException e) {
-            String values = Stream.of(PROVIDED_IN_LEVEL.values())
-                    .map(value -> "'" + value.name() + "'")
-                    .collect(Collectors.joining(", "));
+            String values =
+                    Stream.of(PROVIDED_IN_LEVEL.values())
+                            .map(value -> "'" + value.name() + "'")
+                            .collect(Collectors.joining(", "));
 
-            String msg = String.format(Locale.ROOT, "Invalid providedIn level '%s'. Must be one of %s.", level, values);
+            String msg =
+                    String.format(
+                            Locale.ROOT,
+                            "Invalid providedIn level '%s'. Must be one of %s.",
+                            level,
+                            values);
             throw new IllegalArgumentException(msg);
         }
     }
 
-    /**
-     *
-     */
+    /** */
     private boolean getIsProvidedInNone() {
         return PROVIDED_IN_LEVEL.none.equals(providedIn);
     }
