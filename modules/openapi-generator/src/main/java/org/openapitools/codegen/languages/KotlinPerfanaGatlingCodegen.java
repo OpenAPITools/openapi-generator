@@ -38,27 +38,59 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 
-public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScalaPerfanaGatlingCodegen.class);
+public class KotlinPerfanaGatlingCodegen extends AbstractKotlinCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(KotlinPerfanaGatlingCodegen.class);
     private static final String PREFIX_INTEGER_VAR = "I@";
     private static final String NEW_ROW = "\n";
+    private static final String ARRAY_TYPE = "array";
+    private static final String BOOLEAN_TYPE = "boolean";
+    private static final String PROPERTY_KEY_SYSTEM_UNDER_TEST = "systemUnderTest";
+    private static final String PROPERTY_KEY_ARTIFACT_ID = "artifactId";
+    private static final String PROPERTY_KEY_API_VERSION = "apiVersion";
+    private static final String PROPERTY_KEY_FEEDER_PACKAGE = "feederPackage";
+    private static final String PROPERTY_KEY_CONFIGURATION_PACKAGE = "configurationPackage";
+    private static final String PROPERTY_KEY_SETUP_PACKAGE = "setUpPackage";
+    private static final String PROPERTY_KEY_HELPER_PACKAGE = "helperPackage";
+    private static final String PROPERTY_KEY_API_PACKAGE = "apiPackage";
+    private static final String PROPERTY_KEY_MODEL_PACKAGE = "modelPackage";
+    private static final String PROPERTY_KEY_INVOKER_PACKAGE = "invokerPackage";
+    private static final String PROPERTY_KEY_SIMULATION_CLASS_NAME = "simulationClassName";
+    private static final String PROPERTY_KEY_GATLING_VERSION = "gatlingVersion";
+    private static final String PROPERTY_KEY_EVENTS_GATLING_MAVEN_PLUGIN_VERSION = "eventsGatlingMavenPluginVersion";
+    private static final String PROPERTY_KEY_PERFANA_JAVA_CLIENT_VERSION = "perfanaJavaClientVersion";
+    private static final String PROPERTY_KEY_TEST_EVENTS_WIREMOCK_VERSION = "testEventsWiremockVersion";
+    private static final String PROPERTY_KEY_PERFANA_URL = "perfanaUrl";
+    private static final String PROPERTY_KEY_TARGET_BASE_URL = "targetBaseUrl";
+    private static final String PROPERTY_KEY_PERFANA_ENABLED = "perfanaEnabled";
+    private static final String PROPERTY_KEY_INFLUX_HOST = "influxHost";
+    private static final String PROPERTY_KEY_INFLUX_PORT = "influxPort";
+    private static final String PROPERTY_KEY_INFLUX_PROTOCOL = "influxProtocol";
+    private static final String PROPERTY_KEY_GRAPHITE_PREFIX = "graphitePrefix";
+    private static final String PROPERTY_KEY_DB_URL = "dbUrl";
+    private static final String PROPERTY_KEY_DB_USERNAME = "dbUsername";
+    private static final String PROPERTY_KEY_DB_PASSWORD = "dbPassword";
+    private static final String PROPERTY_KEY_X_GATLING = "x-gatling-";
+    private static final String OPERATION_EXTENSION_X_GATLING_PATH = "x-gatling-path";
+
     protected String resourceFolder;
     protected String dataFolder;
     protected String bodiesFolder;
-    protected String apiVersion;
     private static final PackageProperty PACKAGE_PROPERTY = new PackageProperty();
     private static final List<Property<?>> properties;
     private final ObjectMapper objectMapper;
     private static final Pattern VAR_PATTERN;
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "kotlin-perfana-gatling";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a Gatling script including to be used with Perfana, continuous performance testing dashboard";
     }
@@ -72,21 +104,30 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
         this.objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true);
         this.objectMapper.configure(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS, true);
         this.objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        this.modifyFeatureSet((features) -> features.includeDocumentationFeatures(DocumentationFeature.Readme).wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom)).securityFeatures(EnumSet.noneOf(SecurityFeature.class)).excludeGlobalFeatures(GlobalFeature.XMLStructureDefinitions, GlobalFeature.Callbacks, GlobalFeature.LinkObjects, GlobalFeature.ParameterStyling).excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism).excludeParameterFeatures(ParameterFeature.Cookie).includeClientModificationFeatures(new ClientModificationFeature[]{ClientModificationFeature.BasePath}));
+        this.modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                        .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                        .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                        .excludeGlobalFeatures(GlobalFeature.XMLStructureDefinitions, GlobalFeature.Callbacks, GlobalFeature.LinkObjects, GlobalFeature.ParameterStyling)
+                        .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                        .excludeParameterFeatures(ParameterFeature.Cookie)
+                        .includeClientModificationFeatures(ClientModificationFeature.BasePath));
         this.sourceFolder = "src" + File.separator + "test" + File.separator + "kotlin";
         this.outputFolder = "generated-code/gatling";
         this.apiTemplateFiles.put("api.mustache", ".kt");
         this.templateDir = "kotlin-perfana-gatling";
-        properties.stream().map(Property::toCliOptions).flatMap(Collection::stream).forEach((option) -> this.cliOptions.add(option));
+        properties.stream()
+                .map(Property::toCliOptions)
+                .flatMap(Collection::stream)
+                .forEach(option -> this.cliOptions.add(option));
         this.importMapping.remove("List");
         this.importMapping.remove("Set");
         this.importMapping.remove("Map");
         this.importMapping.put("Date", "java.util.Date");
         this.typeMapping = new HashMap<>();
         this.typeMapping.put("enum", "NSString");
-        this.typeMapping.put("array", "List");
+        this.typeMapping.put(ARRAY_TYPE, "List");
         this.typeMapping.put("set", "Set");
-        this.typeMapping.put("boolean", "Boolean");
+        this.typeMapping.put(BOOLEAN_TYPE, "Boolean");
         this.typeMapping.put("string", "String");
         this.typeMapping.put("int", "Int");
         this.typeMapping.put("long", "Long");
@@ -101,132 +142,138 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
         this.typeMapping.put("ByteArray", "String");
         this.typeMapping.put("date-time", "Date");
         this.typeMapping.put("DateTime", "Date");
-        this.instantiationTypes.put("array", "ListBuffer");
+        this.instantiationTypes.put(ARRAY_TYPE, "ListBuffer");
         this.instantiationTypes.put("map", "HashMap");
-        this.setReservedWordsLowerCase(Arrays.asList("path", "contentTypes", "contentType", "queryParams", "headerParams", "formParams", "postBody", "mp", "basePath", "apiInvoker", "abstract", "case", "catch", "class", "def", "do", "else", "extends", "false", "final", "finally", "for", "forSome", "if", "implicit", "import", "lazy", "match", "new", "null", "object", "override", "package", "private", "protected", "return", "sealed", "super", "this", "throw", "trait", "try", "true", "type", "val", "var", "while", "with", "yield"));
+        this.setReservedWordsLowerCase(Arrays.asList("path", "contentTypes", "contentType", "queryParams",
+                "headerParams", "formParams", "postBody", "mp", "basePath", "apiInvoker", "abstract", "case",
+                "catch", "class", "def", "do", "else", "extends", "false", "final", "finally", "for", "forSome",
+                "if", "implicit", "import", "lazy", "match", "new", "null", "object", "override", "package",
+                "private", "protected", "return", "sealed", "super", "this", "throw", "trait", "try", "true", "type",
+                "val", "var", "while", "with", "yield"));
     }
 
+    @Override
     public void processOpts() {
         super.processOpts();
-        properties.forEach((p) -> p.updateAdditionalProperties(this.additionalProperties));
+        properties.forEach(p -> p.updateAdditionalProperties(this.additionalProperties));
         this.invokerPackage = PACKAGE_PROPERTY.getInvokerPackage(this.additionalProperties);
         this.apiPackage = PACKAGE_PROPERTY.getApiPackage(this.additionalProperties);
         this.modelPackage = PACKAGE_PROPERTY.getModelPackage(this.additionalProperties);
         String systemUnderTest;
-        if (this.additionalProperties.containsKey("systemUnderTest")) {
-            systemUnderTest = this.additionalProperties.get("systemUnderTest").toString();
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_SYSTEM_UNDER_TEST)) {
+            systemUnderTest = this.additionalProperties.get(PROPERTY_KEY_SYSTEM_UNDER_TEST).toString();
         } else {
             systemUnderTest = "AddSystemUnderTest";
         }
 
         String artifactId;
-        if (this.additionalProperties.containsKey("artifactId")) {
-            artifactId = this.additionalProperties.get("artifactId").toString();
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_ARTIFACT_ID)) {
+            artifactId = this.additionalProperties.get(PROPERTY_KEY_ARTIFACT_ID).toString();
         } else {
             artifactId = "gatling-add-system-under-test";
         }
 
         String simulationClassName;
-        if (this.additionalProperties.containsKey("simulationClassName")) {
-            simulationClassName = this.additionalProperties.get("simulationClassName").toString();
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_SIMULATION_CLASS_NAME)) {
+            simulationClassName = this.additionalProperties.get(PROPERTY_KEY_SIMULATION_CLASS_NAME).toString();
         } else {
             simulationClassName = "AddSimulationClassName";
         }
 
         String gatlingVersion;
-        if (this.additionalProperties.containsKey("gatlingVersion")) {
-            gatlingVersion = this.additionalProperties.get("gatlingVersion").toString();
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_GATLING_VERSION)) {
+            gatlingVersion = this.additionalProperties.get(PROPERTY_KEY_GATLING_VERSION).toString();
         } else {
             gatlingVersion = "3.7.4";
         }
 
         String eventsGatlingMavenPluginVersion;
-        if (this.additionalProperties.containsKey("eventsGatlingMavenPluginVersion")) {
-            eventsGatlingMavenPluginVersion = this.additionalProperties.get("eventsGatlingMavenPluginVersion").toString();
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_EVENTS_GATLING_MAVEN_PLUGIN_VERSION)) {
+            eventsGatlingMavenPluginVersion = this.additionalProperties.get(PROPERTY_KEY_EVENTS_GATLING_MAVEN_PLUGIN_VERSION).toString();
         } else {
             eventsGatlingMavenPluginVersion = "4.1.0-events-2";
         }
 
         String perfanaJavaClientVersion;
-        if (this.additionalProperties.containsKey("perfanaJavaClientVersion")) {
-            perfanaJavaClientVersion = this.additionalProperties.get("perfanaJavaClientVersion").toString();
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_PERFANA_JAVA_CLIENT_VERSION)) {
+            perfanaJavaClientVersion = this.additionalProperties.get(PROPERTY_KEY_PERFANA_JAVA_CLIENT_VERSION).toString();
         } else {
             perfanaJavaClientVersion = "2.0.1";
         }
 
         String testEventsWiremockVersion;
-        if (this.additionalProperties.containsKey("testEventsWiremockVersion")) {
-            testEventsWiremockVersion = this.additionalProperties.get("testEventsWiremockVersion").toString();
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_TEST_EVENTS_WIREMOCK_VERSION)) {
+            testEventsWiremockVersion = this.additionalProperties.get(PROPERTY_KEY_TEST_EVENTS_WIREMOCK_VERSION).toString();
         } else {
             testEventsWiremockVersion = "1.2.0-SNAPSHOT";
         }
 
         String perfanaUrl;
-        if (this.additionalProperties.containsKey("perfanaUrl")) {
-            perfanaUrl = this.additionalProperties.get("perfanaUrl").toString();
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_PERFANA_URL)) {
+            perfanaUrl = this.additionalProperties.get(PROPERTY_KEY_PERFANA_URL).toString();
         } else {
             perfanaUrl = "https://perfana.io";
         }
 
         String targetBaseUrl;
-        if (this.additionalProperties.containsKey("targetBaseUrl")) {
-            targetBaseUrl = this.additionalProperties.get("targetBaseUrl").toString();
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_TARGET_BASE_URL)) {
+            targetBaseUrl = this.additionalProperties.get(PROPERTY_KEY_TARGET_BASE_URL).toString();
         } else {
             targetBaseUrl = "http://your-app.com";
         }
 
         boolean perfanaEnabled;
-        if (this.additionalProperties.containsKey("perfanaEnabled")) {
-            perfanaEnabled = Boolean.parseBoolean(this.additionalProperties.get("perfanaEnabled").toString());
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_PERFANA_ENABLED)) {
+            perfanaEnabled = Boolean.parseBoolean(this.additionalProperties.get(PROPERTY_KEY_PERFANA_ENABLED).toString());
         } else {
             perfanaEnabled = false;
         }
 
         String influxHost;
-        if (this.additionalProperties.containsKey("influxHost")) {
-            influxHost = this.additionalProperties.get("influxHost").toString();
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_INFLUX_HOST)) {
+            influxHost = this.additionalProperties.get(PROPERTY_KEY_INFLUX_HOST).toString();
         } else {
             influxHost = "http://influxdb";
         }
 
         String influxPort;
-        if (this.additionalProperties.containsKey("influxPort")) {
-            influxPort = this.additionalProperties.get("influxPort").toString();
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_INFLUX_PORT)) {
+            influxPort = this.additionalProperties.get(PROPERTY_KEY_INFLUX_PORT).toString();
         } else {
             influxPort = "2003";
         }
 
         String influxProtocol;
-        if (this.additionalProperties.containsKey("influxProtocol")) {
-            influxProtocol = this.additionalProperties.get("influxProtocol").toString();
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_INFLUX_PROTOCOL)) {
+            influxProtocol = this.additionalProperties.get(PROPERTY_KEY_INFLUX_PROTOCOL).toString();
         } else {
             influxProtocol = "tcp";
         }
 
         String graphitePrefix;
-        if (this.additionalProperties.containsKey("graphitePrefix")) {
-            graphitePrefix = this.additionalProperties.get("graphitePrefix").toString();
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_GRAPHITE_PREFIX)) {
+            graphitePrefix = this.additionalProperties.get(PROPERTY_KEY_GRAPHITE_PREFIX).toString();
         } else {
             graphitePrefix = "gatling2.debug";
         }
 
         String dbUrl;
-        if (this.additionalProperties.containsKey("dbUrl")) {
-            dbUrl = this.additionalProperties.get("dbUrl").toString();
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_DB_URL)) {
+            dbUrl = this.additionalProperties.get(PROPERTY_KEY_DB_URL).toString();
         } else {
             dbUrl = "jdbc://localhost:3306";
         }
 
         String dbUsername;
-        if (this.additionalProperties.containsKey("dbUsername")) {
-            dbUsername = this.additionalProperties.get("dbUsername").toString();
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_DB_USERNAME)) {
+            dbUsername = this.additionalProperties.get(PROPERTY_KEY_DB_USERNAME).toString();
         } else {
             dbUsername = "root";
         }
 
         String dbPassword;
-        if (this.additionalProperties.containsKey("dbPassword")) {
-            dbPassword = this.additionalProperties.get("dbPassword").toString();
+        if (this.additionalProperties.containsKey(PROPERTY_KEY_DB_PASSWORD)) {
+            dbPassword = this.additionalProperties.get(PROPERTY_KEY_DB_PASSWORD).toString();
         } else {
             dbPassword = "perfana";
         }
@@ -235,28 +282,28 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
         String configurationPackage = this.apiPackage.replace(".api", ".configuration");
         String helperPackage = this.apiPackage.replace(".api", ".helpers");
         String setUpPackage = this.apiPackage.replace(".api", ".setup");
-        this.additionalProperties.put("systemUnderTest", systemUnderTest);
-        this.additionalProperties.put("simulationClassName", simulationClassName);
-        this.additionalProperties.put("gatlingVersion", gatlingVersion);
-        this.additionalProperties.put("perfanaJavaClientVersion", perfanaJavaClientVersion);
-        this.additionalProperties.put("eventsGatlingMavenPluginVersion", eventsGatlingMavenPluginVersion);
-        this.additionalProperties.put("testEventsWiremockVersion", testEventsWiremockVersion);
-        this.additionalProperties.put("perfanaUrl", perfanaUrl);
-        this.additionalProperties.put("targetBaseUrl", targetBaseUrl);
-        this.additionalProperties.put("perfanaEnabled", perfanaEnabled);
-        this.additionalProperties.put("artifactId", artifactId);
-        this.additionalProperties.put("apiVersion", this.apiVersion);
-        this.additionalProperties.put("feederPackage", feederPackage);
-        this.additionalProperties.put("configurationPackage", configurationPackage);
-        this.additionalProperties.put("setUpPackage", setUpPackage);
-        this.additionalProperties.put("helperPackage", helperPackage);
-        this.additionalProperties.put("influxHost", influxHost);
-        this.additionalProperties.put("influxPort", influxPort);
-        this.additionalProperties.put("influxProtocol", influxProtocol);
-        this.additionalProperties.put("graphitePrefix", graphitePrefix);
-        this.additionalProperties.put("dbUrl", dbUrl);
-        this.additionalProperties.put("dbUsername", dbUsername);
-        this.additionalProperties.put("dbPassword", dbPassword);
+        this.additionalProperties.put(PROPERTY_KEY_SYSTEM_UNDER_TEST, systemUnderTest);
+        this.additionalProperties.put(PROPERTY_KEY_SIMULATION_CLASS_NAME, simulationClassName);
+        this.additionalProperties.put(PROPERTY_KEY_GATLING_VERSION, gatlingVersion);
+        this.additionalProperties.put(PROPERTY_KEY_PERFANA_JAVA_CLIENT_VERSION, perfanaJavaClientVersion);
+        this.additionalProperties.put(PROPERTY_KEY_EVENTS_GATLING_MAVEN_PLUGIN_VERSION, eventsGatlingMavenPluginVersion);
+        this.additionalProperties.put(PROPERTY_KEY_TEST_EVENTS_WIREMOCK_VERSION, testEventsWiremockVersion);
+        this.additionalProperties.put(PROPERTY_KEY_PERFANA_URL, perfanaUrl);
+        this.additionalProperties.put(PROPERTY_KEY_TARGET_BASE_URL, targetBaseUrl);
+        this.additionalProperties.put(PROPERTY_KEY_PERFANA_ENABLED, perfanaEnabled);
+        this.additionalProperties.put(PROPERTY_KEY_ARTIFACT_ID, artifactId);
+        this.additionalProperties.put(PROPERTY_KEY_API_VERSION, this.apiVersion);
+        this.additionalProperties.put(PROPERTY_KEY_FEEDER_PACKAGE, feederPackage);
+        this.additionalProperties.put(PROPERTY_KEY_CONFIGURATION_PACKAGE, configurationPackage);
+        this.additionalProperties.put(PROPERTY_KEY_SETUP_PACKAGE, setUpPackage);
+        this.additionalProperties.put(PROPERTY_KEY_HELPER_PACKAGE, helperPackage);
+        this.additionalProperties.put(PROPERTY_KEY_INFLUX_HOST, influxHost);
+        this.additionalProperties.put(PROPERTY_KEY_INFLUX_PORT, influxPort);
+        this.additionalProperties.put(PROPERTY_KEY_INFLUX_PROTOCOL, influxProtocol);
+        this.additionalProperties.put(PROPERTY_KEY_GRAPHITE_PREFIX, graphitePrefix);
+        this.additionalProperties.put(PROPERTY_KEY_DB_URL, dbUrl);
+        this.additionalProperties.put(PROPERTY_KEY_DB_USERNAME, dbUsername);
+        this.additionalProperties.put(PROPERTY_KEY_DB_PASSWORD, dbPassword);
 
         String feederFolder = this.sourceFolder.replace("main", "test") + File.separator + feederPackage.replace('.', File.separatorChar);
         String configurationFolder = this.sourceFolder.replace("main", "test") + File.separator + configurationPackage.replace('.', File.separatorChar);
@@ -282,20 +329,25 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
         this.supportingFiles.add(new SupportingFile("setup.mustache", setUpFolder, simulationClassName + ".kt"));
     }
 
+    @Override
     public String escapeReservedWord(String name) {
         return name;
     }
 
+    @Override
     public String modelFileFolder() {
         return this.outputFolder + File.separator + this.sourceFolder.replace("main", "test") +
                 File.separator + this.modelPackage().replace('.', File.separatorChar);
     }
 
+    @Override
     public String apiFileFolder() {
         return this.outputFolder + File.separator + this.sourceFolder.replace("main", "test") +
                 File.separator + this.apiPackage().replace('.', File.separatorChar);
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         Iterator<String> var2 = openAPI.getPaths().keySet().iterator();
 
@@ -330,12 +382,12 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
                                 operation.setExtensions(new HashMap<>());
                             }
 
-                            if (!operation.getExtensions().containsKey("x-gatling-path")) {
+                            if (!operation.getExtensions().containsKey(OPERATION_EXTENSION_X_GATLING_PATH)) {
                                 if (pathname.contains("{")) {
                                     String gatlingPath = pathname.replaceAll("\\{", "\\#\\{");
-                                    operation.addExtension("x-gatling-path", gatlingPath);
+                                    operation.addExtension(OPERATION_EXTENSION_X_GATLING_PATH, gatlingPath);
                                 } else {
-                                    operation.addExtension("x-gatling-path", pathname);
+                                    operation.addExtension(OPERATION_EXTENSION_X_GATLING_PATH, pathname);
                                 }
                             }
 
@@ -403,7 +455,7 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
             Schema<?> schema = stringSchemaEntry.getValue();
             String propertyName = stringSchemaEntry.getKey();
 
-            if (schema instanceof ArraySchema && schema.getType().equals("array")) {
+            if (schema instanceof ArraySchema && schema.getType().equals(ARRAY_TYPE)) {
                 ArrayNode arrayNode = parseArraySchema(schema, this.objectMapper, this.openAPI, true);
                 rootNode.set(propertyName, arrayNode);
             } else if (schema.get$ref() != null) {
@@ -423,7 +475,7 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
             Schema<?> schema = stringSchemaEntry.getValue();
             String propertyName = stringSchemaEntry.getKey();
 
-            if (schema instanceof ArraySchema && schema.getType().equals("array")) {
+            if (schema instanceof ArraySchema && schema.getType().equals(ARRAY_TYPE)) {
                 ArrayNode arrayNode = parseArraySchema(schema, this.objectMapper, this.openAPI, false);
                 rootNode.set(propertyName, arrayNode);
             } else if (schema.get$ref() != null) {
@@ -462,7 +514,7 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
                     rootNode.put(propertyName, schema.getPattern());
                 } else if (schema.getType() != null) {
                     switch (schema.getType()) {
-                        case "boolean":
+                        case BOOLEAN_TYPE:
                             rootNode.put(propertyName, true);
                             break;
                         case "number":
@@ -538,7 +590,7 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
     }
 
     private void prepareGatlingData(Operation operation, Set<Parameter> parameters, String parameterType) {
-        if (parameters.size() > 0 && !Objects.equals(parameterType, "body")) {
+        if (!parameters.isEmpty() && !Objects.equals(parameterType, "body")) {
             List<Object> vendorList = new ArrayList<>();
             Map<String, String> parameterNameType = new HashMap<>();
 
@@ -553,11 +605,11 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
                 }
             }
 
-            operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) +
+            operation.addExtension(PROPERTY_KEY_X_GATLING + parameterType.toLowerCase(Locale.ROOT) +
                     "-params", vendorList);
-            operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) +
+            operation.addExtension(PROPERTY_KEY_X_GATLING + parameterType.toLowerCase(Locale.ROOT) +
                     "-feeder", operation.getOperationId() + parameterType.toUpperCase(Locale.ROOT) + "Feeder");
-            operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) +
+            operation.addExtension(PROPERTY_KEY_X_GATLING + parameterType.toLowerCase(Locale.ROOT) +
                     "-database-feeder", operation.getOperationId() + parameterType.toUpperCase(Locale.ROOT) + "DatabaseFeeder");
 
             try {
@@ -582,7 +634,7 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
         parameterNameType.values()
                 .forEach(value -> {
                     switch (value) {
-                        case "boolean":
+                        case BOOLEAN_TYPE:
                             typeValues.add("false");
                             break;
                         case "number":
@@ -599,6 +651,7 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
         return new ImmutablePair<>(headerRowString, valuesRowString);
     }
 
+    @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -612,6 +665,7 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
         }
     }
 
+    @Override
     public String getSchemaType(Schema p) {
         String schemaType = super.getSchemaType(p);
         String type;
@@ -634,39 +688,41 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
 
     public static class PackageProperty extends StringProperty {
         public PackageProperty() {
-            super("mainPackage", "Top-level package name, which defines 'apiPackage', 'modelPackage', 'invokerPackage'", "org.openapitools.client");
+            super("mainPackage", "Top-level package name, which defines '" + PROPERTY_KEY_API_PACKAGE + "', " +
+                    "'" + PROPERTY_KEY_MODEL_PACKAGE + "', '" + PROPERTY_KEY_INVOKER_PACKAGE + "'", "org.openapitools.client");
         }
 
+        @Override
         public void updateAdditionalProperties(Map<String, Object> additionalProperties) {
             String mainPackage = this.getValue(additionalProperties);
             String invokerPackage;
-            if (!additionalProperties.containsKey("apiPackage")) {
+            if (!additionalProperties.containsKey(PROPERTY_KEY_API_PACKAGE)) {
                 invokerPackage = mainPackage + ".api";
-                additionalProperties.put("apiPackage", invokerPackage);
+                additionalProperties.put(PROPERTY_KEY_API_PACKAGE, invokerPackage);
             }
 
-            if (!additionalProperties.containsKey("modelPackage")) {
+            if (!additionalProperties.containsKey(PROPERTY_KEY_MODEL_PACKAGE)) {
                 invokerPackage = mainPackage + ".model";
-                additionalProperties.put("modelPackage", invokerPackage);
+                additionalProperties.put(PROPERTY_KEY_MODEL_PACKAGE, invokerPackage);
             }
 
-            if (!additionalProperties.containsKey("invokerPackage")) {
+            if (!additionalProperties.containsKey(PROPERTY_KEY_INVOKER_PACKAGE)) {
                 invokerPackage = mainPackage + ".core";
-                additionalProperties.put("invokerPackage", invokerPackage);
+                additionalProperties.put(PROPERTY_KEY_INVOKER_PACKAGE, invokerPackage);
             }
 
         }
 
         public String getApiPackage(Map<String, Object> additionalProperties) {
-            return additionalProperties.getOrDefault("apiPackage", "org.openapitools.client.api").toString();
+            return additionalProperties.getOrDefault(PROPERTY_KEY_API_PACKAGE, "org.openapitools.client.api").toString();
         }
 
         public String getModelPackage(Map<String, Object> additionalProperties) {
-            return additionalProperties.getOrDefault("modelPackage", "org.openapitools.client.model").toString();
+            return additionalProperties.getOrDefault(PROPERTY_KEY_MODEL_PACKAGE, "org.openapitools.client.model").toString();
         }
 
         public String getInvokerPackage(Map<String, Object> additionalProperties) {
-            return additionalProperties.getOrDefault("invokerPackage", "org.openapitools.client.core").toString();
+            return additionalProperties.getOrDefault(PROPERTY_KEY_INVOKER_PACKAGE, "org.openapitools.client.core").toString();
         }
     }
 
@@ -675,7 +731,7 @@ public class KotlinPerfanaGatlingCodegen extends AbstractScalaCodegen implements
         final String description;
         final T defaultValue;
 
-        public Property(String name, String description, T defaultValue) {
+        protected Property(String name, String description, T defaultValue) {
             this.name = name;
             this.description = description;
             this.defaultValue = defaultValue;

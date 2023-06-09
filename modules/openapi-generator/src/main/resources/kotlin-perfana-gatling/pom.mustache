@@ -23,6 +23,8 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <guava.version>31.1-jre</guava.version>
         <simulationClass>{{ setUpPackage }}.{{ simulationClassName }}</simulationClass>
 
@@ -170,9 +172,8 @@
             <properties>
                 <debug>true</debug>
                 <scenario>debug</scenario>
-                <perfanaEnabled>${perfanaEnabled}</perfanaEnabled>
                 <graphitePrefix>gatling2.debug</graphitePrefix>
-                <assertResultsEnabled>false</assertResultsEnabled>
+                <assertResultsEnabled>${perfanaEnabled}</assertResultsEnabled>
                 <initialUsersPerSecond>1</initialUsersPerSecond>
                 <targetUsersPerSecond>1</targetUsersPerSecond>
                 <rampupTimeInSeconds>1</rampupTimeInSeconds>
