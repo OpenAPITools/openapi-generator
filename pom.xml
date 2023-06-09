@@ -109,7 +109,7 @@
                 <artifactId>spotless-maven-plugin</artifactId>
                 <version>${spotless-plugin.version}</version>
                 <configuration>
-                    <ratchetFrom>origin/master</ratchetFrom>
+                    <ratchetFrom>master</ratchetFrom>
                     <lineEndings>UNIX</lineEndings>
                     <java>
                         <googleJavaFormat>
