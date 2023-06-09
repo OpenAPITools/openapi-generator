@@ -45,25 +45,6 @@ export interface Cat {
 /**
  * 
  * @export
- * @interface CatAllOf
- */
-export interface CatAllOf {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CatAllOf
-     */
-    'hunts'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof CatAllOf
-     */
-    'age'?: number;
-}
-/**
- * 
- * @export
  * @interface Dog
  */
 export interface Dog {
@@ -89,35 +70,6 @@ export const DogBreedEnum = {
 } as const;
 
 export type DogBreedEnum = typeof DogBreedEnum[keyof typeof DogBreedEnum];
-
-/**
- * 
- * @export
- * @interface DogAllOf
- */
-export interface DogAllOf {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof DogAllOf
-     */
-    'bark'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof DogAllOf
-     */
-    'breed'?: DogAllOfBreedEnum;
-}
-
-export const DogAllOfBreedEnum = {
-    Dingo: 'Dingo',
-    Husky: 'Husky',
-    Retriever: 'Retriever',
-    Shepherd: 'Shepherd'
-} as const;
-
-export type DogAllOfBreedEnum = typeof DogAllOfBreedEnum[keyof typeof DogAllOfBreedEnum];
 
 /**
  * 
