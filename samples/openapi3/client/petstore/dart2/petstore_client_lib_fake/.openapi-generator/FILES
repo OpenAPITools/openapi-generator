@@ -121,4 +121,3 @@ lib/model/special_model_name.dart
 lib/model/tag.dart
 lib/model/user.dart
 pubspec.yaml
-test/all_of_with_single_ref_test.dart
