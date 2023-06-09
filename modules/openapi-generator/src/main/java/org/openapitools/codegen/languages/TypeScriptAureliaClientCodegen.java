@@ -33,9 +33,10 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
     public TypeScriptAureliaClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .securityFeatures(EnumSet.of(SecurityFeature.ApiKey)));
+        modifyFeatureSet(
+                features ->
+                        features.includeDocumentationFeatures(DocumentationFeature.Readme)
+                                .securityFeatures(EnumSet.of(SecurityFeature.ApiKey)));
 
         apiTemplateFiles.put("api.mustache", ".ts");
 

@@ -284,12 +284,14 @@ public class JavaClientCodegenTest {
 
         File output = Files.createTempDirectory("test").toFile();
 
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
-                .setLibrary(JavaClientCodegen.JERSEY3)
-                .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        final CodegenConfigurator configurator =
+                new CodegenConfigurator()
+                        .setGeneratorName("java")
+                        .setLibrary(JavaClientCodegen.JERSEY3)
+                        .setAdditionalProperties(properties)
+                        .setInputSpec(
+                                "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
 
@@ -297,11 +299,16 @@ public class JavaClientCodegenTest {
 
         List<File> files = generator.opts(clientOptInput).generate();
 
-        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/ApiKeyAuth.java");
-        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/Authentication.java");
-        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/HttpBasicAuth.java");
-        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/HttpBearerAuth.java");
-        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/HttpSignatureAuth.java");
+        TestUtils.ensureContainsFile(
+                files, output, "src/main/java/xyz/abcdef/auth/ApiKeyAuth.java");
+        TestUtils.ensureContainsFile(
+                files, output, "src/main/java/xyz/abcdef/auth/Authentication.java");
+        TestUtils.ensureContainsFile(
+                files, output, "src/main/java/xyz/abcdef/auth/HttpBasicAuth.java");
+        TestUtils.ensureContainsFile(
+                files, output, "src/main/java/xyz/abcdef/auth/HttpBearerAuth.java");
+        TestUtils.ensureContainsFile(
+                files, output, "src/main/java/xyz/abcdef/auth/HttpSignatureAuth.java");
     }
 
     @Test
@@ -310,7 +317,10 @@ public class JavaClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, JavaClientCodegen.JERSEY3);
         codegen.processOpts();
 
-        Assert.assertTrue(codegen.getFeatureSet().getSecurityFeatures().contains(SecurityFeature.SignatureAuth));
+        Assert.assertTrue(
+                codegen.getFeatureSet()
+                        .getSecurityFeatures()
+                        .contains(SecurityFeature.SignatureAuth));
     }
 
     @Test
