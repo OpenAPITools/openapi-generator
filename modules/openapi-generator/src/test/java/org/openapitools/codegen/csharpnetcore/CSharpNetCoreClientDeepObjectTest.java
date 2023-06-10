@@ -32,7 +32,7 @@ import java.nio.file.Paths;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 
-public class CSharpNetCoreClientDeepObjectTest {
+public class CSharpClientDeepObjectTest {
 
     @Test
     public void deepObject() throws IOException {
