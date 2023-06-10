@@ -7,6 +7,7 @@ license = "Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
 keywords = ["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"]
+include = ["petstore_api/py.typed"]
 
 [tool.poetry.dependencies]
 python = "^3.7"

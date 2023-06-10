@@ -165,6 +165,7 @@ petstore_api/models/special_name.py
 petstore_api/models/tag.py
 petstore_api/models/user.py
 petstore_api/models/with_nested_one_of.py
+petstore_api/py.typed
 petstore_api/rest.py
 petstore_api/signing.py
 pyproject.toml
