@@ -52,9 +52,5 @@ namespace Org.OpenAPITools.Test.Model
             // TODO uncomment below to test "IsType" OuterEnumDefaultValue
             //Assert.IsType<OuterEnumDefaultValue>(instance);
         }
-
-
-
     }
-
 }
