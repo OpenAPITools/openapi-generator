@@ -26,7 +26,7 @@ import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class CSharpNetCoreClientCodegenTest {
+public class CSharpClientCodegenTest {
 
     @Test
     public void testToEnumVarName() throws Exception {
