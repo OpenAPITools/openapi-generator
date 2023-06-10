@@ -19,11 +19,6 @@ package org.openapitools.client.models
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Contextual
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializer
-import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
 
 /**
  * An order for a pets from the pet store
@@ -63,29 +58,13 @@ data class Order (
     /**
      * Order Status
      *
-     * Values: placed,approved,delivered,unknownDefaultOpenApi
+     * Values: placed,approved,delivered
      */
-    @Serializable(with = OrderSerializer::class)
+    @Serializable
     enum class Status(val value: kotlin.String) {
         @SerialName(value = "placed") placed("placed"),
         @SerialName(value = "approved") approved("approved"),
-        @SerialName(value = "delivered") delivered("delivered"),
-        @SerialName(value = "unknown_default_open_api") unknownDefaultOpenApi("unknown_default_open_api");
-    }
-
-    @Serializer(forClass = Status::class)
-    internal object StatusSerializer : KSerializer<Status> {
-        override val descriptor = kotlin.String.serializer().descriptor
-
-        override fun deserialize(decoder: Decoder): Status {
-            val value = decoder.decodeSerializableValue(kotlin.String.serializer())
-            return Status.values().firstOrNull { it.value == value }
-                ?: Status.unknownDefaultOpenApi
-        }
-
-        override fun serialize(encoder: Encoder, value: Status) {
-            encoder.encodeSerializableValue(kotlin.String.serializer(), value.value)
-        }
+        @SerialName(value = "delivered") delivered("delivered");
     }
 }
 
