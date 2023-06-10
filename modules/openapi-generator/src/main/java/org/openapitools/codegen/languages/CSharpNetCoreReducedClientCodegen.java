@@ -42,7 +42,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 @SuppressWarnings("Duplicates")
-public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
+public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
     // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
     protected static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
     protected static final String SUPPORTS_UWP = "supportsUWP";
@@ -60,7 +60,7 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
     protected static final String TARGET_FRAMEWORK_VERSION = "targetFrameworkVersion";
 
     @SuppressWarnings("hiding")
-    private final Logger LOGGER = LoggerFactory.getLogger(CSharpNetCoreReducedClientCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CSharpReducedClientCodegen.class);
     private static final List<FrameworkStrategy> frameworkStrategies = Arrays.asList(
             FrameworkStrategy.NETSTANDARD_1_3,
             FrameworkStrategy.NETSTANDARD_1_4,
@@ -105,7 +105,7 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
     protected boolean needsCustomHttpMethod = false;
     protected boolean needsUriBuilder = false;
 
-    public CSharpNetCoreReducedClientCodegen() {
+    public CSharpReducedClientCodegen() {
         super();
 
         modifyFeatureSet(features -> features
@@ -971,7 +971,7 @@ public class CSharpNetCoreReducedClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings("Duplicates")
     private static abstract class FrameworkStrategy {
 
-        private final Logger LOGGER = LoggerFactory.getLogger(CSharpNetCoreReducedClientCodegen.class);
+        private final Logger LOGGER = LoggerFactory.getLogger(CSharpReducedClientCodegen.class);
 
         static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3 compatible", "netcoreapp2.0") {
         };
