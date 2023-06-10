@@ -53,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<AdultAllOf>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Children'
         /// </summary>
@@ -62,7 +61,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Children'
         }
-
     }
-
 }

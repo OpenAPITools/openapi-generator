@@ -53,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Name>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'VarName'
         /// </summary>
@@ -62,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'VarName'
         }
+
         /// <summary>
         /// Test the property 'Property'
         /// </summary>
@@ -70,6 +70,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Property'
         }
+
         /// <summary>
         /// Test the property 'SnakeCase'
         /// </summary>
@@ -78,6 +79,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'SnakeCase'
         }
+
         /// <summary>
         /// Test the property 'Var123Number'
         /// </summary>
@@ -86,7 +88,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Var123Number'
         }
-
     }
-
 }

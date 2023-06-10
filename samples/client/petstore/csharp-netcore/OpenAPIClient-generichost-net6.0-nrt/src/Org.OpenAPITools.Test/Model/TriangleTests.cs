@@ -53,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Triangle>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'ShapeType'
         /// </summary>
@@ -62,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ShapeType'
         }
+
         /// <summary>
         /// Test the property 'TriangleType'
         /// </summary>
@@ -70,7 +70,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'TriangleType'
         }
-
     }
-
 }
