@@ -193,18 +193,6 @@ conf = {{{packageName}}}.Configuration(
         """The HTTP signing configuration
         """
 {{/hasHttpSignatureMethods}}
-{{#hasOAuthMethods}}
-        self.access_token = None
-        """access token for OAuth/Bearer
-        """
-{{/hasOAuthMethods}}
-{{^hasOAuthMethods}}
-{{#hasHttpBearerMethods}}
-        self.access_token = None
-        """access token for OAuth/Bearer
-        """
-{{/hasHttpBearerMethods}}
-{{/hasOAuthMethods}}
         self.logger = {}
         """Logging Settings
         """
