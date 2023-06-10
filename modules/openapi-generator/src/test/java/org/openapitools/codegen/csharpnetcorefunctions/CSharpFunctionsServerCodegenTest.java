@@ -20,7 +20,7 @@ import org.openapitools.codegen.languages.CSharpFunctionsServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class CsharpFunctionsServerCodegenTest {
+public class CSharpFunctionsServerCodegenTest {
 
     @Test
     public void testToEnumVarName() throws Exception {
