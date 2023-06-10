@@ -47,7 +47,7 @@ func TestReadOnlyFirst(t *testing.T) {
 
 	newReadOnlyFirst := (sw.ReadOnlyFirst{Bar: sw.PtrString("Bar value"), Baz: sw.PtrString("Baz value")})
 	json, _ := newReadOnlyFirst.MarshalJSON()
-	expected := `{"Bar":"Bar value","Baz":"Baz value"}`
+	expected := `{"bar":"Bar value","baz":"Baz value"}`
 
-	assert.Equal(t, expected, (string)(json))
+	assert.Equal(expected, (string)(json), "ReadOnlyFirst JSON is incorrect")
 }
