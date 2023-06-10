@@ -21,7 +21,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.CSharpNetCoreClientCodegen;
+import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -30,7 +30,7 @@ public class CSharpNetCoreClientCodegenTest {
 
     @Test
     public void testToEnumVarName() throws Exception {
-        final CSharpNetCoreClientCodegen codegen = new CSharpNetCoreClientCodegen();
+        final CSharpClientCodegen codegen = new CSharpClientCodegen();
         codegen.processOpts();
 
         Assert.assertEquals(codegen.toEnumVarName("FooBar", "string"), "FooBar");
@@ -48,7 +48,7 @@ public class CSharpNetCoreClientCodegenTest {
     public void testUnsigned() {
         // test unsigned integer/long
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/unsigned-test.yaml");
-        CSharpNetCoreClientCodegen codegen = new CSharpNetCoreClientCodegen();
+        CSharpClientCodegen codegen = new CSharpClientCodegen();
 
         Schema test1 = openAPI.getComponents().getSchemas().get("format_test");
         codegen.setOpenAPI(openAPI);
