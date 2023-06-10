@@ -318,6 +318,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             supportingFiles.add(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
             supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
             supportingFiles.add(new SupportingFile("pyproject.mustache", "", "pyproject.toml"));
+            supportingFiles.add(new SupportingFile("py.typed.mustache", packagePath(), "py.typed"));
         }
         supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
         supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
