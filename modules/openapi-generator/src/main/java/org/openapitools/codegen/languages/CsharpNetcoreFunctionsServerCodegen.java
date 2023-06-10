@@ -61,7 +61,7 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
 
-    protected final Logger LOGGER = LoggerFactory.getLogger(AspNetCoreServerCodegen.class);
+    protected final Logger LOGGER = LoggerFactory.getLogger(AspNetServerCodegen.class);
 
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";

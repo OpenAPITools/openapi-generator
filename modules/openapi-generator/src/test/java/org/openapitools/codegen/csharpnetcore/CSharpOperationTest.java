@@ -23,7 +23,7 @@ import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractCSharpCodegen;
-import org.openapitools.codegen.languages.AspNetCoreServerCodegen;
+import org.openapitools.codegen.languages.AspNetServerCodegen;
 import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.testng.annotations.Test;
 
@@ -33,10 +33,10 @@ public class CSharpOperationTest {
 
     @Test
     public void assertMethodOptionalParameterDataType() {
-        assertEquals(getOperationOptionalParameterDataType(new AspNetCoreServerCodegen(), 2, false), "System.IO.Stream");
-        assertEquals(getOperationOptionalParameterDataType(new AspNetCoreServerCodegen(), 2, true), "System.IO.Stream?");
-        assertEquals(getOperationOptionalParameterDataType(new AspNetCoreServerCodegen(), 3, false), "System.IO.Stream");
-        assertEquals(getOperationOptionalParameterDataType(new AspNetCoreServerCodegen(), 3, true), "System.IO.Stream?");
+        assertEquals(getOperationOptionalParameterDataType(new AspNetServerCodegen(), 2, false), "System.IO.Stream");
+        assertEquals(getOperationOptionalParameterDataType(new AspNetServerCodegen(), 2, true), "System.IO.Stream?");
+        assertEquals(getOperationOptionalParameterDataType(new AspNetServerCodegen(), 3, false), "System.IO.Stream");
+        assertEquals(getOperationOptionalParameterDataType(new AspNetServerCodegen(), 3, true), "System.IO.Stream?");
 
         assertEquals(getOperationOptionalParameterDataType(new CSharpClientCodegen(), 2, false), "System.IO.Stream");
         assertEquals(getOperationOptionalParameterDataType(new CSharpClientCodegen(), 2, true), "System.IO.Stream?");

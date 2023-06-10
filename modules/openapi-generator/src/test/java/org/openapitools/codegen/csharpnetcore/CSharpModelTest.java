@@ -27,7 +27,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractCSharpCodegen;
-import org.openapitools.codegen.languages.AspNetCoreServerCodegen;
+import org.openapitools.codegen.languages.AspNetServerCodegen;
 import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -38,10 +38,10 @@ public class CSharpModelTest {
     @Test
     public void assertOuterEnumIsString() {
         // this issue has not been found yet in version 2
-        // Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 2, false), true);
-        // Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 2, true), true);
-        Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 3, false), true);
-        Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 3, true), true);
+        // Assert.assertEquals(outerEnumVarsIsString(new AspNetServerCodegen(), 2, false), true);
+        // Assert.assertEquals(outerEnumVarsIsString(new AspNetServerCodegen(), 2, true), true);
+        Assert.assertEquals(outerEnumVarsIsString(new AspNetServerCodegen(), 3, false), true);
+        Assert.assertEquals(outerEnumVarsIsString(new AspNetServerCodegen(), 3, true), true);
 
         // this issue has not been found yet in version 2
         // Assert.assertEquals(outerEnumVarsIsString(new CSharpClientCodegen(), 2, false), true);
@@ -303,7 +303,7 @@ public class CSharpModelTest {
                 .addProperties("name", new StringSchema().nullable(true))
                 .addProperties("subObject",  new Schema().addProperties("name", new StringSchema()).nullable(true))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new AspNetCoreServerCodegen();
+        final DefaultCodegen codegen = new AspNetServerCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -362,7 +362,7 @@ public class CSharpModelTest {
                 .addProperties("name", new StringSchema().nullable(true))
                 .addProperties("subObject",  new Schema().addProperties("name", new StringSchema()).nullable(true))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new AspNetCoreServerCodegen();
+        final DefaultCodegen codegen = new AspNetServerCodegen();
         codegen.additionalProperties().put(CodegenConstants.NULLABLE_REFERENCE_TYPES, true);
         codegen.processOpts();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
