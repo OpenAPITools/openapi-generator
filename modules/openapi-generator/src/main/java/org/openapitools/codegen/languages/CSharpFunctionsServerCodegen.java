@@ -274,50 +274,6 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected Set<String> getLanguageSpecificPrimitives() {
-        return new HashSet<>(
-                Arrays.asList(
-                        "String",
-                        "string",
-                        "bool?",
-                        "bool",
-                        "double?",
-                        "double",
-                        "decimal?",
-                        "decimal",
-                        "int?",
-                        "int",
-                        "uint",
-                        "uint?",
-                        "long?",
-                        "long",
-                        "ulong",
-                        "ulong?",
-                        "float?",
-                        "float",
-                        "byte[]",
-                        "ICollection",
-                        "Collection",
-                        "List",
-                        "Dictionary",
-                        "DateTime?",
-                        "DateTime",
-                        "DateTimeOffset?",
-                        "DateTimeOffset",
-                        "Boolean",
-                        "Double",
-                        "Decimal",
-                        "Int32",
-                        "Int64",
-                        "Float",
-                        "Guid?",
-                        "Guid",
-                        "System.IO.Stream", // not really a primitive, we include it to avoid model import
-                        "Object")
-        );
-    }
-
-    @Override
     protected Map<String, String> getTypeMapping() {
         Map<String, String> typeMapping = super.getTypeMapping();
         typeMapping.put("boolean", "bool");
@@ -439,6 +395,8 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("typeConverter.mustache", packageFolder + File.separator + "Converters", "CustomEnumConverter.cs"));
         supportingFiles.add(new SupportingFile("host.json.mustache", packageFolder, "host.json"));
         supportingFiles.add(new SupportingFile("local.settings.json.mustache", packageFolder, "local.settings.json"));
+
+        typeMapping = this.getTypeMapping();
     }
 
     public void setPackageGuid(String packageGuid) {

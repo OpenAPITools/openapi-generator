@@ -156,53 +156,52 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         );
 
         // TODO: Either include fully qualified names here or handle in DefaultCodegen via lastIndexOf(".") search
-        languageSpecificPrimitives = this.getLanguageSpecificPrimitives();
-        // languageSpecificPrimitives = new HashSet<>(
-        //         Arrays.asList(
-        //                 "String",
-        //                 "string",
-        //                 "bool?",
-        //                 "bool",
-        //                 "double?",
-        //                 "double",
-        //                 "decimal?",
-        //                 "decimal",
-        //                 "int?",
-        //                 "int",
-        //                 "uint",
-        //                 "uint?",
-        //                 "long?",
-        //                 "long",
-        //                 "ulong",
-        //                 "ulong?",
-        //                 "float?",
-        //                 "float",
-        //                 "byte[]",
-        //                 "ICollection",
-        //                 "Collection",
-        //                 "List",
-        //                 "Dictionary",
-        //                 "DateTime?",
-        //                 "DateTime",
-        //                 "DateTimeOffset?",
-        //                 "DateTimeOffset",
-        //                 "Boolean",
-        //                 "Double",
-        //                 "Decimal",
-        //                 "Int32",
-        //                 "Int64",
-        //                 "Float",
-        //                 "Guid?",
-        //                 "Guid",
-        //                 "System.IO.Stream", // not really a primitive, we include it to avoid model import
-        //                 "Object")
-        // );
+        languageSpecificPrimitives = new HashSet<>(
+                Arrays.asList(
+                        "String",
+                        "string",
+                        "bool?",
+                        "bool",
+                        "double?",
+                        "double",
+                        "decimal?",
+                        "decimal",
+                        "int?",
+                        "int",
+                        "uint",
+                        "uint?",
+                        "long?",
+                        "long",
+                        "ulong",
+                        "ulong?",
+                        "float?",
+                        "float",
+                        "byte[]",
+                        "ICollection",
+                        "Collection",
+                        "List",
+                        "Dictionary",
+                        "DateTime?",
+                        "DateTime",
+                        "DateTimeOffset?",
+                        "DateTimeOffset",
+                        "Boolean",
+                        "Double",
+                        "Decimal",
+                        "Int32",
+                        "Int64",
+                        "Float",
+                        "Guid?",
+                        "Guid",
+                        "System.IO.Stream", // not really a primitive, we include it to avoid model import
+                        "Object")
+        );
 
         instantiationTypes.put("array", "List");
         instantiationTypes.put("list", "List");
         instantiationTypes.put("map", "Dictionary");
 
-        typeMapping = this.getTypeMapping();
+        // typeMapping = this.getTypeMapping();
         // // Nullable types here assume C# 2 support is not part of base
         // typeMapping = new HashMap<>();
         // typeMapping.put("string", "string");
@@ -251,38 +250,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected Set<String> getValueTypes() {
         return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
-    }
-
-    protected Set<String> getLanguageSpecificPrimitives() {
-        return new HashSet<>(
-                Arrays.asList(
-                        "String",
-                        "string",
-                        "bool",
-                        "double",
-                        "decimal",
-                        "int",
-                        "uint",
-                        "long",
-                        "ulong",
-                        "float",
-                        "byte[]",
-                        "ICollection",
-                        "Collection",
-                        "List",
-                        "Dictionary",
-                        "DateTime",
-                        "DateTimeOffset",
-                        "Boolean",
-                        "Double",
-                        "Decimal",
-                        "Int32",
-                        "Int64",
-                        "Float",
-                        "Guid",
-                        "System.IO.Stream", // not really a primitive, we include it to avoid model import
-                        "Object")
-        );
     }
 
     protected Map<String, String> getTypeMapping() {
@@ -519,6 +486,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 writer.write(content);
             }
         });
+
+        this.getTypeMapping();
     }
 
     @Override

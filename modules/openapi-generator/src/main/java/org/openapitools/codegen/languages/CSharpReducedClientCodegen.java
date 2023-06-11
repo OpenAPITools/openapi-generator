@@ -337,50 +337,6 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected Set<String> getLanguageSpecificPrimitives() {
-        return new HashSet<>(
-                Arrays.asList(
-                        "String",
-                        "string",
-                        "bool?",
-                        "bool",
-                        "double?",
-                        "double",
-                        "decimal?",
-                        "decimal",
-                        "int?",
-                        "int",
-                        "uint",
-                        "uint?",
-                        "long?",
-                        "long",
-                        "ulong",
-                        "ulong?",
-                        "float?",
-                        "float",
-                        "byte[]",
-                        "ICollection",
-                        "Collection",
-                        "List",
-                        "Dictionary",
-                        "DateTime?",
-                        "DateTime",
-                        "DateTimeOffset?",
-                        "DateTimeOffset",
-                        "Boolean",
-                        "Double",
-                        "Decimal",
-                        "Int32",
-                        "Int64",
-                        "Float",
-                        "Guid?",
-                        "Guid",
-                        "System.IO.Stream", // not really a primitive, we include it to avoid model import
-                        "Object")
-        );
-    }
-
-    @Override
     protected Map<String, String> getTypeMapping() {
         Map<String, String> typeMapping = super.getTypeMapping();
         // mapped non-nullable type without ?
@@ -826,6 +782,8 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
+
+        typeMapping = this.getTypeMapping();
     }
 
     public void setNetStandard(Boolean netStandard) {

@@ -377,50 +377,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected Set<String> getLanguageSpecificPrimitives() {
-        return new HashSet<>(
-                Arrays.asList(
-                        "String",
-                        "string",
-                        "bool?",
-                        "bool",
-                        "double?",
-                        "double",
-                        "decimal?",
-                        "decimal",
-                        "int?",
-                        "int",
-                        "uint",
-                        "uint?",
-                        "long?",
-                        "long",
-                        "ulong",
-                        "ulong?",
-                        "float?",
-                        "float",
-                        "byte[]",
-                        "ICollection",
-                        "Collection",
-                        "List",
-                        "Dictionary",
-                        "DateTime?",
-                        "DateTime",
-                        "DateTimeOffset?",
-                        "DateTimeOffset",
-                        "Boolean",
-                        "Double",
-                        "Decimal",
-                        "Int32",
-                        "Int64",
-                        "Float",
-                        "Guid?",
-                        "Guid",
-                        "System.IO.Stream", // not really a primitive, we include it to avoid model import
-                        "Object")
-        );
-    }
-
-    @Override
     protected Map<String, String> getTypeMapping() {
         Map<String, String> typeMapping = new HashMap<>();
         // mapped non-nullable type without ?
@@ -447,6 +403,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         typeMapping.put("UUID", "Guid");
         typeMapping.put("URI", "string");
         typeMapping.put("AnyType", "Object");
+
+        if (HTTPCLIENT.equals(getLibrary())) {
+            typeMapping.put("file", "FileParameter");
+        }
 
         return typeMapping;
     }
@@ -935,7 +895,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         if (HTTPCLIENT.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
-            typeMapping.put("file", "FileParameter");
+            // typeMapping.put("file", "FileParameter");
             addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
             additionalProperties.put("apiDocPath", apiDocPath);
             additionalProperties.put("modelDocPath", modelDocPath);
@@ -972,6 +932,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         // include the spec in the output
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
 
+        typeMapping = this.getTypeMapping();
     }
 
     public void setClientPackage(String clientPackage) {

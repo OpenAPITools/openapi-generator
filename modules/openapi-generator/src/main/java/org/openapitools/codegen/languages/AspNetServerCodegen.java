@@ -324,50 +324,6 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected Set<String> getLanguageSpecificPrimitives() {
-        return new HashSet<>(
-                Arrays.asList(
-                        "String",
-                        "string",
-                        "bool?",
-                        "bool",
-                        "double?",
-                        "double",
-                        "decimal?",
-                        "decimal",
-                        "int?",
-                        "int",
-                        "uint",
-                        "uint?",
-                        "long?",
-                        "long",
-                        "ulong",
-                        "ulong?",
-                        "float?",
-                        "float",
-                        "byte[]",
-                        "ICollection",
-                        "Collection",
-                        "List",
-                        "Dictionary",
-                        "DateTime?",
-                        "DateTime",
-                        "DateTimeOffset?",
-                        "DateTimeOffset",
-                        "Boolean",
-                        "Double",
-                        "Decimal",
-                        "Int32",
-                        "Int64",
-                        "Float",
-                        "Guid?",
-                        "Guid",
-                        "System.IO.Stream", // not really a primitive, we include it to avoid model import
-                        "Object")
-        );
-    }
-
-    @Override
     protected Map<String, String> getTypeMapping() {
         Map<String, String> typeMapping = super.getTypeMapping();
         typeMapping.put("boolean", "bool");
@@ -532,6 +488,8 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
 
         supportingFiles.add(new SupportingFile("Authentication" + File.separator + "ApiAuthentication.mustache", packageFolder + File.separator + "Authentication", "ApiAuthentication.cs"));
         supportingFiles.add(new SupportingFile("Formatters" + File.separator + "InputFormatterStream.mustache", packageFolder + File.separator + "Formatters", "InputFormatterStream.cs"));
+
+        typeMapping = this.getTypeMapping();
     }
 
     public void setPackageGuid(String packageGuid) {
