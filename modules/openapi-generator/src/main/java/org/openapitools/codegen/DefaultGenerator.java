@@ -40,7 +40,7 @@ import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
-import org.openapitools.codegen.languages.CSharpNetCoreClientCodegen;
+import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ApiInfoMap;
@@ -271,7 +271,7 @@ public class DefaultGenerator implements Generator {
             inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
             inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
             if (inlineModelResolver.refactorAllOfInlineSchemas == null &&  // option not set
-                    config instanceof CSharpNetCoreClientCodegen) { // default to true for csharp-netcore generator
+                    config instanceof CSharpClientCodegen) { // default to true for csharp-netcore generator
                 inlineModelResolver.refactorAllOfInlineSchemas = true;
                 LOGGER.info("inlineModelResolver.refactorAllOfInlineSchemas is default to true instead of false for `csharp-netcore` generator." +
                         "Add --inline-schema-name-defaults REFACTOR_ALLOF_INLINE_SCHEMAS=false in CLI for example to set it to false instead.");
