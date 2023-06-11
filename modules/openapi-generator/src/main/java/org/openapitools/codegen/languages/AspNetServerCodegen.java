@@ -324,8 +324,8 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected Map<String, String> getTypeMapping() {
-        Map<String, String> typeMapping = super.getTypeMapping();
+    protected void setTypeMapping() {
+        super.setTypeMapping();
         typeMapping.put("boolean", "bool");
         typeMapping.put("integer", "int");
         typeMapping.put("float", "float");
@@ -336,8 +336,6 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         typeMapping.put("date", "DateTime");
         typeMapping.put("UUID", "Guid");
         typeMapping.put("URI", "string");
-
-        return typeMapping;
     }
 
     @Override
@@ -489,7 +487,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("Authentication" + File.separator + "ApiAuthentication.mustache", packageFolder + File.separator + "Authentication", "ApiAuthentication.cs"));
         supportingFiles.add(new SupportingFile("Formatters" + File.separator + "InputFormatterStream.mustache", packageFolder + File.separator + "Formatters", "InputFormatterStream.cs"));
 
-        typeMapping = this.getTypeMapping();
+        this.setTypeMapping();
     }
 
     public void setPackageGuid(String packageGuid) {

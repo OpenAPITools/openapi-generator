@@ -274,8 +274,8 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected Map<String, String> getTypeMapping() {
-        Map<String, String> typeMapping = super.getTypeMapping();
+    protected void setTypeMapping() {
+        super.setTypeMapping();
         typeMapping.put("boolean", "bool");
         typeMapping.put("integer", "int");
         typeMapping.put("float", "float");
@@ -286,8 +286,6 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         typeMapping.put("date", "DateTime");
         typeMapping.put("UUID", "Guid");
         typeMapping.put("URI", "string");
-
-        return typeMapping;
     }
 
     @Override
@@ -396,7 +394,7 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("host.json.mustache", packageFolder, "host.json"));
         supportingFiles.add(new SupportingFile("local.settings.json.mustache", packageFolder, "local.settings.json"));
 
-        typeMapping = this.getTypeMapping();
+        this.setTypeMapping();
     }
 
     public void setPackageGuid(String packageGuid) {

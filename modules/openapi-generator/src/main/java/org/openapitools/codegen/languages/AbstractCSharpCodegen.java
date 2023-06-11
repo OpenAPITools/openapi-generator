@@ -252,8 +252,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
     }
 
-    protected Map<String, String> getTypeMapping() {
-        Map<String, String> typeMapping = new HashMap<>();
+    protected void setTypeMapping() {
+        typeMapping = new HashMap<>();
         typeMapping.put("string", "string");
         typeMapping.put("binary", "byte[]");
         typeMapping.put("ByteArray", "byte[]");
@@ -276,8 +276,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("UUID", "Guid");
         typeMapping.put("URI", "string");
         typeMapping.put("AnyType", "Object");
-
-        return typeMapping;
     }
 
     public void setReturnICollection(boolean returnICollection) {
@@ -487,7 +485,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             }
         });
 
-        this.getTypeMapping();
+        this.setTypeMapping();
     }
 
     @Override

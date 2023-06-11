@@ -337,8 +337,8 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected Map<String, String> getTypeMapping() {
-        Map<String, String> typeMapping = super.getTypeMapping();
+    protected void setTypeMapping() {
+        super.setTypeMapping();
         // mapped non-nullable type without ?
         typeMapping = new HashMap<String, String>();
         typeMapping.put("string", "string");
@@ -362,7 +362,9 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
         typeMapping.put("URI", "string");
         typeMapping.put("AnyType", "Object");
 
-        return typeMapping;
+        if (HTTPCLIENT.equals(getLibrary())) {
+            typeMapping.put("file", "FileParameter");
+        }
     }
 
     @Override
@@ -731,7 +733,7 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
 
         if (HTTPCLIENT.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
-            typeMapping.put("file", "FileParameter");
+            // typeMapping.put("file", "FileParameter");
         }
 
         supportingFiles.add(new SupportingFile("IApiAccessor.mustache", clientPackageDir, "IApiAccessor.cs"));
@@ -783,7 +785,7 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
-        typeMapping = this.getTypeMapping();
+        this.setTypeMapping();
     }
 
     public void setNetStandard(Boolean netStandard) {

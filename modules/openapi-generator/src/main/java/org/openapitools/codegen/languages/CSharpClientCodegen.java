@@ -377,8 +377,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected Map<String, String> getTypeMapping() {
-        Map<String, String> typeMapping = new HashMap<>();
+    protected void setTypeMapping() {
+        typeMapping = new HashMap<>();
         // mapped non-nullable type without ?
         typeMapping = new HashMap<String, String>();
         typeMapping.put("string", "string");
@@ -407,8 +407,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         if (HTTPCLIENT.equals(getLibrary())) {
             typeMapping.put("file", "FileParameter");
         }
-
-        return typeMapping;
     }
 
     @Override
@@ -932,7 +930,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         // include the spec in the output
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
 
-        typeMapping = this.getTypeMapping();
+        this.setTypeMapping();
     }
 
     public void setClientPackage(String clientPackage) {
