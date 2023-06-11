@@ -1,10 +1,10 @@
 {{#platforms}}
 {{#node}}
 // TODO: evaluate if we can easily get rid of this library
-import {{^supportsES6}}* as{{/supportsES6}} FormData from "form-data";
-import { URL, URLSearchParams } from 'url';
-import * as http from 'http';
-import * as https from 'https';
+import {{^supportsES6}}* as{{/supportsES6}} FormData from "form-data{{importFileExtension}}";
+import { URL, URLSearchParams } from 'url{{importFileExtension}}';
+import * as http from 'http{{importFileExtension}}';
+import * as https from 'https{{importFileExtension}}';
 {{/node}}
 {{/platforms}}
 import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{importFileExtension}}'{{/useRxJS}};
@@ -13,10 +13,10 @@ import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../r
 {{^deno}}
 {{#frameworks}}
 {{#fetch-api}}
-export * from './isomorphic-fetch';
+export * from './isomorphic-fetch{{importFileExtension}}';
 {{/fetch-api}}
 {{#jquery}}
-export * from './jquery';
+export * from './jquery{{importFileExtension}}';
 {{/jquery}}
 {{/frameworks}}
 {{/deno}}
