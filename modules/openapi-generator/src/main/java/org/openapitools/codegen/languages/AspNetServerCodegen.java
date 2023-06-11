@@ -41,7 +41,7 @@ import java.util.Map;
 
 import static java.util.UUID.randomUUID;
 
-public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
+public class AspNetServerCodegen extends AbstractCSharpCodegen {
 
     public static final String USE_SWASHBUCKLE = "useSwashbuckle";
     public static final String MODEL_POCOMODE = "pocoModels";
@@ -70,7 +70,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
 
-    protected final Logger LOGGER = LoggerFactory.getLogger(AspNetCoreServerCodegen.class);
+    protected final Logger LOGGER = LoggerFactory.getLogger(AspNetServerCodegen.class);
 
     private boolean useSwashbuckle = true;
     private boolean pocoModels = false;
@@ -94,7 +94,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean useDefaultRouting = true;
     private String newtonsoftVersion = "3.0.0";
 
-    public AspNetCoreServerCodegen() {
+    public AspNetServerCodegen() {
         super();
 
         // TODO: AspnetCore community review

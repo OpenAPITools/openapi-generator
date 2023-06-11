@@ -16,15 +16,15 @@
 
 package org.openapitools.codegen.csharpnetcorefunctions;
 
-import org.openapitools.codegen.languages.CsharpNetcoreFunctionsServerCodegen;
+import org.openapitools.codegen.languages.CSharpFunctionsServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class CsharpNetcoreFunctionsServerCodegenTest {
+public class CSharpFunctionsServerCodegenTest {
 
     @Test
     public void testToEnumVarName() throws Exception {
-        final CsharpNetcoreFunctionsServerCodegen codegen = new CsharpNetcoreFunctionsServerCodegen();
+        final CSharpFunctionsServerCodegen codegen = new CSharpFunctionsServerCodegen();
         codegen.processOpts();
 
         Assert.assertEquals(codegen.toEnumVarName("FooBar", "string"), "FooBarEnum");

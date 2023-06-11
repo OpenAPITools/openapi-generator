@@ -40,7 +40,7 @@ import java.util.Map;
 
 import static java.util.UUID.randomUUID;
 
-public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
+public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
 
     public static final String NET_CORE_VERSION = "netCoreVersion";
     public static final String AZURE_FUNCTIONS_VERSION = "azureFunctionsVersion";
@@ -61,7 +61,7 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
 
-    protected final Logger LOGGER = LoggerFactory.getLogger(AspNetCoreServerCodegen.class);
+    protected final Logger LOGGER = LoggerFactory.getLogger(AspNetServerCodegen.class);
 
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
@@ -80,7 +80,7 @@ public class CsharpNetcoreFunctionsServerCodegen extends AbstractCSharpCodegen {
     private boolean useNewtonsoft = true;
     private String newtonsoftVersion = "3.0.0";
 
-    public CsharpNetcoreFunctionsServerCodegen() {
+    public CSharpFunctionsServerCodegen() {
         super();
 
         // TODO: AspnetCore community review

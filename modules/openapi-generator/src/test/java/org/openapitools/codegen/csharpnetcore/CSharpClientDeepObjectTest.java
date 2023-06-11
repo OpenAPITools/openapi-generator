@@ -22,7 +22,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.languages.CSharpNetCoreClientCodegen;
+import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -32,7 +32,7 @@ import java.nio.file.Paths;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 
-public class CSharpNetCoreClientDeepObjectTest {
+public class CSharpClientDeepObjectTest {
 
     @Test
     public void deepObject() throws IOException {
@@ -43,7 +43,7 @@ public class CSharpNetCoreClientDeepObjectTest {
         OpenAPI openAPI = new OpenAPIParser()
                 .readLocation("src/test/resources/3_0/deepobject.yaml", null, new ParseOptions()).getOpenAPI();
 
-        CSharpNetCoreClientCodegen codegen = new CSharpNetCoreClientCodegen();
+        CSharpClientCodegen codegen = new CSharpClientCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
 
         ClientOptInput input = new ClientOptInput();

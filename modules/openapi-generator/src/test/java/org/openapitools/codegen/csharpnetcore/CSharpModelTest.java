@@ -27,8 +27,8 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractCSharpCodegen;
-import org.openapitools.codegen.languages.AspNetCoreServerCodegen;
-import org.openapitools.codegen.languages.CSharpNetCoreClientCodegen;
+import org.openapitools.codegen.languages.AspNetServerCodegen;
+import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -38,16 +38,16 @@ public class CSharpModelTest {
     @Test
     public void assertOuterEnumIsString() {
         // this issue has not been found yet in version 2
-        // Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 2, false), true);
-        // Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 2, true), true);
-        Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 3, false), true);
-        Assert.assertEquals(outerEnumVarsIsString(new AspNetCoreServerCodegen(), 3, true), true);
+        // Assert.assertEquals(outerEnumVarsIsString(new AspNetServerCodegen(), 2, false), true);
+        // Assert.assertEquals(outerEnumVarsIsString(new AspNetServerCodegen(), 2, true), true);
+        Assert.assertEquals(outerEnumVarsIsString(new AspNetServerCodegen(), 3, false), true);
+        Assert.assertEquals(outerEnumVarsIsString(new AspNetServerCodegen(), 3, true), true);
 
         // this issue has not been found yet in version 2
-        // Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 2, false), true);
-        // Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 2, true), true);
-        Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 3, false), true);
-        Assert.assertEquals(outerEnumVarsIsString(new CSharpNetCoreClientCodegen(), 3, true), true);
+        // Assert.assertEquals(outerEnumVarsIsString(new CSharpClientCodegen(), 2, false), true);
+        // Assert.assertEquals(outerEnumVarsIsString(new CSharpClientCodegen(), 2, true), true);
+        Assert.assertEquals(outerEnumVarsIsString(new CSharpClientCodegen(), 3, false), true);
+        Assert.assertEquals(outerEnumVarsIsString(new CSharpClientCodegen(), 3, true), true);
     }
 
     public boolean outerEnumVarsIsString(final AbstractCSharpCodegen codegen, final int openApiVersion, final Boolean nullableReferenceTypes){
@@ -65,7 +65,7 @@ public class CSharpModelTest {
     public void arrayPropertyTest() {
         final Schema schema = getArrayTestSchema();
 
-        final DefaultCodegen codegen = new CSharpNetCoreClientCodegen();
+        final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel generated = codegen.fromModel("sample", schema);
@@ -92,7 +92,7 @@ public class CSharpModelTest {
     public void arrayPropertyCollectionOptionTest() {
         final Schema schema = getArrayTestSchema();
 
-        final CSharpNetCoreClientCodegen codegen = new CSharpNetCoreClientCodegen();
+        final CSharpClientCodegen codegen = new CSharpClientCodegen();
         codegen.setUseCollection(true);
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
@@ -117,7 +117,7 @@ public class CSharpModelTest {
     public void arrayPropertyICollectionOptionTest() {
         final Schema schema = getArrayTestSchema();
 
-        final CSharpNetCoreClientCodegen codegen = new CSharpNetCoreClientCodegen();
+        final CSharpClientCodegen codegen = new CSharpClientCodegen();
         codegen.setUseCollection(true);
         codegen.setReturnICollection(true);
 
@@ -158,7 +158,7 @@ public class CSharpModelTest {
                 .addProperties("createdAt", new DateTimeSchema())
                 .addRequiredItem("id")
                 .addRequiredItem("name");
-        final DefaultCodegen codegen = new CSharpNetCoreClientCodegen();
+        final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -204,7 +204,7 @@ public class CSharpModelTest {
                         .items(new StringSchema()))
                 .addProperties("name", new StringSchema().nullable(true))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new CSharpNetCoreClientCodegen();
+        final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -253,7 +253,7 @@ public class CSharpModelTest {
                         .items(new StringSchema()))
                 .addProperties("name", new StringSchema().nullable(true))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new CSharpNetCoreClientCodegen();
+        final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -303,7 +303,7 @@ public class CSharpModelTest {
                 .addProperties("name", new StringSchema().nullable(true))
                 .addProperties("subObject",  new Schema().addProperties("name", new StringSchema()).nullable(true))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new AspNetCoreServerCodegen();
+        final DefaultCodegen codegen = new AspNetServerCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -362,7 +362,7 @@ public class CSharpModelTest {
                 .addProperties("name", new StringSchema().nullable(true))
                 .addProperties("subObject",  new Schema().addProperties("name", new StringSchema()).nullable(true))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new AspNetCoreServerCodegen();
+        final DefaultCodegen codegen = new AspNetServerCodegen();
         codegen.additionalProperties().put(CodegenConstants.NULLABLE_REFERENCE_TYPES, true);
         codegen.processOpts();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -421,7 +421,7 @@ public class CSharpModelTest {
                 .addProperties("urls", new ArraySchema()
                         .items(new StringSchema()))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new CSharpNetCoreClientCodegen();
+        final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -459,7 +459,7 @@ public class CSharpModelTest {
                 .addProperties("translations", new MapSchema()
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new CSharpNetCoreClientCodegen();
+        final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
@@ -485,7 +485,7 @@ public class CSharpModelTest {
         final Schema schema = new Schema()
                 .description("a sample model")
                 .addProperties("children", new Schema().$ref("#/components/schemas/Children"));
-        final DefaultCodegen codegen = new CSharpNetCoreClientCodegen();
+        final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
@@ -510,7 +510,7 @@ public class CSharpModelTest {
                 .description("a sample model")
                 .addProperties("children", new ArraySchema()
                         .items(new Schema().$ref("#/components/schemas/Children")));
-        final DefaultCodegen codegen = new CSharpNetCoreClientCodegen();
+        final DefaultCodegen codegen = new CSharpClientCodegen();
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
@@ -536,7 +536,7 @@ public class CSharpModelTest {
                 .description("a sample model")
                 .addProperties("children", new MapSchema()
                         .additionalProperties(new Schema().$ref("#/components/schemas/Children")));
-        final DefaultCodegen codegen = new CSharpNetCoreClientCodegen();
+        final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
@@ -563,7 +563,7 @@ public class CSharpModelTest {
         final Schema schema = new ArraySchema()
                 .items(new Schema().$ref("#/components/schemas/Children"))
                 .description("an array model");
-        final DefaultCodegen codegen = new CSharpNetCoreClientCodegen();
+        final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
@@ -582,7 +582,7 @@ public class CSharpModelTest {
         final Schema schema = new Schema()
                 .description("a map model")
                 .additionalProperties(new Schema().$ref("#/components/schemas/Children"));
-        final DefaultCodegen codegen = new CSharpNetCoreClientCodegen();
+        final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);

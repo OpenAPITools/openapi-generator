@@ -24,8 +24,8 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.AspNetCoreServerCodegen;
-import org.openapitools.codegen.languages.CSharpNetCoreClientCodegen;
+import org.openapitools.codegen.languages.AspNetServerCodegen;
+import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -33,7 +33,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CsharpModelEnumTest {
+public class CSharpModelEnumTest {
     // TODO there's no parent/child method in ComposeSchema so we will need to revise the code
     // before we can re-enable the test case below
     @Test(description = "not override identical parent enums", enabled = false)
@@ -69,7 +69,7 @@ public class CsharpModelEnumTest {
                 .child(subModel)
                 .interfaces(new ArrayList<RefModel>());
                 */
-        final DefaultCodegen codegen = new CSharpNetCoreClientCodegen();
+        final DefaultCodegen codegen = new CSharpClientCodegen();
         final Map<String, Schema> allModels = new HashMap<>();
         allModels.put("ParentModel", parentModel);
         allModels.put("SubModel", subModel);
@@ -95,7 +95,7 @@ public class CsharpModelEnumTest {
 
     @Test(description = "use custom suffixes for enums")
     public void useCustomEnumSuffixes() {
-        final AspNetCoreServerCodegen codegen = new AspNetCoreServerCodegen();
+        final AspNetServerCodegen codegen = new AspNetServerCodegen();
         codegen.setEnumNameSuffix("EnumName");
         codegen.setEnumValueSuffix("EnumValue");
 
@@ -114,7 +114,7 @@ public class CsharpModelEnumTest {
 
     @Test(description = "use default suffixes for enums")
     public void useDefaultEnumSuffixes() {
-        final AspNetCoreServerCodegen codegen = new AspNetCoreServerCodegen();
+        final AspNetServerCodegen codegen = new AspNetServerCodegen();
 
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.setOpenAPI(openAPI);
@@ -131,7 +131,7 @@ public class CsharpModelEnumTest {
 
     @Test(description = "support empty suffixes for enums")
     public void useEmptyEnumSuffixes() {
-        final AspNetCoreServerCodegen codegen = new AspNetCoreServerCodegen();
+        final AspNetServerCodegen codegen = new AspNetServerCodegen();
         codegen.setEnumNameSuffix("");
         codegen.setEnumValueSuffix("");
 
