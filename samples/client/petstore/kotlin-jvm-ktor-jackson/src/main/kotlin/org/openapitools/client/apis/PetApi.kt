@@ -30,7 +30,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
     jsonBlock: ObjectMapper.() -> Unit = ApiClient.JSON_DEFAULT,
-    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonBlock) {
+    ) : ApiClient(
+        baseUrl,
+        httpClientEngine,
+        httpClientConfig,
+        jsonBlock,
+    ) {
 
         /**
         * Add a new pet to the store

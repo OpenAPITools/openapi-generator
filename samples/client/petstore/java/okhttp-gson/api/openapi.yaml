@@ -1412,12 +1412,18 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - $ref: '#/components/schemas/Address'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Address:
       additionalProperties:
         type: integer
@@ -2345,32 +2351,16 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
-    ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-    ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf_1:
-      properties:
-        color:
-          type: string
-      type: object
     ArrayOfInlineAllOf_array_allof_dog_property_inner:
       allOf:
-      - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf'
-      - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf_1'
+      - properties:
+          breed:
+            type: string
+        type: object
+      - properties:
+          color:
+            type: string
+        type: object
   securitySchemes:
     petstore_auth:
       flows:

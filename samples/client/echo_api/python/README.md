@@ -108,7 +108,6 @@ Class | Method | HTTP request | Description
  - [Bird](docs/Bird.md)
  - [Category](docs/Category.md)
  - [DataQuery](docs/DataQuery.md)
- - [DataQueryAllOf](docs/DataQueryAllOf.md)
  - [DefaultValue](docs/DefaultValue.md)
  - [NumberPropertiesOnly](docs/NumberPropertiesOnly.md)
  - [Pet](docs/Pet.md)

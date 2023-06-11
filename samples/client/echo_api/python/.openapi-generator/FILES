@@ -7,7 +7,6 @@ docs/Bird.md
 docs/BodyApi.md
 docs/Category.md
 docs/DataQuery.md
-docs/DataQueryAllOf.md
 docs/DefaultValue.md
 docs/FormApi.md
 docs/HeaderApi.md
@@ -36,7 +35,6 @@ openapi_client/models/__init__.py
 openapi_client/models/bird.py
 openapi_client/models/category.py
 openapi_client/models/data_query.py
-openapi_client/models/data_query_all_of.py
 openapi_client/models/default_value.py
 openapi_client/models/number_properties_only.py
 openapi_client/models/pet.py
