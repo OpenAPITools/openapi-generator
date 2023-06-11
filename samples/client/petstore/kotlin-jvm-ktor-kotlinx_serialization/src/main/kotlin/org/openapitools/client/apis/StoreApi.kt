@@ -22,18 +22,15 @@ import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.http.ParametersBuilder
-import com.fasterxml.jackson.databind.ObjectMapper
 
     open class StoreApi(
     baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
-    jsonBlock: ObjectMapper.() -> Unit = ApiClient.JSON_DEFAULT,
     ) : ApiClient(
         baseUrl,
         httpClientEngine,
         httpClientConfig,
-        jsonBlock,
     ) {
 
         /**
@@ -136,15 +133,15 @@ import com.fasterxml.jackson.databind.ObjectMapper
         /**
         * Place an order for a pet
         * 
-         * @param body order placed for purchasing the pet 
+         * @param order order placed for purchasing the pet 
          * @return Order
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun placeOrder(body: Order): HttpResponse<Order> {
+        open suspend fun placeOrder(order: Order): HttpResponse<Order> {
 
             val localVariableAuthNames = listOf<String>()
 
-            val localVariableBody = body
+            val localVariableBody = order
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
 

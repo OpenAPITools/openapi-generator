@@ -22,33 +22,28 @@ import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.http.ParametersBuilder
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import java.text.DateFormat
 
     open class UserApi(
     baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
-    jsonBlock: GsonBuilder.() -> Unit = ApiClient.JSON_DEFAULT,
     ) : ApiClient(
         baseUrl,
         httpClientEngine,
         httpClientConfig,
-        jsonBlock,
     ) {
 
         /**
         * Create user
         * This can only be done by the logged in user.
-         * @param body Created user object 
+         * @param user Created user object 
          * @return void
         */
-        open suspend fun createUser(body: User): HttpResponse<Unit> {
+        open suspend fun createUser(user: User): HttpResponse<Unit> {
 
-            val localVariableAuthNames = listOf<String>()
+            val localVariableAuthNames = listOf<String>("api_key")
 
-            val localVariableBody = body
+            val localVariableBody = user
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
 
@@ -59,7 +54,7 @@ import java.text.DateFormat
             "/user",
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             )
 
             return jsonRequest(
@@ -72,14 +67,14 @@ import java.text.DateFormat
         /**
         * Creates list of users with given input array
         * 
-         * @param body List of user object 
+         * @param user List of user object 
          * @return void
         */
-        open suspend fun createUsersWithArrayInput(body: kotlin.collections.List<User>): HttpResponse<Unit> {
+        open suspend fun createUsersWithArrayInput(user: kotlin.collections.List<User>): HttpResponse<Unit> {
 
-            val localVariableAuthNames = listOf<String>()
+            val localVariableAuthNames = listOf<String>("api_key")
 
-            val localVariableBody = body
+            val localVariableBody = user
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
 
@@ -90,7 +85,7 @@ import java.text.DateFormat
             "/user/createWithArray",
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             )
 
             return jsonRequest(
@@ -103,14 +98,14 @@ import java.text.DateFormat
         /**
         * Creates list of users with given input array
         * 
-         * @param body List of user object 
+         * @param user List of user object 
          * @return void
         */
-        open suspend fun createUsersWithListInput(body: kotlin.collections.List<User>): HttpResponse<Unit> {
+        open suspend fun createUsersWithListInput(user: kotlin.collections.List<User>): HttpResponse<Unit> {
 
-            val localVariableAuthNames = listOf<String>()
+            val localVariableAuthNames = listOf<String>("api_key")
 
-            val localVariableBody = body
+            val localVariableBody = user
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
 
@@ -121,7 +116,7 @@ import java.text.DateFormat
             "/user/createWithList",
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             )
 
             return jsonRequest(
@@ -139,7 +134,7 @@ import java.text.DateFormat
         */
         open suspend fun deleteUser(username: kotlin.String): HttpResponse<Unit> {
 
-            val localVariableAuthNames = listOf<String>()
+            val localVariableAuthNames = listOf<String>("api_key")
 
             val localVariableBody = 
                     io.ktor.client.utils.EmptyContent
@@ -153,7 +148,7 @@ import java.text.DateFormat
             "/user/{username}".replace("{" + "username" + "}", "$username"),
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -239,7 +234,7 @@ import java.text.DateFormat
         */
         open suspend fun logoutUser(): HttpResponse<Unit> {
 
-            val localVariableAuthNames = listOf<String>()
+            val localVariableAuthNames = listOf<String>("api_key")
 
             val localVariableBody = 
                     io.ktor.client.utils.EmptyContent
@@ -253,7 +248,7 @@ import java.text.DateFormat
             "/user/logout",
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             )
 
             return request(
@@ -267,14 +262,14 @@ import java.text.DateFormat
         * Updated user
         * This can only be done by the logged in user.
          * @param username name that need to be deleted 
-         * @param body Updated user object 
+         * @param user Updated user object 
          * @return void
         */
-        open suspend fun updateUser(username: kotlin.String, body: User): HttpResponse<Unit> {
+        open suspend fun updateUser(username: kotlin.String, user: User): HttpResponse<Unit> {
 
-            val localVariableAuthNames = listOf<String>()
+            val localVariableAuthNames = listOf<String>("api_key")
 
-            val localVariableBody = body
+            val localVariableBody = user
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
 
@@ -285,7 +280,7 @@ import java.text.DateFormat
             "/user/{username}".replace("{" + "username" + "}", "$username"),
             query = localVariableQuery,
             headers = localVariableHeaders,
-            requiresAuthentication = false,
+            requiresAuthentication = true,
             )
 
             return jsonRequest(

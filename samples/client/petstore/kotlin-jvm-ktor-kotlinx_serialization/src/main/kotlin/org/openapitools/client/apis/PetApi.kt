@@ -23,33 +23,29 @@ import io.ktor.client.HttpClientConfig
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.http.ParametersBuilder
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import java.text.DateFormat
 
     open class PetApi(
     baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
-    jsonBlock: GsonBuilder.() -> Unit = ApiClient.JSON_DEFAULT,
     ) : ApiClient(
         baseUrl,
         httpClientEngine,
         httpClientConfig,
-        jsonBlock,
     ) {
 
         /**
         * Add a new pet to the store
         * 
-         * @param body Pet object that needs to be added to the store 
-         * @return void
+         * @param pet Pet object that needs to be added to the store 
+         * @return Pet
         */
-        open suspend fun addPet(body: Pet): HttpResponse<Unit> {
+            @Suppress("UNCHECKED_CAST")
+        open suspend fun addPet(pet: Pet): HttpResponse<Pet> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
-            val localVariableBody = body
+            val localVariableBody = pet
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
 
@@ -208,14 +204,15 @@ import java.text.DateFormat
         /**
         * Update an existing pet
         * 
-         * @param body Pet object that needs to be added to the store 
-         * @return void
+         * @param pet Pet object that needs to be added to the store 
+         * @return Pet
         */
-        open suspend fun updatePet(body: Pet): HttpResponse<Unit> {
+            @Suppress("UNCHECKED_CAST")
+        open suspend fun updatePet(pet: Pet): HttpResponse<Pet> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
-            val localVariableBody = body
+            val localVariableBody = pet
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
 
