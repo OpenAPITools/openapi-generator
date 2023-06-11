@@ -1449,7 +1449,7 @@ public class ModelUtils {
      * @return boolean
      */
     public static boolean isExtensionParent(Schema schema) {
-        if (schema.getExtensions() == null) {
+        if (schema == null || schema.getExtensions() == null) {
             return false;
         }
 
