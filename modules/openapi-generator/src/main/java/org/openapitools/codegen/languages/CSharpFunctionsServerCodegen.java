@@ -118,17 +118,6 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
 
         cliOptions.clear();
 
-        // typeMapping.put("boolean", "bool");
-        // typeMapping.put("integer", "int");
-        // typeMapping.put("float", "float");
-        // typeMapping.put("long", "long");
-        // typeMapping.put("double", "double");
-        // typeMapping.put("number", "decimal");
-        // typeMapping.put("DateTime", "DateTime");
-        // typeMapping.put("date", "DateTime");
-        // typeMapping.put("UUID", "Guid");
-        // typeMapping.put("URI", "string");
-
         setSupportNullable(Boolean.TRUE);
 
         // CLI options
