@@ -202,41 +202,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // this.setSortModelPropertiesByRequiredFlag(true);
     }
 
-    @Deprecated
-    protected Set<String> getNullableTypes() {
-        throw new RuntimeException("This method should no longer be used.");
-    }
-
-    protected Set<String> getValueTypes() {
-        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
-    }
-
-    protected void setTypeMapping() {
-        typeMapping = new HashMap<>();
-        typeMapping.put("string", "string");
-        typeMapping.put("binary", "byte[]");
-        typeMapping.put("ByteArray", "byte[]");
-        typeMapping.put("boolean", "bool");
-        typeMapping.put("integer", "int");
-        typeMapping.put("UnsignedInteger", "uint");
-        typeMapping.put("UnsignedLong", "ulong");
-        typeMapping.put("long", "long");
-        typeMapping.put("float", "float");
-        typeMapping.put("double", "double");
-        typeMapping.put("number", "decimal");
-        typeMapping.put("BigDecimal", "decimal");
-        typeMapping.put("DateTime", "DateTime");
-        typeMapping.put("date", "DateTime");
-        typeMapping.put("file", "System.IO.Stream");
-        typeMapping.put("array", "List");
-        typeMapping.put("list", "List");
-        typeMapping.put("map", "Dictionary");
-        typeMapping.put("object", "Object");
-        typeMapping.put("UUID", "Guid");
-        typeMapping.put("URI", "string");
-        typeMapping.put("AnyType", "Object");
-    }
-
     public void setReturnICollection(boolean returnICollection) {
         this.returnICollection = returnICollection;
     }
@@ -885,10 +850,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             if (!parameter.isContainer && this.getNullableTypes().contains(parameter.dataType)) {
                 parameter.vendorExtensions.put("x-csharp-value-type", true);
             }
-
-            // if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
-            //     parameter.dataType = parameter.dataType + "?";
-            // }
         }
     }
 
@@ -1507,19 +1468,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         p.example = example;
     }
 
-    // @Override
-    // public void postProcessParameter(CodegenParameter parameter) {
-    //     super.postProcessParameter(parameter);
-
-    //     // TODO: instead of appending the ?
-    //     // use isNullable, OptionalParameterLambda, or RequiredParameterLambda
-    //     if (!parameter.required && (nullReferenceTypesFlag || this.getNullableTypes().contains(parameter.dataType))) {
-    //         parameter.dataType = parameter.dataType.endsWith("?")
-    //                 ? parameter.dataType
-    //                 : parameter.dataType + "?";
-    //     }
-    // }
-
     @Override
     public void postProcessFile(File file, String fileType) {
         if (file == null) {
@@ -1573,4 +1521,38 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return pattern;
     }
 
+    @Deprecated
+    protected Set<String> getNullableTypes() {
+        throw new RuntimeException("This method should no longer be used.");
+    }
+
+    protected Set<String> getValueTypes() {
+        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
+    }
+
+    protected void setTypeMapping() {
+        typeMapping = new HashMap<>();
+        typeMapping.put("string", "string");
+        typeMapping.put("binary", "byte[]");
+        typeMapping.put("ByteArray", "byte[]");
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("integer", "int");
+        typeMapping.put("UnsignedInteger", "uint");
+        typeMapping.put("UnsignedLong", "ulong");
+        typeMapping.put("long", "long");
+        typeMapping.put("float", "float");
+        typeMapping.put("double", "double");
+        typeMapping.put("number", "decimal");
+        typeMapping.put("BigDecimal", "decimal");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DateTime");
+        typeMapping.put("file", "System.IO.Stream");
+        typeMapping.put("array", "List");
+        typeMapping.put("list", "List");
+        typeMapping.put("map", "Dictionary");
+        typeMapping.put("object", "Object");
+        typeMapping.put("UUID", "Guid");
+        typeMapping.put("URI", "string");
+        typeMapping.put("AnyType", "Object");
+    }
 }
