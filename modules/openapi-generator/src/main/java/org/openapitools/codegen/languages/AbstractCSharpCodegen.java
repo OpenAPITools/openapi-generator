@@ -95,11 +95,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected Boolean zeroBasedEnums = null;
     protected static final String zeroBasedEnumVendorExtension = "x-zero-based-enum";
 
-    // // nullable type
-    // protected Set<String> nullableType = new HashSet<>();
-
-    // protected Set<String> valueTypes = new HashSet<>();
-
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
     // special property keywords not allowed as these are the function names in the model files
@@ -200,42 +195,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         instantiationTypes.put("array", "List");
         instantiationTypes.put("list", "List");
         instantiationTypes.put("map", "Dictionary");
-
-        // typeMapping = this.getTypeMapping();
-        // // Nullable types here assume C# 2 support is not part of base
-        // typeMapping = new HashMap<>();
-        // typeMapping.put("string", "string");
-        // typeMapping.put("binary", "byte[]");
-        // typeMapping.put("ByteArray", "byte[]");
-        // typeMapping.put("boolean", "bool?");
-        // typeMapping.put("integer", "int?");
-        // typeMapping.put("UnsignedInteger", "uint?");
-        // typeMapping.put("UnsignedLong", "ulong?");
-        // typeMapping.put("long", "long?");
-        // typeMapping.put("float", "float?");
-        // typeMapping.put("double", "double?");
-        // typeMapping.put("number", "decimal?");
-        // typeMapping.put("BigDecimal", "decimal?");
-        // typeMapping.put("DateTime", "DateTime?");
-        // typeMapping.put("date", "DateTime?");
-        // typeMapping.put("file", "System.IO.Stream");
-        // typeMapping.put("array", "List");
-        // typeMapping.put("list", "List");
-        // typeMapping.put("map", "Dictionary");
-        // typeMapping.put("object", "Object");
-        // typeMapping.put("UUID", "Guid?");
-        // typeMapping.put("URI", "string");
-        // typeMapping.put("AnyType", "Object");
-
-        // // nullable type
-        // nullableType = new HashSet<>(
-        //         Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
-        //                 "DateTime", "DateTimeOffset", "Guid")
-        // );
-        // // value Types
-        // valueTypes = new HashSet<>(
-        //         Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double")
-        // );
 
         this.setSortParamsByRequiredFlag(true);
 
