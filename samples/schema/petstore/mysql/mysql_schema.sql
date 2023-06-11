@@ -102,14 +102,6 @@ CREATE TABLE IF NOT EXISTS `Cat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Table structure for table `Cat_allOf` generated from model 'CatUnderscoreallOf'
---
-
-CREATE TABLE IF NOT EXISTS `Cat_allOf` (
-  `declawed` TINYINT(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
 -- Table structure for table `Category` generated from model 'Category'
 --
 
@@ -150,14 +142,6 @@ CREATE TABLE IF NOT EXISTS `DeprecatedObject` (
 CREATE TABLE IF NOT EXISTS `Dog` (
   `className` TEXT NOT NULL,
   `color` TEXT,
-  `breed` TEXT DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `Dog_allOf` generated from model 'DogUnderscoreallOf'
---
-
-CREATE TABLE IF NOT EXISTS `Dog_allOf` (
   `breed` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

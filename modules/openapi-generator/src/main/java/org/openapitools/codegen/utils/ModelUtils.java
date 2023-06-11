@@ -1905,6 +1905,26 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * Returns true if the schema is a parent (with discriminator).
+     *
+     * @param schema the schema.
+     *
+     * @return true if the schema is a parent.
+     */
+    public static boolean isParent(Schema schema) {
+        if (schema != null && schema.getDiscriminator() != null) {
+            return true;
+        }
+
+        // if x-parent is set
+        if (isExtensionParent(schema)) {
+            return true;
+        }
+
+        return false;
+    }
+
     @FunctionalInterface
     private interface OpenAPISchemaVisitor {
 

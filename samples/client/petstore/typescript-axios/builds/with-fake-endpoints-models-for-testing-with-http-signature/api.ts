@@ -262,19 +262,6 @@ export interface Cat extends Animal {
 /**
  * 
  * @export
- * @interface CatAllOf
- */
-export interface CatAllOf {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CatAllOf
-     */
-    'declawed'?: boolean;
-}
-/**
- * 
- * @export
  * @interface Category
  */
 export interface Category {
@@ -327,19 +314,6 @@ export interface Dog extends Animal {
      * 
      * @type {string}
      * @memberof Dog
-     */
-    'breed'?: string;
-}
-/**
- * 
- * @export
- * @interface DogAllOf
- */
-export interface DogAllOf {
-    /**
-     * 
-     * @type {string}
-     * @memberof DogAllOf
      */
     'breed'?: string;
 }

@@ -6,11 +6,9 @@ src/Org.OpenAPITools.Models/.gitignore
 src/Org.OpenAPITools.Models/Animal.cs
 src/Org.OpenAPITools.Models/ApiResponse.cs
 src/Org.OpenAPITools.Models/Cat.cs
-src/Org.OpenAPITools.Models/CatAllOf.cs
 src/Org.OpenAPITools.Models/Category.cs
 src/Org.OpenAPITools.Models/Converters/CustomEnumConverter.cs
 src/Org.OpenAPITools.Models/Dog.cs
-src/Org.OpenAPITools.Models/DogAllOf.cs
 src/Org.OpenAPITools.Models/Order.cs
 src/Org.OpenAPITools.Models/Org.OpenAPITools.Models.csproj
 src/Org.OpenAPITools.Models/Pet.cs

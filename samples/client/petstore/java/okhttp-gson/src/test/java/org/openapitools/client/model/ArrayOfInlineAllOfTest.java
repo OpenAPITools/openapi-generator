@@ -25,7 +25,6 @@ import org.openapitools.client.model.ArrayOfInlineAllOfArrayAllofDogPropertyInne
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Model tests for ArrayOfInlineAllOf
  */

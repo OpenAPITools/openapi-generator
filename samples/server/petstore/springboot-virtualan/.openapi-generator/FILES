@@ -31,16 +31,13 @@ src/main/java/org/openapitools/virtualan/model/ArrayOfArrayOfNumberOnly.java
 src/main/java/org/openapitools/virtualan/model/ArrayOfNumberOnly.java
 src/main/java/org/openapitools/virtualan/model/ArrayTest.java
 src/main/java/org/openapitools/virtualan/model/BigCat.java
-src/main/java/org/openapitools/virtualan/model/BigCatAllOf.java
 src/main/java/org/openapitools/virtualan/model/Capitalization.java
 src/main/java/org/openapitools/virtualan/model/Cat.java
-src/main/java/org/openapitools/virtualan/model/CatAllOf.java
 src/main/java/org/openapitools/virtualan/model/Category.java
 src/main/java/org/openapitools/virtualan/model/ClassModel.java
 src/main/java/org/openapitools/virtualan/model/Client.java
 src/main/java/org/openapitools/virtualan/model/ContainerDefaultValue.java
 src/main/java/org/openapitools/virtualan/model/Dog.java
-src/main/java/org/openapitools/virtualan/model/DogAllOf.java
 src/main/java/org/openapitools/virtualan/model/EnumArrays.java
 src/main/java/org/openapitools/virtualan/model/EnumClass.java
 src/main/java/org/openapitools/virtualan/model/EnumTest.java

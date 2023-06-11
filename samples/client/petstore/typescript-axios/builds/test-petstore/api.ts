@@ -315,19 +315,6 @@ export interface Cat extends Animal {
 /**
  * 
  * @export
- * @interface CatAllOf
- */
-export interface CatAllOf {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CatAllOf
-     */
-    'declawed'?: boolean;
-}
-/**
- * 
- * @export
  * @interface Category
  */
 export interface Category {
@@ -369,32 +356,6 @@ export const ChildCatPetTypeEnum = {
 } as const;
 
 export type ChildCatPetTypeEnum = typeof ChildCatPetTypeEnum[keyof typeof ChildCatPetTypeEnum];
-
-/**
- * 
- * @export
- * @interface ChildCatAllOf
- */
-export interface ChildCatAllOf {
-    /**
-     * 
-     * @type {string}
-     * @memberof ChildCatAllOf
-     */
-    'name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ChildCatAllOf
-     */
-    'pet_type'?: ChildCatAllOfPetTypeEnum;
-}
-
-export const ChildCatAllOfPetTypeEnum = {
-    ChildCat: 'ChildCat'
-} as const;
-
-export type ChildCatAllOfPetTypeEnum = typeof ChildCatAllOfPetTypeEnum[keyof typeof ChildCatAllOfPetTypeEnum];
 
 /**
  * Model for testing model with \"_class\" property
@@ -477,19 +438,6 @@ export interface Dog extends Animal {
      * 
      * @type {string}
      * @memberof Dog
-     */
-    'breed'?: string;
-}
-/**
- * 
- * @export
- * @interface DogAllOf
- */
-export interface DogAllOf {
-    /**
-     * 
-     * @type {string}
-     * @memberof DogAllOf
      */
     'breed'?: string;
 }

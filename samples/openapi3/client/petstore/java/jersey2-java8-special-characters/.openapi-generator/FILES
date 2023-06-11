@@ -6,10 +6,8 @@ api/openapi.yaml
 build.gradle
 build.sbt
 docs/ChildSchema.md
-docs/ChildSchemaAllOf.md
 docs/DefaultApi.md
 docs/MySchemaNameCharacters.md
-docs/MySchemaNameCharactersAllOf.md
 docs/Parent.md
 git_push.sh
 gradle.properties
@@ -38,7 +36,5 @@ src/main/java/org/openapitools/client/auth/HttpBasicAuth.java
 src/main/java/org/openapitools/client/auth/HttpBearerAuth.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/ChildSchema.java
-src/main/java/org/openapitools/client/model/ChildSchemaAllOf.java
 src/main/java/org/openapitools/client/model/MySchemaNameCharacters.java
-src/main/java/org/openapitools/client/model/MySchemaNameCharactersAllOf.java
 src/main/java/org/openapitools/client/model/Parent.java
