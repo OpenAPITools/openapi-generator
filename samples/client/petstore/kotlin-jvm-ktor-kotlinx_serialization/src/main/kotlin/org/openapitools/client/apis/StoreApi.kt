@@ -133,15 +133,15 @@ import io.ktor.http.ParametersBuilder
         /**
         * Place an order for a pet
         * 
-         * @param body order placed for purchasing the pet 
+         * @param order order placed for purchasing the pet 
          * @return Order
         */
             @Suppress("UNCHECKED_CAST")
-        open suspend fun placeOrder(body: Order): HttpResponse<Order> {
+        open suspend fun placeOrder(order: Order): HttpResponse<Order> {
 
             val localVariableAuthNames = listOf<String>()
 
-            val localVariableBody = body
+            val localVariableBody = order
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
 

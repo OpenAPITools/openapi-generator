@@ -37,14 +37,15 @@ import io.ktor.http.ParametersBuilder
         /**
         * Add a new pet to the store
         * 
-         * @param body Pet object that needs to be added to the store 
-         * @return void
+         * @param pet Pet object that needs to be added to the store 
+         * @return Pet
         */
-        open suspend fun addPet(body: Pet): HttpResponse<Unit> {
+            @Suppress("UNCHECKED_CAST")
+        open suspend fun addPet(pet: Pet): HttpResponse<Pet> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
-            val localVariableBody = body
+            val localVariableBody = pet
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
 
@@ -203,14 +204,15 @@ import io.ktor.http.ParametersBuilder
         /**
         * Update an existing pet
         * 
-         * @param body Pet object that needs to be added to the store 
-         * @return void
+         * @param pet Pet object that needs to be added to the store 
+         * @return Pet
         */
-        open suspend fun updatePet(body: Pet): HttpResponse<Unit> {
+            @Suppress("UNCHECKED_CAST")
+        open suspend fun updatePet(pet: Pet): HttpResponse<Pet> {
 
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
-            val localVariableBody = body
+            val localVariableBody = pet
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
 

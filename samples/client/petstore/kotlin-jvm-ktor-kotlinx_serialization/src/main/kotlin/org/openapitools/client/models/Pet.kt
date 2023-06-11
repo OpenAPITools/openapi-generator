@@ -53,6 +53,7 @@ data class Pet (
 
     /* pet status in the store */
     @SerialName(value = "status")
+    @Deprecated(message = "This property is deprecated.")
     val status: Pet.Status? = null
 
 ) {
