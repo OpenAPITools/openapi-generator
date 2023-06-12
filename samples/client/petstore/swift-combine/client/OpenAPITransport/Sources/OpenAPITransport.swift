@@ -6,70 +6,12 @@
 import Foundation
 import Combine
 
-// MARK: - Open API Scheme
-
-public enum SecurityScheme {
-    // Security schemes not supported yet https://swagger.io/docs/specification/authentication/
-}
-
-// MARK: - Policy
-
-/// Policy to define whether response is successful or requires authentication
-public protocol URLResponsePolicy {
-    func defineState(for request: URLRequest, output: URLSession.DataTaskPublisher.Output) -> AnyPublisher<URLResponseState, Never>
-}
-
-public enum URLResponseState {
-    // Return success to client
-    case success
-    // Return error to client
-    case failure
-    // Repeat request
-    case retry
-}
-
-final class DefaultURLResponsePolicy: URLResponsePolicy {
-    func defineState(for request: URLRequest, output: URLSession.DataTaskPublisher.Output) -> AnyPublisher<URLResponseState, Never> {
-        let state: URLResponseState
-        switch (output.response as? HTTPURLResponse)?.statusCode {
-        case .some(200...299): state = .success
-        default: state = .failure
-        }
-        return Just(state).eraseToAnyPublisher()
-    }
-}
-
-/// Define how to customize URL request before network call
-public protocol URLRequestProcessor {
-    /// Customize request before performing. Add headers or encrypt body for example.
-    func enrich(request: URLRequest, securitySchemes: [SecurityScheme]) -> AnyPublisher<URLRequest, OpenAPITransportError>
-    /// Customize response before handling. Decrypt body for example.
-    func decode(output: URLSession.DataTaskPublisher.Output) -> AnyPublisher<URLSession.DataTaskPublisher.Output, OpenAPITransportError>
-}
-
-final class DefaultURLRequestProcessor: URLRequestProcessor {
-    func enrich(request: URLRequest, securitySchemes: [SecurityScheme]) -> AnyPublisher<URLRequest, OpenAPITransportError> {
-        Just(request)
-            .setFailureType(to: OpenAPITransportError.self)
-            .eraseToAnyPublisher()
-    }
-
-    func decode(output: URLSession.DataTaskPublisher.Output) -> AnyPublisher<URLSession.DataTaskPublisher.Output, OpenAPITransportError> {
-        Just(output)
-            .setFailureType(to: OpenAPITransportError.self)
-            .eraseToAnyPublisher()
-    }
-}
-
 // MARK: - OpenAPITransport
 
 public protocol OpenAPITransport: AnyObject {
     var baseURL: URL? { get }
 
-    func send(
-        request: URLRequest,
-        securitySchemes: [SecurityScheme]
-    ) -> AnyPublisher<OpenAPITransportResponse, OpenAPITransportError>
+    func send(request: URLRequest) -> AnyPublisher<OpenAPITransportResponse, OpenAPITransportError>
 
     func cancelAll()
 }
@@ -88,9 +30,9 @@ public struct OpenAPITransportError: Error, CustomStringConvertible, LocalizedEr
     public let statusCode: Int
     public let description: String
     public let errorDescription: String?
-    // It might be source network error
+    /// It might be source network error
     public let nestedError: Error?
-    // Data may contain additional reason info (like json payload)
+    /// Data may contain additional reason info (like json payload)
     public let data: Data
 
     public init(
@@ -116,7 +58,152 @@ public struct OpenAPITransportError: Error, CustomStringConvertible, LocalizedEr
     }
 }
 
-// Custom transport errors. It begins with 6.. not to conflict with HTTP codes (it begins with 5..)
+// MARK: - Policy
+
+/// Policy to define whether response is successful or requires authentication
+public protocol ResponsePolicy {
+    func defineState(for request: URLRequest, output: URLSession.DataTaskPublisher.Output) -> AnyPublisher<ResponseState, Never>
+}
+
+public enum ResponseState {
+    /// Return success to client
+    case success
+    /// Return error to client
+    case failure
+    /// Repeat request
+    case retry
+}
+
+// MARK: - Interceptor
+
+/// Define how to customize URL request before network call
+public protocol Interceptor {
+    /// Customize request before performing. Add headers or encrypt body for example.
+    func intercept(request: URLRequest) -> AnyPublisher<URLRequest, OpenAPITransportError>
+
+    /// Customize response before handling. Decrypt body for example.
+    func intercept(output: URLSession.DataTaskPublisher.Output) -> AnyPublisher<URLSession.DataTaskPublisher.Output, OpenAPITransportError>
+}
+
+// MARK: - Transport delegate
+
+public protocol OpenAPITransportDelegate: AnyObject {
+    func willStart(request: URLRequest)
+
+    func didFinish(request: URLRequest, response: HTTPURLResponse?, data: Data)
+
+    func didFinish(request: URLRequest, error: Error)
+}
+
+// MARK: - Implementation
+
+open class URLSessionOpenAPITransport: OpenAPITransport {
+    public struct Config {
+        public var baseURL: URL?
+        public var session: URLSession
+        public var processor: Interceptor
+        public var policy: ResponsePolicy
+        public weak var delegate: OpenAPITransportDelegate?
+
+        public init(
+            baseURL: URL? = nil,
+            session: URLSession = .shared,
+            processor: Interceptor = DefaultInterceptor(),
+            policy: ResponsePolicy = DefaultResponsePolicy(),
+            delegate: OpenAPITransportDelegate? = nil
+        ) {
+            self.baseURL = baseURL
+            self.session = session
+            self.processor = processor
+            self.policy = policy
+            self.delegate = delegate
+        }
+    }
+
+    private var cancellable = Set<AnyCancellable>()
+    public var config: Config
+    public var baseURL: URL? { config.baseURL }
+
+    public init(config: Config = .init()) {
+        self.config = config
+    }
+
+    open func send(request: URLRequest) -> AnyPublisher<OpenAPITransportResponse, OpenAPITransportError> {
+        config.processor
+            // Add custom headers or refresh token if needed
+            .intercept(request: request)
+            .flatMap { request -> AnyPublisher<OpenAPITransportResponse, OpenAPITransportError> in
+                self.config.delegate?.willStart(request: request)
+                // Perform network call
+                return self.config.session.dataTaskPublisher(for: request)
+                    .mapError {
+                        self.config.delegate?.didFinish(request: request, error: $0)
+                        return OpenAPITransportError(statusCode: $0.code.rawValue, description: "Network call finished fails")
+                    }
+                    .flatMap { output in
+                        self.config.processor.intercept(output: output)
+                    }
+                    .flatMap { output -> AnyPublisher<OpenAPITransportResponse, OpenAPITransportError> in
+                        let response = output.response as? HTTPURLResponse
+                        self.config.delegate?.didFinish(request: request, response: response, data: output.data)
+                        return self.config.policy.defineState(for: request, output: output)
+                            .setFailureType(to: OpenAPITransportError.self)
+                            .flatMap { state -> AnyPublisher<OpenAPITransportResponse, OpenAPITransportError> in
+                                switch state {
+                                case .success:
+                                    let transportResponse = OpenAPITransportResponse(data: output.data, statusCode: 200)
+                                    return Result.success(transportResponse).publisher.eraseToAnyPublisher()
+                                case .retry:
+                                    return Fail(error: OpenAPITransportError.retryError).eraseToAnyPublisher()
+                                case .failure:
+                                    let code = response?.statusCode ?? OpenAPITransportError.noResponseCode
+                                    let transportError = OpenAPITransportError(statusCode: code, data: output.data)
+                                    return Fail(error: transportError).eraseToAnyPublisher()
+                                }
+                            }.eraseToAnyPublisher()
+                    }
+                    .eraseToAnyPublisher()
+            }
+            .retry(times: 2) { error -> Bool in
+                return error.statusCode == OpenAPITransportError.retryError.statusCode
+            }.eraseToAnyPublisher()
+    }
+
+    open func cancelAll() {
+        cancellable.removeAll()
+    }
+}
+
+public final class DefaultInterceptor: Interceptor {
+    public init() {}
+
+    public func intercept(request: URLRequest) -> AnyPublisher<URLRequest, OpenAPITransportError> {
+        Just(request)
+            .setFailureType(to: OpenAPITransportError.self)
+            .eraseToAnyPublisher()
+    }
+
+    public func intercept(output: URLSession.DataTaskPublisher.Output) -> AnyPublisher<URLSession.DataTaskPublisher.Output, OpenAPITransportError> {
+        Just(output)
+            .setFailureType(to: OpenAPITransportError.self)
+            .eraseToAnyPublisher()
+    }
+}
+
+public final class DefaultResponsePolicy: ResponsePolicy {
+    public init() {}
+
+    public func defineState(for request: URLRequest, output: URLSession.DataTaskPublisher.Output) -> AnyPublisher<ResponseState, Never> {
+        let state: ResponseState
+        switch (output.response as? HTTPURLResponse)?.statusCode {
+        case .some(200...299): state = .success
+        default: state = .failure
+        }
+        return Just(state).eraseToAnyPublisher()
+    }
+}
+
+/// Custom transport errors. It begins with 6.. not to conflict with HTTP codes
 public extension OpenAPITransportError {
     static let incorrectAuthenticationCode = 600
     static func incorrectAuthenticationError(_ nestedError: Error? = nil) -> OpenAPITransportError {
@@ -187,88 +274,9 @@ public extension OpenAPITransportError {
     static let retryError = OpenAPITransportError(statusCode: OpenAPITransportError.retryErrorCode)
 }
 
-public protocol URLSessionOpenAPITransportDelegate: AnyObject {
-    func willStart(request: URLRequest)
-    func didFinish(request: URLRequest, response: HTTPURLResponse?, data: Data)
-    func didFinish(request: URLRequest, error: Error)
-}
+// MARK: - Private
 
-open class URLSessionOpenAPITransport: OpenAPITransport {
-    private var cancellable = Set<AnyCancellable>()
-    public var config: Config
-    public var baseURL: URL? { config.baseURL }
-
-    public init(config: Config = .init()) {
-        self.config = config
-    }
-
-    open func send(
-        request: URLRequest, 
-        securitySchemes: [SecurityScheme]
-    ) -> AnyPublisher<OpenAPITransportResponse, OpenAPITransportError> {
-        
-        config.processor
-            // Add custom headers or refresh token if needed
-            .enrich(request: request, securitySchemes: securitySchemes)
-            .flatMap { request -> AnyPublisher<OpenAPITransportResponse, OpenAPITransportError> in
-                self.config.delegate?.willStart(request: request)
-                // Perform network call
-                return self.config.session.dataTaskPublisher(for: request)
-                    .mapError {
-                        self.config.delegate?.didFinish(request: request, error: $0)
-                        return OpenAPITransportError(statusCode: $0.code.rawValue, description: "Network call finished fails")
-                    }
-                    .flatMap { output in
-                        self.config.processor.decode(output: output)
-                    }
-                    .flatMap { output -> AnyPublisher<OpenAPITransportResponse, OpenAPITransportError> in
-                        let response = output.response as? HTTPURLResponse
-                        self.config.delegate?.didFinish(request: request, response: response, data: output.data)
-                        return self.config.policy.defineState(for: request, output: output)
-                            .setFailureType(to: OpenAPITransportError.self)
-                            .flatMap { state -> AnyPublisher<OpenAPITransportResponse, OpenAPITransportError> in
-                                switch state {
-                                case .success:
-                                    let transportResponse = OpenAPITransportResponse(data: output.data, statusCode: 200)
-                                    return Result.success(transportResponse).publisher.eraseToAnyPublisher()
-                                case .retry:
-                                    return Fail(error: OpenAPITransportError.retryError).eraseToAnyPublisher()
-                                case .failure:
-                                    let code = response?.statusCode ?? OpenAPITransportError.noResponseCode
-                                    let transportError = OpenAPITransportError(statusCode: code, data: output.data)
-                                    return Fail(error: transportError).eraseToAnyPublisher()
-                                }
-                            }.eraseToAnyPublisher()
-                    }
-                    .eraseToAnyPublisher()
-            }
-            .retry(times: 2) { error -> Bool in
-                return error.statusCode == OpenAPITransportError.retryError.statusCode
-            }.eraseToAnyPublisher()
-    }
-
-    open func cancelAll() {
-        cancellable.removeAll()
-    }
-}
-
-public extension URLSessionOpenAPITransport {
-    struct Config {
-        public var baseURL: URL? = nil
-        public var session: URLSession = .shared
-        public var processor: URLRequestProcessor = DefaultURLRequestProcessor()
-        public var policy: URLResponsePolicy = DefaultURLResponsePolicy()
-        public weak var delegate: URLSessionOpenAPITransportDelegate?
-
-        public init() {}
-
-        public init(baseURL: URL) {
-            self.baseURL = baseURL
-        }
-    }
-}
-
-fileprivate extension Publishers {
+private extension Publishers {
     struct RetryIf<P: Publisher>: Publisher {
         typealias Output = P.Output
         typealias Failure = P.Failure
@@ -291,7 +299,7 @@ fileprivate extension Publishers {
     }
 }
 
-fileprivate extension Publisher {
+private extension Publisher {
     func retry(times: Int, if condition: @escaping (Failure) -> Bool) -> Publishers.RetryIf<Self> {
         Publishers.RetryIf(publisher: self, times: times, condition: condition)
     }

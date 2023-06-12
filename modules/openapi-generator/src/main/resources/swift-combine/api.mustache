@@ -161,8 +161,7 @@ open class {{classname}} {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<{{{returnType}}}{{^returnType}}Void{{/returnType}}, Error> in 
-            let securitySchemes: [SecurityScheme] = [{{#authMethods}}{{#isBasicBearer}}.bearer{{/isBasicBearer}}{{/authMethods}}]
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
             {{#vendorExtensions.x-swift-custom-error-type}}
                 .mapError { transportError -> Error in 
                     {{#responses}}

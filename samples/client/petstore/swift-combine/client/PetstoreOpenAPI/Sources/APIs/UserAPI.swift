@@ -55,8 +55,7 @@ open class UserAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<Void, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .tryMap { response in
                     return ()
                 }
@@ -92,8 +91,7 @@ open class UserAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<Void, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .tryMap { response in
                     return ()
                 }
@@ -129,8 +127,7 @@ open class UserAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<Void, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .tryMap { response in
                     return ()
                 }
@@ -180,8 +177,7 @@ open class UserAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<Void, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .mapError { transportError -> Error in 
                     if transportError.statusCode == 400 {
                         return DeleteUserError.code400Error
@@ -237,8 +233,7 @@ open class UserAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<User, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .mapError { transportError -> Error in 
                     if transportError.statusCode == 400 {
                         return GetUserByNameError.code400Error
@@ -295,8 +290,7 @@ open class UserAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<String, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .mapError { transportError -> Error in 
                     if transportError.statusCode == 400 {
                         return LoginUserError.code400Error
@@ -335,8 +329,7 @@ open class UserAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<Void, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .tryMap { response in
                     return ()
                 }
@@ -389,8 +382,7 @@ open class UserAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<Void, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .mapError { transportError -> Error in 
                     if transportError.statusCode == 400 {
                         return UpdateUserError.code400Error

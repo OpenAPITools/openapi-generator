@@ -800,7 +800,6 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
         System.out.println("# swift combine generator is contributed by @dydus0x14 and @ptiz.          #");
-        System.out.println("# swift combine generator v0.23.0                                          #");
         System.out.println("################################################################################");
     }
 

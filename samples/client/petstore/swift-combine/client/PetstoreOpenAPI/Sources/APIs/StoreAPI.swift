@@ -66,8 +66,7 @@ open class StoreAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<Void, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .mapError { transportError -> Error in 
                     if transportError.statusCode == 400 {
                         return DeleteOrderError.code400Error
@@ -109,8 +108,7 @@ open class StoreAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<[String: Int], Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .tryMap { response in
                     try self.decoder.decode([String: Int].self, from: response.data)
                 }
@@ -157,8 +155,7 @@ open class StoreAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<Order, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .mapError { transportError -> Error in 
                     if transportError.statusCode == 400 {
                         return GetOrderByIdError.code400Error
@@ -211,8 +208,7 @@ open class StoreAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<Order, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .mapError { transportError -> Error in 
                     if transportError.statusCode == 400 {
                         return PlaceOrderError.code400Error

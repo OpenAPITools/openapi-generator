@@ -66,8 +66,7 @@ open class PetAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<Pet, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .mapError { transportError -> Error in 
                     if transportError.statusCode == 405 {
                         return AddPetError.code405Error
@@ -123,8 +122,7 @@ open class PetAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<Void, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .mapError { transportError -> Error in 
                     if transportError.statusCode == 400 {
                         return DeletePetError.code400Error
@@ -186,8 +184,7 @@ open class PetAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<[Pet], Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .mapError { transportError -> Error in 
                     if transportError.statusCode == 400 {
                         return FindPetsByStatusError.code400Error
@@ -242,8 +239,7 @@ open class PetAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<[Pet], Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .mapError { transportError -> Error in 
                     if transportError.statusCode == 400 {
                         return FindPetsByTagsError.code400Error
@@ -299,8 +295,7 @@ open class PetAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<Pet, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .mapError { transportError -> Error in 
                     if transportError.statusCode == 400 {
                         return GetPetByIdError.code400Error
@@ -368,8 +363,7 @@ open class PetAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<Pet, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .mapError { transportError -> Error in 
                     if transportError.statusCode == 400 {
                         return UpdatePetError.code400Error
@@ -434,8 +428,7 @@ open class PetAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<Void, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .mapError { transportError -> Error in 
                     if transportError.statusCode == 405 {
                         return UpdatePetWithFormError.code405Error
@@ -501,8 +494,7 @@ open class PetAPI {
                 return request
             }.publisher
         }.flatMap { request -> AnyPublisher<ApiResponse, Error> in 
-            let securitySchemes: [SecurityScheme] = []
-            return self.transport.send(request: request, securitySchemes: securitySchemes)
+            return self.transport.send(request: request)
                 .tryMap { response in
                     try self.decoder.decode(ApiResponse.self, from: response.data)
                 }
