@@ -354,6 +354,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         if ("asyncio".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packagePath(), "rest.py"));
+            supportingFiles.add(new SupportingFile("asyncio/api_client.mustache", packagePath(), "api_client.py"));
             additionalProperties.put("asyncio", "true");
         } else if ("tornado".equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("tornado/rest.mustache", packagePath(), "rest.py"));
