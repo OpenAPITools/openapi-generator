@@ -37,7 +37,7 @@ import {{import}}
         {{#authMethods}}
         {{name}}: {{>auth_class_name}}{{#hasMore}},{{/hasMore}}
         {{/authMethods}}
-    ){{#returnType}} : Response<{{{returnType}}}>{{/returnType}}{{^returnType}} : Response<Unit>{{/returnType}} {
+    ){{#returnType}} : {{{returnType}}}{{/returnType}} {
         val queryParameters = mutableListOf<Pair<String, Any?>>()
         {{#queryParams}}
         {{#required}}

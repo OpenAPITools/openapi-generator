@@ -50,7 +50,7 @@ internal suspend inline fun <reified T, B> request(
     logLevel: LogLevel,
     bodyObject: B,
     bodySerializer: SerializationStrategy<B>
-): Response<T> {
+): T {
     val serializedBody = TextContent(
         text = Json.encodeToString(serializer = bodySerializer, value = bodyObject, stripNull = true),
         contentType = ContentType.parse("application/json")
@@ -80,7 +80,7 @@ internal suspend inline fun <reified T> request(
     logger: Logger,
     logLevel: LogLevel,
     bodyObject: Any? = null
-): Response<T> {
+): T {
     @Suppress("NAME_SHADOWING") val queryParameters = queryParameters.toMutableList()
     @Suppress("NAME_SHADOWING") val headerParameters = headerParameters.toMutableList()
 
@@ -101,7 +101,7 @@ internal suspend inline fun <reified T> request(
         it.applyToParams(queryParameters = queryParameters, headerParameters = headerParameters)
     }
 
-    val httpResponse: HttpResponse = httpClient.get(url) {
+    return httpClient.request(url) {
         method = HttpMethod.parse(methodString)
         queryParameters.forEach {
             parameter(it.first, it.second)
@@ -118,14 +118,5 @@ internal suspend inline fun <reified T> request(
         } else if (bodyObject != null) {
             setBody(bodyObject)
         }
-    }
-
-    val headers = mutableListOf<Pair<String, List<String>>>()
-    httpResponse.headers.forEach { key, values ->
-        headers.add(Pair(key, values))
-    }
-
-    return Response(httpResponse.body(), headers)
+    }.body()
 }
-
-internal data class Response<T>(val body: T, val headers: List<Pair<String, List<String>>>)
