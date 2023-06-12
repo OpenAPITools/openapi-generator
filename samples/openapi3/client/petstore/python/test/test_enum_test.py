@@ -10,22 +10,14 @@
 """
 
 
-import sys
+from __future__ import absolute_import
+
 import unittest
+import datetime
 
 import petstore_api
-from petstore_api.model.integer_enum import IntegerEnum
-from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
-from petstore_api.model.integer_enum_with_default_value import IntegerEnumWithDefaultValue
-from petstore_api.model.string_enum import StringEnum
-from petstore_api.model.string_enum_with_default_value import StringEnumWithDefaultValue
-globals()['IntegerEnum'] = IntegerEnum
-globals()['IntegerEnumOneValue'] = IntegerEnumOneValue
-globals()['IntegerEnumWithDefaultValue'] = IntegerEnumWithDefaultValue
-globals()['StringEnum'] = StringEnum
-globals()['StringEnumWithDefaultValue'] = StringEnumWithDefaultValue
-from petstore_api.model.enum_test import EnumTest
-
+from petstore_api.models.enum_test import EnumTest  # noqa: E501
+from petstore_api.rest import ApiException
 
 class TestEnumTest(unittest.TestCase):
     """EnumTest unit test stubs"""
@@ -36,12 +28,32 @@ class TestEnumTest(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def make_instance(self, include_optional):
+        """Test EnumTest
+            include_option is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # model = petstore_api.models.enum_test.EnumTest()  # noqa: E501
+        if include_optional :
+            return EnumTest(
+                enum_string = 'UPPER', 
+                enum_string_required = 'UPPER', 
+                enum_integer = 1, 
+                enum_number = 1.1, 
+                outer_enum = 'placed', 
+                outer_enum_integer = 2, 
+                outer_enum_default_value = 'placed', 
+                outer_enum_integer_default_value = 0
+            )
+        else :
+            return EnumTest(
+                enum_string_required = 'UPPER',
+        )
+
     def testEnumTest(self):
         """Test EnumTest"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = EnumTest()  # noqa: E501
-        pass
-
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
 
 if __name__ == '__main__':
     unittest.main()

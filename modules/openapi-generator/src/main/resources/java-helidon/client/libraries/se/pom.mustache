@@ -1,0 +1,95 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>{{groupId}}</groupId>
+    <parent>
+        <groupId>io.helidon.applications</groupId>
+        <artifactId>helidon-se</artifactId>
+        <version>{{helidonVersion}}</version>
+        <relativePath/>
+    </parent>
+    <artifactId>{{artifactId}}</artifactId>
+    <name>{{artifactId}}</name>
+    {{#appDescription}}
+        <description>{{.}}</description>
+    {{/appDescription}}
+    <version>{{artifactVersion}}</version>
+    <packaging>jar</packaging>
+
+    <properties>
+{{#openApiNullable}}
+        <version.jackson.databind.nullable>0.2.6</version.jackson.databind.nullable>
+{{/openApiNullable}}
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.helidon.webclient</groupId>
+            <artifactId>helidon-webclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.helidon.config</groupId>
+            <artifactId>helidon-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>{{x-helidon-rootJavaEEDepPrefix}}.json</groupId>
+            <artifactId>{{x-helidon-rootJavaEEDepPrefix}}.json-api</artifactId>
+        </dependency>
+{{#openApiNullable}}
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${version.jackson.databind.nullable}</version>
+        </dependency>
+{{/openApiNullable}}
+{{#jackson}}
+        <dependency>
+            <groupId>io.helidon.media</groupId>
+            <artifactId>helidon-media-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+        </dependency>
+{{/jackson}}
+{{#jsonb}}
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-binding</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>{{x-helidon-rootJavaEEDepPrefix}}.json.bind</groupId>
+            <artifactId>{{x-helidon-rootJavaEEDepPrefix}}.json.bind-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.helidon.media</groupId>
+            <artifactId>helidon-media-jsonb</artifactId>
+        </dependency>
+{{/jsonb}}
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-libs</id>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

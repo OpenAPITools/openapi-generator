@@ -17,9 +17,13 @@
 
 package org.openapitools.codegen;
 
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import com.google.common.collect.Sets;
 import com.samskivert.mustache.Mustache.Lambda;
-
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -33,18 +37,14 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
-import org.openapitools.codegen.templating.mustache.IndentedLambda;
-import org.openapitools.codegen.templating.mustache.LowercaseLambda;
-import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
-import org.openapitools.codegen.templating.mustache.UppercaseLambda;
+import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -54,10 +54,12 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static junit.framework.Assert.assertEquals;
 import static org.testng.Assert.*;
 
-
 public class DefaultCodegenTest {
+
+    private static final Logger testLogger = (Logger) LoggerFactory.getLogger(ModelUtils.class);
 
     @Test
     public void testDeeplyNestedAdditionalPropertiesImports() {
@@ -268,7 +270,7 @@ public class DefaultCodegenTest {
     @Test
     public void testOriginalOpenApiDocumentVersion() {
         // Test with OAS 2.0 document.
-        String location = "src/test/resources/2_0/python-client-experimental/petstore-with-fake-endpoints-models-for-testing.yaml";
+        String location = "src/test/resources/2_0/python-prior/petstore-with-fake-endpoints-models-for-testing.yaml";
         OpenAPI openAPI = TestUtils.parseFlattenSpec(location);
         SemVer version = ModelUtils.getOpenApiVersion(openAPI, location, null);
         Assert.assertEquals(version, new SemVer("2.0.0"));
@@ -335,10 +337,11 @@ public class DefaultCodegenTest {
         // It is unfortunate that child.getAdditionalProperties() returns null for a V2 schema.
         // We cannot differentiate between 'additionalProperties' not present and
         // additionalProperties: true.
-        Assert.assertNull(map_with_additional_properties_sc.getAdditionalProperties());
+        // UPDATE fixed in swagger parser 2.1.14
+        Assert.assertTrue((Boolean) map_with_additional_properties_sc.getAdditionalProperties());
         addProps = ModelUtils.getAdditionalProperties(openAPI, map_with_additional_properties_sc);
-        Assert.assertNull(addProps);
-        Assert.assertNull(map_with_additional_properties_cp.getAdditionalProperties());
+        Assert.assertEquals(addProps, new Schema());
+        Assert.assertNotNull(map_with_additional_properties_cp.getAdditionalProperties());
 
         // map_without_additional_properties
         // This property has the following inline schema.
@@ -347,7 +350,8 @@ public class DefaultCodegenTest {
         // It is unfortunate that child.getAdditionalProperties() returns null for a V2 schema.
         // We cannot differentiate between 'additionalProperties' not present and
         // additionalProperties: false.
-        Assert.assertNull(map_without_additional_properties_sc.getAdditionalProperties());
+        // UPDATE fixed in swagger parser 2.1.14
+        Assert.assertFalse((Boolean) map_without_additional_properties_sc.getAdditionalProperties());
         addProps = ModelUtils.getAdditionalProperties(openAPI, map_without_additional_properties_sc);
         Assert.assertNull(addProps);
         Assert.assertNull(map_without_additional_properties_cp.getAdditionalProperties());
@@ -424,9 +428,10 @@ public class DefaultCodegenTest {
         // It is unfortunate that child.getAdditionalProperties() returns null for a V2 schema.
         // We cannot differentiate between 'additionalProperties' not present and
         // additionalProperties: true.
-        Assert.assertNull(map_with_additional_properties_sc.getAdditionalProperties());
+        // UPDATE fixed in swagger parser 2.1.14
+        Assert.assertTrue((Boolean) map_with_additional_properties_sc.getAdditionalProperties());
         addProps = ModelUtils.getAdditionalProperties(openAPI, map_with_additional_properties_sc);
-        Assert.assertNull(addProps);
+        Assert.assertEquals(addProps, new Schema());
         Assert.assertNotNull(map_with_additional_properties_cp.getAdditionalProperties());
 
         // map_without_additional_properties
@@ -436,10 +441,11 @@ public class DefaultCodegenTest {
         // It is unfortunate that child.getAdditionalProperties() returns null for a V2 schema.
         // We cannot differentiate between 'additionalProperties' not present and
         // additionalProperties: false.
-        Assert.assertNull(map_without_additional_properties_sc.getAdditionalProperties());
+        // UPDATE fixed in swagger parser 2.1.14
+        Assert.assertFalse((Boolean) map_without_additional_properties_sc.getAdditionalProperties());
         addProps = ModelUtils.getAdditionalProperties(openAPI, map_without_additional_properties_sc);
-        Assert.assertNull(addProps);
-        Assert.assertNotNull(map_without_additional_properties_cp.getAdditionalProperties());
+        Assert.assertEquals(addProps, null);
+        Assert.assertNull(map_without_additional_properties_cp.getAdditionalProperties());
 
         // check of composed schema model
         String schemaName = "Parent";
@@ -635,6 +641,36 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOneOfEnum() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue12545.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        String modelName = "petItems";
+
+        final Schema schema = openAPI.getComponents().getSchemas().get(modelName);
+        codegen.setOpenAPI(openAPI);
+        CodegenModel petItems = codegen.fromModel(modelName, schema);
+
+        Set<String> oneOf = new TreeSet<String>();
+        oneOf.add("Dog");
+        oneOf.add("Cat");
+        Assert.assertEquals(petItems.oneOf, oneOf);
+        // make sure that animal has the property type
+        boolean typeSeen = false;
+        boolean typeContainsEnums = false;
+        for (CodegenProperty cp : petItems.vars) {
+            if ("type".equals(cp.name)) {
+                typeSeen = true;
+                if (null != cp.get_enum() && cp.get_enum().contains("dog") && cp.get_enum().contains("cat")) {
+                    typeContainsEnums = true;
+                }
+                break;
+            }
+        }
+        Assert.assertTrue(typeSeen);
+        Assert.assertTrue(typeContainsEnums);
+    }
+
+    @Test
     public void testComposedSchemaOneOfWithProperties() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
@@ -667,7 +703,6 @@ public class DefaultCodegenTest {
         }
         Assert.assertTrue(colorSeen);
     }
-
 
     @Test
     public void testEscapeText() {
@@ -861,8 +896,10 @@ public class DefaultCodegenTest {
         Operation operation2 = openAPI.getPaths().get("/example1/plural").getGet();
         CodegenParameter codegenParameter2 = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         codegen.setParameterExampleValue(codegenParameter2, operation2.getParameters().get(0));
-
         Assert.assertEquals(codegenParameter2.example, "An example1 value");
+        // verify examples are available
+        codegen.setParameterExamples(codegenParameter2, operation2.getParameters().get(0));
+        Assert.assertEquals(codegenParameter2.examples.size(), 1);
     }
 
     @Test
@@ -1100,7 +1137,6 @@ public class DefaultCodegenTest {
         cm = codegen.fromModel(modelName, sc);
         hs.clear();
         hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B")));
-        hs.add(new CodegenDiscriminator.MappedModel("B", codegen.toModelName("B")));
         hs.add(new CodegenDiscriminator.MappedModel("C", codegen.toModelName("C")));
         Assert.assertEquals(cm.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
@@ -1584,14 +1620,11 @@ public class DefaultCodegenTest {
         discriminator.setPropertyBaseName(prop);
         discriminator.setMapping(null);
         discriminator.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>() {{
-            add(new CodegenDiscriminator.MappedModel("DailySubObj", "DailySubObj"));
-            add(new CodegenDiscriminator.MappedModel("SubObj", "SubObj"));
             add(new CodegenDiscriminator.MappedModel("daily", "DailySubObj"));
             add(new CodegenDiscriminator.MappedModel("sub-obj", "SubObj"));
         }});
         assertEquals(cm.discriminator, discriminator);
     }
-
 
     @Test
     public void testAllOfSingleRefNoOwnProps() {
@@ -1604,14 +1637,6 @@ public class DefaultCodegenTest {
         Assert.assertEquals(getNames(model.getVars()), Arrays.asList("id", "message"));
         Assert.assertNull(model.parent);
         Assert.assertNull(model.allParents);
-    }
-
-    class CodegenWithMultipleInheritance extends DefaultCodegen {
-        public CodegenWithMultipleInheritance() {
-            super();
-            supportsInheritance = true;
-            supportsMultipleInheritance = true;
-        }
     }
 
     @Test
@@ -1763,6 +1788,7 @@ public class DefaultCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/component-deprecated.yml");
         new InlineModelResolver().flatten(openAPI);
         final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
 
         CodegenModel codegenPetModel = codegen.fromModel("Pet", openAPI.getComponents().getSchemas().get("Pet"));
         Assert.assertTrue(codegenPetModel.isDeprecated);
@@ -1991,8 +2017,6 @@ public class DefaultCodegenTest {
         test.getMapping().put("c", "Child");
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("a", "Adult"));
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("c", "Child"));
-        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Adult", "Adult"));
-        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Child", "Child"));
         Assert.assertEquals(discriminator, test);
     }
 
@@ -2238,83 +2262,6 @@ public class DefaultCodegenTest {
         assertEquals(codegen.toApiName(""), "DefaultApi");
     }
 
-    public static class FromParameter {
-        private CodegenParameter codegenParameter(String path) {
-            final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/fromParameter.yaml");
-            new InlineModelResolver().flatten(openAPI);
-            final DefaultCodegen codegen = new DefaultCodegen();
-            codegen.setOpenAPI(openAPI);
-
-            return codegen
-                    .fromParameter(
-                            openAPI
-                                    .getPaths()
-                                    .get(path)
-                                    .getGet()
-                                    .getParameters()
-                                    .get(0),
-                            new HashSet<>()
-                    );
-        }
-
-        @Test
-        public void setStyle() {
-            CodegenParameter parameter = codegenParameter("/set_style");
-            assertEquals(parameter.style, "form");
-        }
-
-        @Test
-        public void setShouldExplode() {
-            CodegenParameter parameter = codegenParameter("/set_should_explode");
-            assertTrue(parameter.isExplode);
-        }
-
-        @Test
-        public void testConvertPropertyToBooleanAndWriteBack_Boolean_true() {
-            final DefaultCodegen codegen = new DefaultCodegen();
-            Map<String, Object> additionalProperties = codegen.additionalProperties();
-            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, true);
-            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
-            Assert.assertTrue(result);
-        }
-
-        @Test
-        public void testConvertPropertyToBooleanAndWriteBack_Boolean_false() {
-            final DefaultCodegen codegen = new DefaultCodegen();
-            Map<String, Object> additionalProperties = codegen.additionalProperties();
-            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, false);
-            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
-            Assert.assertFalse(result);
-        }
-
-        @Test
-        public void testConvertPropertyToBooleanAndWriteBack_String_true() {
-            final DefaultCodegen codegen = new DefaultCodegen();
-            Map<String, Object> additionalProperties = codegen.additionalProperties();
-            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, "true");
-            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
-            Assert.assertTrue(result);
-        }
-
-        @Test
-        public void testConvertPropertyToBooleanAndWriteBack_String_false() {
-            final DefaultCodegen codegen = new DefaultCodegen();
-            Map<String, Object> additionalProperties = codegen.additionalProperties();
-            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, "false");
-            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
-            Assert.assertFalse(result);
-        }
-
-        @Test
-        public void testConvertPropertyToBooleanAndWriteBack_String_blibb() {
-            final DefaultCodegen codegen = new DefaultCodegen();
-            Map<String, Object> additionalProperties = codegen.additionalProperties();
-            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, "blibb");
-            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
-            Assert.assertFalse(result);
-        }
-    }
-
     @Test
     public void testCircularReferencesDetection() {
         // given
@@ -2464,7 +2411,7 @@ public class DefaultCodegenTest {
                 "post",
                 path.getPost(),
                 path.getServers());
-        assertEquals(operation.formParams.size(), 3,
+        Assert.assertEquals(operation.formParams.size(), 3,
                 "The list of parameters should include inherited type");
 
         final List<String> names = operation.formParams.stream()
@@ -2473,6 +2420,10 @@ public class DefaultCodegenTest {
         assertTrue(names.contains("password"));
         assertTrue(names.contains("passwordConfirmation"));
         assertTrue(names.contains("oldPassword"));
+
+        Optional<CodegenParameter> passwordParameter = operation.formParams.stream().filter(p -> "password".equals(p.paramName)).findFirst();
+        assertTrue(passwordParameter.isPresent());
+        assertTrue(passwordParameter.get().isPassword);
     }
 
     @Test
@@ -2544,6 +2495,20 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testMultipleSecuritySchemes() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents().getSecuritySchemes();
+        final List<CodegenSecurity> securities = codegen.fromSecurity(securitySchemes);
+
+        assertEquals(securities.size(), 2);
+        assertEquals(securities.get(0).name, "petstore_auth");
+        assertEquals(securities.get(1).name, "api_key");
+    }
+
+    @Test
     public void testItemsPresent() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
@@ -2592,7 +2557,7 @@ public class DefaultCodegenTest {
         String modelName;
         Schema sc;
         CodegenModel cm;
-        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
+        CodegenProperty anyTypeSchema = codegen.fromProperty("additional_properties", new Schema());
 
         modelName = "AdditionalPropertiesUnset";
         sc = openAPI.getComponents().getSchemas().get(modelName);
@@ -2615,7 +2580,7 @@ public class DefaultCodegenTest {
         modelName = "AdditionalPropertiesSchema";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
-        CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
+        CodegenProperty stringCp = codegen.fromProperty("additional_properties", new Schema().type("string"));
         assertEquals(cm.getAdditionalProperties(), stringCp);
         assertFalse(cm.getAdditionalPropertiesIsAnyType());
     }
@@ -2630,8 +2595,8 @@ public class DefaultCodegenTest {
         String modelName;
         Schema sc;
         CodegenModel cm;
-        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
-        CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
+        CodegenProperty anyTypeSchema = codegen.fromProperty("additional_properties", new Schema());
+        CodegenProperty stringCp = codegen.fromProperty("additional_properties", new Schema().type("string"));
         CodegenProperty mapWithAddPropsUnset;
         CodegenProperty mapWithAddPropsTrue;
         CodegenProperty mapWithAddPropsFalse;
@@ -2691,8 +2656,8 @@ public class DefaultCodegenTest {
         Operation operation;
         CodegenOperation co;
 
-        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
-        CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
+        CodegenProperty anyTypeSchema = codegen.fromProperty("additional_properties", new Schema());
+        CodegenProperty stringCp = codegen.fromProperty("additional_properties", new Schema().type("string"));
         CodegenParameter mapWithAddPropsUnset;
         CodegenParameter mapWithAddPropsTrue;
         CodegenParameter mapWithAddPropsFalse;
@@ -2752,8 +2717,8 @@ public class DefaultCodegenTest {
         Operation operation;
         CodegenOperation co;
 
-        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
-        CodegenProperty stringCp = codegen.fromProperty("", new Schema().type("string"));
+        CodegenProperty anyTypeSchema = codegen.fromProperty("additional_properties", new Schema());
+        CodegenProperty stringCp = codegen.fromProperty("additional_properties", new Schema().type("string"));
         CodegenResponse mapWithAddPropsUnset;
         CodegenResponse mapWithAddPropsTrue;
         CodegenResponse mapWithAddPropsFalse;
@@ -2808,7 +2773,7 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
-        CodegenProperty anyTypeSchema = codegen.fromProperty("", new Schema());
+        CodegenProperty anyTypeSchema = codegen.fromProperty("additional_properties", new Schema());
 
         Schema sc;
         CodegenModel cm;
@@ -3732,7 +3697,7 @@ public class DefaultCodegenTest {
         modelName = "ObjectWithComposedProperties";
         CodegenModel m = codegen.fromModel(modelName, openAPI.getComponents().getSchemas().get(modelName));
         /* TODO inline allOf schema are created as separate models and the following assumptions that
-           the properties are non-model are no longer valid and need to be revised 
+           the properties are non-model are no longer valid and need to be revised
         assertTrue(m.vars.get(0).getIsMap());
         assertTrue(m.vars.get(1).getIsNumber());
         assertTrue(m.vars.get(2).getIsUnboundedInteger());
@@ -4189,6 +4154,9 @@ public class DefaultCodegenTest {
         assertEquals(cp.complexType, "coordinates");
         assertEquals(cp.baseName, "SchemaFor201ResponseBodyApplicationJson");
 
+        assertNotNull(mt.getExamples());
+        assertEquals(mt.getExamples().size(), 2);
+
         mt = content.get("text/plain");
         assertNull(mt.getEncoding());
         cp = mt.getSchema();
@@ -4209,7 +4177,7 @@ public class DefaultCodegenTest {
         Assert.assertNotNull(openAPI.getComponents().getSchemas().get(ModelUtils.getSimpleRef(requestBodySchema.get$ref())));
 
         Schema requestBodySchema2 = ModelUtils.unaliasSchema(openAPI, requestBodySchema);
-        // get$ref is not null as unaliasSchem returns the schema with the last $ref to the actual schema
+        // get$ref is not null as unaliasSchema returns the schema with the last $ref to the actual schema
         Assert.assertNotNull(requestBodySchema2.get$ref());
         Assert.assertEquals(requestBodySchema2.get$ref(), "#/components/schemas/updatePetWithForm_request");
 
@@ -4219,5 +4187,539 @@ public class DefaultCodegenTest {
 
         Assert.assertEquals(codegenParameter.defaultValue, "1971-12-19T03:39:57-08:00");
         Assert.assertEquals(codegenParameter.getSchema(), null);
+    }
+
+    @Test
+    public void testArraySchemaWithIneffectiveConstraints() {
+
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+
+        // add the appender to the logger
+        testLogger.addAppender(listAppender);
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "ArrayWithIneffectiveValidations";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
+                .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
+                .collect(Collectors.toList());
+
+
+        // JUnit assertions
+        assertEquals(16, logsList.size());
+        assertEquals("Validation 'minProperties' has no effect on schema 'array'. Ignoring!", logsList.get(0)
+                .getMessage());
+        assertEquals("Validation 'maxProperties' has no effect on schema 'array'. Ignoring!", logsList.get(1)
+                .getMessage());
+        assertEquals("Validation 'minLength' has no effect on schema 'array'. Ignoring!", logsList.get(2)
+                .getMessage());
+        assertEquals("Validation 'maxLength' has no effect on schema 'array'. Ignoring!", logsList.get(3)
+                .getMessage());
+        assertEquals("Validation 'pattern' has no effect on schema 'array'. Ignoring!", logsList.get(4)
+                .getMessage());
+        assertEquals("Validation 'multipleOf' has no effect on schema 'array'. Ignoring!", logsList.get(5)
+                .getMessage());
+        assertEquals("Validation 'minimum' has no effect on schema 'array'. Ignoring!", logsList.get(6)
+                .getMessage());
+        assertEquals("Validation 'maximum' has no effect on schema 'array'. Ignoring!", logsList.get(7)
+                .getMessage());
+
+        // Assert all logged messages are WARN messages
+        logsList.stream().limit(8).forEach(log -> assertEquals(Level.WARN, log.getLevel()));
+    }
+
+    @Test
+    public void testObjectSchemaWithIneffectiveConstraints() {
+
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+
+        // add the appender to the logger
+        testLogger.addAppender(listAppender);
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "ObjectWithIneffectiveValidations";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
+                .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
+                .collect(Collectors.toList());
+
+        // JUnit assertions
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 9, logsList.size());
+        assertEquals("Validation 'minItems' has no effect on schema 'object'. Ignoring!", logsList.get(0)
+                .getMessage());
+        assertEquals("Validation 'maxItems' has no effect on schema 'object'. Ignoring!", logsList.get(1)
+                .getMessage());
+        assertEquals("Validation 'uniqueItems' has no effect on schema 'object'. Ignoring!", logsList.get(2)
+                .getMessage());
+        assertEquals("Validation 'minLength' has no effect on schema 'object'. Ignoring!", logsList.get(3)
+                .getMessage());
+        assertEquals("Validation 'maxLength' has no effect on schema 'object'. Ignoring!", logsList.get(4)
+                .getMessage());
+        assertEquals("Validation 'pattern' has no effect on schema 'object'. Ignoring!", logsList.get(5)
+                .getMessage());
+        assertEquals("Validation 'multipleOf' has no effect on schema 'object'. Ignoring!", logsList.get(6)
+                .getMessage());
+        assertEquals("Validation 'minimum' has no effect on schema 'object'. Ignoring!", logsList.get(7)
+                .getMessage());
+        assertEquals("Validation 'maximum' has no effect on schema 'object'. Ignoring!", logsList.get(8)
+                .getMessage());
+
+        // Assert all logged messages are WARN messages
+        logsList.stream().forEach(log -> assertEquals(Level.WARN, log.getLevel()));
+    }
+
+    @Test
+    public void testStringSchemaWithIneffectiveConstraints() {
+
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+
+        // add the appender to the logger
+        testLogger.addAppender(listAppender);
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "StringWithIneffectiveValidations";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
+                .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
+                .collect(Collectors.toList());
+
+        // JUnit assertions
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 8, logsList.size());
+        assertEquals("Validation 'minItems' has no effect on schema 'string'. Ignoring!", logsList.get(0)
+                .getMessage());
+        assertEquals("Validation 'maxItems' has no effect on schema 'string'. Ignoring!", logsList.get(1)
+                .getMessage());
+        assertEquals("Validation 'uniqueItems' has no effect on schema 'string'. Ignoring!", logsList.get(2)
+                .getMessage());
+        assertEquals("Validation 'minProperties' has no effect on schema 'string'. Ignoring!", logsList.get(3)
+                .getMessage());
+        assertEquals("Validation 'maxProperties' has no effect on schema 'string'. Ignoring!", logsList.get(4)
+                .getMessage());
+        assertEquals("Validation 'multipleOf' has no effect on schema 'string'. Ignoring!", logsList.get(5)
+                .getMessage());
+        assertEquals("Validation 'minimum' has no effect on schema 'string'. Ignoring!", logsList.get(6)
+                .getMessage());
+        assertEquals("Validation 'maximum' has no effect on schema 'string'. Ignoring!", logsList.get(7)
+                .getMessage());
+
+        // Assert all logged messages are WARN messages
+        logsList.stream().forEach(log -> assertEquals(Level.WARN, log.getLevel()));
+    }
+
+    @Test
+    public void testIntegerSchemaWithIneffectiveConstraints() {
+
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+
+        // add the appender to the logger
+        testLogger.addAppender(listAppender);
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "IntegerWithIneffectiveValidations";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
+                .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
+                .collect(Collectors.toList());
+
+        // JUnit assertions
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 8, logsList.size());
+        assertEquals("Validation 'minItems' has no effect on schema 'integer'. Ignoring!", logsList.get(0)
+                .getMessage());
+        assertEquals("Validation 'maxItems' has no effect on schema 'integer'. Ignoring!", logsList.get(1)
+                .getMessage());
+        assertEquals("Validation 'uniqueItems' has no effect on schema 'integer'. Ignoring!", logsList.get(2)
+                .getMessage());
+        assertEquals("Validation 'minProperties' has no effect on schema 'integer'. Ignoring!", logsList.get(3)
+                .getMessage());
+        assertEquals("Validation 'maxProperties' has no effect on schema 'integer'. Ignoring!", logsList.get(4)
+                .getMessage());
+        assertEquals("Validation 'minLength' has no effect on schema 'integer'. Ignoring!", logsList.get(5)
+                .getMessage());
+        assertEquals("Validation 'maxLength' has no effect on schema 'integer'. Ignoring!", logsList.get(6)
+                .getMessage());
+        assertEquals("Validation 'pattern' has no effect on schema 'integer'. Ignoring!", logsList.get(7)
+                .getMessage());
+
+        // Assert all logged messages are WARN messages
+        logsList.stream().forEach(log -> assertEquals(Level.WARN, log.getLevel()));
+    }
+
+    @Test
+    public void testAnySchemaWithIneffectiveConstraints() {
+
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+
+        // add the appender to the logger
+        testLogger.addAppender(listAppender);
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "AnyTypeWithIneffectiveValidations";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
+                .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
+                .collect(Collectors.toList());
+
+        // JUnit assertions
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 0, logsList.size());
+    }
+
+    @Test
+    public void testBooleanSchemaWithIneffectiveConstraints() {
+
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+
+        // add the appender to the logger
+        testLogger.addAppender(listAppender);
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "BooleanWithIneffectiveValidations";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
+                .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
+                .collect(Collectors.toList());
+
+        // JUnit assertions
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 11, logsList.size());
+        assertEquals("Validation 'minItems' has no effect on schema 'boolean'. Ignoring!", logsList.get(0)
+                .getMessage());
+        assertEquals("Validation 'maxItems' has no effect on schema 'boolean'. Ignoring!", logsList.get(1)
+                .getMessage());
+        assertEquals("Validation 'uniqueItems' has no effect on schema 'boolean'. Ignoring!", logsList.get(2)
+                .getMessage());
+        assertEquals("Validation 'minProperties' has no effect on schema 'boolean'. Ignoring!", logsList.get(3)
+                .getMessage());
+        assertEquals("Validation 'maxProperties' has no effect on schema 'boolean'. Ignoring!", logsList.get(4)
+                .getMessage());
+        assertEquals("Validation 'minLength' has no effect on schema 'boolean'. Ignoring!", logsList.get(5)
+                .getMessage());
+        assertEquals("Validation 'maxLength' has no effect on schema 'boolean'. Ignoring!", logsList.get(6)
+                .getMessage());
+        assertEquals("Validation 'pattern' has no effect on schema 'boolean'. Ignoring!", logsList.get(7)
+                .getMessage());
+        assertEquals("Validation 'multipleOf' has no effect on schema 'boolean'. Ignoring!", logsList.get(8)
+                .getMessage());
+        assertEquals("Validation 'minimum' has no effect on schema 'boolean'. Ignoring!", logsList.get(9)
+                .getMessage());
+        assertEquals("Validation 'maximum' has no effect on schema 'boolean'. Ignoring!", logsList.get(10)
+                .getMessage());
+
+        // Assert all logged messages are WARN messages
+        logsList.stream().forEach(log -> assertEquals(Level.WARN, log.getLevel()));
+    }
+
+    @Test
+    public void testNullSchemaWithIneffectiveConstraints() {
+
+        ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+        listAppender.start();
+
+        // add the appender to the logger
+        testLogger.addAppender(listAppender);
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue6491.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "NullWithIneffectiveValidations";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+
+        listAppender.stop();
+        testLogger.detachAppender(listAppender);
+
+        List<ILoggingEvent> logsList = new ArrayList<>(listAppender.list).stream()
+                .filter(log -> Objects.equals(log.getThreadName(), Thread.currentThread().getName()))
+                .collect(Collectors.toList());
+
+        // JUnit assertions
+        assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 0, logsList.size());
+    }
+
+    public static class FromParameter {
+        private CodegenParameter codegenParameter(String path) {
+            final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/fromParameter.yaml");
+            new InlineModelResolver().flatten(openAPI);
+            final DefaultCodegen codegen = new DefaultCodegen();
+            codegen.setOpenAPI(openAPI);
+
+            return codegen
+                    .fromParameter(
+                            openAPI
+                                    .getPaths()
+                                    .get(path)
+                                    .getGet()
+                                    .getParameters()
+                                    .get(0),
+                            new HashSet<>()
+                    );
+        }
+
+        @Test
+        public void setStyle() {
+            CodegenParameter parameter = codegenParameter("/set_style");
+            assertEquals(parameter.style, "form");
+        }
+
+        @Test
+        public void setShouldExplode() {
+            CodegenParameter parameter = codegenParameter("/set_should_explode");
+            assertTrue(parameter.isExplode);
+        }
+
+        @Test
+        public void testConvertPropertyToBooleanAndWriteBack_Boolean_true() {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            Map<String, Object> additionalProperties = codegen.additionalProperties();
+            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, true);
+            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
+            Assert.assertTrue(result);
+        }
+
+        @Test
+        public void testConvertPropertyToBooleanAndWriteBack_Boolean_false() {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            Map<String, Object> additionalProperties = codegen.additionalProperties();
+            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, false);
+            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
+            Assert.assertFalse(result);
+        }
+
+        @Test
+        public void testConvertPropertyToBooleanAndWriteBack_String_true() {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            Map<String, Object> additionalProperties = codegen.additionalProperties();
+            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, "true");
+            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
+            Assert.assertTrue(result);
+        }
+
+        @Test
+        public void testConvertPropertyToBooleanAndWriteBack_String_false() {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            Map<String, Object> additionalProperties = codegen.additionalProperties();
+            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, "false");
+            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
+            Assert.assertFalse(result);
+        }
+
+        @Test
+        public void testConvertPropertyToBooleanAndWriteBack_String_blibb() {
+            final DefaultCodegen codegen = new DefaultCodegen();
+            Map<String, Object> additionalProperties = codegen.additionalProperties();
+            additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, "blibb");
+            boolean result = codegen.convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZABLE_MODEL);
+            Assert.assertFalse(result);
+        }
+    }
+
+    class CodegenWithMultipleInheritance extends DefaultCodegen {
+        public CodegenWithMultipleInheritance() {
+            super();
+            supportsInheritance = true;
+            supportsMultipleInheritance = true;
+        }
+    }
+
+    @Test
+    public void testFromPropertyRequiredAndOptional() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_12857.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        String modelName = "FooRequired";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel fooRequired = codegen.fromModel(modelName, sc);
+        modelName = "FooOptional";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel fooOptional = codegen.fromModel(modelName, sc);
+        Assert.assertTrue(fooRequired.vars.get(0).required);
+        Assert.assertEquals(fooRequired.vars.get(0).name, "foo");
+
+        Assert.assertEquals(fooRequired.requiredVars.size(), 1);
+        Assert.assertEquals(fooRequired.requiredVars.get(0).name, "foo");
+        Assert.assertTrue(fooRequired.requiredVars.get(0).required);
+
+        Assert.assertFalse(fooOptional.vars.get(0).required);
+        Assert.assertEquals(fooOptional.vars.get(0).name, "foo");
+        Assert.assertEquals(fooOptional.requiredVars.size(), 0);
+    }
+
+    @Test
+    public void testAssigning310SpecWorks() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        assertEquals(openAPI, codegen.openAPI);
+    }
+
+    @Test
+    public void testReferencedEnumType() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-5676-enums.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String modelName = "fakeRequestObjectWithReferencedEnum_request";
+
+        Schema schemaWithReferencedEnum = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel modelWithReferencedSchema = codegen.fromModel(modelName, schemaWithReferencedEnum);
+        CodegenProperty referencedEnumSchemaProperty = modelWithReferencedSchema.vars.get(1);
+
+        Assert.assertNotNull(schemaWithReferencedEnum);
+        Assert.assertTrue(modelWithReferencedSchema.hasEnums);
+        Assert.assertEquals(referencedEnumSchemaProperty.getName(), "enumType");
+        Assert.assertFalse(referencedEnumSchemaProperty.isEnum);
+        Assert.assertTrue(referencedEnumSchemaProperty.getIsEnumOrRef());
+        Assert.assertTrue(referencedEnumSchemaProperty.isEnumRef);
+        Assert.assertFalse(referencedEnumSchemaProperty.isInnerEnum);
+        Assert.assertFalse(referencedEnumSchemaProperty.isString);
+        Assert.assertFalse(referencedEnumSchemaProperty.isContainer);
+        Assert.assertFalse(referencedEnumSchemaProperty.isPrimitiveType);
+    }
+
+    @Test
+    public void testAllOfDefaultEnumType() {
+        // test allOf with a single sub-schema and default value set in the top level
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-5676-enums.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String modelName = "EnumPatternObject";
+
+        Schema schemaWithReferencedEnum = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel modelWithReferencedSchema = codegen.fromModel(modelName, schemaWithReferencedEnum);
+        CodegenProperty defaultEnumSchemaProperty = modelWithReferencedSchema.vars.get(4);
+
+        Assert.assertNotNull(schemaWithReferencedEnum);
+        Assert.assertTrue(modelWithReferencedSchema.hasEnums);
+        Assert.assertEquals(defaultEnumSchemaProperty.getName(), "defaultMinusnumberMinusenum");
+        Assert.assertFalse(defaultEnumSchemaProperty.isEnum);
+        Assert.assertTrue(defaultEnumSchemaProperty.getIsEnumOrRef());
+        Assert.assertTrue(defaultEnumSchemaProperty.isEnumRef);
+        Assert.assertFalse(defaultEnumSchemaProperty.isInnerEnum);
+        Assert.assertFalse(defaultEnumSchemaProperty.isString);
+        Assert.assertFalse(defaultEnumSchemaProperty.isContainer);
+        Assert.assertFalse(defaultEnumSchemaProperty.isPrimitiveType);
+        Assert.assertEquals(defaultEnumSchemaProperty.defaultValue, "2");
+
+        // test allOf with a single sub-schema and no default value set in the top level
+        CodegenProperty allOfEnumSchemaProperty = modelWithReferencedSchema.vars.get(5);
+        Assert.assertEquals(allOfEnumSchemaProperty.getName(), "allofMinusnumberMinusenum");
+        Assert.assertFalse(allOfEnumSchemaProperty.isEnum);
+        Assert.assertTrue(allOfEnumSchemaProperty.getIsEnumOrRef());
+        Assert.assertTrue(allOfEnumSchemaProperty.isEnumRef);
+        Assert.assertFalse(allOfEnumSchemaProperty.isInnerEnum);
+        Assert.assertFalse(allOfEnumSchemaProperty.isString);
+        Assert.assertFalse(allOfEnumSchemaProperty.isContainer);
+        Assert.assertFalse(allOfEnumSchemaProperty.isPrimitiveType);
+        Assert.assertEquals(allOfEnumSchemaProperty.defaultValue, "null");
+    }
+
+    @Test
+    public void testInlineEnumType() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-5676-enums.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String modelName = "fakeRequestObjectWithInlineEnum_request";
+
+        Schema schemaWithReferencedEnum = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel modelWithReferencedSchema = codegen.fromModel(modelName, schemaWithReferencedEnum);
+        CodegenProperty inlineEnumSchemaProperty = modelWithReferencedSchema.vars.get(1);
+
+        Assert.assertNotNull(schemaWithReferencedEnum);
+        Assert.assertTrue(modelWithReferencedSchema.hasEnums);
+        Assert.assertEquals(inlineEnumSchemaProperty.getName(), "enumType");
+        Assert.assertTrue(inlineEnumSchemaProperty.isEnum);
+        Assert.assertTrue(inlineEnumSchemaProperty.isInnerEnum);
+        Assert.assertTrue(inlineEnumSchemaProperty.isEnumRef);
+        Assert.assertTrue(inlineEnumSchemaProperty.getIsEnumOrRef());
+        Assert.assertTrue(inlineEnumSchemaProperty.isString);
+        Assert.assertFalse(inlineEnumSchemaProperty.isContainer);
+        Assert.assertFalse(inlineEnumSchemaProperty.isPrimitiveType);
+    }
+
+    @Test
+    public void testAddOption() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.addOption("optionKey", "optionDesc", "defaultValue", Map.of("defaultValue", "defaultDesc"));
+
+        CliOption expected = new CliOption("optionKey", "optionDesc");
+        expected.setDefault("defaultValue");
+        expected.setEnum(Map.of("defaultValue", "defaultDesc"));
+
+        Assert.assertTrue(codegen.cliOptions.contains(expected));
+    }
+
+    @Test
+    public void testAddOptionDefaultNull() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.addOption("optionKey", "optionDesc", null);
+
+        CliOption expected = new CliOption("optionKey", "optionDesc");
+
+        Assert.assertTrue(codegen.cliOptions.contains(expected));
+    }
+
+    @Test
+    public void testAddOptionEnumValuesNull() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.addOption("optionKey", "optionDesc", "defaultValue");
+
+        CliOption expected = new CliOption("optionKey", "optionDesc");
+        expected.setDefault("defaultValue");
+
+        Assert.assertTrue(codegen.cliOptions.contains(expected));
     }
 }

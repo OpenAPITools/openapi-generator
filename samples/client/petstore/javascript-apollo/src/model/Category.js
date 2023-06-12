@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -20,26 +20,13 @@ import ApiClient from '../ApiClient';
  */
 class Category {
     /**
-     * @member {Number} id
-     * @type {Number}
-     */
-    id;
-    /**
-     * @member {String} name
-     * @type {String}
-     */
-    name;
-
-    
-
-    /**
      * Constructs a new <code>Category</code>.
-     * A category for a pet
      * @alias module:model/Category
+     * @param name {String} 
      */
-    constructor() { 
+    constructor(name) { 
         
-        Category.initialize(this);
+        Category.initialize(this, name);
     }
 
     /**
@@ -47,7 +34,8 @@ class Category {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
+    static initialize(obj, name) { 
+        obj['name'] = name || 'default-name';
     }
 
     /**
@@ -70,7 +58,45 @@ class Category {
         }
         return obj;
     }
+
+    /**
+     * Validates the JSON data with respect to <code>Category</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Category</code>.
+     */
+    static validateJSON(data) {
+        // check to make sure all required properties are present in the JSON string
+        for (const property of Category.RequiredProperties) {
+            if (!data[property]) {
+                throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
+            }
+        }
+        // ensure the json data is a string
+        if (data['name'] && !(typeof data['name'] === 'string' || data['name'] instanceof String)) {
+            throw new Error("Expected the field `name` to be a primitive type in the JSON string but got " + data['name']);
+        }
+
+        return true;
+    }
+
+
 }
+
+Category.RequiredProperties = ["name"];
+
+/**
+ * @member {Number} id
+ */
+Category.prototype['id'] = undefined;
+
+/**
+ * @member {String} name
+ * @default 'default-name'
+ */
+Category.prototype['name'] = 'default-name';
+
+
+
 
 
 

@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -27,19 +26,20 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// QuadrilateralInterface
     /// </summary>
-    public partial class QuadrilateralInterface : IEquatable<QuadrilateralInterface>, IValidatableObject
+    public partial class QuadrilateralInterface : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="QuadrilateralInterface" /> class.
         /// </summary>
-        /// <param name="quadrilateralType">quadrilateralType (required)</param>
+        /// <param name="quadrilateralType">quadrilateralType</param>
+        [JsonConstructor]
         public QuadrilateralInterface(string quadrilateralType)
         {
-            if (quadrilateralType == null)
-                throw new ArgumentNullException("quadrilateralType is a required property for QuadrilateralInterface and cannot be null.");
-
             QuadrilateralType = quadrilateralType;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets QuadrilateralType
@@ -51,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -68,55 +68,84 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as QuadrilateralInterface).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if QuadrilateralInterface instances are equal
-        /// </summary>
-        /// <param name="input">Instance of QuadrilateralInterface to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(QuadrilateralInterface input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this.QuadrilateralType != null)
-                {
-                    hashCode = (hashCode * 59) + this.QuadrilateralType.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
-        /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
+    /// <summary>
+    /// A Json converter for type <see cref="QuadrilateralInterface" />
+    /// </summary>
+    public class QuadrilateralInterfaceJsonConverter : JsonConverter<QuadrilateralInterface>
+    {
+        /// <summary>
+        /// Deserializes json to <see cref="QuadrilateralInterface" />
+        /// </summary>
+        /// <param name="utf8JsonReader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override QuadrilateralInterface Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
+        {
+            int currentDepth = utf8JsonReader.CurrentDepth;
+
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+
+            string quadrilateralType = default;
+
+            while (utf8JsonReader.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                {
+                    string propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "quadrilateralType":
+                            quadrilateralType = utf8JsonReader.GetString();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            if (quadrilateralType == null)
+                throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class QuadrilateralInterface.");
+
+            return new QuadrilateralInterface(quadrilateralType);
+        }
+
+        /// <summary>
+        /// Serializes a <see cref="QuadrilateralInterface" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="quadrilateralInterface"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, QuadrilateralInterface quadrilateralInterface, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteStartObject();
+
+            writer.WriteString("quadrilateralType", quadrilateralInterface.QuadrilateralType);
+
+            writer.WriteEndObject();
+        }
+    }
 }

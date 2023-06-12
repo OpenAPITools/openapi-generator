@@ -49,7 +49,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "$")]
             Dollar = 2
-
         }
 
 
@@ -75,16 +74,8 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "crab")]
             Crab = 2
-
         }
 
-
-
-        /// <summary>
-        /// Gets or Sets ArrayEnum
-        /// </summary>
-        [DataMember(Name = "array_enum", EmitDefaultValue = false)]
-        public List<ArrayEnumEnum> ArrayEnum { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>
@@ -96,6 +87,12 @@ namespace Org.OpenAPITools.Model
             this.ArrayEnum = arrayEnum;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
+        /// <summary>
+        /// Gets or Sets ArrayEnum
+        /// </summary>
+        [DataMember(Name = "array_enum", EmitDefaultValue = false)]
+        public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -157,7 +154,10 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.JustSymbol.GetHashCode();
-                hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
+                if (this.ArrayEnum != null)
+                {
+                    hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
@@ -171,7 +171,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

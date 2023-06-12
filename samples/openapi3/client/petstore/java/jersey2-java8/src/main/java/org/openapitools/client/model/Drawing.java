@@ -26,8 +26,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.Fruit;
@@ -57,13 +55,13 @@ public class Drawing {
   private Shape mainShape;
 
   public static final String JSON_PROPERTY_SHAPE_OR_NULL = "shapeOrNull";
-  private ShapeOrNull shapeOrNull;
+  private JsonNullable<ShapeOrNull> shapeOrNull = JsonNullable.<ShapeOrNull>undefined();
 
   public static final String JSON_PROPERTY_NULLABLE_SHAPE = "nullableShape";
   private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>undefined();
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
-  private List<Shape> shapes = null;
+  private List<Shape> shapes;
 
   public Drawing() { 
   }
@@ -78,7 +76,6 @@ public class Drawing {
    * @return mainShape
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -95,7 +92,7 @@ public class Drawing {
 
 
   public Drawing shapeOrNull(ShapeOrNull shapeOrNull) {
-    this.shapeOrNull = shapeOrNull;
+    this.shapeOrNull = JsonNullable.<ShapeOrNull>of(shapeOrNull);
     return this;
   }
 
@@ -104,19 +101,26 @@ public class Drawing {
    * @return shapeOrNull
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonIgnore
 
   public ShapeOrNull getShapeOrNull() {
-    return shapeOrNull;
+        return shapeOrNull.orElse(null);
   }
-
 
   @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setShapeOrNull(ShapeOrNull shapeOrNull) {
+
+  public JsonNullable<ShapeOrNull> getShapeOrNull_JsonNullable() {
+    return shapeOrNull;
+  }
+  
+  @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
+  public void setShapeOrNull_JsonNullable(JsonNullable<ShapeOrNull> shapeOrNull) {
     this.shapeOrNull = shapeOrNull;
+  }
+
+  public void setShapeOrNull(ShapeOrNull shapeOrNull) {
+    this.shapeOrNull = JsonNullable.<ShapeOrNull>of(shapeOrNull);
   }
 
 
@@ -130,7 +134,6 @@ public class Drawing {
    * @return nullableShape
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonIgnore
 
   public NullableShape getNullableShape() {
@@ -172,7 +175,6 @@ public class Drawing {
    * @return shapes
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_SHAPES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -201,7 +203,7 @@ public class Drawing {
   @JsonAnySetter
   public Drawing putAdditionalProperty(String key, Fruit value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Fruit>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;
@@ -238,7 +240,7 @@ public class Drawing {
     }
     Drawing drawing = (Drawing) o;
     return Objects.equals(this.mainShape, drawing.mainShape) &&
-        Objects.equals(this.shapeOrNull, drawing.shapeOrNull) &&
+        equalsNullable(this.shapeOrNull, drawing.shapeOrNull) &&
         equalsNullable(this.nullableShape, drawing.nullableShape) &&
         Objects.equals(this.shapes, drawing.shapes)&&
         Objects.equals(this.additionalProperties, drawing.additionalProperties);
@@ -250,7 +252,7 @@ public class Drawing {
 
   @Override
   public int hashCode() {
-    return Objects.hash(mainShape, shapeOrNull, hashCodeNullable(nullableShape), shapes, additionalProperties);
+    return Objects.hash(mainShape, hashCodeNullable(shapeOrNull), hashCodeNullable(nullableShape), shapes, additionalProperties);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {

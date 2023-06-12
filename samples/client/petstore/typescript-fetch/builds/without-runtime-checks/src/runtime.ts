@@ -91,6 +91,7 @@ export const DefaultConfig = new Configuration();
  */
 export class BaseAPI {
 
+	 private static readonly jsonRegex = new RegExp('^(:?application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(:?;.*)?$', 'i');
     private middleware: Middleware[];
 
     constructor(protected configuration = DefaultConfig) {
@@ -113,10 +114,27 @@ export class BaseAPI {
         return this.withMiddleware<T>(...middlewares);
     }
 
+    /**
+     * Check if the given MIME is a JSON MIME.
+     * JSON MIME examples:
+     *   application/json
+     *   application/json; charset=UTF8
+     *   APPLICATION/JSON
+     *   application/vnd.company+json
+     * @param mime - MIME (Multipurpose Internet Mail Extensions)
+     * @return True if the given MIME is JSON, false otherwise.
+     */
+    protected isJsonMime(mime: string | null | undefined): boolean {
+        if (!mime) {
+            return false;
+        }
+        return BaseAPI.jsonRegex.test(mime);
+    }
+
     protected async request(context: RequestOpts, initOverrides?: RequestInit | InitOverrideFunction): Promise<Response> {
         const { url, init } = await this.createFetchParams(context, initOverrides);
         const response = await this.fetchApi(url, init);
-        if (response.status >= 200 && response.status < 300) {
+        if (response && (response.status >= 200 && response.status < 300)) {
             return response;
         }
         throw new ResponseError(response, 'Response returned an error code');
@@ -146,22 +164,28 @@ export class BaseAPI {
             credentials: this.configuration.credentials,
         };
 
-        const overridedInit: RequestInit = {
+        const overriddenInit: RequestInit = {
             ...initParams,
             ...(await initOverrideFn({
                 init: initParams,
                 context,
             }))
+        };
+
+        let body: any;
+        if (isFormData(overriddenInit.body)
+            || (overriddenInit.body instanceof URLSearchParams)
+            || isBlob(overriddenInit.body)) {
+          body = overriddenInit.body;
+        } else if (this.isJsonMime(headers['Content-Type'])) {
+          body = JSON.stringify(overriddenInit.body);
+        } else {
+          body = overriddenInit.body;
         }
 
         const init: RequestInit = {
-            ...overridedInit,
-            body:
-                isFormData(overridedInit.body) ||
-                overridedInit.body instanceof URLSearchParams ||
-                isBlob(overridedInit.body)
-                    ? overridedInit.body
-                    : JSON.stringify(overridedInit.body),
+            ...overriddenInit,
+            body
         };
 
         return { url, init };
@@ -177,7 +201,7 @@ export class BaseAPI {
                 }) || fetchParams;
             }
         }
-        let response = undefined;
+        let response: Response | undefined = undefined;
         try {
             response = await (this.configuration.fetchApi || fetch)(fetchParams.url, fetchParams.init);
         } catch (e) {
@@ -193,7 +217,11 @@ export class BaseAPI {
                 }
             }
             if (response === undefined) {
+              if (e instanceof Error) {
                 throw new FetchError(e, 'The request failed and the interceptors did not return an alternative response');
+              } else {
+                throw e;
+              }
             }
         }
         for (const middleware of this.middleware) {
@@ -222,29 +250,29 @@ export class BaseAPI {
 };
 
 function isBlob(value: any): value is Blob {
-    return typeof Blob !== 'undefined' && value instanceof Blob
+    return typeof Blob !== 'undefined' && value instanceof Blob;
 }
 
 function isFormData(value: any): value is FormData {
-    return typeof FormData !== "undefined" && value instanceof FormData
+    return typeof FormData !== "undefined" && value instanceof FormData;
 }
 
 export class ResponseError extends Error {
-    name: "ResponseError" = "ResponseError";
+    override name: "ResponseError" = "ResponseError";
     constructor(public response: Response, msg?: string) {
         super(msg);
     }
 }
 
 export class FetchError extends Error {
-    name: "FetchError" = "FetchError";
-    constructor(public cause: unknown, msg?: string) {
+    override name: "FetchError" = "FetchError";
+    constructor(public cause: Error, msg?: string) {
         super(msg);
     }
 }
 
 export class RequiredError extends Error {
-    name: "RequiredError" = "RequiredError";
+    override name: "RequiredError" = "RequiredError";
     constructor(public field: string, msg?: string) {
         super(msg);
     }
@@ -264,7 +292,7 @@ export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS'
 export type HTTPHeaders = { [key: string]: string };
 export type HTTPQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> | Set<string | number | null | boolean> | HTTPQuery };
 export type HTTPBody = Json | FormData | URLSearchParams;
-export type HTTPRequestInit = { headers?: HTTPHeaders; method: HTTPMethod; credentials?: RequestCredentials; body?: HTTPBody }
+export type HTTPRequestInit = { headers?: HTTPHeaders; method: HTTPMethod; credentials?: RequestCredentials; body?: HTTPBody };
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
 export type InitOverrideFunction = (requestContext: { init: HTTPRequestInit, context: RequestOpts }) => Promise<RequestInit>
@@ -321,7 +349,7 @@ export function canConsumeForm(consumes: Consume[]): boolean {
 }
 
 export interface Consume {
-    contentType: string
+    contentType: string;
 }
 
 export interface RequestContext {

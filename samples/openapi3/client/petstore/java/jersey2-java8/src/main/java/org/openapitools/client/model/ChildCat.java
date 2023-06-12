@@ -29,8 +29,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.ParentPet;
 import java.util.Set;
 import java.util.HashSet;
@@ -72,7 +70,6 @@ public class ChildCat extends ParentPet {
    * @return name
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -105,10 +102,9 @@ public class ChildCat extends ParentPet {
    * Get petType
    * @return petType
   **/
-  @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
+  @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPetType() {
     return petType;
@@ -116,7 +112,7 @@ public class ChildCat extends ParentPet {
 
 
   @JsonProperty(JSON_PROPERTY_PET_TYPE)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPetType(String petType) {
     if (!PET_TYPE_VALUES.contains(petType)) {
       throw new IllegalArgumentException(petType + " is invalid. Possible values for petType: " + String.join(", ", PET_TYPE_VALUES));
@@ -139,7 +135,7 @@ public class ChildCat extends ParentPet {
   @JsonAnySetter
   public ChildCat putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;
@@ -209,11 +205,11 @@ public class ChildCat extends ParentPet {
     return o.toString().replace("\n", "\n    ");
   }
 
-static {
-  // Initialize and register the discriminator mappings.
-  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-  mappings.put("ChildCat", ChildCat.class);
-  JSON.registerDiscriminator(ChildCat.class, "pet_type", mappings);
-}
+  static {
+    // Initialize and register the discriminator mappings.
+    Map<String, Class<?>> mappings = new HashMap<>();
+    mappings.put("ChildCat", ChildCat.class);
+    JSON.registerDiscriminator(ChildCat.class, "pet_type", mappings);
+  }
 }
 

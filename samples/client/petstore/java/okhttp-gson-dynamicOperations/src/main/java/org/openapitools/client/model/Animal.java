@@ -20,12 +20,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
-import org.openapitools.client.model.BigCat;
-import org.openapitools.client.model.Cat;
-import org.openapitools.client.model.Dog;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -37,10 +32,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -60,7 +60,7 @@ public class Animal {
   @SerializedName(SERIALIZED_NAME_COLOR)
   private String color = "red";
 
-  public Animal() { 
+  public Animal() {
     this.className = this.getClass().getSimpleName();
   }
 
@@ -75,8 +75,6 @@ public class Animal {
    * @return className
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
-
   public String getClassName() {
     return className;
   }
@@ -98,8 +96,6 @@ public class Animal {
    * @return color
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getColor() {
     return color;
   }
@@ -173,9 +169,7 @@ public class Animal {
   */
   public static void validateJsonObject(JsonObject jsonObj) throws IOException {
       if (jsonObj == null) {
-        if (Animal.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+        if (!Animal.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Animal is not found in the empty JSON string", Animal.openapiRequiredFields.toString()));
         }
       }
@@ -191,7 +185,7 @@ public class Animal {
         case "Dog":
           Dog.validateJsonObject(jsonObj);
           break;
-        default: 
+        default:
           throw new IllegalArgumentException(String.format("The value of the `className` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
       }
   }

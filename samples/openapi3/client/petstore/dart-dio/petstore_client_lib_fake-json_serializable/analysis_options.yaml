@@ -8,3 +8,5 @@ analyzer:
   exclude:
     - test/*.dart
     - lib/src/model/*.g.dart
+  errors:
+    deprecated_member_use_from_same_package: ignore

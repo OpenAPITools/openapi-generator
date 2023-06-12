@@ -20,7 +20,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**TestJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data |
 | [**TestQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters |  |
 
-<a name="fakehealthget"></a>
+<a id="fakehealthget"></a>
 # **FakeHealthGet**
 > HealthCheckResult FakeHealthGet ()
 
@@ -108,7 +108,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="fakeouterbooleanserialize"></a>
+<a id="fakeouterbooleanserialize"></a>
 # **FakeOuterBooleanSerialize**
 > bool FakeOuterBooleanSerialize (bool? body = null)
 
@@ -201,7 +201,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="fakeoutercompositeserialize"></a>
+<a id="fakeoutercompositeserialize"></a>
 # **FakeOuterCompositeSerialize**
 > OuterComposite FakeOuterCompositeSerialize (OuterComposite outerComposite = null)
 
@@ -294,7 +294,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="fakeouternumberserialize"></a>
+<a id="fakeouternumberserialize"></a>
 # **FakeOuterNumberSerialize**
 > decimal FakeOuterNumberSerialize (decimal? body = null)
 
@@ -387,9 +387,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="fakeouterstringserialize"></a>
+<a id="fakeouterstringserialize"></a>
 # **FakeOuterStringSerialize**
-> string FakeOuterStringSerialize (string body = null)
+> string FakeOuterStringSerialize (Guid requiredStringUuid, string body = null)
 
 
 
@@ -416,11 +416,12 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
+            var requiredStringUuid = "requiredStringUuid_example";  // Guid | Required UUID String
             var body = "body_example";  // string | Input string as post body (optional) 
 
             try
             {
-                string result = apiInstance.FakeOuterStringSerialize(body);
+                string result = apiInstance.FakeOuterStringSerialize(requiredStringUuid, body);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -440,7 +441,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    ApiResponse<string> response = apiInstance.FakeOuterStringSerializeWithHttpInfo(body);
+    ApiResponse<string> response = apiInstance.FakeOuterStringSerializeWithHttpInfo(requiredStringUuid, body);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -457,6 +458,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
+| **requiredStringUuid** | **Guid** | Required UUID String |  |
 | **body** | **string** | Input string as post body | [optional]  |
 
 ### Return type
@@ -480,7 +482,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getarrayofenums"></a>
+<a id="getarrayofenums"></a>
 # **GetArrayOfEnums**
 > List&lt;OuterEnum&gt; GetArrayOfEnums ()
 
@@ -568,7 +570,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="testbodywithfileschema"></a>
+<a id="testbodywithfileschema"></a>
 # **TestBodyWithFileSchema**
 > void TestBodyWithFileSchema (FileSchemaTestClass fileSchemaTestClass)
 
@@ -657,7 +659,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="testbodywithqueryparams"></a>
+<a id="testbodywithqueryparams"></a>
 # **TestBodyWithQueryParams**
 > void TestBodyWithQueryParams (string query, User user)
 
@@ -746,7 +748,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="testclientmodel"></a>
+<a id="testclientmodel"></a>
 # **TestClientModel**
 > ModelClient TestClientModel (ModelClient modelClient)
 
@@ -841,9 +843,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="testendpointparameters"></a>
+<a id="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, FileParameter binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+> void TestEndpointParameters (decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = null, int? int32 = null, long? int64 = null, float? varFloat = null, string varString = null, FileParameter binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -875,14 +877,14 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
             var number = 8.14D;  // decimal | None
-            var _double = 1.2D;  // double | None
+            var varDouble = 1.2D;  // double | None
             var patternWithoutDelimiter = "patternWithoutDelimiter_example";  // string | None
-            var _byte = System.Text.Encoding.ASCII.GetBytes("BYTE_ARRAY_DATA_HERE");  // byte[] | None
+            var varByte = System.Text.Encoding.ASCII.GetBytes("BYTE_ARRAY_DATA_HERE");  // byte[] | None
             var integer = 56;  // int? | None (optional) 
             var int32 = 56;  // int? | None (optional) 
             var int64 = 789L;  // long? | None (optional) 
-            var _float = 3.4F;  // float? | None (optional) 
-            var _string = "_string_example";  // string | None (optional) 
+            var varFloat = 3.4F;  // float? | None (optional) 
+            var varString = "string_example";  // string | None (optional) 
             var binary = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // FileParameter | None (optional) 
             var date = DateTime.Parse("2013-10-20");  // DateTime? | None (optional) 
             var dateTime = DateTime.Parse(""2010-02-01T10:20:10.111110+01:00"");  // DateTime? | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")
@@ -892,7 +894,7 @@ namespace Example
             try
             {
                 // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-                apiInstance.TestEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
+                apiInstance.TestEndpointParameters(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, dateTime, password, callback);
             }
             catch (ApiException  e)
             {
@@ -912,7 +914,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    apiInstance.TestEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
+    apiInstance.TestEndpointParametersWithHttpInfo(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, dateTime, password, callback);
 }
 catch (ApiException e)
 {
@@ -927,14 +929,14 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **number** | **decimal** | None |  |
-| **_double** | **double** | None |  |
+| **varDouble** | **double** | None |  |
 | **patternWithoutDelimiter** | **string** | None |  |
-| **_byte** | **byte[]** | None |  |
+| **varByte** | **byte[]** | None |  |
 | **integer** | **int?** | None | [optional]  |
 | **int32** | **int?** | None | [optional]  |
 | **int64** | **long?** | None | [optional]  |
-| **_float** | **float?** | None | [optional]  |
-| **_string** | **string** | None | [optional]  |
+| **varFloat** | **float?** | None | [optional]  |
+| **varString** | **string** | None | [optional]  |
 | **binary** | **FileParameter****FileParameter** | None | [optional]  |
 | **date** | **DateTime?** | None | [optional]  |
 | **dateTime** | **DateTime?** | None | [optional] [default to &quot;2010-02-01T10:20:10.111110+01:00&quot;] |
@@ -963,7 +965,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="testenumparameters"></a>
+<a id="testenumparameters"></a>
 # **TestEnumParameters**
 > void TestEnumParameters (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null)
 
@@ -1069,7 +1071,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="testgroupparameters"></a>
+<a id="testgroupparameters"></a>
 # **TestGroupParameters**
 > void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
 
@@ -1169,11 +1171,11 @@ void (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **400** | Someting wrong |  -  |
+| **400** | Something wrong |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="testinlineadditionalproperties"></a>
+<a id="testinlineadditionalproperties"></a>
 # **TestInlineAdditionalProperties**
 > void TestInlineAdditionalProperties (Dictionary<string, string> requestBody)
 
@@ -1262,7 +1264,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="testjsonformdata"></a>
+<a id="testjsonformdata"></a>
 # **TestJsonFormData**
 > void TestJsonFormData (string param, string param2)
 
@@ -1353,7 +1355,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="testqueryparametercollectionformat"></a>
+<a id="testqueryparametercollectionformat"></a>
 # **TestQueryParameterCollectionFormat**
 > void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
 

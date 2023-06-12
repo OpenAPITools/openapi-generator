@@ -1,17 +1,22 @@
 package org.openapitools.codegen.typescript.fetch;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_FETCH})
 public class TypeScriptFetchClientCodegenTest {
     @Test
     public void testSnapshotVersion() {
@@ -111,7 +116,7 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.additionalProperties().put("npmName", "@openapi/typescript-fetch-petstore");
         codegen.additionalProperties().put("snapshot", false);
         codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
-        codegen.setSupportsES6(true);
+        codegen.additionalProperties().put("supportsES6", true);
 
         codegen.processOpts();
 
@@ -126,7 +131,7 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.additionalProperties().put("npmName", "@openapi/typescript-fetch-petstore");
         codegen.additionalProperties().put("snapshot", false);
         codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
-        codegen.setSupportsES6(false);
+        codegen.additionalProperties().put("supportsES6", false);
 
         codegen.processOpts();
 

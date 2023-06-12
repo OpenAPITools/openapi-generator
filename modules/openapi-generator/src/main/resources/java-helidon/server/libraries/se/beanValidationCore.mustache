@@ -1,0 +1,16 @@
+{{#pattern}}{{#isString}}
+                ValidatorUtils.validatePattern({{paramName}}, "{{{pattern}}}");{{/isString}}{{/pattern}}{{#minLength}}{{#maxLength}}
+                ValidatorUtils.validateSize({{paramName}}, {{minLength}}, {{maxLength}});{{/maxLength}}{{/minLength}}{{#minLength}}{{^maxLength}}
+                ValidatorUtils.validateSize({{paramName}}, {{minLength}}, null);{{/maxLength}}{{/minLength}}{{^minLength}}{{#maxLength}}
+                ValidatorUtils.validateSize({{paramName}}, null, {{.}});{{/maxLength}}{{/minLength}}{{#minItems}}{{#maxItems}}
+                ValidatorUtils.validateSize({{paramName}}, {{minItems}}, {{maxItems}});{{/maxItems}}{{/minItems}}{{#minItems}}{{^maxItems}}
+                ValidatorUtils.validateSize({{paramName}}, {{minItems}}, null);{{/maxItems}}{{/minItems}}{{^minItems}}{{#maxItems}}
+                ValidatorUtils.validateSize({{paramName}}, null, {{.}});{{/maxItems}}{{/minItems}}{{#useBeanValidation}}{{#isEmail}}
+                //RFC 5322 for Email Validation
+                ValidatorUtils.validatePattern({{paramName}}, "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");{{/isEmail}}{{/useBeanValidation}}{{#isInteger}}{{#minimum}}
+                ValidatorUtils.validateMin({{paramName}}, {{.}});{{/minimum}}{{#maximum}}
+                ValidatorUtils.validateMax({{paramName}}, {{.}});{{/maximum}}{{/isInteger}}{{#isLong}}{{#minimum}}
+                ValidatorUtils.validateMin({{paramName}}.intValue(), {{.}});{{/minimum}}{{#maximum}}
+                ValidatorUtils.validateMax({{paramName}}.intValue(), {{.}});{{/maximum}}{{/isLong}}{{^isInteger}}{{^isLong}}{{#minimum}}
+                ValidatorUtils.validateMin({{paramName}}, "{{minimum}}", {{#exclusiveMinimum}}false{{/exclusiveMinimum}}{{^exclusiveMinimum}}true{{/exclusiveMinimum}});{{/minimum}}{{#maximum}}
+                ValidatorUtils.validateMax({{paramName}}, "{{maximum}}", {{#exclusiveMaximum}}false{{/exclusiveMaximum}}{{^exclusiveMaximum}}true{{/exclusiveMaximum}});{{/maximum}}{{/isLong}}{{/isInteger}}

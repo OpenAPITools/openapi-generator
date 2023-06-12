@@ -11,11 +11,13 @@
 part of openapi.api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://petstore.swagger.io:80/v2', this.authentication});
+  ApiClient({this.basePath = 'http://petstore.swagger.io:80/v2', this.authentication,});
 
   final String basePath;
+  final Authentication? authentication;
 
   var _client = Client();
+  final _defaultHeaderMap = <String, String>{};
 
   /// Returns the current HTTP [Client] instance to use in this class.
   ///
@@ -27,14 +29,11 @@ class ApiClient {
     _client = newClient;
   }
 
-  final _defaultHeaderMap = <String, String>{};
-  final Authentication? authentication;
+  Map<String, String> get defaultHeaderMap => _defaultHeaderMap;
 
   void addDefaultHeader(String key, String value) {
      _defaultHeaderMap[key] = value;
   }
-
-  Map<String,String> get defaultHeaderMap => _defaultHeaderMap;
 
   // We don't use a Map<String, String> for queryParams.
   // If collectionFormat is 'multi', a key might appear multiple times.
@@ -47,7 +46,7 @@ class ApiClient {
     Map<String, String> formParams,
     String? contentType,
   ) async {
-    _updateParamsForAuth(queryParams, headerParams);
+    await authentication?.applyToParams(queryParams, headerParams);
 
     headerParams.addAll(_defaultHeaderMap);
     if (contentType != null) {
@@ -165,16 +164,6 @@ class ApiClient {
   @Deprecated('Scheduled for removal in OpenAPI Generator 6.x. Use serializeAsync() instead.')
   String serialize(Object? value) => value == null ? '' : json.encode(value);
 
-  /// Update query and header parameters based on authentication settings.
-  void _updateParamsForAuth(
-    List<QueryParam> queryParams,
-    Map<String, String> headerParams,
-  ) {
-    if (authentication != null) {
-      authentication!.applyToParams(queryParams, headerParams);
-    }
-  }
-
   static dynamic _deserialize(dynamic value, String targetType, {bool growable = false}) {
     try {
       switch (targetType) {
@@ -210,8 +199,6 @@ class ApiClient {
           return Capitalization.fromJson(value);
         case 'Cat':
           return Cat.fromJson(value);
-        case 'CatAllOf':
-          return CatAllOf.fromJson(value);
         case 'Category':
           return Category.fromJson(value);
         case 'ClassModel':
@@ -220,14 +207,14 @@ class ApiClient {
           return DeprecatedObject.fromJson(value);
         case 'Dog':
           return Dog.fromJson(value);
-        case 'DogAllOf':
-          return DogAllOf.fromJson(value);
         case 'EnumArrays':
           return EnumArrays.fromJson(value);
         case 'EnumClass':
           return EnumClassTypeTransformer().decode(value);
         case 'EnumTest':
           return EnumTest.fromJson(value);
+        case 'FakeBigDecimalMap200Response':
+          return FakeBigDecimalMap200Response.fromJson(value);
         case 'FileSchemaTestClass':
           return FileSchemaTestClass.fromJson(value);
         case 'Foo':

@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -29,28 +28,32 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// List
     /// </summary>
-    public partial class List : IEquatable<List>, IValidatableObject
+    public partial class List : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="List" /> class.
         /// </summary>
-        /// <param name="_123list">_123list</param>
-        public List(string? _123list = default)
+        /// <param name="var123List">var123List</param>
+        [JsonConstructor]
+        public List(string var123List)
         {
-            _123List = _123list;
+            Var123List = var123List;
+            OnCreated();
         }
 
+        partial void OnCreated();
+
         /// <summary>
-        /// Gets or Sets _123List
+        /// Gets or Sets Var123List
         /// </summary>
         [JsonPropertyName("123-list")]
-        public string? _123List { get; set; }
+        public string Var123List { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -60,51 +63,10 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class List {\n");
-            sb.Append("  _123List: ").Append(_123List).Append("\n");
+            sb.Append("  Var123List: ").Append(Var123List).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
-        }
-
-        /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as List).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if List instances are equal
-        /// </summary>
-        /// <param name="input">Instance of List to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(List? input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = 41;
-                if (this._123List != null)
-                {
-                    hashCode = (hashCode * 59) + this._123List.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
         }
 
         /// <summary>
@@ -112,10 +74,80 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
+    /// <summary>
+    /// A Json converter for type <see cref="List" />
+    /// </summary>
+    public class ListJsonConverter : JsonConverter<List>
+    {
+        /// <summary>
+        /// Deserializes json to <see cref="List" />
+        /// </summary>
+        /// <param name="utf8JsonReader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override List Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
+        {
+            int currentDepth = utf8JsonReader.CurrentDepth;
+
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+
+            string? var123List = default;
+
+            while (utf8JsonReader.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                {
+                    string? propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "123-list":
+                            var123List = utf8JsonReader.GetString();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            if (var123List == null)
+                throw new ArgumentNullException(nameof(var123List), "Property is required for class List.");
+
+            return new List(var123List);
+        }
+
+        /// <summary>
+        /// Serializes a <see cref="List" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="list"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, List list, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteStartObject();
+
+            writer.WriteString("123-list", list.Var123List);
+
+            writer.WriteEndObject();
+        }
+    }
 }

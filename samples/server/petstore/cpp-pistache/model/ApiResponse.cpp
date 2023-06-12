@@ -77,7 +77,7 @@ bool ApiResponse::operator!=(const ApiResponse& rhs) const
 
 void to_json(nlohmann::json& j, const ApiResponse& o)
 {
-    j = nlohmann::json();
+    j = nlohmann::json::object();
     if(o.codeIsSet())
         j["code"] = o.m_Code;
     if(o.typeIsSet())

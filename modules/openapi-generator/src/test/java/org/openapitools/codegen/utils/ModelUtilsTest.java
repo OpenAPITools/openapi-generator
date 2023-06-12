@@ -60,7 +60,6 @@ public class ModelUtilsTest {
                 "SomeObj17",
                 "SomeObj18",
                 "Common18",
-                "SomeObj18_allOf",
                 "_some_p19_patch_request",
                 "Obj19ByAge",
                 "Obj19ByType",
@@ -95,9 +94,7 @@ public class ModelUtilsTest {
                 "UnusedObj4",
                 "Parent29",
                 "AChild29",
-                "BChild29",
-                "AChild29_allOf",
-                "BChild29_allOf"
+                "BChild29"
         );
         Assert.assertEquals(unusedSchemas.size(), expectedUnusedSchemas.size());
         Assert.assertTrue(unusedSchemas.containsAll(expectedUnusedSchemas));
@@ -206,7 +203,8 @@ public class ModelUtilsTest {
      */
     @Test
     public void testComposedSchemasAreNotUnaliased() {
-        ComposedSchema composedSchema = new ComposedSchema().allOf(Arrays.asList(
+        ComposedSchema composedSchema = new ComposedSchema();
+        composedSchema.allOf(Arrays.asList(
                 new Schema<>().$ref("#/components/schemas/SomeSchema"),
                 new ObjectSchema()
         ));

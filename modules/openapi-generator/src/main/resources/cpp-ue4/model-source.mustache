@@ -50,11 +50,6 @@ bool {{classname}}::EnumFromString(const FString& EnumAsString, {{classname}}::V
 	return FromString(EnumAsString, EnumValue);
 }
 
-inline FStringFormatArg ToStringFormatArg(const {{classname}}::Values& Value)
-{
-	return FStringFormatArg(ToString(Value));
-}
-
 inline void WriteJsonValue(JsonWriter& Writer, const {{classname}}::Values& Value)
 {
 	WriteJsonValue(Writer, ToString(Value));
@@ -113,11 +108,6 @@ inline bool FromString(const FString& EnumAsString, {{classname}}::{{{enumName}}
 bool {{classname}}::EnumFromString(const FString& EnumAsString, {{classname}}::{{{enumName}}}& EnumValue)
 {
 	return FromString(EnumAsString, EnumValue);
-}
-
-inline FStringFormatArg ToStringFormatArg(const {{classname}}::{{{enumName}}}& Value)
-{
-	return FStringFormatArg(ToString(Value));
 }
 
 inline void WriteJsonValue(JsonWriter& Writer, const {{classname}}::{{{enumName}}}& Value)

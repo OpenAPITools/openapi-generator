@@ -4,6 +4,8 @@
 
 // ignore_for_file: unused_import
 
+import 'package:one_of_serializer/any_of_serializer.dart';
+import 'package:one_of_serializer/one_of_serializer.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/json_object.dart';
 import 'package:built_value/serializer.dart';
@@ -21,14 +23,13 @@ import 'package:openapi/src/model/array_of_number_only.dart';
 import 'package:openapi/src/model/array_test.dart';
 import 'package:openapi/src/model/capitalization.dart';
 import 'package:openapi/src/model/cat.dart';
-import 'package:openapi/src/model/cat_all_of.dart';
 import 'package:openapi/src/model/category.dart';
 import 'package:openapi/src/model/class_model.dart';
 import 'package:openapi/src/model/deprecated_object.dart';
 import 'package:openapi/src/model/dog.dart';
-import 'package:openapi/src/model/dog_all_of.dart';
 import 'package:openapi/src/model/enum_arrays.dart';
 import 'package:openapi/src/model/enum_test.dart';
+import 'package:openapi/src/model/fake_big_decimal_map200_response.dart';
 import 'package:openapi/src/model/file_schema_test_class.dart';
 import 'package:openapi/src/model/foo.dart';
 import 'package:openapi/src/model/foo_get_default_response.dart';
@@ -66,21 +67,20 @@ part 'serializers.g.dart';
 @SerializersFor([
   AdditionalPropertiesClass,
   AllOfWithSingleRef,
-  Animal,
+  Animal,$Animal,
   ApiResponse,
   ArrayOfArrayOfNumberOnly,
   ArrayOfNumberOnly,
   ArrayTest,
   Capitalization,
   Cat,
-  CatAllOf,
   Category,
   ClassModel,
   DeprecatedObject,
   Dog,
-  DogAllOf,
   EnumArrays,
   EnumTest,
+  FakeBigDecimalMap200Response,
   FileSchemaTestClass,
   Foo,
   FooGetDefaultResponse,
@@ -146,6 +146,9 @@ Serializers serializers = (_$serializers.toBuilder()
         const FullType(BuiltList, [FullType(String)]),
         () => ListBuilder<String>(),
       )
+      ..add(Animal.serializer)
+      ..add(const OneOfSerializer())
+      ..add(const AnyOfSerializer())
       ..add(const DateSerializer())
       ..add(Iso8601DateTimeSerializer()))
     .build();

@@ -8,8 +8,8 @@ import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import {{javaxPackage}}.ws.rs.core.MediaType;
+import {{javaxPackage}}.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.ClientConfiguration;
 import org.apache.cxf.jaxrs.client.WebClient;
@@ -27,13 +27,11 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 import org.apache.cxf.jaxrs.provider.MultipartProvider;
 
-{{^fullJavaUtil}}
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-{{/fullJavaUtil}}
 
 {{#generateSpringBootApplication}}
 import org.junit.runner.RunWith;
@@ -44,13 +42,11 @@ import org.springframework.boot.web.server.LocalServerPort;
 {{/generateSpringBootApplication}}
 {{#generateOperationBody}}
 import java.io.File;
-{{^fullJavaUtil}}
 import java.util.Set;
-{{/fullJavaUtil}}
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import {{javaxPackage}}.validation.ConstraintViolation;
+import {{javaxPackage}}.validation.Validation;
+import {{javaxPackage}}.validation.Validator;
+import {{javaxPackage}}.validation.ValidatorFactory;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.BeforeClass;

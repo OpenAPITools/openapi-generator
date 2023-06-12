@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
 namespace Org.OpenAPITools.Client
@@ -20,7 +21,7 @@ namespace Org.OpenAPITools.Client
     public interface IApiResponse
     {
         /// <summary>
-        /// The data type of <see cref="Data"/>
+        /// The type that represents the server's response.
         /// </summary>
         Type ResponseType { get; }
 
@@ -31,9 +32,24 @@ namespace Org.OpenAPITools.Client
         HttpStatusCode StatusCode { get; }
 
         /// <summary>
-        /// The raw content of this response
+        /// The raw content of this response.
         /// </summary>
         string RawContent { get; }
+
+        /// <summary>
+        /// The DateTime when the request was retrieved.
+        /// </summary>
+        DateTime DownloadedAt { get; }
+
+        /// <summary>
+        /// The path used when making the request.
+        /// </summary>
+        string Path { get; }
+
+        /// <summary>
+        /// The Uri used when making the request.
+        /// </summary>
+        Uri RequestUri { get; }
     }
 
     /// <summary>
@@ -41,13 +57,6 @@ namespace Org.OpenAPITools.Client
     /// </summary>
     public partial class ApiResponse<T> : IApiResponse
     {
-        #region Properties
-
-        /// <summary>
-        /// The deserialized content
-        /// </summary>
-        public T Content { get; set; }
-
         /// <summary>
         /// Gets or sets the status code (HTTP status code)
         /// </summary>
@@ -55,7 +64,7 @@ namespace Org.OpenAPITools.Client
         public HttpStatusCode StatusCode { get; }
 
         /// <summary>
-        /// The content of this response
+        /// The type that represents the server's response.
         /// </summary>
         public Type ResponseType
         {
@@ -65,7 +74,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// The raw data
         /// </summary>
-        public string RawContent { get; }
+        public string RawContent { get; private set; }
 
         /// <summary>
         /// The IsSuccessStatusCode from the api response
@@ -82,20 +91,82 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         public System.Net.Http.Headers.HttpResponseHeaders Headers { get; }
 
-        #endregion Properties
+        /// <summary>
+        /// The DateTime when the request was retrieved.
+        /// </summary>
+        public DateTime DownloadedAt { get; } = DateTime.UtcNow;
 
         /// <summary>
-        /// Construct the reponse using an HttpResponseMessage
+        /// The DateTime when the request was sent.
         /// </summary>
-        /// <param name="response"></param>
+        public DateTime RequestedAt { get; }
+
+        /// <summary>
+        /// The path used when making the request.
+        /// </summary>
+        public string Path { get; }
+
+        /// <summary>
+        /// The Uri used when making the request.
+        /// </summary>
+        public Uri RequestUri { get; }
+
+        /// <summary>
+        /// The JsonSerialzierOptions
+        /// </summary>
+        private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
+
+        /// <summary>
+        /// Construct the response using an HttpResponseMessage
+        /// </summary>
+        /// <param name="httpRequestMessage"></param>
+        /// <param name="httpResponseMessage"></param>
         /// <param name="rawContent"></param>
-        public ApiResponse(System.Net.Http.HttpResponseMessage response, string rawContent)
+        /// <param name="path"></param>
+        /// <param name="requestedAt"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        public ApiResponse(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
         {
-            StatusCode = response.StatusCode;
-            Headers = response.Headers;
-            IsSuccessStatusCode = response.IsSuccessStatusCode;
-            ReasonPhrase = response.ReasonPhrase;
+            StatusCode = httpResponseMessage.StatusCode;
+            Headers = httpResponseMessage.Headers;
+            IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
+            ReasonPhrase = httpResponseMessage.ReasonPhrase;
             RawContent = rawContent;
+            Path = path;
+            RequestUri = httpRequestMessage.RequestUri;
+            RequestedAt = requestedAt;
+            _jsonSerializerOptions = jsonSerializerOptions;
+            OnCreated(httpRequestMessage, httpResponseMessage);
+        }
+
+        partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+        /// <summary>
+        /// Deserializes the server's response
+        /// </summary>
+        public T AsModel(System.Text.Json.JsonSerializerOptions options = null)
+        {
+            // This logic may be modified with the AsModel.mustache template
+            return IsSuccessStatusCode
+                ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, options ?? _jsonSerializerOptions)
+                : default(T);
+        }
+
+        /// <summary>
+        /// Returns true when the model can be deserialized
+        /// </summary>
+        public bool TryToModel([NotNullWhen(true)] out T model, System.Text.Json.JsonSerializerOptions options = null)
+        {
+            try
+            {
+                model = AsModel(options);
+                return model != null;
+            }
+            catch
+            {
+                model = default(T);
+                return false;
+            }
         }
     }
 }

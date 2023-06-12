@@ -27,8 +27,18 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class PizzaSpeziale extends Pizza {
 
-  @JsonProperty("toppings")
   private String toppings;
+
+  public PizzaSpeziale() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public PizzaSpeziale(String atType) {
+    super(atType);
+  }
 
   public PizzaSpeziale toppings(String toppings) {
     this.toppings = toppings;
@@ -40,7 +50,8 @@ public class PizzaSpeziale extends Pizza {
    * @return toppings
   */
   
-  @Schema(name = "toppings", required = false)
+  @Schema(name = "toppings", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("toppings")
   public String getToppings() {
     return toppings;
   }
@@ -48,6 +59,7 @@ public class PizzaSpeziale extends Pizza {
   public void setToppings(String toppings) {
     this.toppings = toppings;
   }
+
 
   public PizzaSpeziale pizzaSize(BigDecimal pizzaSize) {
     super.setPizzaSize(pizzaSize);
@@ -78,7 +90,6 @@ public class PizzaSpeziale extends Pizza {
     super.setAtType(atType);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

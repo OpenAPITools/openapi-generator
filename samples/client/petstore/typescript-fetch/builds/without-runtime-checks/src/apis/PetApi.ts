@@ -17,7 +17,7 @@ import * as runtime from '../runtime';
 import type {
   ModelApiResponse,
   Pet,
-} from '../models';
+} from '../models/index';
 
 export interface AddPetRequest {
     body: Pet;

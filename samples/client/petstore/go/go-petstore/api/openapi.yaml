@@ -354,7 +354,7 @@ paths:
       - store
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
-        values will generated exceptions
+        values will generate exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -641,7 +641,7 @@ paths:
       responses:
         "400":
           content: {}
-          description: Someting wrong
+          description: Something wrong
       summary: Fake endpoint to test group parameters (optional)
       tags:
       - fake
@@ -1303,15 +1303,29 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     BigCat:
       allOf:
       - $ref: '#/components/schemas/Cat'
-      - $ref: '#/components/schemas/BigCat_allOf'
+      - properties:
+          kind:
+            enum:
+            - lions
+            - tigers
+            - leopards
+            - jaguars
+            type: string
+        type: object
     Animal:
       discriminator:
         propertyName: className
@@ -1976,6 +1990,7 @@ components:
         status:
           description: Updated status of the pet
           type: string
+      type: object
     uploadFile_request:
       properties:
         additionalMetadata:
@@ -1985,6 +2000,7 @@ components:
           description: file to upload
           format: binary
           type: string
+      type: object
     testEnumParameters_request:
       properties:
         enum_form_string_array:
@@ -2004,6 +2020,7 @@ components:
           - -efg
           - (xyz)
           type: string
+      type: object
     testEndpointParameters_request:
       properties:
         integer:
@@ -2076,6 +2093,7 @@ components:
       - double
       - number
       - pattern_without_delimiter
+      type: object
     testJsonFormData_request:
       properties:
         param:
@@ -2087,6 +2105,7 @@ components:
       required:
       - param
       - param2
+      type: object
     uploadFileWithRequiredFile_request:
       properties:
         additionalMetadata:
@@ -2098,25 +2117,6 @@ components:
           type: string
       required:
       - requiredFile
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-    BigCat_allOf:
-      properties:
-        kind:
-          enum:
-          - lions
-          - tigers
-          - leopards
-          - jaguars
-          type: string
       type: object
   securitySchemes:
     petstore_auth:

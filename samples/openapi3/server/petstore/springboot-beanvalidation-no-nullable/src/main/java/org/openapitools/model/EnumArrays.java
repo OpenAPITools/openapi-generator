@@ -58,7 +58,6 @@ public class EnumArrays {
     }
   }
 
-  @JsonProperty("just_symbol")
   private JustSymbolEnum justSymbol;
 
   /**
@@ -96,7 +95,6 @@ public class EnumArrays {
     }
   }
 
-  @JsonProperty("array_enum")
   @Valid
   private List<ArrayEnumEnum> arrayEnum = null;
 
@@ -110,7 +108,8 @@ public class EnumArrays {
    * @return justSymbol
   */
   
-  @Schema(name = "just_symbol", required = false)
+  @Schema(name = "just_symbol", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("just_symbol")
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -126,7 +125,7 @@ public class EnumArrays {
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
     if (this.arrayEnum == null) {
-      this.arrayEnum = new ArrayList<>();
+      this.arrayEnum = ;
     }
     this.arrayEnum.add(arrayEnumItem);
     return this;
@@ -137,7 +136,8 @@ public class EnumArrays {
    * @return arrayEnum
   */
   
-  @Schema(name = "array_enum", required = false)
+  @Schema(name = "array_enum", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }

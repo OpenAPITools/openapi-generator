@@ -14,11 +14,9 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -55,47 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Capitalization>(instance);
         }
 
-
-        /// <summary>
-        /// Test the property 'SmallCamel'
-        /// </summary>
-        [Fact]
-        public void SmallCamelTest()
-        {
-            // TODO unit test for the property 'SmallCamel'
-        }
-        /// <summary>
-        /// Test the property 'CapitalCamel'
-        /// </summary>
-        [Fact]
-        public void CapitalCamelTest()
-        {
-            // TODO unit test for the property 'CapitalCamel'
-        }
-        /// <summary>
-        /// Test the property 'SmallSnake'
-        /// </summary>
-        [Fact]
-        public void SmallSnakeTest()
-        {
-            // TODO unit test for the property 'SmallSnake'
-        }
-        /// <summary>
-        /// Test the property 'CapitalSnake'
-        /// </summary>
-        [Fact]
-        public void CapitalSnakeTest()
-        {
-            // TODO unit test for the property 'CapitalSnake'
-        }
-        /// <summary>
-        /// Test the property 'SCAETHFlowPoints'
-        /// </summary>
-        [Fact]
-        public void SCAETHFlowPointsTest()
-        {
-            // TODO unit test for the property 'SCAETHFlowPoints'
-        }
         /// <summary>
         /// Test the property 'ATT_NAME'
         /// </summary>
@@ -105,6 +62,49 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'ATT_NAME'
         }
 
-    }
+        /// <summary>
+        /// Test the property 'CapitalCamel'
+        /// </summary>
+        [Fact]
+        public void CapitalCamelTest()
+        {
+            // TODO unit test for the property 'CapitalCamel'
+        }
 
+        /// <summary>
+        /// Test the property 'CapitalSnake'
+        /// </summary>
+        [Fact]
+        public void CapitalSnakeTest()
+        {
+            // TODO unit test for the property 'CapitalSnake'
+        }
+
+        /// <summary>
+        /// Test the property 'SCAETHFlowPoints'
+        /// </summary>
+        [Fact]
+        public void SCAETHFlowPointsTest()
+        {
+            // TODO unit test for the property 'SCAETHFlowPoints'
+        }
+
+        /// <summary>
+        /// Test the property 'SmallCamel'
+        /// </summary>
+        [Fact]
+        public void SmallCamelTest()
+        {
+            // TODO unit test for the property 'SmallCamel'
+        }
+
+        /// <summary>
+        /// Test the property 'SmallSnake'
+        /// </summary>
+        [Fact]
+        public void SmallSnakeTest()
+        {
+            // TODO unit test for the property 'SmallSnake'
+        }
+    }
 }

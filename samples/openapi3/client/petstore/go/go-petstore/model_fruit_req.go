@@ -71,11 +71,11 @@ func (dst *FruitReq) UnmarshalJSON(data []byte) error {
 		dst.AppleReq = nil
 		dst.BananaReq = nil
 
-		return fmt.Errorf("Data matches more than one schema in oneOf(FruitReq)")
+		return fmt.Errorf("data matches more than one schema in oneOf(FruitReq)")
 	} else if match == 1 {
 		return nil // exactly one match
 	} else { // no match
-		return fmt.Errorf("Data failed to match schemas in oneOf(FruitReq)")
+		return fmt.Errorf("data failed to match schemas in oneOf(FruitReq)")
 	}
 }
 

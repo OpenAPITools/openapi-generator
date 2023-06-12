@@ -14,14 +14,20 @@ return CompletableFuture.supplyAsync(()-> {
     {{#-last}}
 {{#async}}        {{/async}}{{^async}}    {{/async}}        }
 {{#async}}    {{/async}}        });
-{{#async}}    {{/async}}        return new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});
+{{#async}}    {{/async}}        {{#useResponseEntity}}return new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});
+{{/useResponseEntity}}
+{{^useResponseEntity}}throw new IllegalArgumentException("Not implemented");
+{{/useResponseEntity}}
             {{#async}}
         }, Runnable::run);
             {{/async}}
     {{/-last}}
 {{/examples}}
 {{^examples}}
-return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}}){{#async}}){{/async}};
+{{#useResponseEntity}}return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}}){{#async}}){{/async}};
+{{/useResponseEntity}}
+{{^useResponseEntity}}throw new IllegalArgumentException("Not implemented");
+{{/useResponseEntity}}
 {{/examples}}
 {{/reactive}}
 {{#reactive}}
@@ -43,5 +49,5 @@ Mono<Void> result = Mono.empty();
 {{^examples}}
         exchange.getResponse().setStatusCode({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});
 {{/examples}}
-        return result.then(Mono.empty());
+        return result{{#allParams}}{{#isBodyParam}}{{^isArray}}{{#paramName}}.then({{.}}){{/paramName}}{{/isArray}}{{#isArray}}{{#paramName}}.thenMany({{.}}){{/paramName}}{{/isArray}}{{/isBodyParam}}{{/allParams}}.then(Mono.empty());
 {{/reactive}}

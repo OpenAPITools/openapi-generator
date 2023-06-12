@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
@@ -27,21 +26,22 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Zebra
     /// </summary>
-    public partial class Zebra : Dictionary<String, Object>, IEquatable<Zebra>, IValidatableObject
+    public partial class Zebra : Dictionary<String, Object>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Zebra" /> class.
         /// </summary>
-        /// <param name="className">className (required)</param>
+        /// <param name="className">className</param>
         /// <param name="type">type</param>
-        public Zebra(string className, TypeEnum type = default) : base()
+        [JsonConstructor]
+        public Zebra(string className, TypeEnum type) : base()
         {
-            if (className == null)
-                throw new ArgumentNullException("className is a required property for Zebra and cannot be null.");
-
             ClassName = className;
             Type = type;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Defines Type
@@ -51,21 +51,76 @@ namespace Org.OpenAPITools.Model
             /// <summary>
             /// Enum Plains for value: plains
             /// </summary>
-            [EnumMember(Value = "plains")]
             Plains = 1,
 
             /// <summary>
             /// Enum Mountain for value: mountain
             /// </summary>
-            [EnumMember(Value = "mountain")]
             Mountain = 2,
 
             /// <summary>
             /// Enum Grevys for value: grevys
             /// </summary>
-            [EnumMember(Value = "grevys")]
             Grevys = 3
+        }
 
+        /// <summary>
+        /// Returns a <see cref="TypeEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static TypeEnum TypeEnumFromString(string value)
+        {
+            if (value == "plains")
+                return TypeEnum.Plains;
+
+            if (value == "mountain")
+                return TypeEnum.Mountain;
+
+            if (value == "grevys")
+                return TypeEnum.Grevys;
+
+            throw new NotImplementedException($"Could not convert value to type TypeEnum: '{value}'");
+        }
+
+        /// <summary>
+        /// Returns a <see cref="TypeEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static TypeEnum? TypeEnumFromStringOrDefault(string value)
+        {
+            if (value == "plains")
+                return TypeEnum.Plains;
+
+            if (value == "mountain")
+                return TypeEnum.Mountain;
+
+            if (value == "grevys")
+                return TypeEnum.Grevys;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="TypeEnum"/> to the json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static string TypeEnumToJsonValue(TypeEnum value)
+        {
+            if (value == TypeEnum.Plains)
+                return "plains";
+
+            if (value == TypeEnum.Mountain)
+                return "mountain";
+
+            if (value == TypeEnum.Grevys)
+                return "grevys";
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
 
         /// <summary>
@@ -84,7 +139,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -94,7 +149,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Zebra {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -103,56 +158,100 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns true if objects are equal
-        /// </summary>
-        /// <param name="input">Object to be compared</param>
-        /// <returns>Boolean</returns>
-        public override bool Equals(object input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as Zebra).AreEqual;
-        }
-
-        /// <summary>
-        /// Returns true if Zebra instances are equal
-        /// </summary>
-        /// <param name="input">Instance of Zebra to be compared</param>
-        /// <returns>Boolean</returns>
-        public bool Equals(Zebra input)
-        {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
-        }
-
-        /// <summary>
-        /// Gets the hash code
-        /// </summary>
-        /// <returns>Hash code</returns>
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hashCode = base.GetHashCode();
-                if (this.ClassName != null)
-                {
-                    hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
-                }
-                hashCode = (hashCode * 59) + this.Type.GetHashCode();
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
-                }
-                return hashCode;
-            }
-        }
-
-        /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
+    /// <summary>
+    /// A Json converter for type <see cref="Zebra" />
+    /// </summary>
+    public class ZebraJsonConverter : JsonConverter<Zebra>
+    {
+        /// <summary>
+        /// Deserializes json to <see cref="Zebra" />
+        /// </summary>
+        /// <param name="utf8JsonReader"></param>
+        /// <param name="typeToConvert"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public override Zebra Read(ref Utf8JsonReader utf8JsonReader, Type typeToConvert, JsonSerializerOptions jsonSerializerOptions)
+        {
+            int currentDepth = utf8JsonReader.CurrentDepth;
+
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+
+            string className = default;
+            Zebra.TypeEnum? type = default;
+
+            while (utf8JsonReader.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                {
+                    string propertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
+
+                    switch (propertyName)
+                    {
+                        case "className":
+                            className = utf8JsonReader.GetString();
+                            break;
+                        case "type":
+                            string typeRawValue = utf8JsonReader.GetString();
+                            type = typeRawValue == null
+                                ? null
+                                : Zebra.TypeEnumFromStringOrDefault(typeRawValue);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Zebra.");
+
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class Zebra.");
+
+            return new Zebra(className, type.Value);
+        }
+
+        /// <summary>
+        /// Serializes a <see cref="Zebra" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="zebra"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public override void Write(Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteStartObject();
+
+            writer.WriteString("className", zebra.ClassName);
+
+            var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type);
+            if (typeRawValue != null)
+                writer.WriteString("type", typeRawValue);
+            else
+                writer.WriteNull("type");
+
+            writer.WriteEndObject();
+        }
+    }
 }

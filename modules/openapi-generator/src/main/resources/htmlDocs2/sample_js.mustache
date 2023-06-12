@@ -1,11 +1,11 @@
 var {{{jsModuleName}}} = require('{{{jsProjectName}}}');
 {{#hasAuthMethods}}
 var defaultClient = {{{jsModuleName}}}.ApiClient.instance;
-{{#authMethods}}{{^isBasicBearer}}{{#isBasic}}
+{{#authMethods}}{{#isBasicBasic}}
 // Configure HTTP basic authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.username = 'YOUR USERNAME';
-{{{name}}}.password = 'YOUR PASSWORD';{{/isBasic}}{{/isBasicBearer}}{{#isBasicBearer}}
+{{{name}}}.password = 'YOUR PASSWORD';{{/isBasicBasic}}{{#isBasicBearer}}
 // Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.accessToken = "YOUR ACCESS TOKEN";{{/isBasicBearer}}{{#isApiKey}}

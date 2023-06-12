@@ -73,8 +73,8 @@ public:
     bool nameIsSet() const;
     void unsetName();
 
-    friend void to_json(nlohmann::json& j, const Category& o);
-    friend void from_json(const nlohmann::json& j, Category& o);
+    friend  void to_json(nlohmann::json& j, const Category& o);
+    friend  void from_json(const nlohmann::json& j, Category& o);
 protected:
     int64_t m_Id;
     bool m_IdIsSet;

@@ -125,7 +125,7 @@ Method | HTTP request | Description
 
 
 ## Documentation For Authorization
- Endpoints do not require authorization.
+Endpoints do not require authorization.
 
 
 ## Author

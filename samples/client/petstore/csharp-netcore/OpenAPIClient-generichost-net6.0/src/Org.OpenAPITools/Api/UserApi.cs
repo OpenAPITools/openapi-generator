@@ -19,10 +19,11 @@ using System.Text.Json;
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Model;
 
-namespace Org.OpenAPITools.Api
+namespace Org.OpenAPITools.IApi
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
     /// </summary>
     public interface IUserApi : IApi
     {
@@ -36,7 +37,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">Created user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> CreateUserWithHttpInfoAsync(User user, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> CreateUserAsync(User user, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Create user
@@ -44,22 +45,10 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// This can only be done by the logged in user.
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="user">Created user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> CreateUserAsync(User user, System.Threading.CancellationToken? cancellationToken = null);
-        /// <summary>
-        /// Creates list of users with given input array
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> CreateUsersWithArrayInputWithHttpInfoAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> CreateUserOrDefaultAsync(User user, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Creates list of users with given input array
@@ -70,19 +59,19 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> CreateUsersWithArrayInputAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> CreateUsersWithArrayInputAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default);
+
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> CreateUsersWithListInputWithHttpInfoAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> CreateUsersWithArrayInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Creates list of users with given input array
@@ -93,19 +82,19 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> CreateUsersWithListInputAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> CreateUsersWithListInputAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default);
+
         /// <summary>
-        /// Delete user
+        /// Creates list of users with given input array
         /// </summary>
         /// <remarks>
-        /// This can only be done by the logged in user.
+        /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be deleted</param>
+        /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> DeleteUserWithHttpInfoAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> CreateUsersWithListInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete user
@@ -116,8 +105,20 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">The name that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> DeleteUserAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> DeleteUserAsync(string username, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Delete user
+        /// </summary>
+        /// <remarks>
+        /// This can only be done by the logged in user.
+        /// </remarks>
+        /// <param name="username">The name that needs to be deleted</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> DeleteUserOrDefaultAsync(string username, System.Threading.CancellationToken cancellationToken = default);
+
         /// <summary>
         /// Get user by user name
         /// </summary>
@@ -128,7 +129,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;User&gt;&gt;</returns>
-        Task<ApiResponse<User>> GetUserByNameWithHttpInfoAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<User>> GetUserByNameAsync(string username, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get user by user name
@@ -136,11 +137,11 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;User&gt;</returns>
-        Task<User> GetUserByNameAsync(string username, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;User&gt;&gt;</returns>
+        Task<ApiResponse<User>> GetUserByNameOrDefaultAsync(string username, System.Threading.CancellationToken cancellationToken = default);
+
         /// <summary>
         /// Logs user into the system
         /// </summary>
@@ -152,7 +153,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">The password for login in clear text</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;string&gt;&gt;</returns>
-        Task<ApiResponse<string>> LoginUserWithHttpInfoAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<string>> LoginUserAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Logs user into the system
@@ -160,22 +161,11 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;string&gt;</returns>
-        Task<string> LoginUserAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null);
-        /// <summary>
-        /// Logs out current logged in user session
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> LogoutUserWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;string&gt;&gt;</returns>
+        Task<ApiResponse<string>> LoginUserOrDefaultAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Logs out current logged in user session
@@ -185,8 +175,19 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> LogoutUserAsync(System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> LogoutUserAsync(System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Logs out current logged in user session
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> LogoutUserOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+
         /// <summary>
         /// Updated user
         /// </summary>
@@ -194,11 +195,11 @@ namespace Org.OpenAPITools.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
         /// <param name="user">Updated user object</param>
+        /// <param name="username">name that need to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> UpdateUserWithHttpInfoAsync(string username, User user, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> UpdateUserAsync(User user, string username, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updated user
@@ -206,25 +207,22 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// This can only be done by the logged in user.
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
         /// <param name="user">Updated user object</param>
+        /// <param name="username">name that need to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> UpdateUserAsync(string username, User user, System.Threading.CancellationToken? cancellationToken = null);    }
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> UpdateUserOrDefaultAsync(User user, string username, System.Threading.CancellationToken cancellationToken = default);
+    }
+}
 
+namespace Org.OpenAPITools.Api
+{
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class UserApi : IUserApi
+    public sealed partial class UserApi : IApi.IUserApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
-
-        /// <summary>
-        /// An event to track the health of the server. 
-        /// If you store these event args, be sure to purge old event args to prevent a memory leak.
-        /// </summary>
-        public event ClientUtils.EventHandler<ApiResponseEventArgs> ApiResponded;
 
         /// <summary>
         /// The logger
@@ -265,11 +263,11 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="UserApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public UserApi(ILogger<UserApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, 
-            TokenProvider<ApiKeyToken> apiKeyProvider, 
-            TokenProvider<BearerToken> bearerTokenProvider, 
-            TokenProvider<BasicToken> basicTokenProvider, 
-            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider, 
+        public UserApi(ILogger<UserApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider,
+            TokenProvider<ApiKeyToken> apiKeyProvider,
+            TokenProvider<BearerToken> bearerTokenProvider,
+            TokenProvider<BasicToken> basicTokenProvider,
+            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider,
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
@@ -282,44 +280,81 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
+        partial void FormatCreateUser(User user);
+
         /// <summary>
-        /// Create user This can only be done by the logged in user.
+        /// Validates the request parameters
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">Created user object</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> CreateUserAsync(User user, System.Threading.CancellationToken? cancellationToken = null)
+        /// <param name="user"></param>
+        /// <returns></returns>
+        private void ValidateCreateUser(User user)
         {
-            ApiResponse<object> result = await CreateUserWithHttpInfoAsync(user, cancellationToken).ConfigureAwait(false);
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
 
-            return result.Content;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="user"></param>
+        private void AfterCreateUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar, User user)
+        {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterCreateUser(apiResponseLocalVar, user);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="user"></param>
+        partial void AfterCreateUser(ApiResponse<object> apiResponseLocalVar, User user);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        private void OnErrorCreateUserDefaultImplementation(Exception exception, string pathFormat, string path, User user)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorCreateUser(exception, pathFormat, path, user);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        partial void OnErrorCreateUser(Exception exception, string pathFormat, string path, User user);
+
+        /// <summary>
         /// Create user This can only be done by the logged in user.
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="user">Created user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> CreateUserOrDefaultAsync(User user, System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> CreateUserOrDefaultAsync(User user, System.Threading.CancellationToken cancellationToken = default)
         {
-            ApiResponse<object> result = null;
-            try 
+            try
             {
-                result = await CreateUserWithHttpInfoAsync(user, cancellationToken).ConfigureAwait(false);
+                return await CreateUserAsync(user, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
+                return null;
             }
-
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
-                : null;
         }
 
         /// <summary>
@@ -329,113 +364,136 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">Created user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> CreateUserWithHttpInfoAsync(User user, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> CreateUserAsync(User user, System.Threading.CancellationToken cancellationToken = default)
         {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
             try
             {
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                ValidateCreateUser(user);
 
-                if (user == null)
-                    throw new ArgumentNullException(nameof(user));
+                FormatCreateUser(user);
 
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user";
 
-                    request.Content = (user as object) is System.IO.Stream stream
-                        ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
+                    httpRequestMessageLocalVar.Content = (user as object) is System.IO.Stream stream
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
-                    request.RequestUri = uriBuilder.Uri;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
-                    string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
+                    string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
-                        
-                    request.Method = HttpMethod.Post;
+                    if (contentTypeLocalVar != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        DateTime requestedAt = DateTime.UtcNow;
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        AfterCreateUserDefaultImplementation(apiResponseLocalVar, user);
 
-                        ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
-
-                        if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
-
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                OnErrorCreateUserDefaultImplementation(e, "/user", uriBuilderLocalVar.Path, user);
                 throw;
             }
         }
 
+        partial void FormatCreateUsersWithArrayInput(List<User> user);
+
         /// <summary>
-        /// Creates list of users with given input array 
+        /// Validates the request parameters
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> CreateUsersWithArrayInputAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null)
+        /// <param name="user"></param>
+        /// <returns></returns>
+        private void ValidateCreateUsersWithArrayInput(List<User> user)
         {
-            ApiResponse<object> result = await CreateUsersWithArrayInputWithHttpInfoAsync(user, cancellationToken).ConfigureAwait(false);
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
 
-            return result.Content;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="user"></param>
+        private void AfterCreateUsersWithArrayInputDefaultImplementation(ApiResponse<object> apiResponseLocalVar, List<User> user)
+        {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterCreateUsersWithArrayInput(apiResponseLocalVar, user);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="user"></param>
+        partial void AfterCreateUsersWithArrayInput(ApiResponse<object> apiResponseLocalVar, List<User> user);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        private void OnErrorCreateUsersWithArrayInputDefaultImplementation(Exception exception, string pathFormat, string path, List<User> user)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorCreateUsersWithArrayInput(exception, pathFormat, path, user);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        partial void OnErrorCreateUsersWithArrayInput(Exception exception, string pathFormat, string path, List<User> user);
+
+        /// <summary>
         /// Creates list of users with given input array 
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> CreateUsersWithArrayInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> CreateUsersWithArrayInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default)
         {
-            ApiResponse<object> result = null;
-            try 
+            try
             {
-                result = await CreateUsersWithArrayInputWithHttpInfoAsync(user, cancellationToken).ConfigureAwait(false);
+                return await CreateUsersWithArrayInputAsync(user, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
+                return null;
             }
-
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
-                : null;
         }
 
         /// <summary>
@@ -445,113 +503,136 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> CreateUsersWithArrayInputWithHttpInfoAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> CreateUsersWithArrayInputAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default)
         {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
             try
             {
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                ValidateCreateUsersWithArrayInput(user);
 
-                if (user == null)
-                    throw new ArgumentNullException(nameof(user));
+                FormatCreateUsersWithArrayInput(user);
 
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/createWithArray";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/createWithArray";
 
-                    request.Content = (user as object) is System.IO.Stream stream
-                        ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
+                    httpRequestMessageLocalVar.Content = (user as object) is System.IO.Stream stream
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
-                    request.RequestUri = uriBuilder.Uri;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
-                    string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
+                    string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
-                        
-                    request.Method = HttpMethod.Post;
+                    if (contentTypeLocalVar != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        DateTime requestedAt = DateTime.UtcNow;
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/createWithArray", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/createWithArray"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        AfterCreateUsersWithArrayInputDefaultImplementation(apiResponseLocalVar, user);
 
-                        ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
-
-                        if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
-
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                OnErrorCreateUsersWithArrayInputDefaultImplementation(e, "/user/createWithArray", uriBuilderLocalVar.Path, user);
                 throw;
             }
         }
 
+        partial void FormatCreateUsersWithListInput(List<User> user);
+
         /// <summary>
-        /// Creates list of users with given input array 
+        /// Validates the request parameters
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> CreateUsersWithListInputAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null)
+        /// <param name="user"></param>
+        /// <returns></returns>
+        private void ValidateCreateUsersWithListInput(List<User> user)
         {
-            ApiResponse<object> result = await CreateUsersWithListInputWithHttpInfoAsync(user, cancellationToken).ConfigureAwait(false);
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
 
-            return result.Content;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="user"></param>
+        private void AfterCreateUsersWithListInputDefaultImplementation(ApiResponse<object> apiResponseLocalVar, List<User> user)
+        {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterCreateUsersWithListInput(apiResponseLocalVar, user);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="user"></param>
+        partial void AfterCreateUsersWithListInput(ApiResponse<object> apiResponseLocalVar, List<User> user);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        private void OnErrorCreateUsersWithListInputDefaultImplementation(Exception exception, string pathFormat, string path, List<User> user)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorCreateUsersWithListInput(exception, pathFormat, path, user);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        partial void OnErrorCreateUsersWithListInput(Exception exception, string pathFormat, string path, List<User> user);
+
+        /// <summary>
         /// Creates list of users with given input array 
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> CreateUsersWithListInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> CreateUsersWithListInputOrDefaultAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default)
         {
-            ApiResponse<object> result = null;
-            try 
+            try
             {
-                result = await CreateUsersWithListInputWithHttpInfoAsync(user, cancellationToken).ConfigureAwait(false);
+                return await CreateUsersWithListInputAsync(user, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
+                return null;
             }
-
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
-                : null;
         }
 
         /// <summary>
@@ -561,72 +642,135 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">List of user object</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> CreateUsersWithListInputWithHttpInfoAsync(List<User> user, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> CreateUsersWithListInputAsync(List<User> user, System.Threading.CancellationToken cancellationToken = default)
         {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
             try
             {
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                ValidateCreateUsersWithListInput(user);
 
-                if (user == null)
-                    throw new ArgumentNullException(nameof(user));
+                FormatCreateUsersWithListInput(user);
 
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/createWithList";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/createWithList";
 
-                    request.Content = (user as object) is System.IO.Stream stream
-                        ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
+                    httpRequestMessageLocalVar.Content = (user as object) is System.IO.Stream stream
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
-                    request.RequestUri = uriBuilder.Uri;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
-                    string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
+                    string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
-                        
-                    request.Method = HttpMethod.Post;
+                    if (contentTypeLocalVar != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        DateTime requestedAt = DateTime.UtcNow;
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/createWithList", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/createWithList"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        AfterCreateUsersWithListInputDefaultImplementation(apiResponseLocalVar, user);
 
-                        ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
-
-                        if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
-
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                OnErrorCreateUsersWithListInputDefaultImplementation(e, "/user/createWithList", uriBuilderLocalVar.Path, user);
                 throw;
+            }
+        }
+
+        partial void FormatDeleteUser(ref string username);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        private void ValidateDeleteUser(string username)
+        {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (username == null)
+                throw new ArgumentNullException(nameof(username));
+
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="username"></param>
+        private void AfterDeleteUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar, string username)
+        {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterDeleteUser(apiResponseLocalVar, username);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="username"></param>
+        partial void AfterDeleteUser(ApiResponse<object> apiResponseLocalVar, string username);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="username"></param>
+        private void OnErrorDeleteUserDefaultImplementation(Exception exception, string pathFormat, string path, string username)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorDeleteUser(exception, pathFormat, path, username);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="username"></param>
+        partial void OnErrorDeleteUser(Exception exception, string pathFormat, string path, string username);
+
+        /// <summary>
+        /// Delete user This can only be done by the logged in user.
+        /// </summary>
+        /// <param name="username">The name that needs to be deleted</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> DeleteUserOrDefaultAsync(string username, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await DeleteUserAsync(username, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
 
@@ -636,142 +780,125 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">The name that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> DeleteUserAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> result = await DeleteUserWithHttpInfoAsync(username, cancellationToken).ConfigureAwait(false);
-
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
-
-            return result.Content;
-        }
-
-        /// <summary>
-        /// Delete user This can only be done by the logged in user.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be deleted</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> DeleteUserOrDefaultAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> result = null;
-            try 
-            {
-                result = await DeleteUserWithHttpInfoAsync(username, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
-                : null;
-        }
-
-        /// <summary>
-        /// Delete user This can only be done by the logged in user.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be deleted</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> DeleteUserWithHttpInfoAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> DeleteUserAsync(string username, System.Threading.CancellationToken cancellationToken = default)
         {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
             try
             {
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                ValidateDeleteUser(username);
 
-                if (username == null)
-                    throw new ArgumentNullException(nameof(username));
+                FormatDeleteUser(ref username);
 
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
-                    uriBuilder.Path = uriBuilder.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
 
-                    request.RequestUri = uriBuilder.Uri;
-                        
-                    request.Method = HttpMethod.Delete;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    httpRequestMessageLocalVar.Method = HttpMethod.Delete;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        DateTime requestedAt = DateTime.UtcNow;
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        AfterDeleteUserDefaultImplementation(apiResponseLocalVar, username);
 
-                        ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
-
-                        if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
-
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                OnErrorDeleteUserDefaultImplementation(e, "/user/{username}", uriBuilderLocalVar.Path, username);
                 throw;
             }
         }
+
+        partial void FormatGetUserByName(ref string username);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        private void ValidateGetUserByName(string username)
+        {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (username == null)
+                throw new ArgumentNullException(nameof(username));
+
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="username"></param>
+        private void AfterGetUserByNameDefaultImplementation(ApiResponse<User> apiResponseLocalVar, string username)
+        {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterGetUserByName(apiResponseLocalVar, username);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="username"></param>
+        partial void AfterGetUserByName(ApiResponse<User> apiResponseLocalVar, string username);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="username"></param>
+        private void OnErrorGetUserByNameDefaultImplementation(Exception exception, string pathFormat, string path, string username)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorGetUserByName(exception, pathFormat, path, username);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="username"></param>
+        partial void OnErrorGetUserByName(Exception exception, string pathFormat, string path, string username);
 
         /// <summary>
         /// Get user by user name 
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="User"/>&gt;</returns>
-        public async Task<User> GetUserByNameAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="User"/></returns>
+        public async Task<ApiResponse<User>> GetUserByNameOrDefaultAsync(string username, System.Threading.CancellationToken cancellationToken = default)
         {
-            ApiResponse<User> result = await GetUserByNameWithHttpInfoAsync(username, cancellationToken).ConfigureAwait(false);
-
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
-
-            return result.Content;
-        }
-
-        /// <summary>
-        /// Get user by user name 
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="User"/>&gt;</returns>
-        public async Task<User> GetUserByNameOrDefaultAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<User> result = null;
-            try 
+            try
             {
-                result = await GetUserByNameWithHttpInfoAsync(username, cancellationToken).ConfigureAwait(false);
+                return await GetUserByNameAsync(username, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
+                return null;
             }
-
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
-                : null;
         }
 
         /// <summary>
@@ -781,91 +908,143 @@ namespace Org.OpenAPITools.Api
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="User"/></returns>
-        public async Task<ApiResponse<User>> GetUserByNameWithHttpInfoAsync(string username, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<User>> GetUserByNameAsync(string username, System.Threading.CancellationToken cancellationToken = default)
         {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
             try
             {
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                ValidateGetUserByName(username);
 
-                if (username == null)
-                    throw new ArgumentNullException(nameof(username));
+                FormatGetUserByName(ref username);
 
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
-                    uriBuilder.Path = uriBuilder.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
 
-                    request.RequestUri = uriBuilder.Uri;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    string[] accepts = new string[] { 
-                        "application/xml", 
-                        "application/json" 
+                    string[] acceptLocalVars = new string[] {
+                        "application/xml",
+                        "application/json"
                     };
 
-                    string accept = ClientUtils.SelectHeaderAccept(accepts);
+                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
-                    if (accept != null)
-                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
-                    request.Method = HttpMethod.Get;
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        DateTime requestedAt = DateTime.UtcNow;
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        ApiResponse<User> apiResponseLocalVar = new ApiResponse<User>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        AfterGetUserByNameDefaultImplementation(apiResponseLocalVar, username);
 
-                        ApiResponse<User> apiResponse = new ApiResponse<User>(responseMessage, responseContent);
-
-                        if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = JsonSerializer.Deserialize<User>(apiResponse.RawContent, _jsonSerializerOptions);
-
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                OnErrorGetUserByNameDefaultImplementation(e, "/user/{username}", uriBuilderLocalVar.Path, username);
                 throw;
             }
         }
 
+        partial void FormatLoginUser(ref string username, ref string password);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        private void ValidateLoginUser(string username, string password)
+        {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (username == null)
+                throw new ArgumentNullException(nameof(username));
+
+            if (password == null)
+                throw new ArgumentNullException(nameof(password));
+
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        private void AfterLoginUserDefaultImplementation(ApiResponse<string> apiResponseLocalVar, string username, string password)
+        {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterLoginUser(apiResponseLocalVar, username, password);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        partial void AfterLoginUser(ApiResponse<string> apiResponseLocalVar, string username, string password);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        private void OnErrorLoginUserDefaultImplementation(Exception exception, string pathFormat, string path, string username, string password)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorLoginUser(exception, pathFormat, path, username, password);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        partial void OnErrorLoginUser(Exception exception, string pathFormat, string path, string username, string password);
+
         /// <summary>
         /// Logs user into the system 
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">The user name for login</param>
         /// <param name="password">The password for login in clear text</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="string"/>&gt;</returns>
-        public async Task<string> LoginUserAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="string"/></returns>
+        public async Task<ApiResponse<string>> LoginUserOrDefaultAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default)
         {
-            ApiResponse<string> result = await LoginUserWithHttpInfoAsync(username, password, cancellationToken).ConfigureAwait(false);
-
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            if (result.Content == null)
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
-
-            return result.Content;
+            try
+            {
+                return await LoginUserAsync(username, password, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -876,118 +1055,116 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">The password for login in clear text</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="string"/></returns>
-        public async Task<ApiResponse<string>> LoginUserWithHttpInfoAsync(string username, string password, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<string>> LoginUserAsync(string username, string password, System.Threading.CancellationToken cancellationToken = default)
         {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
             try
             {
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                ValidateLoginUser(username, password);
 
-                if (username == null)
-                    throw new ArgumentNullException(nameof(username));
+                FormatLoginUser(ref username, ref password);
 
-                if (password == null)
-                    throw new ArgumentNullException(nameof(password));
-
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/login";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/login";
 
-                    System.Collections.Specialized.NameValueCollection parseQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryString["username"] = Uri.EscapeDataString(username.ToString());
-                    parseQueryString["password"] = Uri.EscapeDataString(password.ToString());
-                    
-                    uriBuilder.Query = parseQueryString.ToString();
+                    parseQueryStringLocalVar["username"] = username.ToString();
+                    parseQueryStringLocalVar["password"] = password.ToString();
 
-                    request.RequestUri = uriBuilder.Uri;
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
-                    string[] accepts = new string[] { 
-                        "application/xml", 
-                        "application/json" 
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] acceptLocalVars = new string[] {
+                        "application/xml",
+                        "application/json"
                     };
 
-                    string accept = ClientUtils.SelectHeaderAccept(accepts);
+                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
-                    if (accept != null)
-                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
-                    
-                    request.Method = HttpMethod.Get;
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        DateTime requestedAt = DateTime.UtcNow;
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        ApiResponse<string> apiResponseLocalVar = new ApiResponse<string>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/login", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/login"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        AfterLoginUserDefaultImplementation(apiResponseLocalVar, username, password);
 
-                        ApiResponse<string> apiResponse = new ApiResponse<string>(responseMessage, responseContent);
-
-                        if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = JsonSerializer.Deserialize<string>(apiResponse.RawContent, _jsonSerializerOptions);
-
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                OnErrorLoginUserDefaultImplementation(e, "/user/login", uriBuilderLocalVar.Path, username, password);
                 throw;
             }
         }
 
         /// <summary>
-        /// Logs out current logged in user session 
+        /// Processes the server response
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> LogoutUserAsync(System.Threading.CancellationToken? cancellationToken = null)
+        /// <param name="apiResponseLocalVar"></param>
+        private void AfterLogoutUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar)
         {
-            ApiResponse<object> result = await LogoutUserWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
-
-            return result.Content;
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterLogoutUser(apiResponseLocalVar);
         }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        partial void AfterLogoutUser(ApiResponse<object> apiResponseLocalVar);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        private void OnErrorLogoutUserDefaultImplementation(Exception exception, string pathFormat, string path)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorLogoutUser(exception, pathFormat, path);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        partial void OnErrorLogoutUser(Exception exception, string pathFormat, string path);
 
         /// <summary>
         /// Logs out current logged in user session 
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> LogoutUserOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> LogoutUserOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
-            ApiResponse<object> result = null;
-            try 
+            try
             {
-                result = await LogoutUserWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+                return await LogoutUserAsync(cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
+                return null;
             }
-
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
-                : null;
         }
 
         /// <summary>
@@ -996,175 +1173,192 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> LogoutUserWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> LogoutUserAsync(System.Threading.CancellationToken cancellationToken = default)
         {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
             try
             {
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/logout";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/logout";
 
-                    request.RequestUri = uriBuilder.Uri;
-                        
-                    request.Method = HttpMethod.Get;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        DateTime requestedAt = DateTime.UtcNow;
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/logout", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/logout"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        AfterLogoutUserDefaultImplementation(apiResponseLocalVar);
 
-                        ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
-
-                        if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
-
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                OnErrorLogoutUserDefaultImplementation(e, "/user/logout", uriBuilderLocalVar.Path);
                 throw;
             }
         }
 
+        partial void FormatUpdateUser(User user, ref string username);
+
         /// <summary>
-        /// Updated user This can only be done by the logged in user.
+        /// Validates the request parameters
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> UpdateUserAsync(string username, User user, System.Threading.CancellationToken? cancellationToken = null)
+        /// <param name="user"></param>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        private void ValidateUpdateUser(User user, string username)
         {
-            ApiResponse<object> result = await UpdateUserWithHttpInfoAsync(username, user, cancellationToken).ConfigureAwait(false);
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
 
-            return result.Content;
+            if (username == null)
+                throw new ArgumentNullException(nameof(username));
+
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
-        /// Updated user This can only be done by the logged in user.
+        /// Processes the server response
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> UpdateUserOrDefaultAsync(string username, User user, System.Threading.CancellationToken? cancellationToken = null)
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="user"></param>
+        /// <param name="username"></param>
+        private void AfterUpdateUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar, User user, string username)
         {
-            ApiResponse<object> result = null;
-            try 
-            {
-                result = await UpdateUserWithHttpInfoAsync(username, user, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
-                : null;
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterUpdateUser(apiResponseLocalVar, user, username);
         }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="user"></param>
+        /// <param name="username"></param>
+        partial void AfterUpdateUser(ApiResponse<object> apiResponseLocalVar, User user, string username);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        /// <param name="username"></param>
+        private void OnErrorUpdateUserDefaultImplementation(Exception exception, string pathFormat, string path, User user, string username)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorUpdateUser(exception, pathFormat, path, user, username);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        /// <param name="username"></param>
+        partial void OnErrorUpdateUser(Exception exception, string pathFormat, string path, User user, string username);
 
         /// <summary>
         /// Updated user This can only be done by the logged in user.
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="username">name that need to be deleted</param>
         /// <param name="user">Updated user object</param>
+        /// <param name="username">name that need to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> UpdateUserWithHttpInfoAsync(string username, User user, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> UpdateUserOrDefaultAsync(User user, string username, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                return await UpdateUserAsync(user, username, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
-                if (username == null)
-                    throw new ArgumentNullException(nameof(username));
+        /// <summary>
+        /// Updated user This can only be done by the logged in user.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="user">Updated user object</param>
+        /// <param name="username">name that need to be deleted</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> UpdateUserAsync(User user, string username, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
 
-                if (user == null)
-                    throw new ArgumentNullException(nameof(user));
+            try
+            {
+                ValidateUpdateUser(user, username);
 
-                #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                FormatUpdateUser(user, ref username);
 
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    UriBuilder uriBuilder = new UriBuilder();
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Scheme = ClientUtils.SCHEME;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
-                    uriBuilder.Path = uriBuilder.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/user/{username}";
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Busername%7D", Uri.EscapeDataString(username.ToString()));
 
-                    request.Content = (user as object) is System.IO.Stream stream
-                        ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
+                    httpRequestMessageLocalVar.Content = (user as object) is System.IO.Stream stream
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
-                    request.RequestUri = uriBuilder.Uri;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
-                    string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
+                    string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentType != null)
-                        request.Content.Headers.Add("ContentType", contentType);
-                        
-                    request.Method = HttpMethod.Put;
+                    if (contentTypeLocalVar != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    httpRequestMessageLocalVar.Method = HttpMethod.Put;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        DateTime requestedAt = DateTime.UtcNow;
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (ApiResponded != null)
-                        {
-                            try
-                            {
-                                ApiResponded.Invoke(this, new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/user/{username}"));
-                            }
-                            catch(Exception e)
-                            {
-                                Logger.LogError(e, "An error occured while invoking ApiResponded.");
-                            }
-                        }
+                        AfterUpdateUserDefaultImplementation(apiResponseLocalVar, user, username);
 
-                        ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
-
-                        if (apiResponse.IsSuccessStatusCode)
-                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
-
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                Logger.LogError(e, "An error occured while sending the request to the server.");
+                OnErrorUpdateUserDefaultImplementation(e, "/user/{username}", uriBuilderLocalVar.Path, user, username);
                 throw;
             }
-        }    }
+        }
+    }
 }

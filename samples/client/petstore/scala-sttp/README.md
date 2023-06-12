@@ -91,15 +91,19 @@ Class | Method | HTTP request | Description
 
  - [ApiResponse](ApiResponse.md)
  - [Category](Category.md)
+ - [EnumTest](EnumTest.md)
  - [Order](Order.md)
  - [Pet](Pet.md)
  - [Tag](Tag.md)
  - [User](User.md)
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
+
 Authentication schemes defined for the API:
+<a id="api_key"></a>
 ### api_key
 
 - **Type**: API key

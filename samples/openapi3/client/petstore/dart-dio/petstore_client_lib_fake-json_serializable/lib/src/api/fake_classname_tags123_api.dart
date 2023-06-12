@@ -71,9 +71,10 @@ _bodyData=jsonEncode(modelClient);
           _dio.options,
           _path,
         ),
-        type: DioErrorType.other,
+        type: DioErrorType.unknown,
         error: error,
-      )..stackTrace = stackTrace;
+        stackTrace: stackTrace,
+      );
     }
 
     final _response = await _dio.request<Object>(
@@ -85,17 +86,19 @@ _bodyData=jsonEncode(modelClient);
       onReceiveProgress: onReceiveProgress,
     );
 
-    ModelClient _responseData;
+    ModelClient? _responseData;
 
     try {
-_responseData = deserialize<ModelClient, ModelClient>(_response.data!, 'ModelClient', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(rawData, 'ModelClient', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.other,
+        type: DioErrorType.unknown,
         error: error,
-      )..stackTrace = stackTrace;
+        stackTrace: stackTrace,
+      );
     }
 
     return Response<ModelClient>(

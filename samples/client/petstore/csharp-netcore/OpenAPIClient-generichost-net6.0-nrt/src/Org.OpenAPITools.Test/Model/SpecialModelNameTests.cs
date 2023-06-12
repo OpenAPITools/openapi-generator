@@ -14,11 +14,9 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -55,6 +53,14 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<SpecialModelName>(instance);
         }
 
+        /// <summary>
+        /// Test the property 'VarSpecialModelName'
+        /// </summary>
+        [Fact]
+        public void VarSpecialModelNameTest()
+        {
+            // TODO unit test for the property 'VarSpecialModelName'
+        }
 
         /// <summary>
         /// Test the property 'SpecialPropertyName'
@@ -64,15 +70,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'SpecialPropertyName'
         }
-        /// <summary>
-        /// Test the property 'SpecialModelNameProperty'
-        /// </summary>
-        [Fact]
-        public void SpecialModelNamePropertyTest()
-        {
-            // TODO unit test for the property 'SpecialModelNameProperty'
-        }
-
     }
-
 }

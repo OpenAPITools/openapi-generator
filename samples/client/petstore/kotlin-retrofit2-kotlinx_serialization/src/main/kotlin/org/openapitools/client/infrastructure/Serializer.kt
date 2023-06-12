@@ -15,8 +15,13 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 
 object Serializer {
+    @Deprecated("Use Serializer.kotlinxSerializationAdapters instead", replaceWith = ReplaceWith("Serializer.kotlinxSerializationAdapters"))
     @JvmStatic
-    val kotlinSerializationAdapters = SerializersModule {
+    val kotlinSerializationAdapters: SerializersModule
+        get() { return kotlinxSerializationAdapters }
+
+    @JvmStatic
+    val kotlinxSerializationAdapters = SerializersModule {
         contextual(BigDecimal::class, BigDecimalAdapter)
         contextual(BigInteger::class, BigIntegerAdapter)
         contextual(LocalDate::class, LocalDateAdapter)
@@ -31,6 +36,17 @@ object Serializer {
         contextual(StringBuilder::class, StringBuilderAdapter)
     }
 
+    @Deprecated("Use Serializer.kotlinxSerializationJson instead", replaceWith = ReplaceWith("Serializer.kotlinxSerializationJson"))
     @JvmStatic
-    val jvmJson: Json by lazy { Json { serializersModule = kotlinSerializationAdapters } }
+    val jvmJson: Json
+        get() { return kotlinxSerializationJson }
+
+    @JvmStatic
+    val kotlinxSerializationJson: Json by lazy {
+        Json {
+            serializersModule = kotlinxSerializationAdapters
+            ignoreUnknownKeys = true
+            isLenient = true
+        }
+    }
 }

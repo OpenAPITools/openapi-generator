@@ -1,4 +1,5 @@
 ApiResponse.avsc
+ApiResponseStatuses.avsc
 Category.avsc
 Order.avsc
 Pet.avsc

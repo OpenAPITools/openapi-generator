@@ -16,11 +16,11 @@
 import * as runtime from '../runtime';
 import type {
   User,
-} from '../models';
+} from '../models/index';
 import {
     UserFromJSON,
     UserToJSON,
-} from '../models';
+} from '../models/index';
 
 export interface UserApiCreateUserRequest {
     body: User;
@@ -247,7 +247,11 @@ export class UserApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.TextApiResponse(response) as any;
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
     }
 
     /**

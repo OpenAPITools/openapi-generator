@@ -694,34 +694,6 @@ mkBigCat bigCatClassName =
   , bigCatKind = Nothing
   }
 
--- ** BigCatAllOf
--- | BigCatAllOf
-data BigCatAllOf = BigCatAllOf
-  { bigCatAllOfKind :: !(Maybe E'Kind) -- ^ "kind"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BigCatAllOf
-instance A.FromJSON BigCatAllOf where
-  parseJSON = A.withObject "BigCatAllOf" $ \o ->
-    BigCatAllOf
-      <$> (o .:? "kind")
-
--- | ToJSON BigCatAllOf
-instance A.ToJSON BigCatAllOf where
-  toJSON BigCatAllOf {..} =
-   _omitNulls
-      [ "kind" .= bigCatAllOfKind
-      ]
-
-
--- | Construct a value of type 'BigCatAllOf' (by applying it's required fields, if any)
-mkBigCatAllOf
-  :: BigCatAllOf
-mkBigCatAllOf =
-  BigCatAllOf
-  { bigCatAllOfKind = Nothing
-  }
-
 -- ** Capitalization
 -- | Capitalization
 data Capitalization = Capitalization
@@ -805,34 +777,6 @@ mkCat catClassName =
   { catClassName
   , catColor = Nothing
   , catDeclawed = Nothing
-  }
-
--- ** CatAllOf
--- | CatAllOf
-data CatAllOf = CatAllOf
-  { catAllOfDeclawed :: !(Maybe Bool) -- ^ "declawed"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CatAllOf
-instance A.FromJSON CatAllOf where
-  parseJSON = A.withObject "CatAllOf" $ \o ->
-    CatAllOf
-      <$> (o .:? "declawed")
-
--- | ToJSON CatAllOf
-instance A.ToJSON CatAllOf where
-  toJSON CatAllOf {..} =
-   _omitNulls
-      [ "declawed" .= catAllOfDeclawed
-      ]
-
-
--- | Construct a value of type 'CatAllOf' (by applying it's required fields, if any)
-mkCatAllOf
-  :: CatAllOf
-mkCatAllOf =
-  CatAllOf
-  { catAllOfDeclawed = Nothing
   }
 
 -- ** Category
@@ -960,34 +904,6 @@ mkDog dogClassName =
   { dogClassName
   , dogColor = Nothing
   , dogBreed = Nothing
-  }
-
--- ** DogAllOf
--- | DogAllOf
-data DogAllOf = DogAllOf
-  { dogAllOfBreed :: !(Maybe Text) -- ^ "breed"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON DogAllOf
-instance A.FromJSON DogAllOf where
-  parseJSON = A.withObject "DogAllOf" $ \o ->
-    DogAllOf
-      <$> (o .:? "breed")
-
--- | ToJSON DogAllOf
-instance A.ToJSON DogAllOf where
-  toJSON DogAllOf {..} =
-   _omitNulls
-      [ "breed" .= dogAllOfBreed
-      ]
-
-
--- | Construct a value of type 'DogAllOf' (by applying it's required fields, if any)
-mkDogAllOf
-  :: DogAllOf
-mkDogAllOf =
-  DogAllOf
-  { dogAllOfBreed = Nothing
   }
 
 -- ** EnumArrays
@@ -2430,6 +2346,19 @@ toOuterEnum = \case
 
 -- * Auth Methods
 
+-- ** AuthOAuthPetstoreAuth
+data AuthOAuthPetstoreAuth =
+  AuthOAuthPetstoreAuth Text -- ^ secret
+  deriving (P.Eq, P.Show, P.Typeable)
+
+instance AuthMethod AuthOAuthPetstoreAuth where
+  applyAuthMethod _ a@(AuthOAuthPetstoreAuth secret) req =
+    P.pure $
+    if (P.typeOf a `P.elem` rAuthTypes req)
+      then req `setHeader` toHeader ("Authorization", "Bearer " <> secret)
+           & L.over rAuthTypesL (P.filter (/= P.typeOf a))
+      else req
+
 -- ** AuthApiKeyApiKey
 data AuthApiKeyApiKey =
   AuthApiKeyApiKey Text -- ^ secret
@@ -2469,18 +2398,5 @@ instance AuthMethod AuthBasicHttpBasicTest where
            & L.over rAuthTypesL (P.filter (/= P.typeOf a))
       else req
     where cred = BC.append "Basic " (B64.encode $ BC.concat [ user, ":", pw ])
-
--- ** AuthOAuthPetstoreAuth
-data AuthOAuthPetstoreAuth =
-  AuthOAuthPetstoreAuth Text -- ^ secret
-  deriving (P.Eq, P.Show, P.Typeable)
-
-instance AuthMethod AuthOAuthPetstoreAuth where
-  applyAuthMethod _ a@(AuthOAuthPetstoreAuth secret) req =
-    P.pure $
-    if (P.typeOf a `P.elem` rAuthTypes req)
-      then req `setHeader` toHeader ("Authorization", "Bearer " <> secret)
-           & L.over rAuthTypesL (P.filter (/= P.typeOf a))
-      else req
 
 

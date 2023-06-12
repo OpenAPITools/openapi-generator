@@ -64,6 +64,13 @@ Route::get('/v2/fake', 'FakeController@testEnumParameters');
  */
 Route::delete('/v2/fake', 'FakeController@testGroupParameters');
 /**
+ * get fakeBigDecimalMap
+ * Summary: 
+ * Notes: for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+ * Output-Formats: [*_/_*]
+ */
+Route::get('/v2/fake/BigDecimalMap', 'FakeController@fakeBigDecimalMap');
+/**
  * put testBodyWithBinary
  * Summary: 
  * Notes: For this test, the body has to be a binary file.
@@ -248,7 +255,7 @@ Route::delete('/v2/store/order/{order_id}', 'StoreController@deleteOrder');
 /**
  * get getOrderById
  * Summary: Find purchase order by ID
- * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+ * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
  * Output-Formats: [application/xml, application/json]
  */
 Route::get('/v2/store/order/{order_id}', 'StoreController@getOrderById');

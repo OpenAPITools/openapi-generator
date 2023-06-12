@@ -37,13 +37,13 @@ class ClassModel {
   String toString() => 'ClassModel[class_=$class_]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (class_ != null) {
-      _json[r'_class'] = class_;
+    final json = <String, dynamic>{};
+    if (this.class_ != null) {
+      json[r'_class'] = this.class_;
     } else {
-      _json[r'_class'] = null;
+      json[r'_class'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [ClassModel] instance and imports its values from
@@ -71,7 +71,7 @@ class ClassModel {
     return null;
   }
 
-  static List<ClassModel>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<ClassModel> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <ClassModel>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -102,12 +102,10 @@ class ClassModel {
   static Map<String, List<ClassModel>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<ClassModel>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = ClassModel.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = ClassModel.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

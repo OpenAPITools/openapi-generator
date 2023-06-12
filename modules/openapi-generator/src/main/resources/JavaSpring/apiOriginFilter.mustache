@@ -2,17 +2,12 @@ package {{apiPackage}};
 
 import java.io.IOException;
 
-{{#useJakartaEe}}
-import jakarta.annotation.Generated;
-import jakarta.servlet.*;
-import jakarta.servlet.http.HttpServletResponse;
-{{/useJakartaEe}}
-{{^useJakartaEe}}
-import javax.annotation.Generated;
-{{/useJakartaEe}}
+import {{javaxPackage}}.annotation.Generated;
+import {{javaxPackage}}.servlet.*;
+import {{javaxPackage}}.servlet.http.HttpServletResponse;
 
 {{>generatedAnnotation}}
-public class ApiOriginFilter implements javax.servlet.Filter {
+public class ApiOriginFilter implements {{javaxPackage}}.servlet.Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
