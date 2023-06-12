@@ -3,6 +3,7 @@ module Api exposing
     , request
     , send
     , sendWithCustomError
+    , sendWithCustomExpect
     , task
     , map
     , withBasePath
@@ -34,7 +35,7 @@ type Request a =
         }
 
 
-request : String -> String -> List ( String, String ) -> List (String, Maybe String) -> List (String, Maybe String) -> Maybe Json.Encode.Value -> Json.Decode.Decoder a -> Request a
+request : String -> String -> List ( String, String ) -> List (String, Maybe String) -> List (String, Maybe String) -> Maybe Http.Body -> Json.Decode.Decoder a -> Request a
 request method path pathParams queryParams headerParams body decoder =
     Request
         { method = method
@@ -42,7 +43,7 @@ request method path pathParams queryParams headerParams body decoder =
         , basePath = "{{basePath}}"
         , pathParams = interpolatePath path pathParams
         , queryParams = queries queryParams
-        , body = Maybe.withDefault Http.emptyBody (Maybe.map Http.jsonBody body)
+        , body = Maybe.withDefault Http.emptyBody body
         , decoder = decoder
         , timeout = Nothing
         , tracker = Nothing
@@ -55,13 +56,18 @@ send toMsg req =
 
 
 sendWithCustomError : (Http.Error -> e) -> (Result e a -> msg) -> Request a -> Cmd msg
-sendWithCustomError mapError toMsg (Request req) =
+sendWithCustomError mapError toMsg req =
+    sendWithCustomExpect (expectJson mapError toMsg) req
+
+
+sendWithCustomExpect : (Json.Decode.Decoder a -> Http.Expect msg) -> Request a -> Cmd msg
+sendWithCustomExpect expect (Request req) =
     Http.request
         { method = req.method
         , headers = req.headers
         , url = Url.Builder.crossOrigin req.basePath req.pathParams req.queryParams
         , body = req.body
-        , expect = expectJson mapError toMsg req.decoder
+        , expect = expect req.decoder
         , timeout = req.timeout
         , tracker = req.tracker
         }

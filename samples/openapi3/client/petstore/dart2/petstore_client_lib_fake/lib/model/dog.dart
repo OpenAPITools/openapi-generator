@@ -47,15 +47,15 @@ class Dog {
   String toString() => 'Dog[className=$className, color=$color, breed=$breed]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-      _json[r'className'] = className;
-      _json[r'color'] = color;
-    if (breed != null) {
-      _json[r'breed'] = breed;
+    final json = <String, dynamic>{};
+      json[r'className'] = this.className;
+      json[r'color'] = this.color;
+    if (this.breed != null) {
+      json[r'breed'] = this.breed;
     } else {
-      _json[r'breed'] = null;
+      json[r'breed'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [Dog] instance and imports its values from
@@ -85,7 +85,7 @@ class Dog {
     return null;
   }
 
-  static List<Dog>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<Dog> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <Dog>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -116,12 +116,10 @@ class Dog {
   static Map<String, List<Dog>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<Dog>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = Dog.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = Dog.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

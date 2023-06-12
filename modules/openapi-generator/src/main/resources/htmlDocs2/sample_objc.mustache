@@ -1,10 +1,10 @@
 {{#hasAuthMethods}}
 {{classPrefix}}Configuration *apiConfig = [{{classPrefix}}Configuration sharedConfig];
 {{#authMethods}}
-{{^isBasicBearer}}{{#isBasic}}
+{{#isBasicBasic}}
 // Configure HTTP basic authorization (authentication scheme: {{{name}}})
 [apiConfig setUsername:@"YOUR_USERNAME"];
-[apiConfig setPassword:@"YOUR_PASSWORD"];{{/isBasic}}{{/isBasicBearer}}{{#isBasicBearer}}
+[apiConfig setPassword:@"YOUR_PASSWORD"];{{/isBasicBasic}}{{#isBasicBearer}}
 // Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];{{/isBasicBearer}}{{#isApiKey}}
 // Configure API key authorization: (authentication scheme: {{{name}}})

@@ -7,6 +7,7 @@ import org.openapitools.client.model.ApiResponse;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
@@ -25,6 +26,31 @@ import feign.*;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public interface FakeApi extends ApiClient.Api {
+
+
+  /**
+   * 
+   * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+   * @return FakeBigDecimalMap200Response
+   */
+  @RequestLine("GET /fake/BigDecimalMap")
+  @Headers({
+    "Accept: */*",
+  })
+  FakeBigDecimalMap200Response fakeBigDecimalMap();
+
+  /**
+   * 
+   * Similar to <code>fakeBigDecimalMap</code> but it also returns the http response headers .
+   * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /fake/BigDecimalMap")
+  @Headers({
+    "Accept: */*",
+  })
+  ApiResponse<FakeBigDecimalMap200Response> fakeBigDecimalMapWithHttpInfo();
+
 
 
   /**
@@ -106,7 +132,7 @@ public interface FakeApi extends ApiClient.Api {
   "Accept: application/json",
       "header_1: {header1}"
   })
-  void fakeHttpSignatureTest(Pet pet, @Param("header1") String header1, @QueryMap(encoded=true) Map<String, Object> queryParams);
+  void fakeHttpSignatureTest(Pet pet, @Param("header1") String header1, @QueryMap(encoded=true) FakeHttpSignatureTestQueryParams queryParams);
 
   /**
   * test http signature authentication
@@ -127,7 +153,7 @@ public interface FakeApi extends ApiClient.Api {
     "Accept: application/json",
           "header_1: {header1}"
       })
-   ApiResponse<Void> fakeHttpSignatureTestWithHttpInfo(Pet pet, @Param("header1") String header1, @QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<Void> fakeHttpSignatureTestWithHttpInfo(Pet pet, @Param("header1") String header1, @QueryMap(encoded=true) FakeHttpSignatureTestQueryParams queryParams);
 
 
    /**
@@ -388,7 +414,7 @@ public interface FakeApi extends ApiClient.Api {
   "Content-Type: application/json",
   "Accept: application/json",
   })
-  void testBodyWithQueryParams(User user, @QueryMap(encoded=true) Map<String, Object> queryParams);
+  void testBodyWithQueryParams(User user, @QueryMap(encoded=true) TestBodyWithQueryParamsQueryParams queryParams);
 
   /**
   * 
@@ -407,7 +433,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
       })
-   ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(User user, @QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(User user, @QueryMap(encoded=true) TestBodyWithQueryParamsQueryParams queryParams);
 
 
    /**
@@ -581,7 +607,7 @@ public interface FakeApi extends ApiClient.Api {
       
       "enum_header_string: {enumHeaderString}"
   })
-  void testEnumParameters(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString, @QueryMap(encoded=true) Map<String, Object> queryParams);
+  void testEnumParameters(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString, @QueryMap(encoded=true) TestEnumParametersQueryParams queryParams);
 
   /**
   * To test enum parameters
@@ -610,7 +636,7 @@ public interface FakeApi extends ApiClient.Api {
       
           "enum_header_string: {enumHeaderString}"
       })
-   ApiResponse<Void> testEnumParametersWithHttpInfo(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString, @QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<Void> testEnumParametersWithHttpInfo(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString, @QueryMap(encoded=true) TestEnumParametersQueryParams queryParams);
 
 
    /**
@@ -706,7 +732,7 @@ public interface FakeApi extends ApiClient.Api {
       
       "boolean_group: {booleanGroup}"
   })
-  void testGroupParameters(@Param("requiredBooleanGroup") Boolean requiredBooleanGroup, @Param("booleanGroup") Boolean booleanGroup, @QueryMap(encoded=true) Map<String, Object> queryParams);
+  void testGroupParameters(@Param("requiredBooleanGroup") Boolean requiredBooleanGroup, @Param("booleanGroup") Boolean booleanGroup, @QueryMap(encoded=true) TestGroupParametersQueryParams queryParams);
 
   /**
   * Fake endpoint to test group parameters (optional)
@@ -731,7 +757,7 @@ public interface FakeApi extends ApiClient.Api {
       
           "boolean_group: {booleanGroup}"
       })
-   ApiResponse<Void> testGroupParametersWithHttpInfo(@Param("requiredBooleanGroup") Boolean requiredBooleanGroup, @Param("booleanGroup") Boolean booleanGroup, @QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<Void> testGroupParametersWithHttpInfo(@Param("requiredBooleanGroup") Boolean requiredBooleanGroup, @Param("booleanGroup") Boolean booleanGroup, @QueryMap(encoded=true) TestGroupParametersQueryParams queryParams);
 
 
    /**
@@ -873,7 +899,7 @@ public interface FakeApi extends ApiClient.Api {
   @Headers({
   "Accept: application/json",
   })
-  void testQueryParameterCollectionFormat(@QueryMap(encoded=true) Map<String, Object> queryParams);
+  void testQueryParameterCollectionFormat(@QueryMap(encoded=true) TestQueryParameterCollectionFormatQueryParams queryParams);
 
   /**
   * 
@@ -896,7 +922,7 @@ public interface FakeApi extends ApiClient.Api {
       @Headers({
     "Accept: application/json",
       })
-   ApiResponse<Void> testQueryParameterCollectionFormatWithHttpInfo(@QueryMap(encoded=true) Map<String, Object> queryParams);
+   ApiResponse<Void> testQueryParameterCollectionFormatWithHttpInfo(@QueryMap(encoded=true) TestQueryParameterCollectionFormatQueryParams queryParams);
 
 
    /**

@@ -115,48 +115,48 @@ class User {
   String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (id != null) {
-      _json[r'id'] = id;
+    final json = <String, dynamic>{};
+    if (this.id != null) {
+      json[r'id'] = this.id;
     } else {
-      _json[r'id'] = null;
+      json[r'id'] = null;
     }
-    if (username != null) {
-      _json[r'username'] = username;
+    if (this.username != null) {
+      json[r'username'] = this.username;
     } else {
-      _json[r'username'] = null;
+      json[r'username'] = null;
     }
-    if (firstName != null) {
-      _json[r'firstName'] = firstName;
+    if (this.firstName != null) {
+      json[r'firstName'] = this.firstName;
     } else {
-      _json[r'firstName'] = null;
+      json[r'firstName'] = null;
     }
-    if (lastName != null) {
-      _json[r'lastName'] = lastName;
+    if (this.lastName != null) {
+      json[r'lastName'] = this.lastName;
     } else {
-      _json[r'lastName'] = null;
+      json[r'lastName'] = null;
     }
-    if (email != null) {
-      _json[r'email'] = email;
+    if (this.email != null) {
+      json[r'email'] = this.email;
     } else {
-      _json[r'email'] = null;
+      json[r'email'] = null;
     }
-    if (password != null) {
-      _json[r'password'] = password;
+    if (this.password != null) {
+      json[r'password'] = this.password;
     } else {
-      _json[r'password'] = null;
+      json[r'password'] = null;
     }
-    if (phone != null) {
-      _json[r'phone'] = phone;
+    if (this.phone != null) {
+      json[r'phone'] = this.phone;
     } else {
-      _json[r'phone'] = null;
+      json[r'phone'] = null;
     }
-    if (userStatus != null) {
-      _json[r'userStatus'] = userStatus;
+    if (this.userStatus != null) {
+      json[r'userStatus'] = this.userStatus;
     } else {
-      _json[r'userStatus'] = null;
+      json[r'userStatus'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [User] instance and imports its values from
@@ -191,7 +191,7 @@ class User {
     return null;
   }
 
-  static List<User>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<User> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <User>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -222,12 +222,10 @@ class User {
   static Map<String, List<User>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<User>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = User.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = User.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

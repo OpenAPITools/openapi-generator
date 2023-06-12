@@ -29,49 +29,49 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FormatTest {
 
-  @JsonProperty("integer")
   private Integer integer;
 
-  @JsonProperty("int32")
   private Integer int32;
 
-  @JsonProperty("int64")
   private Long int64;
 
-  @JsonProperty("number")
   private BigDecimal number;
 
-  @JsonProperty("float")
   private Float _float;
 
-  @JsonProperty("double")
   private Double _double;
 
-  @JsonProperty("string")
   private String string;
 
-  @JsonProperty("byte")
   private byte[] _byte;
 
-  @JsonProperty("binary")
   private org.springframework.core.io.Resource binary;
 
-  @JsonProperty("date")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
-  @JsonProperty("dateTime")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime dateTime;
 
-  @JsonProperty("uuid")
   private UUID uuid;
 
-  @JsonProperty("password")
   private String password;
 
-  @JsonProperty("BigDecimal")
   private BigDecimal bigDecimal;
+
+  public FormatTest() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public FormatTest(BigDecimal number, byte[] _byte, LocalDate date, String password) {
+    this.number = number;
+    this._byte = _byte;
+    this.date = date;
+    this.password = password;
+  }
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;
@@ -86,6 +86,7 @@ public class FormatTest {
   */
   @Min(10) @Max(100) 
   @ApiModelProperty(value = "")
+  @JsonProperty("integer")
   public Integer getInteger() {
     return integer;
   }
@@ -107,6 +108,7 @@ public class FormatTest {
   */
   @Min(20) @Max(200) 
   @ApiModelProperty(value = "")
+  @JsonProperty("int32")
   public Integer getInt32() {
     return int32;
   }
@@ -126,6 +128,7 @@ public class FormatTest {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("int64")
   public Long getInt64() {
     return int64;
   }
@@ -147,6 +150,7 @@ public class FormatTest {
   */
   @NotNull @Valid @DecimalMin("32.1") @DecimalMax("543.2") 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("number")
   public BigDecimal getNumber() {
     return number;
   }
@@ -168,6 +172,7 @@ public class FormatTest {
   */
   @DecimalMin("54.3") @DecimalMax("987.6") 
   @ApiModelProperty(value = "")
+  @JsonProperty("float")
   public Float getFloat() {
     return _float;
   }
@@ -189,6 +194,7 @@ public class FormatTest {
   */
   @DecimalMin("67.8") @DecimalMax("123.4") 
   @ApiModelProperty(value = "")
+  @JsonProperty("double")
   public Double getDouble() {
     return _double;
   }
@@ -208,6 +214,7 @@ public class FormatTest {
   */
   @Pattern(regexp = "/[a-z]/i") 
   @ApiModelProperty(value = "")
+  @JsonProperty("string")
   public String getString() {
     return string;
   }
@@ -227,6 +234,7 @@ public class FormatTest {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("byte")
   public byte[] getByte() {
     return _byte;
   }
@@ -246,6 +254,7 @@ public class FormatTest {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("binary")
   public org.springframework.core.io.Resource getBinary() {
     return binary;
   }
@@ -265,6 +274,7 @@ public class FormatTest {
   */
   @NotNull @Valid 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("date")
   public LocalDate getDate() {
     return date;
   }
@@ -284,6 +294,7 @@ public class FormatTest {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("dateTime")
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -303,6 +314,7 @@ public class FormatTest {
   */
   @Valid 
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+  @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;
   }
@@ -322,6 +334,7 @@ public class FormatTest {
   */
   @NotNull @Size(min = 10, max = 64) 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("password")
   public String getPassword() {
     return password;
   }
@@ -341,6 +354,7 @@ public class FormatTest {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("BigDecimal")
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }

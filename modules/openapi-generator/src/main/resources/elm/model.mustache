@@ -3,7 +3,8 @@
 module Api.Data exposing
 {{#models}}{{#model}}    {{#-first}}( {{/-first}}{{^-first}}, {{/-first}}{{classname}}{{#discriminator}}(..){{/discriminator}}{{^discriminator}}{{#oneOf}}{{#-first}}(..){{/-first}}{{/oneOf}}{{/discriminator}}{{#isEnum}}(..), {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Variants{{/isEnum}}{{^isEnum}}{{#vars}}{{#isCircularReference}}, {{classname}}{{nameInCamelCase}}(..){{/isCircularReference}}{{#isEnum}}, {{classname}}{{nameInCamelCase}}(..), {{#lambda.camelcase}}{{classname}}{{nameInCamelCase}}{{/lambda.camelcase}}Variants{{/isEnum}}{{/vars}}{{/isEnum}}
 {{/model}}{{/models}}{{#models}}{{#model}}    , {{#lambda.camelcase}}encode{{classname}}{{/lambda.camelcase}}
-{{/model}}{{/models}}{{#models}}{{#model}}    , {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder
+{{/model}}{{/models}}{{#models}}{{#model}}{{#isEnum}}    , stringFrom{{^paramName}}{{classname}}{{/paramName}}{{enumName}}
+{{/isEnum}}{{/model}}{{/models}}{{#models}}{{#model}}    , {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder
 {{/model}}{{/models}}    )
 
 import Api{{#includeTime}}

@@ -44,6 +44,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/coordinates'
+              examples:
+                Example Amsterdam coordinates:
+                  value:
+                    lat: 52.377956
+                    long: 4.897070
+                Example San Francisco coordinates:
+                  value:
+                    lat: 37.773972
+                    long: -122.431297
             text/plain:
               schema:
                 $ref: '#/components/schemas/stringWithMinLength'
@@ -58,6 +67,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/coordinates'
+              examples:
+                Example Amsterdam coordinates:
+                  value:
+                    lat: 52.377956
+                    long: 4.897070
+                Example San Francisco coordinates:
+                  value:
+                    lat: 37.773972
+                    long: -122.431297
             text/plain:
               schema:
                 $ref: '#/components/schemas/stringWithMinLength'

@@ -159,9 +159,12 @@ Class | Method | HTTP request | Description
 
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
+
 Authentication schemes defined for the API:
+<a id="api_key"></a>
 ### api_key
 
 
@@ -169,6 +172,7 @@ Authentication schemes defined for the API:
 - **API key parameter name**: X-Api-Key
 - **Location**: HTTP header
 
+<a id="api_key_query"></a>
 ### api_key_query
 
 

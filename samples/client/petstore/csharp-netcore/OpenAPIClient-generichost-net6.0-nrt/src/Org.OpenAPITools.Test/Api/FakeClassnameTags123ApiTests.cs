@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using Org.OpenAPITools.Api;
+using Org.OpenAPITools.IApi;
 using Org.OpenAPITools.Model;
 
 
@@ -43,13 +43,12 @@ namespace Org.OpenAPITools.Test.Api
     /// </summary>
     public sealed class FakeClassnameTags123ApiTests : ApiTestsBase
     {
-        private readonly IFakeClassnameTags123Api _instance;
+        private readonly IApi.IFakeClassnameTags123Api _instance;
 
         public FakeClassnameTags123ApiTests(): base(Array.Empty<string>())
         {
-            _instance = _host.Services.GetRequiredService<IFakeClassnameTags123Api>();
+            _instance = _host.Services.GetRequiredService<IApi.IFakeClassnameTags123Api>();
         }
-
 
         /// <summary>
         /// Test TestClassname
@@ -57,9 +56,10 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task TestClassnameAsyncTest()
         {
-            ModelClient modelClient = default;
+            ModelClient modelClient = default!;
             var response = await _instance.TestClassnameAsync(modelClient);
-            Assert.IsType<ModelClient>(response);
+            var model = response.AsModel();
+            Assert.IsType<ModelClient>(model);
         }
     }
 }

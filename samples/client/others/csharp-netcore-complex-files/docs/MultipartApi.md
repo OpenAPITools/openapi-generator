@@ -8,7 +8,7 @@ All URIs are relative to *http://localhost*
 | [**MultipartMixed**](MultipartApi.md#multipartmixed) | **POST** /multipart-mixed |  |
 | [**MultipartSingle**](MultipartApi.md#multipartsingle) | **POST** /multipart-single |  |
 
-<a name="multipartarray"></a>
+<a id="multipartarray"></a>
 # **MultipartArray**
 > void MultipartArray (List<System.IO.Stream> files = null)
 
@@ -93,9 +93,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="multipartmixed"></a>
+<a id="multipartmixed"></a>
 # **MultipartMixed**
-> void MultipartMixed (MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = null)
+> void MultipartMixed (MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = null, List<MultipartMixedStatus> statusArray = null)
 
 
 
@@ -121,10 +121,11 @@ namespace Example
             var status = (MultipartMixedStatus) "ALLOWED";  // MultipartMixedStatus | 
             var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | a file
             var marker = new MultipartMixedRequestMarker(); // MultipartMixedRequestMarker |  (optional) 
+            var statusArray = new List<MultipartMixedStatus>(); // List<MultipartMixedStatus> |  (optional) 
 
             try
             {
-                apiInstance.MultipartMixed(status, file, marker);
+                apiInstance.MultipartMixed(status, file, marker, statusArray);
             }
             catch (ApiException  e)
             {
@@ -143,7 +144,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    apiInstance.MultipartMixedWithHttpInfo(status, file, marker);
+    apiInstance.MultipartMixedWithHttpInfo(status, file, marker, statusArray);
 }
 catch (ApiException e)
 {
@@ -160,6 +161,7 @@ catch (ApiException e)
 | **status** | **MultipartMixedStatus** |  |  |
 | **file** | **System.IO.Stream****System.IO.Stream** | a file |  |
 | **marker** | [**MultipartMixedRequestMarker**](MultipartMixedRequestMarker.md) |  | [optional]  |
+| **statusArray** | [**List&lt;MultipartMixedStatus&gt;**](MultipartMixedStatus.md) |  | [optional]  |
 
 ### Return type
 
@@ -182,7 +184,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="multipartsingle"></a>
+<a id="multipartsingle"></a>
 # **MultipartSingle**
 > void MultipartSingle (System.IO.Stream file = null)
 

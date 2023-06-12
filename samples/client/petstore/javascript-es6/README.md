@@ -171,15 +171,16 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [OpenApiPetstore.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [OpenApiPetstore.ArrayTest](docs/ArrayTest.md)
+ - [OpenApiPetstore.BasquePig](docs/BasquePig.md)
  - [OpenApiPetstore.Capitalization](docs/Capitalization.md)
  - [OpenApiPetstore.Cat](docs/Cat.md)
- - [OpenApiPetstore.CatAllOf](docs/CatAllOf.md)
  - [OpenApiPetstore.Category](docs/Category.md)
  - [OpenApiPetstore.ClassModel](docs/ClassModel.md)
  - [OpenApiPetstore.Client](docs/Client.md)
+ - [OpenApiPetstore.Color](docs/Color.md)
+ - [OpenApiPetstore.DanishPig](docs/DanishPig.md)
  - [OpenApiPetstore.DeprecatedObject](docs/DeprecatedObject.md)
  - [OpenApiPetstore.Dog](docs/Dog.md)
- - [OpenApiPetstore.DogAllOf](docs/DogAllOf.md)
  - [OpenApiPetstore.EnumArrays](docs/EnumArrays.md)
  - [OpenApiPetstore.EnumClass](docs/EnumClass.md)
  - [OpenApiPetstore.EnumTest](docs/EnumTest.md)
@@ -195,6 +196,8 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [OpenApiPetstore.Model200Response](docs/Model200Response.md)
  - [OpenApiPetstore.Name](docs/Name.md)
+ - [OpenApiPetstore.NestedColor](docs/NestedColor.md)
+ - [OpenApiPetstore.NestedOneOf](docs/NestedOneOf.md)
  - [OpenApiPetstore.NullableClass](docs/NullableClass.md)
  - [OpenApiPetstore.NumberOnly](docs/NumberOnly.md)
  - [OpenApiPetstore.ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
@@ -206,9 +209,11 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [OpenApiPetstore.OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
  - [OpenApiPetstore.Pet](docs/Pet.md)
+ - [OpenApiPetstore.Pig](docs/Pig.md)
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [OpenApiPetstore.Return](docs/Return.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
+ - [OpenApiPetstore.StringOrBoolean](docs/StringOrBoolean.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
  - [OpenApiPetstore.User](docs/User.md)
 
@@ -216,42 +221,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Authorization
 
 
-
-### api_key
-
-
-- **Type**: API key
-- **API key parameter name**: api_key
-- **Location**: HTTP header
-
-
-
-### api_key_query
-
-
-- **Type**: API key
-- **API key parameter name**: api_key_query
-- **Location**: URL query string
-
-
-
-### bearer_test
-
-- **Type**: Bearer authentication (JWT)
-
-
-
-### http_basic_test
-
-- **Type**: HTTP basic authentication
-
-
-
-### http_signature_test
-
-
-
-
+Authentication schemes defined for the API:
 ### petstore_auth
 
 
@@ -261,4 +231,30 @@ Class | Method | HTTP request | Description
 - **Scopes**: 
   - write:pets: modify pets in your account
   - read:pets: read your pets
+
+### api_key
+
+
+- **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
+
+### api_key_query
+
+
+- **Type**: API key
+- **API key parameter name**: api_key_query
+- **Location**: URL query string
+
+### http_basic_test
+
+- **Type**: HTTP basic authentication
+
+### bearer_test
+
+- **Type**: Bearer authentication (JWT)
+
+### http_signature_test
+
+- **Type**: HTTP signature authentication
 

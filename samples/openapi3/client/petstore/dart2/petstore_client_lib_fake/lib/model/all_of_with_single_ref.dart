@@ -25,6 +25,12 @@ class AllOfWithSingleRef {
   ///
   String? username;
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   SingleRefType? singleRefType;
 
   @override
@@ -42,18 +48,18 @@ class AllOfWithSingleRef {
   String toString() => 'AllOfWithSingleRef[username=$username, singleRefType=$singleRefType]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (username != null) {
-      _json[r'username'] = username;
+    final json = <String, dynamic>{};
+    if (this.username != null) {
+      json[r'username'] = this.username;
     } else {
-      _json[r'username'] = null;
+      json[r'username'] = null;
     }
-    if (singleRefType != null) {
-      _json[r'SingleRefType'] = singleRefType;
+    if (this.singleRefType != null) {
+      json[r'SingleRefType'] = this.singleRefType;
     } else {
-      _json[r'SingleRefType'] = null;
+      json[r'SingleRefType'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [AllOfWithSingleRef] instance and imports its values from
@@ -82,7 +88,7 @@ class AllOfWithSingleRef {
     return null;
   }
 
-  static List<AllOfWithSingleRef>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<AllOfWithSingleRef> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <AllOfWithSingleRef>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -113,12 +119,10 @@ class AllOfWithSingleRef {
   static Map<String, List<AllOfWithSingleRef>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<AllOfWithSingleRef>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = AllOfWithSingleRef.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = AllOfWithSingleRef.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

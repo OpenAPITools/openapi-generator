@@ -19,6 +19,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |addSurrogateKey|Adds the surrogate key for all models that don't already have a primary key (named by the above convention)| |false|
+|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |artifactId|Generated artifact id (name of jar).| |ktorm|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |defaultDatabaseName|Default database name for all queries| |sqlite.db|
@@ -367,6 +368,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

@@ -6,12 +6,12 @@
 {{/nrt}}
 using System;
 
-namespace {{packageName}}.Client
+namespace {{packageName}}.{{clientPackage}}
 {
     /// <summary>
     /// The base for all tokens.
     /// </summary>
-    public abstract class TokenBase
+    {{>visibility}} abstract class TokenBase
     {
         private DateTime _nextAvailable = DateTime.UtcNow;
         private object _nextAvailableLock = new object();
@@ -64,7 +64,7 @@ namespace {{packageName}}.Client
                 _nextAvailable = DateTime.UtcNow.AddSeconds(5);
         }
 
-        private void OnTimer(object sender, System.Timers.ElapsedEventArgs e)
+        private void OnTimer(object{{nrt?}} sender, System.Timers.ElapsedEventArgs e)
         {
             if (TokenBecameAvailable != null && !IsRateLimited)
                 TokenBecameAvailable.Invoke(this);

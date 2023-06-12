@@ -36,7 +36,7 @@ class EnumClass {
 
   static EnumClass? fromJson(dynamic value) => EnumClassTypeTransformer().decode(value);
 
-  static List<EnumClass>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<EnumClass> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <EnumClass>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -69,7 +69,7 @@ class EnumClassTypeTransformer {
   /// and users are still using an old app with the old code.
   EnumClass? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case r'_abc': return EnumClass.abc;
         case r'-efg': return EnumClass.efg;
         case r'(xyz)': return EnumClass.leftParenthesisXyzRightParenthesis;

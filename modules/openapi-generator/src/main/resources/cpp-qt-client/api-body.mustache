@@ -74,7 +74,7 @@ void {{classname}}::setServerIndex(const QString &operation, int serverIndex) {
 }
 
 void {{classname}}::setApiKey(const QString &apiKeyName, const QString &apiKey) {
-    _apiKeys.insert(apiKeyName,apiKey);
+    _apiKeys.insert(apiKeyName, apiKey);
 }
 
 void {{classname}}::setBearerToken(const QString &token) {
@@ -271,7 +271,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         QString paramString = (pathStyle == "matrix" && {{isExplode}}) ? pathPrefix : pathPrefix+"{{baseName}}"+pathSuffix;
         QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
         qint32 count = 0;
-        foreach(const QString& key, parameter.keys()) {
+        for(const QString& key : parameter.keys()) {
             if (count > 0) {
                 pathDelimiter = (pathStyle == "matrix" && {{isExplode}}) ? ";" : getParamStyleDelimiter(pathStyle, key, {{isExplode}});
                 paramString.append(pathDelimiter);
@@ -320,7 +320,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         if ({{{paramName}}}{{^required}}.value(){{/required}}.size() > 0) {
             QString paramString = (pathStyle == "matrix") ? pathPrefix+"{{baseName}}"+pathSuffix : pathPrefix;
             qint32 count = 0;
-            foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+            for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                 if (count > 0) {
                     fullPath.append(pathDelimiter);
                 }
@@ -353,7 +353,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         QString paramString = (queryStyle == "form" && {{isExplode}}) ? "" : (queryStyle == "form" && !({{isExplode}})) ? "{{baseName}}"+querySuffix : "";
         QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
         qint32 count = 0;
-        foreach(const QString& key, parameter.keys()) {
+        for(const QString& key : parameter.keys()) {
             if (count > 0) {
                 queryDelimiter =  ((queryStyle == "form" || queryStyle == "deepObject") && {{isExplode}}) ? "&" : getParamStyleDelimiter(queryStyle, key, {{isExplode}});
                 paramString.append(queryDelimiter);
@@ -403,7 +403,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
 {{#collectionFormat}}
         if ({{{paramName}}}{{^required}}.value(){{/required}}.size() > 0) {
             if (QString("{{collectionFormat}}").indexOf("multi") == 0) {
-                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                     if (fullPath.indexOf("?") > 0)
                         fullPath.append(queryPrefix);
                     else
@@ -416,7 +416,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
                 else
                     fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
                 qint32 count = 0;
-                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                     if (count > 0) {
                         fullPath.append(({{isExplode}})? queryDelimiter : QUrl::toPercentEncoding(queryDelimiter));
                     }
@@ -429,7 +429,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
                 else
                     fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
                 qint32 count = 0;
-                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                     if (count > 0) {
                         fullPath.append("\t");
                     }
@@ -442,7 +442,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
                 else
                     fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
                 qint32 count = 0;
-                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                     if (count > 0) {
                         fullPath.append(queryDelimiter);
                     }
@@ -455,7 +455,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
                 else
                     fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
                 qint32 count = 0;
-                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                     if (count > 0) {
                         fullPath.append(queryDelimiter);
                     }
@@ -468,7 +468,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
                 else
                     fullPath.append("?").append(queryPrefix).append("{{baseName}}").append(querySuffix);
                 qint32 count = 0;
-                foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+                for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                     if (count > 0) {
                         fullPath.append(queryDelimiter);
                     }
@@ -530,7 +530,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         QString headerString;
         QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
         qint32 count = 0;
-        foreach(const QString& key, parameter.keys()) {
+        for (const QString& key : parameter.keys()) {
             if (count > 0) {
                 headerString.append(",");
             }
@@ -577,7 +577,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         QString headerString;
         if ({{{paramName}}}{{^required}}.value(){{/required}}.size() > 0) {
             qint32 count = 0;
-            foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+            for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                 if (count > 0) {
                     headerString.append(",");
                 }
@@ -599,7 +599,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
             QString cookieString = "{{baseName}}=";
             QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
             qint32 count = 0;
-            foreach(const QString& key, parameter.keys()) {
+            for (const QString& key : parameter.keys()) {
                 if (count > 0) {
                     cookieString.append(",");
                 }
@@ -649,7 +649,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
             QString cookieString = "{{baseName}}=";
             if ({{{paramName}}}.size() > 0) {
             qint32 count = 0;
-            foreach ({{{baseType}}} t, {{paramName}}{{^required}}.value(){{/required}}) {
+            for ({{{baseType}}} t : {{paramName}}{{^required}}.value(){{/required}}) {
                 if (count > 0) {
                     cookieString.append(",");
                 }
@@ -697,7 +697,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
     _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
     _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
-    
+
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -727,7 +727,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
     _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
     _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
-    
+
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -757,7 +757,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
     _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
     _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
-    
+
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -787,7 +787,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     _latestWorker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
     _latestWorker->setResponseCompressionEnabled(isResponseCompressionEnabled);
     _latestWorker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
-    
+
     connect(_latestWorker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
     connect(this, &{{classname}}::abortRequestsSignal, _latestWorker, &QObject::deleteLater);
     connect(_latestWorker, &QObject::destroyed, [this](){
@@ -817,7 +817,7 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
     QByteArray array(json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
-    foreach (QJsonValue obj, jsonArray) {
+    for (QJsonValue obj : jsonArray) {
         {{{returnBaseType}}} val;
         ::{{cppNamespace}}::fromJsonValue(val, obj);
         {{#uniqueItems}}
@@ -841,7 +841,7 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
     QByteArray array(json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject obj = doc.object();
-    foreach (QString key, obj.keys()) {
+    for (QString key : obj.keys()) {
         {{returnBaseType}} val;
         ::{{cppNamespace}}::fromJsonValue(val, obj[key]);
         output.insert(key, val);
@@ -917,8 +917,8 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
 {{/operation}}
 {{/operations}}
 void {{classname}}::tokenAvailable(){
-  
-    oauthToken token; 
+
+    oauthToken token;
     switch (_OauthMethod) {
     case 1: //implicit flow
         token = _implicitFlow.getToken(_latestScope.join(" "));
@@ -936,7 +936,7 @@ void {{classname}}::tokenAvailable(){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
             _latestWorker->execute(&_latestInput);
         }else{
-            _authFlow.removeToken(_latestScope.join(" "));    
+            _authFlow.removeToken(_latestScope.join(" "));
             qDebug() << "Could not retrieve a valid token";
         }
         break;
@@ -946,7 +946,7 @@ void {{classname}}::tokenAvailable(){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
             _latestWorker->execute(&_latestInput);
         }else{
-            _credentialFlow.removeToken(_latestScope.join(" "));    
+            _credentialFlow.removeToken(_latestScope.join(" "));
             qDebug() << "Could not retrieve a valid token";
         }
         break;
@@ -956,7 +956,7 @@ void {{classname}}::tokenAvailable(){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
             _latestWorker->execute(&_latestInput);
         }else{
-            _credentialFlow.removeToken(_latestScope.join(" "));    
+            _credentialFlow.removeToken(_latestScope.join(" "));
             qDebug() << "Could not retrieve a valid token";
         }
         break;

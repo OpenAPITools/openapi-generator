@@ -10,18 +10,19 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
-using {{packageName}}.Api;
-using {{packageName}}.Model;
+using {{packageName}}.{{apiPackage}};
+using {{packageName}}.{{interfacePrefix}}{{apiPackage}};
+using {{packageName}}.{{modelPackage}};
 
-namespace {{packageName}}.Client
+namespace {{packageName}}.{{clientPackage}}
 {
     /// <summary>
     /// Provides hosting configuration for {{packageName}}
     /// </summary>
-    public class HostConfiguration
+    {{>visibility}} class HostConfiguration
     {
         private readonly IServiceCollection _services;
-        private JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
+        private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
 
         internal bool HttpClientsAdded { get; private set; }
 
@@ -33,30 +34,22 @@ namespace {{packageName}}.Client
         {
             _services = services;
             _jsonOptions.Converters.Add(new JsonStringEnumConverter());
-            _jsonOptions.Converters.Add(new OpenAPIDateJsonConverter());
-{{#models}}
-{{#model}}
-{{^isEnum}}
-{{#allOf}}
-{{#-first}}
+            _jsonOptions.Converters.Add(new DateTimeJsonConverter());
+            _jsonOptions.Converters.Add(new DateTimeNullableJsonConverter());
+            {{#models}}
+            {{#model}}
+            {{#isEnum}}
+            _jsonOptions.Converters.Add(new {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}Converter());
+            _jsonOptions.Converters.Add(new {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}NullableConverter());
+            {{/isEnum}}
+            {{^isEnum}}
             _jsonOptions.Converters.Add(new {{classname}}JsonConverter());
-{{/-first}}
-{{/allOf}}
-{{#anyOf}}
-{{#-first}}
-            _jsonOptions.Converters.Add(new {{classname}}JsonConverter());
-{{/-first}}
-{{/anyOf}}
-{{#oneOf}}
-{{#-first}}
-            _jsonOptions.Converters.Add(new {{classname}}JsonConverter());
-{{/-first}}
-{{/oneOf}}
-{{/isEnum}}
-{{/model}}
-{{/models}}
-            _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));{{#apiInfo}}{{#apis}}
-            _services.AddSingleton<{{interfacePrefix}}{{classname}}, {{classname}}>();{{/apis}}{{/apiInfo}}
+            {{/isEnum}}
+            {{/model}}
+            {{/models}}
+            _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
+            _services.AddSingleton<IApiFactory, ApiFactory>();{{#apiInfo}}{{#apis}}
+            _services.AddTransient<{{interfacePrefix}}{{classname}}, {{classname}}>();{{/apis}}{{/apiInfo}}
         }
 
         /// <summary>
@@ -65,36 +58,22 @@ namespace {{packageName}}.Client
         /// <param name="client"></param>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public HostConfiguration Add{{apiName}}HttpClients<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}>
+        public HostConfiguration Add{{apiName}}HttpClients
         (
-            Action<HttpClient>{{nrt?}} client = null, Action<IHttpClientBuilder>{{nrt?}} builder = null){{#apis}}
-            where T{{classname}} : class, {{interfacePrefix}}{{classname}}{{/apis}}
+            Action<HttpClient>{{nrt?}} client = null, Action<IHttpClientBuilder>{{nrt?}} builder = null)
         {
             if (client == null)
                 client = c => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
-            
-            {{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{classname}}, T{{classname}}>(client));
+
+            {{#apiInfo}}{{#apis}}builders.Add(_services.AddHttpClient<{{interfacePrefix}}{{classname}}, {{classname}}>(client));
             {{/apis}}{{/apiInfo}}
             if (builder != null)
                 foreach (IHttpClientBuilder instance in builders)
                     builder(instance);
 
             HttpClientsAdded = true;
-
-            return this;
-        }
-
-        /// <summary>
-        /// Configures the HttpClients.
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="builder"></param>
-        /// <returns></returns>
-        public HostConfiguration Add{{apiName}}HttpClients(Action<HttpClient>{{nrt?}} client = null, Action<IHttpClientBuilder>{{nrt?}} builder = null)
-        {
-            Add{{apiName}}HttpClients<{{#apiInfo}}{{#apis}}{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(client, builder);
 
             return this;
         }

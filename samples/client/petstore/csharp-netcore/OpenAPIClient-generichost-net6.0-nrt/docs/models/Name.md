@@ -5,10 +5,10 @@ Model for testing model name same as property name
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**NameProperty** | **int** |  | 
-**SnakeCase** | **int** |  | [optional] [readonly] 
+**VarName** | **int** |  | 
 **Property** | **string** |  | [optional] 
-**_123Number** | **int** |  | [optional] [readonly] 
+**SnakeCase** | **int** |  | [optional] [readonly] 
+**Var123Number** | **int** |  | [optional] [readonly] 
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 

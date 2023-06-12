@@ -15,7 +15,6 @@ Install the following dependencies:
 
 ```shell
 go get github.com/stretchr/testify/assert
-go get golang.org/x/oauth2
 go get golang.org/x/net/context
 ```
 
@@ -61,7 +60,7 @@ Each operation can use different server URL defined using `OperationServers` map
 An operation is uniquely identified by `"{classname}Service.{nickname}"` string.
 Similar rules for overriding default operation server index and variables applies by using `sw.ContextOperationServerIndices` and `sw.ContextOperationServerVariables` context maps.
 
-```
+```golang
 ctx := context.WithValue(context.Background(), x_auth_id_alias.ContextOperationServerIndices, map[string]int{
 	"{classname}Service.{nickname}": 2,
 })
@@ -78,10 +77,10 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*UsageApi* | [**AnyKey**](docs/UsageApi.md#anykey) | **Get** /any | Use any API key
-*UsageApi* | [**BothKeys**](docs/UsageApi.md#bothkeys) | **Get** /both | Use both API keys
-*UsageApi* | [**KeyInHeader**](docs/UsageApi.md#keyinheader) | **Get** /header | Use API key in header
-*UsageApi* | [**KeyInQuery**](docs/UsageApi.md#keyinquery) | **Get** /query | Use API key in query
+*UsageAPI* | [**AnyKey**](docs/UsageAPI.md#anykey) | **Get** /any | Use any API key
+*UsageAPI* | [**BothKeys**](docs/UsageAPI.md#bothkeys) | **Get** /both | Use both API keys
+*UsageAPI* | [**KeyInHeader**](docs/UsageAPI.md#keyinheader) | **Get** /header | Use API key in header
+*UsageAPI* | [**KeyInQuery**](docs/UsageAPI.md#keyinquery) | **Get** /query | Use API key in query
 
 
 ## Documentation For Models
@@ -91,7 +90,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Authorization
 
 
-
+Authentication schemes defined for the API:
 ### api_key
 
 - **Type**: API key
@@ -100,6 +99,18 @@ Class | Method | HTTP request | Description
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-Api-Key and passed in as the auth context for each request.
 
+Example
+
+```golang
+auth := context.WithValue(
+		context.Background(),
+		sw.ContextAPIKeys,
+		map[string]sw.APIKey{
+			"X-Api-Key": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
 
 ### api_key_query
 
@@ -108,6 +119,19 @@ Note, each API key must be added to a map of `map[string]APIKey` where the key i
 - **Location**: URL query string
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: api_key and passed in as the auth context for each request.
+
+Example
+
+```golang
+auth := context.WithValue(
+		context.Background(),
+		sw.ContextAPIKeys,
+		map[string]sw.APIKey{
+			"api_key": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
 
 
 ## Documentation for Utility Methods

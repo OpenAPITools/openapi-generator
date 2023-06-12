@@ -1,4 +1,5 @@
 .gitignore
+.swiftformat
 Package.swift
 README.md
 Sources/PetstoreClient/APIs.swift
@@ -25,15 +26,12 @@ Sources/PetstoreClient/Models/ArrayOfArrayOfNumberOnly.swift
 Sources/PetstoreClient/Models/ArrayOfNumberOnly.swift
 Sources/PetstoreClient/Models/ArrayTest.swift
 Sources/PetstoreClient/Models/BigCat.swift
-Sources/PetstoreClient/Models/BigCatAllOf.swift
 Sources/PetstoreClient/Models/Capitalization.swift
 Sources/PetstoreClient/Models/Cat.swift
-Sources/PetstoreClient/Models/CatAllOf.swift
 Sources/PetstoreClient/Models/Category.swift
 Sources/PetstoreClient/Models/ClassModel.swift
 Sources/PetstoreClient/Models/Client.swift
 Sources/PetstoreClient/Models/Dog.swift
-Sources/PetstoreClient/Models/DogAllOf.swift
 Sources/PetstoreClient/Models/EnumArrays.swift
 Sources/PetstoreClient/Models/EnumClass.swift
 Sources/PetstoreClient/Models/EnumTest.swift
@@ -60,6 +58,8 @@ Sources/PetstoreClient/Models/TypeHolderDefault.swift
 Sources/PetstoreClient/Models/TypeHolderExample.swift
 Sources/PetstoreClient/Models/User.swift
 Sources/PetstoreClient/Models/XmlItem.swift
+Sources/PetstoreClient/OpenISO8601DateFormatter.swift
+Sources/PetstoreClient/Validation.swift
 docs/AdditionalPropertiesAnyType.md
 docs/AdditionalPropertiesArray.md
 docs/AdditionalPropertiesBoolean.md
@@ -76,15 +76,12 @@ docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
 docs/BigCat.md
-docs/BigCatAllOf.md
 docs/Capitalization.md
 docs/Cat.md
-docs/CatAllOf.md
 docs/Category.md
 docs/ClassModel.md
 docs/Client.md
 docs/Dog.md
-docs/DogAllOf.md
 docs/EnumArrays.md
 docs/EnumClass.md
 docs/EnumTest.md

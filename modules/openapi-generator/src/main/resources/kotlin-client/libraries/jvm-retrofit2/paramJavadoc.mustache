@@ -1,0 +1,5 @@
+{{#allParams}}{{#isDeepObject}}
+     * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}{{/isDeepObject}}{{^isDeepObject}}{{#isExplode}}{{#hasVars}}{{#vars}}
+     * @param {{{baseName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}{{/vars}}{{/hasVars}}{{^hasVars}}
+     * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}{{/hasVars}}{{/isExplode}}{{^isExplode}}
+     * @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}{{/isExplode}}{{/isDeepObject}}{{/allParams}}

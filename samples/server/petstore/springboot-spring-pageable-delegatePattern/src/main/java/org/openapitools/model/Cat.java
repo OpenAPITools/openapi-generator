@@ -27,8 +27,18 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Cat extends Animal {
 
-  @JsonProperty("declawed")
   private Boolean declawed;
+
+  public Cat() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Cat(String className) {
+    super(className);
+  }
 
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
@@ -41,6 +51,7 @@ public class Cat extends Animal {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("declawed")
   public Boolean getDeclawed() {
     return declawed;
   }
@@ -48,6 +59,7 @@ public class Cat extends Animal {
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
   }
+
 
   public Cat className(String className) {
     super.setClassName(className);
@@ -58,7 +70,6 @@ public class Cat extends Animal {
     super.setColor(color);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

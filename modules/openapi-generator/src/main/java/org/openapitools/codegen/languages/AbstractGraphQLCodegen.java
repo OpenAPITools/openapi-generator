@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -160,7 +161,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         if (name.matches("^[A-Z_]*$"))
             return name;
 
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name))
@@ -326,7 +327,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
-        return camelize(sanitizedOperationId, false);
+        return camelize(sanitizedOperationId);
     }
 
     @Override

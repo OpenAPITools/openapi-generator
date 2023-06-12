@@ -49,7 +49,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "$")]
             Dollar = 2
-
         }
 
 
@@ -95,36 +94,8 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "crab")]
             Crab = 2
-
         }
 
-
-
-        /// <summary>
-        /// Gets or Sets ArrayEnum
-        /// </summary>
-
-        [DataMember(Name = "array_enum", EmitDefaultValue = false)]
-        public List<ArrayEnumEnum> ArrayEnum
-        {
-            get{ return _ArrayEnum;}
-            set
-            {
-                _ArrayEnum = value;
-                _flagArrayEnum = true;
-            }
-        }
-        private List<ArrayEnumEnum> _ArrayEnum;
-        private bool _flagArrayEnum;
-
-        /// <summary>
-        /// Returns false as ArrayEnum should not be serialized given that it's read-only.
-        /// </summary>
-        /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeArrayEnum()
-        {
-            return _flagArrayEnum;
-        }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.
         /// </summary>
@@ -145,6 +116,30 @@ namespace Org.OpenAPITools.Model
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
+        /// <summary>
+        /// Gets or Sets ArrayEnum
+        /// </summary>
+        [DataMember(Name = "array_enum", EmitDefaultValue = false)]
+        public List<EnumArrays.ArrayEnumEnum> ArrayEnum
+        {
+            get{ return _ArrayEnum;}
+            set
+            {
+                _ArrayEnum = value;
+                _flagArrayEnum = true;
+            }
+        }
+        private List<EnumArrays.ArrayEnumEnum> _ArrayEnum;
+        private bool _flagArrayEnum;
+
+        /// <summary>
+        /// Returns false as ArrayEnum should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeArrayEnum()
+        {
+            return _flagArrayEnum;
+        }
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
@@ -205,7 +200,10 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.JustSymbol.GetHashCode();
-                hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
+                if (this.ArrayEnum != null)
+                {
+                    hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
@@ -219,7 +217,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

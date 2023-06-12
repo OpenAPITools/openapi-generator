@@ -14,11 +14,9 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
-using Newtonsoft.Json;
 
 namespace Org.OpenAPITools.Test.Model
 {
@@ -55,6 +53,23 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<User>(instance);
         }
 
+        /// <summary>
+        /// Test the property 'Email'
+        /// </summary>
+        [Fact]
+        public void EmailTest()
+        {
+            // TODO unit test for the property 'Email'
+        }
+
+        /// <summary>
+        /// Test the property 'FirstName'
+        /// </summary>
+        [Fact]
+        public void FirstNameTest()
+        {
+            // TODO unit test for the property 'FirstName'
+        }
 
         /// <summary>
         /// Test the property 'Id'
@@ -64,22 +79,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Id'
         }
-        /// <summary>
-        /// Test the property 'Username'
-        /// </summary>
-        [Fact]
-        public void UsernameTest()
-        {
-            // TODO unit test for the property 'Username'
-        }
-        /// <summary>
-        /// Test the property 'FirstName'
-        /// </summary>
-        [Fact]
-        public void FirstNameTest()
-        {
-            // TODO unit test for the property 'FirstName'
-        }
+
         /// <summary>
         /// Test the property 'LastName'
         /// </summary>
@@ -88,38 +88,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'LastName'
         }
-        /// <summary>
-        /// Test the property 'Email'
-        /// </summary>
-        [Fact]
-        public void EmailTest()
-        {
-            // TODO unit test for the property 'Email'
-        }
-        /// <summary>
-        /// Test the property 'Password'
-        /// </summary>
-        [Fact]
-        public void PasswordTest()
-        {
-            // TODO unit test for the property 'Password'
-        }
-        /// <summary>
-        /// Test the property 'Phone'
-        /// </summary>
-        [Fact]
-        public void PhoneTest()
-        {
-            // TODO unit test for the property 'Phone'
-        }
-        /// <summary>
-        /// Test the property 'UserStatus'
-        /// </summary>
-        [Fact]
-        public void UserStatusTest()
-        {
-            // TODO unit test for the property 'UserStatus'
-        }
+
         /// <summary>
         /// Test the property 'ObjectWithNoDeclaredProps'
         /// </summary>
@@ -128,14 +97,43 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ObjectWithNoDeclaredProps'
         }
+
         /// <summary>
-        /// Test the property 'ObjectWithNoDeclaredPropsNullable'
+        /// Test the property 'Password'
         /// </summary>
         [Fact]
-        public void ObjectWithNoDeclaredPropsNullableTest()
+        public void PasswordTest()
         {
-            // TODO unit test for the property 'ObjectWithNoDeclaredPropsNullable'
+            // TODO unit test for the property 'Password'
         }
+
+        /// <summary>
+        /// Test the property 'Phone'
+        /// </summary>
+        [Fact]
+        public void PhoneTest()
+        {
+            // TODO unit test for the property 'Phone'
+        }
+
+        /// <summary>
+        /// Test the property 'UserStatus'
+        /// </summary>
+        [Fact]
+        public void UserStatusTest()
+        {
+            // TODO unit test for the property 'UserStatus'
+        }
+
+        /// <summary>
+        /// Test the property 'Username'
+        /// </summary>
+        [Fact]
+        public void UsernameTest()
+        {
+            // TODO unit test for the property 'Username'
+        }
+
         /// <summary>
         /// Test the property 'AnyTypeProp'
         /// </summary>
@@ -144,6 +142,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'AnyTypeProp'
         }
+
         /// <summary>
         /// Test the property 'AnyTypePropNullable'
         /// </summary>
@@ -153,6 +152,13 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'AnyTypePropNullable'
         }
 
+        /// <summary>
+        /// Test the property 'ObjectWithNoDeclaredPropsNullable'
+        /// </summary>
+        [Fact]
+        public void ObjectWithNoDeclaredPropsNullableTest()
+        {
+            // TODO unit test for the property 'ObjectWithNoDeclaredPropsNullable'
+        }
     }
-
 }

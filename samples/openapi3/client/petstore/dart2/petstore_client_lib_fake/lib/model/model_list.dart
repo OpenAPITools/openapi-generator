@@ -37,13 +37,13 @@ class ModelList {
   String toString() => 'ModelList[n123list=$n123list]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (n123list != null) {
-      _json[r'123-list'] = n123list;
+    final json = <String, dynamic>{};
+    if (this.n123list != null) {
+      json[r'123-list'] = this.n123list;
     } else {
-      _json[r'123-list'] = null;
+      json[r'123-list'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [ModelList] instance and imports its values from
@@ -71,7 +71,7 @@ class ModelList {
     return null;
   }
 
-  static List<ModelList>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<ModelList> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <ModelList>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -102,12 +102,10 @@ class ModelList {
   static Map<String, List<ModelList>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<ModelList>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = ModelList.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = ModelList.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

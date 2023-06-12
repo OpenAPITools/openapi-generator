@@ -69,26 +69,26 @@ class Pet {
   String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (id != null) {
-      _json[r'id'] = id;
+    final json = <String, dynamic>{};
+    if (this.id != null) {
+      json[r'id'] = this.id;
     } else {
-      _json[r'id'] = null;
+      json[r'id'] = null;
     }
-    if (category != null) {
-      _json[r'category'] = category;
+    if (this.category != null) {
+      json[r'category'] = this.category;
     } else {
-      _json[r'category'] = null;
+      json[r'category'] = null;
     }
-      _json[r'name'] = name;
-      _json[r'photoUrls'] = photoUrls;
-      _json[r'tags'] = tags;
-    if (status != null) {
-      _json[r'status'] = status;
+      json[r'name'] = this.name;
+      json[r'photoUrls'] = this.photoUrls.toList(growable: false);
+      json[r'tags'] = this.tags;
+    if (this.status != null) {
+      json[r'status'] = this.status;
     } else {
-      _json[r'status'] = null;
+      json[r'status'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [Pet] instance and imports its values from
@@ -113,17 +113,17 @@ class Pet {
         id: mapValueOfType<int>(json, r'id'),
         category: Category.fromJson(json[r'category']),
         name: mapValueOfType<String>(json, r'name')!,
-        photoUrls: json[r'photoUrls'] is Set
-            ? (json[r'photoUrls'] as Set).cast<String>()
+        photoUrls: json[r'photoUrls'] is Iterable
+            ? (json[r'photoUrls'] as Iterable).cast<String>().toSet()
             : const {},
-        tags: Tag.listFromJson(json[r'tags']) ?? const [],
+        tags: Tag.listFromJson(json[r'tags']),
         status: PetStatusEnum.fromJson(json[r'status']),
       );
     }
     return null;
   }
 
-  static List<Pet>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<Pet> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <Pet>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -154,12 +154,10 @@ class Pet {
   static Map<String, List<Pet>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<Pet>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = Pet.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = Pet.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
@@ -198,7 +196,7 @@ class PetStatusEnum {
 
   static PetStatusEnum? fromJson(dynamic value) => PetStatusEnumTypeTransformer().decode(value);
 
-  static List<PetStatusEnum>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<PetStatusEnum> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <PetStatusEnum>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -231,7 +229,7 @@ class PetStatusEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   PetStatusEnum? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         case r'available': return PetStatusEnum.available;
         case r'pending': return PetStatusEnum.pending;
         case r'sold': return PetStatusEnum.sold;

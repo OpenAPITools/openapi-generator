@@ -12,17 +12,22 @@
 package org.openapitools.server.apis
 
 import com.google.gson.Gson
-import io.ktor.application.*
-import io.ktor.auth.*
 import io.ktor.http.*
-import io.ktor.response.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.response.*
 import org.openapitools.server.Paths
-import io.ktor.locations.*
-import io.ktor.routing.*
+import io.ktor.server.resources.options
+import io.ktor.server.resources.get
+import io.ktor.server.resources.post
+import io.ktor.server.resources.put
+import io.ktor.server.resources.delete
+import io.ktor.server.resources.head
+import io.ktor.server.resources.patch
+import io.ktor.server.routing.*
 import org.openapitools.server.infrastructure.ApiPrincipal
 import org.openapitools.server.models.User
 
-@KtorExperimentalLocationsAPI
 fun Route.UserApi() {
     val gson = Gson()
     val empty = mutableMapOf<String, Any?>()

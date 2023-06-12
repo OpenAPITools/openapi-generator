@@ -13,7 +13,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**LogoutUser**](UserApi.md#logoutuser) | **GET** /user/logout | Logs out current logged in user session |
 | [**UpdateUser**](UserApi.md#updateuser) | **PUT** /user/{username} | Updated user |
 
-<a name="createuser"></a>
+<a id="createuser"></a>
 # **CreateUser**
 > void CreateUser (User user)
 
@@ -100,7 +100,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-<a name="createuserswitharrayinput"></a>
+<a id="createuserswitharrayinput"></a>
 # **CreateUsersWithArrayInput**
 > void CreateUsersWithArrayInput (List<User> user)
 
@@ -185,7 +185,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-<a name="createuserswithlistinput"></a>
+<a id="createuserswithlistinput"></a>
 # **CreateUsersWithListInput**
 > void CreateUsersWithListInput (List<User> user)
 
@@ -270,7 +270,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-<a name="deleteuser"></a>
+<a id="deleteuser"></a>
 # **DeleteUser**
 > void DeleteUser (string username)
 
@@ -358,7 +358,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-<a name="getuserbyname"></a>
+<a id="getuserbyname"></a>
 # **GetUserByName**
 > User GetUserByName (string username)
 
@@ -449,7 +449,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-<a name="loginuser"></a>
+<a id="loginuser"></a>
 # **LoginUser**
 > string LoginUser (string username, string password)
 
@@ -541,7 +541,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-<a name="logoutuser"></a>
+<a id="logoutuser"></a>
 # **LogoutUser**
 > void LogoutUser ()
 
@@ -621,9 +621,9 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-<a name="updateuser"></a>
+<a id="updateuser"></a>
 # **UpdateUser**
-> void UpdateUser (string username, User user)
+> void UpdateUser (User user, string username)
 
 Updated user
 
@@ -646,13 +646,13 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
-            var username = "username_example";  // string | name that need to be deleted
             var user = new User(); // User | Updated user object
+            var username = "username_example";  // string | name that need to be deleted
 
             try
             {
                 // Updated user
-                apiInstance.UpdateUser(username, user);
+                apiInstance.UpdateUser(user, username);
             }
             catch (ApiException  e)
             {
@@ -672,7 +672,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Updated user
-    apiInstance.UpdateUserWithHttpInfo(username, user);
+    apiInstance.UpdateUserWithHttpInfo(user, username);
 }
 catch (ApiException e)
 {
@@ -686,8 +686,8 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **username** | **string** | name that need to be deleted |  |
 | **user** | [**User**](User.md) | Updated user object |  |
+| **username** | **string** | name that need to be deleted |  |
 
 ### Return type
 

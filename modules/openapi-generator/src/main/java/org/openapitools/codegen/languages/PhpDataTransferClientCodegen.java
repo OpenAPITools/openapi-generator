@@ -76,7 +76,11 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
@@ -91,9 +95,6 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
                 .build();
-
-        //no point to use double - http://php.net/manual/en/language.types.float.php , especially because of PHP 7+ float type declaration
-        typeMapping.put("double", "float");
 
         // remove these from primitive types to make the output works
         languageSpecificPrimitives.remove("\\DateTime");

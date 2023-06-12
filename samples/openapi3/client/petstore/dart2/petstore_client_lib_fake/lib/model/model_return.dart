@@ -37,13 +37,13 @@ class ModelReturn {
   String toString() => 'ModelReturn[return_=$return_]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (return_ != null) {
-      _json[r'return'] = return_;
+    final json = <String, dynamic>{};
+    if (this.return_ != null) {
+      json[r'return'] = this.return_;
     } else {
-      _json[r'return'] = null;
+      json[r'return'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [ModelReturn] instance and imports its values from
@@ -71,7 +71,7 @@ class ModelReturn {
     return null;
   }
 
-  static List<ModelReturn>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<ModelReturn> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <ModelReturn>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -102,12 +102,10 @@ class ModelReturn {
   static Map<String, List<ModelReturn>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<ModelReturn>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = ModelReturn.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = ModelReturn.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;
