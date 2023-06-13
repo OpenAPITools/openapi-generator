@@ -402,7 +402,7 @@ public class SpringCodegenTest {
                 .setAdditionalProperties(properties)
                 .setGeneratorName("spring")
                 .setLibrary(SPRING_BOOT)
-                .setInputSpec("src/test/resources/bugs/issue_required-values-with-multiple-inheritance.yaml")
+                .setInputSpec("src/test/resources/bugs/issue_constructor-required-values-with-multiple-inheritance.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
