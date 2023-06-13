@@ -288,13 +288,13 @@ func _bzz_do_request_text(
 		on_failure.call(error)
 		return
 
+    # Keep polling for as long as the request is being processed.
 	while self._bzz_client.get_status() == HTTPClient.STATUS_REQUESTING:
-		# Keep polling for as long as the request is being processed.
-		self._bzz_client.poll()
 		self._bzz_config.log_debug("Requesting…")
 		if self._bzz_config.polling_interval_ms:
 			OS.delay_msec(self._bzz_config.polling_interval_ms)
 		await _bzz_next_loop_iteration()
+		self._bzz_client.poll()
 
 	if not self._bzz_client.has_response():
 		var error := {{>partials/api_error_class_name}}.new()
@@ -321,7 +321,6 @@ func _bzz_do_request_text(
 	var response_bytes := PackedByteArray()
 
 	while self._bzz_client.get_status() == HTTPClient.STATUS_BODY:
-		self._bzz_client.poll()
 		var chunk = self._bzz_client.read_response_body_chunk()
 		if chunk.size() == 0:  # Got nothing, wait for buffers to fill a bit.
 			if self._bzz_config.polling_interval_ms:
@@ -329,6 +328,7 @@ func _bzz_do_request_text(
 			await _bzz_next_loop_iteration()
 		else:  # Yummy data has arrived
 			response_bytes = response_bytes + chunk
+		self._bzz_client.poll()
 
 	self._bzz_config.log_info("%s: RESPONSE %d (%d bytes)" % [
 		_bzz_name, response.code, response_bytes.size()
