@@ -5199,6 +5199,9 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.required = parameter.getRequired().booleanValue();
         }
 
+        // set containerType
+        codegenParameter.containerType = codegenProperty.containerType;
+
         // enum
         updateCodegenPropertyEnum(codegenProperty);
         codegenParameter.isEnum = codegenProperty.isEnum;
@@ -6997,6 +7000,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.description = escapeText(codegenProperty.description);
         codegenParameter.unescapedDescription = codegenProperty.getDescription();
         codegenParameter.jsonSchema = Json.pretty(propertySchema);
+        codegenParameter.containerType = codegenProperty.containerType;
 
         if (codegenProperty.getVendorExtensions() != null && !codegenProperty.getVendorExtensions().isEmpty()) {
             codegenParameter.vendorExtensions = codegenProperty.getVendorExtensions();
@@ -7147,6 +7151,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isContainer = Boolean.TRUE;
             codegenParameter.isMap = Boolean.TRUE;
             codegenParameter.isNullable = codegenProperty.isNullable;
+            codegenParameter.containerType = codegenProperty.containerType;
 
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
@@ -7256,6 +7261,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.baseType = getSchemaType(inner);
             codegenParameter.isContainer = Boolean.TRUE;
             codegenParameter.isNullable = codegenProperty.isNullable;
+            codegenParameter.containerType = codegenProperty.containerType;
 
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
