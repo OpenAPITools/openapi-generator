@@ -391,7 +391,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void testJavaClientCorrectConstructorOrderForRequiredFields_issueNoNumberYet() throws IOException {
+    public void testJavaClientCorrectConstructorOrderForRequiredFields_issue15825() throws IOException {
         Map<String, Object> properties = new HashMap<>();
         properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
 
