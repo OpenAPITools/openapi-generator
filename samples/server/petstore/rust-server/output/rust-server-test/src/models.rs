@@ -1,24 +1,25 @@
 #![allow(unused_qualifications)]
 
+use validator::Validate;
+
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ANullableContainer {
     #[serde(rename = "NullableThing")]
-    #[garde(skip)]
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_thing: Option<swagger::Nullable<String>>,
 
     #[serde(rename = "RequiredNullableThing")]
-    #[garde(skip)]
     pub required_nullable_thing: swagger::Nullable<String>,
 
 }
+
 
 impl ANullableContainer {
     #[allow(clippy::new_without_default)]
@@ -192,20 +193,19 @@ impl ::std::str::FromStr for AdditionalPropertiesObject {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AllOfObject {
     #[serde(rename = "sampleProperty")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub sample_property: Option<String>,
 
     #[serde(rename = "sampleBaseProperty")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub sample_base_property: Option<String>,
 
 }
+
 
 impl AllOfObject {
     #[allow(clippy::new_without_default)]
@@ -334,15 +334,15 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct BaseAllOf {
     #[serde(rename = "sampleBaseProperty")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub sample_base_property: Option<String>,
 
 }
+
 
 impl BaseAllOf {
     #[allow(clippy::new_without_default)]
@@ -458,19 +458,18 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct DummyPutRequest {
     #[serde(rename = "id")]
-    #[garde(skip)]
     pub id: String,
 
     #[serde(rename = "password")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub password: Option<String>,
 
 }
+
 
 impl DummyPutRequest {
     #[allow(clippy::new_without_default)]
@@ -596,16 +595,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 
 
 /// structured response
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GetYamlResponse {
     /// Inner string
     #[serde(rename = "value")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub value: Option<String>,
 
 }
+
 
 impl GetYamlResponse {
     #[allow(clippy::new_without_default)]
@@ -722,15 +721,15 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 
 
 /// An object of objects
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectOfObjects {
     #[serde(rename = "inner")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub inner: Option<models::ObjectOfObjectsInner>,
 
 }
+
 
 impl ObjectOfObjects {
     #[allow(clippy::new_without_default)]
@@ -840,19 +839,18 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectOfObjectsInner {
     #[serde(rename = "required_thing")]
-    #[garde(skip)]
     pub required_thing: String,
 
     #[serde(rename = "optional_thing")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub optional_thing: Option<i32>,
 
 }
+
 
 impl ObjectOfObjectsInner {
     #[allow(clippy::new_without_default)]

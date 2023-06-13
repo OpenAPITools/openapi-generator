@@ -1139,17 +1139,11 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - properties:
-          breed:
-            type: string
-        type: object
+      - $ref: '#/components/schemas/Dog_allOf'
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - properties:
-          declawed:
-            type: boolean
-        type: object
+      - $ref: '#/components/schemas/Cat_allOf'
     Animal:
       discriminator:
         propertyName: className
@@ -1582,6 +1576,18 @@ components:
       - param
       - param2
       type: object
+    Dog_allOf:
+      properties:
+        breed:
+          type: string
+      type: object
+      example: null
+    Cat_allOf:
+      properties:
+        declawed:
+          type: boolean
+      type: object
+      example: null
   securitySchemes:
     petstore_auth:
       flows:

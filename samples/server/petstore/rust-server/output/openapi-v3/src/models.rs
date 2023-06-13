@@ -1,5 +1,7 @@
 #![allow(unused_qualifications)]
 
+use validator::Validate;
+
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
@@ -265,16 +267,16 @@ impl AnotherXmlInner {
 }
 
 /// An XML object
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "snake_another_xml_object")]
 pub struct AnotherXmlObject {
     #[serde(rename = "inner_string")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub inner_string: Option<String>,
 
 }
+
 
 impl AnotherXmlObject {
     #[allow(clippy::new_without_default)]
@@ -408,10 +410,11 @@ impl AnotherXmlObject {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnyOfGet202Response {
 }
+
 
 impl AnyOfGet202Response {
     #[allow(clippy::new_without_default)]
@@ -524,10 +527,11 @@ impl AnyOfGet202Response {
 }
 
 /// Test a model containing an anyOf
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnyOfObject {
 }
+
 
 impl AnyOfObject {
     #[allow(clippy::new_without_default)]
@@ -640,19 +644,18 @@ impl AnyOfObject {
 }
 
 /// Test containing an anyOf object
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnyOfProperty {
     #[serde(rename = "requiredAnyOf")]
-    #[garde(skip)]
     pub required_any_of: models::AnyOfObject,
 
     #[serde(rename = "optionalAnyOf")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub optional_any_of: Option<models::Model12345AnyOfObject>,
 
 }
+
 
 impl AnyOfProperty {
     #[allow(clippy::new_without_default)]
@@ -779,21 +782,20 @@ impl AnyOfProperty {
 }
 
 /// An XML object
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "camelDuplicateXmlObject")]
 pub struct DuplicateXmlObject {
     #[serde(rename = "inner_string")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub inner_string: Option<String>,
 
     #[serde(rename = "inner_array")]
     #[serde(serialize_with = "wrap_in_camelXmlInner")]
-    #[garde(skip)]
     pub inner_array: models::XmlArray,
 
 }
+
 
 impl DuplicateXmlObject {
     #[allow(clippy::new_without_default)]
@@ -1088,10 +1090,11 @@ impl Error {
 }
 
 /// Test a model containing an anyOf that starts with a number
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Model12345AnyOfObject {
 }
+
 
 impl Model12345AnyOfObject {
     #[allow(clippy::new_without_default)]
@@ -1203,15 +1206,15 @@ impl Model12345AnyOfObject {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultigetGet201Response {
     #[serde(rename = "foo")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub foo: Option<String>,
 
 }
+
 
 impl MultigetGet201Response {
     #[allow(clippy::new_without_default)]
@@ -1513,42 +1516,38 @@ impl MyIdList {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct NullableTest {
     #[serde(rename = "nullable")]
-    #[garde(skip)]
     pub nullable: swagger::Nullable<String>,
 
     #[serde(rename = "nullableWithNullDefault")]
-    #[garde(skip)]
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_with_null_default: Option<swagger::Nullable<String>>,
 
     #[serde(rename = "nullableWithPresentDefault")]
-    #[garde(skip)]
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_with_present_default: Option<swagger::Nullable<String>>,
 
     #[serde(rename = "nullableWithNoDefault")]
-    #[garde(skip)]
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_with_no_default: Option<swagger::Nullable<String>>,
 
     #[serde(rename = "nullableArray")]
-    #[garde(skip)]
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_array: Option<swagger::Nullable<Vec<String>>>,
 
 }
+
 
 impl NullableTest {
     #[allow(clippy::new_without_default)]
@@ -1716,19 +1715,18 @@ impl NullableTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectHeader {
     #[serde(rename = "requiredObjectHeader")]
-    #[garde(skip)]
     pub required_object_header: bool,
 
     #[serde(rename = "optionalObjectHeader")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub optional_object_header: Option<i32>,
 
 }
+
 
 impl ObjectHeader {
     #[allow(clippy::new_without_default)]
@@ -1862,19 +1860,18 @@ impl ObjectHeader {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectParam {
     #[serde(rename = "requiredParam")]
-    #[garde(skip)]
     pub required_param: bool,
 
     #[serde(rename = "optionalParam")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub optional_param: Option<i32>,
 
 }
+
 
 impl ObjectParam {
     #[allow(clippy::new_without_default)]
@@ -2008,28 +2005,25 @@ impl ObjectParam {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectUntypedProps {
     #[serde(rename = "required_untyped")]
-    #[garde(skip)]
     pub required_untyped: serde_json::Value,
 
     #[serde(rename = "required_untyped_nullable")]
-    #[garde(skip)]
     pub required_untyped_nullable: swagger::Nullable<serde_json::Value>,
 
     #[serde(rename = "not_required_untyped")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub not_required_untyped: Option<serde_json::Value>,
 
     #[serde(rename = "not_required_untyped_nullable")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub not_required_untyped_nullable: Option<serde_json::Value>,
 
 }
+
 
 impl ObjectUntypedProps {
     #[allow(clippy::new_without_default)]
@@ -2168,15 +2162,15 @@ impl ObjectUntypedProps {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectWithArrayOfObjects {
     #[serde(rename = "objectArray")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub object_array: Option<Vec<models::StringObject>>,
 
 }
+
 
 impl ObjectWithArrayOfObjects {
     #[allow(clippy::new_without_default)]
@@ -2352,10 +2346,11 @@ impl Ok {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OneOfGet200Response {
 }
+
 
 impl OneOfGet200Response {
     #[allow(clippy::new_without_default)]
@@ -2935,21 +2930,20 @@ impl XmlInner {
 }
 
 /// An XML object
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "camelXmlObject")]
 pub struct XmlObject {
     #[serde(rename = "innerString")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub inner_string: Option<String>,
 
     #[serde(rename = "other_inner_rename")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub other_inner_rename: Option<i32>,
 
 }
+
 
 impl XmlObject {
     #[allow(clippy::new_without_default)]

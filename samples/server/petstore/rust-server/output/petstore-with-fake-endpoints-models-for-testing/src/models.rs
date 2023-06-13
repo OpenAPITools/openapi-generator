@@ -1,23 +1,24 @@
 #![allow(unused_qualifications)]
 
+use validator::Validate;
+
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesClass {
     #[serde(rename = "map_property")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_property: Option<std::collections::HashMap<String, String>>,
 
     #[serde(rename = "map_of_map_property")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_of_map_property: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
 }
+
 
 impl AdditionalPropertiesClass {
     #[allow(clippy::new_without_default)]
@@ -142,19 +143,18 @@ impl AdditionalPropertiesClass {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Animal {
     #[serde(rename = "className")]
-    #[garde(skip)]
     pub class_name: String,
 
     #[serde(rename = "color")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub color: Option<String>,
 
 }
+
 
 impl Animal {
     #[allow(clippy::new_without_default)]
@@ -426,25 +426,23 @@ impl AnimalFarm {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ApiResponse {
     #[serde(rename = "code")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub code: Option<i32>,
 
     #[serde(rename = "type")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub r#type: Option<String>,
 
     #[serde(rename = "message")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub message: Option<String>,
 
 }
+
 
 impl ApiResponse {
     #[allow(clippy::new_without_default)]
@@ -595,15 +593,15 @@ impl ApiResponse {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfArrayOfNumberOnly {
     #[serde(rename = "ArrayArrayNumber")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_number: Option<Vec<Vec<f64>>>,
 
 }
+
 
 impl ArrayOfArrayOfNumberOnly {
     #[allow(clippy::new_without_default)]
@@ -721,15 +719,15 @@ impl ArrayOfArrayOfNumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfNumberOnly {
     #[serde(rename = "ArrayNumber")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_number: Option<Vec<f64>>,
 
 }
+
 
 impl ArrayOfNumberOnly {
     #[allow(clippy::new_without_default)]
@@ -853,31 +851,28 @@ impl ArrayOfNumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayTest {
     #[serde(rename = "array_of_string")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_of_string: Option<Vec<String>>,
 
     #[serde(rename = "array_array_of_integer")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_of_integer: Option<Vec<Vec<i64>>>,
 
     #[serde(rename = "array_array_of_model")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_of_model: Option<Vec<Vec<models::ReadOnlyFirst>>>,
 
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "array_of_enum")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_of_enum: Option<Vec<String>>,
 
 }
+
 
 impl ArrayTest {
     #[allow(clippy::new_without_default)]
@@ -1025,41 +1020,36 @@ impl ArrayTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Capitalization {
     #[serde(rename = "smallCamel")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub small_camel: Option<String>,
 
     #[serde(rename = "CapitalCamel")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub capital_camel: Option<String>,
 
     #[serde(rename = "small_Snake")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub small_snake: Option<String>,
 
     #[serde(rename = "Capital_Snake")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub capital_snake: Option<String>,
 
     #[serde(rename = "SCA_ETH_Flow_Points")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub sca_eth_flow_points: Option<String>,
 
     /// Name of the pet 
     #[serde(rename = "ATT_NAME")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub att_name: Option<String>,
 
 }
+
 
 impl Capitalization {
     #[allow(clippy::new_without_default)]
@@ -1249,24 +1239,22 @@ impl Capitalization {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Cat {
     #[serde(rename = "className")]
-    #[garde(skip)]
     pub class_name: String,
 
     #[serde(rename = "color")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub color: Option<String>,
 
     #[serde(rename = "declawed")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub declawed: Option<bool>,
 
 }
+
 
 impl Cat {
     #[allow(clippy::new_without_default)]
@@ -1413,15 +1401,15 @@ impl Cat {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct CatAllOf {
     #[serde(rename = "declawed")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub declawed: Option<bool>,
 
 }
+
 
 impl CatAllOf {
     #[allow(clippy::new_without_default)]
@@ -1546,21 +1534,20 @@ impl CatAllOf {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Category")]
 pub struct Category {
     #[serde(rename = "id")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "name")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
 
 }
+
 
 impl Category {
     #[allow(clippy::new_without_default)]
@@ -1699,15 +1686,15 @@ impl Category {
 }
 
 /// Model for testing model with \"_class\" property
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ClassModel {
     #[serde(rename = "_class")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub _class: Option<String>,
 
 }
+
 
 impl ClassModel {
     #[allow(clippy::new_without_default)]
@@ -1832,15 +1819,15 @@ impl ClassModel {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Client {
     #[serde(rename = "client")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub client: Option<String>,
 
 }
+
 
 impl Client {
     #[allow(clippy::new_without_default)]
@@ -1965,24 +1952,22 @@ impl Client {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Dog {
     #[serde(rename = "className")]
-    #[garde(skip)]
     pub class_name: String,
 
     #[serde(rename = "color")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub color: Option<String>,
 
     #[serde(rename = "breed")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub breed: Option<String>,
 
 }
+
 
 impl Dog {
     #[allow(clippy::new_without_default)]
@@ -2129,15 +2114,15 @@ impl Dog {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct DogAllOf {
     #[serde(rename = "breed")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub breed: Option<String>,
 
 }
+
 
 impl DogAllOf {
     #[allow(clippy::new_without_default)]
@@ -2262,16 +2247,16 @@ impl DogAllOf {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "$special[model.name]")]
 pub struct DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
     #[serde(rename = "$special[property.name]")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub dollar_special_left_square_bracket_property_period_name_right_square_bracket: Option<i64>,
 
 }
+
 
 impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
     #[allow(clippy::new_without_default)]
@@ -2396,28 +2381,26 @@ impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumArrays {
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "just_symbol")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub just_symbol: Option<String>,
 
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "array_enum")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_enum: Option<Vec<String>>,
 
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "array_array_enum")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_enum: Option<Vec<Vec<String>>>,
 
 }
+
 
 impl EnumArrays {
     #[allow(clippy::new_without_default)]
@@ -2608,38 +2591,34 @@ impl EnumClass {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumTest {
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_string")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_string: Option<String>,
 
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_string_required")]
-    #[garde(skip)]
     pub enum_string_required: String,
 
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_integer")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_integer: Option<i32>,
 
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_number")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_number: Option<f64>,
 
     #[serde(rename = "outerEnum")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub outer_enum: Option<models::OuterEnum>,
 
 }
+
 
 impl EnumTest {
     #[allow(clippy::new_without_default)]
@@ -2806,86 +2785,96 @@ impl EnumTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct FormatTest {
     #[serde(rename = "integer")]
-    #[garde(
+    #[validate(
             range(min = 10, max = 100),
         )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub integer: Option<u8>,
 
     #[serde(rename = "int32")]
-    #[garde(
+    #[validate(
             range(min = 20, max = 200),
         )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub int32: Option<u32>,
 
     #[serde(rename = "int64")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub int64: Option<i64>,
 
     #[serde(rename = "number")]
-    #[garde(
+    #[validate(
             range(min = 32.1, max = 543.2),
         )]
     pub number: f64,
 
     #[serde(rename = "float")]
-    #[garde(
+    #[validate(
             range(min = 54.3, max = 987.6),
         )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub float: Option<f32>,
 
     #[serde(rename = "double")]
-    #[garde(
+    #[validate(
             range(min = 67.8, max = 123.4),
         )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub double: Option<f64>,
 
     #[serde(rename = "string")]
-    #[garde(
-        pattern(r"/[a-z]/i"),
+    #[validate(
+           regex = "RE_FORMATTEST_STRING",
         )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub string: Option<String>,
 
     #[serde(rename = "byte")]
-    #[garde(
-        pattern(r"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}&#x3D;&#x3D;|[A-Za-z0-9+/]{3}&#x3D;)?$"),
+    #[validate(
+           custom ="validate_byte_formattest_byte"
         )]
     pub byte: swagger::ByteArray,
 
     #[serde(rename = "binary")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub binary: Option<swagger::ByteArray>,
 
     #[serde(rename = "date")]
-    #[garde(skip)]
     pub date: chrono::DateTime::<chrono::Utc>,
 
     #[serde(rename = "dateTime")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub date_time: Option<chrono::DateTime::<chrono::Utc>>,
 
     #[serde(rename = "uuid")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub uuid: Option<uuid::Uuid>,
 
     #[serde(rename = "password")]
-    #[garde(
+    #[validate(
             length(min = 10, max = 64),
         )]
     pub password: String,
 
+}
+
+lazy_static::lazy_static! {
+    static ref RE_FORMATTEST_STRING: regex::Regex = regex::Regex::new(r"/[a-z]/i").unwrap();
+}
+lazy_static::lazy_static! {
+    static ref RE_FORMATTEST_BYTE: regex::bytes::Regex = regex::bytes::Regex::new(r"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}&#x3D;&#x3D;|[A-Za-z0-9+/]{3}&#x3D;)?$").unwrap();
+}
+fn validate_byte_formattest_byte(
+    b: &swagger::ByteArray
+) -> Result<(), validator::ValidationError> {
+    if !RE_FORMATTEST_BYTE.is_match(b) {
+        return Err(validator::ValidationError::new("Character not allowed"));
+    }
+    Ok(())
 }
 
 impl FormatTest {
@@ -3129,20 +3118,19 @@ impl FormatTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct HasOnlyReadOnly {
     #[serde(rename = "bar")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub bar: Option<String>,
 
     #[serde(rename = "foo")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub foo: Option<String>,
 
 }
+
 
 impl HasOnlyReadOnly {
     #[allow(clippy::new_without_default)]
@@ -3280,15 +3268,15 @@ impl HasOnlyReadOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct List {
     #[serde(rename = "123-list")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub param_123_list: Option<String>,
 
 }
+
 
 impl List {
     #[allow(clippy::new_without_default)]
@@ -3413,27 +3401,25 @@ impl List {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MapTest {
     #[serde(rename = "map_map_of_string")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_map_of_string: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "map_map_of_enum")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_map_of_enum: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "map_of_enum_string")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_of_enum_string: Option<std::collections::HashMap<String, String>>,
 
 }
+
 
 impl MapTest {
     #[allow(clippy::new_without_default)]
@@ -3565,25 +3551,23 @@ impl MapTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MixedPropertiesAndAdditionalPropertiesClass {
     #[serde(rename = "uuid")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub uuid: Option<uuid::Uuid>,
 
     #[serde(rename = "dateTime")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub date_time: Option<chrono::DateTime::<chrono::Utc>>,
 
     #[serde(rename = "map")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map: Option<std::collections::HashMap<String, models::Animal>>,
 
 }
+
 
 impl MixedPropertiesAndAdditionalPropertiesClass {
     #[allow(clippy::new_without_default)]
@@ -3717,21 +3701,20 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 }
 
 /// Model for testing model name starting with number
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Model200Response {
     #[serde(rename = "name")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<i32>,
 
     #[serde(rename = "class")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub class: Option<String>,
 
 }
+
 
 impl Model200Response {
     #[allow(clippy::new_without_default)]
@@ -3870,30 +3853,27 @@ impl Model200Response {
 }
 
 /// Model for testing model name same as property name
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Name {
     #[serde(rename = "name")]
-    #[garde(skip)]
     pub name: i32,
 
     #[serde(rename = "snake_case")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub snake_case: Option<i32>,
 
     #[serde(rename = "property")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub property: Option<String>,
 
     #[serde(rename = "123Number")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub param_123_number: Option<i32>,
 
 }
+
 
 impl Name {
     #[allow(clippy::new_without_default)]
@@ -4053,15 +4033,15 @@ impl Name {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct NumberOnly {
     #[serde(rename = "JustNumber")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub just_number: Option<f64>,
 
 }
+
 
 impl NumberOnly {
     #[allow(clippy::new_without_default)]
@@ -4186,15 +4166,15 @@ impl NumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectContainingObjectWithOnlyAdditionalProperties {
     #[serde(rename = "inner")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub inner: Option<models::ObjectWithOnlyAdditionalProperties>,
 
 }
+
 
 impl ObjectContainingObjectWithOnlyAdditionalProperties {
     #[allow(clippy::new_without_default)]
@@ -4372,43 +4352,38 @@ impl ObjectWithOnlyAdditionalProperties {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Order")]
 pub struct Order {
     #[serde(rename = "id")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "petId")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub pet_id: Option<i64>,
 
     #[serde(rename = "quantity")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub quantity: Option<i32>,
 
     #[serde(rename = "shipDate")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub ship_date: Option<chrono::DateTime::<chrono::Utc>>,
 
     /// Order Status
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "status")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<String>,
 
     #[serde(rename = "complete")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub complete: Option<bool>,
 
 }
+
 
 impl Order {
     #[allow(clippy::new_without_default)]
@@ -4631,25 +4606,23 @@ impl OuterBoolean {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterComposite {
     #[serde(rename = "my_number")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub my_number: Option<f64>,
 
     #[serde(rename = "my_string")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub my_string: Option<String>,
 
     #[serde(rename = "my_boolean")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub my_boolean: Option<bool>,
 
 }
+
 
 impl OuterComposite {
     #[allow(clippy::new_without_default)]
@@ -4939,41 +4912,36 @@ impl OuterString {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Pet")]
 pub struct Pet {
     #[serde(rename = "id")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "category")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub category: Option<models::Category>,
 
     #[serde(rename = "name")]
-    #[garde(skip)]
     pub name: String,
 
     #[serde(rename = "photoUrls")]
-    #[garde(skip)]
     pub photo_urls: Vec<String>,
 
     #[serde(rename = "tags")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub tags: Option<Vec<models::Tag>>,
 
     /// pet status in the store
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "status")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<String>,
 
 }
+
 
 impl Pet {
     #[allow(clippy::new_without_default)]
@@ -5141,20 +5109,19 @@ impl Pet {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ReadOnlyFirst {
     #[serde(rename = "bar")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub bar: Option<String>,
 
     #[serde(rename = "baz")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub baz: Option<String>,
 
 }
+
 
 impl ReadOnlyFirst {
     #[allow(clippy::new_without_default)]
@@ -5293,16 +5260,16 @@ impl ReadOnlyFirst {
 }
 
 /// Model for testing reserved words
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Return")]
 pub struct Return {
     #[serde(rename = "return")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub r#return: Option<i32>,
 
 }
+
 
 impl Return {
     #[allow(clippy::new_without_default)]
@@ -5427,21 +5394,20 @@ impl Return {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Tag")]
 pub struct Tag {
     #[serde(rename = "id")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "name")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
 
 }
+
 
 impl Tag {
     #[allow(clippy::new_without_default)]
@@ -5579,52 +5545,45 @@ impl Tag {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, garde::Validate)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "User")]
 pub struct User {
     #[serde(rename = "id")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "username")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub username: Option<String>,
 
     #[serde(rename = "firstName")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub first_name: Option<String>,
 
     #[serde(rename = "lastName")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub last_name: Option<String>,
 
     #[serde(rename = "email")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub email: Option<String>,
 
     #[serde(rename = "password")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub password: Option<String>,
 
     #[serde(rename = "phone")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub phone: Option<String>,
 
     /// User Status
     #[serde(rename = "userStatus")]
-    #[garde(skip)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub user_status: Option<i32>,
 
 }
+
 
 impl User {
     #[allow(clippy::new_without_default)]
