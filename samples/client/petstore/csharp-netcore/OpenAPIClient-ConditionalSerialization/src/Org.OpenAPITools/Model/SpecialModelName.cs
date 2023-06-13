@@ -36,18 +36,18 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
         /// </summary>
         /// <param name="specialPropertyName">specialPropertyName.</param>
-        /// <param name="specialModelName">specialModelName.</param>
-        public SpecialModelName(long specialPropertyName = default(long), string specialModelName = default(string))
+        /// <param name="varSpecialModelName">varSpecialModelName.</param>
+        public SpecialModelName(long specialPropertyName = default(long), string varSpecialModelName = default(string))
         {
             this._SpecialPropertyName = specialPropertyName;
             if (this.SpecialPropertyName != null)
             {
                 this._flagSpecialPropertyName = true;
             }
-            this.__SpecialModelName = specialModelName;
-            if (this._SpecialModelName != null)
+            this._VarSpecialModelName = varSpecialModelName;
+            if (this.VarSpecialModelName != null)
             {
-                this._flag_SpecialModelName = true;
+                this._flagVarSpecialModelName = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -77,28 +77,28 @@ namespace Org.OpenAPITools.Model
             return _flagSpecialPropertyName;
         }
         /// <summary>
-        /// Gets or Sets _SpecialModelName
+        /// Gets or Sets VarSpecialModelName
         /// </summary>
         [DataMember(Name = "_special_model.name_", EmitDefaultValue = false)]
-        public string _SpecialModelName
+        public string VarSpecialModelName
         {
-            get{ return __SpecialModelName;}
+            get{ return _VarSpecialModelName;}
             set
             {
-                __SpecialModelName = value;
-                _flag_SpecialModelName = true;
+                _VarSpecialModelName = value;
+                _flagVarSpecialModelName = true;
             }
         }
-        private string __SpecialModelName;
-        private bool _flag_SpecialModelName;
+        private string _VarSpecialModelName;
+        private bool _flagVarSpecialModelName;
 
         /// <summary>
-        /// Returns false as _SpecialModelName should not be serialized given that it's read-only.
+        /// Returns false as VarSpecialModelName should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerialize_SpecialModelName()
+        public bool ShouldSerializeVarSpecialModelName()
         {
-            return _flag_SpecialModelName;
+            return _flagVarSpecialModelName;
         }
         /// <summary>
         /// Gets or Sets additional properties
@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class SpecialModelName {\n");
             sb.Append("  SpecialPropertyName: ").Append(SpecialPropertyName).Append("\n");
-            sb.Append("  _SpecialModelName: ").Append(_SpecialModelName).Append("\n");
+            sb.Append("  VarSpecialModelName: ").Append(VarSpecialModelName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -160,9 +160,9 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.SpecialPropertyName.GetHashCode();
-                if (this._SpecialModelName != null)
+                if (this.VarSpecialModelName != null)
                 {
-                    hashCode = (hashCode * 59) + this._SpecialModelName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarSpecialModelName.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

@@ -17,25 +17,25 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-// StoreApiController binds http requests to an api service and writes the service results to the http response
-type StoreApiController struct {
-	service StoreApiServicer
+// StoreAPIController binds http requests to an api service and writes the service results to the http response
+type StoreAPIController struct {
+	service StoreAPIServicer
 	errorHandler ErrorHandler
 }
 
-// StoreApiOption for how the controller is set up.
-type StoreApiOption func(*StoreApiController)
+// StoreAPIOption for how the controller is set up.
+type StoreAPIOption func(*StoreAPIController)
 
-// WithStoreApiErrorHandler inject ErrorHandler into controller
-func WithStoreApiErrorHandler(h ErrorHandler) StoreApiOption {
-	return func(c *StoreApiController) {
+// WithStoreAPIErrorHandler inject ErrorHandler into controller
+func WithStoreAPIErrorHandler(h ErrorHandler) StoreAPIOption {
+	return func(c *StoreAPIController) {
 		c.errorHandler = h
 	}
 }
 
-// NewStoreApiController creates a default api controller
-func NewStoreApiController(s StoreApiServicer, opts ...StoreApiOption) Router {
-	controller := &StoreApiController{
+// NewStoreAPIController creates a default api controller
+func NewStoreAPIController(s StoreAPIServicer, opts ...StoreAPIOption) Router {
+	controller := &StoreAPIController{
 		service:      s,
 		errorHandler: DefaultErrorHandler,
 	}
@@ -47,29 +47,25 @@ func NewStoreApiController(s StoreApiServicer, opts ...StoreApiOption) Router {
 	return controller
 }
 
-// Routes returns all the api routes for the StoreApiController
-func (c *StoreApiController) Routes() Routes {
-	return Routes{ 
-		{
-			"DeleteOrder",
+// Routes returns all the api routes for the StoreAPIController
+func (c *StoreAPIController) Routes() Routes {
+	return Routes{
+		"DeleteOrder": Route{
 			strings.ToUpper("Delete"),
 			"/v2/store/order/{orderId}",
 			c.DeleteOrder,
 		},
-		{
-			"GetInventory",
+		"GetInventory": Route{
 			strings.ToUpper("Get"),
 			"/v2/store/inventory",
 			c.GetInventory,
 		},
-		{
-			"GetOrderById",
+		"GetOrderById": Route{
 			strings.ToUpper("Get"),
 			"/v2/store/order/{orderId}",
 			c.GetOrderById,
 		},
-		{
-			"PlaceOrder",
+		"PlaceOrder": Route{
 			strings.ToUpper("Post"),
 			"/v2/store/order",
 			c.PlaceOrder,
@@ -78,7 +74,7 @@ func (c *StoreApiController) Routes() Routes {
 }
 
 // DeleteOrder - Delete purchase order by ID
-func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
+func (c *StoreAPIController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
 	orderIdParam := chi.URLParam(r, "orderId")
 	result, err := c.service.DeleteOrder(r.Context(), orderIdParam)
 	// If an error occurred, encode the error with the status code
@@ -88,11 +84,10 @@ func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request)
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // GetInventory - Returns pet inventories by status
-func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request) {
+func (c *StoreAPIController) GetInventory(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.GetInventory(r.Context())
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -101,12 +96,16 @@ func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // GetOrderById - Find purchase order by ID
-func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request) {
-	orderIdParam, err := parseInt64Parameter(chi.URLParam(r, "orderId"), true)
+func (c *StoreAPIController) GetOrderById(w http.ResponseWriter, r *http.Request) {
+	orderIdParam, err := parseNumericParameter[int64](
+		chi.URLParam(r, "orderId"),
+		WithRequire[int64](parseInt64),
+		WithMinimum[int64](1),
+		WithMaximum[int64](5),
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -119,11 +118,10 @@ func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }
 
 // PlaceOrder - Place an order for a pet
-func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) {
+func (c *StoreAPIController) PlaceOrder(w http.ResponseWriter, r *http.Request) {
 	orderParam := Order{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
@@ -135,6 +133,10 @@ func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 		c.errorHandler(w, r, err, nil)
 		return
 	}
+	if err := AssertOrderConstraints(orderParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
 	result, err := c.service.PlaceOrder(r.Context(), orderParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -143,5 +145,4 @@ func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-
 }

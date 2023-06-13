@@ -113,10 +113,11 @@ class StoreApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Map<String, int> _responseData;
+    Map<String, int>? _responseData;
 
     try {
-_responseData = deserialize<Map<String, int>, int>(_response.data!, 'Map<String, int>', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Map<String, int>, int>(rawData, 'Map<String, int>', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -183,10 +184,11 @@ _responseData = deserialize<Map<String, int>, int>(_response.data!, 'Map<String,
       onReceiveProgress: onReceiveProgress,
     );
 
-    Order _responseData;
+    Order? _responseData;
 
     try {
-_responseData = deserialize<Order, Order>(_response.data!, 'Order', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Order, Order>(rawData, 'Order', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -271,10 +273,11 @@ _bodyData=jsonEncode(order);
       onReceiveProgress: onReceiveProgress,
     );
 
-    Order _responseData;
+    Order? _responseData;
 
     try {
-_responseData = deserialize<Order, Order>(_response.data!, 'Order', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Order, Order>(rawData, 'Order', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,

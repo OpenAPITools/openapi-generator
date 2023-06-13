@@ -40,8 +40,7 @@ import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
-import org.openapitools.codegen.languages.PythonPriorClientCodegen;
-import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ApiInfoMap;
@@ -256,9 +255,14 @@ public class DefaultGenerator implements Generator {
         config.processOpts();
 
         // normalize the spec
-        if (config.getUseOpenAPINormalizer()) {
-            OpenAPINormalizer openapiNormalizer = new OpenAPINormalizer(openAPI, config.openapiNormalizer());
-            openapiNormalizer.normalize();
+        try {
+            if (config.getUseOpenAPINormalizer()) {
+                OpenAPINormalizer openapiNormalizer = new OpenAPINormalizer(openAPI, config.openapiNormalizer());
+                openapiNormalizer.normalize();
+            }
+        } catch (Exception e) {
+            LOGGER.error("An exception occurred in OpenAPI Normalizer. Please report the issue via https://github.com/openapitools/openapi-generator/issues/new/: ");
+            e.printStackTrace();
         }
 
         // resolve inline models
@@ -266,6 +270,13 @@ public class DefaultGenerator implements Generator {
             InlineModelResolver inlineModelResolver = new InlineModelResolver();
             inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
             inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
+            if (inlineModelResolver.refactorAllOfInlineSchemas == null &&  // option not set
+                    config instanceof CSharpClientCodegen) { // default to true for csharp-netcore generator
+                inlineModelResolver.refactorAllOfInlineSchemas = true;
+                LOGGER.info("inlineModelResolver.refactorAllOfInlineSchemas is default to true instead of false for `csharp-netcore` generator." +
+                        "Add --inline-schema-name-defaults REFACTOR_ALLOF_INLINE_SCHEMAS=false in CLI for example to set it to false instead.");
+            }
+
             inlineModelResolver.flatten(openAPI);
         }
 
@@ -464,7 +475,7 @@ public class DefaultGenerator implements Generator {
                         // HACK: Because this returns early, could lead to some invalid model reporting.
                         String filename = config.modelFilename(templateName, name);
                         Path path = java.nio.file.Paths.get(filename);
-                        this.templateProcessor.skip(path,"Skipped prior to model processing due to schema mapping." );
+                        this.templateProcessor.skip(path, "Skipped prior to model processing due to schema mapping.");
                     }
                     continue;
                 }
@@ -547,9 +558,8 @@ public class DefaultGenerator implements Generator {
                     ModelMap modelTemplate = modelList.get(0);
                     if (modelTemplate != null && modelTemplate.getModel() != null) {
                         CodegenModel m = modelTemplate.getModel();
-                        if (m.isAlias && !((config instanceof PythonPriorClientCodegen) || (config instanceof PythonClientCodegen))) {
+                        if (m.isAlias) {
                             // alias to number, string, enum, etc, which should not be generated as model
-                            // for PythonClientCodegen, all aliases are generated as models
                             continue;  // Don't create user-defined classes for aliases
                         }
                     }
@@ -608,6 +618,20 @@ public class DefaultGenerator implements Generator {
                 operation.put("basePathWithoutHost", removeTrailingSlash(config.encodePath(url.getPath())));
                 operation.put("contextPath", contextPath);
                 operation.put("baseName", tag);
+                Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
+                        .map(Tag::getName)
+                        .filter(Objects::nonNull)
+                        .filter(tag::equalsIgnoreCase)
+                        .findFirst()
+                        .ifPresent(tagName -> operation.put("operationTagName", config.escapeText(tagName)));
+                operation.put("operationTagDescription", "");
+                Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
+                        .filter(t -> tag.equalsIgnoreCase(t.getName()))
+                        .map(Tag::getDescription)
+                        .filter(Objects::nonNull)
+                        .findFirst()
+                        .ifPresent(description -> operation.put("operationTagDescription", config.escapeText(description)));
+                Optional.ofNullable(config.additionalProperties().get("appVersion")).ifPresent(version -> operation.put("version", version));
                 operation.put("apiPackage", config.apiPackage());
                 operation.put("modelPackage", config.modelPackage());
                 operation.putAll(config.additionalProperties());
@@ -616,6 +640,8 @@ public class DefaultGenerator implements Generator {
                 operation.put("importPath", config.toApiImport(tag));
                 operation.put("classFilename", config.toApiFilename(tag));
                 operation.put("strictSpecBehavior", config.isStrictSpecBehavior());
+                Optional.ofNullable(openAPI.getInfo()).map(Info::getLicense).ifPresent(license -> operation.put("license", license));
+                Optional.ofNullable(openAPI.getInfo()).map(Info::getContact).ifPresent(contact -> operation.put("contact", contact));
 
                 if (allModels == null || allModels.isEmpty()) {
                     operation.put("hasModel", false);
@@ -865,6 +891,10 @@ public class DefaultGenerator implements Generator {
             if (ProcessUtils.hasOAuthMethods(authMethods)) {
                 bundle.put("hasOAuthMethods", true);
                 bundle.put("oauthMethods", ProcessUtils.getOAuthMethods(authMethods));
+            }
+            if (ProcessUtils.hasOpenIdConnectMethods(authMethods)) {
+                bundle.put("hasOpenIdConnectMethods", true);
+                bundle.put("openIdConnectMethods", ProcessUtils.getOpenIdConnectMethods(authMethods));
             }
             if (ProcessUtils.hasHttpBearerMethods(authMethods)) {
                 bundle.put("hasHttpBearerMethods", true);
@@ -1280,7 +1310,7 @@ public class DefaultGenerator implements Generator {
      */
     private Set<Map<String, String>> toImportsObjects(Map<String, String> mappedImports) {
         Set<Map<String, String>> result = new TreeSet<>(
-            Comparator.comparing(o -> o.get("classname"))
+                Comparator.comparing(o -> o.get("classname"))
         );
 
         mappedImports.forEach((key, value) -> {
@@ -1393,6 +1423,32 @@ public class DefaultGenerator implements Generator {
                         }
 
                         authMethods.put(key, oauthUpdatedScheme);
+                    } else if (securityScheme.getType().equals(SecurityScheme.Type.OPENIDCONNECT)) {
+                        // Security scheme only allows to add scope in Flows, so randomly using authorization code flow
+                        OAuthFlows openIdConnectUpdatedFlows = new OAuthFlows();
+                        OAuthFlow flow = new OAuthFlow();
+                        Scopes flowScopes = new Scopes();
+                        securities.stream()
+                                .map(secReq -> secReq.get(key))
+                                .filter(Objects::nonNull)
+                                .flatMap(List::stream)
+                                .forEach(value -> flowScopes.put(value, value));
+                        flow.scopes(flowScopes);
+                        openIdConnectUpdatedFlows.authorizationCode(flow);
+
+                        SecurityScheme openIdConnectUpdatedScheme = new SecurityScheme()
+                                .type(securityScheme.getType())
+                                .description(securityScheme.getDescription())
+                                .name(securityScheme.getName())
+                                .$ref(securityScheme.get$ref())
+                                .in(securityScheme.getIn())
+                                .scheme(securityScheme.getScheme())
+                                .bearerFormat(securityScheme.getBearerFormat())
+                                .openIdConnectUrl(securityScheme.getOpenIdConnectUrl())
+                                .extensions(securityScheme.getExtensions())
+                                .flows(openIdConnectUpdatedFlows);
+
+                        authMethods.put(key, openIdConnectUpdatedScheme);
                     } else {
                         authMethods.put(key, securityScheme);
                     }

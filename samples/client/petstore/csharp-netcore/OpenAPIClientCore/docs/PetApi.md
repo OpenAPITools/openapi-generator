@@ -14,7 +14,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**UploadFile**](PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image |
 | [**UploadFileWithRequiredFile**](PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
 
-<a name="addpet"></a>
+<a id="addpet"></a>
 # **AddPet**
 > void AddPet (Pet pet)
 
@@ -102,9 +102,9 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="deletepet"></a>
+<a id="deletepet"></a>
 # **DeletePet**
-> void DeletePet (long petId, string apiKey = null)
+> void DeletePet (long petId, string? apiKey = null)
 
 Deletes a pet
 
@@ -129,7 +129,7 @@ namespace Example
 
             var apiInstance = new PetApi(config);
             var petId = 789L;  // long | Pet id to delete
-            var apiKey = "apiKey_example";  // string |  (optional) 
+            var apiKey = "apiKey_example";  // string? |  (optional) 
 
             try
             {
@@ -169,7 +169,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **petId** | **long** | Pet id to delete |  |
-| **apiKey** | **string** |  | [optional]  |
+| **apiKey** | **string?** |  | [optional]  |
 
 ### Return type
 
@@ -192,7 +192,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="findpetsbystatus"></a>
+<a id="findpetsbystatus"></a>
 # **FindPetsByStatus**
 > List&lt;Pet&gt; FindPetsByStatus (List<string> status)
 
@@ -287,7 +287,7 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="findpetsbytags"></a>
+<a id="findpetsbytags"></a>
 # **FindPetsByTags**
 > List&lt;Pet&gt; FindPetsByTags (List<string> tags)
 
@@ -382,7 +382,7 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getpetbyid"></a>
+<a id="getpetbyid"></a>
 # **GetPetById**
 > Pet GetPetById (long petId)
 
@@ -480,7 +480,7 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="updatepet"></a>
+<a id="updatepet"></a>
 # **UpdatePet**
 > void UpdatePet (Pet pet)
 
@@ -570,9 +570,9 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="updatepetwithform"></a>
+<a id="updatepetwithform"></a>
 # **UpdatePetWithForm**
-> void UpdatePetWithForm (long petId, string name = null, string status = null)
+> void UpdatePetWithForm (long petId, string? name = null, string? status = null)
 
 Updates a pet in the store with form data
 
@@ -597,8 +597,8 @@ namespace Example
 
             var apiInstance = new PetApi(config);
             var petId = 789L;  // long | ID of pet that needs to be updated
-            var name = "name_example";  // string | Updated name of the pet (optional) 
-            var status = "status_example";  // string | Updated status of the pet (optional) 
+            var name = "name_example";  // string? | Updated name of the pet (optional) 
+            var status = "status_example";  // string? | Updated status of the pet (optional) 
 
             try
             {
@@ -638,8 +638,8 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **petId** | **long** | ID of pet that needs to be updated |  |
-| **name** | **string** | Updated name of the pet | [optional]  |
-| **status** | **string** | Updated status of the pet | [optional]  |
+| **name** | **string?** | Updated name of the pet | [optional]  |
+| **status** | **string?** | Updated status of the pet | [optional]  |
 
 ### Return type
 
@@ -662,9 +662,9 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="uploadfile"></a>
+<a id="uploadfile"></a>
 # **UploadFile**
-> ApiResponse UploadFile (long petId, string additionalMetadata = null, System.IO.Stream file = null)
+> ApiResponse UploadFile (long petId, string? additionalMetadata = null, System.IO.Stream? file = null)
 
 uploads an image
 
@@ -689,8 +689,8 @@ namespace Example
 
             var apiInstance = new PetApi(config);
             var petId = 789L;  // long | ID of pet to update
-            var additionalMetadata = "additionalMetadata_example";  // string | Additional data to pass to server (optional) 
-            var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | file to upload (optional) 
+            var additionalMetadata = "additionalMetadata_example";  // string? | Additional data to pass to server (optional) 
+            var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream? | file to upload (optional) 
 
             try
             {
@@ -734,8 +734,8 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **petId** | **long** | ID of pet to update |  |
-| **additionalMetadata** | **string** | Additional data to pass to server | [optional]  |
-| **file** | **System.IO.Stream****System.IO.Stream** | file to upload | [optional]  |
+| **additionalMetadata** | **string?** | Additional data to pass to server | [optional]  |
+| **file** | **System.IO.Stream?****System.IO.Stream?** | file to upload | [optional]  |
 
 ### Return type
 
@@ -758,9 +758,9 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="uploadfilewithrequiredfile"></a>
+<a id="uploadfilewithrequiredfile"></a>
 # **UploadFileWithRequiredFile**
-> ApiResponse UploadFileWithRequiredFile (long petId, System.IO.Stream requiredFile, string additionalMetadata = null)
+> ApiResponse UploadFileWithRequiredFile (long petId, System.IO.Stream requiredFile, string? additionalMetadata = null)
 
 uploads an image (required)
 
@@ -786,7 +786,7 @@ namespace Example
             var apiInstance = new PetApi(config);
             var petId = 789L;  // long | ID of pet to update
             var requiredFile = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | file to upload
-            var additionalMetadata = "additionalMetadata_example";  // string | Additional data to pass to server (optional) 
+            var additionalMetadata = "additionalMetadata_example";  // string? | Additional data to pass to server (optional) 
 
             try
             {
@@ -831,7 +831,7 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **petId** | **long** | ID of pet to update |  |
 | **requiredFile** | **System.IO.Stream****System.IO.Stream** | file to upload |  |
-| **additionalMetadata** | **string** | Additional data to pass to server | [optional]  |
+| **additionalMetadata** | **string?** | Additional data to pass to server | [optional]  |
 
 ### Return type
 

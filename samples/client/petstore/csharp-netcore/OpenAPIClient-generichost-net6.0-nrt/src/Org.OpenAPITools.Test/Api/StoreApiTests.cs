@@ -50,14 +50,13 @@ namespace Org.OpenAPITools.Test.Api
             _instance = _host.Services.GetRequiredService<IApi.IStoreApi>();
         }
 
-
         /// <summary>
         /// Test DeleteOrder
         /// </summary>
         [Fact (Skip = "not implemented")]
         public async Task DeleteOrderAsyncTest()
         {
-            string orderId = default;
+            string orderId = default!;
             await _instance.DeleteOrderAsync(orderId);
         }
 
@@ -68,7 +67,8 @@ namespace Org.OpenAPITools.Test.Api
         public async Task GetInventoryAsyncTest()
         {
             var response = await _instance.GetInventoryAsync();
-            Assert.IsType<Dictionary<string, int>>(response);
+            var model = response.AsModel();
+            Assert.IsType<Dictionary<string, int>>(model);
         }
 
         /// <summary>
@@ -77,9 +77,10 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task GetOrderByIdAsyncTest()
         {
-            long orderId = default;
+            long orderId = default!;
             var response = await _instance.GetOrderByIdAsync(orderId);
-            Assert.IsType<Order>(response);
+            var model = response.AsModel();
+            Assert.IsType<Order>(model);
         }
 
         /// <summary>
@@ -88,9 +89,10 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task PlaceOrderAsyncTest()
         {
-            Order order = default;
+            Order order = default!;
             var response = await _instance.PlaceOrderAsync(order);
-            Assert.IsType<Order>(response);
+            var model = response.AsModel();
+            Assert.IsType<Order>(model);
         }
     }
 }

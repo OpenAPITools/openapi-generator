@@ -160,9 +160,6 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             this.setTitle((String) this.additionalProperties.get(TITLE));
         }
         this.additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
-        if (this.additionalProperties.containsKey(FULL_JAVA_UTIL)) {
-            this.setFullJavaUtil(Boolean.parseBoolean(this.additionalProperties.get(FULL_JAVA_UTIL).toString()));
-        }
 
         if (this.additionalProperties.containsKey(EUREKA_URI)) {
             this.setEurekaUri((String) this.additionalProperties.get(EUREKA_URI));
@@ -173,11 +170,6 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         if (this.additionalProperties.containsKey(SPRINGADMIN_URI)) {
             this.setSpringBootAdminUri((String) this.additionalProperties.get(SPRINGADMIN_URI));
         }
-        if (fullJavaUtil) {
-            javaUtilPrefix = "java.util.";
-        }
-        this.additionalProperties.put(FULL_JAVA_UTIL, fullJavaUtil);
-        this.additionalProperties.put("javaUtilPrefix", javaUtilPrefix);
         this.additionalProperties.put(SUPPORT_JAVA6, false);
         this.additionalProperties.put("java8", true);
 

@@ -46,7 +46,10 @@ namespace Org.OpenAPITools.Model
             ShipDate = shipDate;
             Status = status;
             Complete = complete;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Order Status
@@ -68,14 +71,14 @@ namespace Org.OpenAPITools.Model
             /// Enum Delivered for value: delivered
             /// </summary>
             Delivered = 3
-
         }
 
         /// <summary>
-        /// Returns a StatusEnum
+        /// Returns a <see cref="StatusEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static StatusEnum StatusEnumFromString(string value)
         {
             if (value == "placed")
@@ -91,7 +94,26 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="StatusEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static StatusEnum? StatusEnumFromStringOrDefault(string value)
+        {
+            if (value == "placed")
+                return StatusEnum.Placed;
+
+            if (value == "approved")
+                return StatusEnum.Approved;
+
+            if (value == "delivered")
+                return StatusEnum.Delivered;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="StatusEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -138,7 +160,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
-        /// <example>&quot;2020-02-02T20:20:20.000222Z&quot;</example>
+        /// <example>2020-02-02T20:20:20.000222Z</example>
         [JsonPropertyName("shipDate")]
         public DateTime ShipDate { get; set; }
 
@@ -185,7 +207,7 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Order
+    /// A Json converter for type <see cref="Order" />
     /// </summary>
     public class OrderJsonConverter : JsonConverter<Order>
     {
@@ -195,7 +217,7 @@ namespace Org.OpenAPITools.Model
         public static string ShipDateFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Order" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -211,12 +233,12 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            long id = default;
-            long petId = default;
-            int quantity = default;
-            DateTime shipDate = default;
-            Order.StatusEnum status = default;
-            bool complete = default;
+            long? id = default;
+            long? petId = default;
+            int? quantity = default;
+            DateTime? shipDate = default;
+            Order.StatusEnum? status = default;
+            bool? complete = default;
 
             while (utf8JsonReader.Read())
             {
@@ -251,7 +273,9 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "status":
                             string statusRawValue = utf8JsonReader.GetString();
-                            status = Order.StatusEnumFromString(statusRawValue);
+                            status = statusRawValue == null
+                                ? null
+                                : Order.StatusEnumFromStringOrDefault(statusRawValue);
                             break;
                         case "complete":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -262,9 +286,6 @@ namespace Org.OpenAPITools.Model
                     }
                 }
             }
-
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             if (id == null)
                 throw new ArgumentNullException(nameof(id), "Property is required for class Order.");
@@ -284,14 +305,11 @@ namespace Org.OpenAPITools.Model
             if (complete == null)
                 throw new ArgumentNullException(nameof(complete), "Property is required for class Order.");
 
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return new Order(id, petId, quantity, shipDate, status, complete);
+            return new Order(id.Value, petId.Value, quantity.Value, shipDate.Value, status.Value, complete.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Order" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="order"></param>
@@ -305,11 +323,13 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("petId", order.PetId);
             writer.WriteNumber("quantity", order.Quantity);
             writer.WriteString("shipDate", order.ShipDate.ToString(ShipDateFormat));
+
             var statusRawValue = Order.StatusEnumToJsonValue(order.Status);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
+
             writer.WriteBoolean("complete", order.Complete);
 
             writer.WriteEndObject();

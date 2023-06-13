@@ -53,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Tag>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Id'
         /// </summary>
@@ -62,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Id'
         }
+
         /// <summary>
         /// Test the property 'Name'
         /// </summary>
@@ -70,7 +70,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Name'
         }
-
     }
-
 }

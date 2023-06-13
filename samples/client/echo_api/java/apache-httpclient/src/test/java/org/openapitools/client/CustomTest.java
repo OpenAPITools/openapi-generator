@@ -120,7 +120,7 @@ public class CustomTest {
 
         String response = api.testQueryStyleFormExplodeTrueObjectAllOf(queryObject);
         org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
-        Assert.assertEquals("/query/style_form/explode_true/object/allOf?text=Hello%20World&id=3487&outcomes=SKIPPED&outcomes=FAILURE", p.path);
+        Assert.assertEquals("/query/style_form/explode_true/object/allOf?id=3487&outcomes=SKIPPED&outcomes=FAILURE&text=Hello%20World", p.path);
     }
 
     /**

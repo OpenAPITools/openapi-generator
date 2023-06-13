@@ -40,7 +40,10 @@ namespace Org.OpenAPITools.Model
         {
             Name = name;
             PetType = petType;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Defines PetType
@@ -51,14 +54,14 @@ namespace Org.OpenAPITools.Model
             /// Enum ChildCat for value: ChildCat
             /// </summary>
             ChildCat = 1
-
         }
 
         /// <summary>
-        /// Returns a PetTypeEnum
+        /// Returns a <see cref="PetTypeEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static PetTypeEnum PetTypeEnumFromString(string value)
         {
             if (value == "ChildCat")
@@ -68,7 +71,20 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="PetTypeEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static PetTypeEnum? PetTypeEnumFromStringOrDefault(string value)
+        {
+            if (value == "ChildCat")
+                return PetTypeEnum.ChildCat;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="PetTypeEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -126,12 +142,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ChildCatAllOf
+    /// A Json converter for type <see cref="ChildCatAllOf" />
     /// </summary>
     public class ChildCatAllOfJsonConverter : JsonConverter<ChildCatAllOf>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ChildCatAllOf" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -147,8 +163,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string name = default;
-            ChildCatAllOf.PetTypeEnum petType = default;
+            string? name = default;
+            ChildCatAllOf.PetTypeEnum? petType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -169,8 +185,10 @@ namespace Org.OpenAPITools.Model
                             name = utf8JsonReader.GetString();
                             break;
                         case "pet_type":
-                            string petTypeRawValue = utf8JsonReader.GetString();
-                            petType = ChildCatAllOf.PetTypeEnumFromString(petTypeRawValue);
+                            string? petTypeRawValue = utf8JsonReader.GetString();
+                            petType = petTypeRawValue == null
+                                ? null
+                                : ChildCatAllOf.PetTypeEnumFromStringOrDefault(petTypeRawValue);
                             break;
                         default:
                             break;
@@ -178,23 +196,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (name == null)
                 throw new ArgumentNullException(nameof(name), "Property is required for class ChildCatAllOf.");
 
             if (petType == null)
                 throw new ArgumentNullException(nameof(petType), "Property is required for class ChildCatAllOf.");
 
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return new ChildCatAllOf(name, petType);
+            return new ChildCatAllOf(name, petType.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ChildCatAllOf" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="childCatAllOf"></param>
@@ -205,6 +217,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             writer.WriteString("name", childCatAllOf.Name);
+
             var petTypeRawValue = ChildCatAllOf.PetTypeEnumToJsonValue(childCatAllOf.PetType);
             if (petTypeRawValue != null)
                 writer.WriteString("pet_type", petTypeRawValue);

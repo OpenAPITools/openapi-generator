@@ -35,11 +35,6 @@ public class ContainerDefaultValue {
   @Valid
   private List<String> nullableArrayWithDefault = new ArrayList<>(Arrays.asList("foo", "bar"));
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link ContainerDefaultValue#ContainerDefaultValue(List<String>, List<String>)}
-   */
-  @Deprecated
   public ContainerDefaultValue() {
     super();
   }

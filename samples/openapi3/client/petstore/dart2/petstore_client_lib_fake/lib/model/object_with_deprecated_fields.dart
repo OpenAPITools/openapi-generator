@@ -108,8 +108,8 @@ class ObjectWithDeprecatedFields {
             ? null
             : num.parse(json[r'id'].toString()),
         deprecatedRef: DeprecatedObject.fromJson(json[r'deprecatedRef']),
-        bars: json[r'bars'] is List
-            ? (json[r'bars'] as List).cast<String>()
+        bars: json[r'bars'] is Iterable
+            ? (json[r'bars'] as Iterable).cast<String>().toList(growable: false)
             : const [],
       );
     }

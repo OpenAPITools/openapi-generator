@@ -43,11 +43,11 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
-        /// <param name="name">name (required).</param>
+        /// <param name="varName">varName (required).</param>
         /// <param name="property">property.</param>
-        public Name(int name = default(int), string property = default(string))
+        public Name(int varName = default(int), string property = default(string))
         {
-            this.__Name = name;
+            this._VarName = varName;
             this._Property = property;
             if (this.Property != null)
             {
@@ -57,28 +57,28 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Gets or Sets _Name
+        /// Gets or Sets VarName
         /// </summary>
         [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
-        public int _Name
+        public int VarName
         {
-            get{ return __Name;}
+            get{ return _VarName;}
             set
             {
-                __Name = value;
-                _flag_Name = true;
+                _VarName = value;
+                _flagVarName = true;
             }
         }
-        private int __Name;
-        private bool _flag_Name;
+        private int _VarName;
+        private bool _flagVarName;
 
         /// <summary>
-        /// Returns false as _Name should not be serialized given that it's read-only.
+        /// Returns false as VarName should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerialize_Name()
+        public bool ShouldSerializeVarName()
         {
-            return _flag_Name;
+            return _flagVarName;
         }
         /// <summary>
         /// Gets or Sets SnakeCase
@@ -119,16 +119,16 @@ namespace Org.OpenAPITools.Model
             return _flagProperty;
         }
         /// <summary>
-        /// Gets or Sets _123Number
+        /// Gets or Sets Var123Number
         /// </summary>
         [DataMember(Name = "123Number", EmitDefaultValue = false)]
-        public int _123Number { get; private set; }
+        public int Var123Number { get; private set; }
 
         /// <summary>
-        /// Returns false as _123Number should not be serialized given that it's read-only.
+        /// Returns false as Var123Number should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerialize_123Number()
+        public bool ShouldSerializeVar123Number()
         {
             return false;
         }
@@ -146,10 +146,10 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Name {\n");
-            sb.Append("  _Name: ").Append(_Name).Append("\n");
+            sb.Append("  VarName: ").Append(VarName).Append("\n");
             sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
             sb.Append("  Property: ").Append(Property).Append("\n");
-            sb.Append("  _123Number: ").Append(_123Number).Append("\n");
+            sb.Append("  Var123Number: ").Append(Var123Number).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -193,13 +193,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this._Name.GetHashCode();
+                hashCode = (hashCode * 59) + this.VarName.GetHashCode();
                 hashCode = (hashCode * 59) + this.SnakeCase.GetHashCode();
                 if (this.Property != null)
                 {
                     hashCode = (hashCode * 59) + this.Property.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this._123Number.GetHashCode();
+                hashCode = (hashCode * 59) + this.Var123Number.GetHashCode();
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

@@ -80,6 +80,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected String enumValueSuffix = "Enum";
 
     protected String sourceFolder = "src";
+    protected String invalidNamePrefix = "var";
 
     // TODO: Add option for test folder output location. Nice to allow e.g. ./test instead of ./src.
     //       This would require updating relative paths (e.g. path to main project file in test project file)
@@ -90,6 +91,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     // true if support nullable type
     protected boolean supportNullable = Boolean.FALSE;
+
+    protected Boolean zeroBasedEnums = null;
+    protected static final String zeroBasedEnumVendorExtension = "x-zero-based-enum";
 
     // nullable type
     protected Set<String> nullableType = new HashSet<>();
@@ -408,6 +412,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             setNullableReferenceTypes(convertPropertyToBooleanAndWriteBack(CodegenConstants.NULLABLE_REFERENCE_TYPES));
         }
 
+        String zeroBasedEnums = "zeroBasedEnums";
+        if (additionalProperties.containsKey(zeroBasedEnums)) {
+            setZeroBasedEnums(convertPropertyToBooleanAndWriteBack(zeroBasedEnums));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
             String useInterfacePrefix = additionalProperties.get(CodegenConstants.INTERFACE_PREFIX).toString();
             if ("false".equals(useInterfacePrefix.toLowerCase(Locale.ROOT))) {
@@ -448,7 +457,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
                 .put("required", new RequiredParameterLambda().generator(this))
                 .put("optional", new OptionalParameterLambda().generator(this))
-                .put("joinWithComma", new JoinWithCommaLambda());
+                .put("joinWithComma", new JoinWithCommaLambda())
+                .put("trimLineBreaks", new TrimLineBreaksLambda())
+                .put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda());
     }
 
     @Override
@@ -459,6 +470,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.datatypeWithEnum = property.datatypeWithEnum.replace(property.items.datatypeWithEnum, model.classname + "." + property.items.datatypeWithEnum);
             property.dataType = property.datatypeWithEnum;
         }
+
+        if (property.isEnum && !property.vendorExtensions.containsKey(this.zeroBasedEnumVendorExtension)) {
+            if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
+                property.vendorExtensions.put(this.zeroBasedEnumVendorExtension, true);
+            } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
+                if (property.allowableValues.containsKey("values")) {
+                    final List<Object> allowableValues = (List<Object>) property.allowableValues.get("values");
+                    boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
+                    property.vendorExtensions.put(this.zeroBasedEnumVendorExtension, isZeroBased);
+                }
+            }
+        }
+
         if (property.isMap || property.isContainer) {
             // maps of enums will be marked both isMap and isEnum, correct that now
             property.isEnum = false;
@@ -471,12 +495,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public ModelsMap postProcessModels(ModelsMap objs) {
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
-            for (CodegenProperty var : cm.vars) {
-                // check to see if model name is same as the property name
-                // which will result in compilation error
-                // if found, prepend with _ to workaround the limitation
-                if (var.name.equalsIgnoreCase(cm.classname)) {
-                    var.name = "_" + var.name;
+
+            if (cm.isEnum && !cm.vendorExtensions.containsKey(this.zeroBasedEnumVendorExtension)) {
+                if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
+                    cm.vendorExtensions.put(this.zeroBasedEnumVendorExtension, true);
+                } else if (!Boolean.FALSE.equals(this.zeroBasedEnums)) {
+                    if (cm.allowableValues.containsKey("values")) {
+                        final List<Object> allowableValues = (List<Object>) cm.allowableValues.get("values");
+                        boolean isZeroBased = String.valueOf(allowableValues.get(0)).toLowerCase(Locale.ROOT).equals("unknown");
+                        cm.vendorExtensions.put(this.zeroBasedEnumVendorExtension, isZeroBased);
+                    }
                 }
             }
         }
@@ -494,10 +522,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
 
-        // TODO: move the logic of these three methods into patchProperty so all CodegenProperty instances get the same treatment
-        postProcessEnumRefs(processed);
-        updateValueTypeProperty(processed);
-        updateNullableTypeProperty(processed);
+        Map<String, CodegenModel> enumRefs = new HashMap<>();
+        for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
+            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), processed);
+            if (model.isEnum) {
+                enumRefs.put(model.getClassname(), model);
+            }
+        }
 
         for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
@@ -507,48 +538,61 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             // TODO: why do these collections contain different instances?
             // fixing allVars should suffice instead of patching every collection
             for (CodegenProperty property : model.allVars) {
-                patchProperty(model, property);
+                patchProperty(enumRefs, model, property);
             }
             for (CodegenProperty property : model.vars) {
-                patchProperty(model, property);
+                patchProperty(enumRefs, model, property);
             }
             for (CodegenProperty property : model.readWriteVars) {
-                patchProperty(model, property);
+                patchProperty(enumRefs, model, property);
             }
             for (CodegenProperty property : model.optionalVars) {
-                patchProperty(model, property);
+                patchProperty(enumRefs, model, property);
             }
             for (CodegenProperty property : model.parentVars) {
-                patchProperty(model, property);
+                patchProperty(enumRefs, model, property);
             }
             for (CodegenProperty property : model.requiredVars) {
-                patchProperty(model, property);
+                patchProperty(enumRefs, model, property);
             }
             for (CodegenProperty property : model.readOnlyVars) {
-                patchProperty(model, property);
+                patchProperty(enumRefs, model, property);
             }
             for (CodegenProperty property : model.nonNullableVars) {
-                patchProperty(model, property);
+                patchProperty(enumRefs, model, property);
             }
         }
         return processed;
     }
 
-    private void patchProperty(CodegenModel model, CodegenProperty property) {
-        /**
-         * Hotfix for this issue
-         * https://github.com/OpenAPITools/openapi-generator/issues/12155
-         */
-        if (property.dataType.equals("List") && property.getComposedSchemas() != null && property.getComposedSchemas().getAllOf() != null) {
-            List<CodegenProperty> composedSchemas = property.getComposedSchemas().getAllOf();
-            if (composedSchemas.size() == 0) {
-                return;
-            }
-            CodegenProperty composedProperty = composedSchemas.stream().findFirst().get();
-            property.dataType = composedProperty.dataType;
-            property.datatypeWithEnum = composedProperty.datatypeWithEnum;
-            property.isMap = composedProperty.isMap;
-            property.isContainer = composedProperty.isContainer;
+    private void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
+        if (enumRefs.containsKey(property.dataType)) {
+            // Handle any enum properties referred to by $ref.
+            // This is different in C# than most other generators, because enums in C# are compiled to integral types,
+            // while enums in many other languages are true objects.
+            CodegenModel refModel = enumRefs.get(property.dataType);
+            property.allowableValues = refModel.allowableValues;
+            property.isEnum = true;
+
+            // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
+            property.isPrimitiveType = true;
+        }
+
+        if (!property.isContainer && (nullableType.contains(property.dataType) || property.isEnum)) {
+            property.vendorExtensions.put("x-csharp-value-type", true);
+        }
+
+        property.vendorExtensions.put("x-is-value-type", isValueType(property));
+
+        String tmpPropertyName = escapeReservedWord(model, property.name);
+        if (!property.name.equals(tmpPropertyName) || property.name.startsWith(this.invalidNamePrefix)) {
+            // the casing will be wrong if we just set the name to escapeReservedWord
+            // if we try to fix it with camelize, underscores get stripped out
+            // so test if the name was escaped and then replace var with Var
+            property.name = tmpPropertyName;
+            String firstCharacter = property.name.substring(0, 1);
+            property.name = property.name.substring(1);
+            property.name = firstCharacter.toUpperCase(Locale.ROOT) + property.name;
         }
 
         // fix incorrect data types for maps of maps
@@ -611,137 +655,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     /**
-     * C# differs from other languages in that Enums are not _true_ objects; enums are compiled to integral types.
-     * So, in C#, an enum is considers more like a user-defined primitive.
-     * <p>
-     * When working with enums, we can't always assume a RefModel is a nullable type (where default(YourType) == null),
-     * so this post processing runs through all models to find RefModel'd enums. Then, it runs through all vars and modifies
-     * those vars referencing RefModel'd enums to work the same as inlined enums rather than as objects.
-     *
-     * @param models processed models to be further processed for enum references
-     */
-    private void postProcessEnumRefs(final Map<String, ModelsMap> models) {
-        Map<String, CodegenModel> enumRefs = new HashMap<>();
-        for (Map.Entry<String, ModelsMap> entry : models.entrySet()) {
-            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
-            if (model.isEnum) {
-                enumRefs.put(model.getClassname(), model);
-            }
-        }
-
-        for (String openAPIName : models.keySet()) {
-            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
-            if (model != null) {
-                for (CodegenProperty var : model.allVars) {
-                    if (enumRefs.containsKey(var.dataType)) {
-                        // Handle any enum properties referred to by $ref.
-                        // This is different in C# than most other generators, because enums in C# are compiled to integral types,
-                        // while enums in many other languages are true objects.
-                        CodegenModel refModel = enumRefs.get(var.dataType);
-                        var.allowableValues = refModel.allowableValues;
-                        var.isEnum = true;
-
-                        // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
-                        var.isPrimitiveType = true;
-                    }
-                }
-                for (CodegenProperty var : model.vars) {
-                    if (enumRefs.containsKey(var.dataType)) {
-                        // Handle any enum properties referred to by $ref.
-                        // This is different in C# than most other generators, because enums in C# are compiled to integral types,
-                        // while enums in many other languages are true objects.
-                        CodegenModel refModel = enumRefs.get(var.dataType);
-                        var.allowableValues = refModel.allowableValues;
-                        var.isEnum = true;
-
-                        // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
-                        var.isPrimitiveType = true;
-                    }
-                }
-                for (CodegenProperty var : model.readWriteVars) {
-                    if (enumRefs.containsKey(var.dataType)) {
-                        // Handle any enum properties referred to by $ref.
-                        // This is different in C# than most other generators, because enums in C# are compiled to integral types,
-                        // while enums in many other languages are true objects.
-                        CodegenModel refModel = enumRefs.get(var.dataType);
-                        var.allowableValues = refModel.allowableValues;
-                        var.isEnum = true;
-
-                        // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
-                        var.isPrimitiveType = true;
-                    }
-                }
-                for (CodegenProperty var : model.readOnlyVars) {
-                    if (enumRefs.containsKey(var.dataType)) {
-                        // Handle any enum properties referred to by $ref.
-                        // This is different in C# than most other generators, because enums in C# are compiled to integral types,
-                        // while enums in many other languages are true objects.
-                        CodegenModel refModel = enumRefs.get(var.dataType);
-                        var.allowableValues = refModel.allowableValues;
-                        var.isEnum = true;
-
-                        // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
-                        var.isPrimitiveType = true;
-                    }
-                }
-
-                /* Comment out the following as model.dataType is always the model name, eg. OuterIntegerEnum,
-                 * and this will fix the integer enum via #9035.
-                 * Only x-enum-byte is used in the template but it won't work due to the bug mentioned above.
-                 * A better solution is to introduce isLong, isInteger, etc in the DefaultCodegen
-                 * so that there is no need for each generator to post-process model enums.
-                 *
-                // We're looping all models here.
-                if (model.isEnum) {
-                    // We now need to make allowableValues.enumVars look like the context of CodegenProperty
-                    Boolean isString = false;
-                    Boolean isInteger = false;
-                    Boolean isLong = false;
-                    Boolean isByte = false;
-
-                    if (model.dataType.startsWith("byte")) {
-                        // C# Actually supports byte and short enums, swagger spec only supports byte.
-                        isByte = true;
-                        model.vendorExtensions.put("x-enum-byte", true);
-                    } else if (model.dataType.startsWith("int32")) {
-                        isInteger = true;
-                        model.vendorExtensions.put("x-enum-integer", true);
-                    } else if (model.dataType.startsWith("int64")) {
-                        isLong = true;
-                        model.vendorExtensions.put("x-enum-long", true);
-                    } else {
-                        // C# doesn't support non-integral enums, so we need to treat everything else as strings (e.g. to not lose precision or data integrity)
-                        isString = true;
-                        model.vendorExtensions.put("x-enum-string", true);
-                    }
-
-                    // Since we iterate enumVars for modelInnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
-                    // we can take advantage of Mustache's contextual lookup to add the same "properties" to the model's enumVars scope rather than CodegenProperty's scope.
-                    List<Map<String, String>> enumVars = (ArrayList<Map<String, String>>) model.allowableValues.get("enumVars");
-                    List<Map<String, Object>> newEnumVars = new ArrayList<Map<String, Object>>();
-                    for (Map<String, String> enumVar : enumVars) {
-                        Map<String, Object> mixedVars = new HashMap<String, Object>();
-                        mixedVars.putAll(enumVar);
-
-                        mixedVars.put("isString", isString);
-                        mixedVars.put("isLong", isLong);
-                        mixedVars.put("isInteger", isInteger);
-                        mixedVars.put("isByte", isByte);
-
-                        newEnumVars.add(mixedVars);
-                    }
-
-                    if (!newEnumVars.isEmpty()) {
-                        model.allowableValues.put("enumVars", newEnumVars);
-                    }
-                } */
-            } else {
-                LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
-            }
-        }
-    }
-
-    /**
      * Update codegen property's enum by adding "enumVars" (with name and value)
      *
      * @param var list of CodegenProperty
@@ -773,49 +686,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 var.isString = true;
                 var.isInteger = false;
                 var.isLong = false;
-            }
-        }
-    }
-
-    /**
-     * Update property if it is a C# value type
-     *
-     * @param models list of all models
-     */
-    protected void updateValueTypeProperty(Map<String, ModelsMap> models) {
-        for (String openAPIName : models.keySet()) {
-            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
-            if (model != null) {
-                for (CodegenProperty var : model.vars) {
-                    var.vendorExtensions.put("x-is-value-type", isValueType(var));
-                }
-            }
-        }
-    }
-
-    /**
-     * Update property if it is a C# nullable type
-     *
-     * @param models list of all models
-     */
-    protected void updateNullableTypeProperty(Map<String, ModelsMap> models) {
-        for (String openAPIName : models.keySet()) {
-            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
-            if (model != null) {
-                for (CodegenProperty var : model.vars) {
-                    if (!var.isContainer && (nullableType.contains(var.dataType) || var.isEnum)) {
-                        var.vendorExtensions.put("x-csharp-value-type", true);
-                    }
-                }
-
-                // https://github.com/OpenAPITools/openapi-generator/issues/12324
-                // we should not need to iterate both vars and allVars
-                // the collections dont have the same instance, so we have to do it again
-                for (CodegenProperty var : model.allVars) {
-                    if (!var.isContainer && (nullableType.contains(var.dataType) || var.isEnum)) {
-                        var.vendorExtensions.put("x-csharp-value-type", true);
-                    }
-                }
             }
         }
     }
@@ -879,6 +749,54 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                                         .replace("\n", "\\n");
                                 entry.setValue(val);
                             }
+                        }
+                    }
+
+                    for (ModelMap modelHashMap : allModels) {
+                        CodegenModel codegenModel = modelHashMap.getModel();
+
+                        for (CodegenParameter parameter : operation.allParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.bodyParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.cookieParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.formParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.headerParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.implicitHeadersParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.optionalParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.pathParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.queryParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.requiredAndNotNullableParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        }
+
+                        for (CodegenParameter parameter : operation.requiredParams) {
+                            parameter.paramName = escapeReservedWord(parameter.paramName);
                         }
                     }
 
@@ -1037,20 +955,27 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // pet_id => petId
         name = camelize(name, LOWERCASE_FIRST_LETTER);
 
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
-
         return name;
+    }
+
+    public String escapeReservedWord(CodegenModel model, String name) {
+        name = this.escapeReservedWord(name);
+
+        return name.equalsIgnoreCase(model.getClassname())
+            ? this.invalidNamePrefix + camelize(name)
+            : name;
     }
 
     @Override
     public String escapeReservedWord(String name) {
-        if (this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
+        if (reservedWords().contains(name) ||
+                reservedWords().contains(name.toLowerCase(Locale.ROOT)) ||
+                reservedWords().contains(camelize(sanitizeName(name))) ||
+                isReservedWord(name) ||
+                name.matches("^\\d.*")) {
+            name = this.invalidNamePrefix + camelize(name);
         }
-        return "_" + name;
+        return name;
     }
 
     /**
@@ -1061,29 +986,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toExampleValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
-            if (p.getExample() != null) {
-                return "\"" + p.getExample().toString() + "\"";
-            }
-        } else if (ModelUtils.isBooleanSchema(p)) {
-            if (p.getExample() != null) {
-                return p.getExample().toString();
-            }
-        } else if (ModelUtils.isDateSchema(p)) {
-            // TODO
-        } else if (ModelUtils.isDateTimeSchema(p)) {
-            // TODO
-        } else if (ModelUtils.isNumberSchema(p)) {
-            if (p.getExample() != null) {
-                return p.getExample().toString();
-            }
-        } else if (ModelUtils.isIntegerSchema(p)) {
-            if (p.getExample() != null) {
-                return p.getExample().toString();
-            }
-        }
-
-        return null;
+        return p.getExample() == null
+            ? null
+            : p.getExample().toString();
     }
 
     /**
@@ -1333,6 +1238,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public String getInterfacePrefix() {
         return interfacePrefix;
+    }
+
+    public void setZeroBasedEnums(final Boolean zeroBasedEnums) {
+        this.zeroBasedEnums = zeroBasedEnums;
     }
 
     public void setNullableReferenceTypes(final Boolean nullReferenceTypesFlag) {
@@ -1628,8 +1537,22 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return GeneratorLanguage.C_SHARP;
     }
 
+    @Override
     public String toRegularExpression(String pattern) {
         return addRegularExpressionDelimiter(pattern);
+    }
+
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        if (StringUtils.isEmpty(pattern)) {
+            return pattern;
+        }
+
+        if (!pattern.matches("^/.*")) {
+            return "/" + pattern + "/";
+        }
+
+        return pattern;
     }
 
 }

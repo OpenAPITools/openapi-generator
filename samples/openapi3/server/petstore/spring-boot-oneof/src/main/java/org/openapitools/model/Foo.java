@@ -30,11 +30,6 @@ public class Foo extends Entity implements FooRefOrValue {
 
   private String fooPropB;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Foo#Foo(String)}
-   */
-  @Deprecated
   public Foo() {
     super();
   }
@@ -86,6 +81,7 @@ public class Foo extends Entity implements FooRefOrValue {
     this.fooPropB = fooPropB;
   }
 
+
   public Foo href(String href) {
     super.setHref(href);
     return this;
@@ -110,7 +106,6 @@ public class Foo extends Entity implements FooRefOrValue {
     super.setAtType(atType);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

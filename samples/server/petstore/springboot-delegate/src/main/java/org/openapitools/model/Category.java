@@ -26,11 +26,6 @@ public class Category {
 
   private String name = "default-name";
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Category#Category(String)}
-   */
-  @Deprecated
   public Category() {
     super();
   }

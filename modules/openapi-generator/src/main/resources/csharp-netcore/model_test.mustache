@@ -40,6 +40,8 @@ namespace {{packageName}}.Test.Model
             // Cleanup when everything is done.
         }
 
+        {{#lambda.trimTrailingWhiteSpace}}
+        {{#lambda.trimLineBreaks}}
         /// <summary>
         /// Test an instance of {{classname}}
         /// </summary>
@@ -52,6 +54,7 @@ namespace {{packageName}}.Test.Model
 
         {{#discriminator}}
         {{#children}}
+
         /// <summary>
         /// Test deserialize a {{classname}} from type {{parent}}
         /// </summary>
@@ -61,10 +64,12 @@ namespace {{packageName}}.Test.Model
             // TODO uncomment below to test deserialize a {{classname}} from type {{parent}}
             //Assert.IsType<{{parent}}>(JsonConvert.DeserializeObject<{{parent}}>(new {{classname}}().ToJson()));
         }
+
         {{/children}}
         {{/discriminator}}
-
         {{#vars}}
+
+
         /// <summary>
         /// Test the property '{{name}}'
         /// </summary>
@@ -72,11 +77,8 @@ namespace {{packageName}}.Test.Model
         public void {{name}}Test()
         {
             // TODO unit test for the property '{{name}}'
-        }
-        {{/vars}}
-
+        }{{/vars}}{{/lambda.trimLineBreaks}}{{/lambda.trimTrailingWhiteSpace}}
     }
-
 }
 {{/model}}
 {{/models}}

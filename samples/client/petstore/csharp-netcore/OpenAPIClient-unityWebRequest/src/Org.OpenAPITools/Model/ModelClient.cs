@@ -27,23 +27,23 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ModelClient
     /// </summary>
-    [DataContract(Name = "_Client")]
+    [DataContract(Name = "varClient")]
     public partial class ModelClient : IEquatable<ModelClient>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
-        /// <param name="_client">_client.</param>
-        public ModelClient(string _client = default(string))
+        /// <param name="varClient">varClient.</param>
+        public ModelClient(string varClient = default(string))
         {
-            this._Client = _client;
+            this.VarClient = varClient;
         }
 
         /// <summary>
-        /// Gets or Sets _Client
+        /// Gets or Sets VarClient
         /// </summary>
         [DataMember(Name = "client", EmitDefaultValue = false)]
-        public string _Client { get; set; }
+        public string VarClient { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
-            sb.Append("  _Client: ").Append(_Client).Append("\n");
+            sb.Append("  VarClient: ").Append(VarClient).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -90,9 +90,9 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this._Client == input._Client ||
-                    (this._Client != null &&
-                    this._Client.Equals(input._Client))
+                    this.VarClient == input.VarClient ||
+                    (this.VarClient != null &&
+                    this.VarClient.Equals(input.VarClient))
                 );
         }
 
@@ -105,9 +105,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this._Client != null)
+                if (this.VarClient != null)
                 {
-                    hashCode = (hashCode * 59) + this._Client.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarClient.GetHashCode();
                 }
                 return hashCode;
             }

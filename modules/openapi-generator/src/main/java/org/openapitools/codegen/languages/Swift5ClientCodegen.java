@@ -61,7 +61,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String POD_SCREENSHOTS = "podScreenshots";
     public static final String POD_DOCUMENTATION_URL = "podDocumentationURL";
     public static final String READONLY_PROPERTIES = "readonlyProperties";
-    public static final String REMOVE_MIGRATION_PROJECT_NAME_CLASS = "removeMigrationProjectNameClass";
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
     public static final String DEFAULT_POD_AUTHORS = "OpenAPI Generator";
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
@@ -89,7 +88,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean objcCompatible = false;
     protected boolean lenientTypeCast = false;
     protected boolean readonlyProperties = false;
-    protected boolean removeMigrationProjectNameClass = false;
     protected boolean swiftUseApiNamespace = false;
     protected boolean useSPMFileStructure = false;
     protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
@@ -276,8 +274,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 "Documentation URL used for Podspec"));
         cliOptions.add(new CliOption(READONLY_PROPERTIES, "Make properties "
                 + "readonly (default: false)"));
-        cliOptions.add(new CliOption(REMOVE_MIGRATION_PROJECT_NAME_CLASS, "Make properties "
-                + "removeMigrationProjectNameClass (default: false)"));
         cliOptions.add(new CliOption(SWIFT_USE_API_NAMESPACE,
                 "Flag to make all the API classes inner-class "
                         + "of {{projectName}}API"));
@@ -476,12 +472,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             setReadonlyProperties(convertPropertyToBooleanAndWriteBack(READONLY_PROPERTIES));
         }
         additionalProperties.put(READONLY_PROPERTIES, readonlyProperties);
-
-        // Setup removeMigrationProjectNameClass option, which keeps or remove the projectName class
-        if (additionalProperties.containsKey(REMOVE_MIGRATION_PROJECT_NAME_CLASS)) {
-            setRemoveMigrationProjectNameClass(convertPropertyToBooleanAndWriteBack(REMOVE_MIGRATION_PROJECT_NAME_CLASS));
-        }
-        additionalProperties.put(REMOVE_MIGRATION_PROJECT_NAME_CLASS, removeMigrationProjectNameClass);
 
         // Setup swiftUseApiNamespace option, which makes all the API
         // classes inner-class of {{projectName}}API
@@ -972,10 +962,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setReadonlyProperties(boolean readonlyProperties) {
         this.readonlyProperties = readonlyProperties;
-    }
-
-    public void setRemoveMigrationProjectNameClass(boolean removeMigrationProjectNameClass) {
-        this.removeMigrationProjectNameClass = removeMigrationProjectNameClass;
     }
 
     public void setResponseAs(String[] responseAs) {

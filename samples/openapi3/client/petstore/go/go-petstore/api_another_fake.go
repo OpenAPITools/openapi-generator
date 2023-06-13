@@ -19,7 +19,7 @@ import (
 )
 
 
-type AnotherFakeApi interface {
+type AnotherFakeAPI interface {
 
 	/*
 	Call123TestSpecialTags To test special tags
@@ -36,12 +36,12 @@ type AnotherFakeApi interface {
 	Call123TestSpecialTagsExecute(r ApiCall123TestSpecialTagsRequest) (*Client, *http.Response, error)
 }
 
-// AnotherFakeApiService AnotherFakeApi service
-type AnotherFakeApiService service
+// AnotherFakeAPIService AnotherFakeAPI service
+type AnotherFakeAPIService service
 
 type ApiCall123TestSpecialTagsRequest struct {
 	ctx context.Context
-	ApiService AnotherFakeApi
+	ApiService AnotherFakeAPI
 	client *Client
 }
 
@@ -63,7 +63,7 @@ To test special tags and operation ID starting with number
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCall123TestSpecialTagsRequest
 */
-func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx context.Context) ApiCall123TestSpecialTagsRequest {
+func (a *AnotherFakeAPIService) Call123TestSpecialTags(ctx context.Context) ApiCall123TestSpecialTagsRequest {
 	return ApiCall123TestSpecialTagsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -72,7 +72,7 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx context.Context) ApiC
 
 // Execute executes the request
 //  @return Client
-func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSpecialTagsRequest) (*Client, *http.Response, error) {
+func (a *AnotherFakeAPIService) Call123TestSpecialTagsExecute(r ApiCall123TestSpecialTagsRequest) (*Client, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
@@ -80,7 +80,7 @@ func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSp
 		localVarReturnValue  *Client
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnotherFakeApiService.Call123TestSpecialTags")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnotherFakeAPIService.Call123TestSpecialTags")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

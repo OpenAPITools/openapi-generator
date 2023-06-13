@@ -4,7 +4,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>6.6.0-SNAPSHOT</version>
+        <version>7.0.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
@@ -217,10 +217,6 @@
                 <version>${maven-javadoc-plugin.version}</version>
                 <configuration>
                     <debug>true</debug>
-                    <links>
-                        <link>http://java.sun.com/javaee/5/docs/api</link>
-                        <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
-                    </links>
                     <excludePackageNames/>
                 </configuration>
             </plugin>

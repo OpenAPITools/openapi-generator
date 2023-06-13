@@ -1,7 +1,7 @@
 sudo: required
 language: java
 jdk:
-  - openjdk8
+  - openjdk11
 
 # See https://docs.travis-ci.com/user/languages/java/#caching
 before_cache:
@@ -151,14 +151,14 @@ script:
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
   # show "error" only to reduce the log size
-  - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error 2>&1 | grep -i error
+  - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -DskipTests -Dmaven.javadoc.skip=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error 2>&1 | grep -i error
   #- mvn -e --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 after_success:
   # push to maven repo
   - if [ $SONATYPE_USERNAME ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ]; then
         echo "Publishing from branch $TRAVIS_BRANCH";
-        mvn clean deploy -DskipTests=true -B -U -P release --settings CI/settings.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error;
+        mvn clean deploy --quiet -DskipTests=true -B -U -P release --settings CI/settings.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error;
         echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
         pushd .;
         cd modules/openapi-generator-gradle-plugin;
@@ -167,7 +167,7 @@ after_success:
         popd;
       elif [ -z $TRAVIS_TAG ] && [[ "$TRAVIS_BRANCH" =~ ^[0-9]+\.[0-9]+\.x$ ]]; then
         echo "Publishing from branch $TRAVIS_BRANCH";
-        mvn clean deploy --settings CI/settings.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error;
+        mvn clean deploy --quiet --settings CI/settings.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error;
         echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
         pushd .;
         cd modules/openapi-generator-gradle-plugin;

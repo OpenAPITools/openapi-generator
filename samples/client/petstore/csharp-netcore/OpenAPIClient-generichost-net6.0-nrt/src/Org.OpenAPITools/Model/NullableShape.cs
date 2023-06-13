@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Model
         internal NullableShape(Triangle triangle)
         {
             Triangle = triangle;
+            OnCreated();
         }
 
         /// <summary>
@@ -48,7 +49,10 @@ namespace Org.OpenAPITools.Model
         internal NullableShape(Quadrilateral quadrilateral)
         {
             Quadrilateral = quadrilateral;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Triangle
@@ -101,12 +105,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type NullableShape
+    /// A Json converter for type <see cref="NullableShape" />
     /// </summary>
     public class NullableShapeJsonConverter : JsonConverter<NullableShape>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="NullableShape" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -121,13 +125,6 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException();
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
-
-            Utf8JsonReader triangleReader = utf8JsonReader;
-            bool triangleDeserialized = Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, jsonSerializerOptions, out Triangle? triangle);
-
-            Utf8JsonReader quadrilateralReader = utf8JsonReader;
-            bool quadrilateralDeserialized = Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, jsonSerializerOptions, out Quadrilateral? quadrilateral);
-
 
             while (utf8JsonReader.Read())
             {
@@ -150,17 +147,19 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (triangleDeserialized)
+            Utf8JsonReader triangleReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, jsonSerializerOptions, out Triangle? triangle))
                 return new NullableShape(triangle);
 
-            if (quadrilateralDeserialized)
+            Utf8JsonReader quadrilateralReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, jsonSerializerOptions, out Quadrilateral? quadrilateral))
                 return new NullableShape(quadrilateral);
 
             throw new JsonException();
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="NullableShape" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="nullableShape"></param>

@@ -27,7 +27,7 @@
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
-        <plugins>
+        <plugins>{{^interfaceOnly}}
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -38,7 +38,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>{{/interfaceOnly}}
             <plugin>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <groupId>org.jetbrains.kotlin</groupId>

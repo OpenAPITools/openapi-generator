@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:openapi/src/deserialize.dart';
 import 'package:dio/dio.dart';
 
+import 'package:openapi/src/model/fake_big_decimal_map200_response.dart';
 import 'package:openapi/src/model/file_schema_test_class.dart';
 import 'package:openapi/src/model/health_check_result.dart';
 import 'package:openapi/src/model/model_client.dart';
@@ -23,6 +24,75 @@ class FakeApi {
   final Dio _dio;
 
   const FakeApi(this._dio);
+
+  /// fakeBigDecimalMap
+  /// for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+  ///
+  /// Parameters:
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [FakeBigDecimalMap200Response] as data
+  /// Throws [DioError] if API call or serialization fails
+  Future<Response<FakeBigDecimalMap200Response>> fakeBigDecimalMap({ 
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/fake/BigDecimalMap';
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    FakeBigDecimalMap200Response? _responseData;
+
+    try {
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<FakeBigDecimalMap200Response, FakeBigDecimalMap200Response>(rawData, 'FakeBigDecimalMap200Response', growable: true);
+    } catch (error, stackTrace) {
+      throw DioError(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioErrorType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<FakeBigDecimalMap200Response>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
 
   /// Health check endpoint
   /// 
@@ -66,10 +136,11 @@ class FakeApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    HealthCheckResult _responseData;
+    HealthCheckResult? _responseData;
 
     try {
-_responseData = deserialize<HealthCheckResult, HealthCheckResult>(_response.data!, 'HealthCheckResult', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<HealthCheckResult, HealthCheckResult>(rawData, 'HealthCheckResult', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -236,10 +307,11 @@ _bodyData=jsonEncode(body);
       onReceiveProgress: onReceiveProgress,
     );
 
-    bool _responseData;
+    bool? _responseData;
 
     try {
-_responseData = deserialize<bool, bool>(_response.data!, 'bool', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<bool, bool>(rawData, 'bool', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -324,10 +396,11 @@ _bodyData=jsonEncode(outerComposite);
       onReceiveProgress: onReceiveProgress,
     );
 
-    OuterComposite _responseData;
+    OuterComposite? _responseData;
 
     try {
-_responseData = deserialize<OuterComposite, OuterComposite>(_response.data!, 'OuterComposite', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<OuterComposite, OuterComposite>(rawData, 'OuterComposite', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -412,10 +485,11 @@ _bodyData=jsonEncode(body);
       onReceiveProgress: onReceiveProgress,
     );
 
-    num _responseData;
+    num? _responseData;
 
     try {
-_responseData = deserialize<num, num>(_response.data!, 'num', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<num, num>(rawData, 'num', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -500,10 +574,11 @@ _bodyData=jsonEncode(body);
       onReceiveProgress: onReceiveProgress,
     );
 
-    String _responseData;
+    String? _responseData;
 
     try {
-_responseData = deserialize<String, String>(_response.data!, 'String', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<String, String>(rawData, 'String', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -588,10 +663,11 @@ _bodyData=jsonEncode(outerObjectWithEnumProperty);
       onReceiveProgress: onReceiveProgress,
     );
 
-    OuterObjectWithEnumProperty _responseData;
+    OuterObjectWithEnumProperty? _responseData;
 
     try {
-_responseData = deserialize<OuterObjectWithEnumProperty, OuterObjectWithEnumProperty>(_response.data!, 'OuterObjectWithEnumProperty', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<OuterObjectWithEnumProperty, OuterObjectWithEnumProperty>(rawData, 'OuterObjectWithEnumProperty', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,
@@ -879,10 +955,11 @@ _bodyData=jsonEncode(modelClient);
       onReceiveProgress: onReceiveProgress,
     );
 
-    ModelClient _responseData;
+    ModelClient? _responseData;
 
     try {
-_responseData = deserialize<ModelClient, ModelClient>(_response.data!, 'ModelClient', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(rawData, 'ModelClient', growable: true);
     } catch (error, stackTrace) {
       throw DioError(
         requestOptions: _response.requestOptions,

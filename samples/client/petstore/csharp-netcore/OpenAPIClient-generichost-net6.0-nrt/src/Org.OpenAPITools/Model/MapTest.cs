@@ -44,7 +44,10 @@ namespace Org.OpenAPITools.Model
             IndirectMap = indirectMap;
             MapMapOfString = mapMapOfString;
             MapOfEnumString = mapOfEnumString;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Defines Inner
@@ -60,14 +63,14 @@ namespace Org.OpenAPITools.Model
             /// Enum Lower for value: lower
             /// </summary>
             Lower = 2
-
         }
 
         /// <summary>
-        /// Returns a InnerEnum
+        /// Returns a <see cref="InnerEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static InnerEnum InnerEnumFromString(string value)
         {
             if (value == "UPPER")
@@ -80,7 +83,23 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="InnerEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static InnerEnum? InnerEnumFromStringOrDefault(string value)
+        {
+            if (value == "UPPER")
+                return InnerEnum.UPPER;
+
+            if (value == "lower")
+                return InnerEnum.Lower;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="InnerEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -155,12 +174,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type MapTest
+    /// A Json converter for type <see cref="MapTest" />
     /// </summary>
     public class MapTestJsonConverter : JsonConverter<MapTest>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="MapTest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -176,10 +195,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Dictionary<string, bool> directMap = default;
-            Dictionary<string, bool> indirectMap = default;
-            Dictionary<string, Dictionary<string, string>> mapMapOfString = default;
-            Dictionary<string, MapTest.InnerEnum> mapOfEnumString = default;
+            Dictionary<string, bool>? directMap = default;
+            Dictionary<string, bool>? indirectMap = default;
+            Dictionary<string, Dictionary<string, string>>? mapMapOfString = default;
+            Dictionary<string, MapTest.InnerEnum>? mapOfEnumString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -218,8 +237,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            if (directMap == null)
+                throw new ArgumentNullException(nameof(directMap), "Property is required for class MapTest.");
+
+            if (indirectMap == null)
+                throw new ArgumentNullException(nameof(indirectMap), "Property is required for class MapTest.");
 
             if (mapMapOfString == null)
                 throw new ArgumentNullException(nameof(mapMapOfString), "Property is required for class MapTest.");
@@ -227,20 +249,11 @@ namespace Org.OpenAPITools.Model
             if (mapOfEnumString == null)
                 throw new ArgumentNullException(nameof(mapOfEnumString), "Property is required for class MapTest.");
 
-            if (directMap == null)
-                throw new ArgumentNullException(nameof(directMap), "Property is required for class MapTest.");
-
-            if (indirectMap == null)
-                throw new ArgumentNullException(nameof(indirectMap), "Property is required for class MapTest.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             return new MapTest(directMap, indirectMap, mapMapOfString, mapOfEnumString);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="MapTest" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="mapTest"></param>

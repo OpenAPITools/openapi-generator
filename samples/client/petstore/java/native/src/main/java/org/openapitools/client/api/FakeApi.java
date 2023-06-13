@@ -19,6 +19,7 @@ import org.openapitools.client.Pair;
 
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
@@ -96,6 +97,71 @@ public class FakeApi {
     return operationId + " call failed with: " + statusCode + " - " + body;
   }
 
+  /**
+   * 
+   * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+   * @return FakeBigDecimalMap200Response
+   * @throws ApiException if fails to make API call
+   */
+  public FakeBigDecimalMap200Response fakeBigDecimalMap() throws ApiException {
+    ApiResponse<FakeBigDecimalMap200Response> localVarResponse = fakeBigDecimalMapWithHttpInfo();
+    return localVarResponse.getData();
+  }
+
+  /**
+   * 
+   * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+   * @return ApiResponse&lt;FakeBigDecimalMap200Response&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<FakeBigDecimalMap200Response> fakeBigDecimalMapWithHttpInfo() throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = fakeBigDecimalMapRequestBuilder();
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("fakeBigDecimalMap", localVarResponse);
+        }
+        return new ApiResponse<FakeBigDecimalMap200Response>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<FakeBigDecimalMap200Response>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder fakeBigDecimalMapRequestBuilder() throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/fake/BigDecimalMap";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Accept", "*/*");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
   /**
    * Health check endpoint
    * 

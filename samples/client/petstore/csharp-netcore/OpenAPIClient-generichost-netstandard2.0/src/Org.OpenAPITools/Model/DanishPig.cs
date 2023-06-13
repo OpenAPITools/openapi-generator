@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         public DanishPig(string className)
         {
             ClassName = className;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ClassName
@@ -76,12 +79,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type DanishPig
+    /// A Json converter for type <see cref="DanishPig" />
     /// </summary>
     public class DanishPigJsonConverter : JsonConverter<DanishPig>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="DanishPig" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -123,20 +126,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (className == null)
                 throw new ArgumentNullException(nameof(className), "Property is required for class DanishPig.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new DanishPig(className);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="DanishPig" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="danishPig"></param>

@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.IApi
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;HealthCheckResult&gt;&gt;</returns>
-        Task<ApiResponse<HealthCheckResult>> FakeHealthGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<HealthCheckResult>> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Health check endpoint
@@ -44,10 +44,9 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;HealthCheckResult&gt;</returns>
-        Task<HealthCheckResult> FakeHealthGetAsync(System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;HealthCheckResult&gt;&gt;</returns>
+        Task<ApiResponse<HealthCheckResult>> FakeHealthGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -59,7 +58,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;bool&gt;&gt;</returns>
-        Task<ApiResponse<bool>> FakeOuterBooleanSerializeWithHttpInfoAsync(bool? body = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<bool>> FakeOuterBooleanSerializeAsync(bool? body = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -67,11 +66,10 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// Test serialization of outer boolean types
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;bool&gt;</returns>
-        Task<bool> FakeOuterBooleanSerializeAsync(bool? body = null, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;bool&gt;&gt;</returns>
+        Task<ApiResponse<bool>> FakeOuterBooleanSerializeOrDefaultAsync(bool? body = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -83,7 +81,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;OuterComposite&gt;&gt;</returns>
-        Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(OuterComposite outerComposite = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeAsync(OuterComposite outerComposite = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -91,11 +89,10 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// Test serialization of object with outer number type
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;OuterComposite&gt;</returns>
-        Task<OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite outerComposite = null, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;OuterComposite&gt;&gt;</returns>
+        Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeOrDefaultAsync(OuterComposite outerComposite = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -107,7 +104,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="body">Input number as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;decimal&gt;&gt;</returns>
-        Task<ApiResponse<decimal>> FakeOuterNumberSerializeWithHttpInfoAsync(decimal? body = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<decimal>> FakeOuterNumberSerializeAsync(decimal? body = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -115,11 +112,10 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// Test serialization of outer number types
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;decimal&gt;</returns>
-        Task<decimal> FakeOuterNumberSerializeAsync(decimal? body = null, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;decimal&gt;&gt;</returns>
+        Task<ApiResponse<decimal>> FakeOuterNumberSerializeOrDefaultAsync(decimal? body = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -132,7 +128,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;string&gt;&gt;</returns>
-        Task<ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(Guid requiredStringUuid, string body = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<string>> FakeOuterStringSerializeAsync(Guid requiredStringUuid, string body = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -140,12 +136,11 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// Test serialization of outer string types
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="requiredStringUuid">Required UUID String</param>
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;string&gt;</returns>
-        Task<string> FakeOuterStringSerializeAsync(Guid requiredStringUuid, string body = null, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;string&gt;&gt;</returns>
+        Task<ApiResponse<string>> FakeOuterStringSerializeOrDefaultAsync(Guid requiredStringUuid, string body = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Array of Enums
@@ -156,7 +151,7 @@ namespace Org.OpenAPITools.IApi
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;List&lt;OuterEnum&gt;&gt;&gt;</returns>
-        Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Array of Enums
@@ -164,10 +159,9 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;List&lt;OuterEnum&gt;&gt;</returns>
-        Task<List<OuterEnum>> GetArrayOfEnumsAsync(System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;List&lt;OuterEnum&gt;&gt;&gt;</returns>
+        Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -179,7 +173,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> TestBodyWithFileSchemaWithHttpInfoAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> TestBodyWithFileSchemaAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -187,11 +181,10 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// For this test, the body for this request much reference a schema named &#x60;File&#x60;.
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> TestBodyWithFileSchemaAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> TestBodyWithFileSchemaOrDefaultAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -204,7 +197,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="query"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> TestBodyWithQueryParamsWithHttpInfoAsync(User user, string query, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> TestBodyWithQueryParamsAsync(User user, string query, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -212,12 +205,11 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="user"></param>
         /// <param name="query"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> TestBodyWithQueryParamsAsync(User user, string query, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> TestBodyWithQueryParamsOrDefaultAsync(User user, string query, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test \&quot;client\&quot; model
@@ -229,7 +221,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;ModelClient&gt;&gt;</returns>
-        Task<ApiResponse<ModelClient>> TestClientModelWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<ModelClient>> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test \&quot;client\&quot; model
@@ -237,11 +229,10 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// To test \&quot;client\&quot; model
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;ModelClient&gt;</returns>
-        Task<ModelClient> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;ModelClient&gt;&gt;</returns>
+        Task<ApiResponse<ModelClient>> TestClientModelOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -250,23 +241,23 @@ namespace Org.OpenAPITools.IApi
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="_byte">None</param>
+        /// <param name="varByte">None</param>
         /// <param name="number">None</param>
-        /// <param name="_double">None</param>
+        /// <param name="varDouble">None</param>
         /// <param name="patternWithoutDelimiter">None</param>
         /// <param name="date">None (optional)</param>
         /// <param name="binary">None (optional)</param>
-        /// <param name="_float">None (optional)</param>
+        /// <param name="varFloat">None (optional)</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
-        /// <param name="_string">None (optional)</param>
+        /// <param name="varString">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> TestEndpointParametersWithHttpInfoAsync(byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream binary = null, float? _float = null, int? integer = null, int? int32 = null, long? int64 = null, string _string = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> TestEndpointParametersAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream binary = null, float? varFloat = null, int? integer = null, int? int32 = null, long? int64 = null, string varString = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -274,24 +265,23 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="_byte">None</param>
+        /// <param name="varByte">None</param>
         /// <param name="number">None</param>
-        /// <param name="_double">None</param>
+        /// <param name="varDouble">None</param>
         /// <param name="patternWithoutDelimiter">None</param>
         /// <param name="date">None (optional)</param>
         /// <param name="binary">None (optional)</param>
-        /// <param name="_float">None (optional)</param>
+        /// <param name="varFloat">None (optional)</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
-        /// <param name="_string">None (optional)</param>
+        /// <param name="varString">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> TestEndpointParametersAsync(byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream binary = null, float? _float = null, int? integer = null, int? int32 = null, long? int64 = null, string _string = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> TestEndpointParametersOrDefaultAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream binary = null, float? varFloat = null, int? integer = null, int? int32 = null, long? int64 = null, string varString = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test enum parameters
@@ -310,7 +300,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> TestEnumParametersWithHttpInfoAsync(List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, double? enumQueryDouble = null, int? enumQueryInteger = null, List<string> enumFormStringArray = null, string enumHeaderString = null, string enumQueryString = null, string enumFormString = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> TestEnumParametersAsync(List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, double? enumQueryDouble = null, int? enumQueryInteger = null, List<string> enumFormStringArray = null, string enumHeaderString = null, string enumQueryString = null, string enumFormString = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test enum parameters
@@ -318,7 +308,6 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// To test enum parameters
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
         /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
@@ -328,8 +317,8 @@ namespace Org.OpenAPITools.IApi
         /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> TestEnumParametersAsync(List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, double? enumQueryDouble = null, int? enumQueryInteger = null, List<string> enumFormStringArray = null, string enumHeaderString = null, string enumQueryString = null, string enumFormString = null, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> TestEnumParametersOrDefaultAsync(List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, double? enumQueryDouble = null, int? enumQueryInteger = null, List<string> enumFormStringArray = null, string enumHeaderString = null, string enumQueryString = null, string enumFormString = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -346,7 +335,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> TestGroupParametersWithHttpInfoAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup = null, int? stringGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> TestGroupParametersAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup = null, int? stringGroup = null, long? int64Group = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -354,7 +343,6 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// Fake endpoint to test group parameters (optional)
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
         /// <param name="requiredStringGroup">Required String in group parameters</param>
         /// <param name="requiredInt64Group">Required Integer in group parameters</param>
@@ -362,8 +350,8 @@ namespace Org.OpenAPITools.IApi
         /// <param name="stringGroup">String in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> TestGroupParametersAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup = null, int? stringGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> TestGroupParametersOrDefaultAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup = null, int? stringGroup = null, long? int64Group = null, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// test inline additionalProperties
@@ -375,7 +363,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> TestInlineAdditionalPropertiesWithHttpInfoAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> TestInlineAdditionalPropertiesAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// test inline additionalProperties
@@ -383,11 +371,10 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> TestInlineAdditionalPropertiesAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> TestInlineAdditionalPropertiesOrDefaultAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// test json serialization of form data
@@ -400,7 +387,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="param2">field2</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> TestJsonFormDataWithHttpInfoAsync(string param, string param2, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> TestJsonFormDataAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// test json serialization of form data
@@ -408,12 +395,11 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="param">field1</param>
         /// <param name="param2">field2</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> TestJsonFormDataAsync(string param, string param2, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> TestJsonFormDataOrDefaultAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -429,7 +415,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="context"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> TestQueryParameterCollectionFormatWithHttpInfoAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -437,15 +423,14 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// To test the collection format in query parameters
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="pipe"></param>
         /// <param name="ioutil"></param>
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> TestQueryParameterCollectionFormatOrDefaultAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken cancellationToken = default);
     }
 }
 
@@ -454,7 +439,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class FakeApi : IApi.IFakeApi
+    public sealed partial class FakeApi : IApi.IFakeApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
@@ -497,11 +482,11 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="FakeApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public FakeApi(ILogger<FakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, 
-            TokenProvider<ApiKeyToken> apiKeyProvider, 
-            TokenProvider<BearerToken> bearerTokenProvider, 
-            TokenProvider<BasicToken> basicTokenProvider, 
-            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider, 
+        public FakeApi(ILogger<FakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider,
+            TokenProvider<ApiKeyToken> apiKeyProvider,
+            TokenProvider<BearerToken> bearerTokenProvider,
+            TokenProvider<BasicToken> basicTokenProvider,
+            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider,
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
@@ -515,78 +500,56 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Logs the api response
+        /// Processes the server response
         /// </summary>
-        /// <param name="args"></param>
-        protected virtual void OnApiResponded(ApiResponseEventArgs args)
+        /// <param name="apiResponseLocalVar"></param>
+        private void AfterFakeHealthGetDefaultImplementation(ApiResponse<HealthCheckResult> apiResponseLocalVar)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
-        }
-
-        /// <summary>
-        /// Health check endpoint 
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="HealthCheckResult"/>&gt;</returns>
-        public async Task<HealthCheckResult> FakeHealthGetAsync(System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<HealthCheckResult> apiResponseLocalVar = await FakeHealthGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-
-            if (apiResponseLocalVar.Content == null)
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
-
-        /// <summary>
-        /// Health check endpoint 
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="HealthCheckResult"/>&gt;</returns>
-        public async Task<HealthCheckResult> FakeHealthGetOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<HealthCheckResult> apiResponseLocalVar = null;
-            try 
-            {
-                apiResponseLocalVar = await FakeHealthGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
-                ? apiResponseLocalVar.Content
-                : null;
-        }
-
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <returns></returns>
-        protected virtual void OnFakeHealthGet()
-        {
-            return;
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterFakeHealthGet(apiResponseLocalVar);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        protected virtual void AfterFakeHealthGet(ApiResponse<HealthCheckResult> apiResponseLocalVar)
-        {
-        }
+        partial void AfterFakeHealthGet(ApiResponse<HealthCheckResult> apiResponseLocalVar);
 
         /// <summary>
-        /// Processes the server response
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        protected virtual void OnErrorFakeHealthGet(Exception exception, string pathFormat, string path)
+        private void OnErrorFakeHealthGetDefaultImplementation(Exception exception, string pathFormat, string path)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorFakeHealthGet(exception, pathFormat, path);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        partial void OnErrorFakeHealthGet(Exception exception, string pathFormat, string path);
+
+        /// <summary>
+        /// Health check endpoint 
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="HealthCheckResult"/></returns>
+        public async Task<ApiResponse<HealthCheckResult>> FakeHealthGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await FakeHealthGetAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -595,14 +558,12 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="HealthCheckResult"/></returns>
-        public async Task<ApiResponse<HealthCheckResult>> FakeHealthGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<HealthCheckResult>> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                OnFakeHealthGet();
-
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
@@ -610,36 +571,27 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/fake/health";
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    string[] acceptLocalVars = new string[] { 
-                        "application/json" 
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
                     httpRequestMessageLocalVar.Method = new HttpMethod("GET");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/health", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<HealthCheckResult> apiResponseLocalVar = new ApiResponse<HealthCheckResult>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<HealthCheckResult> apiResponseLocalVar = new ApiResponse<HealthCheckResult>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/health", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<HealthCheckResult>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterFakeHealthGet(apiResponseLocalVar);
-                        }
+                        AfterFakeHealthGetDefaultImplementation(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -647,38 +599,22 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorFakeHealthGet(e, "/fake/health", uriBuilderLocalVar.Path);
+                OnErrorFakeHealthGetDefaultImplementation(e, "/fake/health", uriBuilderLocalVar.Path);
                 throw;
             }
         }
 
-        /// <summary>
-        ///  Test serialization of outer boolean types
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Input boolean as post body (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="bool"/>&gt;</returns>
-        public async Task<bool> FakeOuterBooleanSerializeAsync(bool? body = null, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<bool> apiResponseLocalVar = await FakeOuterBooleanSerializeWithHttpInfoAsync(body, cancellationToken).ConfigureAwait(false);
-
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            if (apiResponseLocalVar.Content == null)
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
+        partial void FormatFakeOuterBooleanSerialize(ref bool? body);
 
         /// <summary>
-        /// Validates the request parameters
+        /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="body"></param>
-        /// <returns></returns>
-        protected virtual bool? OnFakeOuterBooleanSerialize(bool? body)
+        private void AfterFakeOuterBooleanSerializeDefaultImplementation(ApiResponse<bool> apiResponseLocalVar, bool? body)
         {
-            return body;
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterFakeOuterBooleanSerialize(apiResponseLocalVar, body);
         }
 
         /// <summary>
@@ -686,20 +622,46 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="body"></param>
-        protected virtual void AfterFakeOuterBooleanSerialize(ApiResponse<bool> apiResponseLocalVar, bool? body)
-        {
-        }
+        partial void AfterFakeOuterBooleanSerialize(ApiResponse<bool> apiResponseLocalVar, bool? body);
 
         /// <summary>
-        /// Processes the server response
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="body"></param>
-        protected virtual void OnErrorFakeOuterBooleanSerialize(Exception exception, string pathFormat, string path, bool? body)
+        private void OnErrorFakeOuterBooleanSerializeDefaultImplementation(Exception exception, string pathFormat, string path, bool? body)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorFakeOuterBooleanSerialize(exception, pathFormat, path, body);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="body"></param>
+        partial void OnErrorFakeOuterBooleanSerialize(Exception exception, string pathFormat, string path, bool? body);
+
+        /// <summary>
+        ///  Test serialization of outer boolean types
+        /// </summary>
+        /// <param name="body">Input boolean as post body (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="bool"/></returns>
+        public async Task<ApiResponse<bool>> FakeOuterBooleanSerializeOrDefaultAsync(bool? body = null, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await FakeOuterBooleanSerializeAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -709,13 +671,13 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="bool"/></returns>
-        public async Task<ApiResponse<bool>> FakeOuterBooleanSerializeWithHttpInfoAsync(bool? body = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<bool>> FakeOuterBooleanSerializeAsync(bool? body = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                body = OnFakeOuterBooleanSerialize(body);
+                FormatFakeOuterBooleanSerialize(ref body);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -728,12 +690,10 @@ namespace Org.OpenAPITools.Api
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
@@ -741,32 +701,25 @@ namespace Org.OpenAPITools.Api
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    string[] acceptLocalVars = new string[] { 
-                        "*/*" 
+                    string[] acceptLocalVars = new string[] {
+                        "*/*"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
                     httpRequestMessageLocalVar.Method = new HttpMethod("POST");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/outer/boolean", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<bool> apiResponseLocalVar = new ApiResponse<bool>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<bool> apiResponseLocalVar = new ApiResponse<bool>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/boolean", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<bool>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterFakeOuterBooleanSerialize(apiResponseLocalVar, body);
-                        }
+                        AfterFakeOuterBooleanSerializeDefaultImplementation(apiResponseLocalVar, body);
 
                         return apiResponseLocalVar;
                     }
@@ -774,59 +727,22 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorFakeOuterBooleanSerialize(e, "/fake/outer/boolean", uriBuilderLocalVar.Path, body);
+                OnErrorFakeOuterBooleanSerializeDefaultImplementation(e, "/fake/outer/boolean", uriBuilderLocalVar.Path, body);
                 throw;
             }
         }
 
-        /// <summary>
-        ///  Test serialization of object with outer number type
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="outerComposite">Input composite as post body (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="OuterComposite"/>&gt;</returns>
-        public async Task<OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite outerComposite = null, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<OuterComposite> apiResponseLocalVar = await FakeOuterCompositeSerializeWithHttpInfoAsync(outerComposite, cancellationToken).ConfigureAwait(false);
-
-            if (apiResponseLocalVar.Content == null)
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
+        partial void FormatFakeOuterCompositeSerialize(OuterComposite outerComposite);
 
         /// <summary>
-        ///  Test serialization of object with outer number type
+        /// Processes the server response
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="outerComposite">Input composite as post body (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="OuterComposite"/>&gt;</returns>
-        public async Task<OuterComposite> FakeOuterCompositeSerializeOrDefaultAsync(OuterComposite outerComposite = null, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<OuterComposite> apiResponseLocalVar = null;
-            try 
-            {
-                apiResponseLocalVar = await FakeOuterCompositeSerializeWithHttpInfoAsync(outerComposite, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
-                ? apiResponseLocalVar.Content
-                : null;
-        }
-
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="outerComposite"></param>
-        /// <returns></returns>
-        protected virtual OuterComposite OnFakeOuterCompositeSerialize(OuterComposite outerComposite)
+        private void AfterFakeOuterCompositeSerializeDefaultImplementation(ApiResponse<OuterComposite> apiResponseLocalVar, OuterComposite outerComposite)
         {
-            return outerComposite;
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterFakeOuterCompositeSerialize(apiResponseLocalVar, outerComposite);
         }
 
         /// <summary>
@@ -834,20 +750,46 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="outerComposite"></param>
-        protected virtual void AfterFakeOuterCompositeSerialize(ApiResponse<OuterComposite> apiResponseLocalVar, OuterComposite outerComposite)
-        {
-        }
+        partial void AfterFakeOuterCompositeSerialize(ApiResponse<OuterComposite> apiResponseLocalVar, OuterComposite outerComposite);
 
         /// <summary>
-        /// Processes the server response
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="outerComposite"></param>
-        protected virtual void OnErrorFakeOuterCompositeSerialize(Exception exception, string pathFormat, string path, OuterComposite outerComposite)
+        private void OnErrorFakeOuterCompositeSerializeDefaultImplementation(Exception exception, string pathFormat, string path, OuterComposite outerComposite)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorFakeOuterCompositeSerialize(exception, pathFormat, path, outerComposite);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="outerComposite"></param>
+        partial void OnErrorFakeOuterCompositeSerialize(Exception exception, string pathFormat, string path, OuterComposite outerComposite);
+
+        /// <summary>
+        ///  Test serialization of object with outer number type
+        /// </summary>
+        /// <param name="outerComposite">Input composite as post body (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="OuterComposite"/></returns>
+        public async Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeOrDefaultAsync(OuterComposite outerComposite = null, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await FakeOuterCompositeSerializeAsync(outerComposite, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -857,13 +799,13 @@ namespace Org.OpenAPITools.Api
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="OuterComposite"/></returns>
-        public async Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(OuterComposite outerComposite = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeAsync(OuterComposite outerComposite = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                outerComposite = OnFakeOuterCompositeSerialize(outerComposite);
+                FormatFakeOuterCompositeSerialize(outerComposite);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -876,12 +818,10 @@ namespace Org.OpenAPITools.Api
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(outerComposite, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
@@ -889,32 +829,25 @@ namespace Org.OpenAPITools.Api
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    string[] acceptLocalVars = new string[] { 
-                        "*/*" 
+                    string[] acceptLocalVars = new string[] {
+                        "*/*"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
                     httpRequestMessageLocalVar.Method = new HttpMethod("POST");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/outer/composite", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<OuterComposite> apiResponseLocalVar = new ApiResponse<OuterComposite>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<OuterComposite> apiResponseLocalVar = new ApiResponse<OuterComposite>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/composite", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<OuterComposite>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterFakeOuterCompositeSerialize(apiResponseLocalVar, outerComposite);
-                        }
+                        AfterFakeOuterCompositeSerializeDefaultImplementation(apiResponseLocalVar, outerComposite);
 
                         return apiResponseLocalVar;
                     }
@@ -922,38 +855,22 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorFakeOuterCompositeSerialize(e, "/fake/outer/composite", uriBuilderLocalVar.Path, outerComposite);
+                OnErrorFakeOuterCompositeSerializeDefaultImplementation(e, "/fake/outer/composite", uriBuilderLocalVar.Path, outerComposite);
                 throw;
             }
         }
 
-        /// <summary>
-        ///  Test serialization of outer number types
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Input number as post body (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="decimal"/>&gt;</returns>
-        public async Task<decimal> FakeOuterNumberSerializeAsync(decimal? body = null, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<decimal> apiResponseLocalVar = await FakeOuterNumberSerializeWithHttpInfoAsync(body, cancellationToken).ConfigureAwait(false);
-
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            if (apiResponseLocalVar.Content == null)
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
+        partial void FormatFakeOuterNumberSerialize(ref decimal? body);
 
         /// <summary>
-        /// Validates the request parameters
+        /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="body"></param>
-        /// <returns></returns>
-        protected virtual decimal? OnFakeOuterNumberSerialize(decimal? body)
+        private void AfterFakeOuterNumberSerializeDefaultImplementation(ApiResponse<decimal> apiResponseLocalVar, decimal? body)
         {
-            return body;
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterFakeOuterNumberSerialize(apiResponseLocalVar, body);
         }
 
         /// <summary>
@@ -961,20 +878,46 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="body"></param>
-        protected virtual void AfterFakeOuterNumberSerialize(ApiResponse<decimal> apiResponseLocalVar, decimal? body)
-        {
-        }
+        partial void AfterFakeOuterNumberSerialize(ApiResponse<decimal> apiResponseLocalVar, decimal? body);
 
         /// <summary>
-        /// Processes the server response
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="body"></param>
-        protected virtual void OnErrorFakeOuterNumberSerialize(Exception exception, string pathFormat, string path, decimal? body)
+        private void OnErrorFakeOuterNumberSerializeDefaultImplementation(Exception exception, string pathFormat, string path, decimal? body)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorFakeOuterNumberSerialize(exception, pathFormat, path, body);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="body"></param>
+        partial void OnErrorFakeOuterNumberSerialize(Exception exception, string pathFormat, string path, decimal? body);
+
+        /// <summary>
+        ///  Test serialization of outer number types
+        /// </summary>
+        /// <param name="body">Input number as post body (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="decimal"/></returns>
+        public async Task<ApiResponse<decimal>> FakeOuterNumberSerializeOrDefaultAsync(decimal? body = null, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await FakeOuterNumberSerializeAsync(body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -984,13 +927,13 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input number as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="decimal"/></returns>
-        public async Task<ApiResponse<decimal>> FakeOuterNumberSerializeWithHttpInfoAsync(decimal? body = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<decimal>> FakeOuterNumberSerializeAsync(decimal? body = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                body = OnFakeOuterNumberSerialize(body);
+                FormatFakeOuterNumberSerialize(ref body);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1003,12 +946,10 @@ namespace Org.OpenAPITools.Api
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
@@ -1016,32 +957,25 @@ namespace Org.OpenAPITools.Api
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    string[] acceptLocalVars = new string[] { 
-                        "*/*" 
+                    string[] acceptLocalVars = new string[] {
+                        "*/*"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
                     httpRequestMessageLocalVar.Method = new HttpMethod("POST");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/outer/number", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<decimal> apiResponseLocalVar = new ApiResponse<decimal>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<decimal> apiResponseLocalVar = new ApiResponse<decimal>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/number", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<decimal>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterFakeOuterNumberSerialize(apiResponseLocalVar, body);
-                        }
+                        AfterFakeOuterNumberSerializeDefaultImplementation(apiResponseLocalVar, body);
 
                         return apiResponseLocalVar;
                     }
@@ -1049,38 +983,19 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorFakeOuterNumberSerialize(e, "/fake/outer/number", uriBuilderLocalVar.Path, body);
+                OnErrorFakeOuterNumberSerializeDefaultImplementation(e, "/fake/outer/number", uriBuilderLocalVar.Path, body);
                 throw;
             }
         }
 
-        /// <summary>
-        ///  Test serialization of outer string types
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="requiredStringUuid">Required UUID String</param>
-        /// <param name="body">Input string as post body (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="string"/>&gt;</returns>
-        public async Task<string> FakeOuterStringSerializeAsync(Guid requiredStringUuid, string body = null, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<string> apiResponseLocalVar = await FakeOuterStringSerializeWithHttpInfoAsync(requiredStringUuid, body, cancellationToken).ConfigureAwait(false);
-
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            if (apiResponseLocalVar.Content == null)
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
+        partial void FormatFakeOuterStringSerialize(ref Guid requiredStringUuid, ref string body);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="requiredStringUuid"></param>
-        /// <param name="body"></param>
         /// <returns></returns>
-        protected virtual (Guid, string) OnFakeOuterStringSerialize(Guid requiredStringUuid, string body)
+        private void ValidateFakeOuterStringSerialize(Guid requiredStringUuid)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1088,10 +1003,8 @@ namespace Org.OpenAPITools.Api
             if (requiredStringUuid == null)
                 throw new ArgumentNullException(nameof(requiredStringUuid));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (requiredStringUuid, body);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1100,21 +1013,61 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        protected virtual void AfterFakeOuterStringSerialize(ApiResponse<string> apiResponseLocalVar, Guid requiredStringUuid, string body)
+        private void AfterFakeOuterStringSerializeDefaultImplementation(ApiResponse<string> apiResponseLocalVar, Guid requiredStringUuid, string body)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterFakeOuterStringSerialize(apiResponseLocalVar, requiredStringUuid, body);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="requiredStringUuid"></param>
+        /// <param name="body"></param>
+        partial void AfterFakeOuterStringSerialize(ApiResponse<string> apiResponseLocalVar, Guid requiredStringUuid, string body);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        protected virtual void OnErrorFakeOuterStringSerialize(Exception exception, string pathFormat, string path, Guid requiredStringUuid, string body)
+        private void OnErrorFakeOuterStringSerializeDefaultImplementation(Exception exception, string pathFormat, string path, Guid requiredStringUuid, string body)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorFakeOuterStringSerialize(exception, pathFormat, path, requiredStringUuid, body);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="requiredStringUuid"></param>
+        /// <param name="body"></param>
+        partial void OnErrorFakeOuterStringSerialize(Exception exception, string pathFormat, string path, Guid requiredStringUuid, string body);
+
+        /// <summary>
+        ///  Test serialization of outer string types
+        /// </summary>
+        /// <param name="requiredStringUuid">Required UUID String</param>
+        /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="string"/></returns>
+        public async Task<ApiResponse<string>> FakeOuterStringSerializeOrDefaultAsync(Guid requiredStringUuid, string body = null, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await FakeOuterStringSerializeAsync(requiredStringUuid, body, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -1125,15 +1078,15 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="string"/></returns>
-        public async Task<ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(Guid requiredStringUuid, string body = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<string>> FakeOuterStringSerializeAsync(Guid requiredStringUuid, string body = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                var validatedParameterLocalVars = OnFakeOuterStringSerialize(requiredStringUuid, body);
-                requiredStringUuid = validatedParameterLocalVars.Item1;
-                body = validatedParameterLocalVars.Item2;
+                ValidateFakeOuterStringSerialize(requiredStringUuid);
+
+                FormatFakeOuterStringSerialize(ref requiredStringUuid, ref body);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1145,19 +1098,17 @@ namespace Org.OpenAPITools.Api
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
                     parseQueryStringLocalVar["required_string_uuid"] = requiredStringUuid.ToString();
-                    
+
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     httpRequestMessageLocalVar.Content = (body as object) is System.IO.Stream stream
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
@@ -1165,32 +1116,25 @@ namespace Org.OpenAPITools.Api
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    string[] acceptLocalVars = new string[] { 
-                        "*/*" 
+                    string[] acceptLocalVars = new string[] {
+                        "*/*"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
                     httpRequestMessageLocalVar.Method = new HttpMethod("POST");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/outer/string", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<string> apiResponseLocalVar = new ApiResponse<string>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<string> apiResponseLocalVar = new ApiResponse<string>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/string", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<string>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterFakeOuterStringSerialize(apiResponseLocalVar, requiredStringUuid, body);
-                        }
+                        AfterFakeOuterStringSerializeDefaultImplementation(apiResponseLocalVar, requiredStringUuid, body);
 
                         return apiResponseLocalVar;
                     }
@@ -1198,75 +1142,62 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorFakeOuterStringSerialize(e, "/fake/outer/string", uriBuilderLocalVar.Path, requiredStringUuid, body);
+                OnErrorFakeOuterStringSerializeDefaultImplementation(e, "/fake/outer/string", uriBuilderLocalVar.Path, requiredStringUuid, body);
                 throw;
             }
-        }
-
-        /// <summary>
-        /// Array of Enums 
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="List&lt;OuterEnum&gt;"/>&gt;</returns>
-        public async Task<List<OuterEnum>> GetArrayOfEnumsAsync(System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<List<OuterEnum>> apiResponseLocalVar = await GetArrayOfEnumsWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-
-            if (apiResponseLocalVar.Content == null)
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
-
-        /// <summary>
-        /// Array of Enums 
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="List&lt;OuterEnum&gt;"/>&gt;</returns>
-        public async Task<List<OuterEnum>> GetArrayOfEnumsOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<List<OuterEnum>> apiResponseLocalVar = null;
-            try 
-            {
-                apiResponseLocalVar = await GetArrayOfEnumsWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
-                ? apiResponseLocalVar.Content
-                : null;
-        }
-
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <returns></returns>
-        protected virtual void OnGetArrayOfEnums()
-        {
-            return;
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        protected virtual void AfterGetArrayOfEnums(ApiResponse<List<OuterEnum>> apiResponseLocalVar)
+        private void AfterGetArrayOfEnumsDefaultImplementation(ApiResponse<List<OuterEnum>> apiResponseLocalVar)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterGetArrayOfEnums(apiResponseLocalVar);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        partial void AfterGetArrayOfEnums(ApiResponse<List<OuterEnum>> apiResponseLocalVar);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        protected virtual void OnErrorGetArrayOfEnums(Exception exception, string pathFormat, string path)
+        private void OnErrorGetArrayOfEnumsDefaultImplementation(Exception exception, string pathFormat, string path)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorGetArrayOfEnums(exception, pathFormat, path);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        partial void OnErrorGetArrayOfEnums(Exception exception, string pathFormat, string path);
+
+        /// <summary>
+        /// Array of Enums 
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
+        public async Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await GetArrayOfEnumsAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -1274,15 +1205,13 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List&lt;OuterEnum&gt;"/></returns>
-        public async Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
+        public async Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                OnGetArrayOfEnums();
-
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
@@ -1290,36 +1219,27 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/fake/array-of-enums";
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    string[] acceptLocalVars = new string[] { 
-                        "application/json" 
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
                     httpRequestMessageLocalVar.Method = new HttpMethod("GET");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/array-of-enums", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<List<OuterEnum>> apiResponseLocalVar = new ApiResponse<List<OuterEnum>>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<List<OuterEnum>> apiResponseLocalVar = new ApiResponse<List<OuterEnum>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/array-of-enums", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<List<OuterEnum>>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterGetArrayOfEnums(apiResponseLocalVar);
-                        }
+                        AfterGetArrayOfEnumsDefaultImplementation(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1327,57 +1247,19 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorGetArrayOfEnums(e, "/fake/array-of-enums", uriBuilderLocalVar.Path);
+                OnErrorGetArrayOfEnumsDefaultImplementation(e, "/fake/array-of-enums", uriBuilderLocalVar.Path);
                 throw;
             }
         }
 
-        /// <summary>
-        ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="fileSchemaTestClass"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestBodyWithFileSchemaAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> apiResponseLocalVar = await TestBodyWithFileSchemaWithHttpInfoAsync(fileSchemaTestClass, cancellationToken).ConfigureAwait(false);
-
-            if (apiResponseLocalVar.Content == null)
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
-
-        /// <summary>
-        ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="fileSchemaTestClass"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestBodyWithFileSchemaOrDefaultAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> apiResponseLocalVar = null;
-            try 
-            {
-                apiResponseLocalVar = await TestBodyWithFileSchemaWithHttpInfoAsync(fileSchemaTestClass, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
-                ? apiResponseLocalVar.Content
-                : null;
-        }
+        partial void FormatTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="fileSchemaTestClass"></param>
         /// <returns></returns>
-        protected virtual FileSchemaTestClass OnTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass)
+        private void ValidateTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1385,10 +1267,8 @@ namespace Org.OpenAPITools.Api
             if (fileSchemaTestClass == null)
                 throw new ArgumentNullException(nameof(fileSchemaTestClass));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return fileSchemaTestClass;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1396,20 +1276,57 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="fileSchemaTestClass"></param>
-        protected virtual void AfterTestBodyWithFileSchema(ApiResponse<object> apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass)
+        private void AfterTestBodyWithFileSchemaDefaultImplementation(ApiResponse<object> apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestBodyWithFileSchema(apiResponseLocalVar, fileSchemaTestClass);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="fileSchemaTestClass"></param>
+        partial void AfterTestBodyWithFileSchema(ApiResponse<object> apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="fileSchemaTestClass"></param>
-        protected virtual void OnErrorTestBodyWithFileSchema(Exception exception, string pathFormat, string path, FileSchemaTestClass fileSchemaTestClass)
+        private void OnErrorTestBodyWithFileSchemaDefaultImplementation(Exception exception, string pathFormat, string path, FileSchemaTestClass fileSchemaTestClass)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestBodyWithFileSchema(exception, pathFormat, path, fileSchemaTestClass);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="fileSchemaTestClass"></param>
+        partial void OnErrorTestBodyWithFileSchema(Exception exception, string pathFormat, string path, FileSchemaTestClass fileSchemaTestClass);
+
+        /// <summary>
+        ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+        /// </summary>
+        /// <param name="fileSchemaTestClass"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> TestBodyWithFileSchemaOrDefaultAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await TestBodyWithFileSchemaAsync(fileSchemaTestClass, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -1419,13 +1336,15 @@ namespace Org.OpenAPITools.Api
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestBodyWithFileSchemaWithHttpInfoAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> TestBodyWithFileSchemaAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                fileSchemaTestClass = OnTestBodyWithFileSchema(fileSchemaTestClass);
+                ValidateTestBodyWithFileSchema(fileSchemaTestClass);
+
+                FormatTestBodyWithFileSchema(fileSchemaTestClass);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1438,36 +1357,28 @@ namespace Org.OpenAPITools.Api
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(fileSchemaTestClass, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-                        
+
                     httpRequestMessageLocalVar.Method = new HttpMethod("PUT");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/body-with-file-schema", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/body-with-file-schema", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<object>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterTestBodyWithFileSchema(apiResponseLocalVar, fileSchemaTestClass);
-                        }
+                        AfterTestBodyWithFileSchemaDefaultImplementation(apiResponseLocalVar, fileSchemaTestClass);
 
                         return apiResponseLocalVar;
                     }
@@ -1475,52 +1386,12 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestBodyWithFileSchema(e, "/fake/body-with-file-schema", uriBuilderLocalVar.Path, fileSchemaTestClass);
+                OnErrorTestBodyWithFileSchemaDefaultImplementation(e, "/fake/body-with-file-schema", uriBuilderLocalVar.Path, fileSchemaTestClass);
                 throw;
             }
         }
 
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user"></param>
-        /// <param name="query"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestBodyWithQueryParamsAsync(User user, string query, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> apiResponseLocalVar = await TestBodyWithQueryParamsWithHttpInfoAsync(user, query, cancellationToken).ConfigureAwait(false);
-
-            if (apiResponseLocalVar.Content == null)
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
-
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user"></param>
-        /// <param name="query"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestBodyWithQueryParamsOrDefaultAsync(User user, string query, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> apiResponseLocalVar = null;
-            try 
-            {
-                apiResponseLocalVar = await TestBodyWithQueryParamsWithHttpInfoAsync(user, query, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
-                ? apiResponseLocalVar.Content
-                : null;
-        }
+        partial void FormatTestBodyWithQueryParams(User user, ref string query);
 
         /// <summary>
         /// Validates the request parameters
@@ -1528,7 +1399,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user"></param>
         /// <param name="query"></param>
         /// <returns></returns>
-        protected virtual (User, string) OnTestBodyWithQueryParams(User user, string query)
+        private void ValidateTestBodyWithQueryParams(User user, string query)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1539,10 +1410,8 @@ namespace Org.OpenAPITools.Api
             if (query == null)
                 throw new ArgumentNullException(nameof(query));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (user, query);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1551,21 +1420,61 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
         /// <param name="query"></param>
-        protected virtual void AfterTestBodyWithQueryParams(ApiResponse<object> apiResponseLocalVar, User user, string query)
+        private void AfterTestBodyWithQueryParamsDefaultImplementation(ApiResponse<object> apiResponseLocalVar, User user, string query)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestBodyWithQueryParams(apiResponseLocalVar, user, query);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="user"></param>
+        /// <param name="query"></param>
+        partial void AfterTestBodyWithQueryParams(ApiResponse<object> apiResponseLocalVar, User user, string query);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="user"></param>
         /// <param name="query"></param>
-        protected virtual void OnErrorTestBodyWithQueryParams(Exception exception, string pathFormat, string path, User user, string query)
+        private void OnErrorTestBodyWithQueryParamsDefaultImplementation(Exception exception, string pathFormat, string path, User user, string query)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestBodyWithQueryParams(exception, pathFormat, path, user, query);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="user"></param>
+        /// <param name="query"></param>
+        partial void OnErrorTestBodyWithQueryParams(Exception exception, string pathFormat, string path, User user, string query);
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="query"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> TestBodyWithQueryParamsOrDefaultAsync(User user, string query, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await TestBodyWithQueryParamsAsync(user, query, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -1576,15 +1485,15 @@ namespace Org.OpenAPITools.Api
         /// <param name="query"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestBodyWithQueryParamsWithHttpInfoAsync(User user, string query, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> TestBodyWithQueryParamsAsync(User user, string query, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                var validatedParameterLocalVars = OnTestBodyWithQueryParams(user, query);
-                user = validatedParameterLocalVars.Item1;
-                query = validatedParameterLocalVars.Item2;
+                ValidateTestBodyWithQueryParams(user, query);
+
+                FormatTestBodyWithQueryParams(user, ref query);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1596,43 +1505,35 @@ namespace Org.OpenAPITools.Api
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
                     parseQueryStringLocalVar["query"] = query.ToString();
-                    
+
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     httpRequestMessageLocalVar.Content = (user as object) is System.IO.Stream stream
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-                        
+
                     httpRequestMessageLocalVar.Method = new HttpMethod("PUT");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/body-with-query-params", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/body-with-query-params", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<object>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterTestBodyWithQueryParams(apiResponseLocalVar, user, query);
-                        }
+                        AfterTestBodyWithQueryParamsDefaultImplementation(apiResponseLocalVar, user, query);
 
                         return apiResponseLocalVar;
                     }
@@ -1640,57 +1541,19 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestBodyWithQueryParams(e, "/fake/body-with-query-params", uriBuilderLocalVar.Path, user, query);
+                OnErrorTestBodyWithQueryParamsDefaultImplementation(e, "/fake/body-with-query-params", uriBuilderLocalVar.Path, user, query);
                 throw;
             }
         }
 
-        /// <summary>
-        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ModelClient"/>&gt;</returns>
-        public async Task<ModelClient> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<ModelClient> apiResponseLocalVar = await TestClientModelWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
-
-            if (apiResponseLocalVar.Content == null)
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
-
-        /// <summary>
-        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ModelClient"/>&gt;</returns>
-        public async Task<ModelClient> TestClientModelOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<ModelClient> apiResponseLocalVar = null;
-            try 
-            {
-                apiResponseLocalVar = await TestClientModelWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
-                ? apiResponseLocalVar.Content
-                : null;
-        }
+        partial void FormatTestClientModel(ModelClient modelClient);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="modelClient"></param>
         /// <returns></returns>
-        protected virtual ModelClient OnTestClientModel(ModelClient modelClient)
+        private void ValidateTestClientModel(ModelClient modelClient)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1698,10 +1561,8 @@ namespace Org.OpenAPITools.Api
             if (modelClient == null)
                 throw new ArgumentNullException(nameof(modelClient));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return modelClient;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1709,20 +1570,57 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        protected virtual void AfterTestClientModel(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient)
+        private void AfterTestClientModelDefaultImplementation(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestClientModel(apiResponseLocalVar, modelClient);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="modelClient"></param>
+        partial void AfterTestClientModel(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        protected virtual void OnErrorTestClientModel(Exception exception, string pathFormat, string path, ModelClient modelClient)
+        private void OnErrorTestClientModelDefaultImplementation(Exception exception, string pathFormat, string path, ModelClient modelClient)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestClientModel(exception, pathFormat, path, modelClient);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="modelClient"></param>
+        partial void OnErrorTestClientModel(Exception exception, string pathFormat, string path, ModelClient modelClient);
+
+        /// <summary>
+        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
+        /// </summary>
+        /// <param name="modelClient">client model</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
+        public async Task<ApiResponse<ModelClient>> TestClientModelOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await TestClientModelAsync(modelClient, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -1732,13 +1630,15 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
-        public async Task<ApiResponse<ModelClient>> TestClientModelWithHttpInfoAsync(ModelClient modelClient, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<ModelClient>> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                modelClient = OnTestClientModel(modelClient);
+                ValidateTestClientModel(modelClient);
+
+                FormatTestClientModel(modelClient);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1751,12 +1651,10 @@ namespace Org.OpenAPITools.Api
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(modelClient, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
@@ -1764,32 +1662,25 @@ namespace Org.OpenAPITools.Api
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    string[] acceptLocalVars = new string[] { 
-                        "application/json" 
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
                     };
 
                     string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
                     if (acceptLocalVar != null)
                         httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
                     httpRequestMessageLocalVar.Method = new HttpMethod("PATCH");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<ModelClient>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterTestClientModel(apiResponseLocalVar, modelClient);
-                        }
+                        AfterTestClientModelDefaultImplementation(apiResponseLocalVar, modelClient);
 
                         return apiResponseLocalVar;
                     }
@@ -1797,206 +1688,194 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestClientModel(e, "/fake", uriBuilderLocalVar.Path, modelClient);
+                OnErrorTestClientModelDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, modelClient);
                 throw;
             }
         }
 
-        /// <summary>
-        /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="_byte">None</param>
-        /// <param name="number">None</param>
-        /// <param name="_double">None</param>
-        /// <param name="patternWithoutDelimiter">None</param>
-        /// <param name="date">None (optional)</param>
-        /// <param name="binary">None (optional)</param>
-        /// <param name="_float">None (optional)</param>
-        /// <param name="integer">None (optional)</param>
-        /// <param name="int32">None (optional)</param>
-        /// <param name="int64">None (optional)</param>
-        /// <param name="_string">None (optional)</param>
-        /// <param name="password">None (optional)</param>
-        /// <param name="callback">None (optional)</param>
-        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestEndpointParametersAsync(byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream binary = null, float? _float = null, int? integer = null, int? int32 = null, long? int64 = null, string _string = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> apiResponseLocalVar = await TestEndpointParametersWithHttpInfoAsync(_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime, cancellationToken).ConfigureAwait(false);
-
-            if (apiResponseLocalVar.Content == null)
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
-
-        /// <summary>
-        /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="_byte">None</param>
-        /// <param name="number">None</param>
-        /// <param name="_double">None</param>
-        /// <param name="patternWithoutDelimiter">None</param>
-        /// <param name="date">None (optional)</param>
-        /// <param name="binary">None (optional)</param>
-        /// <param name="_float">None (optional)</param>
-        /// <param name="integer">None (optional)</param>
-        /// <param name="int32">None (optional)</param>
-        /// <param name="int64">None (optional)</param>
-        /// <param name="_string">None (optional)</param>
-        /// <param name="password">None (optional)</param>
-        /// <param name="callback">None (optional)</param>
-        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestEndpointParametersOrDefaultAsync(byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream binary = null, float? _float = null, int? integer = null, int? int32 = null, long? int64 = null, string _string = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> apiResponseLocalVar = null;
-            try 
-            {
-                apiResponseLocalVar = await TestEndpointParametersWithHttpInfoAsync(_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
-                ? apiResponseLocalVar.Content
-                : null;
-        }
+        partial void FormatTestEndpointParameters(ref byte[] varByte, ref decimal number, ref double varDouble, ref string patternWithoutDelimiter, ref DateTime? date, ref System.IO.Stream binary, ref float? varFloat, ref int? integer, ref int? int32, ref long? int64, ref string varString, ref string password, ref string callback, ref DateTime? dateTime);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="_byte"></param>
+        /// <param name="varByte"></param>
         /// <param name="number"></param>
-        /// <param name="_double"></param>
+        /// <param name="varDouble"></param>
         /// <param name="patternWithoutDelimiter"></param>
-        /// <param name="date"></param>
-        /// <param name="binary"></param>
-        /// <param name="_float"></param>
-        /// <param name="integer"></param>
-        /// <param name="int32"></param>
-        /// <param name="int64"></param>
-        /// <param name="_string"></param>
-        /// <param name="password"></param>
-        /// <param name="callback"></param>
-        /// <param name="dateTime"></param>
         /// <returns></returns>
-        protected virtual (byte[], decimal, double, string, DateTime?, System.IO.Stream, float?, int?, int?, long?, string, string, string, DateTime?) OnTestEndpointParameters(byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? _float, int? integer, int? int32, long? int64, string _string, string password, string callback, DateTime? dateTime)
+        private void ValidateTestEndpointParameters(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
-            if (_byte == null)
-                throw new ArgumentNullException(nameof(_byte));
+            if (varByte == null)
+                throw new ArgumentNullException(nameof(varByte));
 
             if (number == null)
                 throw new ArgumentNullException(nameof(number));
 
-            if (_double == null)
-                throw new ArgumentNullException(nameof(_double));
+            if (varDouble == null)
+                throw new ArgumentNullException(nameof(varDouble));
 
             if (patternWithoutDelimiter == null)
                 throw new ArgumentNullException(nameof(patternWithoutDelimiter));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="_byte"></param>
+        /// <param name="varByte"></param>
         /// <param name="number"></param>
-        /// <param name="_double"></param>
+        /// <param name="varDouble"></param>
         /// <param name="patternWithoutDelimiter"></param>
         /// <param name="date"></param>
         /// <param name="binary"></param>
-        /// <param name="_float"></param>
+        /// <param name="varFloat"></param>
         /// <param name="integer"></param>
         /// <param name="int32"></param>
         /// <param name="int64"></param>
-        /// <param name="_string"></param>
+        /// <param name="varString"></param>
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        protected virtual void AfterTestEndpointParameters(ApiResponse<object> apiResponseLocalVar, byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? _float, int? integer, int? int32, long? int64, string _string, string password, string callback, DateTime? dateTime)
+        private void AfterTestEndpointParametersDefaultImplementation(ApiResponse<object> apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? varFloat, int? integer, int? int32, long? int64, string varString, string password, string callback, DateTime? dateTime)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestEndpointParameters(apiResponseLocalVar, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="pathFormat"></param>
-        /// <param name="path"></param>
-        /// <param name="_byte"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="varByte"></param>
         /// <param name="number"></param>
-        /// <param name="_double"></param>
+        /// <param name="varDouble"></param>
         /// <param name="patternWithoutDelimiter"></param>
         /// <param name="date"></param>
         /// <param name="binary"></param>
-        /// <param name="_float"></param>
+        /// <param name="varFloat"></param>
         /// <param name="integer"></param>
         /// <param name="int32"></param>
         /// <param name="int64"></param>
-        /// <param name="_string"></param>
+        /// <param name="varString"></param>
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        protected virtual void OnErrorTestEndpointParameters(Exception exception, string pathFormat, string path, byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? _float, int? integer, int? int32, long? int64, string _string, string password, string callback, DateTime? dateTime)
+        partial void AfterTestEndpointParameters(ApiResponse<object> apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? varFloat, int? integer, int? int32, long? int64, string varString, string password, string callback, DateTime? dateTime);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="varByte"></param>
+        /// <param name="number"></param>
+        /// <param name="varDouble"></param>
+        /// <param name="patternWithoutDelimiter"></param>
+        /// <param name="date"></param>
+        /// <param name="binary"></param>
+        /// <param name="varFloat"></param>
+        /// <param name="integer"></param>
+        /// <param name="int32"></param>
+        /// <param name="int64"></param>
+        /// <param name="varString"></param>
+        /// <param name="password"></param>
+        /// <param name="callback"></param>
+        /// <param name="dateTime"></param>
+        private void OnErrorTestEndpointParametersDefaultImplementation(Exception exception, string pathFormat, string path, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? varFloat, int? integer, int? int32, long? int64, string varString, string password, string callback, DateTime? dateTime)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestEndpointParameters(exception, pathFormat, path, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="varByte"></param>
+        /// <param name="number"></param>
+        /// <param name="varDouble"></param>
+        /// <param name="patternWithoutDelimiter"></param>
+        /// <param name="date"></param>
+        /// <param name="binary"></param>
+        /// <param name="varFloat"></param>
+        /// <param name="integer"></param>
+        /// <param name="int32"></param>
+        /// <param name="int64"></param>
+        /// <param name="varString"></param>
+        /// <param name="password"></param>
+        /// <param name="callback"></param>
+        /// <param name="dateTime"></param>
+        partial void OnErrorTestEndpointParameters(Exception exception, string pathFormat, string path, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? varFloat, int? integer, int? int32, long? int64, string varString, string password, string callback, DateTime? dateTime);
+
+        /// <summary>
+        /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+        /// </summary>
+        /// <param name="varByte">None</param>
+        /// <param name="number">None</param>
+        /// <param name="varDouble">None</param>
+        /// <param name="patternWithoutDelimiter">None</param>
+        /// <param name="date">None (optional)</param>
+        /// <param name="binary">None (optional)</param>
+        /// <param name="varFloat">None (optional)</param>
+        /// <param name="integer">None (optional)</param>
+        /// <param name="int32">None (optional)</param>
+        /// <param name="int64">None (optional)</param>
+        /// <param name="varString">None (optional)</param>
+        /// <param name="password">None (optional)</param>
+        /// <param name="callback">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> TestEndpointParametersOrDefaultAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream binary = null, float? varFloat = null, int? integer = null, int? int32 = null, long? int64 = null, string varString = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await TestEndpointParametersAsync(varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="_byte">None</param>
+        /// <param name="varByte">None</param>
         /// <param name="number">None</param>
-        /// <param name="_double">None</param>
+        /// <param name="varDouble">None</param>
         /// <param name="patternWithoutDelimiter">None</param>
         /// <param name="date">None (optional)</param>
         /// <param name="binary">None (optional)</param>
-        /// <param name="_float">None (optional)</param>
+        /// <param name="varFloat">None (optional)</param>
         /// <param name="integer">None (optional)</param>
         /// <param name="int32">None (optional)</param>
         /// <param name="int64">None (optional)</param>
-        /// <param name="_string">None (optional)</param>
+        /// <param name="varString">None (optional)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestEndpointParametersWithHttpInfoAsync(byte[] _byte, decimal number, double _double, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream binary = null, float? _float = null, int? integer = null, int? int32 = null, long? int64 = null, string _string = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> TestEndpointParametersAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date = null, System.IO.Stream binary = null, float? varFloat = null, int? integer = null, int? int32 = null, long? int64 = null, string varString = null, string password = null, string callback = null, DateTime? dateTime = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                var validatedParameterLocalVars = OnTestEndpointParameters(_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
-                _byte = validatedParameterLocalVars.Item1;
-                number = validatedParameterLocalVars.Item2;
-                _double = validatedParameterLocalVars.Item3;
-                patternWithoutDelimiter = validatedParameterLocalVars.Item4;
-                date = validatedParameterLocalVars.Item5;
-                binary = validatedParameterLocalVars.Item6;
-                _float = validatedParameterLocalVars.Item7;
-                integer = validatedParameterLocalVars.Item8;
-                int32 = validatedParameterLocalVars.Item9;
-                int64 = validatedParameterLocalVars.Item10;
-                _string = validatedParameterLocalVars.Item11;
-                password = validatedParameterLocalVars.Item12;
-                callback = validatedParameterLocalVars.Item13;
-                dateTime = validatedParameterLocalVars.Item14;
+                ValidateTestEndpointParameters(varByte, number, varDouble, patternWithoutDelimiter);
+
+                FormatTestEndpointParameters(ref varByte, ref number, ref varDouble, ref patternWithoutDelimiter, ref date, ref binary, ref varFloat, ref integer, ref int32, ref int64, ref varString, ref password, ref callback, ref dateTime);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2013,17 +1892,11 @@ namespace Org.OpenAPITools.Api
 
                     multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
 
-                    formParameterLocalVars.Add(new KeyValuePair<string, string>("byte", ClientUtils.ParameterToString(_byte)));
-
-
+                    formParameterLocalVars.Add(new KeyValuePair<string, string>("byte", ClientUtils.ParameterToString(varByte)));
 
                     formParameterLocalVars.Add(new KeyValuePair<string, string>("number", ClientUtils.ParameterToString(number)));
 
-
-
-                    formParameterLocalVars.Add(new KeyValuePair<string, string>("double", ClientUtils.ParameterToString(_double)));
-
-
+                    formParameterLocalVars.Add(new KeyValuePair<string, string>("double", ClientUtils.ParameterToString(varDouble)));
 
                     formParameterLocalVars.Add(new KeyValuePair<string, string>("pattern_without_delimiter", ClientUtils.ParameterToString(patternWithoutDelimiter)));
 
@@ -2033,8 +1906,8 @@ namespace Org.OpenAPITools.Api
                     if (binary != null)
                         multipartContentLocalVar.Add(new StreamContent(binary));
 
-                    if (_float != null)
-                        formParameterLocalVars.Add(new KeyValuePair<string, string>("float", ClientUtils.ParameterToString(_float)));
+                    if (varFloat != null)
+                        formParameterLocalVars.Add(new KeyValuePair<string, string>("float", ClientUtils.ParameterToString(varFloat)));
 
                     if (integer != null)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("integer", ClientUtils.ParameterToString(integer)));
@@ -2045,8 +1918,8 @@ namespace Org.OpenAPITools.Api
                     if (int64 != null)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("int64", ClientUtils.ParameterToString(int64)));
 
-                    if (_string != null)
-                        formParameterLocalVars.Add(new KeyValuePair<string, string>("string", ClientUtils.ParameterToString(_string)));
+                    if (varString != null)
+                        formParameterLocalVars.Add(new KeyValuePair<string, string>("string", ClientUtils.ParameterToString(varString)));
 
                     if (password != null)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("password", ClientUtils.ParameterToString(password)));
@@ -2059,8 +1932,6 @@ namespace Org.OpenAPITools.Api
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     BasicToken basicTokenLocalVar = (BasicToken) await BasicTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
@@ -2070,32 +1941,27 @@ namespace Org.OpenAPITools.Api
                     basicTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
 
                     string[] contentTypes = new string[] {
-                        "application/x-www-form-urlencoded" 
+                        "application/x-www-form-urlencoded"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-                        
+
                     httpRequestMessageLocalVar.Method = new HttpMethod("POST");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<object>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterTestEndpointParameters(apiResponseLocalVar, _byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
-                        }
-                        else if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                        AfterTestEndpointParametersDefaultImplementation(apiResponseLocalVar, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
                                 tokenBaseLocalVar.BeginRateLimit();
 
@@ -2105,68 +1971,17 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestEndpointParameters(e, "/fake", uriBuilderLocalVar.Path, _byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
+                OnErrorTestEndpointParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
                 throw;
             }
         }
 
-        /// <summary>
-        /// To test enum parameters To test enum parameters
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
-        /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
-        /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
-        /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
-        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestEnumParametersAsync(List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, double? enumQueryDouble = null, int? enumQueryInteger = null, List<string> enumFormStringArray = null, string enumHeaderString = null, string enumQueryString = null, string enumFormString = null, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> apiResponseLocalVar = await TestEnumParametersWithHttpInfoAsync(enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString, cancellationToken).ConfigureAwait(false);
-
-            if (apiResponseLocalVar.Content == null)
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
+        partial void FormatTestEnumParameters(List<string> enumHeaderStringArray, List<string> enumQueryStringArray, ref double? enumQueryDouble, ref int? enumQueryInteger, List<string> enumFormStringArray, ref string enumHeaderString, ref string enumQueryString, ref string enumFormString);
 
         /// <summary>
-        /// To test enum parameters To test enum parameters
+        /// Processes the server response
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
-        /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
-        /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
-        /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
-        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
-        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestEnumParametersOrDefaultAsync(List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, double? enumQueryDouble = null, int? enumQueryInteger = null, List<string> enumFormStringArray = null, string enumHeaderString = null, string enumQueryString = null, string enumFormString = null, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> apiResponseLocalVar = null;
-            try 
-            {
-                apiResponseLocalVar = await TestEnumParametersWithHttpInfoAsync(enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
-                ? apiResponseLocalVar.Content
-                : null;
-        }
-
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="enumHeaderStringArray"></param>
         /// <param name="enumQueryStringArray"></param>
         /// <param name="enumQueryDouble"></param>
@@ -2175,10 +1990,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumFormString"></param>
-        /// <returns></returns>
-        protected virtual (List<string>, List<string>, double?, int?, List<string>, string, string, string) OnTestEnumParameters(List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
+        private void AfterTestEnumParametersDefaultImplementation(ApiResponse<object> apiResponseLocalVar, List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
         {
-            return (enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestEnumParameters(apiResponseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
         }
 
         /// <summary>
@@ -2193,12 +2008,10 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumFormString"></param>
-        protected virtual void AfterTestEnumParameters(ApiResponse<object> apiResponseLocalVar, List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
-        {
-        }
+        partial void AfterTestEnumParameters(ApiResponse<object> apiResponseLocalVar, List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString);
 
         /// <summary>
-        /// Processes the server response
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
@@ -2211,9 +2024,51 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumFormString"></param>
-        protected virtual void OnErrorTestEnumParameters(Exception exception, string pathFormat, string path, List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
+        private void OnErrorTestEnumParametersDefaultImplementation(Exception exception, string pathFormat, string path, List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestEnumParameters(exception, pathFormat, path, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="enumHeaderStringArray"></param>
+        /// <param name="enumQueryStringArray"></param>
+        /// <param name="enumQueryDouble"></param>
+        /// <param name="enumQueryInteger"></param>
+        /// <param name="enumFormStringArray"></param>
+        /// <param name="enumHeaderString"></param>
+        /// <param name="enumQueryString"></param>
+        /// <param name="enumFormString"></param>
+        partial void OnErrorTestEnumParameters(Exception exception, string pathFormat, string path, List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString);
+
+        /// <summary>
+        /// To test enum parameters To test enum parameters
+        /// </summary>
+        /// <param name="enumHeaderStringArray">Header parameter enum test (string array) (optional)</param>
+        /// <param name="enumQueryStringArray">Query parameter enum test (string array) (optional)</param>
+        /// <param name="enumQueryDouble">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumQueryInteger">Query parameter enum test (double) (optional)</param>
+        /// <param name="enumFormStringArray">Form parameter enum test (string array) (optional, default to $)</param>
+        /// <param name="enumHeaderString">Header parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumQueryString">Query parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> TestEnumParametersOrDefaultAsync(List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, double? enumQueryDouble = null, int? enumQueryInteger = null, List<string> enumFormStringArray = null, string enumHeaderString = null, string enumQueryString = null, string enumFormString = null, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await TestEnumParametersAsync(enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -2230,21 +2085,13 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestEnumParametersWithHttpInfoAsync(List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, double? enumQueryDouble = null, int? enumQueryInteger = null, List<string> enumFormStringArray = null, string enumHeaderString = null, string enumQueryString = null, string enumFormString = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> TestEnumParametersAsync(List<string> enumHeaderStringArray = null, List<string> enumQueryStringArray = null, double? enumQueryDouble = null, int? enumQueryInteger = null, List<string> enumFormStringArray = null, string enumHeaderString = null, string enumQueryString = null, string enumFormString = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                var validatedParameterLocalVars = OnTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
-                enumHeaderStringArray = validatedParameterLocalVars.Item1;
-                enumQueryStringArray = validatedParameterLocalVars.Item2;
-                enumQueryDouble = validatedParameterLocalVars.Item3;
-                enumQueryInteger = validatedParameterLocalVars.Item4;
-                enumFormStringArray = validatedParameterLocalVars.Item5;
-                enumHeaderString = validatedParameterLocalVars.Item6;
-                enumQueryString = validatedParameterLocalVars.Item7;
-                enumFormString = validatedParameterLocalVars.Item8;
+                FormatTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, ref enumQueryDouble, ref enumQueryInteger, enumFormStringArray, ref enumHeaderString, ref enumQueryString, ref enumFormString);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2254,6 +2101,7 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/fake";
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
                     if (enumQueryStringArray != null)
                         parseQueryStringLocalVar["enum_query_string_array"] = enumQueryStringArray.ToString();
 
@@ -2286,36 +2134,28 @@ namespace Org.OpenAPITools.Api
                     if (enumFormString != null)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("enum_form_string", ClientUtils.ParameterToString(enumFormString)));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/x-www-form-urlencoded" 
+                        "application/x-www-form-urlencoded"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-                        
+
                     httpRequestMessageLocalVar.Method = new HttpMethod("GET");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<object>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterTestEnumParameters(apiResponseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
-                        }
+                        AfterTestEnumParametersDefaultImplementation(apiResponseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
 
                         return apiResponseLocalVar;
                     }
@@ -2323,60 +2163,12 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestEnumParameters(e, "/fake", uriBuilderLocalVar.Path, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+                OnErrorTestEnumParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
                 throw;
             }
         }
 
-        /// <summary>
-        /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
-        /// <param name="requiredStringGroup">Required String in group parameters</param>
-        /// <param name="requiredInt64Group">Required Integer in group parameters</param>
-        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
-        /// <param name="stringGroup">String in group parameters (optional)</param>
-        /// <param name="int64Group">Integer in group parameters (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestGroupParametersAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup = null, int? stringGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> apiResponseLocalVar = await TestGroupParametersWithHttpInfoAsync(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group, cancellationToken).ConfigureAwait(false);
-
-            if (apiResponseLocalVar.Content == null)
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
-
-        /// <summary>
-        /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
-        /// <param name="requiredStringGroup">Required String in group parameters</param>
-        /// <param name="requiredInt64Group">Required Integer in group parameters</param>
-        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
-        /// <param name="stringGroup">String in group parameters (optional)</param>
-        /// <param name="int64Group">Integer in group parameters (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestGroupParametersOrDefaultAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup = null, int? stringGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> apiResponseLocalVar = null;
-            try 
-            {
-                apiResponseLocalVar = await TestGroupParametersWithHttpInfoAsync(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
-                ? apiResponseLocalVar.Content
-                : null;
-        }
+        partial void FormatTestGroupParameters(ref bool requiredBooleanGroup, ref int requiredStringGroup, ref long requiredInt64Group, ref bool? booleanGroup, ref int? stringGroup, ref long? int64Group);
 
         /// <summary>
         /// Validates the request parameters
@@ -2384,11 +2176,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredBooleanGroup"></param>
         /// <param name="requiredStringGroup"></param>
         /// <param name="requiredInt64Group"></param>
-        /// <param name="booleanGroup"></param>
-        /// <param name="stringGroup"></param>
-        /// <param name="int64Group"></param>
         /// <returns></returns>
-        protected virtual (bool, int, long, bool?, int?, long?) OnTestGroupParameters(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
+        private void ValidateTestGroupParameters(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -2402,10 +2191,8 @@ namespace Org.OpenAPITools.Api
             if (requiredInt64Group == null)
                 throw new ArgumentNullException(nameof(requiredInt64Group));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -2418,12 +2205,26 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup"></param>
         /// <param name="stringGroup"></param>
         /// <param name="int64Group"></param>
-        protected virtual void AfterTestGroupParameters(ApiResponse<object> apiResponseLocalVar, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
+        private void AfterTestGroupParametersDefaultImplementation(ApiResponse<object> apiResponseLocalVar, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestGroupParameters(apiResponseLocalVar, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="requiredBooleanGroup"></param>
+        /// <param name="requiredStringGroup"></param>
+        /// <param name="requiredInt64Group"></param>
+        /// <param name="booleanGroup"></param>
+        /// <param name="stringGroup"></param>
+        /// <param name="int64Group"></param>
+        partial void AfterTestGroupParameters(ApiResponse<object> apiResponseLocalVar, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
@@ -2434,9 +2235,47 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup"></param>
         /// <param name="stringGroup"></param>
         /// <param name="int64Group"></param>
-        protected virtual void OnErrorTestGroupParameters(Exception exception, string pathFormat, string path, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
+        private void OnErrorTestGroupParametersDefaultImplementation(Exception exception, string pathFormat, string path, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestGroupParameters(exception, pathFormat, path, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="requiredBooleanGroup"></param>
+        /// <param name="requiredStringGroup"></param>
+        /// <param name="requiredInt64Group"></param>
+        /// <param name="booleanGroup"></param>
+        /// <param name="stringGroup"></param>
+        /// <param name="int64Group"></param>
+        partial void OnErrorTestGroupParameters(Exception exception, string pathFormat, string path, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group);
+
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
+        /// <param name="requiredInt64Group">Required Integer in group parameters</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> TestGroupParametersOrDefaultAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup = null, int? stringGroup = null, long? int64Group = null, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await TestGroupParametersAsync(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -2451,19 +2290,15 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestGroupParametersWithHttpInfoAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup = null, int? stringGroup = null, long? int64Group = null, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> TestGroupParametersAsync(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup = null, int? stringGroup = null, long? int64Group = null, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                var validatedParameterLocalVars = OnTestGroupParameters(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
-                requiredBooleanGroup = validatedParameterLocalVars.Item1;
-                requiredStringGroup = validatedParameterLocalVars.Item2;
-                requiredInt64Group = validatedParameterLocalVars.Item3;
-                booleanGroup = validatedParameterLocalVars.Item4;
-                stringGroup = validatedParameterLocalVars.Item5;
-                int64Group = validatedParameterLocalVars.Item6;
+                ValidateTestGroupParameters(requiredBooleanGroup, requiredStringGroup, requiredInt64Group);
+
+                FormatTestGroupParameters(ref requiredBooleanGroup, ref requiredStringGroup, ref requiredInt64Group, ref booleanGroup, ref stringGroup, ref int64Group);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2476,7 +2311,7 @@ namespace Org.OpenAPITools.Api
 
                     parseQueryStringLocalVar["required_string_group"] = requiredStringGroup.ToString();
                     parseQueryStringLocalVar["required_int64_group"] = requiredInt64Group.ToString();
-                    
+
                     if (stringGroup != null)
                         parseQueryStringLocalVar["string_group"] = stringGroup.ToString();
 
@@ -2492,8 +2327,6 @@ namespace Org.OpenAPITools.Api
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     BearerToken bearerTokenLocalVar = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
@@ -2501,25 +2334,19 @@ namespace Org.OpenAPITools.Api
                     tokenBaseLocalVars.Add(bearerTokenLocalVar);
 
                     bearerTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
-                        
                     httpRequestMessageLocalVar.Method = new HttpMethod("DELETE");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<object>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterTestGroupParameters(apiResponseLocalVar, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
-                        }
-                        else if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                        AfterTestGroupParametersDefaultImplementation(apiResponseLocalVar, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
                                 tokenBaseLocalVar.BeginRateLimit();
 
@@ -2529,57 +2356,19 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestGroupParameters(e, "/fake", uriBuilderLocalVar.Path, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+                OnErrorTestGroupParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
                 throw;
             }
         }
 
-        /// <summary>
-        /// test inline additionalProperties 
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="requestBody">request body</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestInlineAdditionalPropertiesAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> apiResponseLocalVar = await TestInlineAdditionalPropertiesWithHttpInfoAsync(requestBody, cancellationToken).ConfigureAwait(false);
-
-            if (apiResponseLocalVar.Content == null)
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
-
-        /// <summary>
-        /// test inline additionalProperties 
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="requestBody">request body</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestInlineAdditionalPropertiesOrDefaultAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> apiResponseLocalVar = null;
-            try 
-            {
-                apiResponseLocalVar = await TestInlineAdditionalPropertiesWithHttpInfoAsync(requestBody, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
-                ? apiResponseLocalVar.Content
-                : null;
-        }
+        partial void FormatTestInlineAdditionalProperties(Dictionary<string, string> requestBody);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="requestBody"></param>
         /// <returns></returns>
-        protected virtual Dictionary<string, string> OnTestInlineAdditionalProperties(Dictionary<string, string> requestBody)
+        private void ValidateTestInlineAdditionalProperties(Dictionary<string, string> requestBody)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -2587,10 +2376,8 @@ namespace Org.OpenAPITools.Api
             if (requestBody == null)
                 throw new ArgumentNullException(nameof(requestBody));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return requestBody;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -2598,20 +2385,57 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requestBody"></param>
-        protected virtual void AfterTestInlineAdditionalProperties(ApiResponse<object> apiResponseLocalVar, Dictionary<string, string> requestBody)
+        private void AfterTestInlineAdditionalPropertiesDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Dictionary<string, string> requestBody)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestInlineAdditionalProperties(apiResponseLocalVar, requestBody);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="requestBody"></param>
+        partial void AfterTestInlineAdditionalProperties(ApiResponse<object> apiResponseLocalVar, Dictionary<string, string> requestBody);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="requestBody"></param>
-        protected virtual void OnErrorTestInlineAdditionalProperties(Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody)
+        private void OnErrorTestInlineAdditionalPropertiesDefaultImplementation(Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestInlineAdditionalProperties(exception, pathFormat, path, requestBody);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="requestBody"></param>
+        partial void OnErrorTestInlineAdditionalProperties(Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody);
+
+        /// <summary>
+        /// test inline additionalProperties 
+        /// </summary>
+        /// <param name="requestBody">request body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> TestInlineAdditionalPropertiesOrDefaultAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await TestInlineAdditionalPropertiesAsync(requestBody, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -2621,13 +2445,15 @@ namespace Org.OpenAPITools.Api
         /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestInlineAdditionalPropertiesWithHttpInfoAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> TestInlineAdditionalPropertiesAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                requestBody = OnTestInlineAdditionalProperties(requestBody);
+                ValidateTestInlineAdditionalProperties(requestBody);
+
+                FormatTestInlineAdditionalProperties(requestBody);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2640,36 +2466,28 @@ namespace Org.OpenAPITools.Api
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-                        
+
                     httpRequestMessageLocalVar.Method = new HttpMethod("POST");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/inline-additionalProperties", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/inline-additionalProperties", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<object>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterTestInlineAdditionalProperties(apiResponseLocalVar, requestBody);
-                        }
+                        AfterTestInlineAdditionalPropertiesDefaultImplementation(apiResponseLocalVar, requestBody);
 
                         return apiResponseLocalVar;
                     }
@@ -2677,52 +2495,12 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestInlineAdditionalProperties(e, "/fake/inline-additionalProperties", uriBuilderLocalVar.Path, requestBody);
+                OnErrorTestInlineAdditionalPropertiesDefaultImplementation(e, "/fake/inline-additionalProperties", uriBuilderLocalVar.Path, requestBody);
                 throw;
             }
         }
 
-        /// <summary>
-        /// test json serialization of form data 
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="param">field1</param>
-        /// <param name="param2">field2</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestJsonFormDataAsync(string param, string param2, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> apiResponseLocalVar = await TestJsonFormDataWithHttpInfoAsync(param, param2, cancellationToken).ConfigureAwait(false);
-
-            if (apiResponseLocalVar.Content == null)
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
-
-        /// <summary>
-        /// test json serialization of form data 
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="param">field1</param>
-        /// <param name="param2">field2</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestJsonFormDataOrDefaultAsync(string param, string param2, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> apiResponseLocalVar = null;
-            try 
-            {
-                apiResponseLocalVar = await TestJsonFormDataWithHttpInfoAsync(param, param2, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
-                ? apiResponseLocalVar.Content
-                : null;
-        }
+        partial void FormatTestJsonFormData(ref string param, ref string param2);
 
         /// <summary>
         /// Validates the request parameters
@@ -2730,7 +2508,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="param"></param>
         /// <param name="param2"></param>
         /// <returns></returns>
-        protected virtual (string, string) OnTestJsonFormData(string param, string param2)
+        private void ValidateTestJsonFormData(string param, string param2)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -2741,10 +2519,8 @@ namespace Org.OpenAPITools.Api
             if (param2 == null)
                 throw new ArgumentNullException(nameof(param2));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (param, param2);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -2753,21 +2529,61 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="param"></param>
         /// <param name="param2"></param>
-        protected virtual void AfterTestJsonFormData(ApiResponse<object> apiResponseLocalVar, string param, string param2)
+        private void AfterTestJsonFormDataDefaultImplementation(ApiResponse<object> apiResponseLocalVar, string param, string param2)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestJsonFormData(apiResponseLocalVar, param, param2);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="param"></param>
+        /// <param name="param2"></param>
+        partial void AfterTestJsonFormData(ApiResponse<object> apiResponseLocalVar, string param, string param2);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="param"></param>
         /// <param name="param2"></param>
-        protected virtual void OnErrorTestJsonFormData(Exception exception, string pathFormat, string path, string param, string param2)
+        private void OnErrorTestJsonFormDataDefaultImplementation(Exception exception, string pathFormat, string path, string param, string param2)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestJsonFormData(exception, pathFormat, path, param, param2);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="param"></param>
+        /// <param name="param2"></param>
+        partial void OnErrorTestJsonFormData(Exception exception, string pathFormat, string path, string param, string param2);
+
+        /// <summary>
+        /// test json serialization of form data 
+        /// </summary>
+        /// <param name="param">field1</param>
+        /// <param name="param2">field2</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> TestJsonFormDataOrDefaultAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await TestJsonFormDataAsync(param, param2, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -2778,15 +2594,15 @@ namespace Org.OpenAPITools.Api
         /// <param name="param2">field2</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestJsonFormDataWithHttpInfoAsync(string param, string param2, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> TestJsonFormDataAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                var validatedParameterLocalVars = OnTestJsonFormData(param, param2);
-                param = validatedParameterLocalVars.Item1;
-                param2 = validatedParameterLocalVars.Item2;
+                ValidateTestJsonFormData(param, param2);
+
+                FormatTestJsonFormData(ref param, ref param2);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2805,40 +2621,30 @@ namespace Org.OpenAPITools.Api
 
                     formParameterLocalVars.Add(new KeyValuePair<string, string>("param", ClientUtils.ParameterToString(param)));
 
-
-
                     formParameterLocalVars.Add(new KeyValuePair<string, string>("param2", ClientUtils.ParameterToString(param2)));
-
-
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/x-www-form-urlencoded" 
+                        "application/x-www-form-urlencoded"
                     };
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-                        
+
                     httpRequestMessageLocalVar.Method = new HttpMethod("GET");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/jsonFormData", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/jsonFormData", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<object>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterTestJsonFormData(apiResponseLocalVar, param, param2);
-                        }
+                        AfterTestJsonFormDataDefaultImplementation(apiResponseLocalVar, param, param2);
 
                         return apiResponseLocalVar;
                     }
@@ -2846,58 +2652,12 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestJsonFormData(e, "/fake/jsonFormData", uriBuilderLocalVar.Path, param, param2);
+                OnErrorTestJsonFormDataDefaultImplementation(e, "/fake/jsonFormData", uriBuilderLocalVar.Path, param, param2);
                 throw;
             }
         }
 
-        /// <summary>
-        ///  To test the collection format in query parameters
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pipe"></param>
-        /// <param name="ioutil"></param>
-        /// <param name="http"></param>
-        /// <param name="url"></param>
-        /// <param name="context"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> apiResponseLocalVar = await TestQueryParameterCollectionFormatWithHttpInfoAsync(pipe, ioutil, http, url, context, cancellationToken).ConfigureAwait(false);
-
-            if (apiResponseLocalVar.Content == null)
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
-
-        /// <summary>
-        ///  To test the collection format in query parameters
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pipe"></param>
-        /// <param name="ioutil"></param>
-        /// <param name="http"></param>
-        /// <param name="url"></param>
-        /// <param name="context"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> TestQueryParameterCollectionFormatOrDefaultAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> apiResponseLocalVar = null;
-            try 
-            {
-                apiResponseLocalVar = await TestQueryParameterCollectionFormatWithHttpInfoAsync(pipe, ioutil, http, url, context, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
-                ? apiResponseLocalVar.Content
-                : null;
-        }
+        partial void FormatTestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
 
         /// <summary>
         /// Validates the request parameters
@@ -2908,7 +2668,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="url"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected virtual (List<string>, List<string>, List<string>, List<string>, List<string>) OnTestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        private void ValidateTestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -2928,10 +2688,8 @@ namespace Org.OpenAPITools.Api
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return (pipe, ioutil, http, url, context);
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -2943,12 +2701,25 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
-        protected virtual void AfterTestQueryParameterCollectionFormat(ApiResponse<object> apiResponseLocalVar, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        private void AfterTestQueryParameterCollectionFormatDefaultImplementation(ApiResponse<object> apiResponseLocalVar, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
         {
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterTestQueryParameterCollectionFormat(apiResponseLocalVar, pipe, ioutil, http, url, context);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="pipe"></param>
+        /// <param name="ioutil"></param>
+        /// <param name="http"></param>
+        /// <param name="url"></param>
+        /// <param name="context"></param>
+        partial void AfterTestQueryParameterCollectionFormat(ApiResponse<object> apiResponseLocalVar, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
@@ -2958,9 +2729,45 @@ namespace Org.OpenAPITools.Api
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
-        protected virtual void OnErrorTestQueryParameterCollectionFormat(Exception exception, string pathFormat, string path, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+        private void OnErrorTestQueryParameterCollectionFormatDefaultImplementation(Exception exception, string pathFormat, string path, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorTestQueryParameterCollectionFormat(exception, pathFormat, path, pipe, ioutil, http, url, context);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="pipe"></param>
+        /// <param name="ioutil"></param>
+        /// <param name="http"></param>
+        /// <param name="url"></param>
+        /// <param name="context"></param>
+        partial void OnErrorTestQueryParameterCollectionFormat(Exception exception, string pathFormat, string path, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
+
+        /// <summary>
+        ///  To test the collection format in query parameters
+        /// </summary>
+        /// <param name="pipe"></param>
+        /// <param name="ioutil"></param>
+        /// <param name="http"></param>
+        /// <param name="url"></param>
+        /// <param name="context"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> TestQueryParameterCollectionFormatOrDefaultAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await TestQueryParameterCollectionFormatAsync(pipe, ioutil, http, url, context, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -2974,18 +2781,15 @@ namespace Org.OpenAPITools.Api
         /// <param name="context"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> TestQueryParameterCollectionFormatWithHttpInfoAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                var validatedParameterLocalVars = OnTestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
-                pipe = validatedParameterLocalVars.Item1;
-                ioutil = validatedParameterLocalVars.Item2;
-                http = validatedParameterLocalVars.Item3;
-                url = validatedParameterLocalVars.Item4;
-                context = validatedParameterLocalVars.Item5;
+                ValidateTestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+
+                FormatTestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -3001,30 +2805,21 @@ namespace Org.OpenAPITools.Api
                     parseQueryStringLocalVar["http"] = http.ToString();
                     parseQueryStringLocalVar["url"] = url.ToString();
                     parseQueryStringLocalVar["context"] = context.ToString();
-                    
+
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-                        
                     httpRequestMessageLocalVar.Method = new HttpMethod("PUT");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/fake/test-query-parameters", uriBuilderLocalVar.Path));
-
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpResponseMessageLocalVar, responseContentLocalVar);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/test-query-parameters", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<object>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterTestQueryParameterCollectionFormat(apiResponseLocalVar, pipe, ioutil, http, url, context);
-                        }
+                        AfterTestQueryParameterCollectionFormatDefaultImplementation(apiResponseLocalVar, pipe, ioutil, http, url, context);
 
                         return apiResponseLocalVar;
                     }
@@ -3032,7 +2827,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestQueryParameterCollectionFormat(e, "/fake/test-query-parameters", uriBuilderLocalVar.Path, pipe, ioutil, http, url, context);
+                OnErrorTestQueryParameterCollectionFormatDefaultImplementation(e, "/fake/test-query-parameters", uriBuilderLocalVar.Path, pipe, ioutil, http, url, context);
                 throw;
             }
         }

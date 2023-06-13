@@ -39,8 +39,8 @@ import {{packageName}}.auth.*
     {{#hasAuthMethods}}
     private val authentications: kotlin.collections.Map<String, Authentication> by lazy {
         mapOf({{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-                "{{name}}" to HttpBasicAuth(){{/isBasicBasic}}{{^isBasicBasic}}
-                "{{name}}" to HttpBearerAuth("{{scheme}}"){{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+                "{{name}}" to HttpBasicAuth(){{/isBasicBasic}}{{#isBasicBearer}}
+                "{{name}}" to HttpBearerAuth("{{scheme}}"){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
                 "{{name}}" to ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}
                 "{{name}}" to OAuth(){{/isOAuth}}{{^-last}}, {{/-last}}{{/authMethods}})
     }

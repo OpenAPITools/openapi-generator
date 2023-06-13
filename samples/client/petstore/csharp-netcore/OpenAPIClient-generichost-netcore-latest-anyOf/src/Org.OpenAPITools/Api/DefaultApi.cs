@@ -37,19 +37,8 @@ namespace Org.OpenAPITools.IApi
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task&lt;ApiResponse&lt;Fruit?&gt;&gt;</returns>
-        Task<ApiResponse<Fruit?>> RootGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;Fruit&gt;</returns>
-        Task<Fruit> RootGetAsync(System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&lt;Fruit&gt;&gt;</returns>
+        Task<ApiResponse<Fruit>> RootGetAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -58,8 +47,8 @@ namespace Org.OpenAPITools.IApi
         /// 
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;Fruit?&gt;</returns>
-        Task<Fruit?> RootGetOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;Fruit&gt;?&gt;</returns>
+        Task<ApiResponse<Fruit>?> RootGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
     }
 }
 
@@ -68,7 +57,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class DefaultApi : IApi.IDefaultApi
+    public sealed partial class DefaultApi : IApi.IDefaultApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
@@ -94,78 +83,56 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Logs the api response
+        /// Processes the server response
         /// </summary>
-        /// <param name="args"></param>
-        protected virtual void OnApiResponded(ApiResponseEventArgs args)
+        /// <param name="apiResponseLocalVar"></param>
+        private void AfterRootGetDefaultImplementation(ApiResponse<Fruit> apiResponseLocalVar)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
-        }
-
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="Fruit"/>&gt;</returns>
-        public async Task<Fruit> RootGetAsync(System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<Fruit?> apiResponseLocalVar = await RootGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-
-            if (apiResponseLocalVar.Content == null)
-                throw new ApiException(apiResponseLocalVar.ReasonPhrase, apiResponseLocalVar.StatusCode, apiResponseLocalVar.RawContent);
-
-            return apiResponseLocalVar.Content;
-        }
-
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="Fruit"/>&gt;</returns>
-        public async Task<Fruit?> RootGetOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<Fruit?>? apiResponseLocalVar = null;
-            try 
-            {
-                apiResponseLocalVar = await RootGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return apiResponseLocalVar != null && apiResponseLocalVar.IsSuccessStatusCode
-                ? apiResponseLocalVar.Content
-                : null;
-        }
-
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <returns></returns>
-        protected virtual void OnRootGet()
-        {
-            return;
+            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+            AfterRootGet(apiResponseLocalVar);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        protected virtual void AfterRootGet(ApiResponse<Fruit?> apiResponseLocalVar)
-        {
-        }
+        partial void AfterRootGet(ApiResponse<Fruit> apiResponseLocalVar);
 
         /// <summary>
-        /// Processes the server response
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        protected virtual void OnErrorRootGet(Exception exception, string pathFormat, string path)
+        private void OnErrorRootGetDefaultImplementation(Exception exception, string pathFormat, string path)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorRootGet(exception, pathFormat, path);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        partial void OnErrorRootGet(Exception exception, string pathFormat, string path);
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Fruit"/></returns>
+        public async Task<ApiResponse<Fruit>?> RootGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await RootGetAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -174,14 +141,12 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Fruit"/></returns>
-        public async Task<ApiResponse<Fruit?>> RootGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<Fruit>> RootGetAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                OnRootGet();
-
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
@@ -189,12 +154,10 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/";
 
-
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    string[] acceptLocalVars = new string[] { 
-                        "application/json" 
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
                     };
 
                     string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
@@ -206,19 +169,13 @@ namespace Org.OpenAPITools.Api
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAtLocalVar, DateTime.UtcNow, httpResponseMessageLocalVar.StatusCode, "/", uriBuilderLocalVar.Path));
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        ApiResponse<Fruit> apiResponseLocalVar = new ApiResponse<Fruit>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        ApiResponse<Fruit?> apiResponseLocalVar = new ApiResponse<Fruit?>(httpResponseMessageLocalVar, responseContentLocalVar);
-
-                        if (apiResponseLocalVar.IsSuccessStatusCode)
-                        {
-                            apiResponseLocalVar.Content = JsonSerializer.Deserialize<Fruit>(apiResponseLocalVar.RawContent, _jsonSerializerOptions);
-                            AfterRootGet(apiResponseLocalVar);
-                        }
+                        AfterRootGetDefaultImplementation(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -226,7 +183,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorRootGet(e, "/", uriBuilderLocalVar.Path);
+                OnErrorRootGetDefaultImplementation(e, "/", uriBuilderLocalVar.Path);
                 throw;
             }
         }

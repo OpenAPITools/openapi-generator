@@ -76,11 +76,6 @@ public class Pet {
 
   private StatusEnum status;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Pet#Pet(String, List<String>)}
-   */
-  @Deprecated
   public Pet() {
     super();
   }

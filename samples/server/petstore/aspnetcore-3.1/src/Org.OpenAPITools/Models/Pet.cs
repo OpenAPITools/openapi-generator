@@ -41,7 +41,7 @@ namespace Org.OpenAPITools.Models
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        /// <example>&quot;doggie&quot;</example>
+        /// <example>doggie</example>
         [Required]
         [DataMember(Name="name", EmitDefaultValue=false)]
         public string Name { get; set; }
@@ -119,7 +119,7 @@ namespace Org.OpenAPITools.Models
         /// <returns>JSON string presentation of the object</returns>
         public string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>

@@ -36,11 +36,11 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
         /// </summary>
         /// <param name="specialPropertyName">specialPropertyName.</param>
-        /// <param name="specialModelName">specialModelName.</param>
-        public SpecialModelName(long specialPropertyName = default(long), string specialModelName = default(string))
+        /// <param name="varSpecialModelName">varSpecialModelName.</param>
+        public SpecialModelName(long specialPropertyName = default(long), string varSpecialModelName = default(string))
         {
             this.SpecialPropertyName = specialPropertyName;
-            this._SpecialModelName = specialModelName;
+            this.VarSpecialModelName = varSpecialModelName;
         }
 
         /// <summary>
@@ -50,10 +50,10 @@ namespace Org.OpenAPITools.Model
         public long SpecialPropertyName { get; set; }
 
         /// <summary>
-        /// Gets or Sets _SpecialModelName
+        /// Gets or Sets VarSpecialModelName
         /// </summary>
         [DataMember(Name = "_special_model.name_", EmitDefaultValue = false)]
-        public string _SpecialModelName { get; set; }
+        public string VarSpecialModelName { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class SpecialModelName {\n");
             sb.Append("  SpecialPropertyName: ").Append(SpecialPropertyName).Append("\n");
-            sb.Append("  _SpecialModelName: ").Append(_SpecialModelName).Append("\n");
+            sb.Append("  VarSpecialModelName: ").Append(VarSpecialModelName).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -108,9 +108,9 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.SpecialPropertyName.GetHashCode();
-                if (this._SpecialModelName != null)
+                if (this.VarSpecialModelName != null)
                 {
-                    hashCode = (hashCode * 59) + this._SpecialModelName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarSpecialModelName.GetHashCode();
                 }
                 return hashCode;
             }

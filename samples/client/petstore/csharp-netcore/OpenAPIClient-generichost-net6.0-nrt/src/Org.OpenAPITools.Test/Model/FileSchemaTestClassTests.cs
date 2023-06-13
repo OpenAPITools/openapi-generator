@@ -53,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<FileSchemaTestClass>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'File'
         /// </summary>
@@ -62,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'File'
         }
+
         /// <summary>
         /// Test the property 'Files'
         /// </summary>
@@ -70,7 +70,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Files'
         }
-
     }
-
 }

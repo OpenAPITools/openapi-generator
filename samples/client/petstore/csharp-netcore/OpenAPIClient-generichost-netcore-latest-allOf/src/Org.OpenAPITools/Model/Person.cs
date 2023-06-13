@@ -42,7 +42,10 @@ namespace Org.OpenAPITools.Model
             FirstName = firstName;
             LastName = lastName;
             Type = type;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets FirstName
@@ -106,12 +109,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Person
+    /// A Json converter for type <see cref="Person" />
     /// </summary>
     public class PersonJsonConverter : JsonConverter<Person>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Person" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -127,9 +130,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string firstName = default;
-            string lastName = default;
-            string type = default;
+            string? firstName = default;
+            string? lastName = default;
+            string? type = default;
 
             while (utf8JsonReader.Read())
             {
@@ -161,26 +164,20 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (type == null)
-                throw new ArgumentNullException(nameof(type), "Property is required for class Person.");
+            if (firstName == null)
+                throw new ArgumentNullException(nameof(firstName), "Property is required for class Person.");
 
             if (lastName == null)
                 throw new ArgumentNullException(nameof(lastName), "Property is required for class Person.");
 
-            if (firstName == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is required for class Person.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class Person.");
 
             return new Person(firstName, lastName, type);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Person" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="person"></param>

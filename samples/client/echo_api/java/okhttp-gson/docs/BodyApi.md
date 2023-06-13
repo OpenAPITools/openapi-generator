@@ -12,7 +12,7 @@ All URIs are relative to *http://localhost:3000*
 | [**testEchoBodyTagResponseString**](BodyApi.md#testEchoBodyTagResponseString) | **POST** /echo/body/Tag/response_string | Test empty json (request body) |
 
 
-<a name="testBinaryGif"></a>
+<a id="testBinaryGif"></a>
 # **testBinaryGif**
 > File testBinaryGif()
 
@@ -70,7 +70,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Successful operation |  -  |
 
-<a name="testBodyApplicationOctetstreamBinary"></a>
+<a id="testBodyApplicationOctetstreamBinary"></a>
 # **testBodyApplicationOctetstreamBinary**
 > String testBodyApplicationOctetstreamBinary(body)
 
@@ -132,7 +132,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Successful operation |  -  |
 
-<a name="testEchoBodyFreeFormObjectResponseString"></a>
+<a id="testEchoBodyFreeFormObjectResponseString"></a>
 # **testEchoBodyFreeFormObjectResponseString**
 > String testEchoBodyFreeFormObjectResponseString(body)
 
@@ -194,7 +194,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Successful operation |  -  |
 
-<a name="testEchoBodyPet"></a>
+<a id="testEchoBodyPet"></a>
 # **testEchoBodyPet**
 > Pet testEchoBodyPet(pet)
 
@@ -256,7 +256,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Successful operation |  -  |
 
-<a name="testEchoBodyPetResponseString"></a>
+<a id="testEchoBodyPetResponseString"></a>
 # **testEchoBodyPetResponseString**
 > String testEchoBodyPetResponseString(pet)
 
@@ -318,7 +318,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Successful operation |  -  |
 
-<a name="testEchoBodyTagResponseString"></a>
+<a id="testEchoBodyTagResponseString"></a>
 # **testEchoBodyTagResponseString**
 > String testEchoBodyTagResponseString(tag)
 

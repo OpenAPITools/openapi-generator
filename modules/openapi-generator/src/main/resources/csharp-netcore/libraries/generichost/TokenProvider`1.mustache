@@ -21,7 +21,7 @@ namespace {{packageName}}
         /// </summary>
         protected TTokenBase[] _tokens;
 
-        internal abstract System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken? cancellation = null);
+        internal abstract System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken cancellation = default{{^netstandard20OrLater}}(System.Threading.CancellationToken){{/netstandard20OrLater}});
 
         /// <summary>
         /// Instantiates a TokenProvider.

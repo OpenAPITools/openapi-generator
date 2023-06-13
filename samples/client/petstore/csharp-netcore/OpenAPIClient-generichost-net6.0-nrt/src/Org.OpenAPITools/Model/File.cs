@@ -38,7 +38,10 @@ namespace Org.OpenAPITools.Model
         public File(string sourceURI)
         {
             SourceURI = sourceURI;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Test capitalization
@@ -79,12 +82,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type File
+    /// A Json converter for type <see cref="File" />
     /// </summary>
     public class FileJsonConverter : JsonConverter<File>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="File" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -100,7 +103,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string sourceURI = default;
+            string? sourceURI = default;
 
             while (utf8JsonReader.Read())
             {
@@ -126,20 +129,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (sourceURI == null)
                 throw new ArgumentNullException(nameof(sourceURI), "Property is required for class File.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new File(sourceURI);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="File" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="file"></param>

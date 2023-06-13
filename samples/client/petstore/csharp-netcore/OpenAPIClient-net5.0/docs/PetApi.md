@@ -14,7 +14,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**UploadFile**](PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image |
 | [**UploadFileWithRequiredFile**](PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
 
-<a name="addpet"></a>
+<a id="addpet"></a>
 # **AddPet**
 > void AddPet (Pet pet)
 
@@ -102,7 +102,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="deletepet"></a>
+<a id="deletepet"></a>
 # **DeletePet**
 > void DeletePet (long petId, string? apiKey = null)
 
@@ -192,7 +192,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="findpetsbystatus"></a>
+<a id="findpetsbystatus"></a>
 # **FindPetsByStatus**
 > List&lt;Pet&gt; FindPetsByStatus (List<string> status)
 
@@ -287,7 +287,7 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="findpetsbytags"></a>
+<a id="findpetsbytags"></a>
 # **FindPetsByTags**
 > List&lt;Pet&gt; FindPetsByTags (List<string> tags)
 
@@ -382,7 +382,7 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="getpetbyid"></a>
+<a id="getpetbyid"></a>
 # **GetPetById**
 > Pet GetPetById (long petId)
 
@@ -480,7 +480,7 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="updatepet"></a>
+<a id="updatepet"></a>
 # **UpdatePet**
 > void UpdatePet (Pet pet)
 
@@ -570,7 +570,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="updatepetwithform"></a>
+<a id="updatepetwithform"></a>
 # **UpdatePetWithForm**
 > void UpdatePetWithForm (long petId, string? name = null, string? status = null)
 
@@ -662,7 +662,7 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="uploadfile"></a>
+<a id="uploadfile"></a>
 # **UploadFile**
 > ApiResponse UploadFile (long petId, string? additionalMetadata = null, System.IO.Stream? file = null)
 
@@ -758,7 +758,7 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="uploadfilewithrequiredfile"></a>
+<a id="uploadfilewithrequiredfile"></a>
 # **UploadFileWithRequiredFile**
 > ApiResponse UploadFileWithRequiredFile (long petId, System.IO.Stream requiredFile, string? additionalMetadata = null)
 

@@ -38,12 +38,15 @@ namespace Org.OpenAPITools.Model
         public NullableGuidClass(Guid? uuid = default)
         {
             Uuid = uuid;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
-        /// <example>&quot;72f98069-206d-4f12-9f12-3d1e525a8e84&quot;</example>
+        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [JsonPropertyName("uuid")]
         public Guid? Uuid { get; set; }
 
@@ -79,12 +82,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type NullableGuidClass
+    /// A Json converter for type <see cref="NullableGuidClass" />
     /// </summary>
     public class NullableGuidClassJsonConverter : JsonConverter<NullableGuidClass>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="NullableGuidClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -131,7 +134,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="NullableGuidClass" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="nullableGuidClass"></param>

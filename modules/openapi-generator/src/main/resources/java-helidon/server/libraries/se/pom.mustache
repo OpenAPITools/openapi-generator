@@ -19,7 +19,9 @@
 
     <properties>
         <mainClass>{{{invokerPackage}}}.Main</mainClass>
-        <version.jackson.databind.nullable>0.2.3</version.jackson.databind.nullable>
+{{#openApiNullable}}
+        <version.jackson.databind.nullable>0.2.6</version.jackson.databind.nullable>
+{{/openApiNullable}}
     </properties>
 
     <dependencies>

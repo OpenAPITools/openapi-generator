@@ -15,7 +15,7 @@ Protected Class {{classname}}
 		  // - subresourceOperation: {{.}}{{/subresourceOperation}}{{#defaultResponse}}
 		  // - defaultResponse: {{.}}{{/defaultResponse}}
 		  //{{#authMethods}}
-		  // - {{#isBasic}}BASIC{{/isBasic}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
+		  // - {{#isBasicBasic}}BASIC{{/isBasicBasic}}{{#isBasicBearer}}Bearer Token{{/isBasicBearer}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
 		  //   - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeader}}(HEADER){{/isKeyInHeader}}{{/keyParamName}}
 		  //   - name: {{name}}{{/authMethods}}
 		  //{{#hasResponseHeaders}}
@@ -77,7 +77,7 @@ Protected Class {{classname}}
 		  End If
 		  localVarQueryParams = localVarQueryParams + "{{keyParamName}}=" + Me.ApiKey{{{name}}}{{/isKeyInQuery}}
 		  {{#isKeyInHeader}}localVarHTTPSocket.SetRequestHeader(EncodeURLComponent("{{keyParamName}}"), EncodeURLComponent(me.ApiKey{{{name}}})){{/isKeyInHeader}}{{/isApiKey}}
-		  {{#isBasic}}AddHandler localVarHTTPSocket.AuthenticationRequired, addressof Me.AuthenticationRequired{{/isBasic}}{{/authMethods}}{{/hasAuthMethods}}
+		  {{#isBasicBasic}}AddHandler localVarHTTPSocket.AuthenticationRequired, addressof Me.AuthenticationRequired{{/isBasicBasic}}{{/authMethods}}{{/hasAuthMethods}}
 		  {{#hasCookieParams}}
 		  Dim localVarCookies() As String
 		  {{#cookieParams}}

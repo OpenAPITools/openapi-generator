@@ -35,40 +35,40 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="List" /> class.
         /// </summary>
-        /// <param name="_123list">_123list.</param>
-        public List(string _123list = default(string))
+        /// <param name="var123List">var123List.</param>
+        public List(string var123List = default(string))
         {
-            this.__123List = _123list;
-            if (this._123List != null)
+            this._Var123List = var123List;
+            if (this.Var123List != null)
             {
-                this._flag_123List = true;
+                this._flagVar123List = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets _123List
+        /// Gets or Sets Var123List
         /// </summary>
         [DataMember(Name = "123-list", EmitDefaultValue = false)]
-        public string _123List
+        public string Var123List
         {
-            get{ return __123List;}
+            get{ return _Var123List;}
             set
             {
-                __123List = value;
-                _flag_123List = true;
+                _Var123List = value;
+                _flagVar123List = true;
             }
         }
-        private string __123List;
-        private bool _flag_123List;
+        private string _Var123List;
+        private bool _flagVar123List;
 
         /// <summary>
-        /// Returns false as _123List should not be serialized given that it's read-only.
+        /// Returns false as Var123List should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerialize_123List()
+        public bool ShouldSerializeVar123List()
         {
-            return _flag_123List;
+            return _flagVar123List;
         }
         /// <summary>
         /// Gets or Sets additional properties
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class List {\n");
-            sb.Append("  _123List: ").Append(_123List).Append("\n");
+            sb.Append("  Var123List: ").Append(Var123List).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -128,9 +128,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this._123List != null)
+                if (this.Var123List != null)
                 {
-                    hashCode = (hashCode * 59) + this._123List.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Var123List.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

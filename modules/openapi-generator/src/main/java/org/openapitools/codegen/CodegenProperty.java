@@ -259,6 +259,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.isBooleanSchemaFalse = isBooleanSchemaFalse;
     }
 
+    public String getOpenApiType() { return openApiType; }
+
     public String getBaseName() {
         return baseName;
     }
@@ -511,6 +513,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
     public boolean requiredAndNotNullable() {
         return getRequired() && !isNullable;
+    }
+
+    public boolean notRequiredOrIsNullable() {
+        return !getRequired() || isNullable;
     }
 
     public void setRequired(boolean required) {
