@@ -974,6 +974,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     _default.elements().forEachRemaining((element) -> {
                         final_values.add(element.asText());
                     });
+                } else if (schema.getDefault() instanceof Collection) {
+                    var _default = (Collection<String>) schema.getDefault();
+                    List<String> final_values = _values;
+                    _default.forEach((element) -> {
+                        final_values.add(element);
+                    });
                 } else { // single value
                     _values = java.util.Collections.singletonList(String.valueOf(schema.getDefault()));
                 }
@@ -986,7 +992,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         defaultValues.add(cp.items.datatypeWithEnum + "." + toEnumVarName(_value, cp.items.dataType));
                     }
                     defaultValue = StringUtils.join(defaultValues, ", ");
-                } else {
+                } else if (_values.size() > 0) {
                     if (cp.items.isString) { // array item is string
                         defaultValue = String.format(Locale.ROOT, "\"%s\"", StringUtils.join(_values, "\", \""));
                     } else if (cp.items.isNumeric) {
@@ -1006,7 +1012,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     } else { // array item is non-string, e.g. integer
                         defaultValue = StringUtils.join(_values, ", ");
                     }
+                } else {
+                    return "new ArrayList<>()";
                 }
+
                 return String.format(Locale.ROOT, "new ArrayList<>(Arrays.asList(%s))", defaultValue);
             } else if (cp.isArray && cp.getUniqueItems()) { // set
                 // TODO
