@@ -1600,6 +1600,20 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     /**
+     * Return true if the property being passed is a C# value type
+     *
+     * @param var property
+     * @return true if property is a value type
+     */
+    @Override
+    protected boolean isValueType(CodegenProperty var) {
+        // this is temporary until x-csharp-value-type is removed
+        return this.getLibrary().equals("generichost")
+            ? nullableType.contains(var.dataType) || var.isEnum
+            : valueTypes.contains(var.dataType) || var.isEnum;
+    }
+
+    /**
      * Removes properties from a model which are also defined in a composed class.
      *
      * @param className The name which may be a composed model

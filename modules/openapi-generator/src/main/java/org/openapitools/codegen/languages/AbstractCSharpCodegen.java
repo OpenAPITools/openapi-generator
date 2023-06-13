@@ -584,6 +584,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         property.vendorExtensions.put("x-is-value-type", isValueType(property));
 
+        if (property.isNullable && !property.isContainer && (nullableType.contains(property.dataType) || property.isEnum)) {
+            property.vendorExtensions.put("x-nullable-value-type", true);
+        }
+
+        if (this.getNullableReferencesTypes() || (property.vendorExtensions.get("x-nullable-value-type") != null)) {
+            property.vendorExtensions.put("x-nullable-type", true);
+        }
+
         String tmpPropertyName = escapeReservedWord(model, property.name);
         if (!property.name.equals(tmpPropertyName) || property.name.startsWith(this.invalidNamePrefix)) {
             // the casing will be wrong if we just set the name to escapeReservedWord
@@ -756,50 +764,51 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         CodegenModel codegenModel = modelHashMap.getModel();
 
                         for (CodegenParameter parameter : operation.allParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter);
                         }
 
                         for (CodegenParameter parameter : operation.bodyParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter);
                         }
 
                         for (CodegenParameter parameter : operation.cookieParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter);
                         }
 
                         for (CodegenParameter parameter : operation.formParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter);
                         }
 
                         for (CodegenParameter parameter : operation.headerParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter);
                         }
 
                         for (CodegenParameter parameter : operation.implicitHeadersParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter);
                         }
 
                         for (CodegenParameter parameter : operation.optionalParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter);
                         }
 
                         for (CodegenParameter parameter : operation.pathParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter);
                         }
 
                         for (CodegenParameter parameter : operation.queryParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter);
                         }
 
                         for (CodegenParameter parameter : operation.requiredAndNotNullableParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter);
                         }
 
                         for (CodegenParameter parameter : operation.requiredParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter);
                         }
                     }
 
+                    // TODO: move this into patchParamter
                     if (!isSupportNullable()) {
                         for (CodegenParameter parameter : operation.allParams) {
                             CodegenModel model = null;
@@ -839,10 +848,23 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return objs;
     }
 
+    private void patchParameter(CodegenParameter parameter) {
+        parameter.paramName = escapeReservedWord(parameter.paramName);
+
+        if (parameter.isNullable && !parameter.isContainer && (nullableType.contains(parameter.dataType) || parameter.isEnum)) {
+            parameter.vendorExtensions.put("x-nullable-value-type", true);
+        }
+
+        if (this.getNullableReferencesTypes() || (parameter.vendorExtensions.get("x-nullable-value-type") != null)) {
+            parameter.vendorExtensions.put("x-nullable-type", true);
+        }
+    }
+
     protected void processOperation(CodegenOperation operation) {
         // default noop
     }
 
+    // TODO: move this into patchParamter
     private void updateCodegenParametersEnum(List<CodegenParameter> parameters, List<ModelMap> allModels) {
         for (CodegenParameter parameter : parameters) {
             CodegenModel model = null;
