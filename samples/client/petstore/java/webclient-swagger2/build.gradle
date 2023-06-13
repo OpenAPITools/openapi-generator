@@ -124,7 +124,7 @@ ext {
 }
 
 dependencies {
-    implementation "io.swagge.core.v3r:swagger-annotations:$swagger_annotations_version"
+    implementation "io.swagger.core.v3:swagger-annotations:$swagger_annotations_version"
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "io.projectreactor:reactor-core:$reactor_version"
     implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
