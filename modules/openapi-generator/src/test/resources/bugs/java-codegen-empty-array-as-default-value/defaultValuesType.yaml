@@ -19,11 +19,5 @@ properties:
     default: []
     items:
       $ref: 'objectType.yaml'
-#  objectDefault2:
-#    type: array
-#    default:
-#    - someInt: 1
-#    - someInt: 3
-#    items:
-#      $ref: 'objectType.yaml'
+
 
