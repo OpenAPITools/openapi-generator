@@ -1174,13 +1174,12 @@ public class SpringCodegen extends AbstractJavaCodegen
                                     codegenModel.getImports().add(imp);
                                 }
                             }
-
-                            if (property.required) {
-                                codegenModel.parentRequiredVars.add(parentVar.clone());
-                            }
                         }
                     }
                     parentCodegenModel = parentCodegenModel.getParentModel();
+                }
+                if (codegenModel.getParentModel() != null) {
+                    codegenModel.parentRequiredVars = new ArrayList<>(codegenModel.getParentModel().requiredVars);
                 }
                 // There must be a better way ...
                 for (String imp: inheritedImports) {
