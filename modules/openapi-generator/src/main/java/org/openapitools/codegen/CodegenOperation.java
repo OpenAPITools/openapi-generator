@@ -49,7 +49,7 @@ public class CodegenOperation {
     public List<CodegenParameter> cookieParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> optionalParams = new ArrayList<CodegenParameter>();
-    public List<CodegenParameter> requiredAndNotNullableParams = new ArrayList<CodegenParameter>();
+    public List<CodegenParameter> nullableParams = new ArrayList<CodegenParameter>();
     public List<CodegenSecurity> authMethods;
     public List<Tag> tags;
     public List<CodegenResponse> responses = new ArrayList<CodegenResponse>();
@@ -159,8 +159,8 @@ public class CodegenOperation {
         return nonEmpty(optionalParams);
     }
 
-    public boolean getHasRequiredAndNotNullableParams() {
-        return nonEmpty(requiredAndNotNullableParams);
+    public boolean getHasnullableParams() {
+        return nonEmpty(nullableParams);
     }
 
     /**
@@ -371,7 +371,7 @@ public class CodegenOperation {
         sb.append(", cookieParams=").append(cookieParams);
         sb.append(", requiredParams=").append(requiredParams);
         sb.append(", optionalParams=").append(optionalParams);
-        sb.append(", requiredAndNotNullableParams=").append(requiredAndNotNullableParams);
+        sb.append(", nullableParams=").append(nullableParams);
         sb.append(", authMethods=").append(authMethods);
         sb.append(", tags=").append(tags);
         sb.append(", responses=").append(responses);
@@ -451,7 +451,7 @@ public class CodegenOperation {
                 Objects.equals(cookieParams, that.cookieParams) &&
                 Objects.equals(requiredParams, that.requiredParams) &&
                 Objects.equals(optionalParams, that.optionalParams) &&
-                Objects.equals(requiredAndNotNullableParams, that.requiredAndNotNullableParams) &&
+                Objects.equals(nullableParams, that.nullableParams) &&
                 Objects.equals(authMethods, that.authMethods) &&
                 Objects.equals(tags, that.tags) &&
                 Objects.equals(responses, that.responses) &&
@@ -481,6 +481,6 @@ public class CodegenOperation {
                 pathParams, queryParams, headerParams, formParams, cookieParams, requiredParams, returnProperty, optionalParams,
                 authMethods, tags, responses, callbacks, imports, examples, requestBodyExamples, externalDocs,
                 vendorExtensions, nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase,
-                operationIdSnakeCase, hasErrorResponseObject, requiredAndNotNullableParams);
+                operationIdSnakeCase, hasErrorResponseObject, nullableParams);
     }
 }
