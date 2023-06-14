@@ -172,5 +172,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_map_of_array_of_model.py
 tox.ini
