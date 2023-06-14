@@ -52,6 +52,7 @@ public class CSharpClientCodegenTest {
 
         Schema test1 = openAPI.getComponents().getSchemas().get("format_test");
         codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
         CodegenModel cm1 = codegen.fromModel("format_test", test1);
         Assert.assertEquals(cm1.getClassname(), "FormatTest");
 

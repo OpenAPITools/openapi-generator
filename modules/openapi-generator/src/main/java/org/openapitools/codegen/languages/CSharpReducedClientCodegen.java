@@ -135,29 +135,6 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
                 )
         );
 
-        // mapped non-nullable type without ?
-        typeMapping = new HashMap<String, String>();
-        typeMapping.put("string", "string");
-        typeMapping.put("binary", "byte[]");
-        typeMapping.put("ByteArray", "byte[]");
-        typeMapping.put("boolean", "bool");
-        typeMapping.put("integer", "int");
-        typeMapping.put("float", "float");
-        typeMapping.put("long", "long");
-        typeMapping.put("double", "double");
-        typeMapping.put("number", "decimal");
-        typeMapping.put("decimal", "decimal");
-        typeMapping.put("DateTime", "DateTime");
-        typeMapping.put("date", "DateTime");
-        typeMapping.put("file", "System.IO.Stream");
-        typeMapping.put("array", "List");
-        typeMapping.put("list", "List");
-        typeMapping.put("map", "Dictionary");
-        typeMapping.put("object", "Object");
-        typeMapping.put("UUID", "Guid");
-        typeMapping.put("URI", "string");
-        typeMapping.put("AnyType", "Object");
-
         setSupportNullable(Boolean.TRUE);
         hideGenerationTimestamp = Boolean.TRUE;
         supportsInheritance = true;
@@ -324,6 +301,60 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
         setLibrary(RESTSHARP);
     }
 
+    @Deprecated
+    @Override
+    protected Set<String> getNullableTypes() {
+        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
+            "DateTime", "DateTimeOffset", "Guid"));
+    }
+
+    @Override
+    protected Set<String> getValueTypes() {
+        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
+    }
+
+    @Override
+    protected void setTypeMapping() {
+        super.setTypeMapping();
+        // mapped non-nullable type without ?
+        typeMapping = new HashMap<String, String>();
+        typeMapping.put("string", "string");
+        typeMapping.put("binary", "byte[]");
+        typeMapping.put("ByteArray", "byte[]");
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("integer", "int");
+        typeMapping.put("float", "float");
+        typeMapping.put("long", "long");
+        typeMapping.put("double", "double");
+        typeMapping.put("number", "decimal");
+        typeMapping.put("decimal", "decimal");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DateTime");
+        typeMapping.put("file", "System.IO.Stream");
+        typeMapping.put("array", "List");
+        typeMapping.put("list", "List");
+        typeMapping.put("map", "Dictionary");
+        typeMapping.put("object", "Object");
+        typeMapping.put("UUID", "Guid");
+        typeMapping.put("URI", "string");
+        typeMapping.put("AnyType", "Object");
+
+        if (HTTPCLIENT.equals(getLibrary())) {
+            typeMapping.put("file", "FileParameter");
+        }
+    }
+
+    @Override
+    protected void updateCodegenParametersEnum(List<CodegenParameter> parameters, List<ModelMap> allModels) {
+        super.updateCodegenParametersEnum(parameters, allModels);
+
+        for (CodegenParameter parameter : parameters) {
+            if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
+                parameter.dataType = parameter.dataType + "?";
+            }
+        }
+    }
+
     @Override
     public String apiDocFileFolder() {
         return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
@@ -431,7 +462,7 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
     @Override
     public String getNullableType(Schema p, String type) {
         if (languageSpecificPrimitives.contains(type)) {
-            if (isSupportNullable() && ModelUtils.isNullable(p) && nullableType.contains(type)) {
+            if (isSupportNullable() && ModelUtils.isNullable(p) && this.getNullableTypes().contains(type)) {
                 return type + "?";
             } else {
                 return type;
@@ -476,6 +507,11 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
         postProcessEmitDefaultValue(parameter.vendorExtensions);
+
+        if (!parameter.dataType.endsWith("?") && !parameter.required && (nullReferenceTypesFlag || this.getNullableTypes().contains(parameter.dataType))) {
+            parameter.dataType = parameter.dataType + "?";
+        }
+        
         super.postProcessParameter(parameter);
     }
 
@@ -674,7 +710,6 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
 
         if (HTTPCLIENT.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
-            typeMapping.put("file", "FileParameter");
         }
 
         supportingFiles.add(new SupportingFile("IApiAccessor.mustache", clientPackageDir, "IApiAccessor.cs"));
@@ -725,6 +760,8 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
+
+        this.setTypeMapping();
     }
 
     public void setNetStandard(Boolean netStandard) {

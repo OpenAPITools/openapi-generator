@@ -33,11 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.UUID.randomUUID;
 
@@ -135,17 +131,6 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         );
 
         cliOptions.clear();
-
-        typeMapping.put("boolean", "bool");
-        typeMapping.put("integer", "int");
-        typeMapping.put("float", "float");
-        typeMapping.put("long", "long");
-        typeMapping.put("double", "double");
-        typeMapping.put("number", "decimal");
-        typeMapping.put("DateTime", "DateTime");
-        typeMapping.put("date", "DateTime");
-        typeMapping.put("UUID", "Guid");
-        typeMapping.put("URI", "string");
 
         setSupportNullable(Boolean.TRUE);
 
@@ -310,9 +295,56 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         addOption(modelClassModifier.getOpt(), modelClassModifier.getDescription(), modelClassModifier.getOptValue());
     }
 
+    @Deprecated
+    @Override
+    protected Set<String> getNullableTypes() {
+        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
+            "DateTime", "DateTimeOffset", "Guid"));
+    }
+
+    @Override
+    protected Set<String> getValueTypes() {
+        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
+    }
+
     @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
+    }
+
+    @Override
+    protected void setTypeMapping() {
+        super.setTypeMapping();
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("integer", "int");
+        typeMapping.put("float", "float");
+        typeMapping.put("long", "long");
+        typeMapping.put("double", "double");
+        typeMapping.put("number", "decimal");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DateTime");
+        typeMapping.put("UUID", "Guid");
+        typeMapping.put("URI", "string");
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+
+        if (!parameter.dataType.endsWith("?") && !parameter.required && (nullReferenceTypesFlag || this.getNullableTypes().contains(parameter.dataType))) {
+            parameter.dataType = parameter.dataType + "?";
+        }
+    }
+
+    @Override
+    protected void updateCodegenParametersEnum(List<CodegenParameter> parameters, List<ModelMap> allModels) {
+        super.updateCodegenParametersEnum(parameters, allModels);
+
+        for (CodegenParameter parameter : parameters) {
+            if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
+                parameter.dataType = parameter.dataType + "?";
+            }
+        }
     }
 
     @Override
@@ -443,6 +475,8 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
 
         supportingFiles.add(new SupportingFile("Authentication" + File.separator + "ApiAuthentication.mustache", packageFolder + File.separator + "Authentication", "ApiAuthentication.cs"));
         supportingFiles.add(new SupportingFile("Formatters" + File.separator + "InputFormatterStream.mustache", packageFolder + File.separator + "Formatters", "InputFormatterStream.cs"));
+
+        this.setTypeMapping();
     }
 
     public void setPackageGuid(String packageGuid) {
@@ -562,7 +596,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     @Override
     public String getNullableType(Schema p, String type) {
         if (languageSpecificPrimitives.contains(type)) {
-            if (isSupportNullable() && ModelUtils.isNullable(p) && (nullableType.contains(type) || nullReferenceTypesFlag)) {
+            if (isSupportNullable() && ModelUtils.isNullable(p) && (this.getNullableTypes().contains(type) || nullReferenceTypesFlag)) {
                 return type + "?";
             } else {
                 return type;

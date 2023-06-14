@@ -157,31 +157,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 )
         );
 
-        // mapped non-nullable type without ?
-        typeMapping = new HashMap<String, String>();
-        typeMapping.put("string", "string");
-        typeMapping.put("binary", "byte[]");
-        typeMapping.put("ByteArray", "byte[]");
-        typeMapping.put("boolean", "bool");
-        typeMapping.put("integer", "int");
-        typeMapping.put("long", "long");
-        typeMapping.put("UnsignedInteger", "uint");
-        typeMapping.put("UnsignedLong", "ulong");
-        typeMapping.put("float", "float");
-        typeMapping.put("double", "double");
-        typeMapping.put("number", "decimal");
-        typeMapping.put("decimal", "decimal");
-        typeMapping.put("DateTime", "DateTime");
-        typeMapping.put("date", "DateTime");
-        typeMapping.put("file", "System.IO.Stream");
-        typeMapping.put("array", "List");
-        typeMapping.put("list", "List");
-        typeMapping.put("map", "Dictionary");
-        typeMapping.put("object", "Object");
-        typeMapping.put("UUID", "Guid");
-        typeMapping.put("URI", "string");
-        typeMapping.put("AnyType", "Object");
-
         setSupportNullable(Boolean.TRUE);
         hideGenerationTimestamp = Boolean.TRUE;
         supportsInheritance = true;
@@ -362,6 +337,62 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         libraryOption.setDefault(RESTSHARP);
         cliOptions.add(libraryOption);
         setLibrary(RESTSHARP);
+    }
+
+    @Deprecated
+    @Override
+    protected Set<String> getNullableTypes() {
+        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
+            "DateTime", "DateTimeOffset", "Guid"));
+    }
+
+    @Override
+    protected Set<String> getValueTypes() {
+        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
+    }
+
+    @Override
+    protected void setTypeMapping() {
+        typeMapping = new HashMap<>();
+        // mapped non-nullable type without ?
+        typeMapping = new HashMap<String, String>();
+        typeMapping.put("string", "string");
+        typeMapping.put("binary", "byte[]");
+        typeMapping.put("ByteArray", "byte[]");
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("integer", "int");
+        typeMapping.put("long", "long");
+        typeMapping.put("UnsignedInteger", "uint");
+        typeMapping.put("UnsignedLong", "ulong");
+        typeMapping.put("float", "float");
+        typeMapping.put("double", "double");
+        typeMapping.put("number", "decimal");
+        typeMapping.put("decimal", "decimal");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DateTime");
+        typeMapping.put("file", "System.IO.Stream");
+        typeMapping.put("array", "List");
+        typeMapping.put("list", "List");
+        typeMapping.put("map", "Dictionary");
+        typeMapping.put("object", "Object");
+        typeMapping.put("UUID", "Guid");
+        typeMapping.put("URI", "string");
+        typeMapping.put("AnyType", "Object");
+
+        if (HTTPCLIENT.equals(getLibrary())) {
+            typeMapping.put("file", "FileParameter");
+        }
+    }
+
+    @Override
+    protected void updateCodegenParametersEnum(List<CodegenParameter> parameters, List<ModelMap> allModels) {
+        super.updateCodegenParametersEnum(parameters, allModels);
+
+        for (CodegenParameter parameter : parameters) {
+            if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
+                parameter.dataType = parameter.dataType + "?";
+            }
+        }
     }
 
     @Override
@@ -558,7 +589,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     public String getNullableType(Schema p, String type) {
         if (languageSpecificPrimitives.contains(type)) {
-            if (isSupportNullable() && ModelUtils.isNullable(p) && nullableType.contains(type)) {
+            if (isSupportNullable() && ModelUtils.isNullable(p) && this.getNullableTypes().contains(type)) {
                 return type + "?";
             } else {
                 return type;
@@ -607,6 +638,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
         postProcessEmitDefaultValue(parameter.vendorExtensions);
+
+        if (!parameter.dataType.endsWith("?") && !parameter.required && (nullReferenceTypesFlag || this.getNullableTypes().contains(parameter.dataType))) {
+            parameter.dataType = parameter.dataType + "?";
+        }
+
         super.postProcessParameter(parameter);
     }
 
@@ -832,7 +868,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         if (HTTPCLIENT.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
-            typeMapping.put("file", "FileParameter");
             addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
             additionalProperties.put("apiDocPath", apiDocPath);
             additionalProperties.put("modelDocPath", modelDocPath);
@@ -869,6 +904,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         // include the spec in the output
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
 
+        this.setTypeMapping();
     }
 
     public void setClientPackage(String clientPackage) {
@@ -1609,8 +1645,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean isValueType(CodegenProperty var) {
         // this is temporary until x-csharp-value-type is removed
         return this.getLibrary().equals("generichost")
-            ? nullableType.contains(var.dataType) || var.isEnum
-            : valueTypes.contains(var.dataType) || var.isEnum;
+            ? this.getNullableTypes().contains(var.dataType) || var.isEnum
+            : this.getValueTypes().contains(var.dataType) || var.isEnum;
     }
 
     /**

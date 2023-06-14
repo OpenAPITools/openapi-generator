@@ -95,11 +95,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected Boolean zeroBasedEnums = null;
     protected static final String zeroBasedEnumVendorExtension = "x-zero-based-enum";
 
-    // nullable type
-    protected Set<String> nullableType = new HashSet<>();
-
-    protected Set<String> valueTypes = new HashSet<>();
-
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
     // special property keywords not allowed as these are the function names in the model files
@@ -200,42 +195,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         instantiationTypes.put("array", "List");
         instantiationTypes.put("list", "List");
         instantiationTypes.put("map", "Dictionary");
-
-
-        // Nullable types here assume C# 2 support is not part of base
-        typeMapping = new HashMap<>();
-        typeMapping.put("string", "string");
-        typeMapping.put("binary", "byte[]");
-        typeMapping.put("ByteArray", "byte[]");
-        typeMapping.put("boolean", "bool?");
-        typeMapping.put("integer", "int?");
-        typeMapping.put("UnsignedInteger", "uint?");
-        typeMapping.put("UnsignedLong", "ulong?");
-        typeMapping.put("long", "long?");
-        typeMapping.put("float", "float?");
-        typeMapping.put("double", "double?");
-        typeMapping.put("number", "decimal?");
-        typeMapping.put("BigDecimal", "decimal?");
-        typeMapping.put("DateTime", "DateTime?");
-        typeMapping.put("date", "DateTime?");
-        typeMapping.put("file", "System.IO.Stream");
-        typeMapping.put("array", "List");
-        typeMapping.put("list", "List");
-        typeMapping.put("map", "Dictionary");
-        typeMapping.put("object", "Object");
-        typeMapping.put("UUID", "Guid?");
-        typeMapping.put("URI", "string");
-        typeMapping.put("AnyType", "Object");
-
-        // nullable type
-        nullableType = new HashSet<>(
-                Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
-                        "DateTime", "DateTimeOffset", "Guid")
-        );
-        // value Types
-        valueTypes = new HashSet<>(
-                Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double")
-        );
 
         this.setSortParamsByRequiredFlag(true);
 
@@ -449,6 +408,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 writer.write(content);
             }
         });
+
+        this.setTypeMapping();
     }
 
     @Override
@@ -578,13 +539,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isPrimitiveType = true;
         }
 
-        if (!property.isContainer && (nullableType.contains(property.dataType) || property.isEnum)) {
+        if (!property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
             property.vendorExtensions.put("x-csharp-value-type", true);
         }
 
         property.vendorExtensions.put("x-is-value-type", isValueType(property));
 
-        if (property.isNullable && !property.isContainer && (nullableType.contains(property.dataType) || property.isEnum)) {
+        if (property.isNullable && !property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
             property.vendorExtensions.put("x-nullable-value-type", true);
         }
 
@@ -851,7 +812,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     private void patchParameter(CodegenParameter parameter) {
         parameter.paramName = escapeReservedWord(parameter.paramName);
 
-        if (parameter.isNullable && !parameter.isContainer && (nullableType.contains(parameter.dataType) || parameter.isEnum)) {
+        if (parameter.isNullable && !parameter.isContainer && (this.getNullableTypes().contains(parameter.dataType) || parameter.isEnum)) {
             parameter.vendorExtensions.put("x-nullable-value-type", true);
         }
 
@@ -865,7 +826,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     // TODO: move this into patchParamter
-    private void updateCodegenParametersEnum(List<CodegenParameter> parameters, List<ModelMap> allModels) {
+    protected void updateCodegenParametersEnum(List<CodegenParameter> parameters, List<ModelMap> allModels) {
         for (CodegenParameter parameter : parameters) {
             CodegenModel model = null;
             for (ModelMap modelHashMap : allModels) {
@@ -886,12 +847,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 }
             }
 
-            if (!parameter.isContainer && nullableType.contains(parameter.dataType)) {
+            if (!parameter.isContainer && this.getNullableTypes().contains(parameter.dataType)) {
                 parameter.vendorExtensions.put("x-csharp-value-type", true);
-            }
-
-            if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
-                parameter.dataType = parameter.dataType + "?";
             }
         }
     }
@@ -1380,7 +1337,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      */
 
     protected boolean isValueType(CodegenProperty var) {
-        return (valueTypes.contains(var.dataType) || var.isEnum);
+        return (this.getValueTypes().contains(var.dataType) || var.isEnum);
     }
 
     @Override
@@ -1512,19 +1469,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public void postProcessParameter(CodegenParameter parameter) {
-        super.postProcessParameter(parameter);
-
-        // TODO: instead of appending the ?
-        // use isNullable, OptionalParameterLambda, or RequiredParameterLambda
-        if (!parameter.required && (nullReferenceTypesFlag || nullableType.contains(parameter.dataType))) {
-            parameter.dataType = parameter.dataType.endsWith("?")
-                    ? parameter.dataType
-                    : parameter.dataType + "?";
-        }
-    }
-
-    @Override
     public void postProcessFile(File file, String fileType) {
         if (file == null) {
             return;
@@ -1577,4 +1521,38 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return pattern;
     }
 
+    @Deprecated
+    protected Set<String> getNullableTypes() {
+        throw new RuntimeException("This method should no longer be used.");
+    }
+
+    protected Set<String> getValueTypes() {
+        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
+    }
+
+    protected void setTypeMapping() {
+        typeMapping = new HashMap<>();
+        typeMapping.put("string", "string");
+        typeMapping.put("binary", "byte[]");
+        typeMapping.put("ByteArray", "byte[]");
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("integer", "int");
+        typeMapping.put("UnsignedInteger", "uint");
+        typeMapping.put("UnsignedLong", "ulong");
+        typeMapping.put("long", "long");
+        typeMapping.put("float", "float");
+        typeMapping.put("double", "double");
+        typeMapping.put("number", "decimal");
+        typeMapping.put("BigDecimal", "decimal");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DateTime");
+        typeMapping.put("file", "System.IO.Stream");
+        typeMapping.put("array", "List");
+        typeMapping.put("list", "List");
+        typeMapping.put("map", "Dictionary");
+        typeMapping.put("object", "Object");
+        typeMapping.put("UUID", "Guid");
+        typeMapping.put("URI", "string");
+        typeMapping.put("AnyType", "Object");
+    }
 }
