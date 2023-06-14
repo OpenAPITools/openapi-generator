@@ -32,6 +32,7 @@ import org.openapitools.client.ApiClient;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
@@ -57,6 +58,7 @@ public class FakeApiImpl implements FakeApi {
 
   private final ApiClient apiClient;
 
+  protected static final GenericType<FakeBigDecimalMap200Response> RESPONSE_TYPE_fakeBigDecimalMap = ResponseType.create(FakeBigDecimalMap200Response.class);
   protected static final GenericType<HealthCheckResult> RESPONSE_TYPE_fakeHealthGet = ResponseType.create(HealthCheckResult.class);
   protected static final GenericType<Void> RESPONSE_TYPE_fakeHttpSignatureTest = ResponseType.create(Void.class);
   protected static final GenericType<Boolean> RESPONSE_TYPE_fakeOuterBooleanSerialize = ResponseType.create(Boolean.class);
@@ -85,6 +87,40 @@ public class FakeApiImpl implements FakeApi {
 
   protected FakeApiImpl(ApiClient apiClient) {
     this.apiClient = apiClient;
+  }
+
+  @Override
+  public ApiResponse<FakeBigDecimalMap200Response> fakeBigDecimalMap() {
+    WebClientRequestBuilder webClientRequestBuilder = fakeBigDecimalMapRequestBuilder();
+    return fakeBigDecimalMapSubmit(webClientRequestBuilder);
+  }
+
+  /**
+   * Creates a {@code WebClientRequestBuilder} for the fakeBigDecimalMap operation.
+   * Optional customization point for subclasses.
+   *
+   * @return WebClientRequestBuilder for fakeBigDecimalMap
+   */
+  protected WebClientRequestBuilder fakeBigDecimalMapRequestBuilder() {
+    WebClientRequestBuilder webClientRequestBuilder = apiClient.webClient()
+            .method("GET");
+
+    webClientRequestBuilder.path("/fake/BigDecimalMap");
+    webClientRequestBuilder.accept(MediaType.APPLICATION_JSON);
+
+    return webClientRequestBuilder;
+  }
+
+  /**
+   * Initiates the request for the fakeBigDecimalMap operation.
+   * Optional customization point for subclasses.
+   *
+   * @param webClientRequestBuilder the request builder to use for submitting the request
+   * @return {@code ApiResponse<FakeBigDecimalMap200Response>} for the submitted request
+   */
+  protected ApiResponse<FakeBigDecimalMap200Response> fakeBigDecimalMapSubmit(WebClientRequestBuilder webClientRequestBuilder) {
+    Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit();
+    return ApiResponse.create(RESPONSE_TYPE_fakeBigDecimalMap, webClientResponse);
   }
 
   @Override

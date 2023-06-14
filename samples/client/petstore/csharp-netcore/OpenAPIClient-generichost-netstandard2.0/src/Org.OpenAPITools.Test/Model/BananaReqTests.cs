@@ -53,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<BananaReq>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'LengthCm'
         /// </summary>
@@ -62,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'LengthCm'
         }
+
         /// <summary>
         /// Test the property 'Sweet'
         /// </summary>
@@ -70,7 +70,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Sweet'
         }
-
     }
-
 }

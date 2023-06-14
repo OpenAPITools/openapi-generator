@@ -117,7 +117,7 @@ Endpoints do not require authorization.
 
 ## Build
 - SDK version: 1.0.0
-- Build package: org.openapitools.codegen.languages.CSharpNetCoreClientCodegen
+- Build package: org.openapitools.codegen.languages.CSharpClientCodegen
 
 ## Api Information
 - appName: fruity

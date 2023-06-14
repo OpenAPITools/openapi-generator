@@ -53,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<ActivityOutputElementRepresentation>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Prop1'
         /// </summary>
@@ -62,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Prop1'
         }
+
         /// <summary>
         /// Test the property 'Prop2'
         /// </summary>
@@ -70,7 +70,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Prop2'
         }
-
     }
-
 }

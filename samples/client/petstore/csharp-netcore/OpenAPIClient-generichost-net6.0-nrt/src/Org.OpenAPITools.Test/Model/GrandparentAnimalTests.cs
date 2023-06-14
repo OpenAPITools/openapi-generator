@@ -62,6 +62,7 @@ namespace Org.OpenAPITools.Test.Model
             // TODO uncomment below to test deserialize a ChildCat from type ParentPet
             //Assert.IsType<ParentPet>(JsonConvert.DeserializeObject<ParentPet>(new ChildCat().ToJson()));
         }
+
         /// <summary>
         /// Test deserialize a ParentPet from type GrandparentAnimal
         /// </summary>
@@ -80,7 +81,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'PetType'
         }
-
     }
-
 }

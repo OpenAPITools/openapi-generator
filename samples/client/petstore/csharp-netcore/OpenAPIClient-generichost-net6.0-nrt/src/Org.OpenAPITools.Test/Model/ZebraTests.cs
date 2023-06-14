@@ -53,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Zebra>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'ClassName'
         /// </summary>
@@ -62,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ClassName'
         }
+
         /// <summary>
         /// Test the property 'Type'
         /// </summary>
@@ -70,7 +70,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Type'
         }
-
     }
-
 }

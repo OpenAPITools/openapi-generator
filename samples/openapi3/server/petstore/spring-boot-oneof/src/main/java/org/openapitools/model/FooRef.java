@@ -59,6 +59,7 @@ public class FooRef extends EntityRef implements FooRefOrValue {
     this.foorefPropA = foorefPropA;
   }
 
+
   public FooRef name(String name) {
     super.setName(name);
     return this;
@@ -93,7 +94,6 @@ public class FooRef extends EntityRef implements FooRefOrValue {
     super.setAtType(atType);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

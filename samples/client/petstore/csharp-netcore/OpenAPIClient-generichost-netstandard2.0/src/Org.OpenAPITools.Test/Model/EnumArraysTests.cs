@@ -53,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<EnumArrays>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'ArrayEnum'
         /// </summary>
@@ -62,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ArrayEnum'
         }
+
         /// <summary>
         /// Test the property 'JustSymbol'
         /// </summary>
@@ -70,7 +70,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'JustSymbol'
         }
-
     }
-
 }

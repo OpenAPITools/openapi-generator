@@ -52,9 +52,5 @@ namespace Org.OpenAPITools.Test.Model
             // TODO uncomment below to test "IsType" ZeroBasedEnum
             //Assert.IsType<ZeroBasedEnum>(instance);
         }
-
-
-
     }
-
 }

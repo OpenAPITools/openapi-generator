@@ -24,7 +24,7 @@ NAME = "petstore-api"
 VERSION = "1.0.0"
 PYTHON_REQUIRES = ">=3.7"
 REQUIRES = [
-    "urllib3 >= 1.25.3",
+    "urllib3 >= 1.25.3, < 2.1.0",
     "python-dateutil",
     "pem>=19.3.0",
     "pycryptodome>=3.9.0",
@@ -47,5 +47,6 @@ setup(
     long_description_content_type='text/markdown',
     long_description="""\
     This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\  # noqa: E501
-    """
+    """,
+    package_data={"petstore_api": ["py.typed"]},
 )

@@ -450,7 +450,11 @@ Another useful option is `inlineSchemaNameDefaults`, which allows you to customi
 --inline-schema-name-defaults arrayItemSuffix=_array_item,mapItemSuffix=_map_item
 ```
 
-Note: Only arrayItemSuffix, mapItemSuffix are supported at the moment. `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.
+Note: Only arrayItemSuffix, mapItemSuffix are supported at the moment.
+
+There are 2 special values:
+- `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.
+- `REFACTOR_ALLOF_INLINE_SCHEMAS=true` will restore the 6.x (or below) behaviour to refactor allOf inline schemas into $ref. (v7.0.0 will skip the refactoring of these allOf inline schmeas by default)
 
 ## OpenAPI Normalizer
 

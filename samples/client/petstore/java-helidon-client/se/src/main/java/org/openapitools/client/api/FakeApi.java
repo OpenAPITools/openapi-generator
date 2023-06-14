@@ -16,6 +16,7 @@ import org.openapitools.client.ApiResponse;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
@@ -34,6 +35,8 @@ import org.openapitools.client.model.User;
  * <p>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  */
 public interface FakeApi {
+
+  ApiResponse<FakeBigDecimalMap200Response> fakeBigDecimalMap();
 
  /**
   * Health check endpoint

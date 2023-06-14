@@ -53,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<NumberOnly>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'JustNumber'
         /// </summary>
@@ -62,7 +61,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'JustNumber'
         }
-
     }
-
 }

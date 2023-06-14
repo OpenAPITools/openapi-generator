@@ -62,6 +62,7 @@ namespace Org.OpenAPITools.Test.Model
             // TODO uncomment below to test deserialize a Cat from type Animal
             //Assert.IsType<Animal>(JsonConvert.DeserializeObject<Animal>(new Cat().ToJson()));
         }
+
         /// <summary>
         /// Test deserialize a Dog from type Animal
         /// </summary>
@@ -80,6 +81,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ClassName'
         }
+
         /// <summary>
         /// Test the property 'Color'
         /// </summary>
@@ -88,7 +90,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Color'
         }
-
     }
-
 }

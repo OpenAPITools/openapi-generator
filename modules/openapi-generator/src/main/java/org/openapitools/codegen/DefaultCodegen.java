@@ -128,8 +128,8 @@ public class DefaultCodegen implements CodegenConfig {
                 .includeSecurityFeatures(
                         SecurityFeature.BasicAuth, SecurityFeature.ApiKey, SecurityFeature.BearerToken,
                         SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
-                        SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode,
-                        SecurityFeature.OpenIDConnect
+                        SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
+                        // OpenIdConnect and SignatureAuth are not yet 100% supported
                 )
                 .includeWireFormatFeatures(
                         WireFormatFeature.JSON, WireFormatFeature.XML
@@ -2781,7 +2781,8 @@ public class DefaultCodegen implements CodegenConfig {
                     // includes child's properties (all, required) in allProperties, allRequired
                     addProperties(allProperties, allRequired, component, new HashSet<>());
                 }
-                break; // at most one child only
+                // in 7.0.0 release, we comment out below to allow more than 1 child schemas in allOf
+                //break; // at most one child only
             }
         }
 
@@ -3887,14 +3888,6 @@ public class DefaultCodegen implements CodegenConfig {
             property.isNullable = p.getNullable();
         }
 
-        if (p.getXml() != null) {
-            if (p.getXml().getAttribute() != null) {
-                property.isXmlAttribute = p.getXml().getAttribute();
-            }
-            property.xmlPrefix = p.getXml().getPrefix();
-            property.xmlName = p.getXml().getName();
-            property.xmlNamespace = p.getXml().getNamespace();
-        }
         if (p.getExtensions() != null && !p.getExtensions().isEmpty()) {
             property.getVendorExtensions().putAll(p.getExtensions());
         } else if (p.get$ref() != null) {
@@ -3944,6 +3937,32 @@ public class DefaultCodegen implements CodegenConfig {
             property.isNullable = (Boolean) referencedSchema.getExtensions().get("x-nullable");
         }
 
+        final XML referencedSchemaXml = referencedSchema.getXml();
+
+        if (referencedSchemaXml != null) {
+            property.xmlName = referencedSchemaXml.getName();
+            property.xmlNamespace = referencedSchemaXml.getNamespace();
+            property.xmlPrefix = referencedSchemaXml.getPrefix();
+            if (referencedSchemaXml.getAttribute() != null) {
+                property.isXmlAttribute = referencedSchemaXml.getAttribute();
+            }
+            if (referencedSchemaXml.getWrapped() != null) {
+                property.isXmlWrapped = referencedSchemaXml.getWrapped();
+            }
+        }
+
+        if (p.getXml() != null) {
+            if (p.getXml().getAttribute() != null) {
+                property.isXmlAttribute = p.getXml().getAttribute();
+            }
+            if (p.getXml().getWrapped() != null) {
+                property.isXmlWrapped = p.getXml().getWrapped();
+            }
+            property.xmlPrefix = p.getXml().getPrefix();
+            property.xmlName = p.getXml().getName();
+            property.xmlNamespace = p.getXml().getNamespace();
+        }
+
         property.dataType = getTypeDeclaration(p);
         property.dataFormat = p.getFormat();
         property.baseType = getSchemaType(p);
@@ -3978,12 +3997,6 @@ public class DefaultCodegen implements CodegenConfig {
                 property.containerType = "array";
             }
             property.baseType = getSchemaType(p);
-            if (p.getXml() != null) {
-                property.isXmlWrapped = p.getXml().getWrapped() != null && p.getXml().getWrapped();
-                property.xmlPrefix = p.getXml().getPrefix();
-                property.xmlNamespace = p.getXml().getNamespace();
-                property.xmlName = p.getXml().getName();
-            }
 
             // handle inner property
             String itemName = getItemsName(p, name);

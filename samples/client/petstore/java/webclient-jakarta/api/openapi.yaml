@@ -978,6 +978,21 @@ paths:
       - fake
       x-content-type: application/json
       x-accepts: '*/*'
+  /fake/BigDecimalMap:
+    get:
+      description: "for Java apache and Java native, test toUrlQueryString for maps\
+        \ with BegDecimal keys"
+      operationId: fakeBigDecimalMap
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/fakeBigDecimalMap_200_response'
+          description: successful operation
+      tags:
+      - fake
+      x-accepts: '*/*'
   /fake/jsonFormData:
     get:
       description: ""
@@ -1500,11 +1515,17 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Animal:
       discriminator:
         mapping:
@@ -2107,6 +2128,19 @@ components:
       - number
       - pattern_without_delimiter
       type: object
+    fakeBigDecimalMap_200_response:
+      example:
+        someId: 0.8008281904610115
+        someMap:
+          key: 6.027456183070403
+      properties:
+        someId:
+          type: number
+        someMap:
+          additionalProperties:
+            type: number
+          type: object
+      type: object
     testJsonFormData_request:
       properties:
         param:
@@ -2131,18 +2165,6 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:

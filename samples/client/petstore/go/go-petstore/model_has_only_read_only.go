@@ -114,8 +114,12 @@ func (o HasOnlyReadOnly) MarshalJSON() ([]byte, error) {
 
 func (o HasOnlyReadOnly) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	// skip: bar is readOnly
-	// skip: foo is readOnly
+	if !IsNil(o.Bar) {
+		toSerialize["bar"] = o.Bar
+	}
+	if !IsNil(o.Foo) {
+		toSerialize["foo"] = o.Foo
+	}
 	return toSerialize, nil
 }
 

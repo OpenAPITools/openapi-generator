@@ -494,7 +494,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/isArray}}
     {{^isArray}}
     {{#isMap}}
-    {{#items.isPrimitiveType}}
+    {{^items.isModel}}
     if ({{getter}}() != null) {
       for (String _key : {{getter}}().keySet()) {
         try {
@@ -507,8 +507,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         }
       }
     }
-    {{/items.isPrimitiveType}}
-    {{^items.isPrimitiveType}}
+    {{/items.isModel}}
+    {{#items.isModel}}
     if ({{getter}}() != null) {
       for (String _key : {{getter}}().keySet()) {
         if ({{getter}}().get(_key) != null) {
@@ -517,7 +517,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         }
       }
     }
-    {{/items.isPrimitiveType}}
+    {{/items.isModel}}
     {{/isMap}}
     {{^isMap}}
     {{#isPrimitiveType}}

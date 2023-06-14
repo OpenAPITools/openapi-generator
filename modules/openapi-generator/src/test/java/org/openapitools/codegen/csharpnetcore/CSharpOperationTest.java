@@ -23,8 +23,8 @@ import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractCSharpCodegen;
-import org.openapitools.codegen.languages.AspNetCoreServerCodegen;
-import org.openapitools.codegen.languages.CSharpNetCoreClientCodegen;
+import org.openapitools.codegen.languages.AspNetServerCodegen;
+import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
@@ -33,19 +33,20 @@ public class CSharpOperationTest {
 
     @Test
     public void assertMethodOptionalParameterDataType() {
-        assertEquals(getOperationOptionalParameterDataType(new AspNetCoreServerCodegen(), 2, false), "System.IO.Stream");
-        assertEquals(getOperationOptionalParameterDataType(new AspNetCoreServerCodegen(), 2, true), "System.IO.Stream?");
-        assertEquals(getOperationOptionalParameterDataType(new AspNetCoreServerCodegen(), 3, false), "System.IO.Stream");
-        assertEquals(getOperationOptionalParameterDataType(new AspNetCoreServerCodegen(), 3, true), "System.IO.Stream?");
+        assertEquals(getOperationOptionalParameterDataType(new AspNetServerCodegen(), 2, false), "System.IO.Stream");
+        assertEquals(getOperationOptionalParameterDataType(new AspNetServerCodegen(), 2, true), "System.IO.Stream?");
+        assertEquals(getOperationOptionalParameterDataType(new AspNetServerCodegen(), 3, false), "System.IO.Stream");
+        assertEquals(getOperationOptionalParameterDataType(new AspNetServerCodegen(), 3, true), "System.IO.Stream?");
 
-        assertEquals(getOperationOptionalParameterDataType(new CSharpNetCoreClientCodegen(), 2, false), "System.IO.Stream");
-        assertEquals(getOperationOptionalParameterDataType(new CSharpNetCoreClientCodegen(), 2, true), "System.IO.Stream?");
-        assertEquals(getOperationOptionalParameterDataType(new CSharpNetCoreClientCodegen(), 3, false), "System.IO.Stream");
-        assertEquals(getOperationOptionalParameterDataType(new CSharpNetCoreClientCodegen(), 3, true), "System.IO.Stream?");
+        assertEquals(getOperationOptionalParameterDataType(new CSharpClientCodegen(), 2, false), "System.IO.Stream");
+        assertEquals(getOperationOptionalParameterDataType(new CSharpClientCodegen(), 2, true), "System.IO.Stream?");
+        assertEquals(getOperationOptionalParameterDataType(new CSharpClientCodegen(), 3, false), "System.IO.Stream");
+        assertEquals(getOperationOptionalParameterDataType(new CSharpClientCodegen(), 3, true), "System.IO.Stream?");
     }
 
     public String getOperationOptionalParameterDataType(final AbstractCSharpCodegen codegen, final int openApiVersion, final Boolean nullableReferenceTypes){
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/" + openApiVersion + "_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        codegen.processOpts();
         codegen.setNullableReferenceTypes(nullableReferenceTypes);
         codegen.setOpenAPI(openAPI);
 

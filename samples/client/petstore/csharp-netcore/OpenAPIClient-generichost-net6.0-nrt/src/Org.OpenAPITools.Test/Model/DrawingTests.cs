@@ -53,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Drawing>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'MainShape'
         /// </summary>
@@ -62,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'MainShape'
         }
+
         /// <summary>
         /// Test the property 'Shapes'
         /// </summary>
@@ -70,6 +70,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Shapes'
         }
+
         /// <summary>
         /// Test the property 'NullableShape'
         /// </summary>
@@ -78,6 +79,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'NullableShape'
         }
+
         /// <summary>
         /// Test the property 'ShapeOrNull'
         /// </summary>
@@ -86,7 +88,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ShapeOrNull'
         }
-
     }
-
 }
