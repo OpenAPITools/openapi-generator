@@ -483,3 +483,12 @@ class ModelTests(unittest.TestCase):
             a = petstore_api.IntOrString(1)
         except ValueError as e:
             self.assertTrue("ensure this value is greater than or equal to 10" in str(e))
+
+    def test_map_of_array_of_model(self):
+        a = petstore_api.MapOfArrayOfModel()
+        t = petstore_api.Tag(id=123, name="tag name")
+        a.shop_id_to_org_online_lip_map = {"somekey": [t]}
+        self.assertEqual(a.to_dict(), {'shopIdToOrgOnlineLipMap': {'somekey': [{'id': 123, 'name': 'tag name'}]}})
+        self.assertEqual(a.to_json(), '{"shopIdToOrgOnlineLipMap": {"somekey": [{"id": 123, "name": "tag name"}]}}')
+        a2 = petstore_api.MapOfArrayOfModel.from_dict(a.to_dict())
+        self.assertEqual(a.to_dict(), a2.to_dict())
