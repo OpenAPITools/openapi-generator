@@ -3,57 +3,36 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:openapi/src/model/animal.dart';
-import 'package:openapi/src/model/cat_all_of.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'cat.g.dart';
+part 'cat_all_of.g.dart';
 
-/// Cat
+/// CatAllOf
 ///
 /// Properties:
-/// * [className] 
-/// * [color] 
 /// * [declawed] 
-@BuiltValue()
-abstract class Cat implements Animal, CatAllOf, Built<Cat, CatBuilder> {
-  Cat._();
-
-  factory Cat([void updates(CatBuilder b)]) = _$Cat;
-
-  @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(CatBuilder b) => b..className=b.discriminatorValue
-      ..color = 'red';
+@BuiltValue(instantiable: false)
+abstract class CatAllOf  {
+  @BuiltValueField(wireName: r'declawed')
+  bool? get declawed;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Cat> get serializer => _$CatSerializer();
+  static Serializer<CatAllOf> get serializer => _$CatAllOfSerializer();
 }
 
-class _$CatSerializer implements PrimitiveSerializer<Cat> {
+class _$CatAllOfSerializer implements PrimitiveSerializer<CatAllOf> {
   @override
-  final Iterable<Type> types = const [Cat, _$Cat];
+  final Iterable<Type> types = const [CatAllOf];
 
   @override
-  final String wireName = r'Cat';
+  final String wireName = r'CatAllOf';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    Cat object, {
+    CatAllOf object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'className';
-    yield serializers.serialize(
-      object.className,
-      specifiedType: const FullType(String),
-    );
-    if (object.color != null) {
-      yield r'color';
-      yield serializers.serialize(
-        object.color,
-        specifiedType: const FullType(String),
-      );
-    }
     if (object.declawed != null) {
       yield r'declawed';
       yield serializers.serialize(
@@ -66,10 +45,50 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
   @override
   Object serialize(
     Serializers serializers,
-    Cat object, {
+    CatAllOf object, {
     FullType specifiedType = FullType.unspecified,
   }) {
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+  }
+
+  @override
+  CatAllOf deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return serializers.deserialize(serialized, specifiedType: FullType($CatAllOf)) as $CatAllOf;
+  }
+}
+
+/// a concrete implementation of [CatAllOf], since [CatAllOf] is not instantiable
+@BuiltValue(instantiable: true)
+abstract class $CatAllOf implements CatAllOf, Built<$CatAllOf, $CatAllOfBuilder> {
+  $CatAllOf._();
+
+  factory $CatAllOf([void Function($CatAllOfBuilder)? updates]) = _$$CatAllOf;
+
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults($CatAllOfBuilder b) => b;
+
+  @BuiltValueSerializer(custom: true)
+  static Serializer<$CatAllOf> get serializer => _$$CatAllOfSerializer();
+}
+
+class _$$CatAllOfSerializer implements PrimitiveSerializer<$CatAllOf> {
+  @override
+  final Iterable<Type> types = const [$CatAllOf, _$$CatAllOf];
+
+  @override
+  final String wireName = r'$CatAllOf';
+
+  @override
+  Object serialize(
+    Serializers serializers,
+    $CatAllOf object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return serializers.serialize(object, specifiedType: FullType(CatAllOf))!;
   }
 
   void _deserializeProperties(
@@ -77,27 +96,13 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required CatBuilder result,
+    required CatAllOfBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'className':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.className = valueDes;
-          break;
-        case r'color':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.color = valueDes;
-          break;
         case r'declawed':
           final valueDes = serializers.deserialize(
             value,
@@ -114,12 +119,12 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
   }
 
   @override
-  Cat deserialize(
+  $CatAllOf deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = CatBuilder();
+    final result = $CatAllOfBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(

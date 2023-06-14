@@ -45,7 +45,7 @@ final api = Openapi().getFakeApi();
 try {
     final response = api.fakeBigDecimalMap();
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling FakeApi->fakeBigDecimalMap: $e\n');
 }
 ```

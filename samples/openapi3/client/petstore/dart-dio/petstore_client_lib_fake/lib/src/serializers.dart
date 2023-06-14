@@ -23,10 +23,12 @@ import 'package:openapi/src/model/array_of_number_only.dart';
 import 'package:openapi/src/model/array_test.dart';
 import 'package:openapi/src/model/capitalization.dart';
 import 'package:openapi/src/model/cat.dart';
+import 'package:openapi/src/model/cat_all_of.dart';
 import 'package:openapi/src/model/category.dart';
 import 'package:openapi/src/model/class_model.dart';
 import 'package:openapi/src/model/deprecated_object.dart';
 import 'package:openapi/src/model/dog.dart';
+import 'package:openapi/src/model/dog_all_of.dart';
 import 'package:openapi/src/model/enum_arrays.dart';
 import 'package:openapi/src/model/enum_test.dart';
 import 'package:openapi/src/model/fake_big_decimal_map200_response.dart';
@@ -74,10 +76,12 @@ part 'serializers.g.dart';
   ArrayTest,
   Capitalization,
   Cat,
+  CatAllOf,$CatAllOf,
   Category,
   ClassModel,
   DeprecatedObject,
   Dog,
+  DogAllOf,$DogAllOf,
   EnumArrays,
   EnumTest,
   FakeBigDecimalMap200Response,
@@ -147,6 +151,8 @@ Serializers serializers = (_$serializers.toBuilder()
         () => ListBuilder<String>(),
       )
       ..add(Animal.serializer)
+      ..add(CatAllOf.serializer)
+      ..add(DogAllOf.serializer)
       ..add(const OneOfSerializer())
       ..add(const AnyOfSerializer())
       ..add(const DateSerializer())

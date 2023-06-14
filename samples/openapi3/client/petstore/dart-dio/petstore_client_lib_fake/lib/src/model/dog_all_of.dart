@@ -3,57 +3,36 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:openapi/src/model/dog_all_of.dart';
-import 'package:openapi/src/model/animal.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'dog.g.dart';
+part 'dog_all_of.g.dart';
 
-/// Dog
+/// DogAllOf
 ///
 /// Properties:
-/// * [className] 
-/// * [color] 
 /// * [breed] 
-@BuiltValue()
-abstract class Dog implements Animal, DogAllOf, Built<Dog, DogBuilder> {
-  Dog._();
-
-  factory Dog([void updates(DogBuilder b)]) = _$Dog;
-
-  @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(DogBuilder b) => b..className=b.discriminatorValue
-      ..color = 'red';
+@BuiltValue(instantiable: false)
+abstract class DogAllOf  {
+  @BuiltValueField(wireName: r'breed')
+  String? get breed;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Dog> get serializer => _$DogSerializer();
+  static Serializer<DogAllOf> get serializer => _$DogAllOfSerializer();
 }
 
-class _$DogSerializer implements PrimitiveSerializer<Dog> {
+class _$DogAllOfSerializer implements PrimitiveSerializer<DogAllOf> {
   @override
-  final Iterable<Type> types = const [Dog, _$Dog];
+  final Iterable<Type> types = const [DogAllOf];
 
   @override
-  final String wireName = r'Dog';
+  final String wireName = r'DogAllOf';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    Dog object, {
+    DogAllOf object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'className';
-    yield serializers.serialize(
-      object.className,
-      specifiedType: const FullType(String),
-    );
-    if (object.color != null) {
-      yield r'color';
-      yield serializers.serialize(
-        object.color,
-        specifiedType: const FullType(String),
-      );
-    }
     if (object.breed != null) {
       yield r'breed';
       yield serializers.serialize(
@@ -66,10 +45,50 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
   @override
   Object serialize(
     Serializers serializers,
-    Dog object, {
+    DogAllOf object, {
     FullType specifiedType = FullType.unspecified,
   }) {
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+  }
+
+  @override
+  DogAllOf deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return serializers.deserialize(serialized, specifiedType: FullType($DogAllOf)) as $DogAllOf;
+  }
+}
+
+/// a concrete implementation of [DogAllOf], since [DogAllOf] is not instantiable
+@BuiltValue(instantiable: true)
+abstract class $DogAllOf implements DogAllOf, Built<$DogAllOf, $DogAllOfBuilder> {
+  $DogAllOf._();
+
+  factory $DogAllOf([void Function($DogAllOfBuilder)? updates]) = _$$DogAllOf;
+
+  @BuiltValueHook(initializeBuilder: true)
+  static void _defaults($DogAllOfBuilder b) => b;
+
+  @BuiltValueSerializer(custom: true)
+  static Serializer<$DogAllOf> get serializer => _$$DogAllOfSerializer();
+}
+
+class _$$DogAllOfSerializer implements PrimitiveSerializer<$DogAllOf> {
+  @override
+  final Iterable<Type> types = const [$DogAllOf, _$$DogAllOf];
+
+  @override
+  final String wireName = r'$DogAllOf';
+
+  @override
+  Object serialize(
+    Serializers serializers,
+    $DogAllOf object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    return serializers.serialize(object, specifiedType: FullType(DogAllOf))!;
   }
 
   void _deserializeProperties(
@@ -77,27 +96,13 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required DogBuilder result,
+    required DogAllOfBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'className':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.className = valueDes;
-          break;
-        case r'color':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.color = valueDes;
-          break;
         case r'breed':
           final valueDes = serializers.deserialize(
             value,
@@ -114,12 +119,12 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
   }
 
   @override
-  Dog deserialize(
+  $DogAllOf deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = DogBuilder();
+    final result = $DogAllOfBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(

@@ -199,6 +199,8 @@ class ApiClient {
           return Capitalization.fromJson(value);
         case 'Cat':
           return Cat.fromJson(value);
+        case 'CatAllOf':
+          return CatAllOf.fromJson(value);
         case 'Category':
           return Category.fromJson(value);
         case 'ClassModel':
@@ -207,6 +209,8 @@ class ApiClient {
           return DeprecatedObject.fromJson(value);
         case 'Dog':
           return Dog.fromJson(value);
+        case 'DogAllOf':
+          return DogAllOf.fromJson(value);
         case 'EnumArrays':
           return EnumArrays.fromJson(value);
         case 'EnumClass':

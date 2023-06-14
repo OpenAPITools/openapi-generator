@@ -41,7 +41,7 @@ class FakeApi {
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [FakeBigDecimalMap200Response] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<FakeBigDecimalMap200Response>> fakeBigDecimalMap({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -81,10 +81,10 @@ class FakeApi {
       ) as FakeBigDecimalMap200Response;
 
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
