@@ -930,7 +930,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         Collections.sort(op.cookieParams, parameterComparatorByDataType);
         Collections.sort(op.requiredParams, parameterComparatorByDataType);
         Collections.sort(op.optionalParams, parameterComparatorByDataType);
-        Collections.sort(op.nullableParams, parameterComparatorByDataType);
+        Collections.sort(op.notNullableParams, parameterComparatorByDataType);
 
         Comparator<CodegenParameter> comparator = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
         Collections.sort(op.allParams, comparator);
@@ -943,7 +943,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         Collections.sort(op.cookieParams, comparator);
         Collections.sort(op.requiredParams, comparator);
         Collections.sort(op.optionalParams, comparator);
-        Collections.sort(op.nullableParams, comparator);
+        Collections.sort(op.notNullableParams, comparator);
 
         return op;
     }

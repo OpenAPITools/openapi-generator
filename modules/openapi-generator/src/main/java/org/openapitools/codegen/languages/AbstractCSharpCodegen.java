@@ -760,7 +760,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                             patchParameter(parameter, allModels);
                         }
 
-                        for (CodegenParameter parameter : operation.nullableParams) {
+                        for (CodegenParameter parameter : operation.notNullableParams) {
                             patchParameter(parameter, allModels);
                         }
 
