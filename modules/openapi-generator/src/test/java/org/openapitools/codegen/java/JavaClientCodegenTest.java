@@ -1618,6 +1618,37 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testJavaClientDefaultValues_issueNoNumber() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setAdditionalProperties(properties)
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.WEBCLIENT)
+                .setInputSpec("src/test/resources/bugs/java-codegen-empty-array-as-default-value/issue_wrong-default.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
+                .hasProperty("stringDefault")
+                .asString().endsWith("= new ArrayList<>();");
+        JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
+                .hasProperty("stringDefault2")
+                .asString().endsWith("= new ArrayList<>(Arrays.asList(\"Hallo\", \"Huhu\"));");
+        JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
+                .hasProperty("objectDefault")
+                .asString().endsWith("= new ArrayList<>();");
+    }
+
+    @Test
     public void testWebClientJsonCreatorWithNullable_issue12790() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(AbstractJavaCodegen.OPENAPI_NULLABLE, "true");
