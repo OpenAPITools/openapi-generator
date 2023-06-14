@@ -108,7 +108,7 @@ open class PetAPI {
                     throw OpenAPITransportError.badURLError()
                 }
                 var path = "/pet/{petId}"
-                path = path.replacingOccurrences(of: "{petId}", with: )
+                path = path.replacingOccurrences(of: "{petId}", with: "\(petId)")
                 let url = baseURL.appendingPathComponent(path)
                 let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
@@ -284,7 +284,7 @@ open class PetAPI {
                     throw OpenAPITransportError.badURLError()
                 }
                 var path = "/pet/{petId}"
-                path = path.replacingOccurrences(of: "{petId}", with: )
+                path = path.replacingOccurrences(of: "{petId}", with: "\(petId)")
                 let url = baseURL.appendingPathComponent(path)
                 let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
@@ -338,10 +338,9 @@ open class PetAPI {
     /// - OAuth:
     /// - type: oauth2
     /// - name: petstore_auth
-    /// - externalDocs: class ExternalDocumentation {
-    description: API documentation for the updatePet operation
-    url: http://petstore.swagger.io/v2/doc/updatePet
-}
+    /// - externalDocs:
+    ///     url: http://petstore.swagger.io/v2/doc/updatePet 
+    ///     description: API documentation for the updatePet operation 
     /// - parameter pet: (body) Pet object that needs to be added to the store 
     /// - returns: AnyPublisher<Pet, Error> 
     open func updatePet(pet: Pet) -> AnyPublisher<Pet, Error> {
@@ -412,7 +411,7 @@ open class PetAPI {
                     throw OpenAPITransportError.badURLError()
                 }
                 var path = "/pet/{petId}"
-                path = path.replacingOccurrences(of: "{petId}", with: )
+                path = path.replacingOccurrences(of: "{petId}", with: "\(petId)")
                 let url = baseURL.appendingPathComponent(path)
                 let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
@@ -460,7 +459,7 @@ open class PetAPI {
                     throw OpenAPITransportError.badURLError()
                 }
                 var path = "/pet/{petId}/uploadImage"
-                path = path.replacingOccurrences(of: "{petId}", with: )
+                path = path.replacingOccurrences(of: "{petId}", with: "\(petId)")
                 let url = baseURL.appendingPathComponent(path)
                 let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {

@@ -81,7 +81,13 @@ open class {{classname}} {
     /// - responseHeaders: [{{#responseHeaders}}{{{baseName}}}({{{dataType}}}){{^-last}}, {{/-last}}{{/responseHeaders}}]
     {{/hasResponseHeaders}}
     {{#externalDocs}}
-    /// - externalDocs: {{.}}
+    /// - externalDocs:
+    {{#url}}
+    ///     url: {{.}} 
+    {{/url}}
+    {{#description}}
+    ///     description: {{.}} 
+    {{/description}}
     {{/externalDocs}}
     {{#allParams}}
     /// - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}

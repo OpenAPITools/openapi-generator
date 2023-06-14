@@ -22,6 +22,7 @@ class PetAPITests: XCTestCase {
     func testAddPet() {
         // Given
         let transport =  URLSessionOpenAPITransport(config: .init(baseURL: baseURL))
+        
         let api = PetAPI(transport)
         let category = Category(id: 1, name: "CategoryName")
         let photoUrls = ["https://petstore.com/sample/photo1.jpg", "https://petstore.com/sample/photo2.jpg"]
@@ -68,11 +69,10 @@ class PetAPITests: XCTestCase {
                 switch completion {
                 case .finished:
                     XCTFail("Finding unknown pet operation should return 404 error")
-                    expectation.fulfill()
                 case let .failure(error):
-                    XCTAssertTrue((error as? OpenAPITransportError)?.statusCode == 404, "Finding unknown pet operation should return 404 error")
-                    expectation.fulfill()
+                    XCTAssertTrue((error as? PetAPI.GetPetByIdError) == .code404Error, "Finding unknown pet operation should return 404 error")
                 }
+                expectation.fulfill()
             } receiveValue: { _ in }
             .store(in: &cancellable)
 
@@ -102,5 +102,17 @@ class PetAPITests: XCTestCase {
             } receiveValue: {}
             .store(in: &cancellable)
         wait(for: [expectation], timeout: timeout)
+    }
+}
+
+extension Tag: Equatable {
+    public static func ==(l: Tag, r: Tag) -> Bool {
+        l.id == r.id && l.name == r.name
+    }
+}
+
+extension Pet: Equatable {
+    public static func ==(l: Pet, r: Pet) -> Bool {
+        l.id == r.id && l.name == r.name && l.photoUrls == r.photoUrls && l.status == r.status && l.tags == r.tags
     }
 }

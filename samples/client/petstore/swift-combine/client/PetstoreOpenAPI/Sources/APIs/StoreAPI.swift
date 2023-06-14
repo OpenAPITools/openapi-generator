@@ -144,7 +144,7 @@ open class StoreAPI {
                     throw OpenAPITransportError.badURLError()
                 }
                 var path = "/store/order/{orderId}"
-                path = path.replacingOccurrences(of: "{orderId}", with: )
+                path = path.replacingOccurrences(of: "{orderId}", with: "\(orderId)")
                 let url = baseURL.appendingPathComponent(path)
                 let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
