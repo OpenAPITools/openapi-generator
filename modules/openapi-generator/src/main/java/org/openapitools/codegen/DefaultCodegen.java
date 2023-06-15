@@ -4506,6 +4506,7 @@ public class DefaultCodegen implements CodegenConfig {
         List<CodegenParameter> requiredParams = new ArrayList<>();
         List<CodegenParameter> optionalParams = new ArrayList<>();
         List<CodegenParameter> requiredAndNotNullableParams = new ArrayList<>();
+        List<CodegenParameter> notNullableParams = new ArrayList<>();
 
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
@@ -4619,6 +4620,10 @@ public class DefaultCodegen implements CodegenConfig {
             if (cp.requiredAndNotNullable()) {
                 requiredAndNotNullableParams.add(cp.copy());
             }
+
+            if (!cp.isNullable) {
+                notNullableParams.add(cp.copy());
+            }
         }
 
         // add imports to operation import tag
@@ -4656,6 +4661,7 @@ public class DefaultCodegen implements CodegenConfig {
         op.requiredParams = requiredParams;
         op.optionalParams = optionalParams;
         op.requiredAndNotNullableParams = requiredAndNotNullableParams;
+        op.notNullableParams = notNullableParams;
         op.externalDocs = operation.getExternalDocs();
         // legacy support
         op.nickname = op.operationId;
