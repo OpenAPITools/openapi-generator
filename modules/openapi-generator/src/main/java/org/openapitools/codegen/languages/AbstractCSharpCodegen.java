@@ -725,80 +725,48 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         CodegenModel codegenModel = modelHashMap.getModel();
 
                         for (CodegenParameter parameter : operation.allParams) {
-                            patchParameter(parameter);
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.bodyParams) {
-                            patchParameter(parameter);
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.cookieParams) {
-                            patchParameter(parameter);
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.formParams) {
-                            patchParameter(parameter);
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.headerParams) {
-                            patchParameter(parameter);
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.implicitHeadersParams) {
-                            patchParameter(parameter);
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.optionalParams) {
-                            patchParameter(parameter);
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.pathParams) {
-                            patchParameter(parameter);
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.queryParams) {
-                            patchParameter(parameter);
+                            patchParameter(parameter, allModels);
                         }
 
-                        for (CodegenParameter parameter : operation.requiredAndNotNullableParams) {
-                            patchParameter(parameter);
+                        for (CodegenParameter parameter : operation.notNullableParams) {
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.requiredParams) {
-                            patchParameter(parameter);
+                            patchParameter(parameter, allModels);
                         }
-                    }
-
-                    // TODO: move this into patchParamter
-                    if (!isSupportNullable()) {
-                        for (CodegenParameter parameter : operation.allParams) {
-                            CodegenModel model = null;
-                            for (ModelMap modelHashMap : allModels) {
-                                CodegenModel codegenModel = modelHashMap.getModel();
-                                if (codegenModel.getClassname().equals(parameter.dataType)) {
-                                    model = codegenModel;
-                                    break;
-                                }
-                            }
-
-                            if (model == null) {
-                                // Primitive data types all come already marked
-                                parameter.isNullable = true;
-                            } else {
-                                // Effectively mark enum models as enums and non-nullable
-                                if (model.isEnum) {
-                                    parameter.isEnum = true;
-                                    parameter.allowableValues = model.allowableValues;
-                                    parameter.isPrimitiveType = true;
-                                    parameter.isNullable = false;
-                                } else {
-                                    parameter.isNullable = true;
-                                }
-                            }
-                        }
-                    } else {
-                        // Effectively mark enum models as enums
-                        updateCodegenParametersEnum(operation.allParams, allModels);
                     }
 
                     processOperation(operation);
@@ -809,7 +777,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return objs;
     }
 
-    private void patchParameter(CodegenParameter parameter) {
+    private void patchParameter(CodegenParameter parameter, List<ModelMap> allModels) {
         parameter.paramName = escapeReservedWord(parameter.paramName);
 
         if (parameter.isNullable && !parameter.isContainer && (this.getNullableTypes().contains(parameter.dataType) || parameter.isEnum)) {
@@ -819,37 +787,51 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         if (this.getNullableReferencesTypes() || (parameter.vendorExtensions.get("x-nullable-value-type") != null)) {
             parameter.vendorExtensions.put("x-nullable-type", true);
         }
+
+
+        CodegenModel model = null;
+        for (ModelMap modelHashMap : allModels) {
+            CodegenModel codegenModel = modelHashMap.getModel();
+            if (codegenModel.getClassname().equals(parameter.dataType)) {
+                model = codegenModel;
+                break;
+            }
+        }
+
+        if (!isSupportNullable()) {
+            if (model == null) {
+                parameter.isNullable = true;
+            } else {
+                if (model.isEnum) {
+                    parameter.isEnum = true;
+                    parameter.allowableValues = model.allowableValues;
+                    parameter.isPrimitiveType = true;
+                    parameter.isNullable = false;
+                } else {
+                    parameter.isNullable = true;
+                }
+            }
+        } else {
+            updateCodegenParameterEnum(parameter, model);
+        }
     }
 
     protected void processOperation(CodegenOperation operation) {
         // default noop
     }
 
-    // TODO: move this into patchParamter
-    protected void updateCodegenParametersEnum(List<CodegenParameter> parameters, List<ModelMap> allModels) {
-        for (CodegenParameter parameter : parameters) {
-            CodegenModel model = null;
-            for (ModelMap modelHashMap : allModels) {
-                CodegenModel codegenModel = modelHashMap.getModel();
-                if (codegenModel.getClassname().equals(parameter.dataType)) {
-                    model = codegenModel;
-                    break;
-                }
-            }
-
-            if (model != null) {
-                // Effectively mark enum models as enums and non-nullable
-                if (model.isEnum) {
-                    parameter.isEnum = true;
-                    parameter.allowableValues = model.allowableValues;
-                    parameter.isPrimitiveType = true;
-                    parameter.vendorExtensions.put("x-csharp-value-type", true);
-                }
-            }
-
-            if (!parameter.isContainer && this.getNullableTypes().contains(parameter.dataType)) {
+    protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
+        if (model != null) {
+            if (model.isEnum) {
+                parameter.isEnum = true;
+                parameter.allowableValues = model.allowableValues;
+                parameter.isPrimitiveType = true;
                 parameter.vendorExtensions.put("x-csharp-value-type", true);
             }
+        }
+
+        if (!parameter.isContainer && this.getNullableTypes().contains(parameter.dataType)) {
+            parameter.vendorExtensions.put("x-csharp-value-type", true);
         }
     }
 
