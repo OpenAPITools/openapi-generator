@@ -1220,6 +1220,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 }
             }
 
+            // Add default imports for additional_properties model field
+            typingImports.add("Dict");
+            typingImports.add("Any");
+
             List<CodegenProperty> codegenProperties = null;
             if (!model.oneOf.isEmpty()) { // oneOfValidationError
                 codegenProperties = model.getComposedSchemas().getOneOf();

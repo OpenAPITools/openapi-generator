@@ -10,7 +10,7 @@ import {{{modelPackage}}}
 {{/hasChildren}}
 
 {{#vendorExtensions.x-py-datetime-imports}}{{#-first}}from datetime import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-datetime-imports}}
-{{#vendorExtensions.x-py-typing-imports}}{{#-first}}from typing import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-typing-imports}}
+{{#vendorExtensions.x-py-typing-imports}}{{#-first}}from typing import {{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-typing-imports}}
 {{#vendorExtensions.x-py-pydantic-imports}}{{#-first}}from pydantic import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-pydantic-imports}}
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
@@ -22,6 +22,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     """
 {{#vars}}
     if typing.TYPE_CHECKING:
+        # Mypy does not understand pydantic constrained types, Use the python builtin type when linting is run
         {{name}}: {{{vendorExtensions.x-mypy-typing}}}
     else:
         {{name}}: {{{vendorExtensions.x-py-typing}}}
@@ -128,7 +129,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         """Create an instance of {{{classname}}} from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
+    def to_dict(self) -> Dict:
         """Returns the dictionary representation of the model using alias"""
         _dict = self.dict(by_alias=True,
                           exclude={
