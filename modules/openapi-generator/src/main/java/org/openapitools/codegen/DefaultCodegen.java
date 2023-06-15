@@ -7389,7 +7389,15 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases, mt.getExamples());
+            CodegenMediaType codegenMt;
+            if(mt.getExamples() != null) {
+                codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases, mt.getExamples());
+            } else if(mt.getExample() != null) {
+                codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases, mt.getExample());
+            } else {
+                codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases);
+            }
+
             cmtContent.put(contentType, codegenMt);
             if (schemaProp != null) {
                 if (addSchemaImportsFromV3SpecLocations) {
