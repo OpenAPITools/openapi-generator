@@ -65,7 +65,7 @@ public class SpecialModelName   {
       return false;
     }
     SpecialModelName $specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.$specialPropertyName, $specialModelName.$specialPropertyName);
+    return Objects.equals($specialPropertyName, $specialModelName.$specialPropertyName);
   }
 
   @Override

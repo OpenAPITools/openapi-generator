@@ -66,7 +66,7 @@ public class ModelReturn   {
       return false;
     }
     ModelReturn _return = (ModelReturn) o;
-    return Objects.equals(this._return, _return._return);
+    return Objects.equals(_return, _return._return);
   }
 
   @Override

@@ -91,8 +91,8 @@ public class AllOfWithSingleRef   {
       return false;
     }
     AllOfWithSingleRef allOfWithSingleRef = (AllOfWithSingleRef) o;
-    return Objects.equals(this.username, allOfWithSingleRef.username) &&
-        Objects.equals(this.singleRefType, allOfWithSingleRef.singleRefType);
+    return Objects.equals(username, allOfWithSingleRef.username) &&
+        Objects.equals(singleRefType, allOfWithSingleRef.singleRefType);
   }
 
   @Override
