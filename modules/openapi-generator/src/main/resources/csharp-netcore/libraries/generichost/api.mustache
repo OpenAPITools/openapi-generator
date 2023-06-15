@@ -174,7 +174,6 @@ namespace {{packageName}}.{{apiPackage}}
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="suppressDefaultLog"></param>
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
@@ -188,6 +187,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
