@@ -1244,6 +1244,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, model.classname);
                 List<String> fields = new ArrayList<>();
                 String firstField = "";
+                String baseType = cp.dataType;
 
                 // is readOnly?
                 if (cp.isReadOnly) {
@@ -1252,12 +1253,14 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
                 if (!cp.required) { //optional
                     firstField = "None";
+                    baseType = "Optional[" + cp.dataType + "]";
                     typing = "Optional[" + typing + "]";
                     typingImports.add("Optional");
                 } else { // required
                     firstField = "...";
                     if (cp.isNullable) {
                         typing = "Optional[" + typing + "]";
+                        baseType = "Optional[" + cp.dataType + "]";
                         typingImports.add("Optional");
                     }
                 }
@@ -1305,6 +1308,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 }
 
                 cp.vendorExtensions.put("x-py-typing", typing + " = " + fieldCustomization);
+                cp.vendorExtensions.put("x-mypy-typing", baseType);
 
                 // setup x-py-name for each oneOf/anyOf schema
                 if (!model.oneOf.isEmpty()) { // oneOf
