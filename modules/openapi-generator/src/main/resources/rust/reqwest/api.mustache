@@ -11,7 +11,7 @@ use super::{Error, configuration};
 {{#allParams}}
 {{#-first}}
 /// struct for passing parameters to the method [`{{operationId}}`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct {{{operationIdCamelCase}}}Params {
 {{/-first}}
     {{#description}}
