@@ -48,13 +48,13 @@ export interface Capitalization {
      * @type {string}
      * @memberof Capitalization
      */
-    sCAETHFlowPoints?: string;
+    scaETHFlowPoints?: string;
     /**
      * Name of the pet
      * @type {string}
      * @memberof Capitalization
      */
-    aTTNAME?: string;
+    attNAME?: string;
 }
 
 /**
@@ -80,8 +80,8 @@ export function CapitalizationFromJSONTyped(json: any, ignoreDiscriminator: bool
         'capitalCamel': !exists(json, 'CapitalCamel') ? undefined : json['CapitalCamel'],
         'smallSnake': !exists(json, 'small_Snake') ? undefined : json['small_Snake'],
         'capitalSnake': !exists(json, 'Capital_Snake') ? undefined : json['Capital_Snake'],
-        'sCAETHFlowPoints': !exists(json, 'SCA_ETH_Flow_Points') ? undefined : json['SCA_ETH_Flow_Points'],
-        'aTTNAME': !exists(json, 'ATT_NAME') ? undefined : json['ATT_NAME'],
+        'scaETHFlowPoints': !exists(json, 'SCA_ETH_Flow_Points') ? undefined : json['SCA_ETH_Flow_Points'],
+        'attNAME': !exists(json, 'ATT_NAME') ? undefined : json['ATT_NAME'],
     };
 }
 
@@ -98,8 +98,8 @@ export function CapitalizationToJSON(value?: Capitalization | null): any {
         'CapitalCamel': value.capitalCamel,
         'small_Snake': value.smallSnake,
         'Capital_Snake': value.capitalSnake,
-        'SCA_ETH_Flow_Points': value.sCAETHFlowPoints,
-        'ATT_NAME': value.aTTNAME,
+        'SCA_ETH_Flow_Points': value.scaETHFlowPoints,
+        'ATT_NAME': value.attNAME,
     };
 }
 

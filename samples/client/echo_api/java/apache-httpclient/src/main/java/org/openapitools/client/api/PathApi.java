@@ -59,8 +59,8 @@ public class PathApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testsPathStringPathStringIntegerPathInteger(String pathString, Integer pathInteger) throws ApiException {
-    return this.testsPathStringPathStringIntegerPathInteger(pathString, pathInteger, Collections.emptyMap());
+  public String testsPathStringpathStringIntegerPathInteger(String pathString, Integer pathInteger) throws ApiException {
+    return this.testsPathStringpathStringIntegerPathInteger(pathString, pathInteger, Collections.emptyMap());
   }
 
 
@@ -73,17 +73,17 @@ public class PathApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testsPathStringPathStringIntegerPathInteger(String pathString, Integer pathInteger, Map<String, String> additionalHeaders) throws ApiException {
+  public String testsPathStringpathStringIntegerPathInteger(String pathString, Integer pathInteger, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'pathString' is set
     if (pathString == null) {
-      throw new ApiException(400, "Missing the required parameter 'pathString' when calling testsPathStringPathStringIntegerPathInteger");
+      throw new ApiException(400, "Missing the required parameter 'pathString' when calling testsPathStringpathStringIntegerPathInteger");
     }
     
     // verify the required parameter 'pathInteger' is set
     if (pathInteger == null) {
-      throw new ApiException(400, "Missing the required parameter 'pathInteger' when calling testsPathStringPathStringIntegerPathInteger");
+      throw new ApiException(400, "Missing the required parameter 'pathInteger' when calling testsPathStringpathStringIntegerPathInteger");
     }
     
     // create path and map variables

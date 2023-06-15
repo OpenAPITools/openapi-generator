@@ -26,11 +26,11 @@ public interface PathApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  String testsPathStringPathStringIntegerPathInteger(@Param("pathString") String pathString, @Param("pathInteger") Integer pathInteger);
+  String testsPathStringpathStringIntegerPathInteger(@Param("pathString") String pathString, @Param("pathInteger") Integer pathInteger);
 
   /**
    * Test path parameter(s)
-   * Similar to <code>testsPathStringPathStringIntegerPathInteger</code> but it also returns the http response headers .
+   * Similar to <code>testsPathStringpathStringIntegerPathInteger</code> but it also returns the http response headers .
    * Test path parameter(s)
    * @param pathString  (required)
    * @param pathInteger  (required)
@@ -40,7 +40,7 @@ public interface PathApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  ApiResponse<String> testsPathStringPathStringIntegerPathIntegerWithHttpInfo(@Param("pathString") String pathString, @Param("pathInteger") Integer pathInteger);
+  ApiResponse<String> testsPathStringpathStringIntegerPathIntegerWithHttpInfo(@Param("pathString") String pathString, @Param("pathInteger") Integer pathInteger);
 
 
 }

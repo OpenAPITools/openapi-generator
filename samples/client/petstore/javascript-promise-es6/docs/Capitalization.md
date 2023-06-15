@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **capitalCamel** | **String** |  | [optional] 
 **smallSnake** | **String** |  | [optional] 
 **capitalSnake** | **String** |  | [optional] 
-**sCAETHFlowPoints** | **String** |  | [optional] 
+**scaETHFlowPoints** | **String** |  | [optional] 
 **ATT_NAME** | **String** | Name of the pet  | [optional] 
 
 

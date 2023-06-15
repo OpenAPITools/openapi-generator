@@ -4722,4 +4722,18 @@ public class DefaultCodegenTest {
 
         Assert.assertTrue(codegen.cliOptions.contains(expected));
     }
+
+    @Test
+    public void testRemoveNonNameElementToCamelCase() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        final String alreadyCamelCase = "aVATRate";
+        Assert.assertEquals(codegen.removeNonNameElementToCamelCase(alreadyCamelCase), alreadyCamelCase);
+
+        final String startWithCapitals = "VATRate";
+        Assert.assertEquals(codegen.removeNonNameElementToCamelCase(startWithCapitals), "vatRate");
+
+        final String startWithCapitalsThenNonNameElement = "DELETE_Invoice";
+        Assert.assertEquals(codegen.removeNonNameElementToCamelCase(startWithCapitalsThenNonNameElement), "deleteInvoice");
+    }
 }

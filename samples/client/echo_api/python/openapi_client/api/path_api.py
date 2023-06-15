@@ -44,14 +44,14 @@ class PathApi(object):
         self.api_client = api_client
 
     @validate_arguments
-    def tests_path_string_path_string_integer_path_integer(self, path_string : StrictStr, path_integer : StrictInt, **kwargs) -> str:  # noqa: E501
+    def tests_path_stringpath_string_integer_path_integer(self, path_string : StrictStr, path_integer : StrictInt, **kwargs) -> str:  # noqa: E501
         """Test path parameter(s)  # noqa: E501
 
         Test path parameter(s)  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.tests_path_string_path_string_integer_path_integer(path_string, path_integer, async_req=True)
+        >>> thread = api.tests_path_stringpath_string_integer_path_integer(path_string, path_integer, async_req=True)
         >>> result = thread.get()
 
         :param path_string: (required)
@@ -71,18 +71,18 @@ class PathApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            raise ValueError("Error! Please call the tests_path_string_path_string_integer_path_integer_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
-        return self.tests_path_string_path_string_integer_path_integer_with_http_info(path_string, path_integer, **kwargs)  # noqa: E501
+            raise ValueError("Error! Please call the tests_path_stringpath_string_integer_path_integer_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data")
+        return self.tests_path_stringpath_string_integer_path_integer_with_http_info(path_string, path_integer, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def tests_path_string_path_string_integer_path_integer_with_http_info(self, path_string : StrictStr, path_integer : StrictInt, **kwargs) -> ApiResponse:  # noqa: E501
+    def tests_path_stringpath_string_integer_path_integer_with_http_info(self, path_string : StrictStr, path_integer : StrictInt, **kwargs) -> ApiResponse:  # noqa: E501
         """Test path parameter(s)  # noqa: E501
 
         Test path parameter(s)  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.tests_path_string_path_string_integer_path_integer_with_http_info(path_string, path_integer, async_req=True)
+        >>> thread = api.tests_path_stringpath_string_integer_path_integer_with_http_info(path_string, path_integer, async_req=True)
         >>> result = thread.get()
 
         :param path_string: (required)
@@ -137,7 +137,7 @@ class PathApi(object):
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method tests_path_string_path_string_integer_path_integer" % _key
+                    " to method tests_path_stringpath_string_integer_path_integer" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']

@@ -118,6 +118,7 @@ public class StringUtils {
 
     private static Pattern camelizeSlashPattern = Pattern.compile("\\/(.?)");
     private static Pattern camelizeUppercasePattern = Pattern.compile("(\\.?)(\\w)([^\\.]*)$");
+    private static Pattern camelizeUppercaseStartPattern = Pattern.compile("^([A-Z]+)(([A-Z][a-z].*)|([^a-zA-Z].*)|$)$");
     private static Pattern camelizeUnderscorePattern = Pattern.compile("(_)(.)");
     private static Pattern camelizeHyphenPattern = Pattern.compile("(-)(.)");
     private static Pattern camelizeDollarPattern = Pattern.compile("\\$");
@@ -136,8 +137,15 @@ public class StringUtils {
         return camelizedWordsCache.get(key, pair -> {
             String word = pair.getKey();
             CamelizeOption option = pair.getValue();
+
+            // Lowercase acronyms at start of word if not UPPERCASE_FIRST_CHAR
+            Matcher m = camelizeUppercaseStartPattern.matcher(word);
+            if (camelizeOption != UPPERCASE_FIRST_CHAR && m.find()) {
+                word = m.group(1).toLowerCase(Locale.ROOT) + m.group(2);
+            }
+
             // Replace all slashes with dots (package separator)
-            Matcher m = camelizeSlashPattern.matcher(word);
+            m = camelizeSlashPattern.matcher(word);
             while (m.find()) {
                 word = m.replaceFirst("." + m.group(1)/*.toUpperCase()*/);
                 m = camelizeSlashPattern.matcher(word);
