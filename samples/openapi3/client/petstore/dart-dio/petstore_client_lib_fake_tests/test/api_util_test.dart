@@ -264,7 +264,7 @@ void main() {
                 .build(),
             const FullType(Cat),
           ),
-          '{"className":"cat","color":"black","declawed":false}',
+          '{"color":"black","declawed":false,"className":"cat"}',
         );
       });
     });

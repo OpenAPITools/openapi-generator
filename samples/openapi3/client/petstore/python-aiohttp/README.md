@@ -169,6 +169,7 @@ Class | Method | HTTP request | Description
  - [InnerDictWithProperty](docs/InnerDictWithProperty.md)
  - [IntOrString](docs/IntOrString.md)
  - [List](docs/List.md)
+ - [MapOfArrayOfModel](docs/MapOfArrayOfModel.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)

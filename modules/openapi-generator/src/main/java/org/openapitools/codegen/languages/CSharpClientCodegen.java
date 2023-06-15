@@ -385,13 +385,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected void updateCodegenParametersEnum(List<CodegenParameter> parameters, List<ModelMap> allModels) {
-        super.updateCodegenParametersEnum(parameters, allModels);
+    protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
+        super.updateCodegenParameterEnum(parameter, model);
 
-        for (CodegenParameter parameter : parameters) {
-            if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
-                parameter.dataType = parameter.dataType + "?";
-            }
+        if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
+            parameter.dataType = parameter.dataType + "?";
         }
     }
 
@@ -932,7 +930,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         Collections.sort(op.cookieParams, parameterComparatorByDataType);
         Collections.sort(op.requiredParams, parameterComparatorByDataType);
         Collections.sort(op.optionalParams, parameterComparatorByDataType);
-        Collections.sort(op.requiredAndNotNullableParams, parameterComparatorByDataType);
+        Collections.sort(op.notNullableParams, parameterComparatorByDataType);
 
         Comparator<CodegenParameter> comparator = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
         Collections.sort(op.allParams, comparator);
@@ -945,7 +943,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         Collections.sort(op.cookieParams, comparator);
         Collections.sort(op.requiredParams, comparator);
         Collections.sort(op.optionalParams, comparator);
-        Collections.sort(op.requiredAndNotNullableParams, comparator);
+        Collections.sort(op.notNullableParams, comparator);
 
         return op;
     }

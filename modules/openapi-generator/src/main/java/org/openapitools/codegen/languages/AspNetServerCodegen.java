@@ -337,13 +337,11 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected void updateCodegenParametersEnum(List<CodegenParameter> parameters, List<ModelMap> allModels) {
-        super.updateCodegenParametersEnum(parameters, allModels);
+    protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
+        super.updateCodegenParameterEnum(parameter, model);
 
-        for (CodegenParameter parameter : parameters) {
-            if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
-                parameter.dataType = parameter.dataType + "?";
-            }
+        if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
+            parameter.dataType = parameter.dataType + "?";
         }
     }
 

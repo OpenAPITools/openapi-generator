@@ -38,7 +38,9 @@ fun Route.StoreApi() {
 
     authenticate("api_key") {
     get<Paths.getInventory> {
+        
         val principal = call.authentication.principal<ApiPrincipal>()!!
+        
         
         call.respond(HttpStatusCode.NotImplemented)
     }
