@@ -611,7 +611,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="body"></param>
         /// <returns></returns>
-        private void ValidateFakeOuterBooleanSerialize(bool body)
+        private void ValidateFakeOuterBooleanSerialize(bool? body)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -905,7 +905,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="body"></param>
         /// <returns></returns>
-        private void ValidateFakeOuterNumberSerialize(decimal body)
+        private void ValidateFakeOuterNumberSerialize(decimal? body)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1774,7 +1774,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        private void ValidateTestEndpointParameters(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime date, System.IO.Stream binary, float varFloat, int integer, int int32, long int64, string varString, string password, string callback, DateTime dateTime)
+        private void ValidateTestEndpointParameters(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? varFloat, int? integer, int? int32, long? int64, string varString, string password, string callback, DateTime? dateTime)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -2091,7 +2091,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumQueryString"></param>
         /// <param name="enumFormString"></param>
         /// <returns></returns>
-        private void ValidateTestEnumParameters(List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double enumQueryDouble, int enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
+        private void ValidateTestEnumParameters(List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -2328,7 +2328,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringGroup"></param>
         /// <param name="int64Group"></param>
         /// <returns></returns>
-        private void ValidateTestGroupParameters(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool booleanGroup, int stringGroup, long int64Group)
+        private void ValidateTestGroupParameters(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'

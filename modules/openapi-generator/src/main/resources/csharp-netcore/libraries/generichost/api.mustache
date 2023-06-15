@@ -141,7 +141,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="{{paramName}}"></param>
         {{#-last}}
         /// <returns></returns>
-        private void Validate{{operationId}}({{#notNullableParams}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}{{^-last}}, {{/-last}}{{/notNullableParams}})
+        private void Validate{{operationId}}({{#notNullableParams}}{{#required}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}}{{/required}}{{^required}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}}{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/notNullableParams}})
         {
             {{#notNullableParams}}
             {{#-first}}

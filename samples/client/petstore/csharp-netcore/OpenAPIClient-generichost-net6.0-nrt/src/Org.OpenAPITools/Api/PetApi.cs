@@ -489,7 +489,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId"></param>
         /// <param name="apiKey"></param>
         /// <returns></returns>
-        private void ValidateDeletePet(long petId, string apiKey)
+        private void ValidateDeletePet(long petId, string? apiKey)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1287,7 +1287,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        private void ValidateUpdatePetWithForm(long petId, string name, string status)
+        private void ValidateUpdatePetWithForm(long petId, string? name, string? status)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1467,7 +1467,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="file"></param>
         /// <param name="additionalMetadata"></param>
         /// <returns></returns>
-        private void ValidateUploadFile(long petId, System.IO.Stream file, string additionalMetadata)
+        private void ValidateUploadFile(long petId, System.IO.Stream? file, string? additionalMetadata)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1656,7 +1656,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId"></param>
         /// <param name="additionalMetadata"></param>
         /// <returns></returns>
-        private void ValidateUploadFileWithRequiredFile(System.IO.Stream requiredFile, long petId, string additionalMetadata)
+        private void ValidateUploadFileWithRequiredFile(System.IO.Stream requiredFile, long petId, string? additionalMetadata)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
