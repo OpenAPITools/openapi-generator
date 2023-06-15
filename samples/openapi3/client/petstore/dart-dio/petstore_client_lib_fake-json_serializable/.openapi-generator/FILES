@@ -123,5 +123,3 @@ lib/src/model/special_model_name.dart
 lib/src/model/tag.dart
 lib/src/model/user.dart
 pubspec.yaml
-test/cat_all_of_test.dart
-test/dog_all_of_test.dart
