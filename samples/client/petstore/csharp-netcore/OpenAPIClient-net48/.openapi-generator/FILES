@@ -95,6 +95,8 @@ docs/User.md
 docs/UserApi.md
 docs/Whale.md
 docs/Zebra.md
+docs/ZeroBasedEnum.md
+docs/ZeroBasedEnumClass.md
 git_push.sh
 src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
 src/Org.OpenAPITools/Api/AnotherFakeApi.cs
@@ -210,4 +212,6 @@ src/Org.OpenAPITools/Model/TriangleInterface.cs
 src/Org.OpenAPITools/Model/User.cs
 src/Org.OpenAPITools/Model/Whale.cs
 src/Org.OpenAPITools/Model/Zebra.cs
+src/Org.OpenAPITools/Model/ZeroBasedEnum.cs
+src/Org.OpenAPITools/Model/ZeroBasedEnumClass.cs
 src/Org.OpenAPITools/Org.OpenAPITools.csproj

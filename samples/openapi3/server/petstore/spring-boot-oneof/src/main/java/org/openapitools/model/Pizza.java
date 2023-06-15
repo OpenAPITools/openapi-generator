@@ -37,11 +37,6 @@ public class Pizza extends Entity {
 
   private BigDecimal pizzaSize;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Pizza#Pizza(String)}
-   */
-  @Deprecated
   public Pizza() {
     super();
   }
@@ -73,6 +68,7 @@ public class Pizza extends Entity {
     this.pizzaSize = pizzaSize;
   }
 
+
   public Pizza href(String href) {
     super.setHref(href);
     return this;
@@ -97,7 +93,6 @@ public class Pizza extends Entity {
     super.setAtType(atType);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

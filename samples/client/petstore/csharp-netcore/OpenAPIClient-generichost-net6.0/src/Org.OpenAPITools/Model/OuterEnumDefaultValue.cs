@@ -42,11 +42,19 @@ namespace Org.OpenAPITools.Model
         /// Enum Delivered for value: delivered
         /// </summary>
         Delivered = 3
-
     }
 
+    /// <summary>
+    /// A Json converter for type <see cref="OuterEnumDefaultValue"/>
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
     public class OuterEnumDefaultValueConverter : JsonConverter<OuterEnumDefaultValue>
     {
+        /// <summary>
+        /// Parses a given value to <see cref="OuterEnumDefaultValue"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static OuterEnumDefaultValue FromString(string value)
         {
             if (value == "placed")
@@ -61,6 +69,11 @@ namespace Org.OpenAPITools.Model
             throw new NotImplementedException($"Could not convert value to type OuterEnumDefaultValue: '{value}'");
         }
 
+        /// <summary>
+        /// Parses a given value to <see cref="OuterEnumDefaultValue"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static OuterEnumDefaultValue? FromStringOrDefault(string value)
         {
             if (value == "placed")
@@ -75,6 +88,12 @@ namespace Org.OpenAPITools.Model
             return null;
         }
 
+        /// <summary>
+        /// Converts the <see cref="OuterEnumDefaultValue"/> to the json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static string ToJsonValue(OuterEnumDefaultValue value)
         {
             if (value == OuterEnumDefaultValue.Placed)
@@ -100,8 +119,10 @@ namespace Org.OpenAPITools.Model
         {
             string rawValue = reader.GetString();
 
-            OuterEnumDefaultValue? result = OuterEnumDefaultValueConverter.FromString(rawValue);
-            
+            OuterEnumDefaultValue? result = rawValue == null
+                ? null
+                : OuterEnumDefaultValueConverter.FromStringOrDefault(rawValue);
+
             if (result != null)
                 return result.Value;
 
@@ -120,6 +141,9 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type <see cref="OuterEnumDefaultValue"/>
+    /// </summary>
     public class OuterEnumDefaultValueNullableConverter : JsonConverter<OuterEnumDefaultValue?>
     {
         /// <summary>
@@ -133,10 +157,9 @@ namespace Org.OpenAPITools.Model
         {
             string rawValue = reader.GetString();
 
-            if (rawValue == null)
-                return null;
-
-            OuterEnumDefaultValue? result = OuterEnumDefaultValueConverter.FromString(rawValue);
+            OuterEnumDefaultValue? result = rawValue == null
+                ? null
+                : OuterEnumDefaultValueConverter.FromStringOrDefault(rawValue);
 
             if (result != null)
                 return result.Value;

@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Client
         HttpStatusCode StatusCode { get; }
 
         /// <summary>
-        /// The raw content of this response
+        /// The raw content of this response.
         /// </summary>
         string RawContent { get; }
 
@@ -42,6 +42,16 @@ namespace Org.OpenAPITools.Client
         /// The DateTime when the request was retrieved.
         /// </summary>
         DateTime DownloadedAt { get; }
+
+        /// <summary>
+        /// The path used when making the request.
+        /// </summary>
+        string Path { get; }
+
+        /// <summary>
+        /// The Uri used when making the request.
+        /// </summary>
+        Uri? RequestUri { get; }
     }
 
     /// <summary>
@@ -89,6 +99,21 @@ namespace Org.OpenAPITools.Client
         public DateTime DownloadedAt { get; } = DateTime.UtcNow;
 
         /// <summary>
+        /// The DateTime when the request was sent.
+        /// </summary>
+        public DateTime RequestedAt { get; }
+
+        /// <summary>
+        /// The path used when making the request.
+        /// </summary>
+        public string Path { get; }
+
+        /// <summary>
+        /// The Uri used when making the request.
+        /// </summary>
+        public Uri? RequestUri { get; }
+
+        /// <summary>
         /// The JsonSerialzierOptions
         /// </summary>
         private System.Text.Json.JsonSerializerOptions _jsonSerializerOptions;
@@ -99,14 +124,19 @@ namespace Org.OpenAPITools.Client
         /// <param name="httpRequestMessage"></param>
         /// <param name="httpResponseMessage"></param>
         /// <param name="rawContent"></param>
+        /// <param name="path"></param>
+        /// <param name="requestedAt"></param>
         /// <param name="jsonSerializerOptions"></param>
-        public ApiResponse(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
+        public ApiResponse(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
         {
             StatusCode = httpResponseMessage.StatusCode;
             Headers = httpResponseMessage.Headers;
             IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
             ReasonPhrase = httpResponseMessage.ReasonPhrase;
             RawContent = rawContent;
+            Path = path;
+            RequestUri = httpRequestMessage.RequestUri;
+            RequestedAt = requestedAt;
             _jsonSerializerOptions = jsonSerializerOptions;
             OnCreated(httpRequestMessage, httpResponseMessage);
         }
@@ -116,9 +146,9 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Deserializes the server's response
         /// </summary>
-        public T? ToModel(System.Text.Json.JsonSerializerOptions? options = null)
+        public T? AsModel(System.Text.Json.JsonSerializerOptions? options = null)
         {
-            // This logic may be modified with the ToModel.mustache template
+            // This logic may be modified with the AsModel.mustache template
             return IsSuccessStatusCode
                 ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, options ?? _jsonSerializerOptions)
                 : default(T);
@@ -131,7 +161,7 @@ namespace Org.OpenAPITools.Client
         {
             try
             {
-                model = ToModel(options);
+                model = AsModel(options);
                 return model != null;
             }
             catch

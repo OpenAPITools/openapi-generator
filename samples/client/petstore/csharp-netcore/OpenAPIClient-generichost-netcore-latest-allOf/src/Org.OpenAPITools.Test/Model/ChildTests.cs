@@ -53,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Child>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'BoosterSeat'
         /// </summary>
@@ -62,7 +61,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'BoosterSeat'
         }
-
     }
-
 }

@@ -582,6 +582,36 @@ paths:
       summary: Updated user
       tags:
       - user
+  /fake/query_param_default:
+    get:
+      description: ""
+      operationId: fake_query_param_default
+      parameters:
+      - description: has default value
+        explode: true
+        in: query
+        name: has_default
+        required: false
+        schema:
+          default: Hello World
+          type: string
+        style: form
+      - description: no default value
+        explode: true
+        in: query
+        name: no_default
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "400":
+          description: Invalid username supplied
+        "404":
+          description: User not found
+      summary: test query parameter default value
+      tags:
+      - fake
 components:
   requestBodies:
     UserArray:

@@ -90,12 +90,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Category
+    /// A Json converter for type <see cref="Category" />
     /// </summary>
     public class CategoryJsonConverter : JsonConverter<Category>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Category" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -111,8 +111,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            long id = default;
-            string name = default;
+            long? id = default;
+            string? name = default;
 
             while (utf8JsonReader.Read())
             {
@@ -142,23 +142,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (id == null)
                 throw new ArgumentNullException(nameof(id), "Property is required for class Category.");
 
             if (name == null)
                 throw new ArgumentNullException(nameof(name), "Property is required for class Category.");
 
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return new Category(id, name);
+            return new Category(id.Value, name);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Category" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="category"></param>

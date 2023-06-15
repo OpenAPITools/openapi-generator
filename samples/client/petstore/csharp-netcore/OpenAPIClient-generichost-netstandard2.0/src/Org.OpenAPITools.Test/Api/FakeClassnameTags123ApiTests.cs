@@ -50,7 +50,6 @@ namespace Org.OpenAPITools.Test.Api
             _instance = _host.Services.GetRequiredService<IApi.IFakeClassnameTags123Api>();
         }
 
-
         /// <summary>
         /// Test TestClassname
         /// </summary>
@@ -59,7 +58,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             ModelClient modelClient = default;
             var response = await _instance.TestClassnameAsync(modelClient);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<ModelClient>(model);
         }
     }

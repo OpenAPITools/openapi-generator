@@ -143,7 +143,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class NullableClass {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("  ArrayItemsNullable: ").Append(ArrayItemsNullable).Append("\n");
             sb.Append("  ObjectItemsNullable: ").Append(ObjectItemsNullable).Append("\n");
             sb.Append("  ArrayAndItemsNullableProp: ").Append(ArrayAndItemsNullableProp).Append("\n");
@@ -172,7 +172,7 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type NullableClass
+    /// A Json converter for type <see cref="NullableClass" />
     /// </summary>
     public class NullableClassJsonConverter : JsonConverter<NullableClass>
     {
@@ -187,7 +187,7 @@ namespace Org.OpenAPITools.Model
         public static string DatetimePropFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="NullableClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -284,23 +284,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (arrayItemsNullable == null)
                 throw new ArgumentNullException(nameof(arrayItemsNullable), "Property is required for class NullableClass.");
 
             if (objectItemsNullable == null)
                 throw new ArgumentNullException(nameof(objectItemsNullable), "Property is required for class NullableClass.");
 
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             return new NullableClass(arrayItemsNullable, objectItemsNullable, arrayAndItemsNullableProp, arrayNullableProp, booleanProp, dateProp, datetimeProp, integerProp, numberProp, objectAndItemsNullableProp, objectNullableProp, stringProp);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="NullableClass" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="nullableClass"></param>
@@ -318,26 +312,32 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, nullableClass.ArrayAndItemsNullableProp, jsonSerializerOptions);
             writer.WritePropertyName("array_nullable_prop");
             JsonSerializer.Serialize(writer, nullableClass.ArrayNullableProp, jsonSerializerOptions);
+
             if (nullableClass.BooleanProp != null)
                 writer.WriteBoolean("boolean_prop", nullableClass.BooleanProp.Value);
             else
                 writer.WriteNull("boolean_prop");
+
             if (nullableClass.DateProp != null)
                 writer.WriteString("date_prop", nullableClass.DateProp.Value.ToString(DatePropFormat));
             else
                 writer.WriteNull("date_prop");
+
             if (nullableClass.DatetimeProp != null)
                 writer.WriteString("datetime_prop", nullableClass.DatetimeProp.Value.ToString(DatetimePropFormat));
             else
                 writer.WriteNull("datetime_prop");
+
             if (nullableClass.IntegerProp != null)
                 writer.WriteNumber("integer_prop", nullableClass.IntegerProp.Value);
             else
                 writer.WriteNull("integer_prop");
+
             if (nullableClass.NumberProp != null)
                 writer.WriteNumber("number_prop", nullableClass.NumberProp.Value);
             else
                 writer.WriteNull("number_prop");
+
             writer.WritePropertyName("object_and_items_nullable_prop");
             JsonSerializer.Serialize(writer, nullableClass.ObjectAndItemsNullableProp, jsonSerializerOptions);
             writer.WritePropertyName("object_nullable_prop");

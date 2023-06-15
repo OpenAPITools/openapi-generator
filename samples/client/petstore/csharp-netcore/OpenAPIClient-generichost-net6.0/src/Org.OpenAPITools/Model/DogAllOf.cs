@@ -79,12 +79,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type DogAllOf
+    /// A Json converter for type <see cref="DogAllOf" />
     /// </summary>
     public class DogAllOfJsonConverter : JsonConverter<DogAllOf>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="DogAllOf" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -126,20 +126,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (breed == null)
                 throw new ArgumentNullException(nameof(breed), "Property is required for class DogAllOf.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new DogAllOf(breed);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="DogAllOf" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dogAllOf"></param>

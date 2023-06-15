@@ -180,11 +180,6 @@ public class EnumTestDto {
 
   private OuterEnumDto outerEnum;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link EnumTestDto#EnumTestDto(EnumStringRequiredEnum)}
-   */
-  @Deprecated
   public EnumTestDto() {
     super();
   }

@@ -899,6 +899,26 @@ paths:
             schema:
               $ref: '#/components/schemas/OuterComposite'
         description: Input composite as post body
+  /fake/BigDecimalMap:
+    get:
+      tags:
+        - fake
+      description: for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+      operationId: fakeBigDecimalMap
+      responses:
+        '200':
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  someId:
+                    type: number
+                  someMap:
+                    type: object
+                    additionalProperties:
+                      type: number
   /fake/jsonFormData:
     get:
       tags:

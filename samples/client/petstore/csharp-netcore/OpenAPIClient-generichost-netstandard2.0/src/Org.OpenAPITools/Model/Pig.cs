@@ -103,12 +103,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Pig
+    /// A Json converter for type <see cref="Pig" />
     /// </summary>
     public class PigJsonConverter : JsonConverter<Pig>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Pig" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -123,13 +123,6 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException();
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
-
-            Utf8JsonReader basquePigReader = utf8JsonReader;
-            bool basquePigDeserialized = Client.ClientUtils.TryDeserialize<BasquePig>(ref basquePigReader, jsonSerializerOptions, out BasquePig basquePig);
-
-            Utf8JsonReader danishPigReader = utf8JsonReader;
-            bool danishPigDeserialized = Client.ClientUtils.TryDeserialize<DanishPig>(ref danishPigReader, jsonSerializerOptions, out DanishPig danishPig);
-
 
             while (utf8JsonReader.Read())
             {
@@ -152,17 +145,19 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (basquePigDeserialized)
+            Utf8JsonReader basquePigReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<BasquePig>(ref basquePigReader, jsonSerializerOptions, out BasquePig basquePig))
                 return new Pig(basquePig);
 
-            if (danishPigDeserialized)
+            Utf8JsonReader danishPigReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<DanishPig>(ref danishPigReader, jsonSerializerOptions, out DanishPig danishPig))
                 return new Pig(danishPig);
 
             throw new JsonException();
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Pig" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="pig"></param>

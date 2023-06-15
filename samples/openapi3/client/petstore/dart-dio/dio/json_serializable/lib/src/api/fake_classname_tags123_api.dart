@@ -28,8 +28,13 @@ class FakeClassnameTags123Api {
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [ModelClient] as data
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/fake_classname_tags123_api.dart
   /// Throws [DioError] if API call or serialization fails
   Future<Response<ModelClient>> testClassname({
+=======
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<ModelClient>> testClassname({ 
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/fake_classname_tags123_api.dart
     required ModelClient modelClient,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -41,9 +46,30 @@ class FakeClassnameTags123Api {
     Object? _bodyData;
     _bodyData = _repository.serialize(modelClient, const TypeInfo(ModelClient));
 
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/fake_classname_tags123_api.dart
     final _response = await rawApi.testClassname(
       body: _bodyData,
       requestContentType: 'application/json',
+=======
+    try {
+_bodyData=jsonEncode(modelClient);
+    } catch(error, stackTrace) {
+      throw DioException(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    final _response = await _dio.request<Object>(
+      _path,
+      data: _bodyData,
+      options: _options,
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/fake_classname_tags123_api.dart
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
@@ -63,10 +89,10 @@ class FakeClassnameTags123Api {
               const TypeInfo(ModelClient),
             );
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );

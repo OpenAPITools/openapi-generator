@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Child {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("  BoosterSeat: ").Append(BoosterSeat).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -75,12 +75,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Child
+    /// A Json converter for type <see cref="Child" />
     /// </summary>
     public class ChildJsonConverter : JsonConverter<Child>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Child" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -99,10 +99,10 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader childAllOfReader = utf8JsonReader;
             bool childAllOfDeserialized = Client.ClientUtils.TryDeserialize<ChildAllOf>(ref utf8JsonReader, jsonSerializerOptions, out ChildAllOf? childAllOf);
 
-            bool boosterSeat = default;
-            string firstName = default;
-            string lastName = default;
-            string type = default;
+            bool? boosterSeat = default;
+            string? firstName = default;
+            string? lastName = default;
+            string? type = default;
 
             while (utf8JsonReader.Read())
             {
@@ -138,20 +138,26 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (boosterSeat == null)
                 throw new ArgumentNullException(nameof(boosterSeat), "Property is required for class Child.");
 
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            if (firstName == null)
+                throw new ArgumentNullException(nameof(firstName), "Property is required for class Child.");
 
-            return new Child(childAllOf, boosterSeat, firstName, lastName, type);
+            if (lastName == null)
+                throw new ArgumentNullException(nameof(lastName), "Property is required for class Child.");
+
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class Child.");
+
+            if (childAllOf == null)
+                throw new ArgumentNullException(nameof(childAllOf), "Property is required for class Child.");
+
+            return new Child(childAllOf, boosterSeat.Value, firstName, lastName, type);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Child" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="child"></param>

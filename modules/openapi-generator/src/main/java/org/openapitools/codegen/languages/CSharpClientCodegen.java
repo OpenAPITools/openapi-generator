@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,67 +19,112 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+@SuppressWarnings("Duplicates")
 public class CSharpClientCodegen extends AbstractCSharpCodegen {
-    @SuppressWarnings("hiding")
-    private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
-    private static final String NUNIT = "nunit";
-    private static final String RESTSHARP = "restsharp";
-    private static final String NEWTONSOFT_JSON = "newtonsoft-json";
-    private static final String JSON_SUBTYPES = "json-subtypes";
-    private static final String FODY = "fody";
-    private static final String PROPERTYCHANGED_FODY = "propertychanged-fody";
-    private static final String NET452 = "v4.5.2";
-    private static final String NET45 = "v4.5";
-    private static final String NET40 = "v4.0";
-    private static final String NET35 = "v3.5";
-    private static final String NETSTANDARD = "netstandard1.3";
-    private static final String UWP = "uwp";
+    protected String apiName = "Api";
 
     // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
-    private static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
+    protected static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
+    protected static final String SUPPORTS_UWP = "supportsUWP";
+    protected static final String SUPPORTS_RETRY = "supportsRetry";
 
+    protected static final String NET_STANDARD = "netStandard";
+
+    // HTTP libraries
+    protected static final String RESTSHARP = "restsharp";
+    protected static final String HTTPCLIENT = "httpclient";
+    protected static final String GENERICHOST = "generichost";
+    protected static final String UNITY_WEB_REQUEST = "unityWebRequest";
+
+    // Project Variable, determined from target framework. Not intended to be user-settable.
+    protected static final String TARGET_FRAMEWORK_IDENTIFIER = "targetFrameworkIdentifier";
+    // Project Variable, determined from target framework. Not intended to be user-settable.
+    protected static final String TARGET_FRAMEWORK_VERSION = "targetFrameworkVersion";
+
+    protected static final String NET_STANDARD_14_OR_LATER = "netstandard14OrLater";
+    protected static final String NET_STANDARD_15_OR_LATER = "netstandard15OrLater";
+    protected static final String NET_STANDARD_16_OR_LATER = "netstandard16OrLater";
+    protected static final String NET_STANDARD_20_OR_LATER = "netstandard20OrLater";
+    protected static final String NET_STANDARD_21_OR_LATER = "netstandard21OrLater";
+    protected static final String NET_47_OR_LATER = "net47OrLater";
+    protected static final String NET_48_OR_LATER = "net48OrLater";
+    protected static final String NET_60_OR_LATER = "net60OrLater";
+    protected static final String NET_70_OR_LATER = "net70OrLater";
+
+    @SuppressWarnings("hiding")
+    private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
+    private static final List<FrameworkStrategy> frameworkStrategies = Arrays.asList(
+            FrameworkStrategy.NETSTANDARD_1_3,
+            FrameworkStrategy.NETSTANDARD_1_4,
+            FrameworkStrategy.NETSTANDARD_1_5,
+            FrameworkStrategy.NETSTANDARD_1_6,
+            FrameworkStrategy.NETSTANDARD_2_0,
+            FrameworkStrategy.NETSTANDARD_2_1,
+            FrameworkStrategy.NETFRAMEWORK_4_7,
+            FrameworkStrategy.NETFRAMEWORK_4_8,
+            FrameworkStrategy.NET_6_0,
+            FrameworkStrategy.NET_7_0
+    );
+    private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
+    protected final Map<String, String> frameworks;
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
-    protected String clientPackage = "Org.OpenAPITools.Client";
-    protected String apiDocPath = "docs/";
-    protected String modelDocPath = "docs/";
+    protected String clientPackage = "Client";
+    protected String authFolder = "Auth";
+    protected String apiDocPath = "docs" + File.separator;
+    protected String modelDocPath = "docs" + File.separator;
 
     // Defines TargetFrameworkVersion in csproj files
-    protected String targetFramework = NET45;
+    protected String targetFramework = defaultFramework.name;
+    protected String testTargetFramework = defaultFramework.testTargetFramework;
 
     // Defines nuget identifiers for target framework
-    protected String targetFrameworkNuget = "net45";
+    protected String targetFrameworkNuget = targetFramework;
+
+    protected boolean supportsRetry = Boolean.TRUE;
     protected boolean supportsAsync = Boolean.TRUE;
-    protected boolean supportsUWP = Boolean.FALSE;
     protected boolean netStandard = Boolean.FALSE;
-    protected boolean generatePropertyChanged = Boolean.FALSE;
+    protected boolean supportsFileParameters = Boolean.TRUE;
 
     protected boolean validatable = Boolean.TRUE;
     protected Map<Character, String> regexModifiers;
-    protected final Map<String, String> frameworks;
-
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
 
-    // use KellermanSoftware.CompareNetObjects for deep recursive object comparison
-    protected boolean useCompareNetObjects = Boolean.FALSE;
-
-    // To make API response's headers dictionary case insensitive
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
+    protected String releaseNote = "Minor update";
+    protected String licenseId;
+    protected String packageTags;
+    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+
+    protected boolean needsCustomHttpMethod = false;
+    protected boolean needsUriBuilder = false;
 
     public CSharpClientCodegen() {
         super();
@@ -89,8 +133,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.OAuth2_ClientCredentials,
                         SecurityFeature.BasicAuth,
-                        SecurityFeature.ApiKey
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.SignatureAuth
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
@@ -101,7 +148,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 .includeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
-                .excludeParameterFeatures(
+                .includeParameterFeatures(
                         ParameterFeature.Cookie
                 )
                 .includeClientModificationFeatures(
@@ -110,37 +157,25 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 )
         );
 
+        setSupportNullable(Boolean.TRUE);
+        hideGenerationTimestamp = Boolean.TRUE;
         supportsInheritance = true;
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("api.mustache", ".cs");
-
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-
-        hideGenerationTimestamp = Boolean.TRUE;
+        embeddedTemplateDir = templateDir = "csharp-netcore";
 
         cliOptions.clear();
-
-        typeMapping.put("boolean", "bool");
-        typeMapping.put("integer", "int");
-        typeMapping.put("long", "long");
-        typeMapping.put("UnsignedInteger", "uint");
-        typeMapping.put("UnsignedLong", "ulong");
-        typeMapping.put("float", "float");
-        typeMapping.put("double", "double");
-        typeMapping.put("number", "decimal");
-        typeMapping.put("decimal", "decimal");
-        typeMapping.put("DateTime", "DateTime");
-        typeMapping.put("date", "DateTime");
-        typeMapping.put("UUID", "Guid");
-        typeMapping.put("URI", "string");
-
-        setSupportNullable(Boolean.TRUE);
 
         // CLI options
         addOption(CodegenConstants.PACKAGE_NAME,
                 "C# package name (convention: Title.Case).",
                 this.packageName);
+
+        addOption(CodegenConstants.API_NAME,
+                "Must be a valid C# class name. Only used in Generic Host library. Default: " + this.apiName,
+                this.apiName);
 
         addOption(CodegenConstants.PACKAGE_VERSION,
                 "C# package version.",
@@ -158,18 +193,54 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.INTERFACE_PREFIX_DESC,
                 interfacePrefix);
 
+        addOption(CodegenConstants.LICENSE_ID,
+                CodegenConstants.LICENSE_ID_DESC,
+                this.licenseId);
+
+        addOption(CodegenConstants.RELEASE_NOTE,
+                CodegenConstants.RELEASE_NOTE_DESC,
+                this.releaseNote);
+
+        addOption(CodegenConstants.PACKAGE_TAGS,
+                CodegenConstants.PACKAGE_TAGS_DESC,
+                this.packageTags);
+
+        addOption(DATE_FORMAT,
+                "The default Date format (only `generichost` library supports this option).",
+                this.dateFormat);
+
+        addOption(DATETIME_FORMAT,
+                "The default DateTime format (only `generichost` library supports this option).",
+                this.dateTimeFormat);
+
+        addOption("zeroBasedEnums",
+                "Enumerations with string values will start from 0 when true, 1 when false. If not set, enumerations with string values will start from 0 if the first value is 'unknown', case insensitive.",
+                null);
+
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
                 CodegenConstants.DOTNET_FRAMEWORK_DESC
         );
-        frameworks = new ImmutableMap.Builder<String, String>()
-                .put(NET35, ".NET Framework 3.5 compatible")
-                .put(NET40, ".NET Framework 4.0 compatible")
-                .put(NET45, ".NET Framework 4.5 compatible")
-                .put(NET452, ".NET Framework 4.5.2+ compatible")
-                .put(NETSTANDARD, ".NET Standard 1.3 compatible (DEPRECATED. Please use `csharp-netcore` generator instead)")
-                .put(UWP, "Universal Windows Platform (DEPRECATED. Please use `csharp-netcore` generator instead)")
-                .build();
+
+        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
+        Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
+        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
+                "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
+        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
+                "Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.");
+        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
+        cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
+        this.setDisallowAdditionalPropertiesIfNotPresent(true);
+
+        ImmutableMap.Builder<String, String> frameworkBuilder = new ImmutableMap.Builder<>();
+        for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
+            frameworkBuilder.put(frameworkStrategy.name, frameworkStrategy.description);
+        }
+
+        frameworks = frameworkBuilder.build();
+
         framework.defaultValue(this.targetFramework);
         framework.setEnum(frameworks);
         cliOptions.add(framework);
@@ -178,13 +249,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         cliOptions.add(modelPropertyNaming.defaultValue("PascalCase"));
 
         // CLI Switches
+        addSwitch(CodegenConstants.NULLABLE_REFERENCE_TYPES,
+                CodegenConstants.NULLABLE_REFERENCE_TYPES_DESC + " Starting in .NET 6.0 the default is true.",
+                this.nullReferenceTypesFlag);
+
         addSwitch(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
                 CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC,
                 this.hideGenerationTimestamp);
-
-        addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
-                CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC,
-                this.sortParamsByRequiredFlag);
 
         addSwitch(CodegenConstants.USE_DATETIME_OFFSET,
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
@@ -210,13 +281,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
                 this.optionalEmitDefaultValuesFlag);
 
+        addSwitch(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION,
+                CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION_DESC,
+                this.conditionalSerialization);
+
         addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE,
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
                 this.optionalProjectFileFlag);
-
-        addSwitch(CodegenConstants.GENERATE_PROPERTY_CHANGED,
-                CodegenConstants.PACKAGE_DESCRIPTION_DESC,
-                this.generatePropertyChanged);
 
         // NOTE: This will reduce visibility of all public members in templates. Users can use InternalsVisibleTo
         // https://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.internalsvisibletoattribute(v=vs.110).aspx
@@ -238,328 +309,102 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.VALIDATABLE_DESC,
                 this.validatable);
 
-        addSwitch(CodegenConstants.USE_COMPARE_NET_OBJECTS,
-                CodegenConstants.USE_COMPARE_NET_OBJECTS_DESC,
-                this.useCompareNetObjects);
+        addSwitch(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP,
+                CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC,
+                this.useOneOfDiscriminatorLookup);
 
         addSwitch(CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS,
                 CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
                 this.caseInsensitiveResponseHeaders);
 
-        regexModifiers = new HashMap<Character, String>();
+        regexModifiers = new HashMap<>();
         regexModifiers.put('i', "IgnoreCase");
         regexModifiers.put('m', "Multiline");
         regexModifiers.put('s', "Singleline");
         regexModifiers.put('x', "IgnorePatternWhitespace");
+
+        supportedLibraries.put(GENERICHOST, "HttpClient with Generic Host dependency injection (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host) "
+                + "(Experimental. Subject to breaking changes without notice.)");
+        supportedLibraries.put(HTTPCLIENT, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
+                + "(Experimental. Subject to breaking changes without notice.)");
+        supportedLibraries.put(UNITY_WEB_REQUEST, "UnityWebRequest (...) "
+                + "(Experimental. Subject to breaking changes without notice.)");
+        supportedLibraries.put(RESTSHARP, "RestSharp (https://github.com/restsharp/RestSharp)");
+
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
+        libraryOption.setEnum(supportedLibraries);
+        // set RESTSHARP as the default
+        libraryOption.setDefault(RESTSHARP);
+        cliOptions.add(libraryOption);
+        setLibrary(RESTSHARP);
+    }
+
+    @Deprecated
+    @Override
+    protected Set<String> getNullableTypes() {
+        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
+            "DateTime", "DateTimeOffset", "Guid"));
     }
 
     @Override
-    public void processOpts() {
-        super.processOpts();
-
-        /*
-         * NOTE: When supporting boolean additionalProperties, you should read the value and write it back as a boolean.
-         * This avoids oddities where additionalProperties contains "false" rather than false, which will cause the
-         * templating engine to behave unexpectedly.
-         *
-         * Use the pattern:
-         *     if (additionalProperties.containsKey(prop)) convertPropertyToBooleanAndWriteBack(prop);
-         */
-
-        if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
-            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
-        }
-
-
-        if (isEmpty(apiPackage)) {
-            setApiPackage("Api");
-        }
-        if (isEmpty(modelPackage)) {
-            setModelPackage("Model");
-        }
-        clientPackage = "Client";
-
-        Boolean excludeTests = false;
-        if (additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
-            excludeTests = convertPropertyToBooleanAndWriteBack(CodegenConstants.EXCLUDE_TESTS);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.VALIDATABLE)) {
-            setValidatable(convertPropertyToBooleanAndWriteBack(CodegenConstants.VALIDATABLE));
-        } else {
-            additionalProperties.put(CodegenConstants.VALIDATABLE, validatable);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.DOTNET_FRAMEWORK)) {
-            setTargetFramework((String) additionalProperties.get(CodegenConstants.DOTNET_FRAMEWORK));
-        } else {
-            // Ensure default is set.
-            setTargetFramework(NET45);
-            additionalProperties.put(CodegenConstants.DOTNET_FRAMEWORK, this.targetFramework);
-        }
-
-        if (NET35.equals(this.targetFramework)) {
-            // This is correct, mono will require you build .NET 3.5 sources using 4.0 SDK
-            additionalProperties.put(MCS_NET_VERSION_KEY, "4");
-            additionalProperties.put("net35", true);
-            if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ASYNC)) {
-                LOGGER.warn(".NET 3.5 generator does not support async.");
-                additionalProperties.remove(CodegenConstants.SUPPORTS_ASYNC);
-            }
-
-            setTargetFrameworkNuget("net35");
-            setValidatable(Boolean.FALSE);
-            setSupportsAsync(Boolean.FALSE);
-        } else if (NETSTANDARD.equals(this.targetFramework)) {
-            LOGGER.warn(".NET Standard 1.3 support has been DEPRECATED in this generator. Please use `csharp-netcore` generator instead.");
-            additionalProperties.put(MCS_NET_VERSION_KEY, "4.6-api");
-            if (additionalProperties.containsKey("supportsUWP")) {
-                LOGGER.warn(".NET {} generator does not support UWP.", NETSTANDARD);
-                additionalProperties.remove("supportsUWP");
-            }
-
-            setTargetFrameworkNuget("netstandard1.3");
-            setSupportsAsync(Boolean.TRUE);
-            setSupportsUWP(Boolean.FALSE);
-            setNetStandard(Boolean.TRUE);
-
-            //Tests not yet implemented for .NET Standard codegen
-            //Todo implement it
-            excludeTests = true;
-        } else if (UWP.equals(this.targetFramework)) {
-            LOGGER.warn("UWP support has been DEPRECATED in this generator. Please use `csharp-netcore` generator instead.");
-            // TODO: NETSTANDARD here is misrepresenting a PCL v5.0 which supports .NET Framework 4.6+, .NET Core 1.0, and Windows Universal 10.0
-            setTargetFrameworkNuget("uwp");
-            setSupportsAsync(Boolean.TRUE);
-            setSupportsUWP(Boolean.TRUE);
-        } else if (NET40.equals(this.targetFramework)) {
-            additionalProperties.put(MCS_NET_VERSION_KEY, "4");
-            if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ASYNC)) {
-                LOGGER.warn(".NET {} generator does not support async.", NET40);
-                additionalProperties.remove(CodegenConstants.SUPPORTS_ASYNC);
-            }
-
-            setTargetFrameworkNuget("net40");
-            setSupportsAsync(Boolean.FALSE);
-        } else if (NET452.equals(this.targetFramework)) {
-            additionalProperties.put(MCS_NET_VERSION_KEY, "4.5.2-api");
-            setTargetFrameworkNuget("net452");
-            setSupportsAsync(Boolean.TRUE);
-        } else {
-            additionalProperties.put(MCS_NET_VERSION_KEY, "4.5.2-api");
-            setTargetFrameworkNuget("net45");
-            setSupportsAsync(Boolean.TRUE);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.GENERATE_PROPERTY_CHANGED)) {
-            if (NET35.equals(targetFramework)) {
-                LOGGER.warn("{} is only supported by generated code for .NET 4+.", CodegenConstants.GENERATE_PROPERTY_CHANGED);
-                additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
-            } else if (NETSTANDARD.equals(targetFramework)) {
-                LOGGER.warn("{} is not supported in .NET Standard generated code.", CodegenConstants.GENERATE_PROPERTY_CHANGED);
-                additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
-            } else if (Boolean.TRUE.equals(netCoreProjectFileFlag)) {
-                LOGGER.warn("{} is not supported in .NET Core csproj project format.", CodegenConstants.GENERATE_PROPERTY_CHANGED);
-                additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
-            } else {
-                setGeneratePropertyChanged(convertPropertyToBooleanAndWriteBack(CodegenConstants.GENERATE_PROPERTY_CHANGED));
-            }
-        }
-
-        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
-        additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        additionalProperties.put("clientPackage", clientPackage);
-
-        additionalProperties.put(CodegenConstants.EXCLUDE_TESTS, excludeTests);
-        additionalProperties.put(CodegenConstants.VALIDATABLE, this.validatable);
-        additionalProperties.put(CodegenConstants.SUPPORTS_ASYNC, this.supportsAsync);
-        additionalProperties.put("supportsUWP", this.supportsUWP);
-        additionalProperties.put("netStandard", this.netStandard);
-        additionalProperties.put("targetFrameworkNuget", this.targetFrameworkNuget);
-
-        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE)) {
-            setOptionalProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));
-        } else {
-            additionalProperties.put(CodegenConstants.OPTIONAL_PROJECT_FILE, optionalProjectFileFlag);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_GUID)) {
-            setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
-        } else {
-            additionalProperties.put(CodegenConstants.OPTIONAL_PROJECT_GUID, packageGuid);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_METHOD_ARGUMENT)) {
-            setOptionalMethodArgumentFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_METHOD_ARGUMENT));
-        } else {
-            additionalProperties.put(CodegenConstants.OPTIONAL_METHOD_ARGUMENT, optionalMethodArgumentFlag);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_ASSEMBLY_INFO)) {
-            setOptionalAssemblyInfoFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_ASSEMBLY_INFO));
-        } else {
-            additionalProperties.put(CodegenConstants.OPTIONAL_ASSEMBLY_INFO, optionalAssemblyInfoFlag);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES)) {
-            setOptionalEmitDefaultValuesFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES));
-        } else {
-            additionalProperties.put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValuesFlag);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.NON_PUBLIC_API)) {
-            setNonPublicApi(convertPropertyToBooleanAndWriteBack(CodegenConstants.NON_PUBLIC_API));
-        } else {
-            additionalProperties.put(CodegenConstants.NON_PUBLIC_API, isNonPublicApi());
-        }
-
-        final String testPackageName = testPackageName();
-        String packageFolder = sourceFolder + File.separator + packageName;
-        String clientPackageDir = packageFolder + File.separator + clientPackage;
-        String testPackageFolder = testFolder + File.separator + testPackageName;
-
-        additionalProperties.put("testPackageName", testPackageName);
-
-        //Compute the relative path to the bin directory where the external assemblies live
-        //This is necessary to properly generate the project file
-        int packageDepth = packageFolder.length() - packageFolder.replace(java.io.File.separator, "").length();
-        String binRelativePath = "..\\";
-        for (int i = 0; i < packageDepth; i = i + 1)
-            binRelativePath += "..\\";
-        binRelativePath += "vendor";
-        additionalProperties.put("binRelativePath", binRelativePath);
-
-        supportingFiles.add(new SupportingFile("IApiAccessor.mustache",
-                clientPackageDir, "IApiAccessor.cs"));
-        supportingFiles.add(new SupportingFile("Configuration.mustache",
-                clientPackageDir, "Configuration.cs"));
-        supportingFiles.add(new SupportingFile("ApiClient.mustache",
-                clientPackageDir, "ApiClient.cs"));
-        supportingFiles.add(new SupportingFile("ApiException.mustache",
-                clientPackageDir, "ApiException.cs"));
-        supportingFiles.add(new SupportingFile("ApiResponse.mustache",
-                clientPackageDir, "ApiResponse.cs"));
-        supportingFiles.add(new SupportingFile("ExceptionFactory.mustache",
-                clientPackageDir, "ExceptionFactory.cs"));
-        supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache",
-                clientPackageDir, "OpenAPIDateConverter.cs"));
-
-        if (NET40.equals(this.targetFramework)) {
-            // .net 4.0 doesn't include ReadOnlyDictionary…
-            supportingFiles.add(new SupportingFile("ReadOnlyDictionary.mustache",
-                    clientPackageDir, "ReadOnlyDictionary.cs"));
-        }
-
-        if (Boolean.FALSE.equals(this.netStandard) && Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
-            supportingFiles.add(new SupportingFile("compile.mustache", "", "build.bat"));
-            supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "build.sh"));
-
-            // copy package.config to nuget's standard location for project-level installs
-            supportingFiles.add(new SupportingFile("packages.config.mustache", packageFolder + File.separator, "packages.config"));
-            // .travis.yml for travis-ci.org CI
-            supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
-        } else if (Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
-            supportingFiles.add(new SupportingFile("project.json.mustache", packageFolder + File.separator, "project.json"));
-        }
-
-        supportingFiles.add(new SupportingFile("IReadableConfiguration.mustache",
-                clientPackageDir, "IReadableConfiguration.cs"));
-        supportingFiles.add(new SupportingFile("GlobalConfiguration.mustache",
-                clientPackageDir, "GlobalConfiguration.cs"));
-
-        // Only write out test related files if excludeTests is unset or explicitly set to false (see start of this method)
-        if (Boolean.FALSE.equals(excludeTests)) {
-            // shell script to run the nunit test
-            supportingFiles.add(new SupportingFile("mono_nunit_test.mustache", "", "mono_nunit_test.sh"));
-
-            modelTestTemplateFiles.put("model_test.mustache", ".cs");
-            apiTestTemplateFiles.put("api_test.mustache", ".cs");
-
-            if (Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
-                supportingFiles.add(new SupportingFile("packages_test.config.mustache", testPackageFolder + File.separator, "packages.config"));
-            }
-
-            if (NET40.equals(this.targetFramework)) {
-                // Include minimal tests for modifications made to JsonSubTypes, since code is quite different for .net 4.0 from original implementation
-                supportingFiles.add(new SupportingFile("JsonSubTypesTests.mustache",
-                        testPackageFolder + File.separator + "Client",
-                        "JsonSubTypesTests.cs"));
-            }
-        }
-
-        if (Boolean.TRUE.equals(generatePropertyChanged)) {
-            supportingFiles.add(new SupportingFile("FodyWeavers.xml", packageFolder, "FodyWeavers.xml"));
-        }
-
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-
-        if (optionalAssemblyInfoFlag && Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
-            supportingFiles.add(new SupportingFile("AssemblyInfo.mustache", packageFolder + File.separator + "Properties", "AssemblyInfo.cs"));
-        }
-        if (optionalProjectFileFlag) {
-            supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
-
-            if (Boolean.TRUE.equals(this.netCoreProjectFileFlag)) {
-                supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
-            } else {
-                supportingFiles.add(new SupportingFile("Project.mustache", packageFolder, packageName + ".csproj"));
-                if (Boolean.FALSE.equals(this.netStandard)) {
-                    supportingFiles.add(new SupportingFile("nuspec.mustache", packageFolder, packageName + ".nuspec"));
-                }
-            }
-
-            if (Boolean.FALSE.equals(excludeTests)) {
-                // NOTE: This exists here rather than previous excludeTests block because the test project is considered an optional project file.
-                if (Boolean.TRUE.equals(this.netCoreProjectFileFlag)) {
-                    supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
-                } else {
-                    supportingFiles.add(new SupportingFile("TestProject.mustache", testPackageFolder, testPackageName + ".csproj"));
-                }
-            }
-        }
-
-        additionalProperties.put("apiDocPath", apiDocPath);
-        additionalProperties.put("modelDocPath", modelDocPath);
-    }
-
-    public void setModelPropertyNaming(String naming) {
-        if ("original".equals(naming) || "camelCase".equals(naming) ||
-                "PascalCase".equals(naming) || "snake_case".equals(naming)) {
-            this.modelPropertyNaming = naming;
-        } else {
-            throw new IllegalArgumentException("Invalid model property naming '" +
-                    naming + "'. Must be 'original', 'camelCase', " +
-                    "'PascalCase' or 'snake_case'");
-        }
-    }
-
-    public String getModelPropertyNaming() {
-        return this.modelPropertyNaming;
+    protected Set<String> getValueTypes() {
+        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
     }
 
     @Override
-    public CodegenType getTag() {
-        return CodegenType.CLIENT;
+    protected void setTypeMapping() {
+        typeMapping = new HashMap<>();
+        // mapped non-nullable type without ?
+        typeMapping = new HashMap<String, String>();
+        typeMapping.put("string", "string");
+        typeMapping.put("binary", "byte[]");
+        typeMapping.put("ByteArray", "byte[]");
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("integer", "int");
+        typeMapping.put("long", "long");
+        typeMapping.put("UnsignedInteger", "uint");
+        typeMapping.put("UnsignedLong", "ulong");
+        typeMapping.put("float", "float");
+        typeMapping.put("double", "double");
+        typeMapping.put("number", "decimal");
+        typeMapping.put("decimal", "decimal");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DateTime");
+        typeMapping.put("file", "System.IO.Stream");
+        typeMapping.put("array", "List");
+        typeMapping.put("list", "List");
+        typeMapping.put("map", "Dictionary");
+        typeMapping.put("object", "Object");
+        typeMapping.put("UUID", "Guid");
+        typeMapping.put("URI", "string");
+        typeMapping.put("AnyType", "Object");
+
+        if (HTTPCLIENT.equals(getLibrary())) {
+            typeMapping.put("file", "FileParameter");
+        }
     }
 
     @Override
-    public String getName() {
-        return "csharp";
+    protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
+        super.updateCodegenParameterEnum(parameter, model);
+
+        if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
+            parameter.dataType = parameter.dataType + "?";
+        }
     }
 
     @Override
-    public String getHelp() {
-        return "Generates a CSharp client library.";
+    public String apiDocFileFolder() {
+        if (GENERICHOST.equals(getLibrary())) {
+            return (outputFolder + "/" + apiDocPath + File.separatorChar + "apis").replace('/', File.separatorChar);
+        } else {
+            return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+        }
     }
 
-    public void setOptionalAssemblyInfoFlag(boolean flag) {
-        this.optionalAssemblyInfoFlag = flag;
-    }
-
-    public void setOptionalEmitDefaultValuesFlag(boolean flag) {
-        this.optionalEmitDefaultValuesFlag = flag;
+    @Override
+    public String apiTestFileFolder() {
+        return outputFolder + File.separator + testFolder + File.separator + testPackageName() + File.separator + apiPackage();
     }
 
     @Override
@@ -592,7 +437,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                         final CodegenProperty parentVar = property.clone();
                         parentVar.isInherited = true;
                         last = parentVar;
-                        LOGGER.info("adding parent variable {}", property.name);
+                        LOGGER.debug("adding parent variable {}", property.name);
                         codegenModel.parentVars.add(parentVar);
                     }
                 }
@@ -611,41 +456,192 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             }
         }
 
+        // avoid breaking changes
+        if (GENERICHOST.equals(getLibrary())) {
+
+            Collections.sort(codegenModel.vars, propertyComparatorByName);
+            Collections.sort(codegenModel.allVars, propertyComparatorByName);
+            Collections.sort(codegenModel.requiredVars, propertyComparatorByName);
+            Collections.sort(codegenModel.optionalVars, propertyComparatorByName);
+            Collections.sort(codegenModel.readOnlyVars, propertyComparatorByName);
+            Collections.sort(codegenModel.readWriteVars, propertyComparatorByName);
+            Collections.sort(codegenModel.parentVars, propertyComparatorByName);
+
+            Comparator<CodegenProperty> comparator = propertyComparatorByNullable.thenComparing(propertyComparatorByDefaultValue);
+            Collections.sort(codegenModel.vars, comparator);
+            Collections.sort(codegenModel.allVars, comparator);
+            Collections.sort(codegenModel.requiredVars, comparator);
+            Collections.sort(codegenModel.optionalVars, comparator);
+            Collections.sort(codegenModel.readOnlyVars, comparator);
+            Collections.sort(codegenModel.readWriteVars, comparator);
+            Collections.sort(codegenModel.parentVars, comparator);
+        }
+
         return codegenModel;
     }
 
-    public void setOptionalProjectFileFlag(boolean flag) {
-        this.optionalProjectFileFlag = flag;
+    public static Comparator<CodegenProperty> propertyComparatorByName = new Comparator<CodegenProperty>() {
+        @Override
+        public int compare(CodegenProperty one, CodegenProperty another) {
+            return one.name.compareTo(another.name);
+        }
+    };
+
+    public static Comparator<CodegenProperty> propertyComparatorByDefaultValue = new Comparator<CodegenProperty>() {
+        @Override
+        public int compare(CodegenProperty one, CodegenProperty another) {
+            if ((one.defaultValue == null) == (another.defaultValue == null))
+                return 0;
+            else if (one.defaultValue == null)
+                return -1;
+            else
+                return 1;
+        }
+    };
+
+    public static Comparator<CodegenProperty> propertyComparatorByNullable = new Comparator<CodegenProperty>() {
+        @Override
+        public int compare(CodegenProperty one, CodegenProperty another) {
+            if (one.isNullable == another.isNullable)
+                return 0;
+            else if (Boolean.FALSE.equals(one.isNullable))
+                return -1;
+            else
+                return 1;
+        }
+    };
+
+    public static Comparator<CodegenParameter> parameterComparatorByDataType = new Comparator<CodegenParameter>() {
+        @Override
+        public int compare(CodegenParameter one, CodegenParameter another) {
+            return one.dataType.compareTo(another.dataType);
+        }
+    };
+
+    public static Comparator<CodegenParameter> parameterComparatorByDefaultValue = new Comparator<CodegenParameter>() {
+        @Override
+        public int compare(CodegenParameter one, CodegenParameter another) {
+            if ((one.defaultValue == null) == (another.defaultValue == null))
+                return 0;
+            else if (one.defaultValue == null)
+                return -1;
+            else
+                return 1;
+        }
+    };
+
+    public static Comparator<CodegenParameter> parameterComparatorByRequired = new Comparator<CodegenParameter>() {
+        @Override
+        public int compare(CodegenParameter one, CodegenParameter another) {
+            if (one.required == another.required)
+                return 0;
+            else if (Boolean.TRUE.equals(one.required))
+                return -1;
+            else
+                return 1;
+        }
+    };
+
+    @Override
+    public String getHelp() {
+        return "Generates a C# client library (.NET Standard, .NET Core).";
     }
 
-    public void setPackageGuid(String packageGuid) {
-        this.packageGuid = packageGuid;
+    public String getModelPropertyNaming() {
+        return this.modelPropertyNaming;
+    }
+
+    public void setModelPropertyNaming(String naming) {
+        if ("original".equals(naming) || "camelCase".equals(naming) ||
+                "PascalCase".equals(naming) || "snake_case".equals(naming)) {
+            this.modelPropertyNaming = naming;
+        } else {
+            throw new IllegalArgumentException("Invalid model property naming '" +
+                    naming + "'. Must be 'original', 'camelCase', " +
+                    "'PascalCase' or 'snake_case'");
+        }
     }
 
     @Override
-    public void postProcessParameter(CodegenParameter parameter) {
-        postProcessPattern(parameter.pattern, parameter.vendorExtensions);
-        postProcessEmitDefaultValue(parameter.vendorExtensions);
-        super.postProcessParameter(parameter);
+    public String getName() {
+        return "csharp-netcore";
+    }
 
-        if (nullableType.contains(parameter.dataType)) {
-            if (!parameter.required) { //optional
-                parameter.dataType = parameter.dataType + "?";
-            } else {
-                parameter.vendorExtensions.put("x-csharp-value-type", true);
-            }
+    public String getNameUsingModelPropertyNaming(String name) {
+        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
+            case original:
+                return name;
+            case camelCase:
+                return camelize(name, LOWERCASE_FIRST_LETTER);
+            case PascalCase:
+                return camelize(name);
+            case snake_case:
+                return underscore(name);
+            default:
+                throw new IllegalArgumentException("Invalid model property naming '" +
+                        name + "'. Must be 'original', 'camelCase', " +
+                        "'PascalCase' or 'snake_case'");
         }
+    }
+
+    @Override
+    public String getNullableType(Schema p, String type) {
+        if (languageSpecificPrimitives.contains(type)) {
+            if (isSupportNullable() && ModelUtils.isNullable(p) && this.getNullableTypes().contains(type)) {
+                return type + "?";
+            } else {
+                return type;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public CodegenType getTag() {
+        return CodegenType.CLIENT;
+    }
+
+    public boolean isNonPublicApi() {
+        return nonPublicApi;
+    }
+
+    public void setNonPublicApi(final boolean nonPublicApi) {
+        this.nonPublicApi = nonPublicApi;
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        if (GENERICHOST.equals(getLibrary())) {
+            return (outputFolder + "/" + modelDocPath + File.separator + "models").replace('/', File.separatorChar);
+        } else {
+            return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+        }
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return outputFolder + File.separator + testFolder + File.separator + testPackageName() + File.separator + modelPackage();
     }
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         postProcessPattern(property.pattern, property.vendorExtensions);
         postProcessEmitDefaultValue(property.vendorExtensions);
-        super.postProcessModelProperty(model, property);
 
-        if (!property.isContainer && (nullableType.contains(property.dataType) || property.isEnum)) {
-            property.vendorExtensions.put("x-csharp-value-type", true);
+        super.postProcessModelProperty(model, property);
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+        postProcessEmitDefaultValue(parameter.vendorExtensions);
+
+        if (!parameter.dataType.endsWith("?") && !parameter.required && (nullReferenceTypesFlag || this.getNullableTypes().contains(parameter.dataType))) {
+            parameter.dataType = parameter.dataType + "?";
         }
+
+        super.postProcessParameter(parameter);
     }
 
     /*
@@ -664,7 +660,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                         + "/pattern/modifiers convention. " + pattern + " is not valid.");
             }
 
-            String regex = pattern.substring(1, i).replace("'", "\'");
+            String regex = pattern.substring(1, i).replace("'", "\'").replace("\"", "\"\"");
             List<String> modifiers = new ArrayList<String>();
 
             // perl requires an explicit modifier to be culture specific and .NET is the reverse.
@@ -688,53 +684,601 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         vendorExtensions.put("x-emit-default-value", optionalEmitDefaultValuesFlag);
     }
 
+    @Override
+    public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
+        // To avoid unexpected behaviors when options are passed programmatically such as { "supportsAsync": "" }
+        return super.processCompiler(compiler).emptyStringIsFalse(true);
+    }
+
+    @Override
+    public void processOpts() {
+        this.setLegacyDiscriminatorBehavior(false);
+
+        super.processOpts();
+
+        /*
+         * NOTE: When supporting boolean additionalProperties, you should read the value and write it back as a boolean.
+         * This avoids oddities where additionalProperties contains "false" rather than false, which will cause the
+         * templating engine to behave unexpectedly.
+         *
+         * Use the pattern:
+         *     if (additionalProperties.containsKey(prop)) convertPropertyToBooleanAndWriteBack(prop);
+         */
+
+        if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
+                    .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES)) {
+            setOptionalEmitDefaultValuesFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES));
+        } else {
+            additionalProperties.put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValuesFlag);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION)) {
+            setConditionalSerialization(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION));
+        } else {
+            additionalProperties.put(CodegenConstants.OPTIONAL_CONDITIONAL_SERIALIZATION, conditionalSerialization);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
+            setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
+        }
+
+        if (additionalProperties.containsKey((CodegenConstants.LICENSE_ID))) {
+            setLicenseId((String) additionalProperties.get(CodegenConstants.LICENSE_ID));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.API_NAME)) {
+            setApiName((String) additionalProperties.get(CodegenConstants.API_NAME));
+        } else {
+            additionalProperties.put(CodegenConstants.API_NAME, apiName);
+        }
+
+        if (isEmpty(apiPackage)) {
+            setApiPackage("Api");
+        }
+        if (isEmpty(modelPackage)) {
+            setModelPackage("Model");
+        }
+
+        if (GENERICHOST.equals(getLibrary())) {
+            setLibrary(GENERICHOST);
+            additionalProperties.put("useGenericHost", true);
+            // all c# libraries should be doing this, but we only do it here to avoid breaking changes
+            this.setSortModelPropertiesByRequiredFlag(true);
+        } else if (RESTSHARP.equals(getLibrary())) {
+            additionalProperties.put("useRestSharp", true);
+            needsCustomHttpMethod = true;
+        } else if (HTTPCLIENT.equals(getLibrary())) {
+            setLibrary(HTTPCLIENT);
+            additionalProperties.put("useHttpClient", true);
+            needsUriBuilder = true;
+        } else if (UNITY_WEB_REQUEST.equals(getLibrary())) {
+            setLibrary(UNITY_WEB_REQUEST);
+            additionalProperties.put("useUnityWebRequest", true);
+            needsUriBuilder = true;
+        } else {
+            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient, and generichost are supported.");
+        }
+
+        String inputFramework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
+        String[] frameworks;
+        List<FrameworkStrategy> strategies = new ArrayList<>();
+
+        if (inputFramework.contains(";")) {
+            // multiple target framework
+            frameworks = inputFramework.split(";");
+            additionalProperties.put("multiTarget", true);
+        } else {
+            // just a single value
+            frameworks = new String[]{inputFramework};
+        }
+
+        for (String framework : frameworks) {
+            boolean strategyMatched = false;
+            for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
+                if (framework.equals(frameworkStrategy.name)) {
+                    strategies.add(frameworkStrategy);
+                    strategyMatched = true;
+                }
+
+                if (frameworkStrategy != FrameworkStrategy.NETSTANDARD_2_0 && "restsharp".equals(getLibrary())) {
+                    LOGGER.warn("If using built-in templates, RestSharp only supports netstandard 2.0 or later.");
+                }
+            }
+
+            if (!strategyMatched) {
+                // throws exception if the input targetFramework is invalid
+                throw new IllegalArgumentException("The input (" + inputFramework + ") contains Invalid .NET framework version: " +
+                        framework + ". List of supported versions: " +
+                        frameworkStrategies.stream()
+                                .map(p -> p.name)
+                                .collect(Collectors.joining(", ")));
+            }
+        }
+
+        configureAdditionalPropertiesForFrameworks(additionalProperties, strategies);
+        setTargetFrameworkNuget(strategies);
+        setTargetFramework(strategies);
+        setTestTargetFramework(strategies);
+
+        setSupportsAsync(Boolean.TRUE);
+        setNetStandard(strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.isNetStandard)));
+
+        if (!netStandard) {
+            setNetCoreProjectFileFlag(true);
+
+            if (!additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES) && !strategies.stream().anyMatch(s ->
+                    s.equals(FrameworkStrategy.NETFRAMEWORK_4_8) ||
+                            s.equals(FrameworkStrategy.NETFRAMEWORK_4_7))) {
+                // starting in .net 6.0, NRT is enabled by default. If not specified, lets enable NRT to match the framework's default
+                setNullableReferenceTypes(true);
+            }
+        }
+
+        final AtomicReference<Boolean> excludeTests = new AtomicReference<>();
+        syncBooleanProperty(additionalProperties, CodegenConstants.EXCLUDE_TESTS, excludeTests::set, false);
+
+        syncStringProperty(additionalProperties, "clientPackage", this::setClientPackage, clientPackage);
+
+        syncStringProperty(additionalProperties, CodegenConstants.API_PACKAGE, this::setApiPackage, apiPackage);
+        syncStringProperty(additionalProperties, CodegenConstants.MODEL_PACKAGE, this::setModelPackage, modelPackage);
+        syncStringProperty(additionalProperties, CodegenConstants.OPTIONAL_PROJECT_GUID, this::setPackageGuid, packageGuid);
+        syncStringProperty(additionalProperties, "targetFrameworkNuget", this::setTargetFrameworkNuget, this.targetFrameworkNuget);
+        syncStringProperty(additionalProperties, "testTargetFramework", this::setTestTargetFramework, this.testTargetFramework);
+
+        syncBooleanProperty(additionalProperties, "netStandard", this::setNetStandard, this.netStandard);
+
+        syncBooleanProperty(additionalProperties, CodegenConstants.VALIDATABLE, this::setValidatable, this.validatable);
+        syncBooleanProperty(additionalProperties, CodegenConstants.SUPPORTS_ASYNC, this::setSupportsAsync, this.supportsAsync);
+        syncBooleanProperty(additionalProperties, SUPPORTS_RETRY, this::setSupportsRetry, this.supportsRetry);
+        syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_METHOD_ARGUMENT, this::setOptionalMethodArgumentFlag, optionalMethodArgumentFlag);
+        syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
+        syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
+        syncBooleanProperty(additionalProperties, "supportsFileParameters", this::setSupportsFileParameters, this.supportsFileParameters);
+
+        final String testPackageName = testPackageName();
+        String packageFolder = sourceFolder + File.separator + packageName;
+        String clientPackageDir = packageFolder + File.separator + clientPackage;
+        String modelPackageDir = packageFolder + File.separator + modelPackage;
+        String authPackageDir = clientPackageDir + File.separator + authFolder;
+        String testPackageFolder = testFolder + File.separator + testPackageName;
+
+        additionalProperties.put("testPackageName", testPackageName);
+
+        //Compute the relative path to the bin directory where the external assemblies live
+        //This is necessary to properly generate the project file
+        int packageDepth = packageFolder.length() - packageFolder.replace(java.io.File.separator, "").length();
+        String binRelativePath = "..\\";
+        for (int i = 0; i < packageDepth; i = i + 1) {
+            binRelativePath += "..\\";
+        }
+        binRelativePath += "vendor";
+        additionalProperties.put("binRelativePath", binRelativePath);
+
+        // Only write out test related files if excludeTests is unset or explicitly set to false (see start of this method)
+        if (Boolean.FALSE.equals(excludeTests.get())) {
+            modelTestTemplateFiles.put("model_test.mustache", ".cs");
+            apiTestTemplateFiles.put("api_test.mustache", ".cs");
+        }
+
+        if (HTTPCLIENT.equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
+            addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
+            additionalProperties.put("apiDocPath", apiDocPath);
+            additionalProperties.put("modelDocPath", modelDocPath);
+        } else if (GENERICHOST.equals(getLibrary())) {
+            addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
+            additionalProperties.put("apiDocPath", apiDocPath + File.separatorChar + "apis");
+            additionalProperties.put("modelDocPath", modelDocPath + File.separatorChar + "models");
+        } else if (UNITY_WEB_REQUEST.equals(getLibrary())) {
+            additionalProperties.put(CodegenConstants.VALIDATABLE, false);
+            setValidatable(false);
+            setSupportsRetry(false);
+            setSupportsAsync(true);
+            // Some consoles and tvOS do not support either Application.persistentDataPath or will refuse to
+            // compile/link if you even reference GetTempPath as well.
+            additionalProperties.put("supportsFileParameters", false);
+            setSupportsFileParameters(false);
+
+            addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
+
+            supportingFiles.add(new SupportingFile("ConnectionException.mustache", clientPackageDir, "ConnectionException.cs"));
+            supportingFiles.add(new SupportingFile("UnexpectedResponseException.mustache", clientPackageDir, "UnexpectedResponseException.cs"));
+        } else { //restsharp
+            addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
+            additionalProperties.put("apiDocPath", apiDocPath);
+            additionalProperties.put("modelDocPath", modelDocPath);
+
+            if (ProcessUtils.hasOAuthMethods(openAPI)) {
+                supportingFiles.add(new SupportingFile("auth/OAuthAuthenticator.mustache", authPackageDir, "OAuthAuthenticator.cs"));
+                supportingFiles.add(new SupportingFile("auth/TokenResponse.mustache", authPackageDir, "TokenResponse.cs"));
+                supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authPackageDir, "OAuthFlow.cs"));
+            }
+        }
+
+        // include the spec in the output
+        supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
+
+        this.setTypeMapping();
+    }
+
+    public void setClientPackage(String clientPackage) {
+        this.clientPackage = clientPackage;
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path,
+                                          String httpMethod,
+                                          Operation operation,
+                                          List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+
+        if (!GENERICHOST.equals(getLibrary())) {
+            return op;
+        }
+
+        Collections.sort(op.allParams, parameterComparatorByDataType);
+        Collections.sort(op.bodyParams, parameterComparatorByDataType);
+        Collections.sort(op.pathParams, parameterComparatorByDataType);
+        Collections.sort(op.queryParams, parameterComparatorByDataType);
+        Collections.sort(op.headerParams, parameterComparatorByDataType);
+        Collections.sort(op.implicitHeadersParams, parameterComparatorByDataType);
+        Collections.sort(op.formParams, parameterComparatorByDataType);
+        Collections.sort(op.cookieParams, parameterComparatorByDataType);
+        Collections.sort(op.requiredParams, parameterComparatorByDataType);
+        Collections.sort(op.optionalParams, parameterComparatorByDataType);
+        Collections.sort(op.notNullableParams, parameterComparatorByDataType);
+
+        Comparator<CodegenParameter> comparator = parameterComparatorByRequired.thenComparing(parameterComparatorByDefaultValue);
+        Collections.sort(op.allParams, comparator);
+        Collections.sort(op.bodyParams, comparator);
+        Collections.sort(op.pathParams, comparator);
+        Collections.sort(op.queryParams, comparator);
+        Collections.sort(op.headerParams, comparator);
+        Collections.sort(op.implicitHeadersParams, comparator);
+        Collections.sort(op.formParams, comparator);
+        Collections.sort(op.cookieParams, comparator);
+        Collections.sort(op.requiredParams, comparator);
+        Collections.sort(op.optionalParams, comparator);
+        Collections.sort(op.notNullableParams, comparator);
+
+        return op;
+    }
+
+    public void addSupportingFiles(final String clientPackageDir, final String packageFolder,
+                                   final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir, final String authPackageDir) {
+        supportingFiles.add(new SupportingFile("IApiAccessor.mustache", clientPackageDir, "IApiAccessor.cs"));
+        supportingFiles.add(new SupportingFile("Configuration.mustache", clientPackageDir, "Configuration.cs"));
+        supportingFiles.add(new SupportingFile("ApiClient.mustache", clientPackageDir, "ApiClient.cs"));
+        supportingFiles.add(new SupportingFile("ApiException.mustache", clientPackageDir, "ApiException.cs"));
+        supportingFiles.add(new SupportingFile("ApiResponse.mustache", clientPackageDir, "ApiResponse.cs"));
+        supportingFiles.add(new SupportingFile("ExceptionFactory.mustache", clientPackageDir, "ExceptionFactory.cs"));
+        supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
+        supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
+        if (needsCustomHttpMethod) {
+            supportingFiles.add(new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
+        }
+        if (needsUriBuilder) {
+            supportingFiles.add(new SupportingFile("WebRequestPathBuilder.mustache", clientPackageDir, "WebRequestPathBuilder.cs"));
+        }
+        if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("HttpSigningConfiguration.mustache", clientPackageDir, "HttpSigningConfiguration.cs"));
+        }
+        if (supportsAsync) {
+            supportingFiles.add(new SupportingFile("IAsynchronousClient.mustache", clientPackageDir, "IAsynchronousClient.cs"));
+        }
+        supportingFiles.add(new SupportingFile("ISynchronousClient.mustache", clientPackageDir, "ISynchronousClient.cs"));
+        supportingFiles.add(new SupportingFile("RequestOptions.mustache", clientPackageDir, "RequestOptions.cs"));
+        supportingFiles.add(new SupportingFile("Multimap.mustache", clientPackageDir, "Multimap.cs"));
+
+        if (supportsRetry) {
+            supportingFiles.add(new SupportingFile("RetryConfiguration.mustache", clientPackageDir, "RetryConfiguration.cs"));
+        }
+
+        supportingFiles.add(new SupportingFile("IReadableConfiguration.mustache",
+                clientPackageDir, "IReadableConfiguration.cs"));
+        supportingFiles.add(new SupportingFile("GlobalConfiguration.mustache",
+                clientPackageDir, "GlobalConfiguration.cs"));
+
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+
+        if (UNITY_WEB_REQUEST.equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("asmdef.mustache", packageFolder, packageName + ".asmdef"));
+        } else {
+            supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
+            supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
+        }
+
+        if (Boolean.FALSE.equals(excludeTests.get())) {
+            if (UNITY_WEB_REQUEST.equals(getLibrary())) {
+                supportingFiles.add(new SupportingFile("asmdef_test.mustache", testPackageFolder, testPackageName + ".asmdef"));
+            } else {
+                supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
+            }
+        }
+
+        if (!UNITY_WEB_REQUEST.equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
+        }
+        supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));
+    }
+
+    public void addGenericHostSupportingFiles(final String clientPackageDir, final String packageDir,
+                                              final AtomicReference<Boolean> excludeTests, final String testPackageDir, final String testPackageName, final String modelPackageDir) {
+        supportingFiles.add(new SupportingFile("README.test.mustache", testPackageDir, "README.md"));
+
+        supportingFiles.add(new SupportingFile("README.solution.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
+        supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
+
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "docs" + File.separator + "scripts", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("git_push.ps1.mustache", "docs" + File.separator + "scripts", "git_push.ps1"));
+        // TODO: supportingFiles.add(new SupportingFile("generate.ps1.mustache", "docs" + File.separator + "scripts", "generate.ps1"));
+
+        supportingFiles.add(new SupportingFile("netcore_project.mustache", packageDir, packageName + ".csproj"));
+        supportingFiles.add(new SupportingFile("README.client.mustache", packageDir, "README.md"));
+
+        // client directory
+        supportingFiles.add(new SupportingFile("TokenProvider`1.mustache", clientPackageDir, "TokenProvider`1.cs"));
+        supportingFiles.add(new SupportingFile("RateLimitProvider`1.mustache", clientPackageDir, "RateLimitProvider`1.cs"));
+        supportingFiles.add(new SupportingFile("TokenContainer`1.mustache", clientPackageDir, "TokenContainer`1.cs"));
+        supportingFiles.add(new SupportingFile("TokenBase.mustache", clientPackageDir, "TokenBase.cs"));
+        supportingFiles.add(new SupportingFile("ApiException.mustache", clientPackageDir, "ApiException.cs"));
+        supportingFiles.add(new SupportingFile("ApiResponse`1.mustache", clientPackageDir, "ApiResponse`1.cs"));
+        supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
+        supportingFiles.add(new SupportingFile("HostConfiguration.mustache", clientPackageDir, "HostConfiguration.cs"));
+        supportingFiles.add(new SupportingFile("ApiFactory.mustache", clientPackageDir, "ApiFactory.cs"));
+        supportingFiles.add(new SupportingFile("DateTimeJsonConverter.mustache", clientPackageDir, "DateTimeJsonConverter.cs"));
+        supportingFiles.add(new SupportingFile("DateTimeNullableJsonConverter.mustache", clientPackageDir, "DateTimeNullableJsonConverter.cs"));
+        supportingFiles.add(new SupportingFile("ApiResponseEventArgs.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
+        supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
+        supportingFiles.add(new SupportingFile("CookieContainer.mustache", clientPackageDir, "CookieContainer.cs"));
+
+        supportingFiles.add(new SupportingFile("IApi.mustache", sourceFolder + File.separator + packageName + File.separator + apiPackage(), getInterfacePrefix() + "Api.cs"));
+
+        // extensions
+        String extensionsFolder = sourceFolder + File.separator + packageName + File.separator + "Extensions";
+        supportingFiles.add(new SupportingFile("IHttpClientBuilderExtensions.mustache", extensionsFolder, "IHttpClientBuilderExtensions.cs"));
+        supportingFiles.add(new SupportingFile("IHostBuilderExtensions.mustache", extensionsFolder, "IHostBuilderExtensions.cs"));
+        supportingFiles.add(new SupportingFile("IServiceCollectionExtensions.mustache", extensionsFolder, "IServiceCollectionExtensions.cs"));
+
+        String apiTestFolder = testFolder + File.separator + testPackageName() + File.separator + apiPackage();
+        if (Boolean.FALSE.equals(excludeTests.get())) {
+            supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageDir, testPackageName + ".csproj"));
+            supportingFiles.add(new SupportingFile("DependencyInjectionTests.mustache", apiTestFolder, "DependencyInjectionTests.cs"));
+
+            // do not overwrite test file that already exists
+            File apiTestsBaseFile = new File(apiTestFileFolder() + File.separator + "ApiTestsBase.cs");
+            if (!apiTestsBaseFile.exists()) {
+                supportingFiles.add(new SupportingFile("ApiTestsBase.mustache", apiTestFolder, "ApiTestsBase.cs"));
+            }
+        }
+
+        if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("HttpSigningConfiguration.mustache", clientPackageDir, "HttpSigningConfiguration.cs"));
+            supportingFiles.add(new SupportingFile("HttpSigningToken.mustache", clientPackageDir, "HttpSigningToken.cs"));
+        }
+
+        if (ProcessUtils.hasHttpBasicMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("BasicToken.mustache", clientPackageDir, "BasicToken.cs"));
+        }
+
+        if (ProcessUtils.hasOAuthMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("OAuthToken.mustache", clientPackageDir, "OAuthToken.cs"));
+        }
+
+        if (ProcessUtils.hasHttpBearerMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("BearerToken.mustache", clientPackageDir, "BearerToken.cs"));
+        }
+
+        if (ProcessUtils.hasApiKeyMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("ApiKeyToken.mustache", clientPackageDir, "ApiKeyToken.cs"));
+        }
+    }
+
+    public void setNetStandard(Boolean netStandard) {
+        this.netStandard = netStandard;
+    }
+
+    public void setOptionalAssemblyInfoFlag(boolean flag) {
+        this.optionalAssemblyInfoFlag = flag;
+    }
+
+    public void setOptionalEmitDefaultValuesFlag(boolean flag) {
+        this.optionalEmitDefaultValuesFlag = flag;
+    }
+
+    public void setConditionalSerialization(boolean flag) {
+        this.conditionalSerialization = flag;
+    }
+
+    public void setOptionalProjectFileFlag(boolean flag) {
+        this.optionalProjectFileFlag = flag;
+    }
+
+    public void setPackageGuid(String packageGuid) {
+        this.packageGuid = packageGuid;
+    }
+
+    // TODO: this does the same as super
+    @Override
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    /**
+     * Sets the api name. This value must be a valid class name.
+     *
+     * @param apiName The api name
+     */
+    public void setApiName(String apiName) {
+        if (!"".equals(apiName) && (Boolean.FALSE.equals(apiName.matches("^[a-zA-Z0-9_]*$")) || Boolean.FALSE.equals(apiName.matches("^[a-zA-Z].*")))) {
+            throw new RuntimeException("Invalid project name " + apiName + ". May only contain alphanumeric characters or underscore and start with a letter.");
+        }
+        this.apiName = apiName;
+    }
+
+    // TODO: this does the same as super
+    @Override
+    public void setPackageVersion(String packageVersion) {
+        this.packageVersion = packageVersion;
+    }
+
+    public void setSupportsAsync(Boolean supportsAsync) {
+        this.supportsAsync = supportsAsync;
+    }
+
+    public void setSupportsFileParameters(Boolean supportsFileParameters) {
+        this.supportsFileParameters = supportsFileParameters;
+    }
+
+    public void setSupportsRetry(Boolean supportsRetry) {
+        this.supportsRetry = supportsRetry;
+    }
+
     public void setTargetFramework(String dotnetFramework) {
         if (!frameworks.containsKey(dotnetFramework)) {
-            LOGGER.warn("Invalid .NET framework version, defaulting to {}", this.targetFramework);
+            throw new IllegalArgumentException("Invalid .NET framework version: " +
+                    dotnetFramework + ". List of supported versions: " +
+                    frameworkStrategies.stream()
+                            .map(p -> p.name)
+                            .collect(Collectors.joining(", ")));
         } else {
             this.targetFramework = dotnetFramework;
         }
-        switch (targetFramework) {
-            case NET35:
-                additionalProperties.put(RESTSHARP, new LibraryDependency("105.1.0", "net35"));
-                additionalProperties.put(JSON_SUBTYPES, new LibraryDependency("1.6.0", "net35"));
-                additionalProperties.put(NEWTONSOFT_JSON, new LibraryDependency("12.0.3", "net35"));
-                additionalProperties.put(NUNIT, new LibraryDependency("3.11.0", "net35"));
-                break;
-            case NET40:
-                additionalProperties.put(RESTSHARP, new LibraryDependency("105.1.0", "net4"));
-                additionalProperties.put(JSON_SUBTYPES, new LibraryDependency("1.6.0", "net40"));
-                additionalProperties.put(NEWTONSOFT_JSON, new LibraryDependency("12.0.3", "net40"));
-                additionalProperties.put(NUNIT, new LibraryDependency("3.11.0", "net40"));
-                break;
-            case NET45:
-                additionalProperties.put(RESTSHARP, new LibraryDependency("105.1.0", "net45"));
-                additionalProperties.put(JSON_SUBTYPES, new LibraryDependency("1.6.0", "net45"));
-                additionalProperties.put(NEWTONSOFT_JSON, new LibraryDependency("12.0.3", "net45"));
-                additionalProperties.put(NUNIT, new LibraryDependency("3.11.0", "net45"));
-                break;
-            case NET452:
-                additionalProperties.put(RESTSHARP, new LibraryDependency("106.10.1", "net452"));
-                additionalProperties.put(JSON_SUBTYPES, new LibraryDependency("1.6.0", "net45"));
-                additionalProperties.put(NEWTONSOFT_JSON, new LibraryDependency("12.0.3", "net45"));
-                additionalProperties.put(NUNIT, new LibraryDependency("3.11.0", "net45"));
-                additionalProperties.put("isRestSharp_106_10_1_above", true);
-                break;
-            case UWP:
-                additionalProperties.put(RESTSHARP, new LibraryDependency("105.1.0", "uwp"));
-                additionalProperties.put(JSON_SUBTYPES, new LibraryDependency("1.6.0", "uwp"));
-                additionalProperties.put(NEWTONSOFT_JSON, new LibraryDependency("12.0.3", "uwp"));
-                additionalProperties.put(NUNIT, new LibraryDependency("3.11.0", "uwp"));
-                break;
-            case NETSTANDARD:
-                additionalProperties.put(RESTSHARP, new LibraryDependency("105.1.0", "netstandard1.3"));
-                additionalProperties.put(JSON_SUBTYPES, new LibraryDependency("1.6.0", "netstandard1.3"));
-                additionalProperties.put(NEWTONSOFT_JSON, new LibraryDependency("12.0.3", "netstandard1.3"));
-                additionalProperties.put(NUNIT, new LibraryDependency("3.11.0", "netstandard1.3"));
-                break;
+        LOGGER.info("Generating code for .NET Framework {}", this.targetFramework);
+    }
+
+    public void setTargetFramework(List<FrameworkStrategy> strategies) {
+        for (FrameworkStrategy strategy : strategies) {
+            if (!frameworks.containsKey(strategy.name)) {
+                throw new IllegalArgumentException("Invalid .NET framework version: " +
+                        strategy.name + ". List of supported versions: " +
+                        frameworkStrategies.stream()
+                                .map(p -> p.name)
+                                .collect(Collectors.joining(", ")));
+            }
+        }
+        this.targetFramework = strategies.stream().map(p -> p.name)
+                .collect(Collectors.joining(";"));
+        LOGGER.info("Generating code for .NET Framework {}", this.targetFramework);
+    }
+
+    public void setTestTargetFramework(String testTargetFramework) {
+        this.testTargetFramework = testTargetFramework;
+    }
+
+    public void setTestTargetFramework(List<FrameworkStrategy> strategies) {
+        this.testTargetFramework = strategies.stream().map(p -> p.testTargetFramework)
+                .collect(Collectors.joining(";"));
+    }
+
+    public void setTargetFrameworkNuget(String targetFrameworkNuget) {
+        this.targetFrameworkNuget = targetFrameworkNuget;
+    }
+
+    public void setTargetFrameworkNuget(List<FrameworkStrategy> strategies) {
+        this.targetFrameworkNuget = strategies.stream().map(p -> p.getNugetFrameworkIdentifier())
+                .collect(Collectors.joining(";"));
+    }
+
+    public void setValidatable(boolean validatable) {
+        this.validatable = validatable;
+    }
+
+    public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
+        this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
+    }
+
+    public void setLicenseId(String licenseId) {
+        this.licenseId = licenseId;
+    }
+
+    @Override
+    public void setReleaseNote(String releaseNote) {
+        this.releaseNote = releaseNote;
+    }
+
+    public void setPackageTags(String packageTags) {
+        this.packageTags = packageTags;
+    }
+
+    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
+        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
+    }
+
+    public boolean getUseOneOfDiscriminatorLookup() {
+        return this.useOneOfDiscriminatorLookup;
+    }
+
+    @Override
+    public String toEnumVarName(String value, String datatype) {
+        if (value.length() == 0) {
+            return "Empty";
         }
 
-        LOGGER.info("Generating code for .NET Framework {}", this.targetFramework);
+        // for symbol, e.g. $, #
+        if (getSymbolName(value) != null) {
+            return camelize(getSymbolName(value));
+        }
+
+        // number
+        if (datatype.startsWith("int") || datatype.startsWith("uint") ||
+                datatype.startsWith("long") || datatype.startsWith("ulong") ||
+                datatype.startsWith("double") || datatype.startsWith("float")) {
+            String varName = "NUMBER_" + value;
+            varName = varName.replaceAll("-", "MINUS_");
+            varName = varName.replaceAll("\\+", "PLUS_");
+            varName = varName.replaceAll("\\.", "_DOT_");
+            return varName;
+        }
+
+        // string
+        String var = value.replaceAll(" ", "_");
+        var = camelize(var);
+        var = var.replaceAll("\\W+", "");
+
+        if (var.matches("\\d.*")) {
+            return "_" + var;
+        } else {
+            return var;
+        }
+    }
+
+    @Override
+    public String toModelDocFilename(String name) {
+        return toModelFilename(name);
+    }
+
+    @Override
+    public String toVarName(String name) {
+        // sanitize name
+        name = sanitizeName(name);
+
+        // if it's all upper case, do nothing
+        if (name.matches("^[A-Z_]*$")) {
+            return name;
+        }
+
+        name = getNameUsingModelPropertyNaming(name);
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
+
+        // for function names in the model, escape with the "Property" prefix
+        if (propertySpecialKeywords.contains(name)) {
+            return camelize("property_" + name);
+        }
+
+        return name;
     }
 
     private CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
@@ -779,161 +1323,177 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return codegenModel;
     }
 
-    @Override
-    public String toEnumVarName(String value, String datatype) {
-        if (value.length() == 0) {
-            return "Empty";
-        }
-
-        // for symbol, e.g. $, #
-        if (getSymbolName(value) != null) {
-            return camelize(getSymbolName(value));
-        }
-
-        // number
-        if (datatype.startsWith("int") || datatype.startsWith("uint") ||
-                datatype.startsWith("ulong") || datatype.startsWith("long") ||
-                datatype.startsWith("double") || datatype.startsWith("float")) {
-            String varName = "NUMBER_" + value;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
-        }
-
-        // string
-        String var = value.replaceAll("_", " ");
-        //var = WordUtils.capitalizeFully(var);
-        var = camelize(var);
-        var = var.replaceAll("\\W+", "");
-
-        if (var.matches("\\d.*")) {
-            return "_" + var;
+    private void syncBooleanProperty(final Map<String, Object> additionalProperties, final String key, final Consumer<Boolean> setter, final Boolean defaultValue) {
+        if (additionalProperties.containsKey(key)) {
+            setter.accept(convertPropertyToBooleanAndWriteBack(key));
         } else {
-            return var;
+            additionalProperties.put(key, defaultValue);
+            setter.accept(defaultValue);
         }
     }
 
-    @Override
-    public String toVarName(String name) {
-        // sanitize name
-        name = sanitizeName(name);
-
-        // if it's all upper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
-            return name;
-        }
-
-        name = getNameUsingModelPropertyNaming(name);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
-
-        return name;
-    }
-
-    public String getNameUsingModelPropertyNaming(String name) {
-        switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
-            case original:
-                return name;
-            case camelCase:
-                return camelize(name, LOWERCASE_FIRST_LETTER);
-            case PascalCase:
-                return camelize(name);
-            case snake_case:
-                return underscore(name);
-            default:
-                throw new IllegalArgumentException("Invalid model property naming '" +
-                        name + "'. Must be 'original', 'camelCase', " +
-                        "'PascalCase' or 'snake_case'");
+    private void syncStringProperty(final Map<String, Object> additionalProperties, final String key, final Consumer<String> setter, final String defaultValue) {
+        if (additionalProperties.containsKey(key)) {
+            setter.accept((String) additionalProperties.get(key));
+        } else {
+            additionalProperties.put(key, defaultValue);
+            setter.accept(defaultValue);
         }
     }
 
-    @Override
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
+    // https://docs.microsoft.com/en-us/dotnet/standard/net-standard
+    @SuppressWarnings("Duplicates")
+    private static abstract class FrameworkStrategy {
 
-    @Override
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
+        private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
 
-    public void setTargetFrameworkNuget(String targetFrameworkNuget) {
-        this.targetFrameworkNuget = targetFrameworkNuget;
-    }
+        static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3", "net7.0") {
+        };
+        static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4", "net7.0") {
+        };
+        static FrameworkStrategy NETSTANDARD_1_5 = new FrameworkStrategy("netstandard1.5", ".NET Standard 1.5", "net7.0") {
+        };
+        static FrameworkStrategy NETSTANDARD_1_6 = new FrameworkStrategy("netstandard1.6", ".NET Standard 1.6", "net7.0") {
+        };
+        static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0", "net7.0") {
+        };
+        static FrameworkStrategy NETSTANDARD_2_1 = new FrameworkStrategy("netstandard2.1", ".NET Standard 2.1", "net7.0") {
+        };
+        static FrameworkStrategy NETFRAMEWORK_4_7 = new FrameworkStrategy("net47", ".NET Framework 4.7", "net47", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NETFRAMEWORK_4_8 = new FrameworkStrategy("net48", ".NET Framework 4.8", "net48", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NET_6_0 = new FrameworkStrategy("net6.0", ".NET 6.0 (End of Support 12 November 2024)", "net6.0", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NET_7_0 = new FrameworkStrategy("net7.0", ".NET 7.0", "net7.0", Boolean.FALSE) {
+        };
+        protected String name;
+        protected String description;
+        protected String testTargetFramework;
+        private Boolean isNetStandard = Boolean.TRUE;
 
-    public void setSupportsAsync(Boolean supportsAsync) {
-        this.supportsAsync = supportsAsync;
-    }
+        FrameworkStrategy(String name, String description, String testTargetFramework) {
+            this.name = name;
+            this.description = description;
+            this.testTargetFramework = testTargetFramework;
+        }
 
-    public void setSupportsUWP(Boolean supportsUWP) {
-        this.supportsUWP = supportsUWP;
-    }
+        FrameworkStrategy(String name, String description, String testTargetFramework, Boolean isNetStandard) {
+            this.name = name;
+            this.description = description;
+            this.testTargetFramework = testTargetFramework;
+            this.isNetStandard = isNetStandard;
+        }
 
-    public void setNetStandard(Boolean netStandard) {
-        this.netStandard = netStandard;
-    }
+        protected void configureAdditionalProperties(final Map<String, Object> properties) {
+            properties.putIfAbsent(CodegenConstants.DOTNET_FRAMEWORK, this.name);
 
-    public void setGeneratePropertyChanged(final Boolean generatePropertyChanged) {
-        this.generatePropertyChanged = generatePropertyChanged;
-        if (this.generatePropertyChanged) {
-            additionalProperties.put(FODY, new LibraryDependency("1.29.4", targetFrameworkNuget));
-            additionalProperties.put(PROPERTYCHANGED_FODY, new LibraryDependency("1.51.3", targetFrameworkNuget));
+            // not intended to be user-settable
+            properties.put(TARGET_FRAMEWORK_IDENTIFIER, this.getTargetFrameworkIdentifier());
+            properties.put(TARGET_FRAMEWORK_VERSION, this.getTargetFrameworkVersion());
+            properties.putIfAbsent(MCS_NET_VERSION_KEY, "4.6-api");
+
+            properties.put(NET_STANDARD, this.isNetStandard);
+            if (properties.containsKey(SUPPORTS_UWP)) {
+                LOGGER.warn(".NET {} generator does not support the UWP option. Use the csharp generator instead.",
+                        this.name);
+                properties.remove(SUPPORTS_UWP);
+            }
+        }
+
+        protected String getNugetFrameworkIdentifier() {
+            return this.name.toLowerCase(Locale.ROOT);
+        }
+
+        protected String getTargetFrameworkIdentifier() {
+            if (this.isNetStandard) return ".NETStandard";
+            else return ".NETCoreApp";
+        }
+
+        protected String getTargetFrameworkVersion() {
+            if (this.isNetStandard) return "v" + this.name.replace("netstandard", "");
+            else return "v" + this.name.replace("netcoreapp", "");
         }
     }
 
-    public void setUseCompareNetObjects(final Boolean useCompareNetObjects) {
-        this.useCompareNetObjects = useCompareNetObjects;
-    }
+    protected void configureAdditionalPropertiesForFrameworks(final Map<String, Object> properties, List<FrameworkStrategy> strategies) {
+        properties.putIfAbsent(CodegenConstants.DOTNET_FRAMEWORK, strategies.stream()
+                .map(p -> p.name)
+                .collect(Collectors.joining(";")));
 
-    public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
-        this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
-    }
+        // not intended to be user-settable
+        properties.put(TARGET_FRAMEWORK_IDENTIFIER, strategies.stream()
+                .map(p -> p.getTargetFrameworkIdentifier())
+                .collect(Collectors.joining(";")));
+        properties.put(TARGET_FRAMEWORK_VERSION, strategies.stream()
+                .map(p -> p.getTargetFrameworkVersion())
+                .collect(Collectors.joining(";")));
+        properties.putIfAbsent(MCS_NET_VERSION_KEY, "4.6-api");
 
-    public boolean isNonPublicApi() {
-        return nonPublicApi;
-    }
+        properties.put(NET_STANDARD, strategies.stream().anyMatch(p -> Boolean.TRUE.equals(p.isNetStandard)));
+        for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
+            properties.put(frameworkStrategy.name, strategies.stream().anyMatch(s -> s.name.equals(frameworkStrategy.name)));
+        }
 
-    public void setNonPublicApi(final boolean nonPublicApi) {
-        this.nonPublicApi = nonPublicApi;
-    }
-
-    public void setValidatable(boolean validatable) {
-        this.validatable = validatable;
-    }
-
-    @Override
-    public String toModelDocFilename(String name) {
-        return toModelFilename(name);
-    }
-
-    @Override
-    public String apiDocFileFolder() {
-        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
-    }
-
-    @Override
-    public String modelDocFileFolder() {
-        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
-    }
-
-    @Override
-    public String apiTestFileFolder() {
-        return outputFolder + File.separator + testFolder + File.separator + testPackageName() + File.separator + apiPackage();
-    }
-
-    @Override
-    public String modelTestFileFolder() {
-        return outputFolder + File.separator + testFolder + File.separator + testPackageName() + File.separator + modelPackage();
-    }
-
-    @Override
-    public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
-        // To avoid unexpected behaviors when options are passed programmatically such as { "supportsAsync": "" }
-        return super.processCompiler(compiler).emptyStringIsFalse(true);
+        if (strategies.stream().anyMatch(p -> !"netstandard1.3".equals(p.name))) {
+            if (strategies.stream().anyMatch(p -> "netstandard1.4".equals(p.name))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> "netstandard1.5".equals(p.name))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> "netstandard1.6".equals(p.name))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> "netstandard2.0".equals(p.name))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> "netstandard2.1".equals(p.name))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> "net47".equals(p.name))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> "net48".equals(p.name))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> "net6.0".equals(p.name))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+                properties.put(NET_60_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> "net7.0".equals(p.name))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+                properties.put(NET_60_OR_LATER, true);
+                properties.put(NET_70_OR_LATER, true);
+            } else {
+                throw new RuntimeException("Unhanlded case");
+            }
+        }
     }
 
     /**
@@ -961,26 +1521,197 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public String getNullableType(Schema p, String type) {
-        if (languageSpecificPrimitives.contains(type)) {
-            if (isSupportNullable() && ModelUtils.isNullable(p) && nullableType.contains(type)) {
-                return type + "?";
-            } else {
-                return type;
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        objs = super.postProcessModels(objs);
+
+        // add implements for serializable/parcelable to all models
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+
+            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("Null")) {
+                // if oneOf contains "null" type
+                cm.isNullable = true;
+                cm.oneOf.remove("Null");
             }
-        } else {
-            return null;
+
+            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("Null")) {
+                // if anyOf contains "null" type
+                cm.isNullable = true;
+                cm.anyOf.remove("Null");
+            }
+
+            if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getOneOf() != null && !cm.getComposedSchemas().getOneOf().isEmpty()) {
+                cm.getComposedSchemas().getOneOf().removeIf(o -> o.dataType.equals("Null"));
+            }
+
+            if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getAnyOf() != null && !cm.getComposedSchemas().getAnyOf().isEmpty()) {
+                cm.getComposedSchemas().getAnyOf().removeIf(o -> o.dataType.equals("Null"));
+            }
+
+            for (CodegenProperty cp : cm.readWriteVars) {
+                // ISSUE: https://github.com/OpenAPITools/openapi-generator/issues/11844
+                // allVars may not have all properties
+                // see modules\openapi-generator\src\test\resources\3_0\allOf.yaml
+                // property boosterSeat will be in readWriteVars but not allVars
+                // the property is present in the model but gets removed at CodegenModel#removeDuplicatedProperty
+                if (Boolean.FALSE.equals(cm.allVars.stream().anyMatch(v -> v.baseName.equals(cp.baseName)))) {
+                    LOGGER.debug("Property " + cp.baseName + " was found in readWriteVars but not in allVars. Adding it back to allVars");
+                    cm.allVars.add(cp);
+                }
+            }
         }
+
+        return objs;
     }
 
-}
+    /**
+     * ISSUE: https://github.com/OpenAPITools/openapi-generator/issues/11846
+     * Ensures that a model has all inherited properties
+     * Check modules\openapi-generator\src\test\resources\3_0\java\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
+     * Without this method, property petType in GrandparentAnimal will not make it through ParentPet and into ChildCat
+     */
+    private void ensureInheritedPropertiesArePresent(CodegenModel derivedModel) {
+        // every c# generator should definitely want this, or we should fix the issue
+        // still, lets avoid breaking changes :(
+        if (Boolean.FALSE.equals(GENERICHOST.equals(getLibrary()))) {
+            return;
+        }
 
-class LibraryDependency {
-    String version;
-    String targetFramework;
+        if (derivedModel.parentModel == null) {
+            return;
+        }
 
-    public LibraryDependency(String version, String targetFramework) {
-        this.version = version;
-        this.targetFramework = targetFramework;
+        for (CodegenProperty parentProperty : derivedModel.parentModel.allVars) {
+            if (Boolean.FALSE.equals(derivedModel.allVars.stream().anyMatch(v -> v.baseName.equals(parentProperty.baseName)))) {
+                CodegenProperty clone = parentProperty.clone();
+                clone.isInherited = true;
+                LOGGER.debug("Inherited property " + clone.name + " from model" + derivedModel.parentModel.classname + " was not found in " + derivedModel.classname + ". Adding a clone now.");
+                derivedModel.allVars.add(clone);
+            }
+        }
+
+        ensureInheritedPropertiesArePresent(derivedModel.parentModel);
+    }
+
+    /**
+     * Invoked by {@link DefaultGenerator} after all models have been post-processed, allowing for a last pass of codegen-specific model cleanup.
+     *
+     * @param objs Current state of codegen object model.
+     * @return An in-place modified state of the codegen object model.
+     */
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        // other libraries probably want these fixes, but lets avoid breaking changes for now
+        if (Boolean.FALSE.equals(GENERICHOST.equals(getLibrary()))) {
+            return objs;
+        }
+
+        ArrayList<CodegenModel> allModels = new ArrayList<>();
+        for (String key : objs.keySet()) {
+            CodegenModel model = ModelUtils.getModelByName(key, objs);
+            allModels.add(model);
+        }
+
+        for (CodegenModel cm : allModels) {
+            cm.anyOf.forEach(anyOf -> removePropertiesDeclaredInComposedClass(anyOf, allModels, cm));
+            cm.oneOf.forEach(oneOf -> removePropertiesDeclaredInComposedClass(oneOf, allModels, cm));
+            cm.allOf.forEach(allOf -> removePropertiesDeclaredInComposedClass(allOf, allModels, cm));
+
+            if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getAllOf() != null && !cm.getComposedSchemas().getAllOf().isEmpty()) {
+                cm.getComposedSchemas().getAllOf().forEach(allOf -> {
+                    if (allOf.dataType.equals(cm.parent)) {
+                        allOf.isInherited = true;
+                    }
+                });
+            }
+
+            ensureInheritedPropertiesArePresent(cm);
+        }
+
+        return objs;
+    }
+
+    /**
+     * Return true if the property being passed is a C# value type
+     *
+     * @param var property
+     * @return true if property is a value type
+     */
+    @Override
+    protected boolean isValueType(CodegenProperty var) {
+        // this is temporary until x-csharp-value-type is removed
+        return this.getLibrary().equals("generichost")
+            ? this.getNullableTypes().contains(var.dataType) || var.isEnum
+            : this.getValueTypes().contains(var.dataType) || var.isEnum;
+    }
+
+    /**
+     * Removes properties from a model which are also defined in a composed class.
+     *
+     * @param className The name which may be a composed model
+     * @param allModels A collection of all CodegenModel
+     * @param cm        The CodegenModel to correct
+     */
+    private void removePropertiesDeclaredInComposedClass(String className, List<CodegenModel> allModels, CodegenModel cm) {
+        CodegenModel otherModel = allModels.stream().filter(m -> m.classname.equals(className)).findFirst().orElse(null);
+        if (otherModel == null) {
+            return;
+        }
+
+        otherModel.readWriteVars.stream().filter(v -> cm.readWriteVars.stream().anyMatch(cmV -> cmV.baseName.equals(v.baseName))).collect(Collectors.toList())
+                .forEach(v -> {
+                    cm.readWriteVars.removeIf(item -> item.baseName.equals(v.baseName));
+                    cm.vars.removeIf(item -> item.baseName.equals(v.baseName));
+                    cm.readOnlyVars.removeIf(item -> item.baseName.equals(v.baseName));
+                    cm.requiredVars.removeIf(item -> item.baseName.equals(v.baseName));
+                    cm.allVars.removeIf(item -> item.baseName.equals(v.baseName));
+                    cm.nonNullableVars.removeIf(item -> item.baseName.equals(v.baseName));
+                });
+    }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
+        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
+        System.out.println("################################################################################");
+    }
+
+    @Override
+    protected void updateModelForObject(CodegenModel m, Schema schema) {
+        /**
+         * we have a custom version of this function so we only set isMap to true if
+         * ModelUtils.isMapSchema
+         * In other generators, isMap is true for all type object schemas
+         */
+        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+            // passing null to allProperties and allRequired as there's no parent
+            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+        }
+        if (ModelUtils.isMapSchema(schema)) {
+            // an object or anyType composed schema that has additionalProperties set
+            addAdditionPropertiesToCodeGenModel(m, schema);
+        } else {
+            m.setIsMap(false);
+            if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+                // non-composed object type with no properties + additionalProperties
+                // additionalProperties must be null, ObjectSchema, or empty Schema
+                addAdditionPropertiesToCodeGenModel(m, schema);
+            }
+        }
+        // process 'additionalProperties'
+        setAddProps(schema, m);
+    }
+
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        generateYAMLSpecFile(objs);
+        return objs;
     }
 }

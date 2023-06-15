@@ -53,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<FormatTest>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Binary'
         /// </summary>
@@ -62,14 +61,16 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Binary'
         }
+
         /// <summary>
-        /// Test the property 'ByteProperty'
+        /// Test the property 'VarByte'
         /// </summary>
         [Fact]
-        public void BytePropertyTest()
+        public void VarByteTest()
         {
-            // TODO unit test for the property 'ByteProperty'
+            // TODO unit test for the property 'VarByte'
         }
+
         /// <summary>
         /// Test the property 'Date'
         /// </summary>
@@ -78,6 +79,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Date'
         }
+
         /// <summary>
         /// Test the property 'DateTime'
         /// </summary>
@@ -86,30 +88,34 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'DateTime'
         }
+
         /// <summary>
-        /// Test the property 'DecimalProperty'
+        /// Test the property 'VarDecimal'
         /// </summary>
         [Fact]
-        public void DecimalPropertyTest()
+        public void VarDecimalTest()
         {
-            // TODO unit test for the property 'DecimalProperty'
+            // TODO unit test for the property 'VarDecimal'
         }
+
         /// <summary>
-        /// Test the property 'DoubleProperty'
+        /// Test the property 'VarDouble'
         /// </summary>
         [Fact]
-        public void DoublePropertyTest()
+        public void VarDoubleTest()
         {
-            // TODO unit test for the property 'DoubleProperty'
+            // TODO unit test for the property 'VarDouble'
         }
+
         /// <summary>
-        /// Test the property 'FloatProperty'
+        /// Test the property 'VarFloat'
         /// </summary>
         [Fact]
-        public void FloatPropertyTest()
+        public void VarFloatTest()
         {
-            // TODO unit test for the property 'FloatProperty'
+            // TODO unit test for the property 'VarFloat'
         }
+
         /// <summary>
         /// Test the property 'Int32'
         /// </summary>
@@ -118,6 +124,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Int32'
         }
+
         /// <summary>
         /// Test the property 'Int64'
         /// </summary>
@@ -126,6 +133,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Int64'
         }
+
         /// <summary>
         /// Test the property 'Integer'
         /// </summary>
@@ -134,6 +142,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Integer'
         }
+
         /// <summary>
         /// Test the property 'Number'
         /// </summary>
@@ -142,6 +151,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Number'
         }
+
         /// <summary>
         /// Test the property 'Password'
         /// </summary>
@@ -150,6 +160,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Password'
         }
+
         /// <summary>
         /// Test the property 'PatternWithBackslash'
         /// </summary>
@@ -158,6 +169,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'PatternWithBackslash'
         }
+
         /// <summary>
         /// Test the property 'PatternWithDigits'
         /// </summary>
@@ -166,6 +178,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'PatternWithDigits'
         }
+
         /// <summary>
         /// Test the property 'PatternWithDigitsAndDelimiter'
         /// </summary>
@@ -174,14 +187,16 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'PatternWithDigitsAndDelimiter'
         }
+
         /// <summary>
-        /// Test the property 'StringProperty'
+        /// Test the property 'VarString'
         /// </summary>
         [Fact]
-        public void StringPropertyTest()
+        public void VarStringTest()
         {
-            // TODO unit test for the property 'StringProperty'
+            // TODO unit test for the property 'VarString'
         }
+
         /// <summary>
         /// Test the property 'UnsignedInteger'
         /// </summary>
@@ -190,6 +205,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'UnsignedInteger'
         }
+
         /// <summary>
         /// Test the property 'UnsignedLong'
         /// </summary>
@@ -198,6 +214,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'UnsignedLong'
         }
+
         /// <summary>
         /// Test the property 'Uuid'
         /// </summary>
@@ -206,7 +223,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Uuid'
         }
-
     }
-
 }

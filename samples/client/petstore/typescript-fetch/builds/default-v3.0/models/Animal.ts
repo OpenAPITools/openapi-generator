@@ -16,7 +16,7 @@ import { exists, mapValues } from '../runtime';
 import {
      CatFromJSONTyped,
      DogFromJSONTyped
-} from './';
+} from './index';
 
 /**
  * 

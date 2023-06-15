@@ -133,7 +133,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
                         SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.OAuth2_ClientCredentials,
+                        SecurityFeature.OAuth2_Password,
+                        SecurityFeature.OAuth2_AuthorizationCode
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
@@ -607,7 +610,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             if (AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
                 throw new IllegalArgumentException(AnnotationLibrary.SWAGGER1.getPropertyName() + " is not supported with Spring Boot > 3.x");
             }
-            useJakartaEe=true;
+            useJakartaEe = true;
             additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
             applyJakartaPackage();
         }

@@ -1,4 +1,8 @@
-generatorName: python-aiohttp
-outputDir: samples/server/petstore/python-aiohttp
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
-templateDir: modules/openapi-generator/src/main/resources/python-aiohttp
+generatorName: python
+outputDir: samples/openapi3/client/petstore/python-aiohttp
+inputSpec: modules/openapi-generator/src/test/resources/3_0/python/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/python
+library: asyncio
+additionalProperties:
+  packageName: petstore_api
+  mapNumberTo: float

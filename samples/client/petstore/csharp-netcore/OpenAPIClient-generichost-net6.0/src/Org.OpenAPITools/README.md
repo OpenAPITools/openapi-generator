@@ -62,7 +62,7 @@ namespace YourProject
             var host = CreateHostBuilder(args).Build();
             var api = host.Services.GetRequiredService<IAnotherFakeApi>();
             ApiResponse<ModelClient> response = await api.Call123TestSpecialTagsAsync("todo");
-            ModelClient model = response.ToModel();
+            ModelClient model = response.AsModel();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
@@ -193,11 +193,12 @@ Authentication schemes defined for the API:
 <a id="http_signature_test"></a>
 ### http_signature_test
 
+- **Type**: HTTP signature authentication
 
 
 ## Build
 - SDK version: 1.0.0
-- Build package: org.openapitools.codegen.languages.CSharpNetCoreClientCodegen
+- Build package: org.openapitools.codegen.languages.CSharpClientCodegen
 
 ## Api Information
 - appName: OpenAPI Petstore

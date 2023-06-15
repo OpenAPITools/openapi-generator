@@ -59,19 +59,19 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Adult {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
     }
 
     /// <summary>
-    /// A Json converter for type Adult
+    /// A Json converter for type <see cref="Adult" />
     /// </summary>
     public class AdultJsonConverter : JsonConverter<Adult>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Adult" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -90,9 +90,9 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader adultAllOfReader = utf8JsonReader;
             bool adultAllOfDeserialized = Client.ClientUtils.TryDeserialize<AdultAllOf>(ref utf8JsonReader, jsonSerializerOptions, out AdultAllOf? adultAllOf);
 
-            string firstName = default;
-            string lastName = default;
-            string type = default;
+            string? firstName = default;
+            string? lastName = default;
+            string? type = default;
 
             while (utf8JsonReader.Read())
             {
@@ -124,11 +124,23 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (firstName == null)
+                throw new ArgumentNullException(nameof(firstName), "Property is required for class Adult.");
+
+            if (lastName == null)
+                throw new ArgumentNullException(nameof(lastName), "Property is required for class Adult.");
+
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class Adult.");
+
+            if (adultAllOf == null)
+                throw new ArgumentNullException(nameof(adultAllOf), "Property is required for class Adult.");
+
             return new Adult(adultAllOf, firstName, lastName, type);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Adult" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="adult"></param>

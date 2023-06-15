@@ -84,12 +84,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ScaleneTriangle
+    /// A Json converter for type <see cref="ScaleneTriangle" />
     /// </summary>
     public class ScaleneTriangleJsonConverter : JsonConverter<ScaleneTriangle>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ScaleneTriangle" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -110,7 +110,6 @@ namespace Org.OpenAPITools.Model
 
             Utf8JsonReader triangleInterfaceReader = utf8JsonReader;
             bool triangleInterfaceDeserialized = Client.ClientUtils.TryDeserialize<TriangleInterface>(ref utf8JsonReader, jsonSerializerOptions, out TriangleInterface triangleInterface);
-
 
             while (utf8JsonReader.Read())
             {
@@ -133,11 +132,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (shapeInterface == null)
+                throw new ArgumentNullException(nameof(shapeInterface), "Property is required for class ScaleneTriangle.");
+
+            if (triangleInterface == null)
+                throw new ArgumentNullException(nameof(triangleInterface), "Property is required for class ScaleneTriangle.");
+
             return new ScaleneTriangle(shapeInterface, triangleInterface);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ScaleneTriangle" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="scaleneTriangle"></param>

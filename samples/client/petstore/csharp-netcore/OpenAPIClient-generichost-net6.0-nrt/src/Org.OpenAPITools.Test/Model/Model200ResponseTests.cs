@@ -53,15 +53,15 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Model200Response>(instance);
         }
 
-
         /// <summary>
-        /// Test the property 'ClassProperty'
+        /// Test the property 'VarClass'
         /// </summary>
         [Fact]
-        public void ClassPropertyTest()
+        public void VarClassTest()
         {
-            // TODO unit test for the property 'ClassProperty'
+            // TODO unit test for the property 'VarClass'
         }
+
         /// <summary>
         /// Test the property 'Name'
         /// </summary>
@@ -70,7 +70,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Name'
         }
-
     }
-
 }

@@ -97,6 +97,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     generatorName.set(generate.generatorName)
                     outputDir.set(generate.outputDir)
                     inputSpec.set(generate.inputSpec)
+                    inputSpecRootDirectory.set(generate.inputSpecRootDirectory)
                     remoteInputSpec.set(generate.remoteInputSpec)
                     templateDir.set(generate.templateDir)
                     auth.set(generate.auth)
@@ -148,6 +149,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     generateAliasAsModel.set(generate.generateAliasAsModel)
                     engine.set(generate.engine)
                     cleanupOutput.set(generate.cleanupOutput)
+                    dryRun.set(generate.dryRun)
                 }
             }
         }

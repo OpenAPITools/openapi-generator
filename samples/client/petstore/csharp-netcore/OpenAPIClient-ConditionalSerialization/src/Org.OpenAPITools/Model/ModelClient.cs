@@ -29,46 +29,46 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ModelClient
     /// </summary>
-    [DataContract(Name = "_Client")]
+    [DataContract(Name = "varClient")]
     public partial class ModelClient : IEquatable<ModelClient>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
-        /// <param name="_client">_client.</param>
-        public ModelClient(string _client = default(string))
+        /// <param name="varClient">varClient.</param>
+        public ModelClient(string varClient = default(string))
         {
-            this.__Client = _client;
-            if (this._Client != null)
+            this._VarClient = varClient;
+            if (this.VarClient != null)
             {
-                this._flag_Client = true;
+                this._flagVarClient = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets _Client
+        /// Gets or Sets VarClient
         /// </summary>
         [DataMember(Name = "client", EmitDefaultValue = false)]
-        public string _Client
+        public string VarClient
         {
-            get{ return __Client;}
+            get{ return _VarClient;}
             set
             {
-                __Client = value;
-                _flag_Client = true;
+                _VarClient = value;
+                _flagVarClient = true;
             }
         }
-        private string __Client;
-        private bool _flag_Client;
+        private string _VarClient;
+        private bool _flagVarClient;
 
         /// <summary>
-        /// Returns false as _Client should not be serialized given that it's read-only.
+        /// Returns false as VarClient should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerialize_Client()
+        public bool ShouldSerializeVarClient()
         {
-            return _flag_Client;
+            return _flagVarClient;
         }
         /// <summary>
         /// Gets or Sets additional properties
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
-            sb.Append("  _Client: ").Append(_Client).Append("\n");
+            sb.Append("  VarClient: ").Append(VarClient).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -128,9 +128,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this._Client != null)
+                if (this.VarClient != null)
                 {
-                    hashCode = (hashCode * 59) + this._Client.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarClient.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

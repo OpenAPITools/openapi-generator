@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type HealthCheckResult
+    /// A Json converter for type <see cref="HealthCheckResult" />
     /// </summary>
     public class HealthCheckResultJsonConverter : JsonConverter<HealthCheckResult>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="HealthCheckResult" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string nullableMessage = default;
+            string? nullableMessage = default;
 
             while (utf8JsonReader.Read())
             {
@@ -132,7 +132,7 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="HealthCheckResult" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="healthCheckResult"></param>

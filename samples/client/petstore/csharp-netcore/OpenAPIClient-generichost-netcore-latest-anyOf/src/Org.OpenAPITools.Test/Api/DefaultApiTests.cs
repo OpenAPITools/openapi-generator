@@ -50,7 +50,6 @@ namespace Org.OpenAPITools.Test.Api
             _instance = _host.Services.GetRequiredService<IApi.IDefaultApi>();
         }
 
-
         /// <summary>
         /// Test RootGet
         /// </summary>
@@ -58,7 +57,7 @@ namespace Org.OpenAPITools.Test.Api
         public async Task RootGetAsyncTest()
         {
             var response = await _instance.RootGetAsync();
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<Fruit>(model);
         }
     }

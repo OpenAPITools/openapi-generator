@@ -4,29 +4,30 @@ set -e
 DIRECTORY=`dirname $0`
 
 # example project with unit tests
-mvn -f $DIRECTORY/alamofireLibrary/SwaggerClientTests/pom.xml integration-test
-mvn -f $DIRECTORY/asyncAwaitLibrary/SwaggerClientTests/pom.xml integration-test
-mvn -f $DIRECTORY/combineLibrary/SwaggerClientTests/pom.xml integration-test
-mvn -f $DIRECTORY/default/SwaggerClientTests/pom.xml integration-test
-mvn -f $DIRECTORY/promisekitLibrary/SwaggerClientTests/pom.xml integration-test
-mvn -f $DIRECTORY/rxswiftLibrary/SwaggerClientTests/pom.xml integration-test
-mvn -f $DIRECTORY/urlsessionLibrary/SwaggerClientTests/pom.xml integration-test
+(cd $DIRECTORY/alamofireLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
+(cd $DIRECTORY/asyncAwaitLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
+(cd $DIRECTORY/combineLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
+(cd $DIRECTORY/default/SwaggerClientTests/ && ./run_xcodebuild.sh)
+(cd $DIRECTORY/promisekitLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
+(cd $DIRECTORY/rxswiftLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
+(cd $DIRECTORY/urlsessionLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
 
 # spm build
-mvn -f $DIRECTORY/alamofireLibrary/pom.xml integration-test
-mvn -f $DIRECTORY/anycodable/pom.xml integration-test
-mvn -f $DIRECTORY/asyncAwaitLibrary/pom.xml integration-test
-mvn -f $DIRECTORY/combineLibrary/pom.xml integration-test
-mvn -f $DIRECTORY/default/pom.xml integration-test
-mvn -f $DIRECTORY/deprecated/pom.xml integration-test
-mvn -f $DIRECTORY/frozenEnums/pom.xml integration-test
-mvn -f $DIRECTORY/nonPublicApi/pom.xml integration-test
-mvn -f $DIRECTORY/objcCompatible/pom.xml integration-test
-mvn -f $DIRECTORY/oneOf/pom.xml integration-test
-mvn -f $DIRECTORY/promisekitLibrary/pom.xml integration-test
-mvn -f $DIRECTORY/readonlyProperties/pom.xml integration-test
-mvn -f $DIRECTORY/resultLibrary/pom.xml integration-test
-mvn -f $DIRECTORY/rxswiftLibrary/pom.xml integration-test
-mvn -f $DIRECTORY/urlsessionLibrary/pom.xml integration-test
-# mvn -f $DIRECTORY/vaporLibrary/pom.xml integration-test
-mvn -f $DIRECTORY/x-swift-hashable/pom.xml integration-test
+(cd $DIRECTORY/alamofireLibrary/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/anycodableLibrary/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/asyncAwaitLibrary/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/combineLibrary/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/default/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/deprecated/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/frozenEnums/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/nonPublicApi/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/objcCompatible/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/oneOf/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/promisekitLibrary/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/readonlyProperties/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/resultLibrary/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/rxswiftLibrary/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/urlsessionLibrary/ && ./run_spmbuild.sh)
+#(cd $DIRECTORY/vaporLibrary/ && ./run_spmbuild.sh)
+(cd $DIRECTORY/x-swift-hashable/ && ./run_spmbuild.sh)
+

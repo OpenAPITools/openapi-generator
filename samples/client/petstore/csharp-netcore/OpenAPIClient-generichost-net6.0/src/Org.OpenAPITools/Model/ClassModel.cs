@@ -31,21 +31,21 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ClassModel" /> class.
         /// </summary>
-        /// <param name="classProperty">classProperty</param>
+        /// <param name="varClass">varClass</param>
         [JsonConstructor]
-        public ClassModel(string classProperty)
+        public ClassModel(string varClass)
         {
-            ClassProperty = classProperty;
+            VarClass = varClass;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets ClassProperty
+        /// Gets or Sets VarClass
         /// </summary>
         [JsonPropertyName("_class")]
-        public string ClassProperty { get; set; }
+        public string VarClass { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ClassModel {\n");
-            sb.Append("  ClassProperty: ").Append(ClassProperty).Append("\n");
+            sb.Append("  VarClass: ").Append(VarClass).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -79,12 +79,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ClassModel
+    /// A Json converter for type <see cref="ClassModel" />
     /// </summary>
     public class ClassModelJsonConverter : JsonConverter<ClassModel>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ClassModel" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -100,7 +100,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string classProperty = default;
+            string varClass = default;
 
             while (utf8JsonReader.Read())
             {
@@ -118,7 +118,7 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "_class":
-                            classProperty = utf8JsonReader.GetString();
+                            varClass = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -126,20 +126,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            if (varClass == null)
+                throw new ArgumentNullException(nameof(varClass), "Property is required for class ClassModel.");
 
-            if (classProperty == null)
-                throw new ArgumentNullException(nameof(classProperty), "Property is required for class ClassModel.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return new ClassModel(classProperty);
+            return new ClassModel(varClass);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ClassModel" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="classModel"></param>
@@ -149,7 +143,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("_class", classModel.ClassProperty);
+            writer.WriteString("_class", classModel.VarClass);
 
             writer.WriteEndObject();
         }

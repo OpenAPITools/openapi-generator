@@ -1,12 +1,12 @@
-import { exists, mapValues } from '../runtime';
+import { exists, mapValues } from '../runtime{{importFileExtension}}';
 {{#hasImports}}
 {{#imports}}
-import type { {{{.}}} } from './{{.}}';
+import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
     {{.}}FromJSON,
     {{.}}FromJSONTyped,
     {{.}}ToJSON,
-} from './{{.}}';
+} from './{{.}}{{importFileExtension}}';
 {{/imports}}
 
 {{/hasImports}}
@@ -15,7 +15,7 @@ import {
 {{#discriminator.mappedModels}}
      {{modelName}}FromJSONTyped{{^-last}},{{/-last}}
 {{/discriminator.mappedModels}}
-} from './';
+} from './index{{importFileExtension}}';
 
 {{/discriminator}}
 {{>modelGenericInterfaces}}

@@ -7,7 +7,6 @@ using System;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using {{packageName}}.{{clientPackage}};
-using {{packageName}}.{{apiPackage}};
 
 namespace {{packageName}}.Extensions
 {
@@ -21,26 +20,9 @@ namespace {{packageName}}.Extensions
         /// Add the api to your host builder.
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="options"></param>
-        public static void Add{{apiName}}<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(this IServiceCollection services)
-            {{#apiInfo}}
-            {{#apis}}
-            where T{{classname}} : class, {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
-            {{/apis}}
-            {{/apiInfo}}
-        {
-            HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> config = new HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(services);
-            Add{{apiName}}(services, config);
-        }
-
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="options"></param>
         public static void Add{{apiName}}(this IServiceCollection services)
         {
-            HostConfiguration<{{>DefaultApis}}> config = new HostConfiguration<{{>DefaultApis}}>(services);
+            HostConfiguration config = new{{^net70OrLater}} HostConfiguration{{/net70OrLater}}(services);
             Add{{apiName}}(services, config);
         }
 
@@ -50,36 +32,14 @@ namespace {{packageName}}.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <param name="options"></param>
-        public static void Add{{apiName}}<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(this IServiceCollection services, Action<HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>> options)
-            {{#apiInfo}}
-            {{#apis}}
-            where T{{classname}} : class, {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
-            {{/apis}}
-            {{/apiInfo}}
+        public static void Add{{apiName}}(this IServiceCollection services, Action<HostConfiguration> options)
         {
-            HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> config = new HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(services);
+            HostConfiguration config = new{{^net70OrLater}} HostConfiguration{{/net70OrLater}}(services);
             options(config);
             Add{{apiName}}(services, config);
         }
 
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="options"></param>
-        public static void Add{{apiName}}(this IServiceCollection services, Action<HostConfiguration<{{>DefaultApis}}>> options)
-        {
-            HostConfiguration<{{>DefaultApis}}> config = new HostConfiguration<{{>DefaultApis}}>(services);
-            options(config);
-            Add{{apiName}}(services, config);
-        }
-
-        internal static void Add{{apiName}}<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}>(IServiceCollection services, HostConfiguration<{{#apiInfo}}{{#apis}}T{{classname}}{{^-last}}, {{/-last}}{{/apis}}{{/apiInfo}}> host)
-            {{#apiInfo}}
-            {{#apis}}
-            where T{{classname}} : class, {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
-            {{/apis}}
-            {{/apiInfo}}
+        internal static void Add{{apiName}}(IServiceCollection services, HostConfiguration host)
         {
             if (!host.HttpClientsAdded)
                 host.Add{{apiName}}HttpClients();

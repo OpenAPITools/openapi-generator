@@ -97,10 +97,10 @@ class {{controllerName}} extends Controller
         $security{{name}} = $request->cookies->get('{{keyParamName}}');
         {{/isKeyInCookie}}
         {{/isApiKey}}
-        {{#isBasic}}
+        {{#isBasicBasic}}
         // HTTP basic authentication required
         $security{{name}} = $request->headers->get('authorization');
-        {{/isBasic}}
+        {{/isBasicBasic}}
         {{#isOAuth}}
         // Oauth required
         $security{{name}} = $request->headers->get('authorization');

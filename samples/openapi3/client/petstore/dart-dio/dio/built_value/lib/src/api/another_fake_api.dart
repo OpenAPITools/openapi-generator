@@ -28,8 +28,13 @@ class AnotherFakeApi {
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [ModelClient] as data
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/built_value/lib/src/api/another_fake_api.dart
   /// Throws [DioError] if API call or serialization fails
   Future<Response<ModelClient>> call123testSpecialTags({
+=======
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<ModelClient>> call123testSpecialTags({ 
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/lib/src/api/another_fake_api.dart
     required ModelClient modelClient,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -38,8 +43,42 @@ class AnotherFakeApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/built_value/lib/src/api/another_fake_api.dart
     Object? _bodyData;
     _bodyData = _repository.serialize(modelClient, const TypeInfo(ModelClient));
+=======
+    final _path = r'/another-fake/dummy';
+    final _options = Options(
+      method: r'PATCH',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      contentType: 'application/json',
+      validateStatus: validateStatus,
+    );
+
+    dynamic _bodyData;
+
+    try {
+      const _type = FullType(ModelClient);
+      _bodyData = _serializers.serialize(modelClient, specifiedType: _type);
+
+    } catch(error, stackTrace) {
+      throw DioException(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/lib/src/api/another_fake_api.dart
 
     final _response = await rawApi.call123testSpecialTags(
       body: _bodyData,
@@ -63,10 +102,10 @@ class AnotherFakeApi {
               const TypeInfo(ModelClient),
             );
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );

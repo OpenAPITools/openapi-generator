@@ -29,8 +29,13 @@ class BarApi {
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [Bar] as data
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/bar_api.dart
   /// Throws [DioError] if API call or serialization fails
   Future<Response<Bar>> createBar({
+=======
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<Bar>> createBar({ 
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/lib/src/api/bar_api.dart
     required BarCreate barCreate,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -42,9 +47,32 @@ class BarApi {
     Object? _bodyData;
     _bodyData = _repository.serialize(barCreate, const TypeInfo(BarCreate));
 
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/bar_api.dart
     final _response = await rawApi.createBar(
       body: _bodyData,
       requestContentType: 'application/json',
+=======
+    try {
+      const _type = FullType(BarCreate);
+      _bodyData = _serializers.serialize(barCreate, specifiedType: _type);
+
+    } catch(error, stackTrace) {
+      throw DioException(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    final _response = await _dio.request<Object>(
+      _path,
+      data: _bodyData,
+      options: _options,
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/lib/src/api/bar_api.dart
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
@@ -64,10 +92,10 @@ class BarApi {
               const TypeInfo(Bar),
             );
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );

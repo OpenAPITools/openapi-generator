@@ -50,16 +50,15 @@ namespace Org.OpenAPITools.Test.Api
             _instance = _host.Services.GetRequiredService<IApi.IFakeClassnameTags123Api>();
         }
 
-
         /// <summary>
         /// Test TestClassname
         /// </summary>
         [Fact (Skip = "not implemented")]
         public async Task TestClassnameAsyncTest()
         {
-            ModelClient modelClient = default;
+            ModelClient modelClient = default!;
             var response = await _instance.TestClassnameAsync(modelClient);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<ModelClient>(model);
         }
     }

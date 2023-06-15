@@ -45,6 +45,12 @@ import {{javaxPackage}}.annotation.Generated;
 
 {{#models}}
 {{#model}}
+{{#additionalPropertiesType}}
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+{{/additionalPropertiesType}}
 {{#isEnum}}
 {{>enumOuterClass}}
 {{/isEnum}}

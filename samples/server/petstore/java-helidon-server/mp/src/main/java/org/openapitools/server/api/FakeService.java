@@ -15,6 +15,7 @@ package org.openapitools.server.api;
 import java.math.BigDecimal;
 import org.openapitools.server.model.Client;
 import org.openapitools.server.model.EnumClass;
+import org.openapitools.server.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.server.model.FileSchemaTestClass;
 import org.openapitools.server.model.HealthCheckResult;
@@ -37,6 +38,11 @@ import jakarta.validation.Valid;
 @Path("/fake")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen")
 public interface FakeService {
+
+    @GET
+    @Path("/BigDecimalMap")
+    @Produces({ "*/*" })
+    FakeBigDecimalMap200Response fakeBigDecimalMap();
 
     @GET
     @Path("/health")

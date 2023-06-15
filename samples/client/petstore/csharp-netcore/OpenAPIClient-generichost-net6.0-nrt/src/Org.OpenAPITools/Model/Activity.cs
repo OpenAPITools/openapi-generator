@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Activity
+    /// A Json converter for type <see cref="Activity" />
     /// </summary>
     public class ActivityJsonConverter : JsonConverter<Activity>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Activity" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Dictionary<string, List<ActivityOutputElementRepresentation>> activityOutputs = default;
+            Dictionary<string, List<ActivityOutputElementRepresentation>>? activityOutputs = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,20 +129,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (activityOutputs == null)
                 throw new ArgumentNullException(nameof(activityOutputs), "Property is required for class Activity.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new Activity(activityOutputs);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Activity" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="activity"></param>

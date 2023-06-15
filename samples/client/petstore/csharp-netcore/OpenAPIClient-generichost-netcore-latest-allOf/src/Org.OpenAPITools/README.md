@@ -62,7 +62,7 @@ namespace YourProject
             var host = CreateHostBuilder(args).Build();
             var api = host.Services.GetRequiredService<IDefaultApi>();
             ApiResponse<Person> response = await api.ListAsync("todo");
-            Person model = response.ToModel();
+            Person model = response.AsModel();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
@@ -117,7 +117,7 @@ Endpoints do not require authorization.
 
 ## Build
 - SDK version: 1.0.0
-- Build package: org.openapitools.codegen.languages.CSharpNetCoreClientCodegen
+- Build package: org.openapitools.codegen.languages.CSharpClientCodegen
 
 ## Api Information
 - appName: Example

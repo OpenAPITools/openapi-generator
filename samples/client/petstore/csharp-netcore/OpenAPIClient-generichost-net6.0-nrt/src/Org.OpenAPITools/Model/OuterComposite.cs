@@ -99,12 +99,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type OuterComposite
+    /// A Json converter for type <see cref="OuterComposite" />
     /// </summary>
     public class OuterCompositeJsonConverter : JsonConverter<OuterComposite>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="OuterComposite" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -120,9 +120,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            bool myBoolean = default;
-            decimal myNumber = default;
-            string myString = default;
+            bool? myBoolean = default;
+            decimal? myNumber = default;
+            string? myString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -156,8 +156,8 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            if (myBoolean == null)
+                throw new ArgumentNullException(nameof(myBoolean), "Property is required for class OuterComposite.");
 
             if (myNumber == null)
                 throw new ArgumentNullException(nameof(myNumber), "Property is required for class OuterComposite.");
@@ -165,17 +165,11 @@ namespace Org.OpenAPITools.Model
             if (myString == null)
                 throw new ArgumentNullException(nameof(myString), "Property is required for class OuterComposite.");
 
-            if (myBoolean == null)
-                throw new ArgumentNullException(nameof(myBoolean), "Property is required for class OuterComposite.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return new OuterComposite(myBoolean, myNumber, myString);
+            return new OuterComposite(myBoolean.Value, myNumber.Value, myString);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="OuterComposite" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="outerComposite"></param>

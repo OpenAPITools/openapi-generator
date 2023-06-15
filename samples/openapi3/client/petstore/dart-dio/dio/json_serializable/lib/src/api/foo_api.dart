@@ -10,9 +10,21 @@ import 'package:openapi/models.dart';
 import 'package:openapi/src/model/foo.dart';
 import 'package:openapi/src/model/foo_ref_or_value.dart';
 
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/foo_api.dart
 class FooApi {
   final FooApiRaw rawApi;
   final SerializationRepositoryBase _repository;
+=======
+import 'package:built_collection/built_collection.dart';
+import 'package:openapi/src/api_util.dart';
+import 'package:openapi/src/model/order.dart';
+
+class StoreApi {
+
+  final Dio _dio;
+
+  final Serializers _serializers;
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/lib/src/api/store_api.dart
 
   const FooApi(this.rawApi, this._repository);
 
@@ -28,10 +40,17 @@ class FooApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/foo_api.dart
   /// Returns a [Future] containing a [Response] with a [FooRefOrValue] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<FooRefOrValue>> createFoo({
     Foo? foo,
+=======
+  /// Returns a [Future]
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<void>> deleteOrder({ 
+    required String orderId,
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/lib/src/api/store_api.dart
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -39,9 +58,24 @@ class FooApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/foo_api.dart
     Object? _bodyData;
     _bodyData =
         foo == null ? null : _repository.serialize(foo, const TypeInfo(Foo));
+=======
+    final _path = r'/store/order/{order_id}'.replaceAll('{' r'order_id' '}', encodeQueryParameter(_serializers, orderId, const FullType(String)).toString());
+    final _options = Options(
+      method: r'DELETE',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/lib/src/api/store_api.dart
 
     final _response = await rawApi.createFoo(
       body: _bodyData,
@@ -97,9 +131,15 @@ class FooApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/foo_api.dart
   /// Returns a [Future] containing a [Response] with a [List<FooRefOrValue>] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<List<FooRefOrValue>>> getAllFoos({
+=======
+  /// Returns a [Future] containing a [Response] with a [BuiltMap<String, int>] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<BuiltMap<String, int>>> getInventory({ 
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/lib/src/api/store_api.dart
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -129,10 +169,10 @@ class FooApi {
               ]),
             );
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -168,6 +208,7 @@ class FooApiRaw {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/foo_api.dart
   /// Returns a [Future] containing a [Response] with a [FooRefOrValue] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<Object>> createFoo({
@@ -175,6 +216,12 @@ class FooApiRaw {
     String? requestContentType,
     String? acceptContentType,
     ResponseType? responseType,
+=======
+  /// Returns a [Future] containing a [Response] with a [Order] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<Order>> getOrderById({ 
+    required int orderId,
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/lib/src/api/store_api.dart
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -182,7 +229,11 @@ class FooApiRaw {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/foo_api.dart
     final _path = r'/foo';
+=======
+    final _path = r'/store/order/{order_id}'.replaceAll('{' r'order_id' '}', encodeQueryParameter(_serializers, orderId, const FullType(int)).toString());
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/lib/src/api/store_api.dart
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -206,6 +257,39 @@ class FooApiRaw {
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/foo_api.dart
+=======
+
+    Order? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Order),
+      ) as Order;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<Order>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/lib/src/api/store_api.dart
   }
 
   /// GET all Foos
@@ -219,6 +303,7 @@ class FooApiRaw {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/foo_api.dart
   /// Returns a [Future] containing a [Response] with a [List<FooRefOrValue>] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<Object>> getAllFoos({
@@ -226,6 +311,12 @@ class FooApiRaw {
     String? requestContentType,
     String? acceptContentType,
     ResponseType? responseType,
+=======
+  /// Returns a [Future] containing a [Response] with a [Order] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<Order>> placeOrder({ 
+    required Order order,
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/lib/src/api/store_api.dart
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -249,7 +340,29 @@ class FooApiRaw {
       validateStatus: validateStatus,
     );
 
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/foo_api.dart
     return await _dio.request<Object>(
+=======
+    dynamic _bodyData;
+
+    try {
+      const _type = FullType(Order);
+      _bodyData = _serializers.serialize(order, specifiedType: _type);
+
+    } catch(error, stackTrace) {
+      throw DioException(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    final _response = await _dio.request<Object>(
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/lib/src/api/store_api.dart
       _path,
       data: body,
       options: _options,
@@ -257,5 +370,38 @@ class FooApiRaw {
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/foo_api.dart
+=======
+
+    Order? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Order),
+      ) as Order;
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<Order>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/lib/src/api/store_api.dart
   }
 }

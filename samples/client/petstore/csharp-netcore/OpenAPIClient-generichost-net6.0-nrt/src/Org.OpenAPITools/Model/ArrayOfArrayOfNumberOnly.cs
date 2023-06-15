@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ArrayOfArrayOfNumberOnly
+    /// A Json converter for type <see cref="ArrayOfArrayOfNumberOnly" />
     /// </summary>
     public class ArrayOfArrayOfNumberOnlyJsonConverter : JsonConverter<ArrayOfArrayOfNumberOnly>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ArrayOfArrayOfNumberOnly" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<List<decimal>> arrayArrayNumber = default;
+            List<List<decimal>>? arrayArrayNumber = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,20 +129,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (arrayArrayNumber == null)
                 throw new ArgumentNullException(nameof(arrayArrayNumber), "Property is required for class ArrayOfArrayOfNumberOnly.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new ArrayOfArrayOfNumberOnly(arrayArrayNumber);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ArrayOfArrayOfNumberOnly" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="arrayOfArrayOfNumberOnly"></param>

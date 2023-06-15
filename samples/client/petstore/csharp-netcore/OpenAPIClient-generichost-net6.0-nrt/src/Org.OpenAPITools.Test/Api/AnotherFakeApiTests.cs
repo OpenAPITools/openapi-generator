@@ -50,16 +50,15 @@ namespace Org.OpenAPITools.Test.Api
             _instance = _host.Services.GetRequiredService<IApi.IAnotherFakeApi>();
         }
 
-
         /// <summary>
         /// Test Call123TestSpecialTags
         /// </summary>
         [Fact (Skip = "not implemented")]
         public async Task Call123TestSpecialTagsAsyncTest()
         {
-            ModelClient modelClient = default;
+            ModelClient modelClient = default!;
             var response = await _instance.Call123TestSpecialTagsAsync(modelClient);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<ModelClient>(model);
         }
     }

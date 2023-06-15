@@ -86,12 +86,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ComplexQuadrilateral
+    /// A Json converter for type <see cref="ComplexQuadrilateral" />
     /// </summary>
     public class ComplexQuadrilateralJsonConverter : JsonConverter<ComplexQuadrilateral>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ComplexQuadrilateral" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -112,7 +112,6 @@ namespace Org.OpenAPITools.Model
 
             Utf8JsonReader quadrilateralInterfaceReader = utf8JsonReader;
             bool quadrilateralInterfaceDeserialized = Client.ClientUtils.TryDeserialize<QuadrilateralInterface>(ref utf8JsonReader, jsonSerializerOptions, out QuadrilateralInterface? quadrilateralInterface);
-
 
             while (utf8JsonReader.Read())
             {
@@ -135,11 +134,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (shapeInterface == null)
+                throw new ArgumentNullException(nameof(shapeInterface), "Property is required for class ComplexQuadrilateral.");
+
+            if (quadrilateralInterface == null)
+                throw new ArgumentNullException(nameof(quadrilateralInterface), "Property is required for class ComplexQuadrilateral.");
+
             return new ComplexQuadrilateral(shapeInterface, quadrilateralInterface);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ComplexQuadrilateral" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="complexQuadrilateral"></param>

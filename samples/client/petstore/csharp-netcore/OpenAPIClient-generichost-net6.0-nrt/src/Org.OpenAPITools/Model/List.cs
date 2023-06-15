@@ -33,21 +33,21 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="List" /> class.
         /// </summary>
-        /// <param name="_123list">_123list</param>
+        /// <param name="var123List">var123List</param>
         [JsonConstructor]
-        public List(string _123list)
+        public List(string var123List)
         {
-            _123List = _123list;
+            Var123List = var123List;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets _123List
+        /// Gets or Sets Var123List
         /// </summary>
         [JsonPropertyName("123-list")]
-        public string _123List { get; set; }
+        public string Var123List { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class List {\n");
-            sb.Append("  _123List: ").Append(_123List).Append("\n");
+            sb.Append("  Var123List: ").Append(Var123List).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type List
+    /// A Json converter for type <see cref="List" />
     /// </summary>
     public class ListJsonConverter : JsonConverter<List>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="List" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string _123list = default;
+            string? var123List = default;
 
             while (utf8JsonReader.Read())
             {
@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "123-list":
-                            _123list = utf8JsonReader.GetString();
+                            var123List = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -128,20 +128,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            if (var123List == null)
+                throw new ArgumentNullException(nameof(var123List), "Property is required for class List.");
 
-            if (_123list == null)
-                throw new ArgumentNullException(nameof(_123list), "Property is required for class List.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return new List(_123list);
+            return new List(var123List);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="List" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="list"></param>
@@ -151,7 +145,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("123-list", list._123List);
+            writer.WriteString("123-list", list.Var123List);
 
             writer.WriteEndObject();
         }

@@ -79,12 +79,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type IsoscelesTriangle
+    /// A Json converter for type <see cref="IsoscelesTriangle" />
     /// </summary>
     public class IsoscelesTriangleJsonConverter : JsonConverter<IsoscelesTriangle>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="IsoscelesTriangle" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -105,7 +105,6 @@ namespace Org.OpenAPITools.Model
 
             Utf8JsonReader triangleInterfaceReader = utf8JsonReader;
             bool triangleInterfaceDeserialized = Client.ClientUtils.TryDeserialize<TriangleInterface>(ref utf8JsonReader, jsonSerializerOptions, out TriangleInterface? triangleInterface);
-
 
             while (utf8JsonReader.Read())
             {
@@ -128,11 +127,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (shapeInterface == null)
+                throw new ArgumentNullException(nameof(shapeInterface), "Property is required for class IsoscelesTriangle.");
+
+            if (triangleInterface == null)
+                throw new ArgumentNullException(nameof(triangleInterface), "Property is required for class IsoscelesTriangle.");
+
             return new IsoscelesTriangle(shapeInterface, triangleInterface);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="IsoscelesTriangle" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="isoscelesTriangle"></param>

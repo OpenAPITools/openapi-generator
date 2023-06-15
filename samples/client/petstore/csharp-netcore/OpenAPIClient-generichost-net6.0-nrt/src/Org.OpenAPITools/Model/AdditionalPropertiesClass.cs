@@ -145,12 +145,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type AdditionalPropertiesClass
+    /// A Json converter for type <see cref="AdditionalPropertiesClass" />
     /// </summary>
     public class AdditionalPropertiesClassJsonConverter : JsonConverter<AdditionalPropertiesClass>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="AdditionalPropertiesClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -166,14 +166,14 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Object emptyMap = default;
-            Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default;
-            Dictionary<string, string> mapProperty = default;
-            Object mapWithUndeclaredPropertiesAnytype1 = default;
-            Object mapWithUndeclaredPropertiesAnytype2 = default;
-            Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default;
-            Dictionary<string, string> mapWithUndeclaredPropertiesString = default;
-            Object anytype1 = default;
+            Object? emptyMap = default;
+            Dictionary<string, Dictionary<string, string>>? mapOfMapProperty = default;
+            Dictionary<string, string>? mapProperty = default;
+            Object? mapWithUndeclaredPropertiesAnytype1 = default;
+            Object? mapWithUndeclaredPropertiesAnytype2 = default;
+            Dictionary<string, Object>? mapWithUndeclaredPropertiesAnytype3 = default;
+            Dictionary<string, string>? mapWithUndeclaredPropertiesString = default;
+            Object? anytype1 = default;
 
             while (utf8JsonReader.Read())
             {
@@ -228,14 +228,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (mapProperty == null)
-                throw new ArgumentNullException(nameof(mapProperty), "Property is required for class AdditionalPropertiesClass.");
+            if (emptyMap == null)
+                throw new ArgumentNullException(nameof(emptyMap), "Property is required for class AdditionalPropertiesClass.");
 
             if (mapOfMapProperty == null)
                 throw new ArgumentNullException(nameof(mapOfMapProperty), "Property is required for class AdditionalPropertiesClass.");
+
+            if (mapProperty == null)
+                throw new ArgumentNullException(nameof(mapProperty), "Property is required for class AdditionalPropertiesClass.");
 
             if (mapWithUndeclaredPropertiesAnytype1 == null)
                 throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype1), "Property is required for class AdditionalPropertiesClass.");
@@ -246,20 +246,14 @@ namespace Org.OpenAPITools.Model
             if (mapWithUndeclaredPropertiesAnytype3 == null)
                 throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype3), "Property is required for class AdditionalPropertiesClass.");
 
-            if (emptyMap == null)
-                throw new ArgumentNullException(nameof(emptyMap), "Property is required for class AdditionalPropertiesClass.");
-
             if (mapWithUndeclaredPropertiesString == null)
                 throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesString), "Property is required for class AdditionalPropertiesClass.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new AdditionalPropertiesClass(emptyMap, mapOfMapProperty, mapProperty, mapWithUndeclaredPropertiesAnytype1, mapWithUndeclaredPropertiesAnytype2, mapWithUndeclaredPropertiesAnytype3, mapWithUndeclaredPropertiesString, anytype1);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="AdditionalPropertiesClass" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="additionalPropertiesClass"></param>

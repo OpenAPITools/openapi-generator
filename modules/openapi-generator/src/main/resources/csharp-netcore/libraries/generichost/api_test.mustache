@@ -24,7 +24,6 @@ namespace {{packageName}}.Test.{{apiPackage}}
         {
             _instance = _host.Services.GetRequiredService<{{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}>();
         }
-
         {{#operations}}
         {{#operation}}
 
@@ -35,11 +34,11 @@ namespace {{packageName}}.Test.{{apiPackage}}
         public async Task {{operationId}}AsyncTest()
         {
             {{#allParams}}
-            {{{dataType}}} {{paramName}} = default;
+            {{{dataType}}} {{paramName}} = default{{nrt!}};
             {{/allParams}}
             {{#returnType}}
             var response = await _instance.{{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<{{{.}}}>(model);
             {{/returnType}}
             {{^returnType}}

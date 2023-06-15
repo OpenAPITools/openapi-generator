@@ -76,10 +76,10 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
                 .excludeWireFormatFeatures(
                         WireFormatFeature.XML
                 )
-                .excludeSecurityFeatures(
-                        SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
-                        SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
-                )
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BearerToken))
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )

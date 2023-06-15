@@ -56,7 +56,6 @@ namespace Org.OpenAPITools.Model
             /// </summary>
             [EnumMember(Value = "sold")]
             Sold = 3
-
         }
 
 
@@ -119,7 +118,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        /// <example>&quot;doggie&quot;</example>
+        /// <example>doggie</example>
         [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
         public string Name { get; set; }
 

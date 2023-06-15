@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type TestCollectionEndingWithWordListObject
+    /// A Json converter for type <see cref="TestCollectionEndingWithWordListObject" />
     /// </summary>
     public class TestCollectionEndingWithWordListObjectJsonConverter : JsonConverter<TestCollectionEndingWithWordListObject>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="TestCollectionEndingWithWordListObject" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<TestCollectionEndingWithWordList> testCollectionEndingWithWordList = default;
+            List<TestCollectionEndingWithWordList>? testCollectionEndingWithWordList = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,20 +129,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (testCollectionEndingWithWordList == null)
                 throw new ArgumentNullException(nameof(testCollectionEndingWithWordList), "Property is required for class TestCollectionEndingWithWordListObject.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new TestCollectionEndingWithWordListObject(testCollectionEndingWithWordList);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="TestCollectionEndingWithWordListObject" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="testCollectionEndingWithWordListObject"></param>

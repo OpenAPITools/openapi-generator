@@ -60,11 +60,6 @@ public class FormatTest {
 
   private BigDecimal bigDecimal;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link FormatTest#FormatTest(BigDecimal, byte[], LocalDate, String)}
-   */
-  @Deprecated
   public FormatTest() {
     super();
   }

@@ -33,11 +33,11 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="OneOfString" /> class.
         /// </summary>
-        /// <param name="_string"></param>
+        /// <param name="varString"></param>
         [JsonConstructor]
-        internal OneOfString(string _string)
+        internal OneOfString(string varString)
         {
-            String = _string;
+            String = varString;
             OnCreated();
         }
 
@@ -79,12 +79,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type OneOfString
+    /// A Json converter for type <see cref="OneOfString" />
     /// </summary>
     public class OneOfStringJsonConverter : JsonConverter<OneOfString>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="OneOfString" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -99,10 +99,6 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException();
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
-
-            Utf8JsonReader _stringReader = utf8JsonReader;
-            bool _stringDeserialized = Client.ClientUtils.TryDeserialize<string>(ref _stringReader, jsonSerializerOptions, out string? _string);
-
 
             while (utf8JsonReader.Read())
             {
@@ -125,14 +121,15 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (_stringDeserialized)
-                return new OneOfString(_string);
+            Utf8JsonReader varStringReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<string>(ref varStringReader, jsonSerializerOptions, out string? varString))
+                return new OneOfString(varString);
 
             throw new JsonException();
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="OneOfString" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="oneOfString"></param>

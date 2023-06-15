@@ -35,40 +35,40 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
-        /// <param name="_return">_return.</param>
-        public Return(int _return = default(int))
+        /// <param name="varReturn">varReturn.</param>
+        public Return(int varReturn = default(int))
         {
-            this.__Return = _return;
-            if (this._Return != null)
+            this._VarReturn = varReturn;
+            if (this.VarReturn != null)
             {
-                this._flag_Return = true;
+                this._flagVarReturn = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets _Return
+        /// Gets or Sets VarReturn
         /// </summary>
         [DataMember(Name = "return", EmitDefaultValue = false)]
-        public int _Return
+        public int VarReturn
         {
-            get{ return __Return;}
+            get{ return _VarReturn;}
             set
             {
-                __Return = value;
-                _flag_Return = true;
+                _VarReturn = value;
+                _flagVarReturn = true;
             }
         }
-        private int __Return;
-        private bool _flag_Return;
+        private int _VarReturn;
+        private bool _flagVarReturn;
 
         /// <summary>
-        /// Returns false as _Return should not be serialized given that it's read-only.
+        /// Returns false as VarReturn should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerialize_Return()
+        public bool ShouldSerializeVarReturn()
         {
-            return _flag_Return;
+            return _flagVarReturn;
         }
         /// <summary>
         /// Gets or Sets additional properties
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Return {\n");
-            sb.Append("  _Return: ").Append(_Return).Append("\n");
+            sb.Append("  VarReturn: ").Append(VarReturn).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -128,7 +128,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this._Return.GetHashCode();
+                hashCode = (hashCode * 59) + this.VarReturn.GetHashCode();
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

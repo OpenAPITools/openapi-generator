@@ -67,7 +67,7 @@ namespace YourProject
             {{#operation}}
             {{#-first}}
             ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}> response = await api.{{operationId}}Async("todo");
-            {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}} model = response.ToModel();
+            {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}} model = response.AsModel();
             {{/-first}}
             {{/operation}}
             {{/-first}}
@@ -162,6 +162,9 @@ Class | Method | HTTP request | Description
 {{#isBasicBearer}}
 - **Type**: Bearer Authentication
 {{/isBasicBearer}}
+{{#isHttpSignature}}
+- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{#isOAuth}}
 - **Type**: OAuth
 - **Flow**: {{flow}}

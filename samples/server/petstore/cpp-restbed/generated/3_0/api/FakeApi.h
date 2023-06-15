@@ -33,6 +33,7 @@
 
 #include "Client.h"
 #include "EnumClass.h"
+#include "FakeBigDecimalMap_200_response.h"
 #include "FileSchemaTestClass.h"
 #include "HealthCheckResult.h"
 #include "OuterComposite.h"
@@ -66,6 +67,68 @@ private:
 };
 
 namespace FakeApiResources {
+/// <summary>
+/// 
+/// </summary>
+/// <remarks>
+/// for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+/// </remarks>
+class  FakeBigDecimalMapResource: public restbed::Resource
+{
+public:
+    FakeBigDecimalMapResource(const std::string& context = "/v2");
+    virtual ~FakeBigDecimalMapResource() = default;
+
+    FakeBigDecimalMapResource(
+        const FakeBigDecimalMapResource& other) = default; // copy constructor
+    FakeBigDecimalMapResource(FakeBigDecimalMapResource&& other) noexcept = default; // move constructor
+
+    FakeBigDecimalMapResource& operator=(const FakeBigDecimalMapResource& other) = default; // copy assignment
+    FakeBigDecimalMapResource& operator=(FakeBigDecimalMapResource&& other) noexcept = default; // move assignment
+
+    /////////////////////////////////////////////////////
+    // Set these to implement the server functionality //
+    /////////////////////////////////////////////////////
+    std::function<std::pair<int, FakeBigDecimalMap_200_response>(
+        )> handler_GET_func =
+            []() -> std::pair<int, FakeBigDecimalMap_200_response>
+                { throw FakeApiException(501, "Not implemented"); };
+
+
+protected:
+    //////////////////////////////////////////////////////////
+    // As an alternative to setting the `std::function`s    //
+    // override these to implement the server functionality //
+    //////////////////////////////////////////////////////////
+
+    virtual std::pair<int, FakeBigDecimalMap_200_response> handler_GET(
+        );
+
+
+protected:
+    //////////////////////////////////////
+    // Override these for customization //
+    //////////////////////////////////////
+
+    virtual std::string extractBodyContent(const std::shared_ptr<restbed::Session>& session);
+    virtual std::string extractFormParamsFromBody(const std::string& paramName, const std::string& body);
+
+    virtual std::pair<int, std::string> handleFakeApiException(const FakeApiException& e);
+    virtual std::pair<int, std::string> handleStdException(const std::exception& e);
+    virtual std::pair<int, std::string> handleUnspecifiedException();
+
+    virtual void setResponseHeader(const std::shared_ptr<restbed::Session>& session,
+        const std::string& header);
+
+    virtual void returnResponse(const std::shared_ptr<restbed::Session>& session,
+        const int status, const std::string& result, std::multimap<std::string, std::string>& contentType);
+    virtual void defaultSessionClose(const std::shared_ptr<restbed::Session>& session,
+        const int status, const std::string& result);
+
+private:
+    void handler_GET_internal(const std::shared_ptr<restbed::Session> session);
+};
+
 /// <summary>
 /// Health check endpoint
 /// </summary>
@@ -960,6 +1023,7 @@ private:
 
 } /* namespace FakeApiResources */
 
+using FakeApiFakeBigDecimalMapResource [[deprecated]] = FakeApiResources::FakeBigDecimalMapResource;
 using FakeApiFakeHealthResource [[deprecated]] = FakeApiResources::FakeHealthResource;
 using FakeApiFakeHttp_signature_testResource [[deprecated]] = FakeApiResources::FakeHttp_signature_testResource;
 using FakeApiFakeOuterBooleanResource [[deprecated]] = FakeApiResources::FakeOuterBooleanResource;
@@ -984,6 +1048,7 @@ public:
     explicit FakeApi(std::shared_ptr<restbed::Service> const& restbedService);
 	virtual ~FakeApi();
 
+    std::shared_ptr<FakeApiResources::FakeBigDecimalMapResource> getFakeBigDecimalMapResource();
     std::shared_ptr<FakeApiResources::FakeHealthResource> getFakeHealthResource();
     std::shared_ptr<FakeApiResources::FakeHttp_signature_testResource> getFakeHttp_signature_testResource();
     std::shared_ptr<FakeApiResources::FakeOuterBooleanResource> getFakeOuterBooleanResource();
@@ -999,6 +1064,7 @@ public:
     std::shared_ptr<FakeApiResources::FakeJsonFormDataResource> getFakeJsonFormDataResource();
     std::shared_ptr<FakeApiResources::FakeTest_query_parametersResource> getFakeTest_query_parametersResource();
 
+    void setResource(std::shared_ptr<FakeApiResources::FakeBigDecimalMapResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeHealthResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeHttp_signature_testResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeOuterBooleanResource> resource);
@@ -1013,6 +1079,8 @@ public:
     void setResource(std::shared_ptr<FakeApiResources::FakeInline_additionalPropertiesResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeJsonFormDataResource> resource);
     void setResource(std::shared_ptr<FakeApiResources::FakeTest_query_parametersResource> resource);
+    [[deprecated("use setResource()")]]
+    virtual void setFakeApiFakeBigDecimalMapResource(std::shared_ptr<FakeApiResources::FakeBigDecimalMapResource> spFakeApiFakeBigDecimalMapResource);
     [[deprecated("use setResource()")]]
     virtual void setFakeApiFakeHealthResource(std::shared_ptr<FakeApiResources::FakeHealthResource> spFakeApiFakeHealthResource);
     [[deprecated("use setResource()")]]
@@ -1047,6 +1115,7 @@ public:
     virtual std::shared_ptr<restbed::Service> service();
 
 protected:
+	std::shared_ptr<FakeApiResources::FakeBigDecimalMapResource> m_spFakeBigDecimalMapResource;
 	std::shared_ptr<FakeApiResources::FakeHealthResource> m_spFakeHealthResource;
 	std::shared_ptr<FakeApiResources::FakeHttp_signature_testResource> m_spFakeHttp_signature_testResource;
 	std::shared_ptr<FakeApiResources::FakeOuterBooleanResource> m_spFakeOuterBooleanResource;

@@ -53,7 +53,7 @@ final ModelClient modelClient = ; // ModelClient | client model
 try {
     final response = await api.call123testSpecialTags(modelClient);
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print("Exception when calling AnotherFakeApi->call123testSpecialTags: $e\n");
 }
 
@@ -145,7 +145,6 @@ Class | Method | HTTP request | Description
  - [BarRefOrValue](doc/BarRefOrValue.md)
  - [Capitalization](doc/Capitalization.md)
  - [Cat](doc/Cat.md)
- - [CatAllOf](doc/CatAllOf.md)
  - [Category](doc/Category.md)
  - [ClassModel](doc/ClassModel.md)
  - [ComposedDiscMissingFromProperties](doc/ComposedDiscMissingFromProperties.md)
@@ -255,11 +254,11 @@ Authentication schemes defined for the API:
 
 ### bearer_test
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP Bearer Token authentication (JWT)
 
 ### http_signature_test
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP signature authentication
 
 
 ## Author

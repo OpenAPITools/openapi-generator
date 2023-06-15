@@ -16,11 +16,11 @@
 import * as runtime from '../runtime';
 import type {
   User,
-} from '../models';
+} from '../models/index';
 import {
     UserFromJSON,
     UserToJSON,
-} from '../models';
+} from '../models/index';
 
 export interface UserApiCreateUserRequest {
     body: User;

@@ -97,12 +97,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ArrayTest
+    /// A Json converter for type <see cref="ArrayTest" />
     /// </summary>
     public class ArrayTestJsonConverter : JsonConverter<ArrayTest>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ArrayTest" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -155,26 +155,20 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (arrayOfString == null)
-                throw new ArgumentNullException(nameof(arrayOfString), "Property is required for class ArrayTest.");
-
             if (arrayArrayOfInteger == null)
                 throw new ArgumentNullException(nameof(arrayArrayOfInteger), "Property is required for class ArrayTest.");
 
             if (arrayArrayOfModel == null)
                 throw new ArgumentNullException(nameof(arrayArrayOfModel), "Property is required for class ArrayTest.");
 
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            if (arrayOfString == null)
+                throw new ArgumentNullException(nameof(arrayOfString), "Property is required for class ArrayTest.");
 
             return new ArrayTest(arrayArrayOfInteger, arrayArrayOfModel, arrayOfString);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ArrayTest" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="arrayTest"></param>

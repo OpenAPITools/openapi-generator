@@ -53,7 +53,7 @@ Example
     r, err := client.Service.Operation(auth, args)
 ```
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
+{{#isBasicBasic}}- **Type**: HTTP basic authentication
 
 Example
 ```
@@ -63,7 +63,11 @@ Example
 	})
     r, err := client.Service.Operation(auth, args)
 ```
-{{/isBasic}}
+{{/isBasicBasic}}
+{{#isBasicBearer}}- **Type**: HTTP Bearer Token authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
+{{/isBasicBearer}}
+{{#isHttpSignature}}- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{#isOAuth}}- **Type**: OAuth
 - **Flow**: {{{flow}}}
 - **Authorization URL**: {{{authorizationUrl}}}

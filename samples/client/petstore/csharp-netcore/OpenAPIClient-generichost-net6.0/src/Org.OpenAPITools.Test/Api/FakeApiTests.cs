@@ -50,7 +50,6 @@ namespace Org.OpenAPITools.Test.Api
             _instance = _host.Services.GetRequiredService<IApi.IFakeApi>();
         }
 
-
         /// <summary>
         /// Test FakeHealthGet
         /// </summary>
@@ -58,7 +57,7 @@ namespace Org.OpenAPITools.Test.Api
         public async Task FakeHealthGetAsyncTest()
         {
             var response = await _instance.FakeHealthGetAsync();
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<HealthCheckResult>(model);
         }
 
@@ -70,7 +69,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             bool? body = default;
             var response = await _instance.FakeOuterBooleanSerializeAsync(body);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<bool>(model);
         }
 
@@ -82,7 +81,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             OuterComposite outerComposite = default;
             var response = await _instance.FakeOuterCompositeSerializeAsync(outerComposite);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<OuterComposite>(model);
         }
 
@@ -94,7 +93,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             decimal? body = default;
             var response = await _instance.FakeOuterNumberSerializeAsync(body);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<decimal>(model);
         }
 
@@ -107,7 +106,7 @@ namespace Org.OpenAPITools.Test.Api
             Guid requiredStringUuid = default;
             string body = default;
             var response = await _instance.FakeOuterStringSerializeAsync(requiredStringUuid, body);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<string>(model);
         }
 
@@ -118,7 +117,7 @@ namespace Org.OpenAPITools.Test.Api
         public async Task GetArrayOfEnumsAsyncTest()
         {
             var response = await _instance.GetArrayOfEnumsAsync();
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<List<OuterEnum>>(model);
         }
 
@@ -151,7 +150,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             ModelClient modelClient = default;
             var response = await _instance.TestClientModelAsync(modelClient);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<ModelClient>(model);
         }
 
@@ -161,21 +160,21 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task TestEndpointParametersAsyncTest()
         {
-            byte[] _byte = default;
+            byte[] varByte = default;
             decimal number = default;
-            double _double = default;
+            double varDouble = default;
             string patternWithoutDelimiter = default;
             DateTime? date = default;
             System.IO.Stream binary = default;
-            float? _float = default;
+            float? varFloat = default;
             int? integer = default;
             int? int32 = default;
             long? int64 = default;
-            string _string = default;
+            string varString = default;
             string password = default;
             string callback = default;
             DateTime? dateTime = default;
-            await _instance.TestEndpointParametersAsync(_byte, number, _double, patternWithoutDelimiter, date, binary, _float, integer, int32, int64, _string, password, callback, dateTime);
+            await _instance.TestEndpointParametersAsync(varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 import {
     Configuration,
     ConfigurationParameters,
-} from "../";
+} from "../index{{importFileExtension}}";
 
 import {
 {{#apiInfo}}
@@ -9,7 +9,7 @@ import {
     {{classFilename}},
 {{/apis}}
 {{/apiInfo}}
-} from "./";
+} from "./index{{importFileExtension}}";
 
 export class Api {
 {{#apiInfo}}

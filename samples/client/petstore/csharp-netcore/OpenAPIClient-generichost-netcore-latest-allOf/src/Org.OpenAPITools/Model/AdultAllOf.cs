@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type AdultAllOf
+    /// A Json converter for type <see cref="AdultAllOf" />
     /// </summary>
     public class AdultAllOfJsonConverter : JsonConverter<AdultAllOf>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="AdultAllOf" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<Child> children = default;
+            List<Child>? children = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,20 +129,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (children == null)
                 throw new ArgumentNullException(nameof(children), "Property is required for class AdultAllOf.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new AdultAllOf(children);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="AdultAllOf" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="adultAllOf"></param>

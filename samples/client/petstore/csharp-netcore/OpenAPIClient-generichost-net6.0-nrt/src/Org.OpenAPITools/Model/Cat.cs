@@ -65,19 +65,19 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Cat {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
     }
 
     /// <summary>
-    /// A Json converter for type Cat
+    /// A Json converter for type <see cref="Cat" />
     /// </summary>
     public class CatJsonConverter : JsonConverter<Cat>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Cat" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -99,8 +99,8 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader catAllOfReader = utf8JsonReader;
             bool catAllOfDeserialized = Client.ClientUtils.TryDeserialize<CatAllOf>(ref utf8JsonReader, jsonSerializerOptions, out CatAllOf? catAllOf);
 
-            string className = default;
-            string color = default;
+            string? className = default;
+            string? color = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,11 +129,23 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Cat.");
+
+            if (color == null)
+                throw new ArgumentNullException(nameof(color), "Property is required for class Cat.");
+
+            if (dictionary == null)
+                throw new ArgumentNullException(nameof(dictionary), "Property is required for class Cat.");
+
+            if (catAllOf == null)
+                throw new ArgumentNullException(nameof(catAllOf), "Property is required for class Cat.");
+
             return new Cat(dictionary, catAllOf, className, color);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Cat" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="cat"></param>

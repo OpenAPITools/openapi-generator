@@ -3,10 +3,10 @@ name: Python Client (Echo API)
 on:
   push:
     paths:
-      - samples/client/echo_api/python-nextgen/**
+      - samples/client/echo_api/python/**
   pull_request:
     paths:
-      - samples/client/echo_api/python-nextgen/**
+      - samples/client/echo_api/python/**
 jobs:
   build:
     name: Test Python client
@@ -16,7 +16,7 @@ jobs:
       matrix:
         sample:
           # clients
-          - samples/client/echo_api/python-nextgen
+          - samples/client/echo_api/python
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4

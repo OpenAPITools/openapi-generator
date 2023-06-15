@@ -50,7 +50,6 @@ namespace Org.OpenAPITools.Test.Api
             _instance = _host.Services.GetRequiredService<IApi.IUserApi>();
         }
 
-
         /// <summary>
         /// Test CreateUser
         /// </summary>
@@ -99,7 +98,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             string username = default;
             var response = await _instance.GetUserByNameAsync(username);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<User>(model);
         }
 
@@ -112,7 +111,7 @@ namespace Org.OpenAPITools.Test.Api
             string username = default;
             string password = default;
             var response = await _instance.LoginUserAsync(username, password);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<string>(model);
         }
 

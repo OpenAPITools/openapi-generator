@@ -88,12 +88,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type GmFruit
+    /// A Json converter for type <see cref="GmFruit" />
     /// </summary>
     public class GmFruitJsonConverter : JsonConverter<GmFruit>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="GmFruit" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -115,7 +115,7 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader bananaReader = utf8JsonReader;
             bool bananaDeserialized = Client.ClientUtils.TryDeserialize<Banana>(ref bananaReader, jsonSerializerOptions, out Banana? banana);
 
-            string color = default;
+            string? color = default;
 
             while (utf8JsonReader.Read())
             {
@@ -141,20 +141,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (color == null)
                 throw new ArgumentNullException(nameof(color), "Property is required for class GmFruit.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             return new GmFruit(apple, banana, color);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="GmFruit" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="gmFruit"></param>

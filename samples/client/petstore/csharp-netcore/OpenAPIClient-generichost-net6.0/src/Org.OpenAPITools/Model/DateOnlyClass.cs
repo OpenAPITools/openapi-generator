@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
-        /// <example>&quot;Fri Jul 21 00:00:00 UTC 2017&quot;</example>
+        /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
         [JsonPropertyName("dateOnlyProperty")]
         public DateTime DateOnlyProperty { get; set; }
 
@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type DateOnlyClass
+    /// A Json converter for type <see cref="DateOnlyClass" />
     /// </summary>
     public class DateOnlyClassJsonConverter : JsonConverter<DateOnlyClass>
     {
@@ -90,7 +90,7 @@ namespace Org.OpenAPITools.Model
         public static string DateOnlyPropertyFormat { get; set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="DateOnlyClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -106,7 +106,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            DateTime dateOnlyProperty = default;
+            DateTime? dateOnlyProperty = default;
 
             while (utf8JsonReader.Read())
             {
@@ -133,20 +133,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (dateOnlyProperty == null)
                 throw new ArgumentNullException(nameof(dateOnlyProperty), "Property is required for class DateOnlyClass.");
 
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return new DateOnlyClass(dateOnlyProperty);
+            return new DateOnlyClass(dateOnlyProperty.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="DateOnlyClass" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dateOnlyClass"></param>

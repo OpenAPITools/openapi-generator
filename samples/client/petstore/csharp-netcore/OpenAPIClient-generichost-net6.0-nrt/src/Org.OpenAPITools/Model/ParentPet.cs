@@ -50,19 +50,19 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ParentPet {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
     }
 
     /// <summary>
-    /// A Json converter for type ParentPet
+    /// A Json converter for type <see cref="ParentPet" />
     /// </summary>
     public class ParentPetJsonConverter : JsonConverter<ParentPet>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ParentPet" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -78,7 +78,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string petType = default;
+            string? petType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -104,11 +104,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (petType == null)
+                throw new ArgumentNullException(nameof(petType), "Property is required for class ParentPet.");
+
             return new ParentPet(petType);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ParentPet" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="parentPet"></param>

@@ -53,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<QuadrilateralInterface>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'QuadrilateralType'
         /// </summary>
@@ -62,7 +61,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'QuadrilateralType'
         }
-
     }
-
 }

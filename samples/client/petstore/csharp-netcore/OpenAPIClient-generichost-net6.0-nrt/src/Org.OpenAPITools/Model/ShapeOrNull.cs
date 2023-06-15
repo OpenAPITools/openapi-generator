@@ -116,12 +116,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ShapeOrNull
+    /// A Json converter for type <see cref="ShapeOrNull" />
     /// </summary>
     public class ShapeOrNullJsonConverter : JsonConverter<ShapeOrNull>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ShapeOrNull" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -137,13 +137,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader triangleReader = utf8JsonReader;
-            bool triangleDeserialized = Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, jsonSerializerOptions, out Triangle? triangle);
-
-            Utf8JsonReader quadrilateralReader = utf8JsonReader;
-            bool quadrilateralDeserialized = Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, jsonSerializerOptions, out Quadrilateral? quadrilateral);
-
-            string quadrilateralType = default;
+            string? quadrilateralType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -169,26 +163,22 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (quadrilateralType == null)
                 throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class ShapeOrNull.");
 
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (triangleDeserialized)
+            Utf8JsonReader triangleReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, jsonSerializerOptions, out Triangle? triangle))
                 return new ShapeOrNull(triangle, quadrilateralType);
 
-            if (quadrilateralDeserialized)
+            Utf8JsonReader quadrilateralReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, jsonSerializerOptions, out Quadrilateral? quadrilateral))
                 return new ShapeOrNull(quadrilateral, quadrilateralType);
 
             throw new JsonException();
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ShapeOrNull" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="shapeOrNull"></param>

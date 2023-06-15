@@ -31,27 +31,27 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
-        /// <param name="nameProperty">nameProperty</param>
+        /// <param name="varName">varName</param>
         /// <param name="property">property</param>
         /// <param name="snakeCase">snakeCase</param>
-        /// <param name="_123number">_123number</param>
+        /// <param name="var123Number">var123Number</param>
         [JsonConstructor]
-        public Name(int nameProperty, string property, int snakeCase, int _123number)
+        public Name(int varName, string property, int snakeCase, int var123Number)
         {
-            NameProperty = nameProperty;
+            VarName = varName;
             Property = property;
             SnakeCase = snakeCase;
-            _123Number = _123number;
+            Var123Number = var123Number;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets NameProperty
+        /// Gets or Sets VarName
         /// </summary>
         [JsonPropertyName("name")]
-        public int NameProperty { get; set; }
+        public int VarName { get; set; }
 
         /// <summary>
         /// Gets or Sets Property
@@ -66,10 +66,10 @@ namespace Org.OpenAPITools.Model
         public int SnakeCase { get; }
 
         /// <summary>
-        /// Gets or Sets _123Number
+        /// Gets or Sets Var123Number
         /// </summary>
         [JsonPropertyName("123Number")]
-        public int _123Number { get; }
+        public int Var123Number { get; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -85,10 +85,10 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Name {\n");
-            sb.Append("  NameProperty: ").Append(NameProperty).Append("\n");
+            sb.Append("  VarName: ").Append(VarName).Append("\n");
             sb.Append("  Property: ").Append(Property).Append("\n");
             sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
-            sb.Append("  _123Number: ").Append(_123Number).Append("\n");
+            sb.Append("  Var123Number: ").Append(Var123Number).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -124,7 +124,7 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + SnakeCase.GetHashCode();
-                hashCode = (hashCode * 59) + _123Number.GetHashCode();
+                hashCode = (hashCode * 59) + Var123Number.GetHashCode();
                 hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
 
                 return hashCode;
@@ -143,12 +143,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Name
+    /// A Json converter for type <see cref="Name" />
     /// </summary>
     public class NameJsonConverter : JsonConverter<Name>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Name" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -164,10 +164,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            int nameProperty = default;
+            int? varName = default;
             string property = default;
-            int snakeCase = default;
-            int _123number = default;
+            int? snakeCase = default;
+            int? var123Number = default;
 
             while (utf8JsonReader.Read())
             {
@@ -186,7 +186,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "name":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                nameProperty = utf8JsonReader.GetInt32();
+                                varName = utf8JsonReader.GetInt32();
                             break;
                         case "property":
                             property = utf8JsonReader.GetString();
@@ -197,7 +197,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "123Number":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                _123number = utf8JsonReader.GetInt32();
+                                var123Number = utf8JsonReader.GetInt32();
                             break;
                         default:
                             break;
@@ -205,29 +205,23 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (nameProperty == null)
-                throw new ArgumentNullException(nameof(nameProperty), "Property is required for class Name.");
-
-            if (snakeCase == null)
-                throw new ArgumentNullException(nameof(snakeCase), "Property is required for class Name.");
+            if (varName == null)
+                throw new ArgumentNullException(nameof(varName), "Property is required for class Name.");
 
             if (property == null)
                 throw new ArgumentNullException(nameof(property), "Property is required for class Name.");
 
-            if (_123number == null)
-                throw new ArgumentNullException(nameof(_123number), "Property is required for class Name.");
+            if (snakeCase == null)
+                throw new ArgumentNullException(nameof(snakeCase), "Property is required for class Name.");
 
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            if (var123Number == null)
+                throw new ArgumentNullException(nameof(var123Number), "Property is required for class Name.");
 
-            return new Name(nameProperty, property, snakeCase, _123number);
+            return new Name(varName.Value, property, snakeCase.Value, var123Number.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Name" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="name"></param>
@@ -237,10 +231,10 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteNumber("name", name.NameProperty);
+            writer.WriteNumber("name", name.VarName);
             writer.WriteString("property", name.Property);
             writer.WriteNumber("snake_case", name.SnakeCase);
-            writer.WriteNumber("123Number", name._123Number);
+            writer.WriteNumber("123Number", name.Var123Number);
 
             writer.WriteEndObject();
         }

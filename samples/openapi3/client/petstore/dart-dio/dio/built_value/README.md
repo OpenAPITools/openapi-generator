@@ -52,7 +52,7 @@ final ModelClient modelClient = ; // ModelClient | client model
 try {
     final response = await api.call123testSpecialTags(modelClient);
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print("Exception when calling AnotherFakeApi->call123testSpecialTags: $e\n");
 }
 
@@ -65,6 +65,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 [*AnotherFakeApi*](doc/AnotherFakeApi.md) | [**call123testSpecialTags**](doc/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/built_value/README.md
 [*BarApi*](doc/BarApi.md) | [**createBar**](doc/BarApi.md#createbar) | **POST** /bar | Create a Bar
 [*DefaultApi*](doc/DefaultApi.md) | [**fooBasicGet**](doc/DefaultApi.md#foobasicget) | **GET** /foo-basic | 
 [*DefaultApi*](doc/DefaultApi.md) | [**list**](doc/DefaultApi.md#list) | **GET** /oneof-primitive | 
@@ -72,6 +73,10 @@ Class | Method | HTTP request | Description
 [*DefaultApi*](doc/DefaultApi.md) | [**test**](doc/DefaultApi.md#test) | **PUT** /variant1 | 
 [*DefaultApi*](doc/DefaultApi.md) | [**variant1Get**](doc/DefaultApi.md#variant1get) | **GET** /variant1 | 
 [*DefaultApi*](doc/DefaultApi.md) | [**variant2Get**](doc/DefaultApi.md#variant2get) | **GET** /variant2 | 
+=======
+[*DefaultApi*](doc/DefaultApi.md) | [**fooGet**](doc/DefaultApi.md#fooget) | **GET** /foo | 
+[*FakeApi*](doc/FakeApi.md) | [**fakeBigDecimalMap**](doc/FakeApi.md#fakebigdecimalmap) | **GET** /fake/BigDecimalMap | 
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/README.md
 [*FakeApi*](doc/FakeApi.md) | [**fakeHealthGet**](doc/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 [*FakeApi*](doc/FakeApi.md) | [**fakeHttpSignatureTest**](doc/FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 [*FakeApi*](doc/FakeApi.md) | [**fakeOuterBooleanSerialize**](doc/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
@@ -144,7 +149,6 @@ Class | Method | HTTP request | Description
  - [BarRefOrValue](doc/BarRefOrValue.md)
  - [Capitalization](doc/Capitalization.md)
  - [Cat](doc/Cat.md)
- - [CatAllOf](doc/CatAllOf.md)
  - [Category](doc/Category.md)
  - [ClassModel](doc/ClassModel.md)
  - [ComposedDiscMissingFromProperties](doc/ComposedDiscMissingFromProperties.md)
@@ -160,12 +164,18 @@ Class | Method | HTTP request | Description
  - [DiscOptionalTypeIncorrect](doc/DiscOptionalTypeIncorrect.md)
  - [DiscTypeIncorrect](doc/DiscTypeIncorrect.md)
  - [Dog](doc/Dog.md)
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/built_value/README.md
  - [DogAllOf](doc/DogAllOf.md)
  - [Entity](doc/Entity.md)
  - [EntityRef](doc/EntityRef.md)
  - [EnumArrays](doc/EnumArrays.md)
  - [EnumTest](doc/EnumTest.md)
  - [Extensible](doc/Extensible.md)
+=======
+ - [EnumArrays](doc/EnumArrays.md)
+ - [EnumTest](doc/EnumTest.md)
+ - [FakeBigDecimalMap200Response](doc/FakeBigDecimalMap200Response.md)
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/README.md
  - [FileSchemaTestClass](doc/FileSchemaTestClass.md)
  - [Foo](doc/Foo.md)
  - [FooBasicGetDefaultResponse](doc/FooBasicGetDefaultResponse.md)
@@ -254,11 +264,11 @@ Authentication schemes defined for the API:
 
 ### bearer_test
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP Bearer Token authentication (JWT)
 
 ### http_signature_test
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP signature authentication
 
 
 ## Author

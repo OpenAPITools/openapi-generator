@@ -574,7 +574,7 @@ namespace Org.OpenAPITools.Client
         /// <return>The operation server URL.</return>
         public string GetOperationServerUrl(string operation, int index, Dictionary<string, string> inputVariables)
         {
-            if (OperationServers.TryGetValue(operation, out var operationServer))
+            if (operation != null && OperationServers.TryGetValue(operation, out var operationServer))
             {
                 return GetServerUrl(operationServer, index, inputVariables);
             }

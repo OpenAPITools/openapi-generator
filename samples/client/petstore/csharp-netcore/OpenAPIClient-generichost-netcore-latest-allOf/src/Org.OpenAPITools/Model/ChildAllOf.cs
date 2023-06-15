@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ChildAllOf
+    /// A Json converter for type <see cref="ChildAllOf" />
     /// </summary>
     public class ChildAllOfJsonConverter : JsonConverter<ChildAllOf>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ChildAllOf" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            int age = default;
+            int? age = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,20 +129,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (age == null)
                 throw new ArgumentNullException(nameof(age), "Property is required for class ChildAllOf.");
 
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return new ChildAllOf(age);
+            return new ChildAllOf(age.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ChildAllOf" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="childAllOf"></param>

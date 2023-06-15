@@ -179,11 +179,6 @@ public class EnumTest {
 
   private OuterEnum outerEnum;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link EnumTest#EnumTest(EnumStringRequiredEnum)}
-   */
-  @Deprecated
   public EnumTest() {
     super();
   }

@@ -587,10 +587,10 @@ EOF
     echo -e "${BOLD}${WHITE}Authentication methods${OFF}"
     echo -e ""
 {{#authMethods}}
-{{#isBasic}}
+{{#isBasicBasic}}
     echo -e "  - ${BLUE}Basic AUTH${OFF} - add '-u <username>:<password>' before ${YELLOW}<operation>${OFF}"
     {{#x-codegen-basicauth-env}}echo -e "                 or export ${RED}{{x-codegen-basicauth-env}}='<username>:<password>'${OFF}"{{/x-codegen-basicauth-env}}
-{{/isBasic}}
+{{/isBasicBasic}}
 {{#isApiKey}}
 {{#isKeyInHeader}}
     echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}{{keyParamName}}:<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
@@ -693,7 +693,7 @@ print_version() {
 ##############################################################################
 print_{{operationId}}_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}{{operationId}} - {{{summary}}}{{#authMethods}}${OFF}${BLUE}(AUTH - {{#isBasic}}BASIC{{/isBasic}}{{#isApiKey}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{/isApiKey}}{{#isOAuth}}OAuth2{{/isOAuth}}){{/authMethods}}${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}{{operationId}} - {{{summary}}}{{#authMethods}}${OFF}${BLUE}(AUTH - {{#isBasicBasic}}BASIC{{/isBasicBasic}}{{#isApiKey}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{/isApiKey}}{{#isOAuth}}OAuth2{{/isOAuth}}){{/authMethods}}${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
 {{#vendorExtensions}}
 {{#x-bash-codegen-description}}

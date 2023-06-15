@@ -57,19 +57,19 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ChildCat {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
     }
 
     /// <summary>
-    /// A Json converter for type ChildCat
+    /// A Json converter for type <see cref="ChildCat" />
     /// </summary>
     public class ChildCatJsonConverter : JsonConverter<ChildCat>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ChildCat" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader childCatAllOfReader = utf8JsonReader;
             bool childCatAllOfDeserialized = Client.ClientUtils.TryDeserialize<ChildCatAllOf>(ref utf8JsonReader, jsonSerializerOptions, out ChildCatAllOf? childCatAllOf);
 
-            string petType = default;
+            string? petType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -114,11 +114,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (petType == null)
+                throw new ArgumentNullException(nameof(petType), "Property is required for class ChildCat.");
+
+            if (childCatAllOf == null)
+                throw new ArgumentNullException(nameof(childCatAllOf), "Property is required for class ChildCat.");
+
             return new ChildCat(childCatAllOf, petType);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ChildCat" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="childCat"></param>

@@ -53,16 +53,13 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Return>(instance);
         }
 
-
         /// <summary>
-        /// Test the property 'ReturnProperty'
+        /// Test the property 'VarReturn'
         /// </summary>
         [Fact]
-        public void ReturnPropertyTest()
+        public void VarReturnTest()
         {
-            // TODO unit test for the property 'ReturnProperty'
+            // TODO unit test for the property 'VarReturn'
         }
-
     }
-
 }

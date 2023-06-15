@@ -31,21 +31,21 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
-        /// <param name="clientProperty">clientProperty</param>
+        /// <param name="varClient">varClient</param>
         [JsonConstructor]
-        public ModelClient(string clientProperty)
+        public ModelClient(string varClient)
         {
-            _ClientProperty = clientProperty;
+            VarClient = varClient;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets _ClientProperty
+        /// Gets or Sets VarClient
         /// </summary>
         [JsonPropertyName("client")]
-        public string _ClientProperty { get; set; }
+        public string VarClient { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
-            sb.Append("  _ClientProperty: ").Append(_ClientProperty).Append("\n");
+            sb.Append("  VarClient: ").Append(VarClient).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -79,12 +79,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ModelClient
+    /// A Json converter for type <see cref="ModelClient" />
     /// </summary>
     public class ModelClientJsonConverter : JsonConverter<ModelClient>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ModelClient" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -100,7 +100,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string clientProperty = default;
+            string varClient = default;
 
             while (utf8JsonReader.Read())
             {
@@ -118,7 +118,7 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "client":
-                            clientProperty = utf8JsonReader.GetString();
+                            varClient = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -126,20 +126,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            if (varClient == null)
+                throw new ArgumentNullException(nameof(varClient), "Property is required for class ModelClient.");
 
-            if (clientProperty == null)
-                throw new ArgumentNullException(nameof(clientProperty), "Property is required for class ModelClient.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return new ModelClient(clientProperty);
+            return new ModelClient(varClient);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ModelClient" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="modelClient"></param>
@@ -149,7 +143,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("client", modelClient._ClientProperty);
+            writer.WriteString("client", modelClient.VarClient);
 
             writer.WriteEndObject();
         }

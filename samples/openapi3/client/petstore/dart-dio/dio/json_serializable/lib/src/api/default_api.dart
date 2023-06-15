@@ -30,9 +30,16 @@ class DefaultApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/default_api.dart
   /// Returns a [Future] containing a [Response] with a [FooBasicGetDefaultResponse] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<FooBasicGetDefaultResponse>> fooBasicGet({
+=======
+  /// Returns a [Future]
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<void>> addPet({ 
+    required Pet pet,
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/pet_api.dart
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -52,6 +59,7 @@ class DefaultApi {
     FooBasicGetDefaultResponse? _responseData;
 
     try {
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/default_api.dart
       final rawResponse = _response.data;
       _responseData = rawResponse == null
           ? null
@@ -64,6 +72,16 @@ class DefaultApi {
         requestOptions: _response.requestOptions,
         response: _response,
         type: DioErrorType.unknown,
+=======
+_bodyData=jsonEncode(pet);
+    } catch(error, stackTrace) {
+      throw DioException(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioExceptionType.unknown,
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/pet_api.dart
         error: error,
         stackTrace: stackTrace,
       );
@@ -92,9 +110,17 @@ class DefaultApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/default_api.dart
   /// Returns a [Future] containing a [Response] with a [GigaOneOf] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<GigaOneOf>> list({
+=======
+  /// Returns a [Future]
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<void>> deletePet({ 
+    required int petId,
+    String? apiKey,
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/pet_api.dart
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -154,9 +180,16 @@ class DefaultApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/default_api.dart
   /// Returns a [Future] containing a [Response] with a [Fruit] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<Fruit>> oneofGet({
+=======
+  /// Returns a [Future] containing a [Response] with a [List<Pet>] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<List<Pet>>> findPetsByStatus({ 
+    @Deprecated('status is deprecated') required List<String> status,
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/pet_api.dart
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -184,10 +217,10 @@ class DefaultApi {
               const TypeInfo(Fruit),
             );
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -217,10 +250,18 @@ class DefaultApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/default_api.dart
   /// Returns a [Future]
   /// Throws [DioError] if API call or serialization fails
   Future<Response<void>> test({
     Object? body,
+=======
+  /// Returns a [Future] containing a [Response] with a [Set<Pet>] as data
+  /// Throws [DioException] if API call or serialization fails
+  @Deprecated('This operation has been deprecated')
+  Future<Response<Set<Pet>>> findPetsByTags({ 
+    required Set<String> tags,
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/pet_api.dart
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -286,10 +327,10 @@ class DefaultApi {
               const TypeInfo(FruitVariant1),
             );
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -318,9 +359,16 @@ class DefaultApi {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/default_api.dart
   /// Returns a [Future] containing a [Response] with a [FruitAllOfDisc] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<FruitAllOfDisc>> variant2Get({
+=======
+  /// Returns a [Future] containing a [Response] with a [Pet] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<Pet>> getPetById({ 
+    required int petId,
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/pet_api.dart
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -348,10 +396,10 @@ class DefaultApi {
               const TypeInfo(FruitAllOfDisc),
             );
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -386,6 +434,7 @@ class DefaultApiRaw {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/default_api.dart
   /// Returns a [Future] containing a [Response] with a [FooBasicGetDefaultResponse] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<Object>> fooBasicGet({
@@ -393,6 +442,12 @@ class DefaultApiRaw {
     String? requestContentType,
     String? acceptContentType,
     ResponseType? responseType,
+=======
+  /// Returns a [Future]
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<void>> updatePet({ 
+    required Pet pet,
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/pet_api.dart
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -416,7 +471,27 @@ class DefaultApiRaw {
       validateStatus: validateStatus,
     );
 
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/default_api.dart
     return await _dio.request<Object>(
+=======
+    dynamic _bodyData;
+
+    try {
+_bodyData=jsonEncode(pet);
+    } catch(error, stackTrace) {
+      throw DioException(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    final _response = await _dio.request<Object>(
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/pet_api.dart
       _path,
       data: body,
       options: _options,
@@ -437,6 +512,7 @@ class DefaultApiRaw {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/default_api.dart
   /// Returns a [Future] containing a [Response] with a [GigaOneOf] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<Object>> list({
@@ -444,6 +520,14 @@ class DefaultApiRaw {
     String? requestContentType,
     String? acceptContentType,
     ResponseType? responseType,
+=======
+  /// Returns a [Future]
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<void>> updatePetWithForm({ 
+    required int petId,
+    String? name,
+    String? status,
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/pet_api.dart
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -467,7 +551,27 @@ class DefaultApiRaw {
       validateStatus: validateStatus,
     );
 
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/default_api.dart
     return await _dio.request<Object>(
+=======
+    dynamic _bodyData;
+
+    try {
+
+    } catch(error, stackTrace) {
+      throw DioException(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    final _response = await _dio.request<Object>(
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/pet_api.dart
       _path,
       data: body,
       options: _options,
@@ -488,6 +592,7 @@ class DefaultApiRaw {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/default_api.dart
   /// Returns a [Future] containing a [Response] with a [Fruit] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<Object>> oneofGet({
@@ -495,6 +600,14 @@ class DefaultApiRaw {
     String? requestContentType,
     String? acceptContentType,
     ResponseType? responseType,
+=======
+  /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<ApiResponse>> uploadFile({ 
+    required int petId,
+    String? additionalMetadata,
+    MultipartFile? file,
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/pet_api.dart
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -518,7 +631,27 @@ class DefaultApiRaw {
       validateStatus: validateStatus,
     );
 
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/default_api.dart
     return await _dio.request<Object>(
+=======
+    dynamic _bodyData;
+
+    try {
+
+    } catch(error, stackTrace) {
+      throw DioException(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    final _response = await _dio.request<Object>(
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/pet_api.dart
       _path,
       data: body,
       options: _options,
@@ -528,6 +661,7 @@ class DefaultApiRaw {
     );
   }
 
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/default_api.dart
   /// test
   ///
   ///
@@ -569,6 +703,22 @@ class DefaultApiRaw {
       responseType: responseType,
       validateStatus: validateStatus,
     );
+=======
+    ApiResponse? _responseData;
+
+    try {
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(rawData, 'ApiResponse', growable: true);
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/pet_api.dart
 
     return await _dio.request<Object>(
       _path,
@@ -591,6 +741,7 @@ class DefaultApiRaw {
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/default_api.dart
   /// Returns a [Future] containing a [Response] with a [FruitVariant1] as data
   /// Throws [DioError] if API call or serialization fails
   Future<Response<Object>> variant1Get({
@@ -598,6 +749,14 @@ class DefaultApiRaw {
     String? requestContentType,
     String? acceptContentType,
     ResponseType? responseType,
+=======
+  /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<ApiResponse>> uploadFileWithRequiredFile({ 
+    required int petId,
+    required MultipartFile requiredFile,
+    String? additionalMetadata,
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/pet_api.dart
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -621,7 +780,27 @@ class DefaultApiRaw {
       validateStatus: validateStatus,
     );
 
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/default_api.dart
     return await _dio.request<Object>(
+=======
+    dynamic _bodyData;
+
+    try {
+
+    } catch(error, stackTrace) {
+      throw DioException(
+         requestOptions: _options.compose(
+          _dio.options,
+          _path,
+        ),
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    final _response = await _dio.request<Object>(
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/pet_api.dart
       _path,
       data: body,
       options: _options,
@@ -631,6 +810,7 @@ class DefaultApiRaw {
     );
   }
 
+<<<<<<< HEAD:samples/openapi3/client/petstore/dart-dio/dio/json_serializable/lib/src/api/default_api.dart
   /// variant2Get
   ///
   ///
@@ -671,6 +851,22 @@ class DefaultApiRaw {
       responseType: responseType,
       validateStatus: validateStatus,
     );
+=======
+    ApiResponse? _responseData;
+
+    try {
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(rawData, 'ApiResponse', growable: true);
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+>>>>>>> 95cefaeecdae21a43a453f07ed510c420abaa461:samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/lib/src/api/pet_api.dart
 
     return await _dio.request<Object>(
       _path,

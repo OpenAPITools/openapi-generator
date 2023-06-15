@@ -33,21 +33,21 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
-        /// <param name="returnProperty">returnProperty</param>
+        /// <param name="varReturn">varReturn</param>
         [JsonConstructor]
-        public Return(int returnProperty)
+        public Return(int varReturn)
         {
-            ReturnProperty = returnProperty;
+            VarReturn = varReturn;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets ReturnProperty
+        /// Gets or Sets VarReturn
         /// </summary>
         [JsonPropertyName("return")]
-        public int ReturnProperty { get; set; }
+        public int VarReturn { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Return {\n");
-            sb.Append("  ReturnProperty: ").Append(ReturnProperty).Append("\n");
+            sb.Append("  VarReturn: ").Append(VarReturn).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -81,12 +81,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Return
+    /// A Json converter for type <see cref="Return" />
     /// </summary>
     public class ReturnJsonConverter : JsonConverter<Return>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Return" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            int returnProperty = default;
+            int? varReturn = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,7 +121,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "return":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                returnProperty = utf8JsonReader.GetInt32();
+                                varReturn = utf8JsonReader.GetInt32();
                             break;
                         default:
                             break;
@@ -129,30 +129,24 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            if (varReturn == null)
+                throw new ArgumentNullException(nameof(varReturn), "Property is required for class Return.");
 
-            if (returnProperty == null)
-                throw new ArgumentNullException(nameof(returnProperty), "Property is required for class Return.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return new Return(returnProperty);
+            return new Return(varReturn.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Return" />
         /// </summary>
         /// <param name="writer"></param>
-        /// <param name="_return"></param>
+        /// <param name="varReturn"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public override void Write(Utf8JsonWriter writer, Return _return, JsonSerializerOptions jsonSerializerOptions)
+        public override void Write(Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
 
-            writer.WriteNumber("return", _return.ReturnProperty);
+            writer.WriteNumber("return", varReturn.VarReturn);
 
             writer.WriteEndObject();
         }

@@ -41,11 +41,6 @@ public class AnimalDto {
 
   private String color = "red";
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link AnimalDto#AnimalDto(String)}
-   */
-  @Deprecated
   public AnimalDto() {
     super();
   }

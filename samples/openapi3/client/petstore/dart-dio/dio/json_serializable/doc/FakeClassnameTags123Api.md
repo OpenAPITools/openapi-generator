@@ -33,7 +33,7 @@ final ModelClient modelClient = ; // ModelClient | client model
 try {
     final response = api.testClassname(modelClient);
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling FakeClassnameTags123Api->testClassname: $e\n');
 }
 ```

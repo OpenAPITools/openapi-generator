@@ -185,12 +185,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type User
+    /// A Json converter for type <see cref="User" />
     /// </summary>
     public class UserJsonConverter : JsonConverter<User>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="User" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -206,18 +206,18 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string email = default;
-            string firstName = default;
-            long id = default;
-            string lastName = default;
-            Object objectWithNoDeclaredProps = default;
-            string password = default;
-            string phone = default;
-            int userStatus = default;
-            string username = default;
-            Object anyTypeProp = default;
-            Object anyTypePropNullable = default;
-            Object objectWithNoDeclaredPropsNullable = default;
+            string? email = default;
+            string? firstName = default;
+            long? id = default;
+            string? lastName = default;
+            Object? objectWithNoDeclaredProps = default;
+            string? password = default;
+            string? phone = default;
+            int? userStatus = default;
+            string? username = default;
+            Object? anyTypeProp = default;
+            Object? anyTypePropNullable = default;
+            Object? objectWithNoDeclaredPropsNullable = default;
 
             while (utf8JsonReader.Read())
             {
@@ -282,23 +282,20 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class User.");
-
-            if (username == null)
-                throw new ArgumentNullException(nameof(username), "Property is required for class User.");
+            if (email == null)
+                throw new ArgumentNullException(nameof(email), "Property is required for class User.");
 
             if (firstName == null)
                 throw new ArgumentNullException(nameof(firstName), "Property is required for class User.");
 
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class User.");
+
             if (lastName == null)
                 throw new ArgumentNullException(nameof(lastName), "Property is required for class User.");
 
-            if (email == null)
-                throw new ArgumentNullException(nameof(email), "Property is required for class User.");
+            if (objectWithNoDeclaredProps == null)
+                throw new ArgumentNullException(nameof(objectWithNoDeclaredProps), "Property is required for class User.");
 
             if (password == null)
                 throw new ArgumentNullException(nameof(password), "Property is required for class User.");
@@ -309,17 +306,14 @@ namespace Org.OpenAPITools.Model
             if (userStatus == null)
                 throw new ArgumentNullException(nameof(userStatus), "Property is required for class User.");
 
-            if (objectWithNoDeclaredProps == null)
-                throw new ArgumentNullException(nameof(objectWithNoDeclaredProps), "Property is required for class User.");
+            if (username == null)
+                throw new ArgumentNullException(nameof(username), "Property is required for class User.");
 
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return new User(email, firstName, id, lastName, objectWithNoDeclaredProps, password, phone, userStatus, username, anyTypeProp, anyTypePropNullable, objectWithNoDeclaredPropsNullable);
+            return new User(email, firstName, id.Value, lastName, objectWithNoDeclaredProps, password, phone, userStatus.Value, username, anyTypeProp, anyTypePropNullable, objectWithNoDeclaredPropsNullable);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="User" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="user"></param>

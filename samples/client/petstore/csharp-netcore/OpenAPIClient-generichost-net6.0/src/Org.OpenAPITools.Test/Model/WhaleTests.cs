@@ -53,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Whale>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'ClassName'
         /// </summary>
@@ -62,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ClassName'
         }
+
         /// <summary>
         /// Test the property 'HasBaleen'
         /// </summary>
@@ -70,6 +70,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'HasBaleen'
         }
+
         /// <summary>
         /// Test the property 'HasTeeth'
         /// </summary>
@@ -78,7 +79,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'HasTeeth'
         }
-
     }
-
 }

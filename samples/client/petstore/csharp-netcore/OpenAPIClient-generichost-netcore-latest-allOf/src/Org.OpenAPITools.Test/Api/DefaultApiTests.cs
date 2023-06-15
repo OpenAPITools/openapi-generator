@@ -50,16 +50,15 @@ namespace Org.OpenAPITools.Test.Api
             _instance = _host.Services.GetRequiredService<IApi.IDefaultApi>();
         }
 
-
         /// <summary>
         /// Test List
         /// </summary>
         [Fact (Skip = "not implemented")]
         public async Task ListAsyncTest()
         {
-            string personId = default;
+            string personId = default!;
             var response = await _instance.ListAsync(personId);
-            var model = response.ToModel();
+            var model = response.AsModel();
             Assert.IsType<Person>(model);
         }
     }

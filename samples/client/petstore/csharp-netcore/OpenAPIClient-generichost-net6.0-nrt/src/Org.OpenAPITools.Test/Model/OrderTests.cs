@@ -53,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Order>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Id'
         /// </summary>
@@ -62,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Id'
         }
+
         /// <summary>
         /// Test the property 'PetId'
         /// </summary>
@@ -70,6 +70,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'PetId'
         }
+
         /// <summary>
         /// Test the property 'Quantity'
         /// </summary>
@@ -78,6 +79,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Quantity'
         }
+
         /// <summary>
         /// Test the property 'ShipDate'
         /// </summary>
@@ -86,6 +88,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ShipDate'
         }
+
         /// <summary>
         /// Test the property 'Status'
         /// </summary>
@@ -94,6 +97,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Status'
         }
+
         /// <summary>
         /// Test the property 'Complete'
         /// </summary>
@@ -102,7 +106,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Complete'
         }
-
     }
-
 }

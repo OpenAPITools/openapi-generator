@@ -58,19 +58,19 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Dog {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
     }
 
     /// <summary>
-    /// A Json converter for type Dog
+    /// A Json converter for type <see cref="Dog" />
     /// </summary>
     public class DogJsonConverter : JsonConverter<Dog>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Dog" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -89,8 +89,8 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader dogAllOfReader = utf8JsonReader;
             bool dogAllOfDeserialized = Client.ClientUtils.TryDeserialize<DogAllOf>(ref utf8JsonReader, jsonSerializerOptions, out DogAllOf? dogAllOf);
 
-            string className = default;
-            string color = default;
+            string? className = default;
+            string? color = default;
 
             while (utf8JsonReader.Read())
             {
@@ -119,11 +119,20 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Dog.");
+
+            if (color == null)
+                throw new ArgumentNullException(nameof(color), "Property is required for class Dog.");
+
+            if (dogAllOf == null)
+                throw new ArgumentNullException(nameof(dogAllOf), "Property is required for class Dog.");
+
             return new Dog(dogAllOf, className, color);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Dog" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dog"></param>

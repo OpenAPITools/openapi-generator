@@ -42,7 +42,6 @@ public class Example {
     OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-
     PetApi apiInstance = new PetApi(defaultClient);
     Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
     try {
@@ -70,7 +69,7 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -177,7 +176,6 @@ public class Example {
     OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-
     PetApi apiInstance = new PetApi(defaultClient);
     List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
     try {
@@ -206,7 +204,7 @@ public class Example {
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -246,7 +244,6 @@ public class Example {
     OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-
     PetApi apiInstance = new PetApi(defaultClient);
     List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
     try {
@@ -275,7 +272,7 @@ public class Example {
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -386,7 +383,6 @@ public class Example {
     OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
     petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-
     PetApi apiInstance = new PetApi(defaultClient);
     Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
     try {
@@ -414,7 +410,7 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth), [http_signature_test](../README.md#http_signature_test)
+[petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 

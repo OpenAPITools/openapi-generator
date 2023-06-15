@@ -90,12 +90,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type ActivityOutputElementRepresentation
+    /// A Json converter for type <see cref="ActivityOutputElementRepresentation" />
     /// </summary>
     public class ActivityOutputElementRepresentationJsonConverter : JsonConverter<ActivityOutputElementRepresentation>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ActivityOutputElementRepresentation" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -111,8 +111,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string prop1 = default;
-            Object prop2 = default;
+            string? prop1 = default;
+            Object? prop2 = default;
 
             while (utf8JsonReader.Read())
             {
@@ -142,23 +142,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (prop1 == null)
                 throw new ArgumentNullException(nameof(prop1), "Property is required for class ActivityOutputElementRepresentation.");
 
             if (prop2 == null)
                 throw new ArgumentNullException(nameof(prop2), "Property is required for class ActivityOutputElementRepresentation.");
 
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             return new ActivityOutputElementRepresentation(prop1, prop2);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ActivityOutputElementRepresentation" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="activityOutputElementRepresentation"></param>
