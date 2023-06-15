@@ -485,14 +485,18 @@ namespace Org.OpenAPITools.Api
         /// Validates the request parameters
         /// </summary>
         /// <param name="petId"></param>
+        /// <param name="apiKey"></param>
         /// <returns></returns>
-        private void ValidateDeletePet(long petId)
+        private void ValidateDeletePet(long petId, string apiKey)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             if (petId == null)
                 throw new ArgumentNullException(nameof(petId));
+
+            if (apiKey == null)
+                throw new ArgumentNullException(nameof(apiKey));
 
             #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -575,7 +579,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateDeletePet(petId);
+                ValidateDeletePet(petId, apiKey);
 
                 FormatDeletePet(ref petId, ref apiKey);
 
@@ -1278,14 +1282,22 @@ namespace Org.OpenAPITools.Api
         /// Validates the request parameters
         /// </summary>
         /// <param name="petId"></param>
+        /// <param name="name"></param>
+        /// <param name="status"></param>
         /// <returns></returns>
-        private void ValidateUpdatePetWithForm(long petId)
+        private void ValidateUpdatePetWithForm(long petId, string name, string status)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             if (petId == null)
                 throw new ArgumentNullException(nameof(petId));
+
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+
+            if (status == null)
+                throw new ArgumentNullException(nameof(status));
 
             #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1374,7 +1386,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateUpdatePetWithForm(petId);
+                ValidateUpdatePetWithForm(petId, name, status);
 
                 FormatUpdatePetWithForm(ref petId, ref name, ref status);
 
@@ -1450,14 +1462,22 @@ namespace Org.OpenAPITools.Api
         /// Validates the request parameters
         /// </summary>
         /// <param name="petId"></param>
+        /// <param name="file"></param>
+        /// <param name="additionalMetadata"></param>
         /// <returns></returns>
-        private void ValidateUploadFile(long petId)
+        private void ValidateUploadFile(long petId, System.IO.Stream file, string additionalMetadata)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             if (petId == null)
                 throw new ArgumentNullException(nameof(petId));
+
+            if (file == null)
+                throw new ArgumentNullException(nameof(file));
+
+            if (additionalMetadata == null)
+                throw new ArgumentNullException(nameof(additionalMetadata));
 
             #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1546,7 +1566,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateUploadFile(petId);
+                ValidateUploadFile(petId, file, additionalMetadata);
 
                 FormatUploadFile(ref petId, ref file, ref additionalMetadata);
 
@@ -1632,8 +1652,9 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="requiredFile"></param>
         /// <param name="petId"></param>
+        /// <param name="additionalMetadata"></param>
         /// <returns></returns>
-        private void ValidateUploadFileWithRequiredFile(System.IO.Stream requiredFile, long petId)
+        private void ValidateUploadFileWithRequiredFile(System.IO.Stream requiredFile, long petId, string additionalMetadata)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1643,6 +1664,9 @@ namespace Org.OpenAPITools.Api
 
             if (petId == null)
                 throw new ArgumentNullException(nameof(petId));
+
+            if (additionalMetadata == null)
+                throw new ArgumentNullException(nameof(additionalMetadata));
 
             #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1731,7 +1755,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateUploadFileWithRequiredFile(requiredFile, petId);
+                ValidateUploadFileWithRequiredFile(requiredFile, petId, additionalMetadata);
 
                 FormatUploadFileWithRequiredFile(ref requiredFile, ref petId, ref additionalMetadata);
 

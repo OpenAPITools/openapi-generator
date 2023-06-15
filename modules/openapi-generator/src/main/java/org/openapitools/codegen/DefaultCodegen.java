@@ -4506,6 +4506,7 @@ public class DefaultCodegen implements CodegenConfig {
         List<CodegenParameter> requiredParams = new ArrayList<>();
         List<CodegenParameter> optionalParams = new ArrayList<>();
         List<CodegenParameter> requiredAndNotNullableParams = new ArrayList<>();
+        List<CodegenParameter> notNullableParams = new ArrayList<>();
 
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
@@ -4619,6 +4620,10 @@ public class DefaultCodegen implements CodegenConfig {
             if (cp.requiredAndNotNullable()) {
                 requiredAndNotNullableParams.add(cp.copy());
             }
+
+            if (!cp.isNullable) {
+                notNullableParams.add(cp.copy());
+            }
         }
 
         // add imports to operation import tag
@@ -4656,6 +4661,7 @@ public class DefaultCodegen implements CodegenConfig {
         op.requiredParams = requiredParams;
         op.optionalParams = optionalParams;
         op.requiredAndNotNullableParams = requiredAndNotNullableParams;
+        op.notNullableParams = notNullableParams;
         op.externalDocs = operation.getExternalDocs();
         // legacy support
         op.nickname = op.operationId;
@@ -5198,6 +5204,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (parameter.getRequired() != null) {
             codegenParameter.required = parameter.getRequired().booleanValue();
         }
+
+        // set containerType
+        codegenParameter.containerType = codegenProperty.containerType;
 
         // enum
         updateCodegenPropertyEnum(codegenProperty);
@@ -6997,6 +7006,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.description = escapeText(codegenProperty.description);
         codegenParameter.unescapedDescription = codegenProperty.getDescription();
         codegenParameter.jsonSchema = Json.pretty(propertySchema);
+        codegenParameter.containerType = codegenProperty.containerType;
 
         if (codegenProperty.getVendorExtensions() != null && !codegenProperty.getVendorExtensions().isEmpty()) {
             codegenParameter.vendorExtensions = codegenProperty.getVendorExtensions();
@@ -7147,6 +7157,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isContainer = Boolean.TRUE;
             codegenParameter.isMap = Boolean.TRUE;
             codegenParameter.isNullable = codegenProperty.isNullable;
+            codegenParameter.containerType = codegenProperty.containerType;
 
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
@@ -7256,6 +7267,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.baseType = getSchemaType(inner);
             codegenParameter.isContainer = Boolean.TRUE;
             codegenParameter.isNullable = codegenProperty.isNullable;
+            codegenParameter.containerType = codegenProperty.containerType;
 
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);

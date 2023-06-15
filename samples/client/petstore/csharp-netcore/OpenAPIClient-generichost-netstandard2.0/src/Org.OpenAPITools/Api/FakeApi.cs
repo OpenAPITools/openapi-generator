@@ -607,6 +607,23 @@ namespace Org.OpenAPITools.Api
         partial void FormatFakeOuterBooleanSerialize(ref bool? body);
 
         /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        private void ValidateFakeOuterBooleanSerialize(bool? body)
+        {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
+
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+        }
+
+        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -677,6 +694,8 @@ namespace Org.OpenAPITools.Api
 
             try
             {
+                ValidateFakeOuterBooleanSerialize(body);
+
                 FormatFakeOuterBooleanSerialize(ref body);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
@@ -733,6 +752,23 @@ namespace Org.OpenAPITools.Api
         }
 
         partial void FormatFakeOuterCompositeSerialize(OuterComposite outerComposite);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="outerComposite"></param>
+        /// <returns></returns>
+        private void ValidateFakeOuterCompositeSerialize(OuterComposite outerComposite)
+        {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (outerComposite == null)
+                throw new ArgumentNullException(nameof(outerComposite));
+
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+        }
 
         /// <summary>
         /// Processes the server response
@@ -805,6 +841,8 @@ namespace Org.OpenAPITools.Api
 
             try
             {
+                ValidateFakeOuterCompositeSerialize(outerComposite);
+
                 FormatFakeOuterCompositeSerialize(outerComposite);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
@@ -861,6 +899,23 @@ namespace Org.OpenAPITools.Api
         }
 
         partial void FormatFakeOuterNumberSerialize(ref decimal? body);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        private void ValidateFakeOuterNumberSerialize(decimal? body)
+        {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
+
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+        }
 
         /// <summary>
         /// Processes the server response
@@ -933,6 +988,8 @@ namespace Org.OpenAPITools.Api
 
             try
             {
+                ValidateFakeOuterNumberSerialize(body);
+
                 FormatFakeOuterNumberSerialize(ref body);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
@@ -994,14 +1051,18 @@ namespace Org.OpenAPITools.Api
         /// Validates the request parameters
         /// </summary>
         /// <param name="requiredStringUuid"></param>
+        /// <param name="body"></param>
         /// <returns></returns>
-        private void ValidateFakeOuterStringSerialize(Guid requiredStringUuid)
+        private void ValidateFakeOuterStringSerialize(Guid requiredStringUuid, string body)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             if (requiredStringUuid == null)
                 throw new ArgumentNullException(nameof(requiredStringUuid));
+
+            if (body == null)
+                throw new ArgumentNullException(nameof(body));
 
             #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1084,7 +1145,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateFakeOuterStringSerialize(requiredStringUuid);
+                ValidateFakeOuterStringSerialize(requiredStringUuid, body);
 
                 FormatFakeOuterStringSerialize(ref requiredStringUuid, ref body);
 
@@ -1702,8 +1763,18 @@ namespace Org.OpenAPITools.Api
         /// <param name="number"></param>
         /// <param name="varDouble"></param>
         /// <param name="patternWithoutDelimiter"></param>
+        /// <param name="date"></param>
+        /// <param name="binary"></param>
+        /// <param name="varFloat"></param>
+        /// <param name="integer"></param>
+        /// <param name="int32"></param>
+        /// <param name="int64"></param>
+        /// <param name="varString"></param>
+        /// <param name="password"></param>
+        /// <param name="callback"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private void ValidateTestEndpointParameters(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter)
+        private void ValidateTestEndpointParameters(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream binary, float? varFloat, int? integer, int? int32, long? int64, string varString, string password, string callback, DateTime? dateTime)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1719,6 +1790,36 @@ namespace Org.OpenAPITools.Api
 
             if (patternWithoutDelimiter == null)
                 throw new ArgumentNullException(nameof(patternWithoutDelimiter));
+
+            if (date == null)
+                throw new ArgumentNullException(nameof(date));
+
+            if (binary == null)
+                throw new ArgumentNullException(nameof(binary));
+
+            if (varFloat == null)
+                throw new ArgumentNullException(nameof(varFloat));
+
+            if (integer == null)
+                throw new ArgumentNullException(nameof(integer));
+
+            if (int32 == null)
+                throw new ArgumentNullException(nameof(int32));
+
+            if (int64 == null)
+                throw new ArgumentNullException(nameof(int64));
+
+            if (varString == null)
+                throw new ArgumentNullException(nameof(varString));
+
+            if (password == null)
+                throw new ArgumentNullException(nameof(password));
+
+            if (callback == null)
+                throw new ArgumentNullException(nameof(callback));
+
+            if (dateTime == null)
+                throw new ArgumentNullException(nameof(dateTime));
 
             #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1873,7 +1974,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateTestEndpointParameters(varByte, number, varDouble, patternWithoutDelimiter);
+                ValidateTestEndpointParameters(varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
 
                 FormatTestEndpointParameters(ref varByte, ref number, ref varDouble, ref patternWithoutDelimiter, ref date, ref binary, ref varFloat, ref integer, ref int32, ref int64, ref varString, ref password, ref callback, ref dateTime);
 
@@ -1977,6 +2078,51 @@ namespace Org.OpenAPITools.Api
         }
 
         partial void FormatTestEnumParameters(List<string> enumHeaderStringArray, List<string> enumQueryStringArray, ref double? enumQueryDouble, ref int? enumQueryInteger, List<string> enumFormStringArray, ref string enumHeaderString, ref string enumQueryString, ref string enumFormString);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="enumHeaderStringArray"></param>
+        /// <param name="enumQueryStringArray"></param>
+        /// <param name="enumQueryDouble"></param>
+        /// <param name="enumQueryInteger"></param>
+        /// <param name="enumFormStringArray"></param>
+        /// <param name="enumHeaderString"></param>
+        /// <param name="enumQueryString"></param>
+        /// <param name="enumFormString"></param>
+        /// <returns></returns>
+        private void ValidateTestEnumParameters(List<string> enumHeaderStringArray, List<string> enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string> enumFormStringArray, string enumHeaderString, string enumQueryString, string enumFormString)
+        {
+            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+
+            if (enumHeaderStringArray == null)
+                throw new ArgumentNullException(nameof(enumHeaderStringArray));
+
+            if (enumQueryStringArray == null)
+                throw new ArgumentNullException(nameof(enumQueryStringArray));
+
+            if (enumQueryDouble == null)
+                throw new ArgumentNullException(nameof(enumQueryDouble));
+
+            if (enumQueryInteger == null)
+                throw new ArgumentNullException(nameof(enumQueryInteger));
+
+            if (enumFormStringArray == null)
+                throw new ArgumentNullException(nameof(enumFormStringArray));
+
+            if (enumHeaderString == null)
+                throw new ArgumentNullException(nameof(enumHeaderString));
+
+            if (enumQueryString == null)
+                throw new ArgumentNullException(nameof(enumQueryString));
+
+            if (enumFormString == null)
+                throw new ArgumentNullException(nameof(enumFormString));
+
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+        }
 
         /// <summary>
         /// Processes the server response
@@ -2091,6 +2237,8 @@ namespace Org.OpenAPITools.Api
 
             try
             {
+                ValidateTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+
                 FormatTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, ref enumQueryDouble, ref enumQueryInteger, enumFormStringArray, ref enumHeaderString, ref enumQueryString, ref enumFormString);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
@@ -2176,8 +2324,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredBooleanGroup"></param>
         /// <param name="requiredStringGroup"></param>
         /// <param name="requiredInt64Group"></param>
+        /// <param name="booleanGroup"></param>
+        /// <param name="stringGroup"></param>
+        /// <param name="int64Group"></param>
         /// <returns></returns>
-        private void ValidateTestGroupParameters(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group)
+        private void ValidateTestGroupParameters(bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -2190,6 +2341,15 @@ namespace Org.OpenAPITools.Api
 
             if (requiredInt64Group == null)
                 throw new ArgumentNullException(nameof(requiredInt64Group));
+
+            if (booleanGroup == null)
+                throw new ArgumentNullException(nameof(booleanGroup));
+
+            if (stringGroup == null)
+                throw new ArgumentNullException(nameof(stringGroup));
+
+            if (int64Group == null)
+                throw new ArgumentNullException(nameof(int64Group));
 
             #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -2296,7 +2456,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateTestGroupParameters(requiredBooleanGroup, requiredStringGroup, requiredInt64Group);
+                ValidateTestGroupParameters(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
 
                 FormatTestGroupParameters(ref requiredBooleanGroup, ref requiredStringGroup, ref requiredInt64Group, ref booleanGroup, ref stringGroup, ref int64Group);
 
