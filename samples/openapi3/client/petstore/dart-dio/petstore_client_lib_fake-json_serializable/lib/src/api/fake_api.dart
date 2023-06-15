@@ -37,7 +37,7 @@ class FakeApi {
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [FakeBigDecimalMap200Response] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<FakeBigDecimalMap200Response>> fakeBigDecimalMap({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -73,10 +73,10 @@ class FakeApi {
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<FakeBigDecimalMap200Response, FakeBigDecimalMap200Response>(rawData, 'FakeBigDecimalMap200Response', growable: true);
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -106,7 +106,7 @@ _responseData = rawData == null ? null : deserialize<FakeBigDecimalMap200Respons
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [HealthCheckResult] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<HealthCheckResult>> fakeHealthGet({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -142,10 +142,10 @@ _responseData = rawData == null ? null : deserialize<FakeBigDecimalMap200Respons
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<HealthCheckResult, HealthCheckResult>(rawData, 'HealthCheckResult', growable: true);
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -178,7 +178,7 @@ _responseData = rawData == null ? null : deserialize<HealthCheckResult, HealthCh
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> fakeHttpSignatureTest({ 
     required Pet pet,
     String? query1,
@@ -220,13 +220,13 @@ _responseData = rawData == null ? null : deserialize<HealthCheckResult, HealthCh
     try {
 _bodyData=jsonEncode(pet);
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -258,7 +258,7 @@ _bodyData=jsonEncode(pet);
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [bool] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<bool>> fakeOuterBooleanSerialize({ 
     bool? body,
     CancelToken? cancelToken,
@@ -287,12 +287,12 @@ _bodyData=jsonEncode(pet);
     try {
 _bodyData=jsonEncode(body);
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -313,10 +313,10 @@ _bodyData=jsonEncode(body);
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<bool, bool>(rawData, 'bool', growable: true);
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -347,7 +347,7 @@ _responseData = rawData == null ? null : deserialize<bool, bool>(rawData, 'bool'
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [OuterComposite] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<OuterComposite>> fakeOuterCompositeSerialize({ 
     OuterComposite? outerComposite,
     CancelToken? cancelToken,
@@ -376,12 +376,12 @@ _responseData = rawData == null ? null : deserialize<bool, bool>(rawData, 'bool'
     try {
 _bodyData=jsonEncode(outerComposite);
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -402,10 +402,10 @@ _bodyData=jsonEncode(outerComposite);
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<OuterComposite, OuterComposite>(rawData, 'OuterComposite', growable: true);
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -436,7 +436,7 @@ _responseData = rawData == null ? null : deserialize<OuterComposite, OuterCompos
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [num] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<num>> fakeOuterNumberSerialize({ 
     num? body,
     CancelToken? cancelToken,
@@ -465,12 +465,12 @@ _responseData = rawData == null ? null : deserialize<OuterComposite, OuterCompos
     try {
 _bodyData=jsonEncode(body);
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -491,10 +491,10 @@ _bodyData=jsonEncode(body);
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<num, num>(rawData, 'num', growable: true);
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -525,7 +525,7 @@ _responseData = rawData == null ? null : deserialize<num, num>(rawData, 'num', g
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [String] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<String>> fakeOuterStringSerialize({ 
     String? body,
     CancelToken? cancelToken,
@@ -554,12 +554,12 @@ _responseData = rawData == null ? null : deserialize<num, num>(rawData, 'num', g
     try {
 _bodyData=jsonEncode(body);
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -580,10 +580,10 @@ _bodyData=jsonEncode(body);
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'String', growable: true);
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -614,7 +614,7 @@ _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'S
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [OuterObjectWithEnumProperty] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<OuterObjectWithEnumProperty>> fakePropertyEnumIntegerSerialize({ 
     required OuterObjectWithEnumProperty outerObjectWithEnumProperty,
     CancelToken? cancelToken,
@@ -643,12 +643,12 @@ _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'S
     try {
 _bodyData=jsonEncode(outerObjectWithEnumProperty);
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -669,10 +669,10 @@ _bodyData=jsonEncode(outerObjectWithEnumProperty);
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<OuterObjectWithEnumProperty, OuterObjectWithEnumProperty>(rawData, 'OuterObjectWithEnumProperty', growable: true);
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -703,7 +703,7 @@ _responseData = rawData == null ? null : deserialize<OuterObjectWithEnumProperty
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> testBodyWithBinary({ 
     MultipartFile? body,
     CancelToken? cancelToken,
@@ -732,12 +732,12 @@ _responseData = rawData == null ? null : deserialize<OuterObjectWithEnumProperty
     try {
 _bodyData=jsonEncode(body);
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -768,7 +768,7 @@ _bodyData=jsonEncode(body);
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> testBodyWithFileSchema({ 
     required FileSchemaTestClass fileSchemaTestClass,
     CancelToken? cancelToken,
@@ -797,12 +797,12 @@ _bodyData=jsonEncode(body);
     try {
 _bodyData=jsonEncode(fileSchemaTestClass);
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -834,7 +834,7 @@ _bodyData=jsonEncode(fileSchemaTestClass);
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> testBodyWithQueryParams({ 
     required String query,
     required User user,
@@ -868,13 +868,13 @@ _bodyData=jsonEncode(fileSchemaTestClass);
     try {
 _bodyData=jsonEncode(user);
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -906,7 +906,7 @@ _bodyData=jsonEncode(user);
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [ModelClient] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<ModelClient>> testClientModel({ 
     required ModelClient modelClient,
     CancelToken? cancelToken,
@@ -935,12 +935,12 @@ _bodyData=jsonEncode(user);
     try {
 _bodyData=jsonEncode(modelClient);
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -961,10 +961,10 @@ _bodyData=jsonEncode(modelClient);
 final rawData = _response.data;
 _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(rawData, 'ModelClient', growable: true);
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -1008,7 +1008,7 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> testEndpointParameters({ 
     required num number,
     required double double_,
@@ -1056,12 +1056,12 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
     try {
 
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -1100,7 +1100,7 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> testEnumParameters({ 
     List<String>? enumHeaderStringArray,
     String? enumHeaderString = '-efg',
@@ -1147,13 +1147,13 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
     try {
 
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
           queryParameters: _queryParameters,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -1190,7 +1190,7 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> testGroupParameters({ 
     required int requiredStringGroup,
     required bool requiredBooleanGroup,
@@ -1258,7 +1258,7 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> testInlineAdditionalProperties({ 
     required Map<String, String> requestBody,
     CancelToken? cancelToken,
@@ -1287,12 +1287,12 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
     try {
 _bodyData=jsonEncode(requestBody);
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -1324,7 +1324,7 @@ _bodyData=jsonEncode(requestBody);
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> testJsonFormData({ 
     required String param,
     required String param2,
@@ -1354,12 +1354,12 @@ _bodyData=jsonEncode(requestBody);
     try {
 
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -1396,7 +1396,7 @@ _bodyData=jsonEncode(requestBody);
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> testQueryParameterCollectionFormat({ 
     required List<String> pipe,
     required List<String> ioutil,
