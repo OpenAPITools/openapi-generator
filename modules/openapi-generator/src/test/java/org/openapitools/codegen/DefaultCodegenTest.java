@@ -672,6 +672,31 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOneOfMergeProperties() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue15859.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        String modelName = "Pet";
+
+        final Schema schema = openAPI.getComponents().getSchemas().get(modelName);
+        codegen.setOpenAPI(openAPI);
+        CodegenModel pet = codegen.fromModel(modelName, schema);
+
+        Set<String> oneOf = new TreeSet<String>();
+        oneOf.add("Dog");
+        oneOf.add("Cat");
+        Assert.assertEquals(pet.oneOf, oneOf);
+        // make sure that animal has the property type
+        boolean typeSeen = false;
+        for (CodegenProperty cp : pet.vars) {
+            if ("type".equals(cp.name)) {
+                typeSeen = true;
+                break;
+            }
+        }
+        Assert.assertTrue(typeSeen);
+    }
+
+    @Test
     public void testComposedSchemaOneOfWithProperties() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
