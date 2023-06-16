@@ -30,7 +30,7 @@ export interface RequestArgs {
     url: string;
     options: AxiosRequestConfig;
 }
-
+{{^functionalApisOnly}}
 /**
  *
  * @export
@@ -46,7 +46,7 @@ export class BaseAPI {
         }
     }
 };
-
+{{/functionalApisOnly}}
 /**
  *
  * @export
