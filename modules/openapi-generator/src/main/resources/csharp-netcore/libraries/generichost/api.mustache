@@ -183,18 +183,20 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         private void After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar  {{#allParams}}{{#requiredAndNotNullable}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}  {{/requiredAndNotNullable}}{{^requiredAndNotNullable}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}}  {{/requiredAndNotNullable}}{{/allParams}}{{/lambda.joinWithComma}})
         {
+            bool suppressDefaultLog = false;
+            After{{operationId}}({{#lambda.joinWithComma}}ref suppressDefaultLog  apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 {{>AfterOperationDefaultImplementation}}
-            After{{operationId}}({{#lambda.joinWithComma}}apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        partial void After{{operationId}}({{#lambda.joinWithComma}}ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar  {{#allParams}}{{#requiredAndNotNullable}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}  {{/requiredAndNotNullable}}{{^requiredAndNotNullable}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}}  {{/requiredAndNotNullable}}{{/allParams}}{{/lambda.joinWithComma}});
+        partial void After{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar  {{#allParams}}{{#requiredAndNotNullable}}{{#lambda.required}}{{{dataType}}}{{/lambda.required}} {{paramName}}  {{/requiredAndNotNullable}}{{^requiredAndNotNullable}}{{#lambda.optional}}{{{dataType}}}{{/lambda.optional}} {{paramName}}  {{/requiredAndNotNullable}}{{/allParams}}{{/lambda.joinWithComma}});
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response

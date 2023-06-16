@@ -165,15 +165,18 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         private void AfterFooGetDefaultImplementation(ApiResponse<FooGetDefaultResponse> apiResponseLocalVar)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterFooGet(apiResponseLocalVar);
+            bool suppressDefaultLog = false;
+            AfterFooGet(ref suppressDefaultLog, apiResponseLocalVar);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterFooGet(ApiResponse<FooGetDefaultResponse> apiResponseLocalVar);
+        partial void AfterFooGet(ref bool suppressDefaultLog, ApiResponse<FooGetDefaultResponse> apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -291,16 +294,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="country"></param>
         private void AfterGetCountryDefaultImplementation(ApiResponse<object> apiResponseLocalVar, string country)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterGetCountry(apiResponseLocalVar, country);
+            bool suppressDefaultLog = false;
+            AfterGetCountry(ref suppressDefaultLog, apiResponseLocalVar, country);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="country"></param>
-        partial void AfterGetCountry(ApiResponse<object> apiResponseLocalVar, string country);
+        partial void AfterGetCountry(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, string country);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -416,15 +422,18 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         private void AfterHelloDefaultImplementation(ApiResponse<List<Guid>> apiResponseLocalVar)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterHello(apiResponseLocalVar);
+            bool suppressDefaultLog = false;
+            AfterHello(ref suppressDefaultLog, apiResponseLocalVar);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterHello(ApiResponse<List<Guid>> apiResponseLocalVar);
+        partial void AfterHello(ref bool suppressDefaultLog, ApiResponse<List<Guid>> apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
