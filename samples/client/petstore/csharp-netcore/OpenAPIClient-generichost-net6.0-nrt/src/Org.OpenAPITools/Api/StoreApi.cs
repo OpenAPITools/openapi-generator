@@ -212,16 +212,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId"></param>
         private void AfterDeleteOrderDefaultImplementation(ApiResponse<object> apiResponseLocalVar, string orderId)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterDeleteOrder(apiResponseLocalVar, orderId);
+            bool suppressDefaultLog = false;
+            AfterDeleteOrder(ref suppressDefaultLog, apiResponseLocalVar, orderId);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        partial void AfterDeleteOrder(ApiResponse<object> apiResponseLocalVar, string orderId);
+        partial void AfterDeleteOrder(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, string orderId);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -319,15 +322,18 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         private void AfterGetInventoryDefaultImplementation(ApiResponse<Dictionary<string, int>> apiResponseLocalVar)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterGetInventory(apiResponseLocalVar);
+            bool suppressDefaultLog = false;
+            AfterGetInventory(ref suppressDefaultLog, apiResponseLocalVar);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetInventory(ApiResponse<Dictionary<string, int>> apiResponseLocalVar);
+        partial void AfterGetInventory(ref bool suppressDefaultLog, ApiResponse<Dictionary<string, int>> apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -457,16 +463,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId"></param>
         private void AfterGetOrderByIdDefaultImplementation(ApiResponse<Order> apiResponseLocalVar, long orderId)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterGetOrderById(apiResponseLocalVar, orderId);
+            bool suppressDefaultLog = false;
+            AfterGetOrderById(ref suppressDefaultLog, apiResponseLocalVar, orderId);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        partial void AfterGetOrderById(ApiResponse<Order> apiResponseLocalVar, long orderId);
+        partial void AfterGetOrderById(ref bool suppressDefaultLog, ApiResponse<Order> apiResponseLocalVar, long orderId);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -594,16 +603,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="order"></param>
         private void AfterPlaceOrderDefaultImplementation(ApiResponse<Order> apiResponseLocalVar, Order order)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterPlaceOrder(apiResponseLocalVar, order);
+            bool suppressDefaultLog = false;
+            AfterPlaceOrder(ref suppressDefaultLog, apiResponseLocalVar, order);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="order"></param>
-        partial void AfterPlaceOrder(ApiResponse<Order> apiResponseLocalVar, Order order);
+        partial void AfterPlaceOrder(ref bool suppressDefaultLog, ApiResponse<Order> apiResponseLocalVar, Order order);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response

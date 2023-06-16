@@ -53,6 +53,7 @@ import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
@@ -1617,6 +1618,37 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testJavaClientDefaultValues_issueNoNumber() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setAdditionalProperties(properties)
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.WEBCLIENT)
+                .setInputSpec("src/test/resources/bugs/java-codegen-empty-array-as-default-value/issue_wrong-default.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
+                .hasProperty("stringDefault")
+                .asString().endsWith("= new ArrayList<>();");
+        JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
+                .hasProperty("stringDefault2")
+                .asString().endsWith("= new ArrayList<>(Arrays.asList(\"Hallo\", \"Huhu\"));");
+        JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
+                .hasProperty("objectDefault")
+                .asString().endsWith("= new ArrayList<>();");
+    }
+
+    @Test
     public void testWebClientJsonCreatorWithNullable_issue12790() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(AbstractJavaCodegen.OPENAPI_NULLABLE, "true");
@@ -2057,6 +2089,38 @@ public class JavaClientCodegenTest {
 
 
         output.deleteOnExit();
+    }
+
+    @DataProvider(name = "shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684")
+    public static Object[][] shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684_dataProvider() {
+        return new Object[][] {{"okhttp-gson"}, {"jersey2"}, {"jersey3"}, {"native"}};
+    }
+
+    @Test(dataProvider = "shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684")
+    public void shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684(String library) throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(library)
+            .addAdditionalProperty(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@annotation1;@annotation2")
+            .setInputSpec("src/test/resources/3_0/deprecated-properties.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("AbstractOpenApiSchema.java"))
+            .assertTypeAnnotations()
+            .doesNotContainsWithName("annotation1")
+            .doesNotContainsWithName("annotation2");
+        JavaFileAssert.assertThat(files.get("Animal.java"))
+            .assertTypeAnnotations()
+            .containsWithName("annotation1")
+            .containsWithName("annotation2");
     }
 
     @Test

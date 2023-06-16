@@ -343,16 +343,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet"></param>
         private void AfterAddPetDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Pet pet)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterAddPet(apiResponseLocalVar, pet);
+            bool suppressDefaultLog = false;
+            AfterAddPet(ref suppressDefaultLog, apiResponseLocalVar, pet);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="pet"></param>
-        partial void AfterAddPet(ApiResponse<object> apiResponseLocalVar, Pet pet);
+        partial void AfterAddPet(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, Pet pet);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -487,14 +490,18 @@ namespace Org.OpenAPITools.Api
         /// Validates the request parameters
         /// </summary>
         /// <param name="petId"></param>
+        /// <param name="apiKey"></param>
         /// <returns></returns>
-        private void ValidateDeletePet(long petId)
+        private void ValidateDeletePet(long petId, string? apiKey)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             if (petId == null)
                 throw new ArgumentNullException(nameof(petId));
+
+            if (apiKey == null)
+                throw new ArgumentNullException(nameof(apiKey));
 
             #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -508,17 +515,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiKey"></param>
         private void AfterDeletePetDefaultImplementation(ApiResponse<object> apiResponseLocalVar, long petId, string? apiKey)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterDeletePet(apiResponseLocalVar, petId, apiKey);
+            bool suppressDefaultLog = false;
+            AfterDeletePet(ref suppressDefaultLog, apiResponseLocalVar, petId, apiKey);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="petId"></param>
         /// <param name="apiKey"></param>
-        partial void AfterDeletePet(ApiResponse<object> apiResponseLocalVar, long petId, string? apiKey);
+        partial void AfterDeletePet(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, long petId, string? apiKey);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -577,7 +587,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateDeletePet(petId);
+                ValidateDeletePet(petId, apiKey);
 
                 FormatDeletePet(ref petId, ref apiKey);
 
@@ -655,16 +665,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="status"></param>
         private void AfterFindPetsByStatusDefaultImplementation(ApiResponse<List<Pet>> apiResponseLocalVar, List<string> status)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterFindPetsByStatus(apiResponseLocalVar, status);
+            bool suppressDefaultLog = false;
+            AfterFindPetsByStatus(ref suppressDefaultLog, apiResponseLocalVar, status);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="status"></param>
-        partial void AfterFindPetsByStatus(ApiResponse<List<Pet>> apiResponseLocalVar, List<string> status);
+        partial void AfterFindPetsByStatus(ref bool suppressDefaultLog, ApiResponse<List<Pet>> apiResponseLocalVar, List<string> status);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -821,16 +834,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="tags"></param>
         private void AfterFindPetsByTagsDefaultImplementation(ApiResponse<List<Pet>> apiResponseLocalVar, List<string> tags)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterFindPetsByTags(apiResponseLocalVar, tags);
+            bool suppressDefaultLog = false;
+            AfterFindPetsByTags(ref suppressDefaultLog, apiResponseLocalVar, tags);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="tags"></param>
-        partial void AfterFindPetsByTags(ApiResponse<List<Pet>> apiResponseLocalVar, List<string> tags);
+        partial void AfterFindPetsByTags(ref bool suppressDefaultLog, ApiResponse<List<Pet>> apiResponseLocalVar, List<string> tags);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -987,16 +1003,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId"></param>
         private void AfterGetPetByIdDefaultImplementation(ApiResponse<Pet> apiResponseLocalVar, long petId)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterGetPetById(apiResponseLocalVar, petId);
+            bool suppressDefaultLog = false;
+            AfterGetPetById(ref suppressDefaultLog, apiResponseLocalVar, petId);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="petId"></param>
-        partial void AfterGetPetById(ApiResponse<Pet> apiResponseLocalVar, long petId);
+        partial void AfterGetPetById(ref bool suppressDefaultLog, ApiResponse<Pet> apiResponseLocalVar, long petId);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1136,16 +1155,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet"></param>
         private void AfterUpdatePetDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Pet pet)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterUpdatePet(apiResponseLocalVar, pet);
+            bool suppressDefaultLog = false;
+            AfterUpdatePet(ref suppressDefaultLog, apiResponseLocalVar, pet);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="pet"></param>
-        partial void AfterUpdatePet(ApiResponse<object> apiResponseLocalVar, Pet pet);
+        partial void AfterUpdatePet(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, Pet pet);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1280,14 +1302,22 @@ namespace Org.OpenAPITools.Api
         /// Validates the request parameters
         /// </summary>
         /// <param name="petId"></param>
+        /// <param name="name"></param>
+        /// <param name="status"></param>
         /// <returns></returns>
-        private void ValidateUpdatePetWithForm(long petId)
+        private void ValidateUpdatePetWithForm(long petId, string? name, string? status)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             if (petId == null)
                 throw new ArgumentNullException(nameof(petId));
+
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+
+            if (status == null)
+                throw new ArgumentNullException(nameof(status));
 
             #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1302,18 +1332,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="status"></param>
         private void AfterUpdatePetWithFormDefaultImplementation(ApiResponse<object> apiResponseLocalVar, long petId, string? name, string? status)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterUpdatePetWithForm(apiResponseLocalVar, petId, name, status);
+            bool suppressDefaultLog = false;
+            AfterUpdatePetWithForm(ref suppressDefaultLog, apiResponseLocalVar, petId, name, status);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="petId"></param>
         /// <param name="name"></param>
         /// <param name="status"></param>
-        partial void AfterUpdatePetWithForm(ApiResponse<object> apiResponseLocalVar, long petId, string? name, string? status);
+        partial void AfterUpdatePetWithForm(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, long petId, string? name, string? status);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1376,7 +1409,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateUpdatePetWithForm(petId);
+                ValidateUpdatePetWithForm(petId, name, status);
 
                 FormatUpdatePetWithForm(ref petId, ref name, ref status);
 
@@ -1452,14 +1485,22 @@ namespace Org.OpenAPITools.Api
         /// Validates the request parameters
         /// </summary>
         /// <param name="petId"></param>
+        /// <param name="file"></param>
+        /// <param name="additionalMetadata"></param>
         /// <returns></returns>
-        private void ValidateUploadFile(long petId)
+        private void ValidateUploadFile(long petId, System.IO.Stream? file, string? additionalMetadata)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
 
             if (petId == null)
                 throw new ArgumentNullException(nameof(petId));
+
+            if (file == null)
+                throw new ArgumentNullException(nameof(file));
+
+            if (additionalMetadata == null)
+                throw new ArgumentNullException(nameof(additionalMetadata));
 
             #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1474,18 +1515,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata"></param>
         private void AfterUploadFileDefaultImplementation(ApiResponse<ApiResponse> apiResponseLocalVar, long petId, System.IO.Stream? file, string? additionalMetadata)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterUploadFile(apiResponseLocalVar, petId, file, additionalMetadata);
+            bool suppressDefaultLog = false;
+            AfterUploadFile(ref suppressDefaultLog, apiResponseLocalVar, petId, file, additionalMetadata);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="petId"></param>
         /// <param name="file"></param>
         /// <param name="additionalMetadata"></param>
-        partial void AfterUploadFile(ApiResponse<ApiResponse> apiResponseLocalVar, long petId, System.IO.Stream? file, string? additionalMetadata);
+        partial void AfterUploadFile(ref bool suppressDefaultLog, ApiResponse<ApiResponse> apiResponseLocalVar, long petId, System.IO.Stream? file, string? additionalMetadata);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1548,7 +1592,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateUploadFile(petId);
+                ValidateUploadFile(petId, file, additionalMetadata);
 
                 FormatUploadFile(ref petId, ref file, ref additionalMetadata);
 
@@ -1634,8 +1678,9 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="requiredFile"></param>
         /// <param name="petId"></param>
+        /// <param name="additionalMetadata"></param>
         /// <returns></returns>
-        private void ValidateUploadFileWithRequiredFile(System.IO.Stream requiredFile, long petId)
+        private void ValidateUploadFileWithRequiredFile(System.IO.Stream requiredFile, long petId, string? additionalMetadata)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1645,6 +1690,9 @@ namespace Org.OpenAPITools.Api
 
             if (petId == null)
                 throw new ArgumentNullException(nameof(petId));
+
+            if (additionalMetadata == null)
+                throw new ArgumentNullException(nameof(additionalMetadata));
 
             #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -1659,18 +1707,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata"></param>
         private void AfterUploadFileWithRequiredFileDefaultImplementation(ApiResponse<ApiResponse> apiResponseLocalVar, System.IO.Stream requiredFile, long petId, string? additionalMetadata)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterUploadFileWithRequiredFile(apiResponseLocalVar, requiredFile, petId, additionalMetadata);
+            bool suppressDefaultLog = false;
+            AfterUploadFileWithRequiredFile(ref suppressDefaultLog, apiResponseLocalVar, requiredFile, petId, additionalMetadata);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requiredFile"></param>
         /// <param name="petId"></param>
         /// <param name="additionalMetadata"></param>
-        partial void AfterUploadFileWithRequiredFile(ApiResponse<ApiResponse> apiResponseLocalVar, System.IO.Stream requiredFile, long petId, string? additionalMetadata);
+        partial void AfterUploadFileWithRequiredFile(ref bool suppressDefaultLog, ApiResponse<ApiResponse> apiResponseLocalVar, System.IO.Stream requiredFile, long petId, string? additionalMetadata);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1733,7 +1784,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateUploadFileWithRequiredFile(requiredFile, petId);
+                ValidateUploadFileWithRequiredFile(requiredFile, petId, additionalMetadata);
 
                 FormatUploadFileWithRequiredFile(ref requiredFile, ref petId, ref additionalMetadata);
 
