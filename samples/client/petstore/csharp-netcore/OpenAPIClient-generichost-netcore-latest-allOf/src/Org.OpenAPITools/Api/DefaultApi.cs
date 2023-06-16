@@ -110,16 +110,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="personId"></param>
         private void AfterListDefaultImplementation(ApiResponse<Person> apiResponseLocalVar, string personId)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterList(apiResponseLocalVar, personId);
+            bool suppressDefaultLog = false;
+            AfterList(ref suppressDefaultLog, apiResponseLocalVar, personId);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="personId"></param>
-        partial void AfterList(ApiResponse<Person> apiResponseLocalVar, string personId);
+        partial void AfterList(ref bool suppressDefaultLog, ApiResponse<Person> apiResponseLocalVar, string personId);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response

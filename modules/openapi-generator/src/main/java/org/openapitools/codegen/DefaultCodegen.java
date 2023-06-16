@@ -2825,7 +2825,7 @@ public class DefaultCodegen implements CodegenConfig {
             Schema existingType = existingProperties.get("type");
             Schema newType = newProperties.get("type");
             existingProperties.putAll(newProperties);
-            if (null != existingType && null != newType && !newType.getEnum().isEmpty()) {
+            if (null != existingType && null != newType && null != newType.getEnum() && !newType.getEnum().isEmpty()) {
                 for (Object e : newType.getEnum()) {
                     // ensure all interface enum types are added to schema
                     if (null != existingType.getEnum() && !existingType.getEnum().contains(e)) {
@@ -7389,7 +7389,15 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            CodegenMediaType codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases, mt.getExamples());
+            CodegenMediaType codegenMt;
+            if(mt.getExamples() != null) {
+                codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases, mt.getExamples());
+            } else if(mt.getExample() != null) {
+                codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases, mt.getExample());
+            } else {
+                codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases);
+            }
+
             cmtContent.put(contentType, codegenMt);
             if (schemaProp != null) {
                 if (addSchemaImportsFromV3SpecLocations) {

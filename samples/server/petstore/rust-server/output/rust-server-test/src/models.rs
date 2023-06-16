@@ -1,10 +1,12 @@
 #![allow(unused_qualifications)]
 
+use validator::Validate;
+
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ANullableContainer {
     #[serde(rename = "NullableThing")]
@@ -17,6 +19,7 @@ pub struct ANullableContainer {
     pub required_nullable_thing: swagger::Nullable<String>,
 
 }
+
 
 impl ANullableContainer {
     #[allow(clippy::new_without_default)]
@@ -190,7 +193,7 @@ impl ::std::str::FromStr for AdditionalPropertiesObject {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AllOfObject {
     #[serde(rename = "sampleProperty")]
@@ -202,6 +205,7 @@ pub struct AllOfObject {
     pub sample_base_property: Option<String>,
 
 }
+
 
 impl AllOfObject {
     #[allow(clippy::new_without_default)]
@@ -330,7 +334,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct BaseAllOf {
     #[serde(rename = "sampleBaseProperty")]
@@ -338,6 +342,7 @@ pub struct BaseAllOf {
     pub sample_base_property: Option<String>,
 
 }
+
 
 impl BaseAllOf {
     #[allow(clippy::new_without_default)]
@@ -453,7 +458,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct DummyPutRequest {
     #[serde(rename = "id")]
@@ -464,6 +469,7 @@ pub struct DummyPutRequest {
     pub password: Option<String>,
 
 }
+
 
 impl DummyPutRequest {
     #[allow(clippy::new_without_default)]
@@ -589,7 +595,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 
 
 /// structured response
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GetYamlResponse {
     /// Inner string
@@ -598,6 +604,7 @@ pub struct GetYamlResponse {
     pub value: Option<String>,
 
 }
+
 
 impl GetYamlResponse {
     #[allow(clippy::new_without_default)]
@@ -714,7 +721,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 
 
 /// An object of objects
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectOfObjects {
     #[serde(rename = "inner")]
@@ -722,6 +729,7 @@ pub struct ObjectOfObjects {
     pub inner: Option<models::ObjectOfObjectsInner>,
 
 }
+
 
 impl ObjectOfObjects {
     #[allow(clippy::new_without_default)]
@@ -831,7 +839,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectOfObjectsInner {
     #[serde(rename = "required_thing")]
@@ -842,6 +850,7 @@ pub struct ObjectOfObjectsInner {
     pub optional_thing: Option<i32>,
 
 }
+
 
 impl ObjectOfObjectsInner {
     #[allow(clippy::new_without_default)]

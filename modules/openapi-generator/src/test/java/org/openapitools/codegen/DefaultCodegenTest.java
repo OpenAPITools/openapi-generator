@@ -29,6 +29,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
@@ -668,6 +669,31 @@ public class DefaultCodegenTest {
         }
         Assert.assertTrue(typeSeen);
         Assert.assertTrue(typeContainsEnums);
+    }
+
+    @Test
+    public void testOneOfMergeProperties() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue15859.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        String modelName = "Pet";
+
+        final Schema schema = openAPI.getComponents().getSchemas().get(modelName);
+        codegen.setOpenAPI(openAPI);
+        CodegenModel pet = codegen.fromModel(modelName, schema);
+
+        Set<String> oneOf = new TreeSet<String>();
+        oneOf.add("Dog");
+        oneOf.add("Cat");
+        Assert.assertEquals(pet.oneOf, oneOf);
+        // make sure that animal has the property type
+        boolean typeSeen = false;
+        for (CodegenProperty cp : pet.vars) {
+            if ("type".equals(cp.name)) {
+                typeSeen = true;
+                break;
+            }
+        }
+        Assert.assertTrue(typeSeen);
     }
 
     @Test
@@ -4721,5 +4747,22 @@ public class DefaultCodegenTest {
         expected.setDefault("defaultValue");
 
         Assert.assertTrue(codegen.cliOptions.contains(expected));
+    }
+
+    @Test
+    public void testRequestInlineSingleExample() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/content-data.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path;
+        CodegenOperation co;
+
+        path = "/inlineRequestBodySchemasDifferingByContentType";
+        co = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+        CodegenParameter bodyParameter = co.bodyParam;
+        LinkedHashMap<String, CodegenMediaType> content = bodyParameter.getContent();
+        assertNotNull(content);
+        CodegenMediaType mt = content.get("application/json");
+        assertNotNull(mt.getExample());
     }
 }

@@ -507,15 +507,18 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         private void AfterFakeHealthGetDefaultImplementation(ApiResponse<HealthCheckResult> apiResponseLocalVar)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterFakeHealthGet(apiResponseLocalVar);
+            bool suppressDefaultLog = false;
+            AfterFakeHealthGet(ref suppressDefaultLog, apiResponseLocalVar);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterFakeHealthGet(ApiResponse<HealthCheckResult> apiResponseLocalVar);
+        partial void AfterFakeHealthGet(ref bool suppressDefaultLog, ApiResponse<HealthCheckResult> apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -633,16 +636,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="body"></param>
         private void AfterFakeOuterBooleanSerializeDefaultImplementation(ApiResponse<bool> apiResponseLocalVar, bool? body)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterFakeOuterBooleanSerialize(apiResponseLocalVar, body);
+            bool suppressDefaultLog = false;
+            AfterFakeOuterBooleanSerialize(ref suppressDefaultLog, apiResponseLocalVar, body);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="body"></param>
-        partial void AfterFakeOuterBooleanSerialize(ApiResponse<bool> apiResponseLocalVar, bool? body);
+        partial void AfterFakeOuterBooleanSerialize(ref bool suppressDefaultLog, ApiResponse<bool> apiResponseLocalVar, bool? body);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -781,16 +787,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="outerComposite"></param>
         private void AfterFakeOuterCompositeSerializeDefaultImplementation(ApiResponse<OuterComposite> apiResponseLocalVar, OuterComposite? outerComposite)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterFakeOuterCompositeSerialize(apiResponseLocalVar, outerComposite);
+            bool suppressDefaultLog = false;
+            AfterFakeOuterCompositeSerialize(ref suppressDefaultLog, apiResponseLocalVar, outerComposite);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="outerComposite"></param>
-        partial void AfterFakeOuterCompositeSerialize(ApiResponse<OuterComposite> apiResponseLocalVar, OuterComposite? outerComposite);
+        partial void AfterFakeOuterCompositeSerialize(ref bool suppressDefaultLog, ApiResponse<OuterComposite> apiResponseLocalVar, OuterComposite? outerComposite);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -929,16 +938,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="body"></param>
         private void AfterFakeOuterNumberSerializeDefaultImplementation(ApiResponse<decimal> apiResponseLocalVar, decimal? body)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterFakeOuterNumberSerialize(apiResponseLocalVar, body);
+            bool suppressDefaultLog = false;
+            AfterFakeOuterNumberSerialize(ref suppressDefaultLog, apiResponseLocalVar, body);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="body"></param>
-        partial void AfterFakeOuterNumberSerialize(ApiResponse<decimal> apiResponseLocalVar, decimal? body);
+        partial void AfterFakeOuterNumberSerialize(ref bool suppressDefaultLog, ApiResponse<decimal> apiResponseLocalVar, decimal? body);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1082,17 +1094,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="body"></param>
         private void AfterFakeOuterStringSerializeDefaultImplementation(ApiResponse<string> apiResponseLocalVar, Guid requiredStringUuid, string? body)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterFakeOuterStringSerialize(apiResponseLocalVar, requiredStringUuid, body);
+            bool suppressDefaultLog = false;
+            AfterFakeOuterStringSerialize(ref suppressDefaultLog, apiResponseLocalVar, requiredStringUuid, body);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        partial void AfterFakeOuterStringSerialize(ApiResponse<string> apiResponseLocalVar, Guid requiredStringUuid, string? body);
+        partial void AfterFakeOuterStringSerialize(ref bool suppressDefaultLog, ApiResponse<string> apiResponseLocalVar, Guid requiredStringUuid, string? body);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1221,15 +1236,18 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         private void AfterGetArrayOfEnumsDefaultImplementation(ApiResponse<List<OuterEnum>> apiResponseLocalVar)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterGetArrayOfEnums(apiResponseLocalVar);
+            bool suppressDefaultLog = false;
+            AfterGetArrayOfEnums(ref suppressDefaultLog, apiResponseLocalVar);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetArrayOfEnums(ApiResponse<List<OuterEnum>> apiResponseLocalVar);
+        partial void AfterGetArrayOfEnums(ref bool suppressDefaultLog, ApiResponse<List<OuterEnum>> apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1347,16 +1365,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="fileSchemaTestClass"></param>
         private void AfterTestBodyWithFileSchemaDefaultImplementation(ApiResponse<object> apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterTestBodyWithFileSchema(apiResponseLocalVar, fileSchemaTestClass);
+            bool suppressDefaultLog = false;
+            AfterTestBodyWithFileSchema(ref suppressDefaultLog, apiResponseLocalVar, fileSchemaTestClass);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="fileSchemaTestClass"></param>
-        partial void AfterTestBodyWithFileSchema(ApiResponse<object> apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass);
+        partial void AfterTestBodyWithFileSchema(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1491,17 +1512,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="query"></param>
         private void AfterTestBodyWithQueryParamsDefaultImplementation(ApiResponse<object> apiResponseLocalVar, User user, string query)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterTestBodyWithQueryParams(apiResponseLocalVar, user, query);
+            bool suppressDefaultLog = false;
+            AfterTestBodyWithQueryParams(ref suppressDefaultLog, apiResponseLocalVar, user, query);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
         /// <param name="query"></param>
-        partial void AfterTestBodyWithQueryParams(ApiResponse<object> apiResponseLocalVar, User user, string query);
+        partial void AfterTestBodyWithQueryParams(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, User user, string query);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1641,16 +1665,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient"></param>
         private void AfterTestClientModelDefaultImplementation(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterTestClientModel(apiResponseLocalVar, modelClient);
+            bool suppressDefaultLog = false;
+            AfterTestClientModel(ref suppressDefaultLog, apiResponseLocalVar, modelClient);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        partial void AfterTestClientModel(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient);
+        partial void AfterTestClientModel(ref bool suppressDefaultLog, ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1854,13 +1881,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="dateTime"></param>
         private void AfterTestEndpointParametersDefaultImplementation(ApiResponse<object> apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream? binary, float? varFloat, int? integer, int? int32, long? int64, string? varString, string? password, string? callback, DateTime? dateTime)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterTestEndpointParameters(apiResponseLocalVar, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+            bool suppressDefaultLog = false;
+            AfterTestEndpointParameters(ref suppressDefaultLog, apiResponseLocalVar, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="varByte"></param>
         /// <param name="number"></param>
@@ -1876,7 +1906,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        partial void AfterTestEndpointParameters(ApiResponse<object> apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream? binary, float? varFloat, int? integer, int? int32, long? int64, string? varString, string? password, string? callback, DateTime? dateTime);
+        partial void AfterTestEndpointParameters(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime? date, System.IO.Stream? binary, float? varFloat, int? integer, int? int32, long? int64, string? varString, string? password, string? callback, DateTime? dateTime);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2147,13 +2177,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormString"></param>
         private void AfterTestEnumParametersDefaultImplementation(ApiResponse<object> apiResponseLocalVar, List<string>? enumHeaderStringArray, List<string>? enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string>? enumFormStringArray, string? enumHeaderString, string? enumQueryString, string? enumFormString)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterTestEnumParameters(apiResponseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+            bool suppressDefaultLog = false;
+            AfterTestEnumParameters(ref suppressDefaultLog, apiResponseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="enumHeaderStringArray"></param>
         /// <param name="enumQueryStringArray"></param>
@@ -2163,7 +2196,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumFormString"></param>
-        partial void AfterTestEnumParameters(ApiResponse<object> apiResponseLocalVar, List<string>? enumHeaderStringArray, List<string>? enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string>? enumFormStringArray, string? enumHeaderString, string? enumQueryString, string? enumFormString);
+        partial void AfterTestEnumParameters(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, List<string>? enumHeaderStringArray, List<string>? enumQueryStringArray, double? enumQueryDouble, int? enumQueryInteger, List<string>? enumFormStringArray, string? enumHeaderString, string? enumQueryString, string? enumFormString);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2376,13 +2409,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group"></param>
         private void AfterTestGroupParametersDefaultImplementation(ApiResponse<object> apiResponseLocalVar, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterTestGroupParameters(apiResponseLocalVar, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+            bool suppressDefaultLog = false;
+            AfterTestGroupParameters(ref suppressDefaultLog, apiResponseLocalVar, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requiredBooleanGroup"></param>
         /// <param name="requiredStringGroup"></param>
@@ -2390,7 +2426,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup"></param>
         /// <param name="stringGroup"></param>
         /// <param name="int64Group"></param>
-        partial void AfterTestGroupParameters(ApiResponse<object> apiResponseLocalVar, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group);
+        partial void AfterTestGroupParameters(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, bool? booleanGroup, int? stringGroup, long? int64Group);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2557,16 +2593,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="requestBody"></param>
         private void AfterTestInlineAdditionalPropertiesDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Dictionary<string, string> requestBody)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterTestInlineAdditionalProperties(apiResponseLocalVar, requestBody);
+            bool suppressDefaultLog = false;
+            AfterTestInlineAdditionalProperties(ref suppressDefaultLog, apiResponseLocalVar, requestBody);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requestBody"></param>
-        partial void AfterTestInlineAdditionalProperties(ApiResponse<object> apiResponseLocalVar, Dictionary<string, string> requestBody);
+        partial void AfterTestInlineAdditionalProperties(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, Dictionary<string, string> requestBody);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2701,17 +2740,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="param2"></param>
         private void AfterTestJsonFormDataDefaultImplementation(ApiResponse<object> apiResponseLocalVar, string param, string param2)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterTestJsonFormData(apiResponseLocalVar, param, param2);
+            bool suppressDefaultLog = false;
+            AfterTestJsonFormData(ref suppressDefaultLog, apiResponseLocalVar, param, param2);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="param"></param>
         /// <param name="param2"></param>
-        partial void AfterTestJsonFormData(ApiResponse<object> apiResponseLocalVar, string param, string param2);
+        partial void AfterTestJsonFormData(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, string param, string param2);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2873,20 +2915,23 @@ namespace Org.OpenAPITools.Api
         /// <param name="context"></param>
         private void AfterTestQueryParameterCollectionFormatDefaultImplementation(ApiResponse<object> apiResponseLocalVar, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterTestQueryParameterCollectionFormat(apiResponseLocalVar, pipe, ioutil, http, url, context);
+            bool suppressDefaultLog = false;
+            AfterTestQueryParameterCollectionFormat(ref suppressDefaultLog, apiResponseLocalVar, pipe, ioutil, http, url, context);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="pipe"></param>
         /// <param name="ioutil"></param>
         /// <param name="http"></param>
         /// <param name="url"></param>
         /// <param name="context"></param>
-        partial void AfterTestQueryParameterCollectionFormat(ApiResponse<object> apiResponseLocalVar, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
+        partial void AfterTestQueryParameterCollectionFormat(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
