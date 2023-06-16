@@ -2206,6 +2206,17 @@ components:
       required:
       - enum_str_type
       type: object
+    ArrayDefault:
+      properties:
+        WithDefaultEmptyBracket:
+          default: []
+          items:
+            type: string
+          type: array
+        WithoutDefault:
+          items:
+            type: string
+          type: array
     _foo_get_default_response:
       example:
         string:
