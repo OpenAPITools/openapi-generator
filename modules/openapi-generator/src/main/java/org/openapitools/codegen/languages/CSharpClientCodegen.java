@@ -1531,6 +1531,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         if (model.parentModel.allVars.stream().anyMatch(v -> v.baseName.equals(property.baseName))){
             property.isInherited = true;
+        }
     }
 
     @Override
@@ -1575,8 +1576,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         return objs;
-    }
-
     }
 
     /**
