@@ -495,6 +495,32 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
             removeCircularReferencesInComposedSchemas(model);
 
+            CodegenComposedSchemas composedSchemas = model.getComposedSchemas();
+            if (composedSchemas != null) {
+                List<CodegenProperty> allOf = composedSchemas.getAllOf();
+                if (allOf != null) {
+                    for(CodegenProperty property : allOf) {
+                        property.name = patchPropertyName(model, property.baseType);
+                    }
+                }
+
+                List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
+                if (anyOf != null) {
+                    for(CodegenProperty property : anyOf) {
+                        property.name = patchPropertyName(model, property.baseType);
+                        property.isNullable = true;
+                    }
+                }
+
+                List<CodegenProperty> oneOf = composedSchemas.getOneOf();
+                if (oneOf != null) {
+                    for(CodegenProperty property : oneOf) {
+                        property.name = patchPropertyName(model, property.baseType);
+                        property.isNullable = true;
+                    }
+                }
+            }
+
             // https://github.com/OpenAPITools/openapi-generator/issues/12324
             // TODO: why do these collections contain different instances?
             // fixing allVars should suffice instead of patching every collection
@@ -526,7 +552,22 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return processed;
     }
 
-    private void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
+    private String patchPropertyName(CodegenModel model, String value) {
+        // the casing will be wrong if we just set the name to escapeReservedWord
+        // if we try to fix it with camelize, underscores get stripped out
+        // so test if the name was escaped and then replace var with Var
+        String tmpPropertyName = escapeReservedWord(model, value);
+        if (!value.equals(tmpPropertyName) || value.startsWith(this.invalidNamePrefix)) {
+            value = tmpPropertyName;
+            String firstCharacter = value.substring(0, 1);
+            value = value.substring(1);
+            value = firstCharacter.toUpperCase(Locale.ROOT) + value;
+        }
+
+        return value;
+    }
+
+    protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
         if (enumRefs.containsKey(property.dataType)) {
             // Handle any enum properties referred to by $ref.
             // This is different in C# than most other generators, because enums in C# are compiled to integral types,
@@ -554,15 +595,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
 
         String tmpPropertyName = escapeReservedWord(model, property.name);
-        if (!property.name.equals(tmpPropertyName) || property.name.startsWith(this.invalidNamePrefix)) {
-            // the casing will be wrong if we just set the name to escapeReservedWord
-            // if we try to fix it with camelize, underscores get stripped out
-            // so test if the name was escaped and then replace var with Var
-            property.name = tmpPropertyName;
-            String firstCharacter = property.name.substring(0, 1);
-            property.name = property.name.substring(1);
-            property.name = firstCharacter.toUpperCase(Locale.ROOT) + property.name;
-        }
+        property.name = patchPropertyName(model, property.name);
 
         // fix incorrect data types for maps of maps
         if (property.datatypeWithEnum.endsWith(", List>") && property.items != null) {

@@ -52,5 +52,41 @@ namespace Org.OpenAPITools.Test.Model
             // TODO uncomment below to test "IsType" Mammal
             //Assert.IsType<Mammal>(instance);
         }
+
+        /// <summary>
+        /// Test the property 'ClassName'
+        /// </summary>
+        [Fact]
+        public void ClassNameTest()
+        {
+            // TODO unit test for the property 'ClassName'
+        }
+
+        /// <summary>
+        /// Test the property 'HasBaleen'
+        /// </summary>
+        [Fact]
+        public void HasBaleenTest()
+        {
+            // TODO unit test for the property 'HasBaleen'
+        }
+
+        /// <summary>
+        /// Test the property 'HasTeeth'
+        /// </summary>
+        [Fact]
+        public void HasTeethTest()
+        {
+            // TODO unit test for the property 'HasTeeth'
+        }
+
+        /// <summary>
+        /// Test the property 'Type'
+        /// </summary>
+        [Fact]
+        public void TypeTest()
+        {
+            // TODO unit test for the property 'Type'
+        }
     }
 }

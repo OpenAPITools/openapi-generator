@@ -232,6 +232,12 @@ namespace Org.OpenAPITools.Model
 
             System.Text.Json.JsonSerializer.Serialize(writer, triangle.ScaleneTriangle, jsonSerializerOptions);
 
+            writer.WriteStartObject();
+
+            writer.WriteString("shapeType", triangle.ShapeType);
+            writer.WriteString("triangleType", triangle.TriangleType);
+
+            writer.WriteEndObject();
         }
     }
 }

@@ -35,16 +35,16 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         internal OneOfString(string varString)
         {
-            String = varString;
+            VarString = varString;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets String
+        /// Gets or Sets VarString
         /// </summary>
-        public string String { get; set; }
+        public string VarString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -135,8 +135,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, OneOfString oneOfString, JsonSerializerOptions jsonSerializerOptions)
         {
-            System.Text.Json.JsonSerializer.Serialize(writer, oneOfString.String, jsonSerializerOptions);
+            System.Text.Json.JsonSerializer.Serialize(writer, oneOfString.VarString, jsonSerializerOptions);
 
+            writer.WriteStartObject();
+
+            writer.WriteEndObject();
         }
     }
 }

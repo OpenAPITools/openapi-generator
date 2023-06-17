@@ -34,11 +34,15 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
         /// <param name="apple"></param>
+        /// <param name="count">count</param>
+        /// <param name="kind">kind</param>
         /// <param name="color">color</param>
         [JsonConstructor]
-        public Fruit(Apple apple, string color)
+        public Fruit(Apple? apple, decimal count, string kind, string color)
         {
             Apple = apple;
+            Count = count;
+            Kind = kind;
             Color = color;
             OnCreated();
         }
@@ -47,11 +51,15 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
         /// <param name="banana"></param>
+        /// <param name="count">count</param>
+        /// <param name="kind">kind</param>
         /// <param name="color">color</param>
         [JsonConstructor]
-        public Fruit(Banana banana, string color)
+        public Fruit(Banana? banana, decimal count, string kind, string color)
         {
             Banana = banana;
+            Count = count;
+            Kind = kind;
             Color = color;
             OnCreated();
         }
@@ -67,6 +75,18 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Banana
         /// </summary>
         public Banana? Banana { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Count
+        /// </summary>
+        [JsonPropertyName("count")]
+        public decimal Count { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Kind
+        /// </summary>
+        [JsonPropertyName("kind")]
+        public string Kind { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
@@ -89,6 +109,8 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Fruit {\n");
             sb.Append("  Color: ").Append(Color).Append("\n");
+            sb.Append("  Count: ").Append(Count).Append("\n");
+            sb.Append("  Kind: ").Append(Kind).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -127,6 +149,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
+            decimal? count = default;
+            string? kind = default;
             string? color = default;
 
             while (utf8JsonReader.Read())
@@ -144,6 +168,13 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "count":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                count = utf8JsonReader.GetDecimal();
+                            break;
+                        case "kind":
+                            kind = utf8JsonReader.GetString();
+                            break;
                         case "color":
                             color = utf8JsonReader.GetString();
                             break;
@@ -153,16 +184,22 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (count == null)
+                throw new ArgumentNullException(nameof(count), "Property is required for class Fruit.");
+
+            if (kind == null)
+                throw new ArgumentNullException(nameof(kind), "Property is required for class Fruit.");
+
             if (color == null)
                 throw new ArgumentNullException(nameof(color), "Property is required for class Fruit.");
 
             Utf8JsonReader appleReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<Apple>(ref appleReader, jsonSerializerOptions, out Apple? apple))
-                return new Fruit(apple, color);
+                return new Fruit(apple, count.Value, kind, color);
 
             Utf8JsonReader bananaReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<Banana>(ref bananaReader, jsonSerializerOptions, out Banana? banana))
-                return new Fruit(banana, color);
+                return new Fruit(banana, count.Value, kind, color);
 
             throw new JsonException();
         }
@@ -180,6 +217,13 @@ namespace Org.OpenAPITools.Model
 
             System.Text.Json.JsonSerializer.Serialize(writer, fruit.Banana, jsonSerializerOptions);
 
+            writer.WriteStartObject();
+
+            writer.WriteNumber("count", fruit.Count);
+            writer.WriteString("kind", fruit.Kind);
+            writer.WriteString("color", fruit.Color);
+
+            writer.WriteEndObject();
         }
     }
 }

@@ -32,11 +32,17 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
         /// <param name="apple"></param>
+        /// <param name="cultivar">cultivar</param>
+        /// <param name="lengthCm">lengthCm</param>
+        /// <param name="origin">origin</param>
         /// <param name="color">color</param>
         [JsonConstructor]
-        public Fruit(Apple apple, string color)
+        public Fruit(Apple apple, string cultivar, decimal lengthCm, string origin, string color)
         {
             Apple = apple;
+            Cultivar = cultivar;
+            LengthCm = lengthCm;
+            Origin = origin;
             Color = color;
             OnCreated();
         }
@@ -45,11 +51,17 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
         /// <param name="banana"></param>
+        /// <param name="cultivar">cultivar</param>
+        /// <param name="lengthCm">lengthCm</param>
+        /// <param name="origin">origin</param>
         /// <param name="color">color</param>
         [JsonConstructor]
-        public Fruit(Banana banana, string color)
+        public Fruit(Banana banana, string cultivar, decimal lengthCm, string origin, string color)
         {
             Banana = banana;
+            Cultivar = cultivar;
+            LengthCm = lengthCm;
+            Origin = origin;
             Color = color;
             OnCreated();
         }
@@ -67,6 +79,24 @@ namespace Org.OpenAPITools.Model
         public Banana Banana { get; set; }
 
         /// <summary>
+        /// Gets or Sets Cultivar
+        /// </summary>
+        [JsonPropertyName("cultivar")]
+        public string Cultivar { get; set; }
+
+        /// <summary>
+        /// Gets or Sets LengthCm
+        /// </summary>
+        [JsonPropertyName("lengthCm")]
+        public decimal LengthCm { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Origin
+        /// </summary>
+        [JsonPropertyName("origin")]
+        public string Origin { get; set; }
+
+        /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
@@ -81,6 +111,9 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Fruit {\n");
             sb.Append("  Color: ").Append(Color).Append("\n");
+            sb.Append("  Cultivar: ").Append(Cultivar).Append("\n");
+            sb.Append("  LengthCm: ").Append(LengthCm).Append("\n");
+            sb.Append("  Origin: ").Append(Origin).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -92,6 +125,20 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
+            // Cultivar (string) pattern
+            Regex regexCultivar = new Regex(@"^[a-zA-Z\s]*$", RegexOptions.CultureInvariant);
+            if (false == regexCultivar.Match(this.Cultivar).Success)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
+            }
+
+            // Origin (string) pattern
+            Regex regexOrigin = new Regex(@"^[A-Z\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            if (false == regexOrigin.Match(this.Origin).Success)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });
+            }
+
             yield break;
         }
     }
@@ -118,6 +165,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
+            string cultivar = default;
+            decimal? lengthCm = default;
+            string origin = default;
             string color = default;
 
             while (utf8JsonReader.Read())
@@ -135,6 +185,16 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "cultivar":
+                            cultivar = utf8JsonReader.GetString();
+                            break;
+                        case "lengthCm":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                lengthCm = utf8JsonReader.GetDecimal();
+                            break;
+                        case "origin":
+                            origin = utf8JsonReader.GetString();
+                            break;
                         case "color":
                             color = utf8JsonReader.GetString();
                             break;
@@ -144,16 +204,25 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (cultivar == null)
+                throw new ArgumentNullException(nameof(cultivar), "Property is required for class Fruit.");
+
+            if (lengthCm == null)
+                throw new ArgumentNullException(nameof(lengthCm), "Property is required for class Fruit.");
+
+            if (origin == null)
+                throw new ArgumentNullException(nameof(origin), "Property is required for class Fruit.");
+
             if (color == null)
                 throw new ArgumentNullException(nameof(color), "Property is required for class Fruit.");
 
             Utf8JsonReader appleReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<Apple>(ref appleReader, jsonSerializerOptions, out Apple apple))
-                return new Fruit(apple, color);
+                return new Fruit(apple, cultivar, lengthCm.Value, origin, color);
 
             Utf8JsonReader bananaReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<Banana>(ref bananaReader, jsonSerializerOptions, out Banana banana))
-                return new Fruit(banana, color);
+                return new Fruit(banana, cultivar, lengthCm.Value, origin, color);
 
             throw new JsonException();
         }
@@ -171,6 +240,14 @@ namespace Org.OpenAPITools.Model
 
             System.Text.Json.JsonSerializer.Serialize(writer, fruit.Banana, jsonSerializerOptions);
 
+            writer.WriteStartObject();
+
+            writer.WriteString("cultivar", fruit.Cultivar);
+            writer.WriteNumber("lengthCm", fruit.LengthCm);
+            writer.WriteString("origin", fruit.Origin);
+            writer.WriteString("color", fruit.Color);
+
+            writer.WriteEndObject();
         }
     }
 }

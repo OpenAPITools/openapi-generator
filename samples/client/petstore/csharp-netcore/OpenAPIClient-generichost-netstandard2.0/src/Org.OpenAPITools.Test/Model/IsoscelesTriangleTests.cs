@@ -52,5 +52,23 @@ namespace Org.OpenAPITools.Test.Model
             // TODO uncomment below to test "IsType" IsoscelesTriangle
             //Assert.IsType<IsoscelesTriangle>(instance);
         }
+
+        /// <summary>
+        /// Test the property 'ShapeType'
+        /// </summary>
+        [Fact]
+        public void ShapeTypeTest()
+        {
+            // TODO unit test for the property 'ShapeType'
+        }
+
+        /// <summary>
+        /// Test the property 'TriangleType'
+        /// </summary>
+        [Fact]
+        public void TriangleTypeTest()
+        {
+            // TODO unit test for the property 'TriangleType'
+        }
     }
 }

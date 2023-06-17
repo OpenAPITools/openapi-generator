@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         internal PolymorphicProperty(bool varBool)
         {
-            Bool = varBool;
+            VarBool = varBool;
             OnCreated();
         }
 
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         internal PolymorphicProperty(string varString)
         {
-            String = varString;
+            VarString = varString;
             OnCreated();
         }
 
@@ -57,42 +57,42 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         internal PolymorphicProperty(Object varObject)
         {
-            Object = varObject;
+            VarObject = varObject;
             OnCreated();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
-        /// <param name="liststring"></param>
+        /// <param name="list"></param>
         [JsonConstructor]
-        internal PolymorphicProperty(List<string> liststring)
+        internal PolymorphicProperty(List<string> list)
         {
-            Liststring = liststring;
+            List = list;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets Bool
+        /// Gets or Sets VarBool
         /// </summary>
-        public bool Bool { get; set; }
+        public bool VarBool { get; set; }
 
         /// <summary>
-        /// Gets or Sets String
+        /// Gets or Sets VarString
         /// </summary>
-        public string String { get; set; }
+        public string VarString { get; set; }
 
         /// <summary>
-        /// Gets or Sets Object
+        /// Gets or Sets VarObject
         /// </summary>
-        public Object Object { get; set; }
+        public Object VarObject { get; set; }
 
         /// <summary>
-        /// Gets or Sets Liststring
+        /// Gets or Sets List
         /// </summary>
-        public List<string> Liststring { get; set; }
+        public List<string> List { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -179,9 +179,9 @@ namespace Org.OpenAPITools.Model
             if (Client.ClientUtils.TryDeserialize<Object>(ref varObjectReader, jsonSerializerOptions, out Object varObject))
                 return new PolymorphicProperty(varObject);
 
-            Utf8JsonReader liststringReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<List<string>>(ref liststringReader, jsonSerializerOptions, out List<string> liststring))
-                return new PolymorphicProperty(liststring);
+            Utf8JsonReader listReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<List<string>>(ref listReader, jsonSerializerOptions, out List<string> list))
+                return new PolymorphicProperty(list);
 
             throw new JsonException();
         }
@@ -195,14 +195,17 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, PolymorphicProperty polymorphicProperty, JsonSerializerOptions jsonSerializerOptions)
         {
-            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.Bool, jsonSerializerOptions);
+            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.VarBool, jsonSerializerOptions);
 
-            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.String, jsonSerializerOptions);
+            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.VarString, jsonSerializerOptions);
 
-            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.Object, jsonSerializerOptions);
+            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.VarObject, jsonSerializerOptions);
 
-            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.Liststring, jsonSerializerOptions);
+            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.List, jsonSerializerOptions);
 
+            writer.WriteStartObject();
+
+            writer.WriteEndObject();
         }
     }
 }

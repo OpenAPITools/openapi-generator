@@ -8,28 +8,20 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
-        /// <param name="{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{#isNullable}}{{nrt?}}{{/isNullable}}"></param>
-        {{#composedSchemas.allOf}}
-        {{^isInherited}}
-        /// <param name="{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}"></param>
-        {{/isInherited}}
-        {{/composedSchemas.allOf}}
+        /// <param name="{{#lambda.camelcase_param}}{{baseType}}{{/lambda.camelcase_param}}"></param>
         {{#composedSchemas.anyOf}}
-        /// <param name="{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{#isNullable}}{{nrt?}}{{/isNullable}}"></param>
+        /// <param name="{{#lambda.camelcase_param}}{{baseType}}{{/lambda.camelcase_param}}"></param>
         {{/composedSchemas.anyOf}}
         {{#allVars}}
         /// <param name="{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}">{{description}}{{^description}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{/description}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
         {{/allVars}}
         [JsonConstructor]
-        {{#readWriteVars}}{{#-first}}public{{/-first}}{{/readWriteVars}}{{^readWriteVars}}internal{{/readWriteVars}} {{classname}}({{#lambda.joinWithComma}}{{{dataType}}}{{#isNullable}}{{nrt?}}{{/isNullable}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}  {{#model.composedSchemas.allOf}}{{^isInherited}}{{{dataType}}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/model.composedSchemas.allOf}}{{#model.composedSchemas.anyOf}}{{{dataType}}}{{#isNullable}}{{nrt?}}{{/isNullable}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}  {{/model.composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{#parentModel.composedSchemas.oneOf}}{{#lambda.camelcase_param}}{{parent}}{{/lambda.camelcase_param}}.{{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}  {{/parentModel.composedSchemas.oneOf}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
+        {{#readWriteVars}}{{#-first}}public{{/-first}}{{/readWriteVars}}{{^readWriteVars}}internal{{/readWriteVars}} {{classname}}({{#lambda.joinWithComma}}{{{dataType}}}{{nrt?}}{{^nrt}}{{#vendorExtensions.is-value-type}}?{{/vendorExtensions.is-value-type}}{{/nrt}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{#model.composedSchemas.anyOf}}{{{dataType}}}{{#isNullable}}{{nrt?}}{{/isNullable}} {{#lambda.camelcase_param}}{{baseType}}{{/lambda.camelcase_param}}  {{/model.composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{#parentModel.composedSchemas.oneOf}}{{#lambda.camelcase_param}}{{parent}}{{/lambda.camelcase_param}}.{{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}}  {{/parentModel.composedSchemas.oneOf}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
         {
-            {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}};
-            {{#composedSchemas.allOf}}
-            {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}};
-            {{/composedSchemas.allOf}}
             {{#composedSchemas.anyOf}}
-            {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}};
+            {{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{/lambda.camelcase_param}};
             {{/composedSchemas.anyOf}}
+            {{name}} = {{#lambda.camelcase_param}}{{baseType}}{{/lambda.camelcase_param}};
             {{#allVars}}
             {{^isInherited}}
             {{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
@@ -49,27 +41,17 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
-        {{#composedSchemas.allOf}}
-        {{^isInherited}}
-        /// <param name="{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}"></param>
-        {{/isInherited}}
-        {{/composedSchemas.allOf}}
         {{#composedSchemas.anyOf}}
-        /// <param name="{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{#isNullable}}{{nrt?}}{{/isNullable}}"></param>
+        /// <param name="{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}"></param>
         {{/composedSchemas.anyOf}}
         {{#allVars}}
         /// <param name="{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}">{{description}}{{^description}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{/description}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
         {{/allVars}}
         [JsonConstructor]
-        {{#readWriteVars}}{{#-first}}public{{/-first}}{{/readWriteVars}}{{^readWriteVars}}internal{{/readWriteVars}} {{classname}}({{#lambda.joinWithComma}}{{#composedSchemas.allOf}}{{^isInherited}}{{{dataType}}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/composedSchemas.allOf}}{{#composedSchemas.anyOf}}{{{dataType}}}{{#isNullable}}{{nrt?}}{{/isNullable}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}  {{/composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
+        {{#readWriteVars}}{{#-first}}public{{/-first}}{{/readWriteVars}}{{^readWriteVars}}internal{{/readWriteVars}} {{classname}}({{#lambda.joinWithComma}}{{#composedSchemas.anyOf}}{{{name}}}{{#isNullable}}{{nrt?}}{{/isNullable}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}  {{/composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
         {
-            {{#composedSchemas.allOf}}
-            {{^isInherited}}
-            {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}};
-            {{/isInherited}}
-            {{/composedSchemas.allOf}}
             {{#composedSchemas.anyOf}}
-            {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}};
+            {{#lambda.titlecase}}{{name}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} = {{#lambda.titlecase}}{{name}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}};
             {{/composedSchemas.anyOf}}
             {{#allVars}}
             {{^isInherited}}
@@ -137,7 +119,7 @@
         {{#composedSchemas.oneOf}}
         {{^vendorExtensions.x-duplicated-data-type}}
         /// <summary>
-        /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}{{/description}}
+        /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}{{/description}}
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
         {{#example}}
@@ -146,26 +128,10 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{dataType}}}{{nrt?}} {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
+        public {{{dataType}}}{{nrt?}} {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
 
         {{/vendorExtensions.x-duplicated-data-type}}
         {{/composedSchemas.oneOf}}
-        {{#composedSchemas.allOf}}
-        {{^isInherited}}
-        /// <summary>
-        /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}}{{/description}}
-        /// </summary>{{#description}}
-        /// <value>{{.}}</value>{{/description}}
-        {{#example}}
-        /// <example>{{.}}</example>
-        {{/example}}
-        {{#deprecated}}
-        [Obsolete]
-        {{/deprecated}}
-        public {{{dataType}}} {{#lambda.titlecase}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.titlecase}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
-
-        {{/isInherited}}
-        {{/composedSchemas.allOf}}
         {{#allVars}}
         {{^isEnum}}
         {{#isInherited}}

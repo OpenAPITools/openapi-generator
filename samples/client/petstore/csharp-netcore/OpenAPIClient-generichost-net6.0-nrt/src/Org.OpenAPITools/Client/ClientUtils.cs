@@ -130,8 +130,8 @@ namespace Org.OpenAPITools.Client
                 return boolean
                     ? "true"
                     : "false";
-            if (obj is ChildCatAllOf.PetTypeEnum childCatAllOfPetTypeEnum)
-                return ChildCatAllOf.PetTypeEnumToJsonValue(childCatAllOfPetTypeEnum);
+            if (obj is ChildCat.PetTypeEnum childCatPetTypeEnum)
+                return ChildCat.PetTypeEnumToJsonValue(childCatPetTypeEnum);
             if (obj is EnumArrays.ArrayEnumEnum enumArraysArrayEnumEnum)
                 return EnumArrays.ArrayEnumEnumToJsonValue(enumArraysArrayEnumEnum);
             if (obj is EnumArrays.JustSymbolEnum enumArraysJustSymbolEnum)
@@ -148,6 +148,8 @@ namespace Org.OpenAPITools.Client
                 return EnumTest.EnumStringEnumToJsonValue(enumTestEnumStringEnum);
             if (obj is EnumTest.EnumStringRequiredEnum enumTestEnumStringRequiredEnum)
                 return EnumTest.EnumStringRequiredEnumToJsonValue(enumTestEnumStringRequiredEnum);
+            if (obj is Mammal.TypeEnum mammalTypeEnum)
+                return Mammal.TypeEnumToJsonValue(mammalTypeEnum);
             if (obj is MapTest.InnerEnum mapTestInnerEnum)
                 return MapTest.InnerEnumToJsonValue(mapTestInnerEnum);
             if (obj is Order.StatusEnum orderStatusEnum)

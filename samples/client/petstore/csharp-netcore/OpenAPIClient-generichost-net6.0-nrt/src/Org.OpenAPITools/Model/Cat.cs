@@ -33,29 +33,23 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
-        /// <param name="dictionary"></param>
-        /// <param name="catAllOf"></param>
         /// <param name="className">className</param>
+        /// <param name="declawed">declawed</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        internal Cat(Dictionary<string, int> dictionary, CatAllOf catAllOf, string className, string color = @"red") : base(className, color)
+        public Cat(string className, bool declawed, string color = @"red") : base(className, color)
         {
-            Dictionary = dictionary;
-            CatAllOf = catAllOf;
+            Declawed = declawed;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets Dictionary
+        /// Gets or Sets Declawed
         /// </summary>
-        public Dictionary<string, int> Dictionary { get; set; }
-
-        /// <summary>
-        /// Gets or Sets CatAllOf
-        /// </summary>
-        public CatAllOf CatAllOf { get; set; }
+        [JsonPropertyName("declawed")]
+        public bool Declawed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -66,6 +60,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Cat {\n");
             sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  Declawed: ").Append(Declawed).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -93,13 +88,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader dictionaryReader = utf8JsonReader;
-            bool dictionaryDeserialized = Client.ClientUtils.TryDeserialize<Dictionary<string, int>>(ref utf8JsonReader, jsonSerializerOptions, out Dictionary<string, int>? dictionary);
-
-            Utf8JsonReader catAllOfReader = utf8JsonReader;
-            bool catAllOfDeserialized = Client.ClientUtils.TryDeserialize<CatAllOf>(ref utf8JsonReader, jsonSerializerOptions, out CatAllOf? catAllOf);
-
             string? className = default;
+            bool? declawed = default;
             string? color = default;
 
             while (utf8JsonReader.Read())
@@ -120,6 +110,10 @@ namespace Org.OpenAPITools.Model
                         case "className":
                             className = utf8JsonReader.GetString();
                             break;
+                        case "declawed":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                declawed = utf8JsonReader.GetBoolean();
+                            break;
                         case "color":
                             color = utf8JsonReader.GetString();
                             break;
@@ -132,16 +126,13 @@ namespace Org.OpenAPITools.Model
             if (className == null)
                 throw new ArgumentNullException(nameof(className), "Property is required for class Cat.");
 
+            if (declawed == null)
+                throw new ArgumentNullException(nameof(declawed), "Property is required for class Cat.");
+
             if (color == null)
                 throw new ArgumentNullException(nameof(color), "Property is required for class Cat.");
 
-            if (dictionary == null)
-                throw new ArgumentNullException(nameof(dictionary), "Property is required for class Cat.");
-
-            if (catAllOf == null)
-                throw new ArgumentNullException(nameof(catAllOf), "Property is required for class Cat.");
-
-            return new Cat(dictionary, catAllOf, className, color);
+            return new Cat(className, declawed.Value, color);
         }
 
         /// <summary>
@@ -153,10 +144,13 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Cat cat, JsonSerializerOptions jsonSerializerOptions)
         {
-            System.Text.Json.JsonSerializer.Serialize(writer, cat.Dictionary, jsonSerializerOptions);
+            writer.WriteStartObject();
 
-            System.Text.Json.JsonSerializer.Serialize(writer, cat.CatAllOf, jsonSerializerOptions);
+            writer.WriteString("className", cat.ClassName);
+            writer.WriteBoolean("declawed", cat.Declawed);
+            writer.WriteString("color", cat.Color);
 
+            writer.WriteEndObject();
         }
     }
 }
