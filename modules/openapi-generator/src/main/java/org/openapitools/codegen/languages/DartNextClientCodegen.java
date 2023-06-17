@@ -208,7 +208,7 @@ public class DartNextClientCodegen extends DartNextAbstractCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Dart Dio client library.";
+        return "Generates a Dart client library.";
     }
 
     @Override
