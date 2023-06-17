@@ -1578,6 +1578,53 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return objs;
     }
 
+    // https://github.com/OpenAPITools/openapi-generator/issues/15867
+    @Override
+    protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {
+        if (!GENERICHOST.equals(getLibrary())) {
+            return;
+        }
+
+        String discriminatorName = model.discriminator == null
+                ? null
+                : model.discriminator.getPropertyName();
+
+        for(CodegenProperty oneOfProperty : composedProperties) {
+            String ref = oneOfProperty.getRef();
+            if (ref != null) {
+                for (Map.Entry<String, ModelsMap> composedEntry : objs.entrySet()) {
+                    CodegenModel composedModel = ModelUtils.getModelByName(composedEntry.getKey(), objs);
+                    if (ref.endsWith("/" + composedModel.name)) {
+                        if (discriminatorName != null) {
+                            composedModel.vars.removeIf(v -> v.name.equals(discriminatorName));
+                            composedModel.allVars.removeIf(v -> v.name.equals(discriminatorName));
+                            composedModel.readOnlyVars.removeIf(v -> v.name.equals(discriminatorName));
+                            composedModel.nonNullableVars.removeIf(v -> v.name.equals(discriminatorName));
+                            composedModel.optionalVars.removeIf(v -> v.name.equals(discriminatorName));
+                            composedModel.parentRequiredVars.removeIf(v -> v.name.equals(discriminatorName));
+                            composedModel.readWriteVars.removeIf(v -> v.name.equals(discriminatorName));
+                            composedModel.requiredVars.removeIf(v -> v.name.equals(discriminatorName));
+                        }
+
+                        for (CodegenProperty composedProperty : composedModel.allVars) {
+                            if (discriminatorName != null && composedProperty.name.equals(discriminatorName)) {
+                                continue;
+                            }
+                            model.vars.removeIf(v -> v.name.equals(composedProperty.name));
+                            model.allVars.removeIf(v -> v.name.equals(composedProperty.name));
+                            model.readOnlyVars.removeIf(v -> v.name.equals(composedProperty.name));
+                            model.nonNullableVars.removeIf(v -> v.name.equals(composedProperty.name));
+                            model.optionalVars.removeIf(v -> v.name.equals(composedProperty.name));
+                            model.parentRequiredVars.removeIf(v -> v.name.equals(composedProperty.name));
+                            model.readWriteVars.removeIf(v -> v.name.equals(composedProperty.name));
+                            model.requiredVars.removeIf(v -> v.name.equals(composedProperty.name));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Return true if the property being passed is a C# value type
      *

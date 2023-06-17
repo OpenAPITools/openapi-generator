@@ -31,23 +31,15 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ComplexQuadrilateral" /> class.
         /// </summary>
-        /// <param name="quadrilateralType">quadrilateralType</param>
         /// <param name="shapeType">shapeType</param>
         [JsonConstructor]
-        public ComplexQuadrilateral(string quadrilateralType, string shapeType)
+        public ComplexQuadrilateral(string shapeType)
         {
-            QuadrilateralType = quadrilateralType;
             ShapeType = shapeType;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Gets or Sets QuadrilateralType
-        /// </summary>
-        [JsonPropertyName("quadrilateralType")]
-        public string QuadrilateralType { get; set; }
 
         /// <summary>
         /// Gets or Sets ShapeType
@@ -69,7 +61,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ComplexQuadrilateral {\n");
-            sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append("\n");
             sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -109,7 +100,6 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string quadrilateralType = default;
             string shapeType = default;
 
             while (utf8JsonReader.Read())
@@ -127,9 +117,6 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "quadrilateralType":
-                            quadrilateralType = utf8JsonReader.GetString();
-                            break;
                         case "shapeType":
                             shapeType = utf8JsonReader.GetString();
                             break;
@@ -139,13 +126,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (quadrilateralType == null)
-                throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class ComplexQuadrilateral.");
-
             if (shapeType == null)
                 throw new ArgumentNullException(nameof(shapeType), "Property is required for class ComplexQuadrilateral.");
 
-            return new ComplexQuadrilateral(quadrilateralType, shapeType);
+            return new ComplexQuadrilateral(shapeType);
         }
 
         /// <summary>
@@ -159,7 +143,6 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("quadrilateralType", complexQuadrilateral.QuadrilateralType);
             writer.WriteString("shapeType", complexQuadrilateral.ShapeType);
 
             writer.WriteEndObject();

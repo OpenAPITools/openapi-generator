@@ -4,7 +4,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ClassName** | **string** |  | 
 **HasBaleen** | **bool** |  | [optional] 
 **HasTeeth** | **bool** |  | [optional] 
 

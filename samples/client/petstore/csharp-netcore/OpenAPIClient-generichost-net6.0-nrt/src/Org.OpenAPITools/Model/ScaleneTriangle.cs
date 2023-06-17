@@ -34,12 +34,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ScaleneTriangle" /> class.
         /// </summary>
         /// <param name="shapeType">shapeType</param>
-        /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public ScaleneTriangle(string shapeType, string triangleType)
+        public ScaleneTriangle(string shapeType)
         {
             ShapeType = shapeType;
-            TriangleType = triangleType;
             OnCreated();
         }
 
@@ -50,12 +48,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("shapeType")]
         public string ShapeType { get; set; }
-
-        /// <summary>
-        /// Gets or Sets TriangleType
-        /// </summary>
-        [JsonPropertyName("triangleType")]
-        public string TriangleType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -72,7 +64,6 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class ScaleneTriangle {\n");
             sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
-            sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -112,7 +103,6 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             string? shapeType = default;
-            string? triangleType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -132,9 +122,6 @@ namespace Org.OpenAPITools.Model
                         case "shapeType":
                             shapeType = utf8JsonReader.GetString();
                             break;
-                        case "triangleType":
-                            triangleType = utf8JsonReader.GetString();
-                            break;
                         default:
                             break;
                     }
@@ -144,10 +131,7 @@ namespace Org.OpenAPITools.Model
             if (shapeType == null)
                 throw new ArgumentNullException(nameof(shapeType), "Property is required for class ScaleneTriangle.");
 
-            if (triangleType == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is required for class ScaleneTriangle.");
-
-            return new ScaleneTriangle(shapeType, triangleType);
+            return new ScaleneTriangle(shapeType);
         }
 
         /// <summary>
@@ -162,7 +146,6 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             writer.WriteString("shapeType", scaleneTriangle.ShapeType);
-            writer.WriteString("triangleType", scaleneTriangle.TriangleType);
 
             writer.WriteEndObject();
         }

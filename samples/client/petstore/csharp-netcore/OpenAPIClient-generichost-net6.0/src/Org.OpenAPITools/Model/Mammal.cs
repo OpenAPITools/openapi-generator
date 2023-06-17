@@ -33,17 +33,11 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="whale"></param>
         /// <param name="className">className</param>
-        /// <param name="hasBaleen">hasBaleen</param>
-        /// <param name="hasTeeth">hasTeeth</param>
-        /// <param name="type">type</param>
         [JsonConstructor]
-        public Mammal(Whale whale, string className, bool hasBaleen, bool hasTeeth, TypeEnum type)
+        public Mammal(Whale whale, string className)
         {
             Whale = whale;
             ClassName = className;
-            HasBaleen = hasBaleen;
-            HasTeeth = hasTeeth;
-            Type = type;
             OnCreated();
         }
 
@@ -52,17 +46,11 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="zebra"></param>
         /// <param name="className">className</param>
-        /// <param name="hasBaleen">hasBaleen</param>
-        /// <param name="hasTeeth">hasTeeth</param>
-        /// <param name="type">type</param>
         [JsonConstructor]
-        public Mammal(Zebra zebra, string className, bool hasBaleen, bool hasTeeth, TypeEnum type)
+        public Mammal(Zebra zebra, string className)
         {
             Zebra = zebra;
             ClassName = className;
-            HasBaleen = hasBaleen;
-            HasTeeth = hasTeeth;
-            Type = type;
             OnCreated();
         }
 
@@ -71,107 +59,15 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="pig"></param>
         /// <param name="className">className</param>
-        /// <param name="hasBaleen">hasBaleen</param>
-        /// <param name="hasTeeth">hasTeeth</param>
-        /// <param name="type">type</param>
         [JsonConstructor]
-        public Mammal(Pig pig, string className, bool hasBaleen, bool hasTeeth, TypeEnum type)
+        public Mammal(Pig pig, string className)
         {
             Pig = pig;
             ClassName = className;
-            HasBaleen = hasBaleen;
-            HasTeeth = hasTeeth;
-            Type = type;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Defines Type
-        /// </summary>
-        public enum TypeEnum
-        {
-            /// <summary>
-            /// Enum Plains for value: plains
-            /// </summary>
-            Plains = 1,
-
-            /// <summary>
-            /// Enum Mountain for value: mountain
-            /// </summary>
-            Mountain = 2,
-
-            /// <summary>
-            /// Enum Grevys for value: grevys
-            /// </summary>
-            Grevys = 3
-        }
-
-        /// <summary>
-        /// Returns a <see cref="TypeEnum"/>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static TypeEnum TypeEnumFromString(string value)
-        {
-            if (value == "plains")
-                return TypeEnum.Plains;
-
-            if (value == "mountain")
-                return TypeEnum.Mountain;
-
-            if (value == "grevys")
-                return TypeEnum.Grevys;
-
-            throw new NotImplementedException($"Could not convert value to type TypeEnum: '{value}'");
-        }
-
-        /// <summary>
-        /// Returns a <see cref="TypeEnum"/>
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static TypeEnum? TypeEnumFromStringOrDefault(string value)
-        {
-            if (value == "plains")
-                return TypeEnum.Plains;
-
-            if (value == "mountain")
-                return TypeEnum.Mountain;
-
-            if (value == "grevys")
-                return TypeEnum.Grevys;
-
-            return null;
-        }
-
-        /// <summary>
-        /// Converts the <see cref="TypeEnum"/> to the json value
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static string TypeEnumToJsonValue(TypeEnum value)
-        {
-            if (value == TypeEnum.Plains)
-                return "plains";
-
-            if (value == TypeEnum.Mountain)
-                return "mountain";
-
-            if (value == TypeEnum.Grevys)
-                return "grevys";
-
-            throw new NotImplementedException($"Value could not be handled: '{value}'");
-        }
-
-        /// <summary>
-        /// Gets or Sets Type
-        /// </summary>
-        [JsonPropertyName("type")]
-        public TypeEnum Type { get; set; }
 
         /// <summary>
         /// Gets or Sets Whale
@@ -195,18 +91,6 @@ namespace Org.OpenAPITools.Model
         public string ClassName { get; set; }
 
         /// <summary>
-        /// Gets or Sets HasBaleen
-        /// </summary>
-        [JsonPropertyName("hasBaleen")]
-        public bool HasBaleen { get; set; }
-
-        /// <summary>
-        /// Gets or Sets HasTeeth
-        /// </summary>
-        [JsonPropertyName("hasTeeth")]
-        public bool HasTeeth { get; set; }
-
-        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -221,9 +105,6 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Mammal {\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
-            sb.Append("  HasBaleen: ").Append(HasBaleen).Append("\n");
-            sb.Append("  HasTeeth: ").Append(HasTeeth).Append("\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -273,9 +154,6 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             string className = default;
-            bool? hasBaleen = default;
-            bool? hasTeeth = default;
-            Mammal.TypeEnum? type = default;
 
             while (utf8JsonReader.Read())
             {
@@ -295,20 +173,6 @@ namespace Org.OpenAPITools.Model
                         case "className":
                             className = utf8JsonReader.GetString();
                             break;
-                        case "hasBaleen":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                hasBaleen = utf8JsonReader.GetBoolean();
-                            break;
-                        case "hasTeeth":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                hasTeeth = utf8JsonReader.GetBoolean();
-                            break;
-                        case "type":
-                            string typeRawValue = utf8JsonReader.GetString();
-                            type = typeRawValue == null
-                                ? null
-                                : Mammal.TypeEnumFromStringOrDefault(typeRawValue);
-                            break;
                         default:
                             break;
                     }
@@ -318,26 +182,17 @@ namespace Org.OpenAPITools.Model
             if (className == null)
                 throw new ArgumentNullException(nameof(className), "Property is required for class Mammal.");
 
-            if (hasBaleen == null)
-                throw new ArgumentNullException(nameof(hasBaleen), "Property is required for class Mammal.");
-
-            if (hasTeeth == null)
-                throw new ArgumentNullException(nameof(hasTeeth), "Property is required for class Mammal.");
-
-            if (type == null)
-                throw new ArgumentNullException(nameof(type), "Property is required for class Mammal.");
-
             Utf8JsonReader whaleReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<Whale>(ref whaleReader, jsonSerializerOptions, out Whale whale))
-                return new Mammal(whale, className, hasBaleen.Value, hasTeeth.Value, type.Value);
+                return new Mammal(whale, className);
 
             Utf8JsonReader zebraReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<Zebra>(ref zebraReader, jsonSerializerOptions, out Zebra zebra))
-                return new Mammal(zebra, className, hasBaleen.Value, hasTeeth.Value, type.Value);
+                return new Mammal(zebra, className);
 
             Utf8JsonReader pigReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<Pig>(ref pigReader, jsonSerializerOptions, out Pig pig))
-                return new Mammal(pig, className, hasBaleen.Value, hasTeeth.Value, type.Value);
+                return new Mammal(pig, className);
 
             throw new JsonException();
         }
@@ -360,14 +215,6 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             writer.WriteString("className", mammal.ClassName);
-            writer.WriteBoolean("hasBaleen", mammal.HasBaleen);
-            writer.WriteBoolean("hasTeeth", mammal.HasTeeth);
-
-            var typeRawValue = Mammal.TypeEnumToJsonValue(mammal.Type);
-            if (typeRawValue != null)
-                writer.WriteString("type", typeRawValue);
-            else
-                writer.WriteNull("type");
 
             writer.WriteEndObject();
         }

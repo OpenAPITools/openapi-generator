@@ -33,12 +33,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Zebra" /> class.
         /// </summary>
-        /// <param name="className">className</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        public Zebra(string className, TypeEnum type) : base()
+        public Zebra(TypeEnum type) : base()
         {
-            ClassName = className;
             Type = type;
             OnCreated();
         }
@@ -132,12 +130,6 @@ namespace Org.OpenAPITools.Model
         public TypeEnum Type { get; set; }
 
         /// <summary>
-        /// Gets or Sets ClassName
-        /// </summary>
-        [JsonPropertyName("className")]
-        public string ClassName { get; set; }
-
-        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -152,7 +144,6 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Zebra {\n");
             sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
-            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -192,7 +183,6 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? className = default;
             Zebra.TypeEnum? type = default;
 
             while (utf8JsonReader.Read())
@@ -210,9 +200,6 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "className":
-                            className = utf8JsonReader.GetString();
-                            break;
                         case "type":
                             string? typeRawValue = utf8JsonReader.GetString();
                             type = typeRawValue == null
@@ -225,13 +212,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (className == null)
-                throw new ArgumentNullException(nameof(className), "Property is required for class Zebra.");
-
             if (type == null)
                 throw new ArgumentNullException(nameof(type), "Property is required for class Zebra.");
 
-            return new Zebra(className, type.Value);
+            return new Zebra(type.Value);
         }
 
         /// <summary>
@@ -244,8 +228,6 @@ namespace Org.OpenAPITools.Model
         public override void Write(Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
-
-            writer.WriteString("className", zebra.ClassName);
 
             var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type);
             if (typeRawValue != null)
