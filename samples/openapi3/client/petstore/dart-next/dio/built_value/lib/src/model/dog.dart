@@ -12,9 +12,9 @@ part 'dog.g.dart';
 /// Dog
 ///
 /// Properties:
-/// * [className]
-/// * [color]
-/// * [breed]
+/// * [className] 
+/// * [color] 
+/// * [breed] 
 @BuiltValue()
 abstract class Dog implements Animal, Built<Dog, DogBuilder> {
   @BuiltValueField(wireName: r'breed')
@@ -25,9 +25,8 @@ abstract class Dog implements Animal, Built<Dog, DogBuilder> {
   factory Dog([void updates(DogBuilder b)]) = _$Dog;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(DogBuilder b) => b
-    ..className = b.discriminatorValue
-    ..color = 'red';
+  static void _defaults(DogBuilder b) => b..className=b.discriminatorValue
+      ..color = 'red';
 
   @BuiltValueSerializer(custom: true)
   static Serializer<Dog> get serializer => _$DogSerializer();
@@ -72,9 +71,7 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
     Dog object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -138,3 +135,7 @@ class _$DogSerializer implements PrimitiveSerializer<Dog> {
     return result.build();
   }
 }
+    
+    
+    
+

@@ -11,7 +11,7 @@ part 'class_model.g.dart';
 /// Model for testing model with \"_class\" property
 ///
 /// Properties:
-/// * [classField]
+/// * [classField] 
 @BuiltValue()
 abstract class ClassModel implements Built<ClassModel, ClassModelBuilder> {
   @BuiltValueField(wireName: r'_class')
@@ -55,9 +55,7 @@ class _$ClassModelSerializer implements PrimitiveSerializer<ClassModel> {
     ClassModel object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -107,3 +105,5 @@ class _$ClassModelSerializer implements PrimitiveSerializer<ClassModel> {
     return result.build();
   }
 }
+    
+

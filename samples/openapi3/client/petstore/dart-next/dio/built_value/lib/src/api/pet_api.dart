@@ -17,13 +17,14 @@ import 'package:openapi/src/model/pet.dart';
 part 'pet_api.g.dart';
 
 class PetApi {
+
   final PetApiRaw rawApi;
   final SerializationRepositoryBase _repository;
 
   const PetApi(this.rawApi, this._repository);
 
   /// Add a new pet to the store
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [pet] - Pet object that needs to be added to the store
@@ -36,7 +37,7 @@ class PetApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> addPet({
+  Future<Response<void>> addPet({ 
     required Pet pet,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -44,11 +45,18 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, pet, const TypeInfo(Pet));
+    _bodyData = encodeBodyParameter(_repository, pet, const TypeInfo(
+        
+    
+    Pet
+    )
+
+);    
 
     final _response = await rawApi.addPet(
+      
       body: _bodyData,
       requestContentType: 'application/json',
       cancelToken: cancelToken,
@@ -57,17 +65,17 @@ class PetApi {
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     return _response;
   }
 
   /// Deletes a pet
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [petId] - Pet id to delete
-  /// * [apiKey]
+  /// * [apiKey] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -77,7 +85,7 @@ class PetApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> deletePet({
+  Future<Response<void>> deletePet({ 
     required int petId,
     required String apiKey,
     CancelToken? cancelToken,
@@ -86,18 +94,32 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.deletePet(
-      petId: encodeStringParameter(_repository, petId, const TypeInfo(int)),
-      apiKey:
-          encodeStringParameter(_repository, apiKey, const TypeInfo(String)),
+      
+      petId: encodeStringParameter(_repository, petId, const TypeInfo(
+        
+    
+    int
+    )
+
+),
+      apiKey: encodeStringParameter(_repository, apiKey, const TypeInfo(
+        
+    
+    String
+    )
+
+), 
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     return _response;
   }
@@ -116,7 +138,7 @@ class PetApi {
   ///
   /// Returns a [Future] containing a [Response] with a [BuiltList<Pet>] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<BuiltList<Pet>>> findPetsByStatus({
+  Future<Response<BuiltList<Pet>>> findPetsByStatus({ 
     @Deprecated('status is deprecated') required BuiltList<StatusEnum> status,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -124,36 +146,49 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.findPetsByStatus(
-      status: encodeQueryParameter(
-        _repository,
-        status,
-        const TypeInfo(BuiltList, [
-          const TypeInfo(StatusEnum),
-        ]),
-        format: ListFormat.csv,
-      ),
+            
+      status: encodeQueryParameter(_repository, status, const TypeInfo(
+    BuiltList, [
+        
+        const TypeInfo(
+        
+    StatusEnum
+    
+    )
+
+,
+    ])
+
+, format: ListFormat.csv,),
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     BuiltList<Pet>? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(
-              _repository,
-              rawResponse,
-              const TypeInfo(BuiltList, [
-                const TypeInfo(Pet),
-              ]));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+    BuiltList, [
+        
+        const TypeInfo(
+        
+    Pet
+    
+    )
+
+,
+    ])
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -191,7 +226,7 @@ class PetApi {
   /// Returns a [Future] containing a [Response] with a [BuiltSet<Pet>] as data
   /// Throws [DioException] if API call or serialization fails
   @Deprecated('This operation has been deprecated')
-  Future<Response<BuiltSet<Pet>>> findPetsByTags({
+  Future<Response<BuiltSet<Pet>>> findPetsByTags({ 
     required BuiltSet<String> tags,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -199,36 +234,49 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.findPetsByTags(
-      tags: encodeQueryParameter(
-        _repository,
-        tags,
-        const TypeInfo(BuiltSet, [
-          const TypeInfo(String),
-        ]),
-        format: ListFormat.csv,
-      ),
+            
+      tags: encodeQueryParameter(_repository, tags, const TypeInfo(
+    BuiltSet, [
+        
+        const TypeInfo(
+        
+    String
+    
+    )
+
+,
+    ])
+
+, format: ListFormat.csv,),
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     BuiltSet<Pet>? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(
-              _repository,
-              rawResponse,
-              const TypeInfo(BuiltSet, [
-                const TypeInfo(Pet),
-              ]));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+    BuiltSet, [
+        
+        const TypeInfo(
+        
+    Pet
+    
+    )
+
+,
+    ])
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -265,7 +313,7 @@ class PetApi {
   ///
   /// Returns a [Future] containing a [Response] with a [Pet] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Pet>> getPetById({
+  Future<Response<Pet>> getPetById({ 
     required int petId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -273,24 +321,37 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.getPetById(
-      petId: encodeStringParameter(_repository, petId, const TypeInfo(int)),
+      
+      petId: encodeStringParameter(_repository, petId, const TypeInfo(
+        
+    
+    int
+    )
+
+),
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     Pet? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(_repository, rawResponse, const TypeInfo(Pet));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+        
+    Pet
+    
+    )
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -314,7 +375,7 @@ class PetApi {
   }
 
   /// Update an existing pet
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [pet] - Pet object that needs to be added to the store
@@ -327,7 +388,7 @@ class PetApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> updatePet({
+  Future<Response<void>> updatePet({ 
     required Pet pet,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -335,11 +396,18 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, pet, const TypeInfo(Pet));
+    _bodyData = encodeBodyParameter(_repository, pet, const TypeInfo(
+        
+    
+    Pet
+    )
+
+);    
 
     final _response = await rawApi.updatePet(
+      
       body: _bodyData,
       requestContentType: 'application/json',
       cancelToken: cancelToken,
@@ -348,13 +416,13 @@ class PetApi {
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     return _response;
   }
 
   /// Updates a pet in the store with form data
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [petId] - ID of pet that needs to be updated
@@ -369,7 +437,7 @@ class PetApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> updatePetWithForm({
+  Future<Response<void>> updatePetWithForm({ 
     required int petId,
     required String name,
     required String status,
@@ -379,19 +447,35 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
     Object? _bodyData;
     final _bodyMap = <String, dynamic>{
-      if (name != null)
-        r'name': encodeFormParameter(_repository, name, const TypeInfo(String)),
-      if (status != null)
-        r'status':
-            encodeFormParameter(_repository, status, const TypeInfo(String)),
+      if (name != null) r'name': encodeFormParameter(_repository, name, const TypeInfo(
+        
+    
+    String
+    )
+
+),
+      if (status != null) r'status': encodeFormParameter(_repository, status, const TypeInfo(
+        
+    
+    String
+    )
+
+),
     };
     _bodyData = _bodyMap;
 
     final _response = await rawApi.updatePetWithForm(
-      petId: encodeStringParameter(_repository, petId, const TypeInfo(int)),
+      
+      petId: encodeStringParameter(_repository, petId, const TypeInfo(
+        
+    
+    int
+    )
+
+),
       body: _bodyData,
       requestContentType: 'application/x-www-form-urlencoded',
       cancelToken: cancelToken,
@@ -400,13 +484,13 @@ class PetApi {
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     return _response;
   }
 
   /// uploads an image
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [petId] - ID of pet to update
@@ -421,7 +505,7 @@ class PetApi {
   ///
   /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ApiResponse>> uploadFile({
+  Future<Response<ApiResponse>> uploadFile({ 
     required int petId,
     required String additionalMetadata,
     required MultipartFile file,
@@ -431,20 +515,35 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
     Object? _bodyData;
     final _bodyMap = <String, dynamic>{
-      if (additionalMetadata != null)
-        r'additionalMetadata': encodeFormParameter(
-            _repository, additionalMetadata, const TypeInfo(String)),
-      if (file != null)
-        r'file': encodeFormParameter(
-            _repository, file, const TypeInfo(MultipartFile)),
+      if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_repository, additionalMetadata, const TypeInfo(
+        
+    
+    String
+    )
+
+),
+      if (file != null) r'file': encodeFormParameter(_repository, file, const TypeInfo(
+        
+    
+    MultipartFile
+    )
+
+),
     };
     _bodyData = FormData.fromMap(_bodyMap);
 
     final _response = await rawApi.uploadFile(
-      petId: encodeStringParameter(_repository, petId, const TypeInfo(int)),
+      
+      petId: encodeStringParameter(_repository, petId, const TypeInfo(
+        
+    
+    int
+    )
+
+),
       body: _bodyData,
       requestContentType: 'multipart/form-data',
       cancelToken: cancelToken,
@@ -453,16 +552,19 @@ class PetApi {
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     ApiResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(
-              _repository, rawResponse, const TypeInfo(ApiResponse));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+        
+    ApiResponse
+    
+    )
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -486,7 +588,7 @@ class PetApi {
   }
 
   /// uploads an image (required)
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [petId] - ID of pet to update
@@ -501,7 +603,7 @@ class PetApi {
   ///
   /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ApiResponse>> uploadFileWithRequiredFile({
+  Future<Response<ApiResponse>> uploadFileWithRequiredFile({ 
     required int petId,
     required MultipartFile requiredFile,
     required String additionalMetadata,
@@ -511,19 +613,35 @@ class PetApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
     Object? _bodyData;
     final _bodyMap = <String, dynamic>{
-      if (additionalMetadata != null)
-        r'additionalMetadata': encodeFormParameter(
-            _repository, additionalMetadata, const TypeInfo(String)),
-      r'requiredFile': encodeFormParameter(
-          _repository, requiredFile, const TypeInfo(MultipartFile)),
+      if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_repository, additionalMetadata, const TypeInfo(
+        
+    
+    String
+    )
+
+),
+      r'requiredFile': encodeFormParameter(_repository, requiredFile, const TypeInfo(
+        
+    
+    MultipartFile
+    )
+
+),
     };
     _bodyData = FormData.fromMap(_bodyMap);
 
     final _response = await rawApi.uploadFileWithRequiredFile(
-      petId: encodeStringParameter(_repository, petId, const TypeInfo(int)),
+      
+      petId: encodeStringParameter(_repository, petId, const TypeInfo(
+        
+    
+    int
+    )
+
+),
       body: _bodyData,
       requestContentType: 'multipart/form-data',
       cancelToken: cancelToken,
@@ -532,16 +650,19 @@ class PetApi {
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     ApiResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(
-              _repository, rawResponse, const TypeInfo(ApiResponse));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+        
+    ApiResponse
+    
+    )
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -563,15 +684,16 @@ class PetApi {
       extra: _response.extra,
     );
   }
-}
 
+}
 class PetApiRaw {
+
   final Dio _dio;
 
   const PetApiRaw(this._dio);
 
   /// Add a new pet to the store
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [pet] - Pet object that needs to be added to the store
@@ -584,7 +706,7 @@ class PetApiRaw {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> addPet({
+  Future<Response<void>> addPet({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -628,11 +750,11 @@ class PetApiRaw {
   }
 
   /// Deletes a pet
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [petId] - Pet id to delete
-  /// * [apiKey]
+  /// * [apiKey] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -642,7 +764,7 @@ class PetApiRaw {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> deletePet({
+  Future<Response<void>> deletePet({ 
     required String petId,
     String? apiKey,
     Object? body,
@@ -656,8 +778,7 @@ class PetApiRaw {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path =
-        r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -703,7 +824,7 @@ class PetApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [BuiltList<Pet>] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> findPetsByStatus({
+  Future<Response<Object>> findPetsByStatus({ 
     @Deprecated('status is deprecated') required Object status,
     Object? body,
     String? requestContentType,
@@ -767,7 +888,7 @@ class PetApiRaw {
   /// Returns a [Future] containing a [Response] with a [BuiltSet<Pet>] as data
   /// Throws [DioException] if API call or serialization fails
   @Deprecated('This operation has been deprecated')
-  Future<Response<Object>> findPetsByTags({
+  Future<Response<Object>> findPetsByTags({ 
     required Object tags,
     Object? body,
     String? requestContentType,
@@ -830,7 +951,7 @@ class PetApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [Pet] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> getPetById({
+  Future<Response<Object>> getPetById({ 
     required String petId,
     Object? body,
     String? requestContentType,
@@ -843,8 +964,7 @@ class PetApiRaw {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path =
-        r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -878,7 +998,7 @@ class PetApiRaw {
   }
 
   /// Update an existing pet
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [pet] - Pet object that needs to be added to the store
@@ -891,7 +1011,7 @@ class PetApiRaw {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> updatePet({
+  Future<Response<void>> updatePet({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -935,7 +1055,7 @@ class PetApiRaw {
   }
 
   /// Updates a pet in the store with form data
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [petId] - ID of pet that needs to be updated
@@ -950,7 +1070,7 @@ class PetApiRaw {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> updatePetWithForm({
+  Future<Response<void>> updatePetWithForm({ 
     required String petId,
     Object? body,
     String? requestContentType,
@@ -963,8 +1083,7 @@ class PetApiRaw {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path =
-        r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
+    final _path = r'/pet/{petId}'.replaceAll('{' r'petId' '}', petId.toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -996,7 +1115,7 @@ class PetApiRaw {
   }
 
   /// uploads an image
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [petId] - ID of pet to update
@@ -1011,7 +1130,7 @@ class PetApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> uploadFile({
+  Future<Response<Object>> uploadFile({ 
     required String petId,
     Object? body,
     String? requestContentType,
@@ -1024,8 +1143,7 @@ class PetApiRaw {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/pet/{petId}/uploadImage'
-        .replaceAll('{' r'petId' '}', petId.toString());
+    final _path = r'/pet/{petId}/uploadImage'.replaceAll('{' r'petId' '}', petId.toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -1057,7 +1175,7 @@ class PetApiRaw {
   }
 
   /// uploads an image (required)
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [petId] - ID of pet to update
@@ -1072,7 +1190,7 @@ class PetApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> uploadFileWithRequiredFile({
+  Future<Response<Object>> uploadFileWithRequiredFile({ 
     required String petId,
     Object? body,
     String? requestContentType,
@@ -1085,8 +1203,7 @@ class PetApiRaw {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/fake/{petId}/uploadImageWithRequiredFile'
-        .replaceAll('{' r'petId' '}', petId.toString());
+    final _path = r'/fake/{petId}/uploadImageWithRequiredFile'.replaceAll('{' r'petId' '}', petId.toString());
     final _options = Options(
       method: r'POST',
       headers: <String, dynamic>{
@@ -1116,10 +1233,15 @@ class PetApiRaw {
       onReceiveProgress: onReceiveProgress,
     );
   }
+
 }
+
+
+
 
 @Deprecated('StatusEnum has been deprecated')
 class StatusEnum extends EnumClass {
+
   @BuiltValueEnumConst(wireName: r'available')
   static const StatusEnum available = _$statusEnum_available;
   @BuiltValueEnumConst(wireName: r'pending')
@@ -1127,13 +1249,27 @@ class StatusEnum extends EnumClass {
   @BuiltValueEnumConst(wireName: r'sold')
   static const StatusEnum sold = _$statusEnum_sold;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
-  static const StatusEnum unknownDefaultOpenApi =
-      _$statusEnum_unknownDefaultOpenApi;
+  static const StatusEnum unknownDefaultOpenApi = _$statusEnum_unknownDefaultOpenApi;
 
   static Serializer<StatusEnum> get serializer => _$statusEnumSerializer;
 
-  const StatusEnum._(String name) : super(name);
+  const StatusEnum._(String name): super(name);
 
   static BuiltSet<StatusEnum> get values => _$statusEnumValues;
   static StatusEnum valueOf(String name) => _$statusEnumValueOf(name);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

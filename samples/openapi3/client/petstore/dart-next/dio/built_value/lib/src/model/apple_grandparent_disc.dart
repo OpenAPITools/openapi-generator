@@ -12,36 +12,27 @@ part 'apple_grandparent_disc.g.dart';
 /// AppleGrandparentDisc
 ///
 /// Properties:
-/// * [seeds]
-/// * [fruitType]
+/// * [seeds] 
+/// * [fruitType] 
 @BuiltValue()
-abstract class AppleGrandparentDisc
-    implements
-        Parent,
-        Built<AppleGrandparentDisc, AppleGrandparentDiscBuilder> {
+abstract class AppleGrandparentDisc implements Parent, Built<AppleGrandparentDisc, AppleGrandparentDiscBuilder> {
   @BuiltValueField(wireName: r'seeds')
   int get seeds;
 
   AppleGrandparentDisc._();
 
-  factory AppleGrandparentDisc([void updates(AppleGrandparentDiscBuilder b)]) =
-      _$AppleGrandparentDisc;
+  factory AppleGrandparentDisc([void updates(AppleGrandparentDiscBuilder b)]) = _$AppleGrandparentDisc;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AppleGrandparentDiscBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AppleGrandparentDisc> get serializer =>
-      _$AppleGrandparentDiscSerializer();
+  static Serializer<AppleGrandparentDisc> get serializer => _$AppleGrandparentDiscSerializer();
 }
 
-class _$AppleGrandparentDiscSerializer
-    implements PrimitiveSerializer<AppleGrandparentDisc> {
+class _$AppleGrandparentDiscSerializer implements PrimitiveSerializer<AppleGrandparentDisc> {
   @override
-  final Iterable<Type> types = const [
-    AppleGrandparentDisc,
-    _$AppleGrandparentDisc
-  ];
+  final Iterable<Type> types = const [AppleGrandparentDisc, _$AppleGrandparentDisc];
 
   @override
   final String wireName = r'AppleGrandparentDisc';
@@ -69,9 +60,7 @@ class _$AppleGrandparentDiscSerializer
     AppleGrandparentDisc object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -128,3 +117,6 @@ class _$AppleGrandparentDiscSerializer
     return result.build();
   }
 }
+    
+    
+

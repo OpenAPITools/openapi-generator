@@ -13,7 +13,7 @@ part 'pizza.g.dart';
 /// Pizza
 ///
 /// Properties:
-/// * [pizzaSize]
+/// * [pizzaSize] 
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
@@ -35,21 +35,20 @@ abstract class Pizza implements Entity {
 }
 
 extension PizzaDiscriminatorExt on Pizza {
-  String? get discriminatorValue {
-    if (this is PizzaSpeziale) {
-      return r'PizzaSpeziale';
+    String? get discriminatorValue {
+        if (this is PizzaSpeziale) {
+            return r'PizzaSpeziale';
+        }
+        return null;
     }
-    return null;
-  }
 }
-
 extension PizzaBuilderDiscriminatorExt on PizzaBuilder {
-  String? get discriminatorValue {
-    if (this is PizzaSpezialeBuilder) {
-      return r'PizzaSpeziale';
+    String? get discriminatorValue {
+        if (this is PizzaSpezialeBuilder) {
+            return r'PizzaSpeziale';
+        }
+        return null;
     }
-    return null;
-  }
 }
 
 class _$PizzaSerializer implements PrimitiveSerializer<Pizza> {
@@ -113,12 +112,9 @@ class _$PizzaSerializer implements PrimitiveSerializer<Pizza> {
     FullType specifiedType = FullType.unspecified,
   }) {
     if (object is PizzaSpeziale) {
-      return serializers.serialize(object,
-          specifiedType: FullType(PizzaSpeziale))!;
+      return serializers.serialize(object, specifiedType: FullType(PizzaSpeziale))!;
     }
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   @override
@@ -129,15 +125,12 @@ class _$PizzaSerializer implements PrimitiveSerializer<Pizza> {
   }) {
     final serializedList = (serialized as Iterable<Object?>).toList();
     final discIndex = serializedList.indexOf(Pizza.discriminatorFieldName) + 1;
-    final discValue = serializers.deserialize(serializedList[discIndex],
-        specifiedType: FullType(String)) as String;
+    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     switch (discValue) {
       case r'PizzaSpeziale':
-        return serializers.deserialize(serialized,
-            specifiedType: FullType(PizzaSpeziale)) as PizzaSpeziale;
+        return serializers.deserialize(serialized, specifiedType: FullType(PizzaSpeziale)) as PizzaSpeziale;
       default:
-        return serializers.deserialize(serialized,
-            specifiedType: FullType($Pizza)) as $Pizza;
+        return serializers.deserialize(serialized, specifiedType: FullType($Pizza)) as $Pizza;
     }
   }
 }
@@ -254,3 +247,10 @@ class _$$PizzaSerializer implements PrimitiveSerializer<$Pizza> {
     return result.build();
   }
 }
+    
+    
+    
+    
+    
+    
+

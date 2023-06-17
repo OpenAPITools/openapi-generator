@@ -11,11 +11,10 @@ part 'has_only_read_only.g.dart';
 /// HasOnlyReadOnly
 ///
 /// Properties:
-/// * [bar]
-/// * [foo]
+/// * [bar] 
+/// * [foo] 
 @BuiltValue()
-abstract class HasOnlyReadOnly
-    implements Built<HasOnlyReadOnly, HasOnlyReadOnlyBuilder> {
+abstract class HasOnlyReadOnly implements Built<HasOnlyReadOnly, HasOnlyReadOnlyBuilder> {
   @BuiltValueField(wireName: r'bar')
   String? get bar;
 
@@ -24,19 +23,16 @@ abstract class HasOnlyReadOnly
 
   HasOnlyReadOnly._();
 
-  factory HasOnlyReadOnly([void updates(HasOnlyReadOnlyBuilder b)]) =
-      _$HasOnlyReadOnly;
+  factory HasOnlyReadOnly([void updates(HasOnlyReadOnlyBuilder b)]) = _$HasOnlyReadOnly;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(HasOnlyReadOnlyBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<HasOnlyReadOnly> get serializer =>
-      _$HasOnlyReadOnlySerializer();
+  static Serializer<HasOnlyReadOnly> get serializer => _$HasOnlyReadOnlySerializer();
 }
 
-class _$HasOnlyReadOnlySerializer
-    implements PrimitiveSerializer<HasOnlyReadOnly> {
+class _$HasOnlyReadOnlySerializer implements PrimitiveSerializer<HasOnlyReadOnly> {
   @override
   final Iterable<Type> types = const [HasOnlyReadOnly, _$HasOnlyReadOnly];
 
@@ -70,9 +66,7 @@ class _$HasOnlyReadOnlySerializer
     HasOnlyReadOnly object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -129,3 +123,6 @@ class _$HasOnlyReadOnlySerializer
     return result.build();
   }
 }
+    
+    
+

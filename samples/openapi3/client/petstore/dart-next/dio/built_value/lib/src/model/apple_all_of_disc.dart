@@ -12,29 +12,25 @@ part 'apple_all_of_disc.g.dart';
 /// AppleAllOfDisc
 ///
 /// Properties:
-/// * [seeds]
-/// * [fruitType]
+/// * [seeds] 
+/// * [fruitType] 
 @BuiltValue()
-abstract class AppleAllOfDisc
-    implements FruitType, Built<AppleAllOfDisc, AppleAllOfDiscBuilder> {
+abstract class AppleAllOfDisc implements FruitType, Built<AppleAllOfDisc, AppleAllOfDiscBuilder> {
   @BuiltValueField(wireName: r'seeds')
   int get seeds;
 
   AppleAllOfDisc._();
 
-  factory AppleAllOfDisc([void updates(AppleAllOfDiscBuilder b)]) =
-      _$AppleAllOfDisc;
+  factory AppleAllOfDisc([void updates(AppleAllOfDiscBuilder b)]) = _$AppleAllOfDisc;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AppleAllOfDiscBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AppleAllOfDisc> get serializer =>
-      _$AppleAllOfDiscSerializer();
+  static Serializer<AppleAllOfDisc> get serializer => _$AppleAllOfDiscSerializer();
 }
 
-class _$AppleAllOfDiscSerializer
-    implements PrimitiveSerializer<AppleAllOfDisc> {
+class _$AppleAllOfDiscSerializer implements PrimitiveSerializer<AppleAllOfDisc> {
   @override
   final Iterable<Type> types = const [AppleAllOfDisc, _$AppleAllOfDisc];
 
@@ -64,9 +60,7 @@ class _$AppleAllOfDiscSerializer
     AppleAllOfDisc object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -123,3 +117,6 @@ class _$AppleAllOfDiscSerializer
     return result.build();
   }
 }
+    
+    
+

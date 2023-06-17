@@ -11,36 +11,26 @@ part 'fruit_inline_inline_disc_one_of_one_of.g.dart';
 /// FruitInlineInlineDiscOneOfOneOf
 ///
 /// Properties:
-/// * [fruitType]
+/// * [fruitType] 
 @BuiltValue()
-abstract class FruitInlineInlineDiscOneOfOneOf
-    implements
-        Built<FruitInlineInlineDiscOneOfOneOf,
-            FruitInlineInlineDiscOneOfOneOfBuilder> {
+abstract class FruitInlineInlineDiscOneOfOneOf implements Built<FruitInlineInlineDiscOneOfOneOf, FruitInlineInlineDiscOneOfOneOfBuilder> {
   @BuiltValueField(wireName: r'fruitType')
   String get fruitType;
 
   FruitInlineInlineDiscOneOfOneOf._();
 
-  factory FruitInlineInlineDiscOneOfOneOf(
-          [void updates(FruitInlineInlineDiscOneOfOneOfBuilder b)]) =
-      _$FruitInlineInlineDiscOneOfOneOf;
+  factory FruitInlineInlineDiscOneOfOneOf([void updates(FruitInlineInlineDiscOneOfOneOfBuilder b)]) = _$FruitInlineInlineDiscOneOfOneOf;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(FruitInlineInlineDiscOneOfOneOfBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FruitInlineInlineDiscOneOfOneOf> get serializer =>
-      _$FruitInlineInlineDiscOneOfOneOfSerializer();
+  static Serializer<FruitInlineInlineDiscOneOfOneOf> get serializer => _$FruitInlineInlineDiscOneOfOneOfSerializer();
 }
 
-class _$FruitInlineInlineDiscOneOfOneOfSerializer
-    implements PrimitiveSerializer<FruitInlineInlineDiscOneOfOneOf> {
+class _$FruitInlineInlineDiscOneOfOneOfSerializer implements PrimitiveSerializer<FruitInlineInlineDiscOneOfOneOf> {
   @override
-  final Iterable<Type> types = const [
-    FruitInlineInlineDiscOneOfOneOf,
-    _$FruitInlineInlineDiscOneOfOneOf
-  ];
+  final Iterable<Type> types = const [FruitInlineInlineDiscOneOfOneOf, _$FruitInlineInlineDiscOneOfOneOf];
 
   @override
   final String wireName = r'FruitInlineInlineDiscOneOfOneOf';
@@ -63,9 +53,7 @@ class _$FruitInlineInlineDiscOneOfOneOfSerializer
     FruitInlineInlineDiscOneOfOneOf object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -115,3 +103,5 @@ class _$FruitInlineInlineDiscOneOfOneOfSerializer
     return result.build();
   }
 }
+    
+

@@ -13,12 +13,10 @@ part 'fruit_inline_inline_disc_one_of.g.dart';
 /// FruitInlineInlineDiscOneOf
 ///
 /// Properties:
-/// * [seeds]
-/// * [fruitType]
+/// * [seeds] 
+/// * [fruitType] 
 @BuiltValue()
-abstract class FruitInlineInlineDiscOneOf
-    implements
-        Built<FruitInlineInlineDiscOneOf, FruitInlineInlineDiscOneOfBuilder> {
+abstract class FruitInlineInlineDiscOneOf implements Built<FruitInlineInlineDiscOneOf, FruitInlineInlineDiscOneOfBuilder> {
   @BuiltValueField(wireName: r'seeds')
   int get seeds;
 
@@ -27,25 +25,18 @@ abstract class FruitInlineInlineDiscOneOf
 
   FruitInlineInlineDiscOneOf._();
 
-  factory FruitInlineInlineDiscOneOf(
-          [void updates(FruitInlineInlineDiscOneOfBuilder b)]) =
-      _$FruitInlineInlineDiscOneOf;
+  factory FruitInlineInlineDiscOneOf([void updates(FruitInlineInlineDiscOneOfBuilder b)]) = _$FruitInlineInlineDiscOneOf;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(FruitInlineInlineDiscOneOfBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FruitInlineInlineDiscOneOf> get serializer =>
-      _$FruitInlineInlineDiscOneOfSerializer();
+  static Serializer<FruitInlineInlineDiscOneOf> get serializer => _$FruitInlineInlineDiscOneOfSerializer();
 }
 
-class _$FruitInlineInlineDiscOneOfSerializer
-    implements PrimitiveSerializer<FruitInlineInlineDiscOneOf> {
+class _$FruitInlineInlineDiscOneOfSerializer implements PrimitiveSerializer<FruitInlineInlineDiscOneOf> {
   @override
-  final Iterable<Type> types = const [
-    FruitInlineInlineDiscOneOf,
-    _$FruitInlineInlineDiscOneOf
-  ];
+  final Iterable<Type> types = const [FruitInlineInlineDiscOneOf, _$FruitInlineInlineDiscOneOf];
 
   @override
   final String wireName = r'FruitInlineInlineDiscOneOf';
@@ -69,11 +60,8 @@ class _$FruitInlineInlineDiscOneOfSerializer
     FullType specifiedType = FullType.unspecified,
   }) {
     final oneOf = object.oneOf;
-    final result =
-        _serializeProperties(serializers, object, specifiedType: specifiedType)
-            .toList();
-    result.addAll(serializers.serialize(oneOf.value,
-        specifiedType: FullType(oneOf.valueType)) as Iterable<Object?>);
+    final result = _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    result.addAll(serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType)) as Iterable<Object?>);
     return result;
   }
 
@@ -112,9 +100,7 @@ class _$FruitInlineInlineDiscOneOfSerializer
   }) {
     final result = FruitInlineInlineDiscOneOfBuilder();
     Object? oneOfDataSrc;
-    final targetType = const FullType(OneOf, [
-      FullType(FruitInlineInlineDiscOneOfOneOf),
-    ]);
+    final targetType = const FullType(OneOf, [FullType(FruitInlineInlineDiscOneOfOneOf), ]);
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(
@@ -126,8 +112,10 @@ class _$FruitInlineInlineDiscOneOfSerializer
       result: result,
     );
     oneOfDataSrc = unhandled;
-    result.oneOf = serializers.deserialize(oneOfDataSrc,
-        specifiedType: targetType) as OneOf;
+    result.oneOf = serializers.deserialize(oneOfDataSrc, specifiedType: targetType) as OneOf;
     return result.build();
   }
 }
+    
+    
+

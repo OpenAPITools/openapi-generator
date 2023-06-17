@@ -12,11 +12,10 @@ part 'all_of_with_single_ref.g.dart';
 /// AllOfWithSingleRef
 ///
 /// Properties:
-/// * [username]
-/// * [singleRefType]
+/// * [username] 
+/// * [singleRefType] 
 @BuiltValue()
-abstract class AllOfWithSingleRef
-    implements Built<AllOfWithSingleRef, AllOfWithSingleRefBuilder> {
+abstract class AllOfWithSingleRef implements Built<AllOfWithSingleRef, AllOfWithSingleRefBuilder> {
   @BuiltValueField(wireName: r'username')
   String? get username;
 
@@ -26,19 +25,16 @@ abstract class AllOfWithSingleRef
 
   AllOfWithSingleRef._();
 
-  factory AllOfWithSingleRef([void updates(AllOfWithSingleRefBuilder b)]) =
-      _$AllOfWithSingleRef;
+  factory AllOfWithSingleRef([void updates(AllOfWithSingleRefBuilder b)]) = _$AllOfWithSingleRef;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AllOfWithSingleRefBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AllOfWithSingleRef> get serializer =>
-      _$AllOfWithSingleRefSerializer();
+  static Serializer<AllOfWithSingleRef> get serializer => _$AllOfWithSingleRefSerializer();
 }
 
-class _$AllOfWithSingleRefSerializer
-    implements PrimitiveSerializer<AllOfWithSingleRef> {
+class _$AllOfWithSingleRefSerializer implements PrimitiveSerializer<AllOfWithSingleRef> {
   @override
   final Iterable<Type> types = const [AllOfWithSingleRef, _$AllOfWithSingleRef];
 
@@ -72,9 +68,7 @@ class _$AllOfWithSingleRefSerializer
     AllOfWithSingleRef object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -131,3 +125,6 @@ class _$AllOfWithSingleRefSerializer
     return result.build();
   }
 }
+    
+    
+

@@ -11,7 +11,7 @@ part 'model_return.g.dart';
 /// Model for testing reserved words
 ///
 /// Properties:
-/// * [return_]
+/// * [return_] 
 @BuiltValue()
 abstract class ModelReturn implements Built<ModelReturn, ModelReturnBuilder> {
   @BuiltValueField(wireName: r'return')
@@ -55,9 +55,7 @@ class _$ModelReturnSerializer implements PrimitiveSerializer<ModelReturn> {
     ModelReturn object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -107,3 +105,5 @@ class _$ModelReturnSerializer implements PrimitiveSerializer<ModelReturn> {
     return result.build();
   }
 }
+    
+

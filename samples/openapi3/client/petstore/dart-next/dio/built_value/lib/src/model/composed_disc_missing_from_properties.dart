@@ -13,12 +13,9 @@ part 'composed_disc_missing_from_properties.g.dart';
 /// ComposedDiscMissingFromProperties
 ///
 /// Properties:
-/// * [length]
+/// * [length] 
 @BuiltValue()
-abstract class ComposedDiscMissingFromProperties
-    implements
-        Built<ComposedDiscMissingFromProperties,
-            ComposedDiscMissingFromPropertiesBuilder> {
+abstract class ComposedDiscMissingFromProperties implements Built<ComposedDiscMissingFromProperties, ComposedDiscMissingFromPropertiesBuilder> {
   /// One Of [DiscMissingFromProperties]
   OneOf get oneOf;
 
@@ -30,45 +27,35 @@ abstract class ComposedDiscMissingFromProperties
 
   ComposedDiscMissingFromProperties._();
 
-  factory ComposedDiscMissingFromProperties(
-          [void updates(ComposedDiscMissingFromPropertiesBuilder b)]) =
-      _$ComposedDiscMissingFromProperties;
+  factory ComposedDiscMissingFromProperties([void updates(ComposedDiscMissingFromPropertiesBuilder b)]) = _$ComposedDiscMissingFromProperties;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ComposedDiscMissingFromPropertiesBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ComposedDiscMissingFromProperties> get serializer =>
-      _$ComposedDiscMissingFromPropertiesSerializer();
+  static Serializer<ComposedDiscMissingFromProperties> get serializer => _$ComposedDiscMissingFromPropertiesSerializer();
 }
 
-extension ComposedDiscMissingFromPropertiesDiscriminatorExt
-    on ComposedDiscMissingFromProperties {
-  String? get discriminatorValue {
-    if (this is DiscMissingFromProperties) {
-      return r'DiscMissingFromProperties';
+extension ComposedDiscMissingFromPropertiesDiscriminatorExt on ComposedDiscMissingFromProperties {
+    String? get discriminatorValue {
+        if (this is DiscMissingFromProperties) {
+            return r'DiscMissingFromProperties';
+        }
+        return null;
     }
-    return null;
-  }
 }
-
-extension ComposedDiscMissingFromPropertiesBuilderDiscriminatorExt
-    on ComposedDiscMissingFromPropertiesBuilder {
-  String? get discriminatorValue {
-    if (this is DiscMissingFromPropertiesBuilder) {
-      return r'DiscMissingFromProperties';
+extension ComposedDiscMissingFromPropertiesBuilderDiscriminatorExt on ComposedDiscMissingFromPropertiesBuilder {
+    String? get discriminatorValue {
+        if (this is DiscMissingFromPropertiesBuilder) {
+            return r'DiscMissingFromProperties';
+        }
+        return null;
     }
-    return null;
-  }
 }
 
-class _$ComposedDiscMissingFromPropertiesSerializer
-    implements PrimitiveSerializer<ComposedDiscMissingFromProperties> {
+class _$ComposedDiscMissingFromPropertiesSerializer implements PrimitiveSerializer<ComposedDiscMissingFromProperties> {
   @override
-  final Iterable<Type> types = const [
-    ComposedDiscMissingFromProperties,
-    _$ComposedDiscMissingFromProperties
-  ];
+  final Iterable<Type> types = const [ComposedDiscMissingFromProperties, _$ComposedDiscMissingFromProperties];
 
   @override
   final String wireName = r'ComposedDiscMissingFromProperties';
@@ -77,7 +64,8 @@ class _$ComposedDiscMissingFromPropertiesSerializer
     Serializers serializers,
     ComposedDiscMissingFromProperties object, {
     FullType specifiedType = FullType.unspecified,
-  }) sync* {}
+  }) sync* {
+  }
 
   @override
   Object serialize(
@@ -86,8 +74,7 @@ class _$ComposedDiscMissingFromPropertiesSerializer
     FullType specifiedType = FullType.unspecified,
   }) {
     final oneOf = object.oneOf;
-    return serializers.serialize(oneOf.value,
-        specifiedType: FullType(oneOf.valueType))!;
+    return serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType))!;
   }
 
   @override
@@ -99,15 +86,10 @@ class _$ComposedDiscMissingFromPropertiesSerializer
     final result = ComposedDiscMissingFromPropertiesBuilder();
     Object? oneOfDataSrc;
     final serializedList = (serialized as Iterable<Object?>).toList();
-    final discIndex = serializedList
-            .indexOf(ComposedDiscMissingFromProperties.discriminatorFieldName) +
-        1;
-    final discValue = serializers.deserialize(serializedList[discIndex],
-        specifiedType: FullType(String)) as String;
+    final discIndex = serializedList.indexOf(ComposedDiscMissingFromProperties.discriminatorFieldName) + 1;
+    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     oneOfDataSrc = serialized;
-    final oneOfTypes = [
-      DiscMissingFromProperties,
-    ];
+    final oneOfTypes = [DiscMissingFromProperties, ];
     Object oneOfResult;
     Type oneOfType;
     switch (discValue) {
@@ -119,13 +101,11 @@ class _$ComposedDiscMissingFromPropertiesSerializer
         oneOfType = DiscMissingFromProperties;
         break;
       default:
-        throw UnsupportedError(
-            "Couldn't deserialize oneOf for the discriminator value: ${discValue}");
+        throw UnsupportedError("Couldn't deserialize oneOf for the discriminator value: ${discValue}");
     }
-    result.oneOf = OneOfDynamic(
-        typeIndex: oneOfTypes.indexOf(oneOfType),
-        types: oneOfTypes,
-        value: oneOfResult);
+    result.oneOf = OneOfDynamic(typeIndex: oneOfTypes.indexOf(oneOfType), types: oneOfTypes, value: oneOfResult);
     return result.build();
   }
 }
+    
+

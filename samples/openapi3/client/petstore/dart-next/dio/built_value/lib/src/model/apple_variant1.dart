@@ -11,24 +11,21 @@ part 'apple_variant1.g.dart';
 /// AppleVariant1
 ///
 /// Properties:
-/// * [kind]
+/// * [kind] 
 @BuiltValue()
-abstract class AppleVariant1
-    implements Built<AppleVariant1, AppleVariant1Builder> {
+abstract class AppleVariant1 implements Built<AppleVariant1, AppleVariant1Builder> {
   @BuiltValueField(wireName: r'kind')
   String? get kind;
 
   AppleVariant1._();
 
-  factory AppleVariant1([void updates(AppleVariant1Builder b)]) =
-      _$AppleVariant1;
+  factory AppleVariant1([void updates(AppleVariant1Builder b)]) = _$AppleVariant1;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AppleVariant1Builder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AppleVariant1> get serializer =>
-      _$AppleVariant1Serializer();
+  static Serializer<AppleVariant1> get serializer => _$AppleVariant1Serializer();
 }
 
 class _$AppleVariant1Serializer implements PrimitiveSerializer<AppleVariant1> {
@@ -58,9 +55,7 @@ class _$AppleVariant1Serializer implements PrimitiveSerializer<AppleVariant1> {
     AppleVariant1 object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -110,3 +105,5 @@ class _$AppleVariant1Serializer implements PrimitiveSerializer<AppleVariant1> {
     return result.build();
   }
 }
+    
+

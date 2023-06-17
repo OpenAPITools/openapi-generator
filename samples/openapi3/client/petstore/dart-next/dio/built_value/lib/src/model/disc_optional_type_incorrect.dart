@@ -11,35 +11,26 @@ part 'disc_optional_type_incorrect.g.dart';
 /// DiscOptionalTypeIncorrect
 ///
 /// Properties:
-/// * [fruitType]
+/// * [fruitType] 
 @BuiltValue()
-abstract class DiscOptionalTypeIncorrect
-    implements
-        Built<DiscOptionalTypeIncorrect, DiscOptionalTypeIncorrectBuilder> {
+abstract class DiscOptionalTypeIncorrect implements Built<DiscOptionalTypeIncorrect, DiscOptionalTypeIncorrectBuilder> {
   @BuiltValueField(wireName: r'fruitType')
   int? get fruitType;
 
   DiscOptionalTypeIncorrect._();
 
-  factory DiscOptionalTypeIncorrect(
-          [void updates(DiscOptionalTypeIncorrectBuilder b)]) =
-      _$DiscOptionalTypeIncorrect;
+  factory DiscOptionalTypeIncorrect([void updates(DiscOptionalTypeIncorrectBuilder b)]) = _$DiscOptionalTypeIncorrect;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(DiscOptionalTypeIncorrectBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<DiscOptionalTypeIncorrect> get serializer =>
-      _$DiscOptionalTypeIncorrectSerializer();
+  static Serializer<DiscOptionalTypeIncorrect> get serializer => _$DiscOptionalTypeIncorrectSerializer();
 }
 
-class _$DiscOptionalTypeIncorrectSerializer
-    implements PrimitiveSerializer<DiscOptionalTypeIncorrect> {
+class _$DiscOptionalTypeIncorrectSerializer implements PrimitiveSerializer<DiscOptionalTypeIncorrect> {
   @override
-  final Iterable<Type> types = const [
-    DiscOptionalTypeIncorrect,
-    _$DiscOptionalTypeIncorrect
-  ];
+  final Iterable<Type> types = const [DiscOptionalTypeIncorrect, _$DiscOptionalTypeIncorrect];
 
   @override
   final String wireName = r'DiscOptionalTypeIncorrect';
@@ -64,9 +55,7 @@ class _$DiscOptionalTypeIncorrectSerializer
     DiscOptionalTypeIncorrect object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -116,3 +105,5 @@ class _$DiscOptionalTypeIncorrectSerializer
     return result.build();
   }
 }
+    
+

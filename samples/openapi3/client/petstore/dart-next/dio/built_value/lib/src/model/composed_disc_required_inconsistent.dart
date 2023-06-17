@@ -14,12 +14,9 @@ part 'composed_disc_required_inconsistent.g.dart';
 /// ComposedDiscRequiredInconsistent
 ///
 /// Properties:
-/// * [fruitType]
+/// * [fruitType] 
 @BuiltValue()
-abstract class ComposedDiscRequiredInconsistent
-    implements
-        Built<ComposedDiscRequiredInconsistent,
-            ComposedDiscRequiredInconsistentBuilder> {
+abstract class ComposedDiscRequiredInconsistent implements Built<ComposedDiscRequiredInconsistent, ComposedDiscRequiredInconsistentBuilder> {
   /// One Of [DiscOptionalTypeCorrect], [FruitType]
   OneOf get oneOf;
 
@@ -32,51 +29,41 @@ abstract class ComposedDiscRequiredInconsistent
 
   ComposedDiscRequiredInconsistent._();
 
-  factory ComposedDiscRequiredInconsistent(
-          [void updates(ComposedDiscRequiredInconsistentBuilder b)]) =
-      _$ComposedDiscRequiredInconsistent;
+  factory ComposedDiscRequiredInconsistent([void updates(ComposedDiscRequiredInconsistentBuilder b)]) = _$ComposedDiscRequiredInconsistent;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ComposedDiscRequiredInconsistentBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ComposedDiscRequiredInconsistent> get serializer =>
-      _$ComposedDiscRequiredInconsistentSerializer();
+  static Serializer<ComposedDiscRequiredInconsistent> get serializer => _$ComposedDiscRequiredInconsistentSerializer();
 }
 
-extension ComposedDiscRequiredInconsistentDiscriminatorExt
-    on ComposedDiscRequiredInconsistent {
-  String? get discriminatorValue {
-    if (this is DiscOptionalTypeCorrect) {
-      return r'DiscOptionalTypeCorrect';
+extension ComposedDiscRequiredInconsistentDiscriminatorExt on ComposedDiscRequiredInconsistent {
+    String? get discriminatorValue {
+        if (this is DiscOptionalTypeCorrect) {
+            return r'DiscOptionalTypeCorrect';
+        }
+        if (this is FruitType) {
+            return r'FruitType';
+        }
+        return null;
     }
-    if (this is FruitType) {
-      return r'FruitType';
+}
+extension ComposedDiscRequiredInconsistentBuilderDiscriminatorExt on ComposedDiscRequiredInconsistentBuilder {
+    String? get discriminatorValue {
+        if (this is DiscOptionalTypeCorrectBuilder) {
+            return r'DiscOptionalTypeCorrect';
+        }
+        if (this is FruitTypeBuilder) {
+            return r'FruitType';
+        }
+        return null;
     }
-    return null;
-  }
 }
 
-extension ComposedDiscRequiredInconsistentBuilderDiscriminatorExt
-    on ComposedDiscRequiredInconsistentBuilder {
-  String? get discriminatorValue {
-    if (this is DiscOptionalTypeCorrectBuilder) {
-      return r'DiscOptionalTypeCorrect';
-    }
-    if (this is FruitTypeBuilder) {
-      return r'FruitType';
-    }
-    return null;
-  }
-}
-
-class _$ComposedDiscRequiredInconsistentSerializer
-    implements PrimitiveSerializer<ComposedDiscRequiredInconsistent> {
+class _$ComposedDiscRequiredInconsistentSerializer implements PrimitiveSerializer<ComposedDiscRequiredInconsistent> {
   @override
-  final Iterable<Type> types = const [
-    ComposedDiscRequiredInconsistent,
-    _$ComposedDiscRequiredInconsistent
-  ];
+  final Iterable<Type> types = const [ComposedDiscRequiredInconsistent, _$ComposedDiscRequiredInconsistent];
 
   @override
   final String wireName = r'ComposedDiscRequiredInconsistent';
@@ -85,7 +72,8 @@ class _$ComposedDiscRequiredInconsistentSerializer
     Serializers serializers,
     ComposedDiscRequiredInconsistent object, {
     FullType specifiedType = FullType.unspecified,
-  }) sync* {}
+  }) sync* {
+  }
 
   @override
   Object serialize(
@@ -94,8 +82,7 @@ class _$ComposedDiscRequiredInconsistentSerializer
     FullType specifiedType = FullType.unspecified,
   }) {
     final oneOf = object.oneOf;
-    return serializers.serialize(oneOf.value,
-        specifiedType: FullType(oneOf.valueType))!;
+    return serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType))!;
   }
 
   @override
@@ -107,16 +94,10 @@ class _$ComposedDiscRequiredInconsistentSerializer
     final result = ComposedDiscRequiredInconsistentBuilder();
     Object? oneOfDataSrc;
     final serializedList = (serialized as Iterable<Object?>).toList();
-    final discIndex = serializedList
-            .indexOf(ComposedDiscRequiredInconsistent.discriminatorFieldName) +
-        1;
-    final discValue = serializers.deserialize(serializedList[discIndex],
-        specifiedType: FullType(String)) as String;
+    final discIndex = serializedList.indexOf(ComposedDiscRequiredInconsistent.discriminatorFieldName) + 1;
+    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     oneOfDataSrc = serialized;
-    final oneOfTypes = [
-      DiscOptionalTypeCorrect,
-      FruitType,
-    ];
+    final oneOfTypes = [DiscOptionalTypeCorrect, FruitType, ];
     Object oneOfResult;
     Type oneOfType;
     switch (discValue) {
@@ -135,13 +116,11 @@ class _$ComposedDiscRequiredInconsistentSerializer
         oneOfType = FruitType;
         break;
       default:
-        throw UnsupportedError(
-            "Couldn't deserialize oneOf for the discriminator value: ${discValue}");
+        throw UnsupportedError("Couldn't deserialize oneOf for the discriminator value: ${discValue}");
     }
-    result.oneOf = OneOfDynamic(
-        typeIndex: oneOfTypes.indexOf(oneOfType),
-        types: oneOfTypes,
-        value: oneOfResult);
+    result.oneOf = OneOfDynamic(typeIndex: oneOfTypes.indexOf(oneOfType), types: oneOfTypes, value: oneOfResult);
     return result.build();
   }
 }
+    
+

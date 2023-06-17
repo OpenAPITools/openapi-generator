@@ -10,20 +10,19 @@ import 'package:built_value/serializer.dart';
 part 'model_enum_class.g.dart';
 
 class ModelEnumClass extends EnumClass {
+
   @BuiltValueEnumConst(wireName: r'_abc')
   static const ModelEnumClass abc = _$abc;
   @BuiltValueEnumConst(wireName: r'-efg')
   static const ModelEnumClass efg = _$efg;
   @BuiltValueEnumConst(wireName: r'(xyz)')
-  static const ModelEnumClass leftParenthesisXyzRightParenthesis =
-      _$leftParenthesisXyzRightParenthesis;
+  static const ModelEnumClass leftParenthesisXyzRightParenthesis = _$leftParenthesisXyzRightParenthesis;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
   static const ModelEnumClass unknownDefaultOpenApi = _$unknownDefaultOpenApi;
 
-  static Serializer<ModelEnumClass> get serializer =>
-      _$modelEnumClassSerializer;
+  static Serializer<ModelEnumClass> get serializer => _$modelEnumClassSerializer;
 
-  const ModelEnumClass._(String name) : super(name);
+  const ModelEnumClass._(String name): super(name);
 
   static BuiltSet<ModelEnumClass> get values => _$values;
   static ModelEnumClass valueOf(String name) => _$valueOf(name);
@@ -36,3 +35,4 @@ class ModelEnumClass extends EnumClass {
 ///
 /// Trigger mixin generation by writing a line like this one next to your enum.
 typedef ModelEnumClassMixin = _$ModelEnumClassMixin;
+

@@ -11,33 +11,26 @@ part 'one_of_primitive_child.g.dart';
 /// OneOfPrimitiveChild
 ///
 /// Properties:
-/// * [name]
+/// * [name] 
 @BuiltValue()
-abstract class OneOfPrimitiveChild
-    implements Built<OneOfPrimitiveChild, OneOfPrimitiveChildBuilder> {
+abstract class OneOfPrimitiveChild implements Built<OneOfPrimitiveChild, OneOfPrimitiveChildBuilder> {
   @BuiltValueField(wireName: r'name')
   String? get name;
 
   OneOfPrimitiveChild._();
 
-  factory OneOfPrimitiveChild([void updates(OneOfPrimitiveChildBuilder b)]) =
-      _$OneOfPrimitiveChild;
+  factory OneOfPrimitiveChild([void updates(OneOfPrimitiveChildBuilder b)]) = _$OneOfPrimitiveChild;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(OneOfPrimitiveChildBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<OneOfPrimitiveChild> get serializer =>
-      _$OneOfPrimitiveChildSerializer();
+  static Serializer<OneOfPrimitiveChild> get serializer => _$OneOfPrimitiveChildSerializer();
 }
 
-class _$OneOfPrimitiveChildSerializer
-    implements PrimitiveSerializer<OneOfPrimitiveChild> {
+class _$OneOfPrimitiveChildSerializer implements PrimitiveSerializer<OneOfPrimitiveChild> {
   @override
-  final Iterable<Type> types = const [
-    OneOfPrimitiveChild,
-    _$OneOfPrimitiveChild
-  ];
+  final Iterable<Type> types = const [OneOfPrimitiveChild, _$OneOfPrimitiveChild];
 
   @override
   final String wireName = r'OneOfPrimitiveChild';
@@ -62,9 +55,7 @@ class _$OneOfPrimitiveChildSerializer
     OneOfPrimitiveChild object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -114,3 +105,5 @@ class _$OneOfPrimitiveChildSerializer
     return result.build();
   }
 }
+    
+

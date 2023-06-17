@@ -15,7 +15,7 @@ part 'extensible.g.dart';
 /// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 @BuiltValue(instantiable: false)
-abstract class Extensible {
+abstract class Extensible  {
   /// A URI to a JSON-Schema file that defines additional attributes and relationships
   @BuiltValueField(wireName: r'@schemaLocation')
   String? get atSchemaLocation;
@@ -71,9 +71,7 @@ class _$ExtensibleSerializer implements PrimitiveSerializer<Extensible> {
     Extensible object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   @override
@@ -82,19 +80,16 @@ class _$ExtensibleSerializer implements PrimitiveSerializer<Extensible> {
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return serializers.deserialize(serialized,
-        specifiedType: FullType($Extensible)) as $Extensible;
+    return serializers.deserialize(serialized, specifiedType: FullType($Extensible)) as $Extensible;
   }
 }
 
 /// a concrete implementation of [Extensible], since [Extensible] is not instantiable
 @BuiltValue(instantiable: true)
-abstract class $Extensible
-    implements Extensible, Built<$Extensible, $ExtensibleBuilder> {
+abstract class $Extensible implements Extensible, Built<$Extensible, $ExtensibleBuilder> {
   $Extensible._();
 
-  factory $Extensible([void Function($ExtensibleBuilder)? updates]) =
-      _$$Extensible;
+  factory $Extensible([void Function($ExtensibleBuilder)? updates]) = _$$Extensible;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults($ExtensibleBuilder b) => b;
@@ -180,3 +175,7 @@ class _$$ExtensibleSerializer implements PrimitiveSerializer<$Extensible> {
     return result.build();
   }
 }
+    
+    
+    
+

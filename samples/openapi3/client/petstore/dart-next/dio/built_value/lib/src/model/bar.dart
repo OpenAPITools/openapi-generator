@@ -13,10 +13,10 @@ part 'bar.g.dart';
 /// Bar
 ///
 /// Properties:
-/// * [id]
-/// * [barPropA]
-/// * [fooPropB]
-/// * [foo]
+/// * [id] 
+/// * [barPropA] 
+/// * [fooPropB] 
+/// * [foo] 
 /// * [href] - Hyperlink reference
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
 /// * [atBaseType] - When sub-classing, this defines the super-class
@@ -37,7 +37,7 @@ abstract class Bar implements Entity, Built<Bar, BarBuilder> {
   factory Bar([void updates(BarBuilder b)]) = _$Bar;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(BarBuilder b) => b..atType = b.discriminatorValue;
+  static void _defaults(BarBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<Bar> get serializer => _$BarSerializer();
@@ -117,9 +117,7 @@ class _$BarSerializer implements PrimitiveSerializer<Bar> {
     Bar object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -218,3 +216,12 @@ class _$BarSerializer implements PrimitiveSerializer<Bar> {
     return result.build();
   }
 }
+    
+    
+    
+    
+    
+    
+    
+    
+

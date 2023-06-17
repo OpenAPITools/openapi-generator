@@ -14,11 +14,11 @@ part 'pet.g.dart';
 /// Pet
 ///
 /// Properties:
-/// * [id]
-/// * [category]
-/// * [name]
-/// * [photoUrls]
-/// * [tags]
+/// * [id] 
+/// * [category] 
+/// * [name] 
+/// * [photoUrls] 
+/// * [tags] 
 /// * [status] - pet status in the store
 @BuiltValue()
 abstract class Pet implements Built<Pet, PetBuilder> {
@@ -111,9 +111,7 @@ class _$PetSerializer implements PrimitiveSerializer<Pet> {
     Pet object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -198,29 +196,32 @@ class _$PetSerializer implements PrimitiveSerializer<Pet> {
     return result.build();
   }
 }
-
+    
+    
+    
+    
+    
 class PetStatusEnum extends EnumClass {
+
   /// pet status in the store
   @BuiltValueEnumConst(wireName: r'available')
   static const PetStatusEnum available = _$petStatusEnum_available;
-
   /// pet status in the store
   @BuiltValueEnumConst(wireName: r'pending')
   static const PetStatusEnum pending = _$petStatusEnum_pending;
-
   /// pet status in the store
   @BuiltValueEnumConst(wireName: r'sold')
   static const PetStatusEnum sold = _$petStatusEnum_sold;
-
   /// pet status in the store
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
-  static const PetStatusEnum unknownDefaultOpenApi =
-      _$petStatusEnum_unknownDefaultOpenApi;
+  static const PetStatusEnum unknownDefaultOpenApi = _$petStatusEnum_unknownDefaultOpenApi;
 
   static Serializer<PetStatusEnum> get serializer => _$petStatusEnumSerializer;
 
-  const PetStatusEnum._(String name) : super(name);
+  const PetStatusEnum._(String name): super(name);
 
   static BuiltSet<PetStatusEnum> get values => _$petStatusEnumValues;
   static PetStatusEnum valueOf(String name) => _$petStatusEnumValueOf(name);
 }
+    
+

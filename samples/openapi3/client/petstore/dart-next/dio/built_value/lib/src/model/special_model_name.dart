@@ -11,28 +11,24 @@ part 'special_model_name.g.dart';
 /// SpecialModelName
 ///
 /// Properties:
-/// * [dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket]
+/// * [dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket] 
 @BuiltValue()
-abstract class SpecialModelName
-    implements Built<SpecialModelName, SpecialModelNameBuilder> {
+abstract class SpecialModelName implements Built<SpecialModelName, SpecialModelNameBuilder> {
   @BuiltValueField(wireName: r'$special[property.name]')
   int? get dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
 
   SpecialModelName._();
 
-  factory SpecialModelName([void updates(SpecialModelNameBuilder b)]) =
-      _$SpecialModelName;
+  factory SpecialModelName([void updates(SpecialModelNameBuilder b)]) = _$SpecialModelName;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(SpecialModelNameBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<SpecialModelName> get serializer =>
-      _$SpecialModelNameSerializer();
+  static Serializer<SpecialModelName> get serializer => _$SpecialModelNameSerializer();
 }
 
-class _$SpecialModelNameSerializer
-    implements PrimitiveSerializer<SpecialModelName> {
+class _$SpecialModelNameSerializer implements PrimitiveSerializer<SpecialModelName> {
   @override
   final Iterable<Type> types = const [SpecialModelName, _$SpecialModelName];
 
@@ -44,13 +40,10 @@ class _$SpecialModelNameSerializer
     SpecialModelName object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object
-            .dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket !=
-        null) {
+    if (object.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket != null) {
       yield r'$special[property.name]';
       yield serializers.serialize(
-        object
-            .dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
+        object.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket,
         specifiedType: const FullType(int),
       );
     }
@@ -62,9 +55,7 @@ class _$SpecialModelNameSerializer
     SpecialModelName object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -84,8 +75,7 @@ class _$SpecialModelNameSerializer
             value,
             specifiedType: const FullType(int),
           ) as int;
-          result.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket =
-              valueDes;
+          result.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -115,3 +105,5 @@ class _$SpecialModelNameSerializer
     return result.build();
   }
 }
+    
+

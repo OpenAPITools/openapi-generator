@@ -11,11 +11,10 @@ part 'apple_req_disc.g.dart';
 /// AppleReqDisc
 ///
 /// Properties:
-/// * [seeds]
-/// * [fruitType]
+/// * [seeds] 
+/// * [fruitType] 
 @BuiltValue()
-abstract class AppleReqDisc
-    implements Built<AppleReqDisc, AppleReqDiscBuilder> {
+abstract class AppleReqDisc implements Built<AppleReqDisc, AppleReqDiscBuilder> {
   @BuiltValueField(wireName: r'seeds')
   int get seeds;
 
@@ -63,9 +62,7 @@ class _$AppleReqDiscSerializer implements PrimitiveSerializer<AppleReqDisc> {
     AppleReqDisc object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -122,3 +119,6 @@ class _$AppleReqDiscSerializer implements PrimitiveSerializer<AppleReqDisc> {
     return result.build();
   }
 }
+    
+    
+

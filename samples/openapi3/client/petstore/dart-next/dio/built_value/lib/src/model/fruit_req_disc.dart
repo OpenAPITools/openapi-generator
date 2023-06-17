@@ -14,12 +14,11 @@ part 'fruit_req_disc.g.dart';
 /// FruitReqDisc
 ///
 /// Properties:
-/// * [seeds]
-/// * [fruitType]
-/// * [length]
+/// * [seeds] 
+/// * [fruitType] 
+/// * [length] 
 @BuiltValue()
-abstract class FruitReqDisc
-    implements Built<FruitReqDisc, FruitReqDiscBuilder> {
+abstract class FruitReqDisc implements Built<FruitReqDisc, FruitReqDiscBuilder> {
   /// One Of [AppleReqDisc], [BananaReqDisc]
   OneOf get oneOf;
 
@@ -42,27 +41,26 @@ abstract class FruitReqDisc
 }
 
 extension FruitReqDiscDiscriminatorExt on FruitReqDisc {
-  String? get discriminatorValue {
-    if (this is AppleReqDisc) {
-      return r'AppleReqDisc';
+    String? get discriminatorValue {
+        if (this is AppleReqDisc) {
+            return r'AppleReqDisc';
+        }
+        if (this is BananaReqDisc) {
+            return r'BananaReqDisc';
+        }
+        return null;
     }
-    if (this is BananaReqDisc) {
-      return r'BananaReqDisc';
-    }
-    return null;
-  }
 }
-
 extension FruitReqDiscBuilderDiscriminatorExt on FruitReqDiscBuilder {
-  String? get discriminatorValue {
-    if (this is AppleReqDiscBuilder) {
-      return r'AppleReqDisc';
+    String? get discriminatorValue {
+        if (this is AppleReqDiscBuilder) {
+            return r'AppleReqDisc';
+        }
+        if (this is BananaReqDiscBuilder) {
+            return r'BananaReqDisc';
+        }
+        return null;
     }
-    if (this is BananaReqDiscBuilder) {
-      return r'BananaReqDisc';
-    }
-    return null;
-  }
 }
 
 class _$FruitReqDiscSerializer implements PrimitiveSerializer<FruitReqDisc> {
@@ -76,7 +74,8 @@ class _$FruitReqDiscSerializer implements PrimitiveSerializer<FruitReqDisc> {
     Serializers serializers,
     FruitReqDisc object, {
     FullType specifiedType = FullType.unspecified,
-  }) sync* {}
+  }) sync* {
+  }
 
   @override
   Object serialize(
@@ -85,8 +84,7 @@ class _$FruitReqDiscSerializer implements PrimitiveSerializer<FruitReqDisc> {
     FullType specifiedType = FullType.unspecified,
   }) {
     final oneOf = object.oneOf;
-    return serializers.serialize(oneOf.value,
-        specifiedType: FullType(oneOf.valueType))!;
+    return serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType))!;
   }
 
   @override
@@ -98,15 +96,10 @@ class _$FruitReqDiscSerializer implements PrimitiveSerializer<FruitReqDisc> {
     final result = FruitReqDiscBuilder();
     Object? oneOfDataSrc;
     final serializedList = (serialized as Iterable<Object?>).toList();
-    final discIndex =
-        serializedList.indexOf(FruitReqDisc.discriminatorFieldName) + 1;
-    final discValue = serializers.deserialize(serializedList[discIndex],
-        specifiedType: FullType(String)) as String;
+    final discIndex = serializedList.indexOf(FruitReqDisc.discriminatorFieldName) + 1;
+    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     oneOfDataSrc = serialized;
-    final oneOfTypes = [
-      AppleReqDisc,
-      BananaReqDisc,
-    ];
+    final oneOfTypes = [AppleReqDisc, BananaReqDisc, ];
     Object oneOfResult;
     Type oneOfType;
     switch (discValue) {
@@ -125,13 +118,13 @@ class _$FruitReqDiscSerializer implements PrimitiveSerializer<FruitReqDisc> {
         oneOfType = BananaReqDisc;
         break;
       default:
-        throw UnsupportedError(
-            "Couldn't deserialize oneOf for the discriminator value: ${discValue}");
+        throw UnsupportedError("Couldn't deserialize oneOf for the discriminator value: ${discValue}");
     }
-    result.oneOf = OneOfDynamic(
-        typeIndex: oneOfTypes.indexOf(oneOfType),
-        types: oneOfTypes,
-        value: oneOfResult);
+    result.oneOf = OneOfDynamic(typeIndex: oneOfTypes.indexOf(oneOfType), types: oneOfTypes, value: oneOfResult);
     return result.build();
   }
 }
+    
+    
+    
+

@@ -14,7 +14,7 @@ part 'giga_one_of.g.dart';
 /// GigaOneOf
 ///
 /// Properties:
-/// * [name]
+/// * [name] 
 @BuiltValue()
 abstract class GigaOneOf implements Built<GigaOneOf, GigaOneOfBuilder> {
   /// One Of [DateTime], [OneOfPrimitiveChild], [String], [int], [num]
@@ -42,7 +42,8 @@ class _$GigaOneOfSerializer implements PrimitiveSerializer<GigaOneOf> {
     Serializers serializers,
     GigaOneOf object, {
     FullType specifiedType = FullType.unspecified,
-  }) sync* {}
+  }) sync* {
+  }
 
   @override
   Object serialize(
@@ -51,8 +52,7 @@ class _$GigaOneOfSerializer implements PrimitiveSerializer<GigaOneOf> {
     FullType specifiedType = FullType.unspecified,
   }) {
     final oneOf = object.oneOf;
-    return serializers.serialize(oneOf.value,
-        specifiedType: FullType(oneOf.valueType))!;
+    return serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType))!;
   }
 
   @override
@@ -63,17 +63,11 @@ class _$GigaOneOfSerializer implements PrimitiveSerializer<GigaOneOf> {
   }) {
     final result = GigaOneOfBuilder();
     Object? oneOfDataSrc;
-    final targetType = const FullType(OneOf, [
-      FullType(String),
-      FullType(DateTime),
-      FullType(int),
-      FullType(num),
-      FullType(OneOfPrimitiveChild),
-      FullType(int),
-    ]);
+    final targetType = const FullType(OneOf, [FullType(String), FullType(DateTime), FullType(int), FullType(num), FullType(OneOfPrimitiveChild), FullType(int), ]);
     oneOfDataSrc = serialized;
-    result.oneOf = serializers.deserialize(oneOfDataSrc,
-        specifiedType: targetType) as OneOf;
+    result.oneOf = serializers.deserialize(oneOfDataSrc, specifiedType: targetType) as OneOf;
     return result.build();
   }
 }
+    
+

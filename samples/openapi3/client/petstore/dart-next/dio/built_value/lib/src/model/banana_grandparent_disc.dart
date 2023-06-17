@@ -12,36 +12,27 @@ part 'banana_grandparent_disc.g.dart';
 /// BananaGrandparentDisc
 ///
 /// Properties:
-/// * [length]
-/// * [fruitType]
+/// * [length] 
+/// * [fruitType] 
 @BuiltValue()
-abstract class BananaGrandparentDisc
-    implements
-        Parent,
-        Built<BananaGrandparentDisc, BananaGrandparentDiscBuilder> {
+abstract class BananaGrandparentDisc implements Parent, Built<BananaGrandparentDisc, BananaGrandparentDiscBuilder> {
   @BuiltValueField(wireName: r'length')
   int get length;
 
   BananaGrandparentDisc._();
 
-  factory BananaGrandparentDisc(
-      [void updates(BananaGrandparentDiscBuilder b)]) = _$BananaGrandparentDisc;
+  factory BananaGrandparentDisc([void updates(BananaGrandparentDiscBuilder b)]) = _$BananaGrandparentDisc;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(BananaGrandparentDiscBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<BananaGrandparentDisc> get serializer =>
-      _$BananaGrandparentDiscSerializer();
+  static Serializer<BananaGrandparentDisc> get serializer => _$BananaGrandparentDiscSerializer();
 }
 
-class _$BananaGrandparentDiscSerializer
-    implements PrimitiveSerializer<BananaGrandparentDisc> {
+class _$BananaGrandparentDiscSerializer implements PrimitiveSerializer<BananaGrandparentDisc> {
   @override
-  final Iterable<Type> types = const [
-    BananaGrandparentDisc,
-    _$BananaGrandparentDisc
-  ];
+  final Iterable<Type> types = const [BananaGrandparentDisc, _$BananaGrandparentDisc];
 
   @override
   final String wireName = r'BananaGrandparentDisc';
@@ -69,9 +60,7 @@ class _$BananaGrandparentDiscSerializer
     BananaGrandparentDisc object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -128,3 +117,6 @@ class _$BananaGrandparentDiscSerializer
     return result.build();
   }
 }
+    
+    
+

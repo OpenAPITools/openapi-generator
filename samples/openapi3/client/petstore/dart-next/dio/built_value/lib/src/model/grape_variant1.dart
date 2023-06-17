@@ -11,24 +11,21 @@ part 'grape_variant1.g.dart';
 /// GrapeVariant1
 ///
 /// Properties:
-/// * [color]
+/// * [color] 
 @BuiltValue()
-abstract class GrapeVariant1
-    implements Built<GrapeVariant1, GrapeVariant1Builder> {
+abstract class GrapeVariant1 implements Built<GrapeVariant1, GrapeVariant1Builder> {
   @BuiltValueField(wireName: r'color')
   String? get color;
 
   GrapeVariant1._();
 
-  factory GrapeVariant1([void updates(GrapeVariant1Builder b)]) =
-      _$GrapeVariant1;
+  factory GrapeVariant1([void updates(GrapeVariant1Builder b)]) = _$GrapeVariant1;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(GrapeVariant1Builder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<GrapeVariant1> get serializer =>
-      _$GrapeVariant1Serializer();
+  static Serializer<GrapeVariant1> get serializer => _$GrapeVariant1Serializer();
 }
 
 class _$GrapeVariant1Serializer implements PrimitiveSerializer<GrapeVariant1> {
@@ -58,9 +55,7 @@ class _$GrapeVariant1Serializer implements PrimitiveSerializer<GrapeVariant1> {
     GrapeVariant1 object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -110,3 +105,5 @@ class _$GrapeVariant1Serializer implements PrimitiveSerializer<GrapeVariant1> {
     return result.build();
   }
 }
+    
+

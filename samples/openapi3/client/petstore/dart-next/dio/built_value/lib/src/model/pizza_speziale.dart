@@ -12,30 +12,26 @@ part 'pizza_speziale.g.dart';
 /// PizzaSpeziale
 ///
 /// Properties:
-/// * [toppings]
+/// * [toppings] 
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
 /// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 @BuiltValue()
-abstract class PizzaSpeziale
-    implements Pizza, Built<PizzaSpeziale, PizzaSpezialeBuilder> {
+abstract class PizzaSpeziale implements Pizza, Built<PizzaSpeziale, PizzaSpezialeBuilder> {
   @BuiltValueField(wireName: r'toppings')
   String? get toppings;
 
   PizzaSpeziale._();
 
-  factory PizzaSpeziale([void updates(PizzaSpezialeBuilder b)]) =
-      _$PizzaSpeziale;
+  factory PizzaSpeziale([void updates(PizzaSpezialeBuilder b)]) = _$PizzaSpeziale;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(PizzaSpezialeBuilder b) =>
-      b..atType = b.discriminatorValue;
+  static void _defaults(PizzaSpezialeBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<PizzaSpeziale> get serializer =>
-      _$PizzaSpezialeSerializer();
+  static Serializer<PizzaSpeziale> get serializer => _$PizzaSpezialeSerializer();
 }
 
 class _$PizzaSpezialeSerializer implements PrimitiveSerializer<PizzaSpeziale> {
@@ -105,9 +101,7 @@ class _$PizzaSpezialeSerializer implements PrimitiveSerializer<PizzaSpeziale> {
     PizzaSpeziale object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -199,3 +193,10 @@ class _$PizzaSpezialeSerializer implements PrimitiveSerializer<PizzaSpeziale> {
     return result.build();
   }
 }
+    
+    
+    
+    
+    
+    
+

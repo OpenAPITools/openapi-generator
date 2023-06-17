@@ -24,7 +24,7 @@ abstract class BarRef implements EntityRef, Built<BarRef, BarRefBuilder> {
   factory BarRef([void updates(BarRefBuilder b)]) = _$BarRef;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(BarRefBuilder b) => b..atType = b.discriminatorValue;
+  static void _defaults(BarRefBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<BarRef> get serializer => _$BarRefSerializer();
@@ -97,9 +97,7 @@ class _$BarRefSerializer implements PrimitiveSerializer<BarRef> {
     BarRef object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -191,3 +189,9 @@ class _$BarRefSerializer implements PrimitiveSerializer<BarRef> {
     return result.build();
   }
 }
+    
+    
+    
+    
+    
+

@@ -10,6 +10,7 @@ import 'package:built_value/serializer.dart';
 part 'single_ref_type.g.dart';
 
 class SingleRefType extends EnumClass {
+
   @BuiltValueEnumConst(wireName: r'admin')
   static const SingleRefType admin = _$admin;
   @BuiltValueEnumConst(wireName: r'user')
@@ -19,7 +20,7 @@ class SingleRefType extends EnumClass {
 
   static Serializer<SingleRefType> get serializer => _$singleRefTypeSerializer;
 
-  const SingleRefType._(String name) : super(name);
+  const SingleRefType._(String name): super(name);
 
   static BuiltSet<SingleRefType> get values => _$values;
   static SingleRefType valueOf(String name) => _$valueOf(name);
@@ -32,3 +33,4 @@ class SingleRefType extends EnumClass {
 ///
 /// Trigger mixin generation by writing a line like this one next to your enum.
 typedef SingleRefTypeMixin = _$SingleRefTypeMixin;
+

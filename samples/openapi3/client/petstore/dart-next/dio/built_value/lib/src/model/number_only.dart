@@ -11,7 +11,7 @@ part 'number_only.g.dart';
 /// NumberOnly
 ///
 /// Properties:
-/// * [justNumber]
+/// * [justNumber] 
 @BuiltValue()
 abstract class NumberOnly implements Built<NumberOnly, NumberOnlyBuilder> {
   @BuiltValueField(wireName: r'JustNumber')
@@ -55,9 +55,7 @@ class _$NumberOnlySerializer implements PrimitiveSerializer<NumberOnly> {
     NumberOnly object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -107,3 +105,5 @@ class _$NumberOnlySerializer implements PrimitiveSerializer<NumberOnly> {
     return result.build();
   }
 }
+    
+

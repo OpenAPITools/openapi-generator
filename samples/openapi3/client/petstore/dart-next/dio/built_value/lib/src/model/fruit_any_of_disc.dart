@@ -15,29 +15,24 @@ part 'fruit_any_of_disc.g.dart';
 /// FruitAnyOfDisc
 ///
 /// Properties:
-/// * [fruitType]
+/// * [fruitType] 
 @BuiltValue()
-abstract class FruitAnyOfDisc
-    implements Built<FruitAnyOfDisc, FruitAnyOfDiscBuilder> {
+abstract class FruitAnyOfDisc implements Built<FruitAnyOfDisc, FruitAnyOfDiscBuilder> {
   /// Any Of [FruitType]
   AnyOf get anyOf;
 
   FruitAnyOfDisc._();
 
-  factory FruitAnyOfDisc([void updates(FruitAnyOfDiscBuilder b)]) =
-      _$FruitAnyOfDisc;
+  factory FruitAnyOfDisc([void updates(FruitAnyOfDiscBuilder b)]) = _$FruitAnyOfDisc;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(FruitAnyOfDiscBuilder b) =>
-      b..fruitType = b.discriminatorValue;
+  static void _defaults(FruitAnyOfDiscBuilder b) => b..fruitType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FruitAnyOfDisc> get serializer =>
-      _$FruitAnyOfDiscSerializer();
+  static Serializer<FruitAnyOfDisc> get serializer => _$FruitAnyOfDiscSerializer();
 }
 
-class _$FruitAnyOfDiscSerializer
-    implements PrimitiveSerializer<FruitAnyOfDisc> {
+class _$FruitAnyOfDiscSerializer implements PrimitiveSerializer<FruitAnyOfDisc> {
   @override
   final Iterable<Type> types = const [FruitAnyOfDisc, _$FruitAnyOfDisc];
 
@@ -48,7 +43,8 @@ class _$FruitAnyOfDiscSerializer
     Serializers serializers,
     FruitAnyOfDisc object, {
     FullType specifiedType = FullType.unspecified,
-  }) sync* {}
+  }) sync* {
+  }
 
   @override
   Object serialize(
@@ -57,9 +53,7 @@ class _$FruitAnyOfDiscSerializer
     FullType specifiedType = FullType.unspecified,
   }) {
     final anyOf = object.anyOf;
-    return serializers.serialize(anyOf,
-        specifiedType: FullType(
-            AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList()))!;
+    return serializers.serialize(anyOf, specifiedType: FullType(AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList()))!;
   }
 
   @override
@@ -73,3 +67,5 @@ class _$FruitAnyOfDiscSerializer
     return result.build();
   }
 }
+    
+

@@ -11,34 +11,26 @@ part 'disc_optional_type_correct.g.dart';
 /// DiscOptionalTypeCorrect
 ///
 /// Properties:
-/// * [fruitType]
+/// * [fruitType] 
 @BuiltValue()
-abstract class DiscOptionalTypeCorrect
-    implements Built<DiscOptionalTypeCorrect, DiscOptionalTypeCorrectBuilder> {
+abstract class DiscOptionalTypeCorrect implements Built<DiscOptionalTypeCorrect, DiscOptionalTypeCorrectBuilder> {
   @BuiltValueField(wireName: r'fruitType')
   String? get fruitType;
 
   DiscOptionalTypeCorrect._();
 
-  factory DiscOptionalTypeCorrect(
-          [void updates(DiscOptionalTypeCorrectBuilder b)]) =
-      _$DiscOptionalTypeCorrect;
+  factory DiscOptionalTypeCorrect([void updates(DiscOptionalTypeCorrectBuilder b)]) = _$DiscOptionalTypeCorrect;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(DiscOptionalTypeCorrectBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<DiscOptionalTypeCorrect> get serializer =>
-      _$DiscOptionalTypeCorrectSerializer();
+  static Serializer<DiscOptionalTypeCorrect> get serializer => _$DiscOptionalTypeCorrectSerializer();
 }
 
-class _$DiscOptionalTypeCorrectSerializer
-    implements PrimitiveSerializer<DiscOptionalTypeCorrect> {
+class _$DiscOptionalTypeCorrectSerializer implements PrimitiveSerializer<DiscOptionalTypeCorrect> {
   @override
-  final Iterable<Type> types = const [
-    DiscOptionalTypeCorrect,
-    _$DiscOptionalTypeCorrect
-  ];
+  final Iterable<Type> types = const [DiscOptionalTypeCorrect, _$DiscOptionalTypeCorrect];
 
   @override
   final String wireName = r'DiscOptionalTypeCorrect';
@@ -63,9 +55,7 @@ class _$DiscOptionalTypeCorrectSerializer
     DiscOptionalTypeCorrect object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -115,3 +105,5 @@ class _$DiscOptionalTypeCorrectSerializer
     return result.build();
   }
 }
+    
+

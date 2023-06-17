@@ -12,7 +12,7 @@ part 'pasta.g.dart';
 /// Pasta
 ///
 /// Properties:
-/// * [vendor]
+/// * [vendor] 
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
@@ -28,7 +28,7 @@ abstract class Pasta implements Entity, Built<Pasta, PastaBuilder> {
   factory Pasta([void updates(PastaBuilder b)]) = _$Pasta;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(PastaBuilder b) => b..atType = b.discriminatorValue;
+  static void _defaults(PastaBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<Pasta> get serializer => _$PastaSerializer();
@@ -94,9 +94,7 @@ class _$PastaSerializer implements PrimitiveSerializer<Pasta> {
     Pasta object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -181,3 +179,10 @@ class _$PastaSerializer implements PrimitiveSerializer<Pasta> {
     return result.build();
   }
 }
+    
+    
+    
+    
+    
+    
+

@@ -16,13 +16,14 @@ import 'package:openapi/src/model/foo_ref_or_value.dart';
 part 'foo_api.g.dart';
 
 class FooApi {
+
   final FooApiRaw rawApi;
   final SerializationRepositoryBase _repository;
 
   const FooApi(this.rawApi, this._repository);
 
   /// Create a Foo
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [foo] - The Foo to be created
@@ -35,7 +36,7 @@ class FooApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FooRefOrValue] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FooRefOrValue>> createFoo({
+  Future<Response<FooRefOrValue>> createFoo({ 
     required Foo foo,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -43,11 +44,18 @@ class FooApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, foo, const TypeInfo(Foo));
+    _bodyData = encodeBodyParameter(_repository, foo, const TypeInfo(
+        
+    
+    Foo
+    )
+
+);    
 
     final _response = await rawApi.createFoo(
+      
       body: _bodyData,
       requestContentType: 'application/json;charset=utf-8',
       cancelToken: cancelToken,
@@ -56,16 +64,19 @@ class FooApi {
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     FooRefOrValue? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(
-              _repository, rawResponse, const TypeInfo(FooRefOrValue));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+        
+    FooRefOrValue
+    
+    )
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -89,7 +100,7 @@ class FooApi {
   }
 
   /// GET all Foos
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -101,35 +112,43 @@ class FooApi {
   ///
   /// Returns a [Future] containing a [Response] with a [BuiltList<FooRefOrValue>] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<BuiltList<FooRefOrValue>>> getAllFoos({
+  Future<Response<BuiltList<FooRefOrValue>>> getAllFoos({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.getAllFoos(
+      
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     BuiltList<FooRefOrValue>? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(
-              _repository,
-              rawResponse,
-              const TypeInfo(BuiltList, [
-                const TypeInfo(FooRefOrValue),
-              ]));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+    BuiltList, [
+        
+        const TypeInfo(
+        
+    FooRefOrValue
+    
+    )
+
+,
+    ])
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -151,15 +170,16 @@ class FooApi {
       extra: _response.extra,
     );
   }
-}
 
+}
 class FooApiRaw {
+
   final Dio _dio;
 
   const FooApiRaw(this._dio);
 
   /// Create a Foo
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [foo] - The Foo to be created
@@ -172,7 +192,7 @@ class FooApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [FooRefOrValue] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> createFoo({
+  Future<Response<Object>> createFoo({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -211,7 +231,7 @@ class FooApiRaw {
   }
 
   /// GET all Foos
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -223,7 +243,7 @@ class FooApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [BuiltList<FooRefOrValue>] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> getAllFoos({
+  Future<Response<Object>> getAllFoos({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -260,4 +280,8 @@ class FooApiRaw {
       onReceiveProgress: onReceiveProgress,
     );
   }
+
 }
+
+
+

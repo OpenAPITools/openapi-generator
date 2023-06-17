@@ -12,7 +12,7 @@ part 'parent.g.dart';
 /// Parent
 ///
 /// Properties:
-/// * [fruitType]
+/// * [fruitType] 
 @BuiltValue(instantiable: false)
 abstract class Parent implements FruitType {
   @BuiltValueSerializer(custom: true)
@@ -44,9 +44,7 @@ class _$ParentSerializer implements PrimitiveSerializer<Parent> {
     Parent object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   @override
@@ -55,8 +53,7 @@ class _$ParentSerializer implements PrimitiveSerializer<Parent> {
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return serializers.deserialize(serialized, specifiedType: FullType($Parent))
-        as $Parent;
+    return serializers.deserialize(serialized, specifiedType: FullType($Parent)) as $Parent;
   }
 }
 
@@ -137,3 +134,5 @@ class _$$ParentSerializer implements PrimitiveSerializer<$Parent> {
     return result.build();
   }
 }
+    
+

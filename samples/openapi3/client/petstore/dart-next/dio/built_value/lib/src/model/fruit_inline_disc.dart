@@ -14,12 +14,11 @@ part 'fruit_inline_disc.g.dart';
 /// FruitInlineDisc
 ///
 /// Properties:
-/// * [seeds]
-/// * [fruitType]
-/// * [length]
+/// * [seeds] 
+/// * [fruitType] 
+/// * [length] 
 @BuiltValue()
-abstract class FruitInlineDisc
-    implements Built<FruitInlineDisc, FruitInlineDiscBuilder> {
+abstract class FruitInlineDisc implements Built<FruitInlineDisc, FruitInlineDiscBuilder> {
   /// One Of [FruitInlineDiscOneOf], [FruitInlineDiscOneOf1]
   OneOf get oneOf;
 
@@ -32,43 +31,39 @@ abstract class FruitInlineDisc
 
   FruitInlineDisc._();
 
-  factory FruitInlineDisc([void updates(FruitInlineDiscBuilder b)]) =
-      _$FruitInlineDisc;
+  factory FruitInlineDisc([void updates(FruitInlineDiscBuilder b)]) = _$FruitInlineDisc;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(FruitInlineDiscBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FruitInlineDisc> get serializer =>
-      _$FruitInlineDiscSerializer();
+  static Serializer<FruitInlineDisc> get serializer => _$FruitInlineDiscSerializer();
 }
 
 extension FruitInlineDiscDiscriminatorExt on FruitInlineDisc {
-  String? get discriminatorValue {
-    if (this is FruitInlineDiscOneOf) {
-      return r'FruitInlineDisc_oneOf';
+    String? get discriminatorValue {
+        if (this is FruitInlineDiscOneOf) {
+            return r'FruitInlineDisc_oneOf';
+        }
+        if (this is FruitInlineDiscOneOf1) {
+            return r'FruitInlineDisc_oneOf_1';
+        }
+        return null;
     }
-    if (this is FruitInlineDiscOneOf1) {
-      return r'FruitInlineDisc_oneOf_1';
-    }
-    return null;
-  }
 }
-
 extension FruitInlineDiscBuilderDiscriminatorExt on FruitInlineDiscBuilder {
-  String? get discriminatorValue {
-    if (this is FruitInlineDiscOneOfBuilder) {
-      return r'FruitInlineDisc_oneOf';
+    String? get discriminatorValue {
+        if (this is FruitInlineDiscOneOfBuilder) {
+            return r'FruitInlineDisc_oneOf';
+        }
+        if (this is FruitInlineDiscOneOf1Builder) {
+            return r'FruitInlineDisc_oneOf_1';
+        }
+        return null;
     }
-    if (this is FruitInlineDiscOneOf1Builder) {
-      return r'FruitInlineDisc_oneOf_1';
-    }
-    return null;
-  }
 }
 
-class _$FruitInlineDiscSerializer
-    implements PrimitiveSerializer<FruitInlineDisc> {
+class _$FruitInlineDiscSerializer implements PrimitiveSerializer<FruitInlineDisc> {
   @override
   final Iterable<Type> types = const [FruitInlineDisc, _$FruitInlineDisc];
 
@@ -79,7 +74,8 @@ class _$FruitInlineDiscSerializer
     Serializers serializers,
     FruitInlineDisc object, {
     FullType specifiedType = FullType.unspecified,
-  }) sync* {}
+  }) sync* {
+  }
 
   @override
   Object serialize(
@@ -88,8 +84,7 @@ class _$FruitInlineDiscSerializer
     FullType specifiedType = FullType.unspecified,
   }) {
     final oneOf = object.oneOf;
-    return serializers.serialize(oneOf.value,
-        specifiedType: FullType(oneOf.valueType))!;
+    return serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType))!;
   }
 
   @override
@@ -101,15 +96,10 @@ class _$FruitInlineDiscSerializer
     final result = FruitInlineDiscBuilder();
     Object? oneOfDataSrc;
     final serializedList = (serialized as Iterable<Object?>).toList();
-    final discIndex =
-        serializedList.indexOf(FruitInlineDisc.discriminatorFieldName) + 1;
-    final discValue = serializers.deserialize(serializedList[discIndex],
-        specifiedType: FullType(String)) as String;
+    final discIndex = serializedList.indexOf(FruitInlineDisc.discriminatorFieldName) + 1;
+    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     oneOfDataSrc = serialized;
-    final oneOfTypes = [
-      FruitInlineDiscOneOf,
-      FruitInlineDiscOneOf1,
-    ];
+    final oneOfTypes = [FruitInlineDiscOneOf, FruitInlineDiscOneOf1, ];
     Object oneOfResult;
     Type oneOfType;
     switch (discValue) {
@@ -128,13 +118,13 @@ class _$FruitInlineDiscSerializer
         oneOfType = FruitInlineDiscOneOf1;
         break;
       default:
-        throw UnsupportedError(
-            "Couldn't deserialize oneOf for the discriminator value: ${discValue}");
+        throw UnsupportedError("Couldn't deserialize oneOf for the discriminator value: ${discValue}");
     }
-    result.oneOf = OneOfDynamic(
-        typeIndex: oneOfTypes.indexOf(oneOfType),
-        types: oneOfTypes,
-        value: oneOfResult);
+    result.oneOf = OneOfDynamic(typeIndex: oneOfTypes.indexOf(oneOfType), types: oneOfTypes, value: oneOfResult);
     return result.build();
   }
 }
+    
+    
+    
+

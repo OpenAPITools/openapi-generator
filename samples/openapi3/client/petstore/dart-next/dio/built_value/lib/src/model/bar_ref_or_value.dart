@@ -20,8 +20,7 @@ part 'bar_ref_or_value.g.dart';
 /// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 @BuiltValue()
-abstract class BarRefOrValue
-    implements Built<BarRefOrValue, BarRefOrValueBuilder> {
+abstract class BarRefOrValue implements Built<BarRefOrValue, BarRefOrValueBuilder> {
   /// One Of [Bar], [BarRef]
   OneOf get oneOf;
 
@@ -34,39 +33,36 @@ abstract class BarRefOrValue
 
   BarRefOrValue._();
 
-  factory BarRefOrValue([void updates(BarRefOrValueBuilder b)]) =
-      _$BarRefOrValue;
+  factory BarRefOrValue([void updates(BarRefOrValueBuilder b)]) = _$BarRefOrValue;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(BarRefOrValueBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<BarRefOrValue> get serializer =>
-      _$BarRefOrValueSerializer();
+  static Serializer<BarRefOrValue> get serializer => _$BarRefOrValueSerializer();
 }
 
 extension BarRefOrValueDiscriminatorExt on BarRefOrValue {
-  String? get discriminatorValue {
-    if (this is Bar) {
-      return r'Bar';
+    String? get discriminatorValue {
+        if (this is Bar) {
+            return r'Bar';
+        }
+        if (this is BarRef) {
+            return r'BarRef';
+        }
+        return null;
     }
-    if (this is BarRef) {
-      return r'BarRef';
-    }
-    return null;
-  }
 }
-
 extension BarRefOrValueBuilderDiscriminatorExt on BarRefOrValueBuilder {
-  String? get discriminatorValue {
-    if (this is BarBuilder) {
-      return r'Bar';
+    String? get discriminatorValue {
+        if (this is BarBuilder) {
+            return r'Bar';
+        }
+        if (this is BarRefBuilder) {
+            return r'BarRef';
+        }
+        return null;
     }
-    if (this is BarRefBuilder) {
-      return r'BarRef';
-    }
-    return null;
-  }
 }
 
 class _$BarRefOrValueSerializer implements PrimitiveSerializer<BarRefOrValue> {
@@ -80,7 +76,8 @@ class _$BarRefOrValueSerializer implements PrimitiveSerializer<BarRefOrValue> {
     Serializers serializers,
     BarRefOrValue object, {
     FullType specifiedType = FullType.unspecified,
-  }) sync* {}
+  }) sync* {
+  }
 
   @override
   Object serialize(
@@ -89,8 +86,7 @@ class _$BarRefOrValueSerializer implements PrimitiveSerializer<BarRefOrValue> {
     FullType specifiedType = FullType.unspecified,
   }) {
     final oneOf = object.oneOf;
-    return serializers.serialize(oneOf.value,
-        specifiedType: FullType(oneOf.valueType))!;
+    return serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType))!;
   }
 
   @override
@@ -102,15 +98,10 @@ class _$BarRefOrValueSerializer implements PrimitiveSerializer<BarRefOrValue> {
     final result = BarRefOrValueBuilder();
     Object? oneOfDataSrc;
     final serializedList = (serialized as Iterable<Object?>).toList();
-    final discIndex =
-        serializedList.indexOf(BarRefOrValue.discriminatorFieldName) + 1;
-    final discValue = serializers.deserialize(serializedList[discIndex],
-        specifiedType: FullType(String)) as String;
+    final discIndex = serializedList.indexOf(BarRefOrValue.discriminatorFieldName) + 1;
+    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     oneOfDataSrc = serialized;
-    final oneOfTypes = [
-      Bar,
-      BarRef,
-    ];
+    final oneOfTypes = [Bar, BarRef, ];
     Object oneOfResult;
     Type oneOfType;
     switch (discValue) {
@@ -129,13 +120,15 @@ class _$BarRefOrValueSerializer implements PrimitiveSerializer<BarRefOrValue> {
         oneOfType = BarRef;
         break;
       default:
-        throw UnsupportedError(
-            "Couldn't deserialize oneOf for the discriminator value: ${discValue}");
+        throw UnsupportedError("Couldn't deserialize oneOf for the discriminator value: ${discValue}");
     }
-    result.oneOf = OneOfDynamic(
-        typeIndex: oneOfTypes.indexOf(oneOfType),
-        types: oneOfTypes,
-        value: oneOfResult);
+    result.oneOf = OneOfDynamic(typeIndex: oneOfTypes.indexOf(oneOfType), types: oneOfTypes, value: oneOfResult);
     return result.build();
   }
 }
+    
+    
+    
+    
+    
+

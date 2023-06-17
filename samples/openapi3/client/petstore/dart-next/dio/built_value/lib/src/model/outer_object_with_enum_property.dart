@@ -12,36 +12,27 @@ part 'outer_object_with_enum_property.g.dart';
 /// OuterObjectWithEnumProperty
 ///
 /// Properties:
-/// * [value]
+/// * [value] 
 @BuiltValue()
-abstract class OuterObjectWithEnumProperty
-    implements
-        Built<OuterObjectWithEnumProperty, OuterObjectWithEnumPropertyBuilder> {
+abstract class OuterObjectWithEnumProperty implements Built<OuterObjectWithEnumProperty, OuterObjectWithEnumPropertyBuilder> {
   @BuiltValueField(wireName: r'value')
   OuterEnumInteger get value;
   // enum valueEnum {  0,  1,  2,  };
 
   OuterObjectWithEnumProperty._();
 
-  factory OuterObjectWithEnumProperty(
-          [void updates(OuterObjectWithEnumPropertyBuilder b)]) =
-      _$OuterObjectWithEnumProperty;
+  factory OuterObjectWithEnumProperty([void updates(OuterObjectWithEnumPropertyBuilder b)]) = _$OuterObjectWithEnumProperty;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(OuterObjectWithEnumPropertyBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<OuterObjectWithEnumProperty> get serializer =>
-      _$OuterObjectWithEnumPropertySerializer();
+  static Serializer<OuterObjectWithEnumProperty> get serializer => _$OuterObjectWithEnumPropertySerializer();
 }
 
-class _$OuterObjectWithEnumPropertySerializer
-    implements PrimitiveSerializer<OuterObjectWithEnumProperty> {
+class _$OuterObjectWithEnumPropertySerializer implements PrimitiveSerializer<OuterObjectWithEnumProperty> {
   @override
-  final Iterable<Type> types = const [
-    OuterObjectWithEnumProperty,
-    _$OuterObjectWithEnumProperty
-  ];
+  final Iterable<Type> types = const [OuterObjectWithEnumProperty, _$OuterObjectWithEnumProperty];
 
   @override
   final String wireName = r'OuterObjectWithEnumProperty';
@@ -64,9 +55,7 @@ class _$OuterObjectWithEnumPropertySerializer
     OuterObjectWithEnumProperty object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -116,3 +105,5 @@ class _$OuterObjectWithEnumPropertySerializer
     return result.build();
   }
 }
+    
+

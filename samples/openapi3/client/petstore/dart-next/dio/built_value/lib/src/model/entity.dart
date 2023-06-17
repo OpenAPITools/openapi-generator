@@ -42,51 +42,50 @@ abstract class Entity implements Addressable, Extensible {
 }
 
 extension EntityDiscriminatorExt on Entity {
-  String? get discriminatorValue {
-    if (this is Bar) {
-      return r'Bar';
+    String? get discriminatorValue {
+        if (this is Bar) {
+            return r'Bar';
+        }
+        if (this is BarCreate) {
+            return r'Bar_Create';
+        }
+        if (this is Foo) {
+            return r'Foo';
+        }
+        if (this is Pasta) {
+            return r'Pasta';
+        }
+        if (this is Pizza) {
+            return r'Pizza';
+        }
+        if (this is PizzaSpeziale) {
+            return r'PizzaSpeziale';
+        }
+        return null;
     }
-    if (this is BarCreate) {
-      return r'Bar_Create';
-    }
-    if (this is Foo) {
-      return r'Foo';
-    }
-    if (this is Pasta) {
-      return r'Pasta';
-    }
-    if (this is Pizza) {
-      return r'Pizza';
-    }
-    if (this is PizzaSpeziale) {
-      return r'PizzaSpeziale';
-    }
-    return null;
-  }
 }
-
 extension EntityBuilderDiscriminatorExt on EntityBuilder {
-  String? get discriminatorValue {
-    if (this is BarBuilder) {
-      return r'Bar';
+    String? get discriminatorValue {
+        if (this is BarBuilder) {
+            return r'Bar';
+        }
+        if (this is BarCreateBuilder) {
+            return r'Bar_Create';
+        }
+        if (this is FooBuilder) {
+            return r'Foo';
+        }
+        if (this is PastaBuilder) {
+            return r'Pasta';
+        }
+        if (this is PizzaBuilder) {
+            return r'Pizza';
+        }
+        if (this is PizzaSpezialeBuilder) {
+            return r'PizzaSpeziale';
+        }
+        return null;
     }
-    if (this is BarCreateBuilder) {
-      return r'Bar_Create';
-    }
-    if (this is FooBuilder) {
-      return r'Foo';
-    }
-    if (this is PastaBuilder) {
-      return r'Pasta';
-    }
-    if (this is PizzaBuilder) {
-      return r'Pizza';
-    }
-    if (this is PizzaSpezialeBuilder) {
-      return r'PizzaSpeziale';
-    }
-    return null;
-  }
 }
 
 class _$EntitySerializer implements PrimitiveSerializer<Entity> {
@@ -158,12 +157,9 @@ class _$EntitySerializer implements PrimitiveSerializer<Entity> {
       return serializers.serialize(object, specifiedType: FullType(Pizza))!;
     }
     if (object is PizzaSpeziale) {
-      return serializers.serialize(object,
-          specifiedType: FullType(PizzaSpeziale))!;
+      return serializers.serialize(object, specifiedType: FullType(PizzaSpeziale))!;
     }
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   @override
@@ -174,30 +170,22 @@ class _$EntitySerializer implements PrimitiveSerializer<Entity> {
   }) {
     final serializedList = (serialized as Iterable<Object?>).toList();
     final discIndex = serializedList.indexOf(Entity.discriminatorFieldName) + 1;
-    final discValue = serializers.deserialize(serializedList[discIndex],
-        specifiedType: FullType(String)) as String;
+    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     switch (discValue) {
       case r'Bar':
-        return serializers.deserialize(serialized, specifiedType: FullType(Bar))
-            as Bar;
+        return serializers.deserialize(serialized, specifiedType: FullType(Bar)) as Bar;
       case r'Bar_Create':
-        return serializers.deserialize(serialized,
-            specifiedType: FullType(BarCreate)) as BarCreate;
+        return serializers.deserialize(serialized, specifiedType: FullType(BarCreate)) as BarCreate;
       case r'Foo':
-        return serializers.deserialize(serialized, specifiedType: FullType(Foo))
-            as Foo;
+        return serializers.deserialize(serialized, specifiedType: FullType(Foo)) as Foo;
       case r'Pasta':
-        return serializers.deserialize(serialized,
-            specifiedType: FullType(Pasta)) as Pasta;
+        return serializers.deserialize(serialized, specifiedType: FullType(Pasta)) as Pasta;
       case r'Pizza':
-        return serializers.deserialize(serialized,
-            specifiedType: FullType(Pizza)) as Pizza;
+        return serializers.deserialize(serialized, specifiedType: FullType(Pizza)) as Pizza;
       case r'PizzaSpeziale':
-        return serializers.deserialize(serialized,
-            specifiedType: FullType(PizzaSpeziale)) as PizzaSpeziale;
+        return serializers.deserialize(serialized, specifiedType: FullType(PizzaSpeziale)) as PizzaSpeziale;
       default:
-        return serializers.deserialize(serialized,
-            specifiedType: FullType($Entity)) as $Entity;
+        return serializers.deserialize(serialized, specifiedType: FullType($Entity)) as $Entity;
     }
   }
 }
@@ -307,3 +295,9 @@ class _$$EntitySerializer implements PrimitiveSerializer<$Entity> {
     return result.build();
   }
 }
+    
+    
+    
+    
+    
+

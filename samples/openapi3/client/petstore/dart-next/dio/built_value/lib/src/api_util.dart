@@ -11,14 +11,14 @@ Object encodeFormParameter<T>(
   T value,
   TypeInfo type,
 ) {
-  if (value == null) {
-    return '';
-  }
-  final serialized = repository.serialize(
-    value,
-    type,
-  );
-  return serialized;
+    if (value == null) {
+        return '';
+    }
+    final serialized = repository.serialize(
+        value,
+        type,
+    );    
+    return serialized;
 }
 
 String encodeStringParameter<T>(
@@ -34,14 +34,14 @@ Object encodeBodyParameter<T>(
   T value,
   TypeInfo type,
 ) {
-  if (value == null) {
-    return '';
-  }
-  final serialized = repository.serialize(
-    value,
-    type,
-  );
-  return serialized;
+    if (value == null) {
+        return '';
+    }
+    final serialized = repository.serialize(
+        value,
+        type,
+    );    
+    return serialized;
 }
 
 Object encodeQueryParameter<T>(
@@ -50,21 +50,21 @@ Object encodeQueryParameter<T>(
   TypeInfo type, {
   ListFormat format = ListFormat.multi,
 }) {
-  if (value == null) {
-    return '';
-  }
-  if (value is String || value is num || value is bool) {
-    return value;
-  }
-  if (value is Uint8List) {
-    // Currently not sure how to serialize this
-    return value;
-  }
-  final serialized = repository.serialize(
-    value,
-    type,
-  );
-  return serialized;
+    if (value == null) {
+        return '';
+    }
+    if (value is String || value is num || value is bool) {
+        return value;
+    }
+    if (value is Uint8List) {
+        // Currently not sure how to serialize this
+        return value;
+    }
+    final serialized = repository.serialize(
+        value,
+        type,
+    );
+    return serialized;
 }
 
 ListParam<Object?> encodeCollectionQueryParameter<T>(
@@ -73,17 +73,16 @@ ListParam<Object?> encodeCollectionQueryParameter<T>(
   TypeInfo type, {
   ListFormat format = ListFormat.multi,
 }) {
-  final serialized = repository.serialize(
-    value,
-    type,
-  );
-  if (serialized is Iterable) {
-    return ListParam(serialized.toList(), format);
-  }
-  throw ArgumentError('Invalid value passed to encodeCollectionQueryParameter');
+    final serialized = repository.serialize(
+        value,
+        type,
+    );
+    if (serialized is Iterable) {
+        return ListParam(serialized.toList(), format);
+    }
+    throw ArgumentError('Invalid value passed to encodeCollectionQueryParameter');
 }
 
-TOutput decodeResponse<TOutput, TInput extends Object>(
-    SerializationRepositoryBase repository, TInput value, TypeInfo type) {
+TOutput decodeResponse<TOutput, TInput extends Object>(SerializationRepositoryBase repository, TInput value, TypeInfo type) {
   return repository.deserialize(value, type);
 }

@@ -11,9 +11,9 @@ part 'api_response.g.dart';
 /// ApiResponse
 ///
 /// Properties:
-/// * [code]
-/// * [type]
-/// * [message]
+/// * [code] 
+/// * [type] 
+/// * [message] 
 @BuiltValue()
 abstract class ApiResponse implements Built<ApiResponse, ApiResponseBuilder> {
   @BuiltValueField(wireName: r'code')
@@ -77,9 +77,7 @@ class _$ApiResponseSerializer implements PrimitiveSerializer<ApiResponse> {
     ApiResponse object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -143,3 +141,7 @@ class _$ApiResponseSerializer implements PrimitiveSerializer<ApiResponse> {
     return result.build();
   }
 }
+    
+    
+    
+

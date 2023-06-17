@@ -15,6 +15,7 @@ import 'package:openapi/src/model/model_client.dart';
 part 'another_fake_api.g.dart';
 
 class AnotherFakeApi {
+
   final AnotherFakeApiRaw rawApi;
   final SerializationRepositoryBase _repository;
 
@@ -34,7 +35,7 @@ class AnotherFakeApi {
   ///
   /// Returns a [Future] containing a [Response] with a [ModelClient] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ModelClient>> call123testSpecialTags({
+  Future<Response<ModelClient>> call123testSpecialTags({ 
     required ModelClient modelClient,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -42,12 +43,18 @@ class AnotherFakeApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(
-        _repository, modelClient, const TypeInfo(ModelClient));
+    _bodyData = encodeBodyParameter(_repository, modelClient, const TypeInfo(
+        
+    
+    ModelClient
+    )
+
+);    
 
     final _response = await rawApi.call123testSpecialTags(
+      
       body: _bodyData,
       requestContentType: 'application/json',
       cancelToken: cancelToken,
@@ -56,16 +63,19 @@ class AnotherFakeApi {
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     ModelClient? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(
-              _repository, rawResponse, const TypeInfo(ModelClient));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+        
+    ModelClient
+    
+    )
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -87,9 +97,10 @@ class AnotherFakeApi {
       extra: _response.extra,
     );
   }
-}
 
+}
 class AnotherFakeApiRaw {
+
   final Dio _dio;
 
   const AnotherFakeApiRaw(this._dio);
@@ -108,7 +119,7 @@ class AnotherFakeApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [ModelClient] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> call123testSpecialTags({
+  Future<Response<Object>> call123testSpecialTags({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -145,4 +156,8 @@ class AnotherFakeApiRaw {
       onReceiveProgress: onReceiveProgress,
     );
   }
+
 }
+
+
+

@@ -11,11 +11,10 @@ part 'fruit_inline_disc_one_of.g.dart';
 /// FruitInlineDiscOneOf
 ///
 /// Properties:
-/// * [seeds]
-/// * [fruitType]
+/// * [seeds] 
+/// * [fruitType] 
 @BuiltValue()
-abstract class FruitInlineDiscOneOf
-    implements Built<FruitInlineDiscOneOf, FruitInlineDiscOneOfBuilder> {
+abstract class FruitInlineDiscOneOf implements Built<FruitInlineDiscOneOf, FruitInlineDiscOneOfBuilder> {
   @BuiltValueField(wireName: r'seeds')
   int get seeds;
 
@@ -24,24 +23,18 @@ abstract class FruitInlineDiscOneOf
 
   FruitInlineDiscOneOf._();
 
-  factory FruitInlineDiscOneOf([void updates(FruitInlineDiscOneOfBuilder b)]) =
-      _$FruitInlineDiscOneOf;
+  factory FruitInlineDiscOneOf([void updates(FruitInlineDiscOneOfBuilder b)]) = _$FruitInlineDiscOneOf;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(FruitInlineDiscOneOfBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FruitInlineDiscOneOf> get serializer =>
-      _$FruitInlineDiscOneOfSerializer();
+  static Serializer<FruitInlineDiscOneOf> get serializer => _$FruitInlineDiscOneOfSerializer();
 }
 
-class _$FruitInlineDiscOneOfSerializer
-    implements PrimitiveSerializer<FruitInlineDiscOneOf> {
+class _$FruitInlineDiscOneOfSerializer implements PrimitiveSerializer<FruitInlineDiscOneOf> {
   @override
-  final Iterable<Type> types = const [
-    FruitInlineDiscOneOf,
-    _$FruitInlineDiscOneOf
-  ];
+  final Iterable<Type> types = const [FruitInlineDiscOneOf, _$FruitInlineDiscOneOf];
 
   @override
   final String wireName = r'FruitInlineDiscOneOf';
@@ -69,9 +62,7 @@ class _$FruitInlineDiscOneOfSerializer
     FruitInlineDiscOneOf object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -128,3 +119,6 @@ class _$FruitInlineDiscOneOfSerializer
     return result.build();
   }
 }
+    
+    
+

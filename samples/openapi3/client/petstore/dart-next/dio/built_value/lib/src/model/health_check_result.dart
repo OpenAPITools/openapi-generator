@@ -11,28 +11,24 @@ part 'health_check_result.g.dart';
 /// Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
 ///
 /// Properties:
-/// * [nullableMessage]
+/// * [nullableMessage] 
 @BuiltValue()
-abstract class HealthCheckResult
-    implements Built<HealthCheckResult, HealthCheckResultBuilder> {
+abstract class HealthCheckResult implements Built<HealthCheckResult, HealthCheckResultBuilder> {
   @BuiltValueField(wireName: r'NullableMessage')
   String? get nullableMessage;
 
   HealthCheckResult._();
 
-  factory HealthCheckResult([void updates(HealthCheckResultBuilder b)]) =
-      _$HealthCheckResult;
+  factory HealthCheckResult([void updates(HealthCheckResultBuilder b)]) = _$HealthCheckResult;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(HealthCheckResultBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<HealthCheckResult> get serializer =>
-      _$HealthCheckResultSerializer();
+  static Serializer<HealthCheckResult> get serializer => _$HealthCheckResultSerializer();
 }
 
-class _$HealthCheckResultSerializer
-    implements PrimitiveSerializer<HealthCheckResult> {
+class _$HealthCheckResultSerializer implements PrimitiveSerializer<HealthCheckResult> {
   @override
   final Iterable<Type> types = const [HealthCheckResult, _$HealthCheckResult];
 
@@ -59,9 +55,7 @@ class _$HealthCheckResultSerializer
     HealthCheckResult object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -112,3 +106,5 @@ class _$HealthCheckResultSerializer
     return result.build();
   }
 }
+    
+

@@ -11,8 +11,8 @@ part 'category.g.dart';
 /// Category
 ///
 /// Properties:
-/// * [id]
-/// * [name]
+/// * [id] 
+/// * [name] 
 @BuiltValue()
 abstract class Category implements Built<Category, CategoryBuilder> {
   @BuiltValueField(wireName: r'id')
@@ -26,7 +26,8 @@ abstract class Category implements Built<Category, CategoryBuilder> {
   factory Category([void updates(CategoryBuilder b)]) = _$Category;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(CategoryBuilder b) => b..name = 'default-name';
+  static void _defaults(CategoryBuilder b) => b
+      ..name = 'default-name';
 
   @BuiltValueSerializer(custom: true)
   static Serializer<Category> get serializer => _$CategorySerializer();
@@ -64,9 +65,7 @@ class _$CategorySerializer implements PrimitiveSerializer<Category> {
     Category object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -123,3 +122,6 @@ class _$CategorySerializer implements PrimitiveSerializer<Category> {
     return result.build();
   }
 }
+    
+    
+

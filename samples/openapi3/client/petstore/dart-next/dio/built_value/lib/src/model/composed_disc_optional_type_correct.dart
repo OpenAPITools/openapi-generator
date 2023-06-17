@@ -13,12 +13,9 @@ part 'composed_disc_optional_type_correct.g.dart';
 /// ComposedDiscOptionalTypeCorrect
 ///
 /// Properties:
-/// * [fruitType]
+/// * [fruitType] 
 @BuiltValue()
-abstract class ComposedDiscOptionalTypeCorrect
-    implements
-        Built<ComposedDiscOptionalTypeCorrect,
-            ComposedDiscOptionalTypeCorrectBuilder> {
+abstract class ComposedDiscOptionalTypeCorrect implements Built<ComposedDiscOptionalTypeCorrect, ComposedDiscOptionalTypeCorrectBuilder> {
   /// One Of [DiscOptionalTypeCorrect]
   OneOf get oneOf;
 
@@ -30,45 +27,35 @@ abstract class ComposedDiscOptionalTypeCorrect
 
   ComposedDiscOptionalTypeCorrect._();
 
-  factory ComposedDiscOptionalTypeCorrect(
-          [void updates(ComposedDiscOptionalTypeCorrectBuilder b)]) =
-      _$ComposedDiscOptionalTypeCorrect;
+  factory ComposedDiscOptionalTypeCorrect([void updates(ComposedDiscOptionalTypeCorrectBuilder b)]) = _$ComposedDiscOptionalTypeCorrect;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ComposedDiscOptionalTypeCorrectBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ComposedDiscOptionalTypeCorrect> get serializer =>
-      _$ComposedDiscOptionalTypeCorrectSerializer();
+  static Serializer<ComposedDiscOptionalTypeCorrect> get serializer => _$ComposedDiscOptionalTypeCorrectSerializer();
 }
 
-extension ComposedDiscOptionalTypeCorrectDiscriminatorExt
-    on ComposedDiscOptionalTypeCorrect {
-  String? get discriminatorValue {
-    if (this is DiscOptionalTypeCorrect) {
-      return r'DiscOptionalTypeCorrect';
+extension ComposedDiscOptionalTypeCorrectDiscriminatorExt on ComposedDiscOptionalTypeCorrect {
+    String? get discriminatorValue {
+        if (this is DiscOptionalTypeCorrect) {
+            return r'DiscOptionalTypeCorrect';
+        }
+        return null;
     }
-    return null;
-  }
 }
-
-extension ComposedDiscOptionalTypeCorrectBuilderDiscriminatorExt
-    on ComposedDiscOptionalTypeCorrectBuilder {
-  String? get discriminatorValue {
-    if (this is DiscOptionalTypeCorrectBuilder) {
-      return r'DiscOptionalTypeCorrect';
+extension ComposedDiscOptionalTypeCorrectBuilderDiscriminatorExt on ComposedDiscOptionalTypeCorrectBuilder {
+    String? get discriminatorValue {
+        if (this is DiscOptionalTypeCorrectBuilder) {
+            return r'DiscOptionalTypeCorrect';
+        }
+        return null;
     }
-    return null;
-  }
 }
 
-class _$ComposedDiscOptionalTypeCorrectSerializer
-    implements PrimitiveSerializer<ComposedDiscOptionalTypeCorrect> {
+class _$ComposedDiscOptionalTypeCorrectSerializer implements PrimitiveSerializer<ComposedDiscOptionalTypeCorrect> {
   @override
-  final Iterable<Type> types = const [
-    ComposedDiscOptionalTypeCorrect,
-    _$ComposedDiscOptionalTypeCorrect
-  ];
+  final Iterable<Type> types = const [ComposedDiscOptionalTypeCorrect, _$ComposedDiscOptionalTypeCorrect];
 
   @override
   final String wireName = r'ComposedDiscOptionalTypeCorrect';
@@ -77,7 +64,8 @@ class _$ComposedDiscOptionalTypeCorrectSerializer
     Serializers serializers,
     ComposedDiscOptionalTypeCorrect object, {
     FullType specifiedType = FullType.unspecified,
-  }) sync* {}
+  }) sync* {
+  }
 
   @override
   Object serialize(
@@ -86,8 +74,7 @@ class _$ComposedDiscOptionalTypeCorrectSerializer
     FullType specifiedType = FullType.unspecified,
   }) {
     final oneOf = object.oneOf;
-    return serializers.serialize(oneOf.value,
-        specifiedType: FullType(oneOf.valueType))!;
+    return serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType))!;
   }
 
   @override
@@ -99,15 +86,10 @@ class _$ComposedDiscOptionalTypeCorrectSerializer
     final result = ComposedDiscOptionalTypeCorrectBuilder();
     Object? oneOfDataSrc;
     final serializedList = (serialized as Iterable<Object?>).toList();
-    final discIndex = serializedList
-            .indexOf(ComposedDiscOptionalTypeCorrect.discriminatorFieldName) +
-        1;
-    final discValue = serializers.deserialize(serializedList[discIndex],
-        specifiedType: FullType(String)) as String;
+    final discIndex = serializedList.indexOf(ComposedDiscOptionalTypeCorrect.discriminatorFieldName) + 1;
+    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     oneOfDataSrc = serialized;
-    final oneOfTypes = [
-      DiscOptionalTypeCorrect,
-    ];
+    final oneOfTypes = [DiscOptionalTypeCorrect, ];
     Object oneOfResult;
     Type oneOfType;
     switch (discValue) {
@@ -119,13 +101,11 @@ class _$ComposedDiscOptionalTypeCorrectSerializer
         oneOfType = DiscOptionalTypeCorrect;
         break;
       default:
-        throw UnsupportedError(
-            "Couldn't deserialize oneOf for the discriminator value: ${discValue}");
+        throw UnsupportedError("Couldn't deserialize oneOf for the discriminator value: ${discValue}");
     }
-    result.oneOf = OneOfDynamic(
-        typeIndex: oneOfTypes.indexOf(oneOfType),
-        types: oneOfTypes,
-        value: oneOfResult);
+    result.oneOf = OneOfDynamic(typeIndex: oneOfTypes.indexOf(oneOfType), types: oneOfTypes, value: oneOfResult);
     return result.build();
   }
 }
+    
+

@@ -11,12 +11,11 @@ part 'outer_composite.g.dart';
 /// OuterComposite
 ///
 /// Properties:
-/// * [myNumber]
-/// * [myString]
-/// * [myBoolean]
+/// * [myNumber] 
+/// * [myString] 
+/// * [myBoolean] 
 @BuiltValue()
-abstract class OuterComposite
-    implements Built<OuterComposite, OuterCompositeBuilder> {
+abstract class OuterComposite implements Built<OuterComposite, OuterCompositeBuilder> {
   @BuiltValueField(wireName: r'my_number')
   num? get myNumber;
 
@@ -28,19 +27,16 @@ abstract class OuterComposite
 
   OuterComposite._();
 
-  factory OuterComposite([void updates(OuterCompositeBuilder b)]) =
-      _$OuterComposite;
+  factory OuterComposite([void updates(OuterCompositeBuilder b)]) = _$OuterComposite;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(OuterCompositeBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<OuterComposite> get serializer =>
-      _$OuterCompositeSerializer();
+  static Serializer<OuterComposite> get serializer => _$OuterCompositeSerializer();
 }
 
-class _$OuterCompositeSerializer
-    implements PrimitiveSerializer<OuterComposite> {
+class _$OuterCompositeSerializer implements PrimitiveSerializer<OuterComposite> {
   @override
   final Iterable<Type> types = const [OuterComposite, _$OuterComposite];
 
@@ -81,9 +77,7 @@ class _$OuterCompositeSerializer
     OuterComposite object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -147,3 +141,7 @@ class _$OuterCompositeSerializer
     return result.build();
   }
 }
+    
+    
+    
+

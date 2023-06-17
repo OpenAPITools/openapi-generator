@@ -11,11 +11,10 @@ part 'banana_req_disc.g.dart';
 /// BananaReqDisc
 ///
 /// Properties:
-/// * [length]
-/// * [fruitType]
+/// * [length] 
+/// * [fruitType] 
 @BuiltValue()
-abstract class BananaReqDisc
-    implements Built<BananaReqDisc, BananaReqDiscBuilder> {
+abstract class BananaReqDisc implements Built<BananaReqDisc, BananaReqDiscBuilder> {
   @BuiltValueField(wireName: r'length')
   int get length;
 
@@ -24,15 +23,13 @@ abstract class BananaReqDisc
 
   BananaReqDisc._();
 
-  factory BananaReqDisc([void updates(BananaReqDiscBuilder b)]) =
-      _$BananaReqDisc;
+  factory BananaReqDisc([void updates(BananaReqDiscBuilder b)]) = _$BananaReqDisc;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(BananaReqDiscBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<BananaReqDisc> get serializer =>
-      _$BananaReqDiscSerializer();
+  static Serializer<BananaReqDisc> get serializer => _$BananaReqDiscSerializer();
 }
 
 class _$BananaReqDiscSerializer implements PrimitiveSerializer<BananaReqDisc> {
@@ -65,9 +62,7 @@ class _$BananaReqDiscSerializer implements PrimitiveSerializer<BananaReqDisc> {
     BananaReqDisc object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -124,3 +119,6 @@ class _$BananaReqDiscSerializer implements PrimitiveSerializer<BananaReqDisc> {
     return result.build();
   }
 }
+    
+    
+

@@ -11,35 +11,26 @@ part 'disc_missing_from_properties.g.dart';
 /// DiscMissingFromProperties
 ///
 /// Properties:
-/// * [length]
+/// * [length] 
 @BuiltValue()
-abstract class DiscMissingFromProperties
-    implements
-        Built<DiscMissingFromProperties, DiscMissingFromPropertiesBuilder> {
+abstract class DiscMissingFromProperties implements Built<DiscMissingFromProperties, DiscMissingFromPropertiesBuilder> {
   @BuiltValueField(wireName: r'length')
   int? get length;
 
   DiscMissingFromProperties._();
 
-  factory DiscMissingFromProperties(
-          [void updates(DiscMissingFromPropertiesBuilder b)]) =
-      _$DiscMissingFromProperties;
+  factory DiscMissingFromProperties([void updates(DiscMissingFromPropertiesBuilder b)]) = _$DiscMissingFromProperties;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(DiscMissingFromPropertiesBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<DiscMissingFromProperties> get serializer =>
-      _$DiscMissingFromPropertiesSerializer();
+  static Serializer<DiscMissingFromProperties> get serializer => _$DiscMissingFromPropertiesSerializer();
 }
 
-class _$DiscMissingFromPropertiesSerializer
-    implements PrimitiveSerializer<DiscMissingFromProperties> {
+class _$DiscMissingFromPropertiesSerializer implements PrimitiveSerializer<DiscMissingFromProperties> {
   @override
-  final Iterable<Type> types = const [
-    DiscMissingFromProperties,
-    _$DiscMissingFromProperties
-  ];
+  final Iterable<Type> types = const [DiscMissingFromProperties, _$DiscMissingFromProperties];
 
   @override
   final String wireName = r'DiscMissingFromProperties';
@@ -64,9 +55,7 @@ class _$DiscMissingFromPropertiesSerializer
     DiscMissingFromProperties object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -116,3 +105,5 @@ class _$DiscMissingFromPropertiesSerializer
     return result.build();
   }
 }
+    
+

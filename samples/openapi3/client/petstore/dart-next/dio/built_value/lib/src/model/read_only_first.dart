@@ -11,11 +11,10 @@ part 'read_only_first.g.dart';
 /// ReadOnlyFirst
 ///
 /// Properties:
-/// * [bar]
-/// * [baz]
+/// * [bar] 
+/// * [baz] 
 @BuiltValue()
-abstract class ReadOnlyFirst
-    implements Built<ReadOnlyFirst, ReadOnlyFirstBuilder> {
+abstract class ReadOnlyFirst implements Built<ReadOnlyFirst, ReadOnlyFirstBuilder> {
   @BuiltValueField(wireName: r'bar')
   String? get bar;
 
@@ -24,15 +23,13 @@ abstract class ReadOnlyFirst
 
   ReadOnlyFirst._();
 
-  factory ReadOnlyFirst([void updates(ReadOnlyFirstBuilder b)]) =
-      _$ReadOnlyFirst;
+  factory ReadOnlyFirst([void updates(ReadOnlyFirstBuilder b)]) = _$ReadOnlyFirst;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ReadOnlyFirstBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ReadOnlyFirst> get serializer =>
-      _$ReadOnlyFirstSerializer();
+  static Serializer<ReadOnlyFirst> get serializer => _$ReadOnlyFirstSerializer();
 }
 
 class _$ReadOnlyFirstSerializer implements PrimitiveSerializer<ReadOnlyFirst> {
@@ -69,9 +66,7 @@ class _$ReadOnlyFirstSerializer implements PrimitiveSerializer<ReadOnlyFirst> {
     ReadOnlyFirst object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -128,3 +123,6 @@ class _$ReadOnlyFirstSerializer implements PrimitiveSerializer<ReadOnlyFirst> {
     return result.build();
   }
 }
+    
+    
+

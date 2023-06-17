@@ -12,28 +12,24 @@ part 'array_of_number_only.g.dart';
 /// ArrayOfNumberOnly
 ///
 /// Properties:
-/// * [arrayNumber]
+/// * [arrayNumber] 
 @BuiltValue()
-abstract class ArrayOfNumberOnly
-    implements Built<ArrayOfNumberOnly, ArrayOfNumberOnlyBuilder> {
+abstract class ArrayOfNumberOnly implements Built<ArrayOfNumberOnly, ArrayOfNumberOnlyBuilder> {
   @BuiltValueField(wireName: r'ArrayNumber')
   BuiltList<num>? get arrayNumber;
 
   ArrayOfNumberOnly._();
 
-  factory ArrayOfNumberOnly([void updates(ArrayOfNumberOnlyBuilder b)]) =
-      _$ArrayOfNumberOnly;
+  factory ArrayOfNumberOnly([void updates(ArrayOfNumberOnlyBuilder b)]) = _$ArrayOfNumberOnly;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(ArrayOfNumberOnlyBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<ArrayOfNumberOnly> get serializer =>
-      _$ArrayOfNumberOnlySerializer();
+  static Serializer<ArrayOfNumberOnly> get serializer => _$ArrayOfNumberOnlySerializer();
 }
 
-class _$ArrayOfNumberOnlySerializer
-    implements PrimitiveSerializer<ArrayOfNumberOnly> {
+class _$ArrayOfNumberOnlySerializer implements PrimitiveSerializer<ArrayOfNumberOnly> {
   @override
   final Iterable<Type> types = const [ArrayOfNumberOnly, _$ArrayOfNumberOnly];
 
@@ -60,9 +56,7 @@ class _$ArrayOfNumberOnlySerializer
     ArrayOfNumberOnly object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -112,3 +106,5 @@ class _$ArrayOfNumberOnlySerializer
     return result.build();
   }
 }
+    
+

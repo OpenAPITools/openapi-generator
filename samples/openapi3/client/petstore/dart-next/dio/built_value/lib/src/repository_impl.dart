@@ -2,6 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -15,42 +16,36 @@ import 'serializers.dart';
 FullType typeInfoToFullType(TypeInfo info) {
   if (info.nullable) {
     return FullType.nullable(
-      info.root,
-      info.parameters.map(typeInfoToFullType).toList(),
-    );
+        info.root, info.parameters.map(typeInfoToFullType).toList(),);
   } else {
     return FullType(
-      info.root,
-      info.parameters.map(typeInfoToFullType).toList(),
-    );
+        info.root, info.parameters.map(typeInfoToFullType).toList(),);
   }
 }
 
 class BuiltValueJsonRepository extends SerializationRepositoryBase {
-  final Serializers serializers;
-  const BuiltValueJsonRepository(this.serializers);
+    final Serializers serializers;
+    const BuiltValueJsonRepository(this.serializers);
 
-  @override
-  FutureOr<T> deserialize<T>(Object? value, TypeInfo targetTypeInfo,
-      {Object? context}) {
-    if (value is T) {
-      return value;
+    @override
+    FutureOr<T> deserialize<T>(Object? value, TypeInfo targetTypeInfo, {Object? context}) {      
+      if (value is T) {
+        return value;
+      }
+      return serializers.deserialize(
+        value, 
+        specifiedType: typeInfoToFullType(targetTypeInfo),
+      ) as T;
     }
-    return serializers.deserialize(
-      value,
-      specifiedType: typeInfoToFullType(targetTypeInfo),
-    ) as T;
-  }
-
-  @override
-  FutureOr<Object?> serialize<T>(T src, TypeInfo inputTypeInfo,
-      {Object? context}) {
-    if (src == null) {
-      return null;
+    
+    @override
+    FutureOr<Object?> serialize<T>(T src, TypeInfo inputTypeInfo, {Object? context}) {
+      if (src == null) {
+        return null;
+      }
+      return serializers.serialize(
+        src,
+        specifiedType: typeInfoToFullType(inputTypeInfo),
+      ) as Object;
     }
-    return serializers.serialize(
-      src,
-      specifiedType: typeInfoToFullType(inputTypeInfo),
-    ) as Object;
-  }
 }

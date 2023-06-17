@@ -16,16 +16,17 @@ import 'package:openapi/src/model/bar_create.dart';
 part 'bar_api.g.dart';
 
 class BarApi {
+
   final BarApiRaw rawApi;
   final SerializationRepositoryBase _repository;
 
   const BarApi(this.rawApi, this._repository);
 
   /// Create a Bar
-  ///
+  /// 
   ///
   /// Parameters:
-  /// * [barCreate]
+  /// * [barCreate] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -35,7 +36,7 @@ class BarApi {
   ///
   /// Returns a [Future] containing a [Response] with a [Bar] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Bar>> createBar({
+  Future<Response<Bar>> createBar({ 
     required BarCreate barCreate,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -43,12 +44,18 @@ class BarApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
     Object? _bodyData;
-    _bodyData =
-        encodeBodyParameter(_repository, barCreate, const TypeInfo(BarCreate));
+    _bodyData = encodeBodyParameter(_repository, barCreate, const TypeInfo(
+        
+    
+    BarCreate
+    )
+
+);    
 
     final _response = await rawApi.createBar(
+      
       body: _bodyData,
       requestContentType: 'application/json',
       cancelToken: cancelToken,
@@ -57,15 +64,19 @@ class BarApi {
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     Bar? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(_repository, rawResponse, const TypeInfo(Bar));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+        
+    Bar
+    
+    )
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -87,18 +98,19 @@ class BarApi {
       extra: _response.extra,
     );
   }
-}
 
+}
 class BarApiRaw {
+
   final Dio _dio;
 
   const BarApiRaw(this._dio);
 
   /// Create a Bar
-  ///
+  /// 
   ///
   /// Parameters:
-  /// * [barCreate]
+  /// * [barCreate] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -108,7 +120,7 @@ class BarApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [Bar] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> createBar({
+  Future<Response<Object>> createBar({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -145,4 +157,8 @@ class BarApiRaw {
       onReceiveProgress: onReceiveProgress,
     );
   }
+
 }
+
+
+

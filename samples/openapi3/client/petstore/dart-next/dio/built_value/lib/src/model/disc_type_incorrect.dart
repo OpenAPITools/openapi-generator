@@ -11,28 +11,24 @@ part 'disc_type_incorrect.g.dart';
 /// DiscTypeIncorrect
 ///
 /// Properties:
-/// * [fruitType]
+/// * [fruitType] 
 @BuiltValue()
-abstract class DiscTypeIncorrect
-    implements Built<DiscTypeIncorrect, DiscTypeIncorrectBuilder> {
+abstract class DiscTypeIncorrect implements Built<DiscTypeIncorrect, DiscTypeIncorrectBuilder> {
   @BuiltValueField(wireName: r'fruitType')
   int get fruitType;
 
   DiscTypeIncorrect._();
 
-  factory DiscTypeIncorrect([void updates(DiscTypeIncorrectBuilder b)]) =
-      _$DiscTypeIncorrect;
+  factory DiscTypeIncorrect([void updates(DiscTypeIncorrectBuilder b)]) = _$DiscTypeIncorrect;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(DiscTypeIncorrectBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<DiscTypeIncorrect> get serializer =>
-      _$DiscTypeIncorrectSerializer();
+  static Serializer<DiscTypeIncorrect> get serializer => _$DiscTypeIncorrectSerializer();
 }
 
-class _$DiscTypeIncorrectSerializer
-    implements PrimitiveSerializer<DiscTypeIncorrect> {
+class _$DiscTypeIncorrectSerializer implements PrimitiveSerializer<DiscTypeIncorrect> {
   @override
   final Iterable<Type> types = const [DiscTypeIncorrect, _$DiscTypeIncorrect];
 
@@ -57,9 +53,7 @@ class _$DiscTypeIncorrectSerializer
     DiscTypeIncorrect object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -109,3 +103,5 @@ class _$DiscTypeIncorrectSerializer
     return result.build();
   }
 }
+    
+

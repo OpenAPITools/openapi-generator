@@ -11,11 +11,10 @@ part 'fruit_inline_disc_one_of1.g.dart';
 /// FruitInlineDiscOneOf1
 ///
 /// Properties:
-/// * [length]
-/// * [fruitType]
+/// * [length] 
+/// * [fruitType] 
 @BuiltValue()
-abstract class FruitInlineDiscOneOf1
-    implements Built<FruitInlineDiscOneOf1, FruitInlineDiscOneOf1Builder> {
+abstract class FruitInlineDiscOneOf1 implements Built<FruitInlineDiscOneOf1, FruitInlineDiscOneOf1Builder> {
   @BuiltValueField(wireName: r'length')
   int get length;
 
@@ -24,24 +23,18 @@ abstract class FruitInlineDiscOneOf1
 
   FruitInlineDiscOneOf1._();
 
-  factory FruitInlineDiscOneOf1(
-      [void updates(FruitInlineDiscOneOf1Builder b)]) = _$FruitInlineDiscOneOf1;
+  factory FruitInlineDiscOneOf1([void updates(FruitInlineDiscOneOf1Builder b)]) = _$FruitInlineDiscOneOf1;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(FruitInlineDiscOneOf1Builder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FruitInlineDiscOneOf1> get serializer =>
-      _$FruitInlineDiscOneOf1Serializer();
+  static Serializer<FruitInlineDiscOneOf1> get serializer => _$FruitInlineDiscOneOf1Serializer();
 }
 
-class _$FruitInlineDiscOneOf1Serializer
-    implements PrimitiveSerializer<FruitInlineDiscOneOf1> {
+class _$FruitInlineDiscOneOf1Serializer implements PrimitiveSerializer<FruitInlineDiscOneOf1> {
   @override
-  final Iterable<Type> types = const [
-    FruitInlineDiscOneOf1,
-    _$FruitInlineDiscOneOf1
-  ];
+  final Iterable<Type> types = const [FruitInlineDiscOneOf1, _$FruitInlineDiscOneOf1];
 
   @override
   final String wireName = r'FruitInlineDiscOneOf1';
@@ -69,9 +62,7 @@ class _$FruitInlineDiscOneOf1Serializer
     FruitInlineDiscOneOf1 object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -128,3 +119,6 @@ class _$FruitInlineDiscOneOf1Serializer
     return result.build();
   }
 }
+    
+    
+

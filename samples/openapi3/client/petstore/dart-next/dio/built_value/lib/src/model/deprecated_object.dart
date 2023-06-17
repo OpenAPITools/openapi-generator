@@ -11,29 +11,25 @@ part 'deprecated_object.g.dart';
 /// DeprecatedObject
 ///
 /// Properties:
-/// * [name]
+/// * [name] 
 @Deprecated('DeprecatedObject has been deprecated')
 @BuiltValue()
-abstract class DeprecatedObject
-    implements Built<DeprecatedObject, DeprecatedObjectBuilder> {
+abstract class DeprecatedObject implements Built<DeprecatedObject, DeprecatedObjectBuilder> {
   @BuiltValueField(wireName: r'name')
   String? get name;
 
   DeprecatedObject._();
 
-  factory DeprecatedObject([void updates(DeprecatedObjectBuilder b)]) =
-      _$DeprecatedObject;
+  factory DeprecatedObject([void updates(DeprecatedObjectBuilder b)]) = _$DeprecatedObject;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(DeprecatedObjectBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<DeprecatedObject> get serializer =>
-      _$DeprecatedObjectSerializer();
+  static Serializer<DeprecatedObject> get serializer => _$DeprecatedObjectSerializer();
 }
 
-class _$DeprecatedObjectSerializer
-    implements PrimitiveSerializer<DeprecatedObject> {
+class _$DeprecatedObjectSerializer implements PrimitiveSerializer<DeprecatedObject> {
   @override
   final Iterable<Type> types = const [DeprecatedObject, _$DeprecatedObject];
 
@@ -60,9 +56,7 @@ class _$DeprecatedObjectSerializer
     DeprecatedObject object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -112,3 +106,5 @@ class _$DeprecatedObjectSerializer
     return result.build();
   }
 }
+    
+

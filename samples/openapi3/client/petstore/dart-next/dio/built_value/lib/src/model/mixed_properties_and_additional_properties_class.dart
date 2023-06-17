@@ -13,14 +13,11 @@ part 'mixed_properties_and_additional_properties_class.g.dart';
 /// MixedPropertiesAndAdditionalPropertiesClass
 ///
 /// Properties:
-/// * [uuid]
-/// * [dateTime]
-/// * [map]
+/// * [uuid] 
+/// * [dateTime] 
+/// * [map] 
 @BuiltValue()
-abstract class MixedPropertiesAndAdditionalPropertiesClass
-    implements
-        Built<MixedPropertiesAndAdditionalPropertiesClass,
-            MixedPropertiesAndAdditionalPropertiesClassBuilder> {
+abstract class MixedPropertiesAndAdditionalPropertiesClass implements Built<MixedPropertiesAndAdditionalPropertiesClass, MixedPropertiesAndAdditionalPropertiesClassBuilder> {
   @BuiltValueField(wireName: r'uuid')
   String? get uuid;
 
@@ -32,29 +29,18 @@ abstract class MixedPropertiesAndAdditionalPropertiesClass
 
   MixedPropertiesAndAdditionalPropertiesClass._();
 
-  factory MixedPropertiesAndAdditionalPropertiesClass(
-          [void updates(
-              MixedPropertiesAndAdditionalPropertiesClassBuilder b)]) =
-      _$MixedPropertiesAndAdditionalPropertiesClass;
+  factory MixedPropertiesAndAdditionalPropertiesClass([void updates(MixedPropertiesAndAdditionalPropertiesClassBuilder b)]) = _$MixedPropertiesAndAdditionalPropertiesClass;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(MixedPropertiesAndAdditionalPropertiesClassBuilder b) =>
-      b;
+  static void _defaults(MixedPropertiesAndAdditionalPropertiesClassBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<MixedPropertiesAndAdditionalPropertiesClass>
-      get serializer =>
-          _$MixedPropertiesAndAdditionalPropertiesClassSerializer();
+  static Serializer<MixedPropertiesAndAdditionalPropertiesClass> get serializer => _$MixedPropertiesAndAdditionalPropertiesClassSerializer();
 }
 
-class _$MixedPropertiesAndAdditionalPropertiesClassSerializer
-    implements
-        PrimitiveSerializer<MixedPropertiesAndAdditionalPropertiesClass> {
+class _$MixedPropertiesAndAdditionalPropertiesClassSerializer implements PrimitiveSerializer<MixedPropertiesAndAdditionalPropertiesClass> {
   @override
-  final Iterable<Type> types = const [
-    MixedPropertiesAndAdditionalPropertiesClass,
-    _$MixedPropertiesAndAdditionalPropertiesClass
-  ];
+  final Iterable<Type> types = const [MixedPropertiesAndAdditionalPropertiesClass, _$MixedPropertiesAndAdditionalPropertiesClass];
 
   @override
   final String wireName = r'MixedPropertiesAndAdditionalPropertiesClass';
@@ -82,8 +68,7 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer
       yield r'map';
       yield serializers.serialize(
         object.map,
-        specifiedType:
-            const FullType(BuiltMap, [FullType(String), FullType(Animal)]),
+        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)]),
       );
     }
   }
@@ -94,9 +79,7 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer
     MixedPropertiesAndAdditionalPropertiesClass object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -128,8 +111,7 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer
         case r'map':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType:
-                const FullType(BuiltMap, [FullType(String), FullType(Animal)]),
+            specifiedType: const FullType(BuiltMap, [FullType(String), FullType(Animal)]),
           ) as BuiltMap<String, Animal>;
           result.map.replace(valueDes);
           break;
@@ -161,3 +143,7 @@ class _$MixedPropertiesAndAdditionalPropertiesClassSerializer
     return result.build();
   }
 }
+    
+    
+    
+

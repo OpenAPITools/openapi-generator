@@ -16,6 +16,7 @@ import 'package:openapi/src/model/user.dart';
 part 'user_api.g.dart';
 
 class UserApi {
+
   final UserApiRaw rawApi;
   final SerializationRepositoryBase _repository;
 
@@ -35,7 +36,7 @@ class UserApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> createUser({
+  Future<Response<void>> createUser({ 
     required User user,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -43,11 +44,18 @@ class UserApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, user, const TypeInfo(User));
+    _bodyData = encodeBodyParameter(_repository, user, const TypeInfo(
+        
+    
+    User
+    )
+
+);    
 
     final _response = await rawApi.createUser(
+      
       body: _bodyData,
       requestContentType: 'application/json',
       cancelToken: cancelToken,
@@ -56,13 +64,13 @@ class UserApi {
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     return _response;
   }
 
   /// Creates list of users with given input array
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [user] - List of user object
@@ -75,7 +83,7 @@ class UserApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> createUsersWithArrayInput({
+  Future<Response<void>> createUsersWithArrayInput({ 
     required BuiltList<User> user,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -83,16 +91,24 @@ class UserApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(
-        _repository,
-        user,
-        const TypeInfo(BuiltList, [
-          const TypeInfo(User),
-        ]));
+    _bodyData = encodeBodyParameter(_repository, user, const TypeInfo(
+    BuiltList, [
+        
+        const TypeInfo(
+        
+    User
+    
+    )
+
+,
+    ])
+
+);    
 
     final _response = await rawApi.createUsersWithArrayInput(
+      
       body: _bodyData,
       requestContentType: 'application/json',
       cancelToken: cancelToken,
@@ -101,13 +117,13 @@ class UserApi {
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     return _response;
   }
 
   /// Creates list of users with given input array
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [user] - List of user object
@@ -120,7 +136,7 @@ class UserApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> createUsersWithListInput({
+  Future<Response<void>> createUsersWithListInput({ 
     required BuiltList<User> user,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -128,16 +144,24 @@ class UserApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(
-        _repository,
-        user,
-        const TypeInfo(BuiltList, [
-          const TypeInfo(User),
-        ]));
+    _bodyData = encodeBodyParameter(_repository, user, const TypeInfo(
+    BuiltList, [
+        
+        const TypeInfo(
+        
+    User
+    
+    )
+
+,
+    ])
+
+);    
 
     final _response = await rawApi.createUsersWithListInput(
+      
       body: _bodyData,
       requestContentType: 'application/json',
       cancelToken: cancelToken,
@@ -146,7 +170,7 @@ class UserApi {
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     return _response;
   }
@@ -165,7 +189,7 @@ class UserApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> deleteUser({
+  Future<Response<void>> deleteUser({ 
     required String username,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -173,23 +197,31 @@ class UserApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.deleteUser(
-      username:
-          encodeStringParameter(_repository, username, const TypeInfo(String)),
+      
+      username: encodeStringParameter(_repository, username, const TypeInfo(
+        
+    
+    String
+    )
+
+),
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     return _response;
   }
 
   /// Get user by user name
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [username] - The name that needs to be fetched. Use user1 for testing.
@@ -202,7 +234,7 @@ class UserApi {
   ///
   /// Returns a [Future] containing a [Response] with a [User] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<User>> getUserByName({
+  Future<Response<User>> getUserByName({ 
     required String username,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -210,25 +242,37 @@ class UserApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.getUserByName(
-      username:
-          encodeStringParameter(_repository, username, const TypeInfo(String)),
+      
+      username: encodeStringParameter(_repository, username, const TypeInfo(
+        
+    
+    String
+    )
+
+),
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     User? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(_repository, rawResponse, const TypeInfo(User));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+        
+    User
+    
+    )
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -252,7 +296,7 @@ class UserApi {
   }
 
   /// Logs user into the system
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [username] - The user name for login
@@ -266,7 +310,7 @@ class UserApi {
   ///
   /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<String>> loginUser({
+  Future<Response<String>> loginUser({ 
     required String username,
     required String password,
     CancelToken? cancelToken,
@@ -275,33 +319,44 @@ class UserApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.loginUser(
-      username: encodeQueryParameter(
-        _repository,
-        username,
-        const TypeInfo(String),
-      ),
-      password: encodeQueryParameter(
-        _repository,
-        password,
-        const TypeInfo(String),
-      ),
+            
+      username: encodeQueryParameter(_repository, username, const TypeInfo(
+        
+    
+    String
+    )
+
+, ),      
+      password: encodeQueryParameter(_repository, password, const TypeInfo(
+        
+    
+    String
+    )
+
+, ),
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     String? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(_repository, rawResponse, const TypeInfo(String));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+        
+    String
+    
+    )
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -325,7 +380,7 @@ class UserApi {
   }
 
   /// Logs out current logged in user session
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -337,22 +392,25 @@ class UserApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> logoutUser({
+  Future<Response<void>> logoutUser({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.logoutUser(
+      
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     return _response;
   }
@@ -372,7 +430,7 @@ class UserApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> updateUser({
+  Future<Response<void>> updateUser({ 
     required String username,
     required User user,
     CancelToken? cancelToken,
@@ -381,13 +439,25 @@ class UserApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, user, const TypeInfo(User));
+    _bodyData = encodeBodyParameter(_repository, user, const TypeInfo(
+        
+    
+    User
+    )
+
+);    
 
     final _response = await rawApi.updateUser(
-      username:
-          encodeStringParameter(_repository, username, const TypeInfo(String)),
+      
+      username: encodeStringParameter(_repository, username, const TypeInfo(
+        
+    
+    String
+    )
+
+),
       body: _bodyData,
       requestContentType: 'application/json',
       cancelToken: cancelToken,
@@ -396,13 +466,14 @@ class UserApi {
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     return _response;
   }
-}
 
+}
 class UserApiRaw {
+
   final Dio _dio;
 
   const UserApiRaw(this._dio);
@@ -421,7 +492,7 @@ class UserApiRaw {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> createUser({
+  Future<Response<void>> createUser({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -460,7 +531,7 @@ class UserApiRaw {
   }
 
   /// Creates list of users with given input array
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [user] - List of user object
@@ -473,7 +544,7 @@ class UserApiRaw {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> createUsersWithArrayInput({
+  Future<Response<void>> createUsersWithArrayInput({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -512,7 +583,7 @@ class UserApiRaw {
   }
 
   /// Creates list of users with given input array
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [user] - List of user object
@@ -525,7 +596,7 @@ class UserApiRaw {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> createUsersWithListInput({
+  Future<Response<void>> createUsersWithListInput({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -577,7 +648,7 @@ class UserApiRaw {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> deleteUser({
+  Future<Response<void>> deleteUser({ 
     required String username,
     Object? body,
     String? requestContentType,
@@ -590,8 +661,7 @@ class UserApiRaw {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'
-        .replaceAll('{' r'username' '}', username.toString());
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', username.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -618,7 +688,7 @@ class UserApiRaw {
   }
 
   /// Get user by user name
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [username] - The name that needs to be fetched. Use user1 for testing.
@@ -631,7 +701,7 @@ class UserApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [User] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> getUserByName({
+  Future<Response<Object>> getUserByName({ 
     required String username,
     Object? body,
     String? requestContentType,
@@ -644,8 +714,7 @@ class UserApiRaw {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'
-        .replaceAll('{' r'username' '}', username.toString());
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', username.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -672,7 +741,7 @@ class UserApiRaw {
   }
 
   /// Logs user into the system
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [username] - The user name for login
@@ -686,7 +755,7 @@ class UserApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> loginUser({
+  Future<Response<Object>> loginUser({ 
     required Object username,
     required Object password,
     Object? body,
@@ -733,7 +802,7 @@ class UserApiRaw {
   }
 
   /// Logs out current logged in user session
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -745,7 +814,7 @@ class UserApiRaw {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> logoutUser({
+  Future<Response<void>> logoutUser({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -798,7 +867,7 @@ class UserApiRaw {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> updateUser({
+  Future<Response<void>> updateUser({ 
     required String username,
     Object? body,
     String? requestContentType,
@@ -811,8 +880,7 @@ class UserApiRaw {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'
-        .replaceAll('{' r'username' '}', username.toString());
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', username.toString());
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{
@@ -837,4 +905,16 @@ class UserApiRaw {
       onReceiveProgress: onReceiveProgress,
     );
   }
+
 }
+
+
+
+
+
+
+
+
+
+
+

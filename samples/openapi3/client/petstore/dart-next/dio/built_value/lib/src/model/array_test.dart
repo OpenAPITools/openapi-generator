@@ -13,9 +13,9 @@ part 'array_test.g.dart';
 /// ArrayTest
 ///
 /// Properties:
-/// * [arrayOfString]
-/// * [arrayArrayOfInteger]
-/// * [arrayArrayOfModel]
+/// * [arrayOfString] 
+/// * [arrayArrayOfInteger] 
+/// * [arrayArrayOfModel] 
 @BuiltValue()
 abstract class ArrayTest implements Built<ArrayTest, ArrayTestBuilder> {
   @BuiltValueField(wireName: r'array_of_string')
@@ -61,18 +61,14 @@ class _$ArrayTestSerializer implements PrimitiveSerializer<ArrayTest> {
       yield r'array_array_of_integer';
       yield serializers.serialize(
         object.arrayArrayOfInteger,
-        specifiedType: const FullType(BuiltList, [
-          FullType(BuiltList, [FullType(int)])
-        ]),
+        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(int)])]),
       );
     }
     if (object.arrayArrayOfModel != null) {
       yield r'array_array_of_model';
       yield serializers.serialize(
         object.arrayArrayOfModel,
-        specifiedType: const FullType(BuiltList, [
-          FullType(BuiltList, [FullType(ReadOnlyFirst)])
-        ]),
+        specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(ReadOnlyFirst)])]),
       );
     }
   }
@@ -83,9 +79,7 @@ class _$ArrayTestSerializer implements PrimitiveSerializer<ArrayTest> {
     ArrayTest object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -110,18 +104,14 @@ class _$ArrayTestSerializer implements PrimitiveSerializer<ArrayTest> {
         case r'array_array_of_integer':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [
-              FullType(BuiltList, [FullType(int)])
-            ]),
+            specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(int)])]),
           ) as BuiltList<BuiltList<int>>;
           result.arrayArrayOfInteger.replace(valueDes);
           break;
         case r'array_array_of_model':
           final valueDes = serializers.deserialize(
             value,
-            specifiedType: const FullType(BuiltList, [
-              FullType(BuiltList, [FullType(ReadOnlyFirst)])
-            ]),
+            specifiedType: const FullType(BuiltList, [FullType(BuiltList, [FullType(ReadOnlyFirst)])]),
           ) as BuiltList<BuiltList<ReadOnlyFirst>>;
           result.arrayArrayOfModel.replace(valueDes);
           break;
@@ -153,3 +143,7 @@ class _$ArrayTestSerializer implements PrimitiveSerializer<ArrayTest> {
     return result.build();
   }
 }
+    
+    
+    
+

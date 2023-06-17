@@ -12,35 +12,26 @@ part 'foo_basic_get_default_response.g.dart';
 /// FooBasicGetDefaultResponse
 ///
 /// Properties:
-/// * [string]
+/// * [string] 
 @BuiltValue()
-abstract class FooBasicGetDefaultResponse
-    implements
-        Built<FooBasicGetDefaultResponse, FooBasicGetDefaultResponseBuilder> {
+abstract class FooBasicGetDefaultResponse implements Built<FooBasicGetDefaultResponse, FooBasicGetDefaultResponseBuilder> {
   @BuiltValueField(wireName: r'string')
   Foo? get string;
 
   FooBasicGetDefaultResponse._();
 
-  factory FooBasicGetDefaultResponse(
-          [void updates(FooBasicGetDefaultResponseBuilder b)]) =
-      _$FooBasicGetDefaultResponse;
+  factory FooBasicGetDefaultResponse([void updates(FooBasicGetDefaultResponseBuilder b)]) = _$FooBasicGetDefaultResponse;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(FooBasicGetDefaultResponseBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FooBasicGetDefaultResponse> get serializer =>
-      _$FooBasicGetDefaultResponseSerializer();
+  static Serializer<FooBasicGetDefaultResponse> get serializer => _$FooBasicGetDefaultResponseSerializer();
 }
 
-class _$FooBasicGetDefaultResponseSerializer
-    implements PrimitiveSerializer<FooBasicGetDefaultResponse> {
+class _$FooBasicGetDefaultResponseSerializer implements PrimitiveSerializer<FooBasicGetDefaultResponse> {
   @override
-  final Iterable<Type> types = const [
-    FooBasicGetDefaultResponse,
-    _$FooBasicGetDefaultResponse
-  ];
+  final Iterable<Type> types = const [FooBasicGetDefaultResponse, _$FooBasicGetDefaultResponse];
 
   @override
   final String wireName = r'FooBasicGetDefaultResponse';
@@ -65,9 +56,7 @@ class _$FooBasicGetDefaultResponseSerializer
     FooBasicGetDefaultResponse object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -117,3 +106,5 @@ class _$FooBasicGetDefaultResponseSerializer
     return result.build();
   }
 }
+    
+

@@ -11,9 +11,9 @@ part 'fruit_type.g.dart';
 /// FruitType
 ///
 /// Properties:
-/// * [fruitType]
+/// * [fruitType] 
 @BuiltValue(instantiable: false)
-abstract class FruitType {
+abstract class FruitType  {
   @BuiltValueField(wireName: r'fruitType')
   String get fruitType;
 
@@ -46,9 +46,7 @@ class _$FruitTypeSerializer implements PrimitiveSerializer<FruitType> {
     FruitType object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   @override
@@ -57,19 +55,16 @@ class _$FruitTypeSerializer implements PrimitiveSerializer<FruitType> {
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return serializers.deserialize(serialized,
-        specifiedType: FullType($FruitType)) as $FruitType;
+    return serializers.deserialize(serialized, specifiedType: FullType($FruitType)) as $FruitType;
   }
 }
 
 /// a concrete implementation of [FruitType], since [FruitType] is not instantiable
 @BuiltValue(instantiable: true)
-abstract class $FruitType
-    implements FruitType, Built<$FruitType, $FruitTypeBuilder> {
+abstract class $FruitType implements FruitType, Built<$FruitType, $FruitTypeBuilder> {
   $FruitType._();
 
-  factory $FruitType([void Function($FruitTypeBuilder)? updates]) =
-      _$$FruitType;
+  factory $FruitType([void Function($FruitTypeBuilder)? updates]) = _$$FruitType;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults($FruitTypeBuilder b) => b;
@@ -141,3 +136,5 @@ class _$$FruitTypeSerializer implements PrimitiveSerializer<$FruitType> {
     return result.build();
   }
 }
+    
+

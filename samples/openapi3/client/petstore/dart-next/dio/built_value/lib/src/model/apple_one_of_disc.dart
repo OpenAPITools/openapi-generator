@@ -13,11 +13,10 @@ part 'apple_one_of_disc.g.dart';
 /// AppleOneOfDisc
 ///
 /// Properties:
-/// * [seeds]
-/// * [fruitType]
+/// * [seeds] 
+/// * [fruitType] 
 @BuiltValue()
-abstract class AppleOneOfDisc
-    implements Built<AppleOneOfDisc, AppleOneOfDiscBuilder> {
+abstract class AppleOneOfDisc implements Built<AppleOneOfDisc, AppleOneOfDiscBuilder> {
   @BuiltValueField(wireName: r'seeds')
   int get seeds;
 
@@ -26,19 +25,16 @@ abstract class AppleOneOfDisc
 
   AppleOneOfDisc._();
 
-  factory AppleOneOfDisc([void updates(AppleOneOfDiscBuilder b)]) =
-      _$AppleOneOfDisc;
+  factory AppleOneOfDisc([void updates(AppleOneOfDiscBuilder b)]) = _$AppleOneOfDisc;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(AppleOneOfDiscBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<AppleOneOfDisc> get serializer =>
-      _$AppleOneOfDiscSerializer();
+  static Serializer<AppleOneOfDisc> get serializer => _$AppleOneOfDiscSerializer();
 }
 
-class _$AppleOneOfDiscSerializer
-    implements PrimitiveSerializer<AppleOneOfDisc> {
+class _$AppleOneOfDiscSerializer implements PrimitiveSerializer<AppleOneOfDisc> {
   @override
   final Iterable<Type> types = const [AppleOneOfDisc, _$AppleOneOfDisc];
 
@@ -64,11 +60,8 @@ class _$AppleOneOfDiscSerializer
     FullType specifiedType = FullType.unspecified,
   }) {
     final oneOf = object.oneOf;
-    final result =
-        _serializeProperties(serializers, object, specifiedType: specifiedType)
-            .toList();
-    result.addAll(serializers.serialize(oneOf.value,
-        specifiedType: FullType(oneOf.valueType)) as Iterable<Object?>);
+    final result = _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    result.addAll(serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType)) as Iterable<Object?>);
     return result;
   }
 
@@ -107,9 +100,7 @@ class _$AppleOneOfDiscSerializer
   }) {
     final result = AppleOneOfDiscBuilder();
     Object? oneOfDataSrc;
-    final targetType = const FullType(OneOf, [
-      FullType(FruitType),
-    ]);
+    final targetType = const FullType(OneOf, [FullType(FruitType), ]);
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(
@@ -121,8 +112,10 @@ class _$AppleOneOfDiscSerializer
       result: result,
     );
     oneOfDataSrc = unhandled;
-    result.oneOf = serializers.deserialize(oneOfDataSrc,
-        specifiedType: targetType) as OneOf;
+    result.oneOf = serializers.deserialize(oneOfDataSrc, specifiedType: targetType) as OneOf;
     return result.build();
   }
 }
+    
+    
+

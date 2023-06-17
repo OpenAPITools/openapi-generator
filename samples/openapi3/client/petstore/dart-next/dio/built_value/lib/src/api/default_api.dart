@@ -20,13 +20,14 @@ import 'package:openapi/src/model/giga_one_of.dart';
 part 'default_api.g.dart';
 
 class DefaultApi {
+
   final DefaultApiRaw rawApi;
   final SerializationRepositoryBase _repository;
 
   const DefaultApi(this.rawApi, this._repository);
 
   /// fooBasicGet
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -38,31 +39,37 @@ class DefaultApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FooBasicGetDefaultResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FooBasicGetDefaultResponse>> fooBasicGet({
+  Future<Response<FooBasicGetDefaultResponse>> fooBasicGet({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.fooBasicGet(
+      
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     FooBasicGetDefaultResponse? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(_repository, rawResponse,
-              const TypeInfo(FooBasicGetDefaultResponse));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+        
+    FooBasicGetDefaultResponse
+    
+    )
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -86,7 +93,7 @@ class DefaultApi {
   }
 
   /// list
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -98,30 +105,37 @@ class DefaultApi {
   ///
   /// Returns a [Future] containing a [Response] with a [GigaOneOf] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<GigaOneOf>> list({
+  Future<Response<GigaOneOf>> list({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.list(
+      
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     GigaOneOf? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(_repository, rawResponse, const TypeInfo(GigaOneOf));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+        
+    GigaOneOf
+    
+    )
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -145,7 +159,7 @@ class DefaultApi {
   }
 
   /// oneofGet
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -157,30 +171,37 @@ class DefaultApi {
   ///
   /// Returns a [Future] containing a [Response] with a [Fruit] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Fruit>> oneofGet({
+  Future<Response<Fruit>> oneofGet({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.oneofGet(
+      
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     Fruit? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(_repository, rawResponse, const TypeInfo(Fruit));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+        
+    Fruit
+    
+    )
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -204,10 +225,10 @@ class DefaultApi {
   }
 
   /// test
-  ///
+  /// 
   ///
   /// Parameters:
-  /// * [body]
+  /// * [body] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -217,20 +238,26 @@ class DefaultApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> test({
-    JsonObject? body,
+  Future<Response<void>> test({ 
+     JsonObject? body,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(
-        _repository, body, const TypeInfo.nullable(JsonObject));
+    _bodyData = encodeBodyParameter(_repository, body, const TypeInfo.nullable(
+        
+    
+    JsonObject
+    )
+
+);    
 
     final _response = await rawApi.test(
+      
       body: _bodyData,
       requestContentType: 'application/json',
       cancelToken: cancelToken,
@@ -239,13 +266,13 @@ class DefaultApi {
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     return _response;
   }
 
   /// variant1Get
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -257,31 +284,37 @@ class DefaultApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FruitVariant1] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FruitVariant1>> variant1Get({
+  Future<Response<FruitVariant1>> variant1Get({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.variant1Get(
+      
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     FruitVariant1? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(
-              _repository, rawResponse, const TypeInfo(FruitVariant1));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+        
+    FruitVariant1
+    
+    )
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -305,7 +338,7 @@ class DefaultApi {
   }
 
   /// variant2Get
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -317,31 +350,37 @@ class DefaultApi {
   ///
   /// Returns a [Future] containing a [Response] with a [FruitAllOfDisc] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<FruitAllOfDisc>> variant2Get({
+  Future<Response<FruitAllOfDisc>> variant2Get({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.variant2Get(
+      
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     FruitAllOfDisc? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(
-              _repository, rawResponse, const TypeInfo(FruitAllOfDisc));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+        
+    FruitAllOfDisc
+    
+    )
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -363,15 +402,16 @@ class DefaultApi {
       extra: _response.extra,
     );
   }
-}
 
+}
 class DefaultApiRaw {
+
   final Dio _dio;
 
   const DefaultApiRaw(this._dio);
 
   /// fooBasicGet
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -383,7 +423,7 @@ class DefaultApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [FooBasicGetDefaultResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> fooBasicGet({
+  Future<Response<Object>> fooBasicGet({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -422,7 +462,7 @@ class DefaultApiRaw {
   }
 
   /// list
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -434,7 +474,7 @@ class DefaultApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [GigaOneOf] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> list({
+  Future<Response<Object>> list({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -473,7 +513,7 @@ class DefaultApiRaw {
   }
 
   /// oneofGet
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -485,7 +525,7 @@ class DefaultApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [Fruit] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> oneofGet({
+  Future<Response<Object>> oneofGet({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -524,10 +564,10 @@ class DefaultApiRaw {
   }
 
   /// test
-  ///
+  /// 
   ///
   /// Parameters:
-  /// * [body]
+  /// * [body] 
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -537,7 +577,7 @@ class DefaultApiRaw {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> test({
+  Future<Response<void>> test({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -576,7 +616,7 @@ class DefaultApiRaw {
   }
 
   /// variant1Get
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -588,7 +628,7 @@ class DefaultApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [FruitVariant1] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> variant1Get({
+  Future<Response<Object>> variant1Get({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -627,7 +667,7 @@ class DefaultApiRaw {
   }
 
   /// variant2Get
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
@@ -639,7 +679,7 @@ class DefaultApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [FruitAllOfDisc] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> variant2Get({
+  Future<Response<Object>> variant2Get({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -676,4 +716,8 @@ class DefaultApiRaw {
       onReceiveProgress: onReceiveProgress,
     );
   }
+
 }
+
+
+

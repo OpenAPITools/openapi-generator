@@ -13,11 +13,10 @@ part 'file_schema_test_class.g.dart';
 /// FileSchemaTestClass
 ///
 /// Properties:
-/// * [file]
-/// * [files]
+/// * [file] 
+/// * [files] 
 @BuiltValue()
-abstract class FileSchemaTestClass
-    implements Built<FileSchemaTestClass, FileSchemaTestClassBuilder> {
+abstract class FileSchemaTestClass implements Built<FileSchemaTestClass, FileSchemaTestClassBuilder> {
   @BuiltValueField(wireName: r'file')
   ModelFile? get file;
 
@@ -26,24 +25,18 @@ abstract class FileSchemaTestClass
 
   FileSchemaTestClass._();
 
-  factory FileSchemaTestClass([void updates(FileSchemaTestClassBuilder b)]) =
-      _$FileSchemaTestClass;
+  factory FileSchemaTestClass([void updates(FileSchemaTestClassBuilder b)]) = _$FileSchemaTestClass;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(FileSchemaTestClassBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<FileSchemaTestClass> get serializer =>
-      _$FileSchemaTestClassSerializer();
+  static Serializer<FileSchemaTestClass> get serializer => _$FileSchemaTestClassSerializer();
 }
 
-class _$FileSchemaTestClassSerializer
-    implements PrimitiveSerializer<FileSchemaTestClass> {
+class _$FileSchemaTestClassSerializer implements PrimitiveSerializer<FileSchemaTestClass> {
   @override
-  final Iterable<Type> types = const [
-    FileSchemaTestClass,
-    _$FileSchemaTestClass
-  ];
+  final Iterable<Type> types = const [FileSchemaTestClass, _$FileSchemaTestClass];
 
   @override
   final String wireName = r'FileSchemaTestClass';
@@ -75,9 +68,7 @@ class _$FileSchemaTestClassSerializer
     FileSchemaTestClass object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -134,3 +125,6 @@ class _$FileSchemaTestClassSerializer
     return result.build();
   }
 }
+    
+    
+

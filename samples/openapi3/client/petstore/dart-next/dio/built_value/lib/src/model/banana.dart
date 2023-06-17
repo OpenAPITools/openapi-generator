@@ -11,7 +11,7 @@ part 'banana.g.dart';
 /// Banana
 ///
 /// Properties:
-/// * [count]
+/// * [count] 
 @BuiltValue()
 abstract class Banana implements Built<Banana, BananaBuilder> {
   @BuiltValueField(wireName: r'count')
@@ -55,9 +55,7 @@ class _$BananaSerializer implements PrimitiveSerializer<Banana> {
     Banana object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    return _serializeProperties(serializers, object,
-            specifiedType: specifiedType)
-        .toList();
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -107,3 +105,5 @@ class _$BananaSerializer implements PrimitiveSerializer<Banana> {
     return result.build();
   }
 }
+    
+

@@ -16,6 +16,7 @@ import 'package:openapi/src/model/order.dart';
 part 'store_api.g.dart';
 
 class StoreApi {
+
   final StoreApiRaw rawApi;
   final SerializationRepositoryBase _repository;
 
@@ -35,7 +36,7 @@ class StoreApi {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> deleteOrder({
+  Future<Response<void>> deleteOrder({ 
     required String orderId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -43,17 +44,25 @@ class StoreApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.deleteOrder(
-      orderId:
-          encodeStringParameter(_repository, orderId, const TypeInfo(String)),
+      
+      orderId: encodeStringParameter(_repository, orderId, const TypeInfo(
+        
+    
+    String
+    )
+
+),
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     return _response;
   }
@@ -71,36 +80,43 @@ class StoreApi {
   ///
   /// Returns a [Future] containing a [Response] with a [BuiltMap<String, int>] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<BuiltMap<String, int>>> getInventory({
+  Future<Response<BuiltMap<String, int>>> getInventory({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.getInventory(
+      
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     BuiltMap<String, int>? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(
-              _repository,
-              rawResponse,
-              const TypeInfo(BuiltMap, [
-                TypeInfo(String),
-                const TypeInfo(int),
-              ]));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+    BuiltMap, [
+        TypeInfo(String), 
+        const TypeInfo(
+        
+    int
+    
+    )
+
+,
+    ])
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -137,7 +153,7 @@ class StoreApi {
   ///
   /// Returns a [Future] containing a [Response] with a [Order] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Order>> getOrderById({
+  Future<Response<Order>> getOrderById({ 
     required int orderId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -145,24 +161,37 @@ class StoreApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
+
     final _response = await rawApi.getOrderById(
-      orderId: encodeStringParameter(_repository, orderId, const TypeInfo(int)),
+      
+      orderId: encodeStringParameter(_repository, orderId, const TypeInfo(
+        
+    
+    int
+    )
+
+),
+
       cancelToken: cancelToken,
       headers: headers,
       extra: extra,
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     Order? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(_repository, rawResponse, const TypeInfo(Order));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+        
+    Order
+    
+    )
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -186,7 +215,7 @@ class StoreApi {
   }
 
   /// Place an order for a pet
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [order] - order placed for purchasing the pet
@@ -199,7 +228,7 @@ class StoreApi {
   ///
   /// Returns a [Future] containing a [Response] with a [Order] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Order>> placeOrder({
+  Future<Response<Order>> placeOrder({ 
     required Order order,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -207,11 +236,18 @@ class StoreApi {
     ValidateStatus? validateStatus,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
+  }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, order, const TypeInfo(Order));
+    _bodyData = encodeBodyParameter(_repository, order, const TypeInfo(
+        
+    
+    Order
+    )
+
+);    
 
     final _response = await rawApi.placeOrder(
+      
       body: _bodyData,
       requestContentType: 'application/json',
       cancelToken: cancelToken,
@@ -220,15 +256,19 @@ class StoreApi {
       validateStatus: validateStatus,
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
-    );
+    );    
 
     Order? _responseData;
 
     try {
       final rawResponse = _response.data;
-      _responseData = rawResponse == null
-          ? null
-          : decodeResponse(_repository, rawResponse, const TypeInfo(Order));
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+        
+    Order
+    
+    )
+
+);     
     } catch (error, stackTrace) {
       throw DioException(
         requestOptions: _response.requestOptions,
@@ -250,9 +290,10 @@ class StoreApi {
       extra: _response.extra,
     );
   }
-}
 
+}
 class StoreApiRaw {
+
   final Dio _dio;
 
   const StoreApiRaw(this._dio);
@@ -271,7 +312,7 @@ class StoreApiRaw {
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> deleteOrder({
+  Future<Response<void>> deleteOrder({ 
     required String orderId,
     Object? body,
     String? requestContentType,
@@ -284,8 +325,7 @@ class StoreApiRaw {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/store/order/{order_id}'
-        .replaceAll('{' r'order_id' '}', orderId.toString());
+    final _path = r'/store/order/{order_id}'.replaceAll('{' r'order_id' '}', orderId.toString());
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -324,7 +364,7 @@ class StoreApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [BuiltMap<String, int>] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> getInventory({
+  Future<Response<Object>> getInventory({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -383,7 +423,7 @@ class StoreApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [Order] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> getOrderById({
+  Future<Response<Object>> getOrderById({ 
     required String orderId,
     Object? body,
     String? requestContentType,
@@ -396,8 +436,7 @@ class StoreApiRaw {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/store/order/{order_id}'
-        .replaceAll('{' r'order_id' '}', orderId.toString());
+    final _path = r'/store/order/{order_id}'.replaceAll('{' r'order_id' '}', orderId.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -424,7 +463,7 @@ class StoreApiRaw {
   }
 
   /// Place an order for a pet
-  ///
+  /// 
   ///
   /// Parameters:
   /// * [order] - order placed for purchasing the pet
@@ -437,7 +476,7 @@ class StoreApiRaw {
   ///
   /// Returns a [Future] containing a [Response] with a [Order] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Object>> placeOrder({
+  Future<Response<Object>> placeOrder({ 
     Object? body,
     String? requestContentType,
     String? acceptContentType,
@@ -474,4 +513,10 @@ class StoreApiRaw {
       onReceiveProgress: onReceiveProgress,
     );
   }
+
 }
+
+
+
+
+
