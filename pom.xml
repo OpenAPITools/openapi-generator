@@ -1328,8 +1328,8 @@
                 <module>samples/openapi3/client/petstore/dart-dio/oneof_primitive</module>
                 <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
                 <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable</module>
-                <module>samples/openapi3/client/petstore/dart-next/dio/built_value</module>
-                <module>samples/openapi3/client/petstore/dart-next/dio/json_serializable</module>
+                <module>samples/client/echo_api/dart/dio/built_value</module>
+                <module>samples/client/echo_api/dart/dio/json_serializable</module>
             </modules>
         </profile>
         <profile>
