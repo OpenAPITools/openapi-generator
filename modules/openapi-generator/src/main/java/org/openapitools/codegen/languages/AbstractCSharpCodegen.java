@@ -506,9 +506,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                 List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
                 if (anyOf != null) {
-                    if (getLibrary().equals("generichost")) {
-                        removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
-                    }
+                    removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
                     for(CodegenProperty property : anyOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
@@ -517,9 +515,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                 List<CodegenProperty> oneOf = composedSchemas.getOneOf();
                 if (oneOf != null) {
-                    if (getLibrary().equals("generichost")) {
-                        removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
-                    }
+                    removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
                     for(CodegenProperty property : oneOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
@@ -559,44 +555,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {
-//        String discriminatorName = model.discriminator == null
-//                ? null
-//                : model.discriminator.getPropertyName();
-//
-//        for(CodegenProperty oneOfProperty : composedProperties) {
-//            String ref = oneOfProperty.getRef();
-//            if (ref != null) {
-//                for (Map.Entry<String, ModelsMap> composedEntry : objs.entrySet()) {
-//                    CodegenModel composedModel = ModelUtils.getModelByName(composedEntry.getKey(), objs);
-//                    if (ref.endsWith("/" + composedModel.name)) {
-//                        if (discriminatorName != null) {
-//                            composedModel.vars.removeIf(v -> v.name.equals(discriminatorName));
-//                            composedModel.allVars.removeIf(v -> v.name.equals(discriminatorName));
-//                            composedModel.readOnlyVars.removeIf(v -> v.name.equals(discriminatorName));
-//                            composedModel.nonNullableVars.removeIf(v -> v.name.equals(discriminatorName));
-//                            composedModel.optionalVars.removeIf(v -> v.name.equals(discriminatorName));
-//                            composedModel.parentRequiredVars.removeIf(v -> v.name.equals(discriminatorName));
-//                            composedModel.readWriteVars.removeIf(v -> v.name.equals(discriminatorName));
-//                            composedModel.requiredVars.removeIf(v -> v.name.equals(discriminatorName));
-//                        }
-//
-//                        for (CodegenProperty composedProperty : composedModel.allVars) {
-//                            if (discriminatorName != null && composedProperty.name.equals(discriminatorName)) {
-//                                continue;
-//                            }
-//                            model.vars.removeIf(v -> v.name.equals(composedProperty.name));
-//                            model.allVars.removeIf(v -> v.name.equals(composedProperty.name));
-//                            model.readOnlyVars.removeIf(v -> v.name.equals(composedProperty.name));
-//                            model.nonNullableVars.removeIf(v -> v.name.equals(composedProperty.name));
-//                            model.optionalVars.removeIf(v -> v.name.equals(composedProperty.name));
-//                            model.parentRequiredVars.removeIf(v -> v.name.equals(composedProperty.name));
-//                            model.readWriteVars.removeIf(v -> v.name.equals(composedProperty.name));
-//                            model.requiredVars.removeIf(v -> v.name.equals(composedProperty.name));
-//                        }
-//                    }
-//                }
-//            }
-//        }
     }
 
     private String patchPropertyName(CodegenModel model, String value) {
