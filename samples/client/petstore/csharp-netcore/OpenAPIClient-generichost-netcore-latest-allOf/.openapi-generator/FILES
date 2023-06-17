@@ -5,9 +5,7 @@ api/openapi.yaml
 appveyor.yml
 docs/apis/DefaultApi.md
 docs/models/Adult.md
-docs/models/AdultAllOf.md
 docs/models/Child.md
-docs/models/ChildAllOf.md
 docs/models/Person.md
 docs/scripts/git_push.ps1
 docs/scripts/git_push.sh
@@ -34,9 +32,7 @@ src/Org.OpenAPITools/Extensions/IHostBuilderExtensions.cs
 src/Org.OpenAPITools/Extensions/IHttpClientBuilderExtensions.cs
 src/Org.OpenAPITools/Extensions/IServiceCollectionExtensions.cs
 src/Org.OpenAPITools/Model/Adult.cs
-src/Org.OpenAPITools/Model/AdultAllOf.cs
 src/Org.OpenAPITools/Model/Child.cs
-src/Org.OpenAPITools/Model/ChildAllOf.cs
 src/Org.OpenAPITools/Model/Person.cs
 src/Org.OpenAPITools/Org.OpenAPITools.csproj
 src/Org.OpenAPITools/README.md

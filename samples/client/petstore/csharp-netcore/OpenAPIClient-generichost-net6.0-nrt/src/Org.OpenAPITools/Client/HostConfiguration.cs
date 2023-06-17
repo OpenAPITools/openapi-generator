@@ -57,17 +57,14 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new BasquePigJsonConverter());
             _jsonOptions.Converters.Add(new CapitalizationJsonConverter());
             _jsonOptions.Converters.Add(new CatJsonConverter());
-            _jsonOptions.Converters.Add(new CatAllOfJsonConverter());
             _jsonOptions.Converters.Add(new CategoryJsonConverter());
             _jsonOptions.Converters.Add(new ChildCatJsonConverter());
-            _jsonOptions.Converters.Add(new ChildCatAllOfJsonConverter());
             _jsonOptions.Converters.Add(new ClassModelJsonConverter());
             _jsonOptions.Converters.Add(new ComplexQuadrilateralJsonConverter());
             _jsonOptions.Converters.Add(new DanishPigJsonConverter());
             _jsonOptions.Converters.Add(new DateOnlyClassJsonConverter());
             _jsonOptions.Converters.Add(new DeprecatedObjectJsonConverter());
             _jsonOptions.Converters.Add(new DogJsonConverter());
-            _jsonOptions.Converters.Add(new DogAllOfJsonConverter());
             _jsonOptions.Converters.Add(new DrawingJsonConverter());
             _jsonOptions.Converters.Add(new EnumArraysJsonConverter());
             _jsonOptions.Converters.Add(new EnumClassConverter());

@@ -19,10 +19,8 @@ docs/BananaReq.md
 docs/BasquePig.md
 docs/Capitalization.md
 docs/Cat.md
-docs/CatAllOf.md
 docs/Category.md
 docs/ChildCat.md
-docs/ChildCatAllOf.md
 docs/ClassModel.md
 docs/ComplexQuadrilateral.md
 docs/DanishPig.md
@@ -30,7 +28,6 @@ docs/DateOnlyClass.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
 docs/Dog.md
-docs/DogAllOf.md
 docs/Drawing.md
 docs/EnumArrays.md
 docs/EnumClass.md
@@ -139,17 +136,14 @@ src/Org.OpenAPITools/Model/BananaReq.cs
 src/Org.OpenAPITools/Model/BasquePig.cs
 src/Org.OpenAPITools/Model/Capitalization.cs
 src/Org.OpenAPITools/Model/Cat.cs
-src/Org.OpenAPITools/Model/CatAllOf.cs
 src/Org.OpenAPITools/Model/Category.cs
 src/Org.OpenAPITools/Model/ChildCat.cs
-src/Org.OpenAPITools/Model/ChildCatAllOf.cs
 src/Org.OpenAPITools/Model/ClassModel.cs
 src/Org.OpenAPITools/Model/ComplexQuadrilateral.cs
 src/Org.OpenAPITools/Model/DanishPig.cs
 src/Org.OpenAPITools/Model/DateOnlyClass.cs
 src/Org.OpenAPITools/Model/DeprecatedObject.cs
 src/Org.OpenAPITools/Model/Dog.cs
-src/Org.OpenAPITools/Model/DogAllOf.cs
 src/Org.OpenAPITools/Model/Drawing.cs
 src/Org.OpenAPITools/Model/EnumArrays.cs
 src/Org.OpenAPITools/Model/EnumClass.cs

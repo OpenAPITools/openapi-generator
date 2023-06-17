@@ -61,5 +61,23 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Color'
         }
+
+        /// <summary>
+        /// Test the property 'Count'
+        /// </summary>
+        [Fact]
+        public void CountTest()
+        {
+            // TODO unit test for the property 'Count'
+        }
+
+        /// <summary>
+        /// Test the property 'Kind'
+        /// </summary>
+        [Fact]
+        public void KindTest()
+        {
+            // TODO unit test for the property 'Kind'
+        }
     }
 }

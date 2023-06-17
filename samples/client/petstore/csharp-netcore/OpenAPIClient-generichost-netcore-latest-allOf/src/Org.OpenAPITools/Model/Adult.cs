@@ -33,23 +33,24 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Adult" /> class.
         /// </summary>
-        /// <param name="adultAllOf"></param>
+        /// <param name="children">children</param>
         /// <param name="firstName">firstName</param>
         /// <param name="lastName">lastName</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        internal Adult(AdultAllOf adultAllOf, string firstName, string lastName, string type) : base(firstName, lastName, type)
+        public Adult(List<Child> children, string firstName, string lastName, string type) : base(firstName, lastName, type)
         {
-            AdultAllOf = adultAllOf;
+            Children = children;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets AdultAllOf
+        /// Gets or Sets Children
         /// </summary>
-        public AdultAllOf AdultAllOf { get; set; }
+        [JsonPropertyName("children")]
+        public List<Child> Children { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -60,6 +61,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Adult {\n");
             sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  Children: ").Append(Children).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -87,9 +89,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader adultAllOfReader = utf8JsonReader;
-            bool adultAllOfDeserialized = Client.ClientUtils.TryDeserialize<AdultAllOf>(ref utf8JsonReader, jsonSerializerOptions, out AdultAllOf? adultAllOf);
-
+            List<Child>? children = default;
             string? firstName = default;
             string? lastName = default;
             string? type = default;
@@ -109,6 +109,10 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "children":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                children = JsonSerializer.Deserialize<List<Child>>(ref utf8JsonReader, jsonSerializerOptions);
+                            break;
                         case "firstName":
                             firstName = utf8JsonReader.GetString();
                             break;
@@ -124,6 +128,9 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (children == null)
+                throw new ArgumentNullException(nameof(children), "Property is required for class Adult.");
+
             if (firstName == null)
                 throw new ArgumentNullException(nameof(firstName), "Property is required for class Adult.");
 
@@ -133,10 +140,7 @@ namespace Org.OpenAPITools.Model
             if (type == null)
                 throw new ArgumentNullException(nameof(type), "Property is required for class Adult.");
 
-            if (adultAllOf == null)
-                throw new ArgumentNullException(nameof(adultAllOf), "Property is required for class Adult.");
-
-            return new Adult(adultAllOf, firstName, lastName, type);
+            return new Adult(children, firstName, lastName, type);
         }
 
         /// <summary>
@@ -148,8 +152,15 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Adult adult, JsonSerializerOptions jsonSerializerOptions)
         {
-            System.Text.Json.JsonSerializer.Serialize(writer, adult.AdultAllOf, jsonSerializerOptions);
+            writer.WriteStartObject();
 
+            writer.WritePropertyName("children");
+            JsonSerializer.Serialize(writer, adult.Children, jsonSerializerOptions);
+            writer.WriteString("firstName", adult.FirstName);
+            writer.WriteString("lastName", adult.LastName);
+            writer.WriteString("$_type", adult.Type);
+
+            writer.WriteEndObject();
         }
     }
 }

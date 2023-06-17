@@ -49,29 +49,23 @@ components:
     Adult:
       allOf:
       - $ref: '#/components/schemas/Person'
-      - $ref: '#/components/schemas/Adult_allOf'
+      - properties:
+          children:
+            items:
+              $ref: '#/components/schemas/Child'
+            type: array
+        type: object
       description: A representation of an adult
     Child:
       allOf:
-      - $ref: '#/components/schemas/Child_allOf'
+      - properties:
+          age:
+            format: int32
+            type: integer
+        type: object
       - $ref: '#/components/schemas/Person'
       description: A representation of a child
       properties:
         boosterSeat:
           type: boolean
-    Adult_allOf:
-      properties:
-        children:
-          items:
-            $ref: '#/components/schemas/Child'
-          type: array
-      type: object
-      example: null
-    Child_allOf:
-      properties:
-        age:
-          format: int32
-          type: integer
-      type: object
-      example: null
 

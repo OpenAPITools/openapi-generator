@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(EquilateralTriangle equilateralTriangle, string shapeType, string triangleType)
+        public Triangle(EquilateralTriangle? equilateralTriangle, string shapeType, string triangleType)
         {
             EquilateralTriangle = equilateralTriangle;
             ShapeType = shapeType;
@@ -52,7 +52,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(IsoscelesTriangle isoscelesTriangle, string shapeType, string triangleType)
+        public Triangle(IsoscelesTriangle? isoscelesTriangle, string shapeType, string triangleType)
         {
             IsoscelesTriangle = isoscelesTriangle;
             ShapeType = shapeType;
@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(ScaleneTriangle scaleneTriangle, string shapeType, string triangleType)
+        public Triangle(ScaleneTriangle? scaleneTriangle, string shapeType, string triangleType)
         {
             ScaleneTriangle = scaleneTriangle;
             ShapeType = shapeType;
@@ -234,6 +234,12 @@ namespace Org.OpenAPITools.Model
 
             System.Text.Json.JsonSerializer.Serialize(writer, triangle.ScaleneTriangle, jsonSerializerOptions);
 
+            writer.WriteStartObject();
+
+            writer.WriteString("shapeType", triangle.ShapeType);
+            writer.WriteString("triangleType", triangle.TriangleType);
+
+            writer.WriteEndObject();
         }
     }
 }

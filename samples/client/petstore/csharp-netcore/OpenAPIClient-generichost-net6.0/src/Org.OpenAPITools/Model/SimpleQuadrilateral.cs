@@ -31,27 +31,29 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleQuadrilateral" /> class.
         /// </summary>
-        /// <param name="shapeInterface"></param>
-        /// <param name="quadrilateralInterface"></param>
+        /// <param name="quadrilateralType">quadrilateralType</param>
+        /// <param name="shapeType">shapeType</param>
         [JsonConstructor]
-        internal SimpleQuadrilateral(ShapeInterface shapeInterface, QuadrilateralInterface quadrilateralInterface)
+        public SimpleQuadrilateral(string quadrilateralType, string shapeType)
         {
-            ShapeInterface = shapeInterface;
-            QuadrilateralInterface = quadrilateralInterface;
+            QuadrilateralType = quadrilateralType;
+            ShapeType = shapeType;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets ShapeInterface
+        /// Gets or Sets QuadrilateralType
         /// </summary>
-        public ShapeInterface ShapeInterface { get; set; }
+        [JsonPropertyName("quadrilateralType")]
+        public string QuadrilateralType { get; set; }
 
         /// <summary>
-        /// Gets or Sets QuadrilateralInterface
+        /// Gets or Sets ShapeType
         /// </summary>
-        public QuadrilateralInterface QuadrilateralInterface { get; set; }
+        [JsonPropertyName("shapeType")]
+        public string ShapeType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -67,6 +69,8 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class SimpleQuadrilateral {\n");
+            sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append("\n");
+            sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -105,11 +109,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader shapeInterfaceReader = utf8JsonReader;
-            bool shapeInterfaceDeserialized = Client.ClientUtils.TryDeserialize<ShapeInterface>(ref utf8JsonReader, jsonSerializerOptions, out ShapeInterface shapeInterface);
-
-            Utf8JsonReader quadrilateralInterfaceReader = utf8JsonReader;
-            bool quadrilateralInterfaceDeserialized = Client.ClientUtils.TryDeserialize<QuadrilateralInterface>(ref utf8JsonReader, jsonSerializerOptions, out QuadrilateralInterface quadrilateralInterface);
+            string quadrilateralType = default;
+            string shapeType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -126,19 +127,25 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "quadrilateralType":
+                            quadrilateralType = utf8JsonReader.GetString();
+                            break;
+                        case "shapeType":
+                            shapeType = utf8JsonReader.GetString();
+                            break;
                         default:
                             break;
                     }
                 }
             }
 
-            if (shapeInterface == null)
-                throw new ArgumentNullException(nameof(shapeInterface), "Property is required for class SimpleQuadrilateral.");
+            if (quadrilateralType == null)
+                throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class SimpleQuadrilateral.");
 
-            if (quadrilateralInterface == null)
-                throw new ArgumentNullException(nameof(quadrilateralInterface), "Property is required for class SimpleQuadrilateral.");
+            if (shapeType == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is required for class SimpleQuadrilateral.");
 
-            return new SimpleQuadrilateral(shapeInterface, quadrilateralInterface);
+            return new SimpleQuadrilateral(quadrilateralType, shapeType);
         }
 
         /// <summary>
@@ -150,10 +157,12 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, SimpleQuadrilateral simpleQuadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
-            System.Text.Json.JsonSerializer.Serialize(writer, simpleQuadrilateral.ShapeInterface, jsonSerializerOptions);
+            writer.WriteStartObject();
 
-            System.Text.Json.JsonSerializer.Serialize(writer, simpleQuadrilateral.QuadrilateralInterface, jsonSerializerOptions);
+            writer.WriteString("quadrilateralType", simpleQuadrilateral.QuadrilateralType);
+            writer.WriteString("shapeType", simpleQuadrilateral.ShapeType);
 
+            writer.WriteEndObject();
         }
     }
 }
