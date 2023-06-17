@@ -120,7 +120,7 @@ public class DartNextClientCodegen extends DartNextAbstractCodegen {
                         SchemaSupportFeature.oneOf,
                         SchemaSupportFeature.anyOf));
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.STABLE)
+                .stability(Stability.EXPERIMENTAL)
                 .build();
 
         outputFolder = "generated-code/dart-next";

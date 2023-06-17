@@ -7,7 +7,7 @@ title: Documentation for the dart-next Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | dart-next | pass this to the generate command after -g |
-| generator stability | STABLE | |
+| generator stability | EXPERIMENTAL | |
 | generator type | CLIENT | |
 | generator language | Dart | |
 | generator default templating engine | mustache | |
