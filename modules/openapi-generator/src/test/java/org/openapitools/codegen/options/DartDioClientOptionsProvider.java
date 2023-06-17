@@ -61,7 +61,6 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
                 .put(DartDioClientCodegen.PUB_HOMEPAGE, PUB_HOMEPAGE_VALUE)
                 .put(DartDioClientCodegen.PUB_REPOSITORY, PUB_REPOSITORY_VALUE)
                 .put(DartDioClientCodegen.PUB_PUBLISH_TO, PUB_PUBLISH_TO_VALUE)
-                .put(CodegenConstants.LIBRARY, DartDioClientCodegen.NETWORKING_LIBRARY_DEFAULT)
                 .put(CodegenConstants.SERIALIZATION_LIBRARY, DartDioClientCodegen.SERIALIZATION_LIBRARY_DEFAULT)
                 .put(DartDioClientCodegen.DATE_LIBRARY, DartDioClientCodegen.DATE_LIBRARY_DEFAULT)
                 .put(DartDioClientCodegen.FINAL_PROPERTIES, DartDioClientCodegen.FINAL_PROPERTIES_DEFAULT_VALUE)

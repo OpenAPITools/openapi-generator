@@ -16,33 +16,16 @@
 
 package org.openapitools.codegen.languages;
 
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
+import com.google.common.collect.Sets;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Discriminator;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenDiscriminator;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.TemplateManager;
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -62,13 +45,11 @@ import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Sets;
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
+import java.io.File;
+import java.util.*;
+import java.util.stream.Collectors;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.Discriminator;
-import io.swagger.v3.oas.models.media.Schema;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class DartDioClientCodegen extends AbstractDartCodegen {
 
@@ -83,10 +64,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     public static final String SERIALIZATION_LIBRARY_JSON_SERIALIZABLE = "json_serializable";
     public static final String SERIALIZATION_LIBRARY_DEFAULT = SERIALIZATION_LIBRARY_BUILT_VALUE;
 
-    public static final String NETWORKING_LIBRARY_DIO = "dio";
-    public static final String NETWORKING_LIBRARY_HTTP = "http";
-    public static final String NETWORKING_LIBRARY_DEFAULT = NETWORKING_LIBRARY_DIO;
-
     private static final String DIO_IMPORT = "package:dio/dio.dart";
     public static final String FINAL_PROPERTIES = "finalProperties";
     public static final String FINAL_PROPERTIES_DEFAULT_VALUE = "true";
@@ -95,13 +72,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     private String dateLibrary;
 
-    private String serializationLibrary;
-
     private String clientName;
 
     private TemplateManager templateManager;
-
-    private Map<String, String> supportedSerializationLibraries = new LinkedHashMap<>();
 
     public DartDioClientCodegen() {
         super();
@@ -109,51 +82,42 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         modifyFeatureSet(features -> features
                 .includeClientModificationFeatures(
                         ClientModificationFeature.Authorizations,
-                        ClientModificationFeature.UserAgent)
-                .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism,
-                        SchemaSupportFeature.Union,
-                        SchemaSupportFeature.Composite,
-                        SchemaSupportFeature.allOf,
-                        SchemaSupportFeature.oneOf,
-                        SchemaSupportFeature.anyOf));
+                        ClientModificationFeature.UserAgent
+                ).includeSchemaSupportFeatures(
+                    SchemaSupportFeature.Polymorphism,
+                    SchemaSupportFeature.Union,
+                    SchemaSupportFeature.Composite,
+                    SchemaSupportFeature.allOf,
+                    SchemaSupportFeature.oneOf,
+                    SchemaSupportFeature.anyOf
+                )
+        );
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.STABLE)
                 .build();
 
         outputFolder = "generated-code/dart-dio";
-        embeddedTemplateDir = "dart";
+        embeddedTemplateDir = "dart/libraries/dio";
         this.setTemplateDir(embeddedTemplateDir);
 
-        supportedLibraries.put(NETWORKING_LIBRARY_DIO, "[DEFAULT] dio");
-        supportedLibraries.put(NETWORKING_LIBRARY_HTTP, "[BETA] http");
-        final CliOption networkingLibraryOptions = CliOption.newString(CodegenConstants.LIBRARY,
-                "Specify networking library");
-        networkingLibraryOptions.setEnum(supportedLibraries);
-        networkingLibraryOptions.setDefault(NETWORKING_LIBRARY_DEFAULT);
-        cliOptions.add(networkingLibraryOptions);
-
-        supportedSerializationLibraries.put(SERIALIZATION_LIBRARY_BUILT_VALUE, "[DEFAULT] built_value");
-        supportedSerializationLibraries.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "[BETA] json_serializable");
-        final CliOption serializationLibraryOptions = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY,
-                "Specify serialization library");
-        serializationLibraryOptions.setEnum(supportedSerializationLibraries);
-        serializationLibraryOptions.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
-        cliOptions.add(serializationLibraryOptions);
+        supportedLibraries.put(SERIALIZATION_LIBRARY_BUILT_VALUE, "[DEFAULT] built_value");
+        supportedLibraries.put(SERIALIZATION_LIBRARY_JSON_SERIALIZABLE, "[BETA] json_serializable");
+        final CliOption serializationLibrary = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY, "Specify serialization library");
+        serializationLibrary.setEnum(supportedLibraries);
+        serializationLibrary.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
+        cliOptions.add(serializationLibrary);
 
         // Date Library Option
         final CliOption dateOption = CliOption.newString(DATE_LIBRARY, "Specify Date library");
         dateOption.setDefault(DATE_LIBRARY_DEFAULT);
 
-        final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES,
-                "Whether properties are marked as final when using Json Serializable for serialization");
+        final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
         finalProperties.setDefault("true");
         cliOptions.add(finalProperties);
 
         final Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put(DATE_LIBRARY_CORE, "[DEFAULT] Dart core library (DateTime)");
-        dateOptions.put(DATE_LIBRARY_TIME_MACHINE,
-                "Time Machine is date and time library for Flutter, Web, and Server with support for timezones, calendars, cultures, formatting and parsing.");
+        dateOptions.put(DATE_LIBRARY_TIME_MACHINE, "Time Machine is date and time library for Flutter, Web, and Server with support for timezones, calendars, cultures, formatting and parsing.");
         dateOption.setEnum(dateOptions);
         cliOptions.add(dateOption);
     }
@@ -164,31 +128,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     public void setDateLibrary(String library) {
         this.dateLibrary = library;
-    }
-
-    public String getSerializationLibrary() {
-        return serializationLibrary;
-    }
-
-    /**
-     * Set serialization library template.
-     *
-     * @param serializationLibrary Serialization Library template
-     */
-    public void setSerializationLibrary(String serializationLibrary) {
-        if (serializationLibrary != null && !supportedSerializationLibraries.containsKey(serializationLibrary)) {
-            StringBuilder sb = new StringBuilder(
-                    "Unknown serialization library: " + serializationLibrary + "\nAvailable serialization libraries:");
-            if (supportedSerializationLibraries.size() == 0) {
-                sb.append("\n  ").append("NONE");
-            } else {
-                for (String lib : supportedSerializationLibraries.keySet()) {
-                    sb.append("\n  ").append(lib);
-                }
-            }
-            throw new RuntimeException(sb.toString());
-        }
-        this.serializationLibrary = serializationLibrary;
     }
 
     public String getClientName() {
@@ -214,24 +153,16 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
-            LOGGER.info(
-                    "Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
-            LOGGER.info(
-                    "NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
-
-        if (!additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
-            additionalProperties.put(CodegenConstants.LIBRARY, NETWORKING_LIBRARY_DEFAULT);
-            LOGGER.debug("Networking library not set, using default {}", NETWORKING_LIBRARY_DEFAULT);
-        }
-        setLibrary(additionalProperties.get(CodegenConstants.LIBRARY).toString());
 
         if (!additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
             additionalProperties.put(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DEFAULT);
             LOGGER.debug("Serialization library not set, using default {}", SERIALIZATION_LIBRARY_DEFAULT);
         }
-        setSerializationLibrary(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString());
-        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
+        setLibrary(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString());
+        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
             this.setLegacyDiscriminatorBehavior(false);
         }
 
@@ -244,9 +175,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         if (!additionalProperties.containsKey(FINAL_PROPERTIES)) {
             additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(FINAL_PROPERTIES_DEFAULT_VALUE));
             LOGGER.debug("finalProperties not set, using default {}", FINAL_PROPERTIES_DEFAULT_VALUE);
-        } else {
-            additionalProperties.put(FINAL_PROPERTIES,
-                    Boolean.parseBoolean(additionalProperties.get(FINAL_PROPERTIES).toString()));
+        }
+        else {
+            additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(additionalProperties.get(FINAL_PROPERTIES).toString()));
         }
 
         if (!additionalProperties.containsKey(CLIENT_NAME)) {
@@ -261,81 +192,24 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        supportingFiles.add(new SupportingFile("lib_api_exports.mustache", libPath, "apis.dart"));
-        supportingFiles.add(new SupportingFile("lib_model_exports.mustache", libPath, "models.dart"));
         supportingFiles.add(new SupportingFile("lib.mustache", libPath, pubName + ".dart"));
 
         final String srcFolder = libPath + sourceFolder;
-        supportingFiles
-                .add(new SupportingFile("serialization/repository_base.mustache", srcFolder, "repository_base.dart"));
+        supportingFiles.add(new SupportingFile("api_client.mustache", srcFolder, "api.dart"));
 
-        configureNetworkingLibrary(srcFolder);
+        final String authFolder = srcFolder + File.separator + "auth";
+        supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/basic_auth.mustache", authFolder, "basic_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/bearer_auth.mustache", authFolder, "bearer_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
+        supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
+
         configureSerializationLibrary(srcFolder);
         configureDateLibrary(srcFolder);
     }
 
-    private void configureNetworkingLibrary(String sourceFolder) {
-        switch (library) {
-            case NETWORKING_LIBRARY_DIO:
-                additionalProperties.put("useDio", "true");
-                configureNetworkingLibraryDio(sourceFolder);
-                break;
-            default:
-            case NETWORKING_LIBRARY_HTTP:
-                additionalProperties.put("useHttp", "true");
-                configureNetworkingLibraryHttp(sourceFolder);
-                break;
-        }
-
-        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(isEnableMinimalUpdate(),
-                isSkipOverwrite());
-        TemplatePathLocator commonTemplateLocator = new CommonTemplateContentLocator();
-        TemplatePathLocator generatorTemplateLocator = new GeneratorTemplateContentLocator(this);
-        templateManager = new TemplateManager(
-                templateManagerOptions,
-                getTemplatingEngine(),
-                new TemplatePathLocator[] { generatorTemplateLocator, commonTemplateLocator });
-
-        // A lambda which allows for easy includes of serialization library specific
-        // templates without having to change the main template files.
-        additionalProperties.put("includeLibraryTemplate", (Mustache.Lambda) (fragment, writer) -> {
-            MustacheEngineAdapter engine = ((MustacheEngineAdapter) getTemplatingEngine());
-            String templateFile = "libraries/" + library + "/" + fragment.execute() + ".mustache";
-            Template tmpl = engine.getCompiler()
-                    .withLoader(name -> engine.findTemplate(templateManager, name))
-                    .defaultValue("")
-                    .compile(templateManager.getFullTemplateContents(templateFile));
-
-            fragment.executeTemplate(tmpl, writer);
-        });
-    }
-
-    private void configureNetworkingLibraryDio(String srcFolder) {
-        imports.put("MultipartFile", DIO_IMPORT);
-        final String dioMustacheFolder = "libraries/dio/";
-        supportingFiles
-                .add(new SupportingFile(dioMustacheFolder + "api_client.mustache", srcFolder, "api_client.dart"));
-        supportingFiles.add(new SupportingFile(dioMustacheFolder + "api_util.mustache", srcFolder, "api_util.dart"));
-        final String authFolder = srcFolder + File.separator + "auth";
-        final String authMustacheFolder = dioMustacheFolder + "auth/";
-        supportingFiles
-                .add(new SupportingFile(authMustacheFolder + "auth_exports.mustache", authFolder, "_exports.dart"));
-        supportingFiles
-                .add(new SupportingFile(authMustacheFolder + "api_key_auth.mustache", authFolder, "api_key_auth.dart"));
-        supportingFiles
-                .add(new SupportingFile(authMustacheFolder + "basic_auth.mustache", authFolder, "basic_auth.dart"));
-        supportingFiles
-                .add(new SupportingFile(authMustacheFolder + "bearer_auth.mustache", authFolder, "bearer_auth.dart"));
-        supportingFiles.add(new SupportingFile(authMustacheFolder + "oauth.mustache", authFolder, "oauth.dart"));
-        supportingFiles.add(new SupportingFile(authMustacheFolder + "auth.mustache", authFolder, "auth.dart"));
-    }
-
-    private void configureNetworkingLibraryHttp(String srcFolder) {
-
-    }
-
     private void configureSerializationLibrary(String srcFolder) {
-        switch (serializationLibrary) {
+        switch (library) {
             case SERIALIZATION_LIBRARY_JSON_SERIALIZABLE:
                 additionalProperties.put("useJsonSerializable", "true");
                 configureSerializationLibraryJsonSerializable(srcFolder);
@@ -347,20 +221,20 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 break;
         }
 
-        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(isEnableMinimalUpdate(),
-                isSkipOverwrite());
+        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(isEnableMinimalUpdate(), isSkipOverwrite());
         TemplatePathLocator commonTemplateLocator = new CommonTemplateContentLocator();
         TemplatePathLocator generatorTemplateLocator = new GeneratorTemplateContentLocator(this);
         templateManager = new TemplateManager(
                 templateManagerOptions,
                 getTemplatingEngine(),
-                new TemplatePathLocator[] { generatorTemplateLocator, commonTemplateLocator });
+                new TemplatePathLocator[]{generatorTemplateLocator, commonTemplateLocator}
+        );
 
         // A lambda which allows for easy includes of serialization library specific
         // templates without having to change the main template files.
-        additionalProperties.put("includeSerializationTemplate", (Mustache.Lambda) (fragment, writer) -> {
+        additionalProperties.put("includeLibraryTemplate", (Mustache.Lambda) (fragment, writer) -> {
             MustacheEngineAdapter engine = ((MustacheEngineAdapter) getTemplatingEngine());
-            String templateFile = "serialization/" + serializationLibrary + "/" + fragment.execute() + ".mustache";
+            String templateFile = "serialization/" + library + "/" + fragment.execute() + ".mustache";
             Template tmpl = engine.getCompiler()
                     .withLoader(name -> engine.findTemplate(templateManager, name))
                     .defaultValue("")
@@ -371,10 +245,8 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     }
 
     private void configureSerializationLibraryBuiltValue(String srcFolder) {
-        supportingFiles.add(new SupportingFile("serialization/built_value/repository_impl.mustache", srcFolder,
-                "repository_impl.dart"));
-        supportingFiles.add(
-                new SupportingFile("serialization/built_value/serializers.mustache", srcFolder, "serializers.dart"));
+        supportingFiles.add(new SupportingFile("serialization/built_value/serializers.mustache", srcFolder, "serializers.dart"));
+        supportingFiles.add(new SupportingFile("serialization/built_value/api_util.mustache", srcFolder, "api_util.dart"));
 
         typeMapping.put("Array", "BuiltList");
         typeMapping.put("array", "BuiltList");
@@ -391,18 +263,19 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         imports.put("BuiltMap", "package:built_collection/built_collection.dart");
         imports.put("JsonObject", "package:built_value/json_object.dart");
         imports.put("Uint8List", "dart:typed_data");
+        imports.put("MultipartFile", DIO_IMPORT);
     }
 
     private void configureSerializationLibraryJsonSerializable(String srcFolder) {
-        supportingFiles.add(new SupportingFile("serialization/json_serializable/repository_impl.mustache", srcFolder,
-                "repository_impl.dart"));
-        supportingFiles.add(new SupportingFile("serialization/json_serializable/build.yaml.mustache",
-                "" /* main project dir */, "build.yaml"));
+        supportingFiles.add(new SupportingFile("serialization/json_serializable/build.yaml.mustache", "" /* main project dir */, "build.yaml"));
+        supportingFiles.add(new SupportingFile("serialization/json_serializable/deserialize.mustache", srcFolder,
+                "deserialize.dart"));
 
         // most of these are defined in AbstractDartCodegen, we are overriding
         // just the binary / file handling
         languageSpecificPrimitives.add("Object");
         imports.put("Uint8List", "dart:typed_data");
+        imports.put("MultipartFile", DIO_IMPORT);
     }
 
     private void configureDateLibrary(String srcFolder) {
@@ -415,23 +288,19 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 typeMapping.put("datetime", "OffsetDateTime");
                 imports.put("OffsetDate", "package:time_machine/time_machine.dart");
                 imports.put("OffsetDateTime", "package:time_machine/time_machine.dart");
-                if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
-                    supportingFiles.add(new SupportingFile("serialization/built_value/offset_date_serializer.mustache",
-                            srcFolder, "local_date_serializer.dart"));
+                if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+                    supportingFiles.add(new SupportingFile("serialization/built_value/offset_date_serializer.mustache", srcFolder, "local_date_serializer.dart"));
                 }
                 break;
             default:
             case DATE_LIBRARY_CORE:
                 additionalProperties.put("useDateLibCore", "true");
-                if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
+                if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
                     typeMapping.put("date", "Date");
                     typeMapping.put("Date", "Date");
-                    importMapping.put("Date",
-                            "package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/date.dart");
-                    supportingFiles.add(new SupportingFile("serialization/built_value/date.mustache",
-                            srcFolder + File.separator + modelPackage(), "date.dart"));
-                    supportingFiles.add(new SupportingFile("serialization/built_value/date_serializer.mustache",
-                            srcFolder, "date_serializer.dart"));
+                    importMapping.put("Date", "package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/date.dart");
+                    supportingFiles.add(new SupportingFile("serialization/built_value/date.mustache", srcFolder + File.separator + modelPackage(), "date.dart"));
+                    supportingFiles.add(new SupportingFile("serialization/built_value/date_serializer.mustache", srcFolder, "date_serializer.dart"));
                 }
                 break;
         }
@@ -440,10 +309,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     @Override
     public String toDefaultValue(Schema schema) {
         if (schema.getDefault() != null) {
-            if (schema.getEnum() != null) {
-                return super.toDefaultValue(schema);
-            }
-            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
+            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
                 if (ModelUtils.isArraySchema(schema)) {
                     if (ModelUtils.isSet(schema)) {
                         return "SetBuilder()";
@@ -454,7 +320,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                     return "MapBuilder()";
                 }
             }
-
             if (ModelUtils.isDateSchema(schema) || ModelUtils.isDateTimeSchema(schema)) {
                 // this is currently not supported and would create compile errors
                 return null;
@@ -467,48 +332,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         return null;
     }
 
-    @Override
-    public String toDefaultParameterValue(Schema<?> schema) {
-        var result = super.toDefaultParameterValue(schema);        
-        return result;
-    }
-
-    @Override
-    public void updateCodegenPropertyEnum(CodegenProperty var) {
-        super.updateCodegenPropertyEnum(var);
-        var enumName = var.getEnumName();
-        if (enumName != null) {
-            if (var.defaultValue != null) {
-                var allowable = var.getAllowableValues();
-                if (allowable != null) {
-                    var matchingMap = (ArrayList<?>) allowable.get("enumVars");
-                    String matchingName = null;
-                    for (Object enumMember : matchingMap) {
-                        if (!(enumMember instanceof HashMap<?, ?>)) {
-                            continue;
-                        }
-                        var castedEnumMember = (HashMap<String, Object>) enumMember;
-                        var name = (String) castedEnumMember.get("name");
-                        var value = castedEnumMember.get("value");
-                        if (value.equals(var.defaultValue)) {
-                            matchingName = name;
-                            break;
-                        }
-                    }
-                    if (matchingName != null) {
-                        var newDefaultValue = enumName + "." + matchingName;
-                        var oldDefaultValue = var.getDefaultValue();
-                        LOGGER.info("Modifying enum {} with default value {} to {}", enumName, oldDefaultValue,
-                                newDefaultValue);
-                        var.setDefaultValue(newDefaultValue);
-                    }
-                }
-
-            }
-        }
-    }
-
-    
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModels(objs);
@@ -545,17 +368,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             syncRootTypesWithInnerVars(allModels, model);
         }
     }
-
-    @Override
-    public CodegenProperty fromProperty(String name, Schema p, boolean required,
-            boolean schemaIsFromAdditionalProperties) {
-        CodegenProperty result = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
-        if (result.containerType != null && typeMapping.containsKey(result.containerType)) {
-            result.containerType = typeMapping.get(result.containerType);
-        }
-        return result;
-    }
-
     private void syncRootTypesWithInnerVars(Map<String, CodegenModel> objs, CodegenModel model) {
         List<CodegenProperty> allVars = new ArrayList<>();
         allVars.addAll(((Collection<CodegenProperty>) model.vendorExtensions.get(kSelfAndAncestorOnlyProps)));
@@ -563,19 +375,18 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         allVars.addAll(((Collection<CodegenProperty>) model.vendorExtensions.get(kAncestorOnlyProps)));
 
         for (CodegenProperty prop : allVars) {
-            // check if type exists in parent map
+            //check if type exists in parent map
             String type = prop.openApiType;
             if (objs.containsKey(type)) {
-                // get the type
+                //get the type
                 CodegenModel relatedModel = objs.get(type);
-                // fill the property's VendorExtensions with the type's VendorExtensions
+                //fill the property's VendorExtensions with the type's VendorExtensions
                 prop.getVendorExtensions().put(kIsParent, relatedModel.getVendorExtensions().get(kIsParent));
                 prop.isEnum = relatedModel.isEnum;
 
             }
         }
     }
-
     private final String kIsChild = "x-is-child";
     private final String kIsParent = "x-is-parent";
     private final String kIsPure = "x-is-pure";
@@ -614,6 +425,8 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             allAncestorsForAllModelsFlat.addAll(allAncestors);
         }
 
+
+
         Set<String> allPureClasses = new HashSet<>();
         // set isChild,isParent,isPure
         for (java.util.Map.Entry<String, CodegenModel> cmEntry : allModels.entrySet()) {
@@ -634,10 +447,10 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             cm.vendorExtensions.put(kIsParent, isParent);
             cm.vendorExtensions.put(kIsPure, isPure);
             if (!isParent && (cm.oneOf == null || cm.oneOf.isEmpty())) {
-                // discriminator has no meaning here
-                if (cm.discriminator != null) {
+                //discriminator has no meaning here
+                if (cm.discriminator!=null) {
                     cm.vendorExtensions.put(kParentDiscriminator, cm.discriminator);
-                    cm.discriminator = null;
+                    cm.discriminator=null;
                 }
 
             }
@@ -734,20 +547,19 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     }
 
     /// override the default behavior of createDiscriminator
-    /// to remove extra mappings added as a side effect of
-    /// setLegacyDiscriminatorBehavior(false)
+    /// to remove extra mappings added as a side effect of setLegacyDiscriminatorBehavior(false)
     /// this ensures 1-1 schema mapping instead of 1-many
     @Override
     protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema, OpenAPI openAPI) {
         CodegenDiscriminator sub = super.createDiscriminator(schemaName, schema, openAPI);
         Discriminator originalDiscriminator = schema.getDiscriminator();
-        if (originalDiscriminator != null) {
-            Map<String, String> originalMapping = originalDiscriminator.getMapping();
+        if (originalDiscriminator!=null) {
+            Map<String,String> originalMapping = originalDiscriminator.getMapping();
             if (originalMapping != null && !originalMapping.isEmpty()) {
-                // we already have a discriminator mapping, remove everything else
+                //we already have a discriminator mapping, remove everything else
                 for (MappedModel currentMappings : new HashSet<>(sub.getMappedModels())) {
                     if (originalMapping.containsKey(currentMappings.getMappingName())) {
-                        // all good
+                        //all good
                     } else {
                         sub.getMapping().remove(currentMappings.getMappingName());
                         sub.getMappedModels().remove(currentMappings);
@@ -761,7 +573,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
-        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
+        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
             adaptToDartInheritance(objs);
             syncRootTypesWithInnerVars(objs);
         }
@@ -781,7 +593,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
+        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
             if (property.isEnum && property.getComposedSchemas() == null) {
                 // enums are generated with built_value and make use of BuiltSet
                 model.imports.add("BuiltSet");
@@ -792,7 +604,13 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 // that need a custom serializer builder factory added.
                 final CodegenProperty items = property.items;
                 if (items.getAdditionalProperties() != null) {
-                    addBuiltValueSerializer(BuiltValueSerializer.fromCodegenProperty(items));
+                    addBuiltValueSerializer(new BuiltValueSerializer(
+                            items.isArray,
+                            items.getUniqueItems(),
+                            items.isMap,
+                            items.items.isNullable,
+                            items.getAdditionalProperties().dataType
+                    ));
                 }
             }
         }
@@ -807,18 +625,14 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         Set<String> resultImports = new HashSet<>();
 
         for (CodegenOperation op : operationList) {
-            for (CodegenParameter param : Stream.of(op.allParams, op.bodyParams, op.formParams)
-                    .flatMap(Collection::stream)
-                    .collect(Collectors.toList())) {                                        
+            for (CodegenParameter param : op.allParams) {
                 if (((op.isMultipart && param.isFormParam) || param.isBodyParam) && (param.isBinary || param.isFile)) {
                     param.dataType = param.dataType.replace("Uint8List", "MultipartFile");
-                    // param.containerType = param.containerType.replace("Uint8List",
-                    // "MultipartFile");
+                    param.baseType = param.baseType.replace("Uint8List", "MultipartFile");
                     op.imports.add("MultipartFile");
 
-                    if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
-                        boolean skipFormModel = Boolean
-                                .parseBoolean(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL, "true"));
+                    if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+                        boolean skipFormModel = Boolean.parseBoolean(GlobalSettings.getProperty(CodegenConstants.SKIP_FORM_MODEL, "true"));
                         if (param.isFormParam && param.isContainer && !skipFormModel) {
                             // Because of skipFormModel=false, there is a model class generated which has
                             // "BuiltList<Uint8List>" as property and it requires the correct
@@ -827,8 +641,8 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                         }
                     }
                 }
-
             }
+
             // The MultipartFile handling above changes the type of some parameters from
             // `UInt8List`, the default for files, to `MultipartFile`.
             //
@@ -843,19 +657,35 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
             resultImports.addAll(rewriteImports(op.imports, false));
 
-            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
+            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
 
                 for (CodegenParameter param : op.allParams) {
                     // Generate serializer factories for all container type parameters.
                     // But skip binary and file parameters, JSON serializers don't make sense there.
                     if (param.isContainer && !(param.isBinary || param.isFile)) {
-                        addBuiltValueSerializer(BuiltValueSerializer.fromCodegenParameter(param));
+                        addBuiltValueSerializer(new BuiltValueSerializer(
+                                param.isArray,
+                                param.uniqueItems,
+                                param.isMap,
+                                param.items.isNullable,
+                                param.baseType
+                        ));
                     }
                 }
             }
 
+            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library) && (op.getHasFormParams() || op.getHasQueryParams() || op.getHasPathParams())) {
+                resultImports.add("package:" + pubName + "/" + sourceFolder + "/api_util.dart");
+            }
+
             if (op.returnContainer != null && !(op.isResponseBinary || op.isResponseFile)) {
-                addBuiltValueSerializer(BuiltValueSerializer.fromCodegenProperty(op.returnProperty));
+                addBuiltValueSerializer(new BuiltValueSerializer(
+                        Objects.equals("array", op.returnContainer) || Objects.equals("set", op.returnContainer),
+                        op.uniqueItems,
+                        Objects.equals("map", op.returnContainer),
+                        false,
+                        op.returnBaseType
+                ));
             }
         }
         // for some reason "import" structure is changed ..
@@ -874,7 +704,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     /**
      * Adds the serializer to the global list of custom built_value serializers.
-     * 
      * @param serializer
      */
     private void addBuiltValueSerializer(BuiltValueSerializer serializer) {
@@ -910,63 +739,30 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             } else if (modelImport.startsWith("package:")) { // e.g. package:openapi/src/model/child.dart
                 resultImports.add(modelImport);
             } else {
-                resultImports.add("package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/"
-                        + underscore(modelImport) + ".dart");
+                resultImports.add("package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/" + underscore(modelImport) + ".dart");
             }
         }
         return resultImports;
     }
 
     static class BuiltValueSerializer {
-        final String containerType;
-        final boolean isContainer;
+
         final boolean isArray;
+
         final boolean uniqueItems;
+
         final boolean isMap;
-        final BuiltValueSerializer items;
+
         final boolean isNullable;
 
-        final String datatypeWithEnum;
         final String dataType;
 
-        public static BuiltValueSerializer fromCodegenParameter(CodegenParameter parameter) {
-            if (parameter == null) {
-                return null;
-            }
-            return new BuiltValueSerializer(parameter.isArray, parameter.getUniqueItems(), parameter.getIsMap(),
-                    /// Recursion to handle subtypes
-                    fromCodegenProperty(parameter.items),
-                    parameter.isNullable, parameter.datatypeWithEnum, parameter.dataType, parameter.containerType,
-                    parameter.isContainer);
-        }
-
-        public static BuiltValueSerializer fromCodegenProperty(CodegenProperty property) {
-            if (property == null) {
-                return null;
-            }
-            return new BuiltValueSerializer(property.isArray, property.getUniqueItems(), property.getIsMap(),
-                    /// Recursion to handle subtypes
-                    fromCodegenProperty(property.items),
-                    property.isNullable, property.datatypeWithEnum, property.dataType, property.containerType,
-                    property.isContainer);
-        }
-
-        private BuiltValueSerializer(boolean isArray, boolean uniqueItems, boolean isMap, BuiltValueSerializer items,
-                boolean isNullable, String datatypeWithEnum, String dataType, String containerType,
-                boolean isContainer) {
+        private BuiltValueSerializer(boolean isArray, boolean uniqueItems, boolean isMap, boolean isNullable, String dataType) {
             this.isArray = isArray;
             this.uniqueItems = uniqueItems;
             this.isMap = isMap;
-            this.items = items;
             this.isNullable = isNullable;
-            this.datatypeWithEnum = datatypeWithEnum;
             this.dataType = dataType;
-            this.containerType = containerType;
-            this.isContainer = isContainer;
-        }
-
-        public boolean isContainer() {
-            return isContainer;
         }
 
         public boolean isArray() {
@@ -981,20 +777,8 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             return isMap;
         }
 
-        public BuiltValueSerializer getItems() {
-            return items;
-        }
-
         public boolean isNullable() {
             return isNullable;
-        }
-
-        public String getDatatypeWithEnum() {
-            return datatypeWithEnum;
-        }
-
-        public String getContainerType() {
-            return containerType;
         }
 
         public String getDataType() {
@@ -1002,46 +786,16 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         }
 
         @Override
-        public int hashCode() {
-            return Objects.hash(isContainer, isArray, uniqueItems, isMap, items, isNullable, datatypeWithEnum,
-                    dataType);
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            BuiltValueSerializer that = (BuiltValueSerializer) o;
+            return isArray == that.isArray && uniqueItems == that.uniqueItems && isMap == that.isMap && isNullable == that.isNullable && dataType.equals(that.dataType);
         }
 
         @Override
-        public boolean equals(Object obj) {
-            if (this == obj)
-                return true;
-            if (obj == null)
-                return false;
-            if (getClass() != obj.getClass())
-                return false;
-            BuiltValueSerializer other = (BuiltValueSerializer) obj;
-            if (isContainer != other.isContainer)
-                return false;
-            if (isArray != other.isArray)
-                return false;
-            if (uniqueItems != other.uniqueItems)
-                return false;
-            if (isMap != other.isMap)
-                return false;
-            if (items == null) {
-                if (other.items != null)
-                    return false;
-            } else if (!items.equals(other.items))
-                return false;
-            if (isNullable != other.isNullable)
-                return false;
-            if (datatypeWithEnum == null) {
-                if (other.datatypeWithEnum != null)
-                    return false;
-            } else if (!datatypeWithEnum.equals(other.datatypeWithEnum))
-                return false;
-            if (dataType == null) {
-                if (other.dataType != null)
-                    return false;
-            } else if (!dataType.equals(other.dataType))
-                return false;
-            return true;
+        public int hashCode() {
+            return Objects.hash(isArray, uniqueItems, isMap, isNullable, dataType);
         }
     }
 }

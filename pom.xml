@@ -1323,8 +1323,11 @@
             </activation>
             <modules>
                 <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
-                <module>samples/openapi3/client/petstore/dart-dio/dio/built_value</module>
-                <module>samples/openapi3/client/petstore/dart-dio/dio/json_serializable</module>
+                <module>samples/openapi3/client/petstore/dart-dio/oneof</module>
+                <module>samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance</module>
+                <module>samples/openapi3/client/petstore/dart-dio/oneof_primitive</module>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
+                <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable</module>
                 <module>samples/openapi3/client/petstore/dart-next/dio/built_value</module>
                 <module>samples/openapi3/client/petstore/dart-next/dio/json_serializable</module>
             </modules>

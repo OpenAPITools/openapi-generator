@@ -19,18 +19,11 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.servers.Server;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DartClientCodegen extends AbstractDartCodegen {
@@ -52,35 +45,6 @@ public class DartClientCodegen extends AbstractDartCodegen {
         cliOptions.add(serializationLibrary);
 
         sourceFolder = "";
-    }
-
-    @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        final CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
-        for (CodegenResponse r : op.responses) {
-            // By default, only set types are automatically added to operation imports, not sure why.
-            // Add all container type imports here, by default 'dart:core' imports are skipped
-            // but other sub-classes may require specific container type imports.
-            if (r.containerType != null && typeMapping().containsKey(r.containerType)) {
-                final String value = typeMapping().get(r.containerType);
-                if (needToImport(value)) {
-                    op.imports.add(value);
-                }
-            }
-        }
-        for (CodegenParameter p : op.allParams) {
-            if (p.isContainer) {
-                final String type = p.isArray ? "array" : "map";
-                if (typeMapping().containsKey(type)) {
-                    final String value = typeMapping().get(type);
-                    // Also add container imports for parameters.
-                    if (needToImport(value)) {
-                        op.imports.add(value);
-                    }
-                }
-            }
-        }
-        return op;
     }
 
     @Override
