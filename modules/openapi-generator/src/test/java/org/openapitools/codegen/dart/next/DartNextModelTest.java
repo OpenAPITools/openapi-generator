@@ -29,11 +29,11 @@ public class DartNextModelTest {
 
     @Test(description = "convert a simple model")
     public void simpleModelTest() {
-        final Schema model = new Schema()
+        final Schema<?> model = new Schema()
                 .description("a sample model")
-                .addProperties("id", new IntegerSchema())
-                .addProperties("name", new StringSchema())
-                .addProperties("createdAt", new DateTimeSchema())
+                .addProperty("id", new IntegerSchema())
+                .addProperty("name", new StringSchema())
+                .addProperty("createdAt", new DateTimeSchema())
                 .addRequiredItem("id")
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new DartNextClientCodegen();
@@ -83,10 +83,10 @@ public class DartNextModelTest {
     public void simpleModelWithTimeMachineTest() {
         final Schema model = new Schema()
             .description("a sample model")
-            .addProperties("id", new IntegerSchema())
-            .addProperties("name", new StringSchema())
-            .addProperties("createdAt", new DateTimeSchema())
-            .addProperties("birthDate", new DateSchema())
+            .addProperty("id", new IntegerSchema())
+            .addProperty("name", new StringSchema())
+            .addProperty("createdAt", new DateTimeSchema())
+            .addProperty("birthDate", new DateSchema())
             .addRequiredItem("id")
             .addRequiredItem("name");
 
@@ -150,8 +150,8 @@ public class DartNextModelTest {
     public void listPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id", new IntegerSchema())
-                .addProperties("urls", new ArraySchema()
+                .addProperty("id", new IntegerSchema())
+                .addProperty("urls", new ArraySchema()
                         .items(new StringSchema()))
                 .addRequiredItem("id");
 
@@ -183,7 +183,8 @@ public class DartNextModelTest {
         Assert.assertEquals(property2.dataType, "BuiltList<String>");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertEquals(property2.baseType, "BuiltList");
-        Assert.assertEquals(property2.containerType, "array");
+        //TODO: change this back to array after containerTypeMapped lands
+        Assert.assertEquals(property2.containerType, "BuiltList");
         Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
         Assert.assertTrue(property2.isContainer);
@@ -193,8 +194,8 @@ public class DartNextModelTest {
     public void setPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id", new IntegerSchema())
-                .addProperties("urls", new ArraySchema().items(new StringSchema()).uniqueItems(true))
+                .addProperty("id", new IntegerSchema())
+                .addProperty("urls", new ArraySchema().items(new StringSchema()).uniqueItems(true))
                 .addRequiredItem("id");
 
         final DefaultCodegen codegen = new DartNextClientCodegen();
@@ -225,7 +226,8 @@ public class DartNextModelTest {
         Assert.assertEquals(property2.dataType, "BuiltSet<String>");
         Assert.assertEquals(property2.name, "urls");
         Assert.assertEquals(property2.baseType, "BuiltSet");
-        Assert.assertEquals(property2.containerType, "set");
+        //TODO: change this back to set after containerTypeMapped lands
+        Assert.assertEquals(property2.containerType, "BuiltSet");
         Assert.assertFalse(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
         Assert.assertTrue(property2.isContainer);
@@ -235,7 +237,7 @@ public class DartNextModelTest {
     public void mapPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("translations", new MapSchema()
+                .addProperty("translations", new MapSchema()
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
 
@@ -257,7 +259,8 @@ public class DartNextModelTest {
         Assert.assertEquals(property1.dataType, "BuiltMap<String, String>");
         Assert.assertEquals(property1.name, "translations");
         Assert.assertEquals(property1.baseType, "BuiltMap");
-        Assert.assertEquals(property1.containerType, "map");
+        //TODO: change this back to map after containerTypeMapped lands
+        Assert.assertEquals(property1.containerType, "BuiltMap");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
         Assert.assertTrue(property1.isPrimitiveType);
@@ -267,7 +270,7 @@ public class DartNextModelTest {
     public void complexPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("children", new Schema().$ref("#/definitions/Children"));
+                .addProperty("children", new Schema().$ref("#/definitions/Children"));
 
         final DefaultCodegen codegen = new DartNextClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, DartNextClientCodegen.SERIALIZATION_LIBRARY_BUILT_VALUE);
@@ -295,7 +298,7 @@ public class DartNextModelTest {
     public void complexListProperty() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("children", new ArraySchema()
+                .addProperty("children", new ArraySchema()
                         .items(new Schema().$ref("#/definitions/Children")));
 
         final DefaultCodegen codegen = new DartNextClientCodegen();
@@ -316,7 +319,8 @@ public class DartNextModelTest {
         Assert.assertEquals(property1.dataType, "BuiltList<Children>");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "BuiltList");
-        Assert.assertEquals(property1.containerType, "array");
+        //TODO: change this back to array after containerTypeMapped lands
+        Assert.assertEquals(property1.containerType, "BuiltList");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
     }
@@ -325,7 +329,7 @@ public class DartNextModelTest {
     public void complexMapSchema() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("children", new MapSchema()
+                .addProperty("children", new MapSchema()
                         .additionalProperties(new Schema().$ref("#/definitions/Children")));
 
         final DefaultCodegen codegen = new DartNextClientCodegen();
@@ -347,7 +351,8 @@ public class DartNextModelTest {
         Assert.assertEquals(property1.dataType, "BuiltMap<String, Children>");
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "BuiltMap");
-        Assert.assertEquals(property1.containerType, "map");
+        //TODO: change this back to array after containerTypeMapped lands
+        Assert.assertEquals(property1.containerType, "BuiltMap");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
     }
@@ -446,9 +451,9 @@ public class DartNextModelTest {
         array.setDefault("[]");
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("arrayNoDefault", new ArraySchema())
-                .addProperties("arrayEmptyDefault", array)
-                .addProperties("mapNoDefault", new MapSchema());
+                .addProperty("arrayNoDefault", new ArraySchema())
+                .addProperty("arrayEmptyDefault", array)
+                .addProperty("mapNoDefault", new MapSchema());
         final DefaultCodegen codegen = new DartNextClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, DartNextClientCodegen.SERIALIZATION_LIBRARY_BUILT_VALUE);
         codegen.setOpenAPI(TestUtils.createOpenAPIWithOneSchema("sample", model));
@@ -476,9 +481,9 @@ public class DartNextModelTest {
         dateTime.setDefault("2021-01-01T14:00:00Z");
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("date", date)
-                .addProperties("dateTime", dateTime)
-                .addProperties("mapNoDefault", new MapSchema());
+                .addProperty("date", date)
+                .addProperty("dateTime", dateTime)
+                .addProperty("mapNoDefault", new MapSchema());
         final DefaultCodegen codegen = new DartNextClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);

@@ -120,10 +120,11 @@ public abstract class DartNextAbstractCodegen extends DefaultCodegen {
                 )
         );
 
-        outputFolder = "generated-code/dart";
+        ///src/main/resources/dart-next
+        // outputFolder = "generated-code/dart";
         modelTemplateFiles.put("model.mustache", ".dart");
         apiTemplateFiles.put("api.mustache", ".dart");
-        embeddedTemplateDir = templateDir = "dart2";
+        // embeddedTemplateDir = templateDir = "dart2";
         apiPackage = "api";
         modelPackage = "model";
         modelDocTemplateFiles.put("object_doc.mustache", ".md");
@@ -332,9 +333,9 @@ public abstract class DartNextAbstractCodegen extends DefaultCodegen {
         additionalProperties.put("modelDocPath", modelDocPath);
 
         // check to not overwrite a custom templateDir
-        if (templateDir == null) {
-            embeddedTemplateDir = templateDir = "dart2";
-        }
+        // if (templateDir == null) {
+        //     embeddedTemplateDir = templateDir = "dart2";
+        // }
     }
 
     @Override

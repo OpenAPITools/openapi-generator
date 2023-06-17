@@ -55,29 +55,6 @@ import io.swagger.v3.oas.models.media.Discriminator;
 import io.swagger.v3.oas.models.media.Schema;
 
 
-import com.google.common.collect.Sets;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.servers.Server;
-
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.*;
-import java.util.stream.Stream;
-
-import static org.openapitools.codegen.utils.StringUtils.*;
-
-
 
 /*
  * Copyright 2021 OpenAPI-Generator Contributors (https://openapi-generator.tech)
@@ -147,7 +124,7 @@ public class DartNextClientCodegen extends DartNextAbstractCodegen {
                 .build();
 
         outputFolder = "generated-code/dart-next";
-        embeddedTemplateDir = "dart";
+        embeddedTemplateDir = "dart-next";
         this.setTemplateDir(embeddedTemplateDir);
 
         supportedLibraries.put(NETWORKING_LIBRARY_DIO, "[DEFAULT] dio");
