@@ -1,0 +1,27 @@
+{{>header}}
+import 'dart:async';
+import 'package:dio/dio.dart';
+{{#useBuiltValue}}
+import 'package:built_value/built_value.dart';
+import 'package:built_collection/built_collection.dart';
+import 'package:built_value/serializer.dart';{{/useBuiltValue}}{{#useJsonSerializable}}
+import 'package:json_annotation/json_annotation.dart';{{/useJsonSerializable}}
+import 'package:{{pubName}}/{{sourceFolder}}/repository_base.dart';
+import 'package:{{pubName}}/{{sourceFolder}}/api_util.dart';
+import 'package:{{pubName}}/models.dart';
+{{#operations}}
+{{#imports}}import '{{.}}';
+{{/imports}}
+
+part '{{classFilename}}.g.dart';
+
+{{>libraries/dio/api_typed}}
+{{>libraries/dio/api_raw}}
+
+{{#operation}}
+{{#allParams}}
+{{>serialization/recursion_enum_inline}}
+{{/allParams}}
+{{/operation}}
+{{/operations}}
+

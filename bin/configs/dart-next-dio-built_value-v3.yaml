@@ -1,0 +1,15 @@
+generatorName: dart-next
+outputDir: samples/openapi3/client/petstore/dart-next/dio/built_value
+inputSpec: modules/openapi-generator/src/test/resources/3_0/dart/v3.0.0.yaml
+templateDir: modules/openapi-generator/src/main/resources/dart-next
+typeMappings:
+  Client: "ModelClient"
+  File: "ModelFile"
+  EnumClass: "ModelEnumClass"
+additionalProperties: 
+  hideGenerationTimestamp: "true"
+  enumUnknownDefaultCase: "true"
+  library: dio
+  serializationLibrary: built_value
+reservedWordsMappings:
+  class: "classField"

@@ -131,6 +131,10 @@
         "title": "Config Options for dart-dio",
         "sidebar_label": "dart-dio"
       },
+      "generators/dart-next": {
+        "title": "Config Options for dart-next",
+        "sidebar_label": "dart-next"
+      },
       "generators/dart-jaguar": {
         "title": "Config Options for dart-jaguar",
         "sidebar_label": "dart-jaguar"

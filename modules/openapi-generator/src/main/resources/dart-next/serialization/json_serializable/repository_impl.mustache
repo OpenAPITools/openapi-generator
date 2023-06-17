@@ -1,0 +1,121 @@
+import 'dart:convert';
+import 'dart:typed_data';
+import 'repository_base.dart';
+import 'package:{{pubName}}/models.dart';
+
+class JsonSerializableRepository extends SerializationRepositoryBase {
+    JsonSerializableRepository();
+    
+    /// Transforms an object of arbitrary type [T] (whose information is passed in inputTypeInfo) to a dart primitive
+    @override
+    FutureOr<Object?> serialize<T>(T src, TypeInfo inputTypeInfo, {Object? context}) {
+        if (src == null) {
+            return null;
+        }
+        if (src is String) {
+            return src;
+        }
+        if (src is bool) {
+          return src;
+        }
+        if (src is DateTime) {
+          return src.toIso8601String();
+        }
+        if (src is num) {
+            return src;
+        }
+        if (src is Uint8List) {
+          return src;
+        }
+        if (src is Iterable) {
+            return src.map((value) => serialize(value, inputTypeInfo.parameters[0], context: context)).toList();
+        }
+        if (src is Map) {
+            return src.map((key,value) => MapEntry(
+                //Json Map keys must always be strings
+                serialize(key, inputTypeInfo.parameters[0], context: context).toString(),
+                serialize(value, inputTypeInfo.parameters[1], context: context)
+            ));
+        }
+
+        if (context is Object? Function(Object?)) {
+          return context(src);
+        }
+
+        try {          
+          return (src as dynamic).toJson();
+        } on NoSuchMethodError {
+          assert(false, 
+          '''
+          Failed to serialize the object properly, falling back to `toString()`
+          ''');
+          return src.toString();
+        }
+    }
+
+    /// Transforms a dart primitive to an object of arbitrary type [T] (whose information is passed in inputTypeInfo)
+    @override
+    T deserialize<T>(Object? value, TypeInfo targetTypeInfo, {Object? context}) {
+        //Don't rely on T being accurate here, since it won't get passed for generic arguments.
+        if (value == null) {
+            return null as T;
+        }        
+        final targetRootType = targetTypeInfo.root;
+        if (targetRootType == T) {
+          //short circuit if we already have the output as the input
+          return value as T;
+        }
+        switch (targetRootType) {
+            case String:
+              return value.toString() as T;
+            case double:
+              return (value is num ? value.toDouble() : double.tryParse(value.toString())) as T;
+            case int:
+              return (value is num ? value.toInt() : int.tryParse(value.toString())) as T;
+            case num:
+              return (value is num ? value : num.tryParse(value.toString())) as T;
+            case bool:
+              return (value is bool ? value : bool.tryParse(value.toString())) as T;
+            case DateTime:
+              return (value is DateTime ? value : DateTime.tryParse(value.toString())) as T;
+            case Iterable:
+            case List:
+            case Set:
+              if (value is! Iterable) {
+                throw Exception('Cannot deserialize');
+              }
+              final mappedItems = value.map((v) => deserialize(v, targetTypeInfo.parameters[0], context: context));
+              if (targetRootType == List) {
+                return List.from(mappedItems);
+              } else if (targetRootType == Set) {
+                return Set.from(mappedItems);
+              } else if (targetRootType == Iterable) {
+                return mappedItems;
+              } else {
+                throw Exception('Cannot deserialize');
+              }
+            case Map:
+              if (value is! Map) {
+                throw Exception('Cannot deserialize');
+              }
+              return value.map((k,v) => MapEntry(deserialize(k, targetTypeInfo.parameters[0], context: context),deserialize(v, targetTypeInfo.parameters[1], context: context)));
+            {{#models}}
+            {{#model}}
+            case {{{classname}}}:
+                {{#isEnum}}            
+            //TODO: find a way to support enums
+            return value as T;
+                {{/isEnum}}
+                {{^isEnum}}
+            return {{{classname}}}.fromJson(value as Map<String, dynamic>) as T;
+                {{/isEnum}}
+            {{/model}}
+            {{/models}}
+            default:
+              if (value is T) {
+                return value;
+              }
+              throw Exception('Cannot deserialize');                      
+        } 
+    }
+}

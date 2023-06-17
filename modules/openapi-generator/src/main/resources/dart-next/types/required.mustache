@@ -1,0 +1,15 @@
+{{! 
+    a parameter is removed in dart json if its OAS properties are:
+    1. not required + has null value
+
+    a parameter is nullable in dart if its OAS properties are:
+    1. nullable
+    2. non-nullable + no default value + not required
+
+    a parameter is required in dart if its OAS properties are: 
+    1. no default value + non-nullable
+    2. no default value + nullable + required
+
+    as a general rule, a required paramter can't have a default value, since it will throw a syntax error.
+}}
+{{^defaultValue}}{{#isNullable}}{{#required}}required{{/required}}{{/isNullable}}{{^isNullable}}required{{/isNullable}}{{/defaultValue}}

@@ -1,0 +1,112 @@
+class {{classname}} {
+
+  final {{classname}}Raw rawApi;
+  final SerializationRepositoryBase _repository;
+
+  const {{classname}}(this.rawApi, this._repository);
+
+  {{#operation}}
+  /// {{summary}}{{^summary}}{{nickname}}{{/summary}}
+  /// {{notes}}
+  ///
+  /// Parameters:
+  {{#allParams}}
+  /// * [{{paramName}}] {{#description}}- {{{.}}}{{/description}}{{#defaultValue}} (Default: {{.}})  {{/defaultValue}}
+  {{/allParams}}
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]{{#returnType}} containing a [Response] with a [{{{.}}}] as data{{/returnType}}
+  /// Throws [DioException] if API call or serialization fails
+  {{#externalDocs}}
+  /// {{description}}
+  /// Also see [{{summary}} Documentation]({{url}})
+  {{/externalDocs}}
+  {{#isDeprecated}}
+  @Deprecated('This operation has been deprecated')
+  {{/isDeprecated}}
+  Future<Response<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {{nickname}}({ {{#allParams}}
+    {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}{{>types/required}} {{>types/recursion_type}} {{paramName}}{{#defaultValue}} = {{{.}}}{{/defaultValue}},{{/allParams}}
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {    
+    {{#hasBodyOrFormParams}}
+    Object? _bodyData;
+    {{#hasFormParams}}
+    final _bodyMap = <String, dynamic>{
+      {{#formParams}}
+      {{^required}}if ({{{paramName}}} != null) {{/required}}r'{{{baseName}}}': encodeFormParameter(_repository, {{{paramName}}}, {{>types/recursion_type_info}}),
+      {{/formParams}}
+    };
+    {{#isMultipart}}
+    _bodyData = FormData.fromMap(_bodyMap);
+    {{/isMultipart}}
+    {{^isMultipart}}
+    _bodyData = _bodyMap;
+    {{/isMultipart}}
+    {{/hasFormParams}}
+    {{#bodyParam}}
+    _bodyData = encodeBodyParameter(_repository, {{{paramName}}}, {{>types/recursion_type_info}});    
+    {{/bodyParam}}
+    {{/hasBodyOrFormParams}}
+
+    final _response = await rawApi.{{nickname}}(
+      {{#allParams}}{{#isPathParam}}
+      {{paramName}}: encodeStringParameter(_repository, {{paramName}}, {{>types/recursion_type_info}}),{{/isPathParam}}{{#isQueryParam}}      
+      {{paramName}}: encodeQueryParameter(_repository, {{paramName}}, {{>types/recursion_type_info}}, {{#collectionFormat}}format: ListFormat.{{.}},{{/collectionFormat}}),{{/isQueryParam}}{{#isHeaderParam}}
+      {{paramName}}: encodeStringParameter(_repository, {{paramName}}, {{>types/recursion_type_info}}), {{/isHeaderParam}}{{/allParams}}
+      {{#hasConsumes}}
+      body: _bodyData,
+      requestContentType: '{{#prioritizedContentTypes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/prioritizedContentTypes}}',{{/hasConsumes}}
+      cancelToken: cancelToken,
+      headers: headers,
+      extra: extra,
+      {{#isResponseFile}}
+      responseType: responseType.bytes,
+      {{/isResponseFile}}
+      validateStatus: validateStatus,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );    
+    {{#returnType}}
+
+    {{{.}}}? _responseData;
+
+    try {
+      final rawResponse = _response.data;
+      {{#returnProperty}}
+       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, {{>types/recursion_type_info}});     
+      {{/returnProperty}}
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<{{{.}}}>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );{{/returnType}}{{^returnType}}
+    return _response;{{/returnType}}
+  }
+
+  {{/operation}}
+}

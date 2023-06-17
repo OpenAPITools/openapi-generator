@@ -1495,7 +1495,7 @@ components:
       allOf:
         - $ref: "#/components/schemas/FruitType"
     FruitAnyOfDisc:
-      oneOf:
+      anyOf:
         - $ref: "#/components/schemas/AppleAnyOfDisc"
         - $ref: "#/components/schemas/BananaAnyOfDisc"
       discriminator:

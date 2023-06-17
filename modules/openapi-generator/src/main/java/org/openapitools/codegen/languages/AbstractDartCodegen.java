@@ -500,7 +500,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 return null;
             }
             if (ModelUtils.isStringSchema(schema)) {
-                return "'" + schema.getDefault().toString().replace("'", "\\'") + "'";
+                return "r'" + schema.getDefault().toString().replace("'", "\\'") + "'";
             }
             return schema.getDefault().toString();
         }
@@ -600,35 +600,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             }
         }
         return property;
-    }
-
-    @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        final CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
-        for (CodegenResponse r : op.responses) {
-            // By default, only set types are automatically added to operation imports, not sure why.
-            // Add all container type imports here, by default 'dart:core' imports are skipped
-            // but other sub-classes may require specific container type imports.
-            if (r.containerType != null && typeMapping().containsKey(r.containerType)) {
-                final String value = typeMapping().get(r.containerType);
-                if (needToImport(value)) {
-                    op.imports.add(value);
-                }
-            }
-        }
-        for (CodegenParameter p : op.allParams) {
-            if (p.isContainer) {
-                final String type = p.isArray ? "array" : "map";
-                if (typeMapping().containsKey(type)) {
-                    final String value = typeMapping().get(type);
-                    // Also add container imports for parameters.
-                    if (needToImport(value)) {
-                        op.imports.add(value);
-                    }
-                }
-            }
-        }
-        return op;
     }
 
     @Override
@@ -733,7 +704,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 "int".equalsIgnoreCase(datatype)) {
             return value;
         } else {
-            return "'" + escapeText(value) + "'";
+            return "r'" + escapeText(value) + "'";
         }
     }
 

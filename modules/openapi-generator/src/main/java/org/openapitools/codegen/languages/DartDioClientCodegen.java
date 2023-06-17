@@ -16,16 +16,33 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.Sets;
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.Discriminator;
-import io.swagger.v3.oas.models.media.Schema;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenDiscriminator;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.TemplateManager;
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -45,13 +62,13 @@ import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.sql.Array;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import com.google.common.collect.Sets;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 
-import static org.openapitools.codegen.utils.StringUtils.underscore;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Discriminator;
+import io.swagger.v3.oas.models.media.Schema;
 
 public class DartDioClientCodegen extends AbstractDartCodegen {
 
@@ -423,6 +440,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     @Override
     public String toDefaultValue(Schema schema) {
         if (schema.getDefault() != null) {
+            if (schema.getEnum() != null) {
+                return super.toDefaultValue(schema);
+            }
             if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
                 if (ModelUtils.isArraySchema(schema)) {
                     if (ModelUtils.isSet(schema)) {
@@ -434,6 +454,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                     return "MapBuilder()";
                 }
             }
+
             if (ModelUtils.isDateSchema(schema) || ModelUtils.isDateTimeSchema(schema)) {
                 // this is currently not supported and would create compile errors
                 return null;
@@ -446,6 +467,48 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         return null;
     }
 
+    @Override
+    public String toDefaultParameterValue(Schema<?> schema) {
+        var result = super.toDefaultParameterValue(schema);        
+        return result;
+    }
+
+    @Override
+    public void updateCodegenPropertyEnum(CodegenProperty var) {
+        super.updateCodegenPropertyEnum(var);
+        var enumName = var.getEnumName();
+        if (enumName != null) {
+            if (var.defaultValue != null) {
+                var allowable = var.getAllowableValues();
+                if (allowable != null) {
+                    var matchingMap = (ArrayList<?>) allowable.get("enumVars");
+                    String matchingName = null;
+                    for (Object enumMember : matchingMap) {
+                        if (!(enumMember instanceof HashMap<?, ?>)) {
+                            continue;
+                        }
+                        var castedEnumMember = (HashMap<String, Object>) enumMember;
+                        var name = (String) castedEnumMember.get("name");
+                        var value = castedEnumMember.get("value");
+                        if (value.equals(var.defaultValue)) {
+                            matchingName = name;
+                            break;
+                        }
+                    }
+                    if (matchingName != null) {
+                        var newDefaultValue = enumName + "." + matchingName;
+                        var oldDefaultValue = var.getDefaultValue();
+                        LOGGER.info("Modifying enum {} with default value {} to {}", enumName, oldDefaultValue,
+                                newDefaultValue);
+                        var.setDefaultValue(newDefaultValue);
+                    }
+                }
+
+            }
+        }
+    }
+
+    
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModels(objs);
@@ -481,6 +544,16 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         for (CodegenModel model : allModels.values()) {
             syncRootTypesWithInnerVars(allModels, model);
         }
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required,
+            boolean schemaIsFromAdditionalProperties) {
+        CodegenProperty result = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
+        if (result.containerType != null && typeMapping.containsKey(result.containerType)) {
+            result.containerType = typeMapping.get(result.containerType);
+        }
+        return result;
     }
 
     private void syncRootTypesWithInnerVars(Map<String, CodegenModel> objs, CodegenModel model) {
@@ -719,20 +792,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 // that need a custom serializer builder factory added.
                 final CodegenProperty items = property.items;
                 if (items.getAdditionalProperties() != null) {
-                    addBuiltValueSerializer(new BuiltValueSerializer(
-                            items.isArray,
-                            items.getUniqueItems(),
-                            items.isMap,
-                            items.items.isNullable,
-                            items.getAdditionalProperties().dataType));
+                    addBuiltValueSerializer(BuiltValueSerializer.fromCodegenProperty(items));
                 }
             }
-        }
-    }
-
-    private void preferSchemaBaseType(CodegenParameter param) {
-        if (param.baseType != null && param.getSchema() != null && !param.baseType.equals(param.getSchema().baseType)) {
-            param.baseType = param.getSchema().baseType;
         }
     }
 
@@ -747,10 +809,11 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         for (CodegenOperation op : operationList) {
             for (CodegenParameter param : Stream.of(op.allParams, op.bodyParams, op.formParams)
                     .flatMap(Collection::stream)
-                    .collect(Collectors.toList())) {
+                    .collect(Collectors.toList())) {                                        
                 if (((op.isMultipart && param.isFormParam) || param.isBodyParam) && (param.isBinary || param.isFile)) {
                     param.dataType = param.dataType.replace("Uint8List", "MultipartFile");
-                    param.baseType = param.baseType.replace("Uint8List", "MultipartFile");
+                    // param.containerType = param.containerType.replace("Uint8List",
+                    // "MultipartFile");
                     op.imports.add("MultipartFile");
 
                     if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(serializationLibrary)) {
@@ -765,12 +828,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                     }
                 }
 
-                preferSchemaBaseType(param);
             }
-            if (op.bodyParam != null) {
-                preferSchemaBaseType(op.bodyParam);
-            }
-            
             // The MultipartFile handling above changes the type of some parameters from
             // `UInt8List`, the default for files, to `MultipartFile`.
             //
@@ -791,23 +849,13 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                     // Generate serializer factories for all container type parameters.
                     // But skip binary and file parameters, JSON serializers don't make sense there.
                     if (param.isContainer && !(param.isBinary || param.isFile)) {
-                        addBuiltValueSerializer(new BuiltValueSerializer(
-                                param.isArray,
-                                param.uniqueItems,
-                                param.isMap,
-                                param.items.isNullable,
-                                param.baseType));
+                        addBuiltValueSerializer(BuiltValueSerializer.fromCodegenParameter(param));
                     }
                 }
             }
 
             if (op.returnContainer != null && !(op.isResponseBinary || op.isResponseFile)) {
-                addBuiltValueSerializer(new BuiltValueSerializer(
-                        Objects.equals("array", op.returnContainer) || Objects.equals("set", op.returnContainer),
-                        op.uniqueItems,
-                        Objects.equals("map", op.returnContainer),
-                        false,
-                        op.returnBaseType));
+                addBuiltValueSerializer(BuiltValueSerializer.fromCodegenProperty(op.returnProperty));
             }
         }
         // for some reason "import" structure is changed ..
@@ -870,24 +918,55 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     }
 
     static class BuiltValueSerializer {
-
+        final String containerType;
+        final boolean isContainer;
         final boolean isArray;
-
         final boolean uniqueItems;
-
         final boolean isMap;
-
+        final BuiltValueSerializer items;
         final boolean isNullable;
 
+        final String datatypeWithEnum;
         final String dataType;
 
-        private BuiltValueSerializer(boolean isArray, boolean uniqueItems, boolean isMap, boolean isNullable,
-                String dataType) {
+        public static BuiltValueSerializer fromCodegenParameter(CodegenParameter parameter) {
+            if (parameter == null) {
+                return null;
+            }
+            return new BuiltValueSerializer(parameter.isArray, parameter.getUniqueItems(), parameter.getIsMap(),
+                    /// Recursion to handle subtypes
+                    fromCodegenProperty(parameter.items),
+                    parameter.isNullable, parameter.datatypeWithEnum, parameter.dataType, parameter.containerType,
+                    parameter.isContainer);
+        }
+
+        public static BuiltValueSerializer fromCodegenProperty(CodegenProperty property) {
+            if (property == null) {
+                return null;
+            }
+            return new BuiltValueSerializer(property.isArray, property.getUniqueItems(), property.getIsMap(),
+                    /// Recursion to handle subtypes
+                    fromCodegenProperty(property.items),
+                    property.isNullable, property.datatypeWithEnum, property.dataType, property.containerType,
+                    property.isContainer);
+        }
+
+        private BuiltValueSerializer(boolean isArray, boolean uniqueItems, boolean isMap, BuiltValueSerializer items,
+                boolean isNullable, String datatypeWithEnum, String dataType, String containerType,
+                boolean isContainer) {
             this.isArray = isArray;
             this.uniqueItems = uniqueItems;
             this.isMap = isMap;
+            this.items = items;
             this.isNullable = isNullable;
+            this.datatypeWithEnum = datatypeWithEnum;
             this.dataType = dataType;
+            this.containerType = containerType;
+            this.isContainer = isContainer;
+        }
+
+        public boolean isContainer() {
+            return isContainer;
         }
 
         public boolean isArray() {
@@ -902,8 +981,20 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             return isMap;
         }
 
+        public BuiltValueSerializer getItems() {
+            return items;
+        }
+
         public boolean isNullable() {
             return isNullable;
+        }
+
+        public String getDatatypeWithEnum() {
+            return datatypeWithEnum;
+        }
+
+        public String getContainerType() {
+            return containerType;
         }
 
         public String getDataType() {
@@ -911,19 +1002,46 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         }
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o)
-                return true;
-            if (o == null || getClass() != o.getClass())
-                return false;
-            BuiltValueSerializer that = (BuiltValueSerializer) o;
-            return isArray == that.isArray && uniqueItems == that.uniqueItems && isMap == that.isMap
-                    && isNullable == that.isNullable && dataType.equals(that.dataType);
+        public int hashCode() {
+            return Objects.hash(isContainer, isArray, uniqueItems, isMap, items, isNullable, datatypeWithEnum,
+                    dataType);
         }
 
         @Override
-        public int hashCode() {
-            return Objects.hash(isArray, uniqueItems, isMap, isNullable, dataType);
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            BuiltValueSerializer other = (BuiltValueSerializer) obj;
+            if (isContainer != other.isContainer)
+                return false;
+            if (isArray != other.isArray)
+                return false;
+            if (uniqueItems != other.uniqueItems)
+                return false;
+            if (isMap != other.isMap)
+                return false;
+            if (items == null) {
+                if (other.items != null)
+                    return false;
+            } else if (!items.equals(other.items))
+                return false;
+            if (isNullable != other.isNullable)
+                return false;
+            if (datatypeWithEnum == null) {
+                if (other.datatypeWithEnum != null)
+                    return false;
+            } else if (!datatypeWithEnum.equals(other.datatypeWithEnum))
+                return false;
+            if (dataType == null) {
+                if (other.dataType != null)
+                    return false;
+            } else if (!dataType.equals(other.dataType))
+                return false;
+            return true;
         }
     }
 }

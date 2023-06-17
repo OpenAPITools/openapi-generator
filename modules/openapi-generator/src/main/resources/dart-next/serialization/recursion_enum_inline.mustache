@@ -1,0 +1,12 @@
+{{^isModel}}
+{{#enumName}}
+{{^isContainer}}
+{{#includeSerializationTemplate}}enum_inline{{/includeSerializationTemplate}}
+{{/isContainer}}
+{{#isContainer}}
+    {{#items}}
+{{>serialization/recursion_enum_inline}}
+    {{/items}}
+{{/isContainer}}
+{{/enumName}}
+{{/isModel}}

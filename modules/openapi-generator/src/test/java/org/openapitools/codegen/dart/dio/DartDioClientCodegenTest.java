@@ -121,6 +121,6 @@ public class DartDioClientCodegenTest {
         files.forEach(File::deleteOnExit);
 
         TestUtils.ensureContainsFile(files, output, "README.md");
-        TestUtils.ensureContainsFile(files, output, "lib/src/api.dart");
+        TestUtils.ensureContainsFile(files, output, "lib/apis.dart");
     }
 }
