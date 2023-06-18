@@ -493,7 +493,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
-            removeCircularReferencesInComposedSchemas(model);
 
             CodegenComposedSchemas composedSchemas = model.getComposedSchemas();
             if (composedSchemas != null) {
@@ -610,33 +609,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // HOTFIX: https://github.com/OpenAPITools/openapi-generator/issues/14944
         if (property.datatypeWithEnum.equals("decimal")) {
             property.isDecimal = true;
-        }
-    }
-
-    /**
-     * Mitigates https://github.com/OpenAPITools/openapi-generator/issues/13709
-     */
-    private void removeCircularReferencesInComposedSchemas(CodegenModel cm) {
-        cm.anyOf.removeIf(anyOf -> anyOf.equals(cm.classname));
-        cm.oneOf.removeIf(oneOf -> oneOf.equals(cm.classname));
-        cm.allOf.removeIf(allOf -> allOf.equals(cm.classname));
-
-        CodegenComposedSchemas composedSchemas = cm.getComposedSchemas();
-        if (composedSchemas != null) {
-            List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
-            if (anyOf != null) {
-                anyOf.removeIf(p -> p.dataType.equals(cm.classname));
-            }
-
-            List<CodegenProperty> oneOf = composedSchemas.getOneOf();
-            if (oneOf != null) {
-                oneOf.removeIf(p -> p.dataType.equals(cm.classname));
-            }
-
-            List<CodegenProperty> allOf = composedSchemas.getAllOf();
-            if (allOf != null) {
-                allOf.removeIf(p -> p.dataType.equals(cm.classname));
-            }
         }
     }
 
