@@ -971,15 +971,18 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 String typing = getPydanticType(param, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, null);
                 List<String> fields = new ArrayList<>();
                 String firstField = "";
+                String baseType = param.dataType;
 
                 if (!param.required) { //optional
                     firstField = "None";
                     typing = "Optional[" + typing + "]";
+                    baseType = "Optional[" + baseType + "]";
                     typingImports.add("Optional");
                 } else { // required
                     firstField = "...";
                     if (param.isNullable) {
                         typing = "Optional[" + typing + "]";
+                        baseType = "Optional[" + baseType + "]";
                         typingImports.add("Optional");
                     }
                 }
@@ -1009,12 +1012,13 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 } else {
                     fieldCustomization = "Field()";
                 }
-
                 if ("Field()".equals(fieldCustomization)) {
                     param.vendorExtensions.put("x-py-typing", typing);
                 } else {
                     param.vendorExtensions.put("x-py-typing", String.format(Locale.ROOT, "Annotated[%s, %s]", typing, fieldCustomization));
                 }
+
+                param.vendorExtensions.put("x-mypy-typing", baseType);
             }
 
             // update typing import for operation return type

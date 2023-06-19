@@ -4,6 +4,7 @@
 
 import re  # noqa: F401
 import io
+import typing
 import warnings
 
 from pydantic import validate_arguments, ValidationError
@@ -36,9 +37,16 @@ class {{classname}}(object):
         self.api_client = api_client
 {{#operation}}
 
+{{#allParams}}
+    if typing.TYPE_CHECKING:
+        T{{operationId}}_{{paramName}}: typing.TypeAlias = {{{vendorExtensions.x-mypy-typing}}}
+    else:
+        T{{operationId}}_{{paramName}} = {{{vendorExtensions.x-py-typing}}}
+{{/allParams}}
+
     @validate_arguments
 {{#asyncio}}
-    async def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:  # noqa: E501
+    async def {{operationId}}(self, {{#allParams}}{{paramName}} : T{{operationId}}_{{paramName}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> {{{returnType}}}{{^returnType}}None{{/returnType}}:  # noqa: E501
 {{/asyncio}}
 {{^asyncio}}
     def {{operationId}}(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}{{#asyncio}}async_req: Optional[bool]=None, {{/asyncio}}**kwargs) -> {{#asyncio}}Union[{{{returnType}}}{{^returnType}}None{{/returnType}}, Awaitable[{{{returnType}}}{{^returnType}}None{{/returnType}}]]{{/asyncio}}{{^asyncio}}{{{returnType}}}{{^returnType}}None{{/returnType}}{{/asyncio}}:  # noqa: E501
@@ -77,10 +85,10 @@ class {{classname}}(object):
 
     @validate_arguments
     {{#asyncio}}
-    async def {{operationId}}_with_http_info(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> ApiResponse:  # noqa: E501
+    async def {{operationId}}_with_http_info(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> ApiResponse[{{returnType}}{{^returnType}}None{{/returnType}}]:  # noqa: E501
     {{/asyncio}}
     {{^asyncio}}
-    def {{operationId}}_with_http_info(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> ApiResponse:  # noqa: E501
+    def {{operationId}}_with_http_info(self, {{#allParams}}{{paramName}} : {{{vendorExtensions.x-py-typing}}}{{^required}} = None{{/required}}, {{/allParams}}**kwargs) -> ApiResponse[{{returnType}}{{^returnType}}None{{/returnType}}]:  # noqa: E501
     {{/asyncio}}
         """{{#isDeprecated}}(Deprecated) {{/isDeprecated}}{{{summary}}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
