@@ -45,8 +45,6 @@
         <perfanaApplications>{{ systemUnderTest }}</perfanaApplications>
         <version>{{ apiVersion }}</version>
         <tags></tags>
-        <buildResultsUrl>${BUILD_URL}</buildResultsUrl>
-        <testEnvironment>${TEST_ENVIRONMENT}</testEnvironment>
         <influx.host>{{ influxHost }}</influx.host>
         <influx.port>{{ influxPort }}</influx.port>
         <influx.protocol>{{ influxProtocol }}</influx.protocol>
@@ -84,19 +82,6 @@
                         <jvmArg>-Xms1g</jvmArg>
                         <jvmArg>-Xmx4g</jvmArg>
                     </jvmArgs>
-                    <eventSchedulerConfig>
-                        <eventConfigs>
-                            <eventConfig implementation="io.perfana.event.PerfanaEventConfig">
-                                <name>PerfanaEvent</name>
-                                <enabled>${perfanaEnabled}</enabled>
-                            </eventConfig>
-                            <eventConfig
-                                    implementation="io.perfana.events.testrunconfigcommand.TestRunConfigCommandEventConfig">
-                                <name>KubernetesGetDeployment</name>
-                                <enabled>false</enabled>
-                            </eventConfig>
-                        </eventConfigs>
-                    </eventSchedulerConfig>
                 </configuration>
             </plugin>
         </plugins>
@@ -142,6 +127,7 @@
                 <tags>gatling,stress-test</tags>
             </properties>
         </profile>
+
         <profile>
             <id>load</id>
             <properties>
@@ -154,6 +140,7 @@
                 <tags>gatling,load-test</tags>
             </properties>
         </profile>
+
         <profile>
             <id>endurance</id>
             <properties>
@@ -178,6 +165,7 @@
                 <targetUsersPerSecond>1</targetUsersPerSecond>
                 <rampupTimeInSeconds>1</rampupTimeInSeconds>
                 <constantLoadTimeInSeconds>60</constantLoadTimeInSeconds>
+                <eventsEnabled>false</eventsEnabled>
             </properties>
         </profile>
 
