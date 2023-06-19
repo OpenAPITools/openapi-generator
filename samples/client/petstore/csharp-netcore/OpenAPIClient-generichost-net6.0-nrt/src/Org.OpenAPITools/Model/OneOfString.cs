@@ -100,6 +100,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
+            string? varString = default;
+
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -121,8 +123,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            Utf8JsonReader varStringReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<string>(ref varStringReader, jsonSerializerOptions, out string? varString))
+            if (varString != null)
+                return new OneOfString(varString);
+
+            if (varString != null)
                 return new OneOfString(varString);
 
             throw new JsonException();
@@ -137,11 +141,22 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, OneOfString oneOfString, JsonSerializerOptions jsonSerializerOptions)
         {
-            System.Text.Json.JsonSerializer.Serialize(writer, oneOfString.VarString, jsonSerializerOptions);
-
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, oneOfString, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="OneOfString" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="oneOfString"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, OneOfString oneOfString, JsonSerializerOptions jsonSerializerOptions)
+        {
+
         }
     }
 }

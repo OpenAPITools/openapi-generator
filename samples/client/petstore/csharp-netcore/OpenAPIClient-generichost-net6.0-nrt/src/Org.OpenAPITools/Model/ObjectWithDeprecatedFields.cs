@@ -199,14 +199,23 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WritePropertyName("bars");
-            JsonSerializer.Serialize(writer, objectWithDeprecatedFields.Bars, jsonSerializerOptions);
-            writer.WritePropertyName("deprecatedRef");
-            JsonSerializer.Serialize(writer, objectWithDeprecatedFields.DeprecatedRef, jsonSerializerOptions);
-            writer.WriteNumber("id", objectWithDeprecatedFields.Id);
-            writer.WriteString("uuid", objectWithDeprecatedFields.Uuid);
-
+            WriteProperties(ref writer, objectWithDeprecatedFields, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="ObjectWithDeprecatedFields" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="objectWithDeprecatedFields"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, ObjectWithDeprecatedFields objectWithDeprecatedFields, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WritePropertyName("bars");
+            JsonSerializer.Serialize(writer, objectWithDeprecatedFields.Bars, jsonSerializerOptions);            writer.WritePropertyName("deprecatedRef");
+            JsonSerializer.Serialize(writer, objectWithDeprecatedFields.DeprecatedRef, jsonSerializerOptions);            writer.WriteNumber("id", objectWithDeprecatedFields.Id);
+            writer.WriteString("uuid", objectWithDeprecatedFields.Uuid);
         }
     }
 }

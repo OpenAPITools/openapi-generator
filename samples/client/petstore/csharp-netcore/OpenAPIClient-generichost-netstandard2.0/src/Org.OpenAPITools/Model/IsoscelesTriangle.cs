@@ -136,9 +136,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("shapeType", isoscelesTriangle.ShapeType);
-
+            WriteProperties(ref writer, isoscelesTriangle, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="IsoscelesTriangle" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="isoscelesTriangle"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, IsoscelesTriangle isoscelesTriangle, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("shapeType", isoscelesTriangle.ShapeType);
         }
     }
 }

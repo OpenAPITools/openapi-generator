@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
+        /// <example>Sat Feb 01 19:00:00 EST 2020</example>
         [JsonPropertyName("date")]
         public DateTime Date { get; set; }
 
@@ -575,15 +575,25 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, formatTest, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="FormatTest" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="formatTest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, FormatTest formatTest, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WritePropertyName("binary");
-            JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
-            writer.WritePropertyName("byte");
-            JsonSerializer.Serialize(writer, formatTest.VarByte, jsonSerializerOptions);
-            writer.WriteString("date", formatTest.Date.ToString(DateFormat));
+            JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);            writer.WritePropertyName("byte");
+            JsonSerializer.Serialize(writer, formatTest.VarByte, jsonSerializerOptions);            writer.WriteString("date", formatTest.Date.ToString(DateFormat));
             writer.WriteString("dateTime", formatTest.DateTime.ToString(DateTimeFormat));
             writer.WritePropertyName("decimal");
-            JsonSerializer.Serialize(writer, formatTest.VarDecimal, jsonSerializerOptions);
-            writer.WriteNumber("double", formatTest.VarDouble);
+            JsonSerializer.Serialize(writer, formatTest.VarDecimal, jsonSerializerOptions);            writer.WriteNumber("double", formatTest.VarDouble);
             writer.WriteNumber("float", formatTest.VarFloat);
             writer.WriteNumber("int32", formatTest.Int32);
             writer.WriteNumber("int64", formatTest.Int64);
@@ -597,8 +607,6 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("unsigned_integer", formatTest.UnsignedInteger);
             writer.WriteNumber("unsigned_long", formatTest.UnsignedLong);
             writer.WriteString("uuid", formatTest.Uuid);
-
-            writer.WriteEndObject();
         }
     }
 }

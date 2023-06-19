@@ -145,9 +145,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("name", deprecatedObject.Name);
-
+            WriteProperties(ref writer, deprecatedObject, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="DeprecatedObject" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="deprecatedObject"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, DeprecatedObject deprecatedObject, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("name", deprecatedObject.Name);
         }
     }
 }

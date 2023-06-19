@@ -61,14 +61,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ShapeType'
         }
-
-        /// <summary>
-        /// Test the property 'TriangleType'
-        /// </summary>
-        [Fact]
-        public void TriangleTypeTest()
-        {
-            // TODO unit test for the property 'TriangleType'
-        }
     }
 }

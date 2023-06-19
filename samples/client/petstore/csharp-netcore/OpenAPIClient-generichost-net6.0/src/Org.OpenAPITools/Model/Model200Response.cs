@@ -160,10 +160,21 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, model200Response, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Model200Response" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="model200Response"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Model200Response model200Response, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("class", model200Response.VarClass);
             writer.WriteNumber("name", model200Response.Name);
-
-            writer.WriteEndObject();
         }
     }
 }

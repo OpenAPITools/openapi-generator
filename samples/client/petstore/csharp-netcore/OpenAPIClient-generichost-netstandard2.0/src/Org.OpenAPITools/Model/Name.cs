@@ -231,12 +231,23 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, name, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Name" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="name"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Name name, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteNumber("name", name.VarName);
             writer.WriteString("property", name.Property);
             writer.WriteNumber("snake_case", name.SnakeCase);
             writer.WriteNumber("123Number", name.Var123Number);
-
-            writer.WriteEndObject();
         }
     }
 }

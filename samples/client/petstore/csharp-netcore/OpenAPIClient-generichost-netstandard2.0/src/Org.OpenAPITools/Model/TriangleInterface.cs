@@ -143,9 +143,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("triangleType", triangleInterface.TriangleType);
-
+            WriteProperties(ref writer, triangleInterface, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="TriangleInterface" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="triangleInterface"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, TriangleInterface triangleInterface, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("triangleType", triangleInterface.TriangleType);
         }
     }
 }

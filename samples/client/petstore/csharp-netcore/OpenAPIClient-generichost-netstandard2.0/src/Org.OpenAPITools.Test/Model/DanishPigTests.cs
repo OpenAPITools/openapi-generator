@@ -52,14 +52,5 @@ namespace Org.OpenAPITools.Test.Model
             // TODO uncomment below to test "IsType" DanishPig
             //Assert.IsType<DanishPig>(instance);
         }
-
-        /// <summary>
-        /// Test the property 'ClassName'
-        /// </summary>
-        [Fact]
-        public void ClassNameTest()
-        {
-            // TODO unit test for the property 'ClassName'
-        }
     }
 }

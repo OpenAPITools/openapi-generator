@@ -145,9 +145,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("shapeType", equilateralTriangle.ShapeType);
-
+            WriteProperties(ref writer, equilateralTriangle, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="EquilateralTriangle" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="equilateralTriangle"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, EquilateralTriangle equilateralTriangle, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("shapeType", equilateralTriangle.ShapeType);
         }
     }
 }

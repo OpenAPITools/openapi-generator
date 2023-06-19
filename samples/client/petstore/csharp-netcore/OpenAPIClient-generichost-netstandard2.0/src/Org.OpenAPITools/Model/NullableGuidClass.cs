@@ -142,12 +142,24 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, nullableGuidClass, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="NullableGuidClass" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="nullableGuidClass"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, NullableGuidClass nullableGuidClass, JsonSerializerOptions jsonSerializerOptions)
+        {
+
             if (nullableGuidClass.Uuid == null)
                 writer.WriteNull("uuid");
             else
                 writer.WriteString("uuid", nullableGuidClass.Uuid.Value);
-
-            writer.WriteEndObject();
         }
     }
 }

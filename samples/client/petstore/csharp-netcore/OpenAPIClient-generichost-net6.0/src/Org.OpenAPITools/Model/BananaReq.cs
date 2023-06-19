@@ -154,10 +154,21 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, bananaReq, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="BananaReq" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="bananaReq"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, BananaReq bananaReq, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteNumber("lengthCm", bananaReq.LengthCm);
             writer.WriteBoolean("sweet", bananaReq.Sweet);
-
-            writer.WriteEndObject();
         }
     }
 }

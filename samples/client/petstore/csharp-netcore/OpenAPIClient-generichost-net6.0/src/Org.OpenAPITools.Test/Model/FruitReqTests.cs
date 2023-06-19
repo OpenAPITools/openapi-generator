@@ -52,41 +52,5 @@ namespace Org.OpenAPITools.Test.Model
             // TODO uncomment below to test "IsType" FruitReq
             //Assert.IsType<FruitReq>(instance);
         }
-
-        /// <summary>
-        /// Test the property 'Cultivar'
-        /// </summary>
-        [Fact]
-        public void CultivarTest()
-        {
-            // TODO unit test for the property 'Cultivar'
-        }
-
-        /// <summary>
-        /// Test the property 'LengthCm'
-        /// </summary>
-        [Fact]
-        public void LengthCmTest()
-        {
-            // TODO unit test for the property 'LengthCm'
-        }
-
-        /// <summary>
-        /// Test the property 'Mealy'
-        /// </summary>
-        [Fact]
-        public void MealyTest()
-        {
-            // TODO unit test for the property 'Mealy'
-        }
-
-        /// <summary>
-        /// Test the property 'Sweet'
-        /// </summary>
-        [Fact]
-        public void SweetTest()
-        {
-            // TODO unit test for the property 'Sweet'
-        }
     }
 }

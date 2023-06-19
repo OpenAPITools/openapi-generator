@@ -1589,6 +1589,25 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 ? null
                 : model.discriminator.getPropertyName();
 
+        if (discriminatorName != null) {
+            model.vars.removeIf(v -> v.name.equals(discriminatorName));
+            model.allVars.removeIf(v -> v.name.equals(discriminatorName));
+            model.readOnlyVars.removeIf(v -> v.name.equals(discriminatorName));
+            model.nonNullableVars.removeIf(v -> v.name.equals(discriminatorName));
+            model.optionalVars.removeIf(v -> v.name.equals(discriminatorName));
+            model.parentRequiredVars.removeIf(v -> v.name.equals(discriminatorName));
+            model.readWriteVars.removeIf(v -> v.name.equals(discriminatorName));
+            model.requiredVars.removeIf(v -> v.name.equals(discriminatorName));
+        }
+
+        if (model.discriminator != null) {
+            model.discriminator.setHasMappedModels();
+            for (CodegenDiscriminator.MappedModel mappedModel : model.discriminator.getMappedModels()) {
+                CodegenModel mappedCodegenModel = ModelUtils.getModelByName(mappedModel.getModelName(), objs);
+                mappedModel.setModel(mappedCodegenModel);
+            }
+        }
+
         for(CodegenProperty oneOfProperty : composedProperties) {
             String ref = oneOfProperty.getRef();
             if (ref != null) {

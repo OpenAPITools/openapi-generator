@@ -178,11 +178,22 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, apiResponse, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="ApiResponse" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="apiResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, ApiResponse apiResponse, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteNumber("code", apiResponse.Code);
             writer.WriteString("message", apiResponse.Message);
             writer.WriteString("type", apiResponse.Type);
-
-            writer.WriteEndObject();
         }
     }
 }

@@ -457,6 +457,36 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
 
+            if (cm.getComposedSchemas() != null) {
+                List<CodegenProperty> oneOf = cm.getComposedSchemas().getOneOf();
+                if (oneOf != null) {
+                    Set<String> dataTypeSet = new HashSet<>();
+                    for (CodegenProperty oneOfProperty : oneOf) {
+                        if (dataTypeSet.contains(oneOfProperty.dataType)) {
+                            // add "x-duplicated-data-type" to indicate if the dataType already occurs before
+                            // in other sub-schemas of allOf/anyOf/oneOf
+                            oneOfProperty.vendorExtensions.putIfAbsent("x-composed-data-type", true);
+                        } else {
+                            dataTypeSet.add(oneOfProperty.dataType);
+                        }
+                    }
+                }
+
+                List<CodegenProperty> anyOf = cm.getComposedSchemas().getAnyOf();
+                if (anyOf != null) {
+                    Set<String> dataTypeSet = new HashSet<>();
+                    for (CodegenProperty anyOfProperty : anyOf) {
+                        if (dataTypeSet.contains(anyOfProperty.dataType)) {
+                            // add "x-duplicated-data-type" to indicate if the dataType already occurs before
+                            // in other sub-schemas of allOf/anyOf/oneOf
+                            anyOfProperty.vendorExtensions.putIfAbsent("x-composed-data-type", true);
+                        } else {
+                            dataTypeSet.add(anyOfProperty.dataType);
+                        }
+                    }
+                }
+            }
+
             if (cm.isEnum && !cm.vendorExtensions.containsKey(this.zeroBasedEnumVendorExtension)) {
                 if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
                     cm.vendorExtensions.put(this.zeroBasedEnumVendorExtension, true);

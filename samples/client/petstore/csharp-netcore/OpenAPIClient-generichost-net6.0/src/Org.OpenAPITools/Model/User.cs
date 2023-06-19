@@ -321,24 +321,32 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, user, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="User" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="user"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, User user, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("email", user.Email);
             writer.WriteString("firstName", user.FirstName);
             writer.WriteNumber("id", user.Id);
             writer.WriteString("lastName", user.LastName);
             writer.WritePropertyName("objectWithNoDeclaredProps");
-            JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredProps, jsonSerializerOptions);
-            writer.WriteString("password", user.Password);
+            JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredProps, jsonSerializerOptions);            writer.WriteString("password", user.Password);
             writer.WriteString("phone", user.Phone);
             writer.WriteNumber("userStatus", user.UserStatus);
             writer.WriteString("username", user.Username);
             writer.WritePropertyName("anyTypeProp");
-            JsonSerializer.Serialize(writer, user.AnyTypeProp, jsonSerializerOptions);
-            writer.WritePropertyName("anyTypePropNullable");
-            JsonSerializer.Serialize(writer, user.AnyTypePropNullable, jsonSerializerOptions);
-            writer.WritePropertyName("objectWithNoDeclaredPropsNullable");
+            JsonSerializer.Serialize(writer, user.AnyTypeProp, jsonSerializerOptions);            writer.WritePropertyName("anyTypePropNullable");
+            JsonSerializer.Serialize(writer, user.AnyTypePropNullable, jsonSerializerOptions);            writer.WritePropertyName("objectWithNoDeclaredPropsNullable");
             JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredPropsNullable, jsonSerializerOptions);
-
-            writer.WriteEndObject();
         }
     }
 }

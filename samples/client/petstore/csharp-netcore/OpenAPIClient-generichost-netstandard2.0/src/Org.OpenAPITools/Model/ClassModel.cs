@@ -143,9 +143,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("_class", classModel.VarClass);
-
+            WriteProperties(ref writer, classModel, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="ClassModel" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="classModel"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, ClassModel classModel, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("_class", classModel.VarClass);
         }
     }
 }

@@ -39,8 +39,8 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public GmFruit(Apple? apple, Banana? banana, string color)
         {
-            Apple = Apple;
-            Banana = Banana;
+            Apple = apple;
+            Banana = banana;
             Color = color;
             OnCreated();
         }
@@ -109,13 +109,29 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader appleReader = utf8JsonReader;
-            bool appleDeserialized = Client.ClientUtils.TryDeserialize<Apple>(ref appleReader, jsonSerializerOptions, out Apple? apple);
-
-            Utf8JsonReader bananaReader = utf8JsonReader;
-            bool bananaDeserialized = Client.ClientUtils.TryDeserialize<Banana>(ref bananaReader, jsonSerializerOptions, out Banana? banana);
-
             string? color = default;
+
+            Apple? apple = default;
+            Banana? banana = default;
+
+            Utf8JsonReader utf8JsonReaderAnyOf = utf8JsonReader;
+            while (utf8JsonReaderAnyOf.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
+                    break;
+
+                if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderAnyOf.CurrentDepth - 1)
+                {
+                    Utf8JsonReader utf8JsonReaderApple = utf8JsonReader;
+                    OpenAPIClientUtils.TryDeserialize<Apple?>(ref utf8JsonReaderApple, jsonSerializerOptions, out apple);
+
+                    Utf8JsonReader utf8JsonReaderBanana = utf8JsonReader;
+                    OpenAPIClientUtils.TryDeserialize<Banana?>(ref utf8JsonReaderBanana, jsonSerializerOptions, out banana);
+                }
+            }
 
             while (utf8JsonReader.Read())
             {
@@ -156,15 +172,34 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, GmFruit gmFruit, JsonSerializerOptions jsonSerializerOptions)
         {
-            System.Text.Json.JsonSerializer.Serialize(writer, gmFruit.Apple, jsonSerializerOptions);
-
-            System.Text.Json.JsonSerializer.Serialize(writer, gmFruit.Banana, jsonSerializerOptions);
-
             writer.WriteStartObject();
 
-            writer.WriteString("color", gmFruit.Color);
+            if (gmFruit.Apple != null)
+            {
+                AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Apple.GetType()));
+                AppleJsonConverter.WriteProperties(ref writer, gmFruit.Apple, jsonSerializerOptions);
+            }
 
+            if (gmFruit.Banana != null)
+            {
+                BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Banana.GetType()));
+                BananaJsonConverter.WriteProperties(ref writer, gmFruit.Banana, jsonSerializerOptions);
+            }
+
+            WriteProperties(ref writer, gmFruit, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="GmFruit" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="gmFruit"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, GmFruit gmFruit, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("color", gmFruit.Color);
         }
     }
 }
