@@ -159,8 +159,9 @@
             <properties>
                 <debug>true</debug>
                 <scenario>debug</scenario>
+                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${maven.build.timestamp}</testRunId>
                 <graphitePrefix>gatling2.debug</graphitePrefix>
-                <assertResultsEnabled>${perfanaEnabled}</assertResultsEnabled>
+                <assertResultsEnabled>false</assertResultsEnabled>
                 <initialUsersPerSecond>1</initialUsersPerSecond>
                 <targetUsersPerSecond>1</targetUsersPerSecond>
                 <rampupTimeInSeconds>1</rampupTimeInSeconds>
