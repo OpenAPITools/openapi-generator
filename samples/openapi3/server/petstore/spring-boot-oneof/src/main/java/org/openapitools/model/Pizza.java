@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.math.BigDecimal;
 import org.openapitools.model.Entity;
-import org.openapitools.model.PizzaSpeziale;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -36,14 +35,8 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pizza extends Entity {
 
-  @JsonProperty("pizzaSize")
   private BigDecimal pizzaSize;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Pizza#Pizza(String)}
-   */
-  @Deprecated
   public Pizza() {
     super();
   }
@@ -66,6 +59,7 @@ public class Pizza extends Entity {
   */
   @Valid 
   @Schema(name = "pizzaSize", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("pizzaSize")
   public BigDecimal getPizzaSize() {
     return pizzaSize;
   }
@@ -73,6 +67,7 @@ public class Pizza extends Entity {
   public void setPizzaSize(BigDecimal pizzaSize) {
     this.pizzaSize = pizzaSize;
   }
+
 
   public Pizza href(String href) {
     super.setHref(href);
@@ -98,7 +93,6 @@ public class Pizza extends Entity {
     super.setAtType(atType);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

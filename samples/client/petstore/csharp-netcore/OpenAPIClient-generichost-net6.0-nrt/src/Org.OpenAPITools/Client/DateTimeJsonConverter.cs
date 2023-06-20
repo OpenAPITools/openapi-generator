@@ -71,6 +71,6 @@ namespace Org.OpenAPITools.Client
         /// <param name="dateTimeValue"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, DateTime dateTimeValue, JsonSerializerOptions options) =>
-            writer.WriteStringValue(dateTimeValue.ToString(Formats[0], CultureInfo.InvariantCulture));
+            writer.WriteStringValue(dateTimeValue.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK", CultureInfo.InvariantCulture));
     }
 }

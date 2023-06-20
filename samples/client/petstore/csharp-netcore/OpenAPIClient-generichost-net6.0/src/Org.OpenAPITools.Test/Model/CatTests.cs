@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -54,8 +53,13 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Cat>(instance);
         }
 
-
-
+        /// <summary>
+        /// Test the property 'Declawed'
+        /// </summary>
+        [Fact]
+        public void DeclawedTest()
+        {
+            // TODO unit test for the property 'Declawed'
+        }
     }
-
 }

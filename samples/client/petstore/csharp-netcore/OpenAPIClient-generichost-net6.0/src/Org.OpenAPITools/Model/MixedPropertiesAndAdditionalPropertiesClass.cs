@@ -38,29 +38,14 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public MixedPropertiesAndAdditionalPropertiesClass(DateTime dateTime, Dictionary<string, Animal> map, Guid uuid, Guid uuidWithPattern)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (uuidWithPattern == null)
-                throw new ArgumentNullException("uuidWithPattern is a required property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null.");
-
-            if (uuid == null)
-                throw new ArgumentNullException("uuid is a required property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null.");
-
-            if (dateTime == null)
-                throw new ArgumentNullException("dateTime is a required property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null.");
-
-            if (map == null)
-                throw new ArgumentNullException("map is a required property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             DateTime = dateTime;
             Map = map;
             Uuid = uuid;
             UuidWithPattern = uuidWithPattern;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets DateTime
@@ -108,12 +93,13 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             // UuidWithPattern (Guid) pattern
             Regex regexUuidWithPattern = new Regex(@"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", RegexOptions.CultureInvariant);
@@ -127,7 +113,7 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type MixedPropertiesAndAdditionalPropertiesClass
+    /// A Json converter for type <see cref="MixedPropertiesAndAdditionalPropertiesClass" />
     /// </summary>
     public class MixedPropertiesAndAdditionalPropertiesClassJsonConverter : JsonConverter<MixedPropertiesAndAdditionalPropertiesClass>
     {
@@ -137,7 +123,7 @@ namespace Org.OpenAPITools.Model
         public static string DateTimeFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="MixedPropertiesAndAdditionalPropertiesClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -153,10 +139,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            DateTime dateTime = default;
+            DateTime? dateTime = default;
             Dictionary<string, Animal> map = default;
-            Guid uuid = default;
-            Guid uuidWithPattern = default;
+            Guid? uuid = default;
+            Guid? uuidWithPattern = default;
 
             while (utf8JsonReader.Read())
             {
@@ -174,16 +160,20 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "dateTime":
-                            dateTime = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                dateTime = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "map":
-                            map = JsonSerializer.Deserialize<Dictionary<string, Animal>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                map = JsonSerializer.Deserialize<Dictionary<string, Animal>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "uuid":
-                            uuid = utf8JsonReader.GetGuid();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                uuid = utf8JsonReader.GetGuid();
                             break;
                         case "uuid_with_pattern":
-                            uuidWithPattern = utf8JsonReader.GetGuid();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                uuidWithPattern = utf8JsonReader.GetGuid();
                             break;
                         default:
                             break;
@@ -191,11 +181,23 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new MixedPropertiesAndAdditionalPropertiesClass(dateTime, map, uuid, uuidWithPattern);
+            if (dateTime == null)
+                throw new ArgumentNullException(nameof(dateTime), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
+            if (map == null)
+                throw new ArgumentNullException(nameof(map), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
+            if (uuid == null)
+                throw new ArgumentNullException(nameof(uuid), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
+            if (uuidWithPattern == null)
+                throw new ArgumentNullException(nameof(uuidWithPattern), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
+
+            return new MixedPropertiesAndAdditionalPropertiesClass(dateTime.Value, map, uuid.Value, uuidWithPattern.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="MixedPropertiesAndAdditionalPropertiesClass" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="mixedPropertiesAndAdditionalPropertiesClass"></param>

@@ -42,11 +42,19 @@ namespace Org.OpenAPITools.Model
         /// Enum NUMBER_2 for value: 2
         /// </summary>
         NUMBER_2 = 2
-
     }
 
+    /// <summary>
+    /// A Json converter for type <see cref="OuterEnumIntegerDefaultValue"/>
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
     public class OuterEnumIntegerDefaultValueConverter : JsonConverter<OuterEnumIntegerDefaultValue>
     {
+        /// <summary>
+        /// Parses a given value to <see cref="OuterEnumIntegerDefaultValue"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static OuterEnumIntegerDefaultValue FromString(string value)
         {
             if (value == (0).ToString())
@@ -61,6 +69,11 @@ namespace Org.OpenAPITools.Model
             throw new NotImplementedException($"Could not convert value to type OuterEnumIntegerDefaultValue: '{value}'");
         }
 
+        /// <summary>
+        /// Parses a given value to <see cref="OuterEnumIntegerDefaultValue"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static OuterEnumIntegerDefaultValue? FromStringOrDefault(string value)
         {
             if (value == (0).ToString())
@@ -75,6 +88,12 @@ namespace Org.OpenAPITools.Model
             return null;
         }
 
+        /// <summary>
+        /// Converts the <see cref="OuterEnumIntegerDefaultValue"/> to the json value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static int ToJsonValue(OuterEnumIntegerDefaultValue value)
         {
             return (int) value;
@@ -91,8 +110,10 @@ namespace Org.OpenAPITools.Model
         {
             string rawValue = reader.GetString();
 
-            OuterEnumIntegerDefaultValue? result = OuterEnumIntegerDefaultValueConverter.FromString(rawValue);
-            
+            OuterEnumIntegerDefaultValue? result = rawValue == null
+                ? null
+                : OuterEnumIntegerDefaultValueConverter.FromStringOrDefault(rawValue);
+
             if (result != null)
                 return result.Value;
 
@@ -111,6 +132,9 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+    /// <summary>
+    /// A Json converter for type <see cref="OuterEnumIntegerDefaultValue"/>
+    /// </summary>
     public class OuterEnumIntegerDefaultValueNullableConverter : JsonConverter<OuterEnumIntegerDefaultValue?>
     {
         /// <summary>
@@ -124,10 +148,9 @@ namespace Org.OpenAPITools.Model
         {
             string rawValue = reader.GetString();
 
-            if (rawValue == null)
-                return null;
-
-            OuterEnumIntegerDefaultValue? result = OuterEnumIntegerDefaultValueConverter.FromString(rawValue);
+            OuterEnumIntegerDefaultValue? result = rawValue == null
+                ? null
+                : OuterEnumIntegerDefaultValueConverter.FromStringOrDefault(rawValue);
 
             if (result != null)
                 return result.Value;

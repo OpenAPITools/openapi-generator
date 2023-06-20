@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -54,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<ArrayTest>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'ArrayArrayOfInteger'
         /// </summary>
@@ -63,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ArrayArrayOfInteger'
         }
+
         /// <summary>
         /// Test the property 'ArrayArrayOfModel'
         /// </summary>
@@ -71,6 +70,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ArrayArrayOfModel'
         }
+
         /// <summary>
         /// Test the property 'ArrayOfString'
         /// </summary>
@@ -79,7 +79,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ArrayOfString'
         }
-
     }
-
 }

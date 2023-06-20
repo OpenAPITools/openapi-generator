@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -63,6 +62,7 @@ namespace Org.OpenAPITools.Test.Model
             // TODO uncomment below to test deserialize a Adult from type Person
             //Assert.IsType<Person>(JsonConvert.DeserializeObject<Person>(new Adult().ToJson()));
         }
+
         /// <summary>
         /// Test deserialize a Child from type Person
         /// </summary>
@@ -81,6 +81,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'FirstName'
         }
+
         /// <summary>
         /// Test the property 'LastName'
         /// </summary>
@@ -89,6 +90,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'LastName'
         }
+
         /// <summary>
         /// Test the property 'Type'
         /// </summary>
@@ -97,7 +99,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Type'
         }
-
     }
-
 }

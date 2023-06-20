@@ -1,10 +1,12 @@
 #![allow(unused_qualifications)]
 
+use validator::Validate;
+
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesClass {
     #[serde(rename = "map_property")]
@@ -16,6 +18,7 @@ pub struct AdditionalPropertiesClass {
     pub map_of_map_property: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
 }
+
 
 impl AdditionalPropertiesClass {
     #[allow(clippy::new_without_default)]
@@ -140,7 +143,7 @@ impl AdditionalPropertiesClass {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Animal {
     #[serde(rename = "className")]
@@ -151,6 +154,7 @@ pub struct Animal {
     pub color: Option<String>,
 
 }
+
 
 impl Animal {
     #[allow(clippy::new_without_default)]
@@ -422,7 +426,7 @@ impl AnimalFarm {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ApiResponse {
     #[serde(rename = "code")]
@@ -438,6 +442,7 @@ pub struct ApiResponse {
     pub message: Option<String>,
 
 }
+
 
 impl ApiResponse {
     #[allow(clippy::new_without_default)]
@@ -588,7 +593,7 @@ impl ApiResponse {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfArrayOfNumberOnly {
     #[serde(rename = "ArrayArrayNumber")]
@@ -596,6 +601,7 @@ pub struct ArrayOfArrayOfNumberOnly {
     pub array_array_number: Option<Vec<Vec<f64>>>,
 
 }
+
 
 impl ArrayOfArrayOfNumberOnly {
     #[allow(clippy::new_without_default)]
@@ -713,7 +719,7 @@ impl ArrayOfArrayOfNumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfNumberOnly {
     #[serde(rename = "ArrayNumber")]
@@ -721,6 +727,7 @@ pub struct ArrayOfNumberOnly {
     pub array_number: Option<Vec<f64>>,
 
 }
+
 
 impl ArrayOfNumberOnly {
     #[allow(clippy::new_without_default)]
@@ -844,7 +851,7 @@ impl ArrayOfNumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayTest {
     #[serde(rename = "array_of_string")]
@@ -865,6 +872,7 @@ pub struct ArrayTest {
     pub array_of_enum: Option<Vec<String>>,
 
 }
+
 
 impl ArrayTest {
     #[allow(clippy::new_without_default)]
@@ -1012,7 +1020,7 @@ impl ArrayTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Capitalization {
     #[serde(rename = "smallCamel")]
@@ -1041,6 +1049,7 @@ pub struct Capitalization {
     pub att_name: Option<String>,
 
 }
+
 
 impl Capitalization {
     #[allow(clippy::new_without_default)]
@@ -1230,7 +1239,7 @@ impl Capitalization {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Cat {
     #[serde(rename = "className")]
@@ -1245,6 +1254,7 @@ pub struct Cat {
     pub declawed: Option<bool>,
 
 }
+
 
 impl Cat {
     #[allow(clippy::new_without_default)]
@@ -1391,139 +1401,7 @@ impl Cat {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct CatAllOf {
-    #[serde(rename = "declawed")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub declawed: Option<bool>,
-
-}
-
-impl CatAllOf {
-    #[allow(clippy::new_without_default)]
-    pub fn new() -> CatAllOf {
-        CatAllOf {
-            declawed: None,
-        }
-    }
-}
-
-/// Converts the CatAllOf value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl std::string::ToString for CatAllOf {
-    fn to_string(&self) -> String {
-        let params: Vec<Option<String>> = vec![
-
-            self.declawed.as_ref().map(|declawed| {
-                vec![
-                    "declawed".to_string(),
-                    declawed.to_string(),
-                ].join(",")
-            }),
-
-        ];
-
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a CatAllOf value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl std::str::FromStr for CatAllOf {
-    type Err = String;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        /// An intermediate representation of the struct to use for parsing.
-        #[derive(Default)]
-        #[allow(dead_code)]
-        struct IntermediateRep {
-            pub declawed: Vec<bool>,
-        }
-
-        let mut intermediate_rep = IntermediateRep::default();
-
-        // Parse into intermediate representation
-        let mut string_iter = s.split(',');
-        let mut key_result = string_iter.next();
-
-        while key_result.is_some() {
-            let val = match string_iter.next() {
-                Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing CatAllOf".to_string())
-            };
-
-            if let Some(key) = key_result {
-                #[allow(clippy::match_single_binding)]
-                match key {
-                    #[allow(clippy::redundant_clone)]
-                    "declawed" => intermediate_rep.declawed.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing CatAllOf".to_string())
-                }
-            }
-
-            // Get the next key
-            key_result = string_iter.next();
-        }
-
-        // Use the intermediate representation to return the struct
-        std::result::Result::Ok(CatAllOf {
-            declawed: intermediate_rep.declawed.into_iter().next(),
-        })
-    }
-}
-
-// Methods for converting between header::IntoHeaderValue<CatAllOf> and hyper::header::HeaderValue
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<CatAllOf>> for hyper::header::HeaderValue {
-    type Error = String;
-
-    fn try_from(hdr_value: header::IntoHeaderValue<CatAllOf>) -> std::result::Result<Self, Self::Error> {
-        let hdr_value = hdr_value.to_string();
-        match hyper::header::HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for CatAllOf - value: {} is invalid {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<CatAllOf> {
-    type Error = String;
-
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
-        match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <CatAllOf as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into CatAllOf - {}",
-                                value, err))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-
-impl CatAllOf {
-    /// Helper function to allow us to convert this model to an XML string.
-    /// Will panic if serialisation fails.
-    #[allow(dead_code)]
-    pub(crate) fn as_xml(&self) -> String {
-        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Category")]
 pub struct Category {
@@ -1536,6 +1414,7 @@ pub struct Category {
     pub name: Option<String>,
 
 }
+
 
 impl Category {
     #[allow(clippy::new_without_default)]
@@ -1674,7 +1553,7 @@ impl Category {
 }
 
 /// Model for testing model with \"_class\" property
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ClassModel {
     #[serde(rename = "_class")]
@@ -1682,6 +1561,7 @@ pub struct ClassModel {
     pub _class: Option<String>,
 
 }
+
 
 impl ClassModel {
     #[allow(clippy::new_without_default)]
@@ -1806,7 +1686,7 @@ impl ClassModel {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Client {
     #[serde(rename = "client")]
@@ -1814,6 +1694,7 @@ pub struct Client {
     pub client: Option<String>,
 
 }
+
 
 impl Client {
     #[allow(clippy::new_without_default)]
@@ -1938,7 +1819,7 @@ impl Client {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Dog {
     #[serde(rename = "className")]
@@ -1953,6 +1834,7 @@ pub struct Dog {
     pub breed: Option<String>,
 
 }
+
 
 impl Dog {
     #[allow(clippy::new_without_default)]
@@ -2099,139 +1981,7 @@ impl Dog {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct DogAllOf {
-    #[serde(rename = "breed")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub breed: Option<String>,
-
-}
-
-impl DogAllOf {
-    #[allow(clippy::new_without_default)]
-    pub fn new() -> DogAllOf {
-        DogAllOf {
-            breed: None,
-        }
-    }
-}
-
-/// Converts the DogAllOf value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl std::string::ToString for DogAllOf {
-    fn to_string(&self) -> String {
-        let params: Vec<Option<String>> = vec![
-
-            self.breed.as_ref().map(|breed| {
-                vec![
-                    "breed".to_string(),
-                    breed.to_string(),
-                ].join(",")
-            }),
-
-        ];
-
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a DogAllOf value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl std::str::FromStr for DogAllOf {
-    type Err = String;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        /// An intermediate representation of the struct to use for parsing.
-        #[derive(Default)]
-        #[allow(dead_code)]
-        struct IntermediateRep {
-            pub breed: Vec<String>,
-        }
-
-        let mut intermediate_rep = IntermediateRep::default();
-
-        // Parse into intermediate representation
-        let mut string_iter = s.split(',');
-        let mut key_result = string_iter.next();
-
-        while key_result.is_some() {
-            let val = match string_iter.next() {
-                Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing DogAllOf".to_string())
-            };
-
-            if let Some(key) = key_result {
-                #[allow(clippy::match_single_binding)]
-                match key {
-                    #[allow(clippy::redundant_clone)]
-                    "breed" => intermediate_rep.breed.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing DogAllOf".to_string())
-                }
-            }
-
-            // Get the next key
-            key_result = string_iter.next();
-        }
-
-        // Use the intermediate representation to return the struct
-        std::result::Result::Ok(DogAllOf {
-            breed: intermediate_rep.breed.into_iter().next(),
-        })
-    }
-}
-
-// Methods for converting between header::IntoHeaderValue<DogAllOf> and hyper::header::HeaderValue
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<DogAllOf>> for hyper::header::HeaderValue {
-    type Error = String;
-
-    fn try_from(hdr_value: header::IntoHeaderValue<DogAllOf>) -> std::result::Result<Self, Self::Error> {
-        let hdr_value = hdr_value.to_string();
-        match hyper::header::HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for DogAllOf - value: {} is invalid {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<DogAllOf> {
-    type Error = String;
-
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
-        match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <DogAllOf as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into DogAllOf - {}",
-                                value, err))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-
-impl DogAllOf {
-    /// Helper function to allow us to convert this model to an XML string.
-    /// Will panic if serialisation fails.
-    #[allow(dead_code)]
-    pub(crate) fn as_xml(&self) -> String {
-        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "$special[model.name]")]
 pub struct DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
@@ -2240,6 +1990,7 @@ pub struct DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
     pub dollar_special_left_square_bracket_property_period_name_right_square_bracket: Option<i64>,
 
 }
+
 
 impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
     #[allow(clippy::new_without_default)]
@@ -2364,7 +2115,7 @@ impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumArrays {
     // Note: inline enums are not fully supported by openapi-generator
@@ -2383,6 +2134,7 @@ pub struct EnumArrays {
     pub array_array_enum: Option<Vec<Vec<String>>>,
 
 }
+
 
 impl EnumArrays {
     #[allow(clippy::new_without_default)]
@@ -2573,7 +2325,7 @@ impl EnumClass {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumTest {
     // Note: inline enums are not fully supported by openapi-generator
@@ -2600,6 +2352,7 @@ pub struct EnumTest {
     pub outer_enum: Option<models::OuterEnum>,
 
 }
+
 
 impl EnumTest {
     #[allow(clippy::new_without_default)]
@@ -2766,14 +2519,20 @@ impl EnumTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct FormatTest {
     #[serde(rename = "integer")]
+    #[validate(
+            range(min = 10, max = 100),
+        )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub integer: Option<u8>,
 
     #[serde(rename = "int32")]
+    #[validate(
+            range(min = 20, max = 200),
+        )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub int32: Option<u32>,
 
@@ -2782,21 +2541,36 @@ pub struct FormatTest {
     pub int64: Option<i64>,
 
     #[serde(rename = "number")]
+    #[validate(
+            range(min = 32.1, max = 543.2),
+        )]
     pub number: f64,
 
     #[serde(rename = "float")]
+    #[validate(
+            range(min = 54.3, max = 987.6),
+        )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub float: Option<f32>,
 
     #[serde(rename = "double")]
+    #[validate(
+            range(min = 67.8, max = 123.4),
+        )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub double: Option<f64>,
 
     #[serde(rename = "string")]
+    #[validate(
+           regex = "RE_FORMATTEST_STRING",
+        )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub string: Option<String>,
 
     #[serde(rename = "byte")]
+    #[validate(
+           custom ="validate_byte_formattest_byte"
+        )]
     pub byte: swagger::ByteArray,
 
     #[serde(rename = "binary")]
@@ -2815,8 +2589,26 @@ pub struct FormatTest {
     pub uuid: Option<uuid::Uuid>,
 
     #[serde(rename = "password")]
+    #[validate(
+            length(min = 10, max = 64),
+        )]
     pub password: String,
 
+}
+
+lazy_static::lazy_static! {
+    static ref RE_FORMATTEST_STRING: regex::Regex = regex::Regex::new(r"/[a-z]/i").unwrap();
+}
+lazy_static::lazy_static! {
+    static ref RE_FORMATTEST_BYTE: regex::bytes::Regex = regex::bytes::Regex::new(r"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}&#x3D;&#x3D;|[A-Za-z0-9+/]{3}&#x3D;)?$").unwrap();
+}
+fn validate_byte_formattest_byte(
+    b: &swagger::ByteArray
+) -> Result<(), validator::ValidationError> {
+    if !RE_FORMATTEST_BYTE.is_match(b) {
+        return Err(validator::ValidationError::new("Character not allowed"));
+    }
+    Ok(())
 }
 
 impl FormatTest {
@@ -3060,7 +2852,7 @@ impl FormatTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct HasOnlyReadOnly {
     #[serde(rename = "bar")]
@@ -3072,6 +2864,7 @@ pub struct HasOnlyReadOnly {
     pub foo: Option<String>,
 
 }
+
 
 impl HasOnlyReadOnly {
     #[allow(clippy::new_without_default)]
@@ -3209,7 +3002,7 @@ impl HasOnlyReadOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct List {
     #[serde(rename = "123-list")]
@@ -3217,6 +3010,7 @@ pub struct List {
     pub param_123_list: Option<String>,
 
 }
+
 
 impl List {
     #[allow(clippy::new_without_default)]
@@ -3341,7 +3135,7 @@ impl List {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MapTest {
     #[serde(rename = "map_map_of_string")]
@@ -3359,6 +3153,7 @@ pub struct MapTest {
     pub map_of_enum_string: Option<std::collections::HashMap<String, String>>,
 
 }
+
 
 impl MapTest {
     #[allow(clippy::new_without_default)]
@@ -3490,7 +3285,7 @@ impl MapTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MixedPropertiesAndAdditionalPropertiesClass {
     #[serde(rename = "uuid")]
@@ -3506,6 +3301,7 @@ pub struct MixedPropertiesAndAdditionalPropertiesClass {
     pub map: Option<std::collections::HashMap<String, models::Animal>>,
 
 }
+
 
 impl MixedPropertiesAndAdditionalPropertiesClass {
     #[allow(clippy::new_without_default)]
@@ -3639,7 +3435,7 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 }
 
 /// Model for testing model name starting with number
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Model200Response {
@@ -3652,6 +3448,7 @@ pub struct Model200Response {
     pub class: Option<String>,
 
 }
+
 
 impl Model200Response {
     #[allow(clippy::new_without_default)]
@@ -3790,7 +3587,7 @@ impl Model200Response {
 }
 
 /// Model for testing model name same as property name
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Name {
@@ -3810,6 +3607,7 @@ pub struct Name {
     pub param_123_number: Option<i32>,
 
 }
+
 
 impl Name {
     #[allow(clippy::new_without_default)]
@@ -3969,7 +3767,7 @@ impl Name {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct NumberOnly {
     #[serde(rename = "JustNumber")]
@@ -3977,6 +3775,7 @@ pub struct NumberOnly {
     pub just_number: Option<f64>,
 
 }
+
 
 impl NumberOnly {
     #[allow(clippy::new_without_default)]
@@ -4101,7 +3900,7 @@ impl NumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectContainingObjectWithOnlyAdditionalProperties {
     #[serde(rename = "inner")]
@@ -4109,6 +3908,7 @@ pub struct ObjectContainingObjectWithOnlyAdditionalProperties {
     pub inner: Option<models::ObjectWithOnlyAdditionalProperties>,
 
 }
+
 
 impl ObjectContainingObjectWithOnlyAdditionalProperties {
     #[allow(clippy::new_without_default)]
@@ -4286,7 +4086,7 @@ impl ObjectWithOnlyAdditionalProperties {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Order")]
 pub struct Order {
@@ -4317,6 +4117,7 @@ pub struct Order {
     pub complete: Option<bool>,
 
 }
+
 
 impl Order {
     #[allow(clippy::new_without_default)]
@@ -4539,7 +4340,7 @@ impl OuterBoolean {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterComposite {
     #[serde(rename = "my_number")]
@@ -4555,6 +4356,7 @@ pub struct OuterComposite {
     pub my_boolean: Option<bool>,
 
 }
+
 
 impl OuterComposite {
     #[allow(clippy::new_without_default)]
@@ -4844,7 +4646,7 @@ impl OuterString {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Pet")]
 pub struct Pet {
@@ -4873,6 +4675,7 @@ pub struct Pet {
     pub status: Option<String>,
 
 }
+
 
 impl Pet {
     #[allow(clippy::new_without_default)]
@@ -5040,7 +4843,7 @@ impl Pet {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ReadOnlyFirst {
     #[serde(rename = "bar")]
@@ -5052,6 +4855,7 @@ pub struct ReadOnlyFirst {
     pub baz: Option<String>,
 
 }
+
 
 impl ReadOnlyFirst {
     #[allow(clippy::new_without_default)]
@@ -5190,7 +4994,7 @@ impl ReadOnlyFirst {
 }
 
 /// Model for testing reserved words
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Return")]
 pub struct Return {
@@ -5199,6 +5003,7 @@ pub struct Return {
     pub r#return: Option<i32>,
 
 }
+
 
 impl Return {
     #[allow(clippy::new_without_default)]
@@ -5323,7 +5128,7 @@ impl Return {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Tag")]
 pub struct Tag {
@@ -5336,6 +5141,7 @@ pub struct Tag {
     pub name: Option<String>,
 
 }
+
 
 impl Tag {
     #[allow(clippy::new_without_default)]
@@ -5473,7 +5279,7 @@ impl Tag {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "User")]
 pub struct User {
@@ -5511,6 +5317,7 @@ pub struct User {
     pub user_status: Option<i32>,
 
 }
+
 
 impl User {
     #[allow(clippy::new_without_default)]

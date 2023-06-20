@@ -37,6 +37,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -55,7 +59,7 @@ import org.openapitools.client.JSON;
 public class ArrayOfArrayOfNumberOnly implements Parcelable {
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_NUMBER)
-  private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
+  private List<List<BigDecimal>> arrayArrayNumber;
 
   public ArrayOfArrayOfNumberOnly() {
   }
@@ -79,7 +83,6 @@ public class ArrayOfArrayOfNumberOnly implements Parcelable {
    * @return arrayArrayNumber
   **/
   @javax.annotation.Nullable
-
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }

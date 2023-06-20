@@ -98,10 +98,9 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Authorization
 
-{{^authMethods}} Endpoints do not require authorization.
-{{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
+{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
+{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
 {{#authMethods}}
-
 ### {{{name}}}
 
 {{#isApiKey}}
@@ -110,6 +109,19 @@ Class | Method | HTTP request | Description
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: {{keyParamName}} and passed in as the auth context for each request.
+
+Example
+
+```golang
+auth := context.WithValue(
+		context.Background(),
+		sw.ContextAPIKeys,
+		map[string]sw.APIKey{
+			"{{keyParamName}}": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
 
 {{/isApiKey}}
 {{#isBasic}}

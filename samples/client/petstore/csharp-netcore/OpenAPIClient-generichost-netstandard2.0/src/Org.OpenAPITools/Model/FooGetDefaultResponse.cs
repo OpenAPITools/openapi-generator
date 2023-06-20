@@ -31,27 +31,21 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FooGetDefaultResponse" /> class.
         /// </summary>
-        /// <param name="stringProperty">stringProperty</param>
+        /// <param name="varString">varString</param>
         [JsonConstructor]
-        public FooGetDefaultResponse(Foo stringProperty)
+        public FooGetDefaultResponse(Foo varString)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (stringProperty == null)
-                throw new ArgumentNullException("stringProperty is a required property for FooGetDefaultResponse and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            StringProperty = stringProperty;
+            VarString = varString;
+            OnCreated();
         }
 
+        partial void OnCreated();
+
         /// <summary>
-        /// Gets or Sets StringProperty
+        /// Gets or Sets VarString
         /// </summary>
         [JsonPropertyName("string")]
-        public Foo StringProperty { get; set; }
+        public Foo VarString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -67,29 +61,30 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class FooGetDefaultResponse {\n");
-            sb.Append("  StringProperty: ").Append(StringProperty).Append("\n");
+            sb.Append("  VarString: ").Append(VarString).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
     /// <summary>
-    /// A Json converter for type FooGetDefaultResponse
+    /// A Json converter for type <see cref="FooGetDefaultResponse" />
     /// </summary>
     public class FooGetDefaultResponseJsonConverter : JsonConverter<FooGetDefaultResponse>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="FooGetDefaultResponse" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -105,7 +100,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Foo stringProperty = default;
+            Foo varString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -123,7 +118,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "string":
-                            stringProperty = JsonSerializer.Deserialize<Foo>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                varString = JsonSerializer.Deserialize<Foo>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -131,11 +127,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new FooGetDefaultResponse(stringProperty);
+            if (varString == null)
+                throw new ArgumentNullException(nameof(varString), "Property is required for class FooGetDefaultResponse.");
+
+            return new FooGetDefaultResponse(varString);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="FooGetDefaultResponse" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="fooGetDefaultResponse"></param>
@@ -146,7 +145,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             writer.WritePropertyName("string");
-            JsonSerializer.Serialize(writer, fooGetDefaultResponse.StringProperty, jsonSerializerOptions);
+            JsonSerializer.Serialize(writer, fooGetDefaultResponse.VarString, jsonSerializerOptions);
 
             writer.WriteEndObject();
         }

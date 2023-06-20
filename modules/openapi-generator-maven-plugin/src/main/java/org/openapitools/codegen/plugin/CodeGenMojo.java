@@ -41,6 +41,7 @@ import java.util.Set;
 import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 import io.swagger.v3.parser.util.ClasspathHelper;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
@@ -99,6 +100,9 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(name = "output", property = "openapi.generator.maven.plugin.output")
     private File output;
 
+    @Parameter(name = "cleanupOutput", property = "openapi.generator.maven.plugin.cleanupOutput", defaultValue = "false")
+    private boolean cleanupOutput;
+
     /**
      * Location of the OpenAPI spec, as URL or file.
      */
@@ -112,7 +116,7 @@ public class CodeGenMojo extends AbstractMojo {
     private String inputSpecRootDirectory;
 
     /**
-     * Name of the file that will contains all merged specs
+     * Name of the file that will contain all merged specs
      */
     @Parameter(name = "mergedFileName", property = "openapi.generator.maven.plugin.mergedFileName", defaultValue = "_merged_spec")
     private String mergedFileName;
@@ -456,6 +460,9 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(defaultValue = "false", property = "openapi.generator.maven.plugin.addTestCompileSourceRoot")
     private boolean addTestCompileSourceRoot = false;
 
+    @Parameter(defaultValue = "false", property = "openapi.generator.maven.plugin.dryRun")
+    private Boolean dryRun = false;
+
     // TODO: Rename to global properties in version 5.1
     @Parameter
     protected Map<String, String> environmentVariables = new HashMap<>();
@@ -494,6 +501,16 @@ public class CodeGenMojo extends AbstractMojo {
                     LifecyclePhase.GENERATE_TEST_SOURCES.id().equals(mojo.getLifecyclePhase()) ?
                             "generated-test-sources/openapi" : "generated-sources/openapi");
         }
+
+        if (cleanupOutput) {
+            try {
+                FileUtils.deleteDirectory(output);
+                LOGGER.info("Previous run output is removed from {}", output);
+            } catch (IOException e) {
+                LOGGER.warn("Failed to clean-up output directory {}", output, e);
+            }
+        }
+
         addCompileSourceRootIfConfigured();
 
         try {
@@ -853,7 +870,7 @@ public class CodeGenMojo extends AbstractMojo {
                 return;
             }
             adjustAdditionalProperties(config);
-            new DefaultGenerator().opts(input).generate();
+            new DefaultGenerator(dryRun).opts(input).generate();
 
             if (buildContext != null) {
                 buildContext.refresh(new File(getCompileSourceRoot()));

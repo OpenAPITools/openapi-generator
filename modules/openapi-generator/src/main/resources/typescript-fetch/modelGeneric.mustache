@@ -1,12 +1,12 @@
-import { exists, mapValues } from '../runtime';
+import { exists, mapValues } from '../runtime{{importFileExtension}}';
 {{#hasImports}}
 {{#imports}}
-import type { {{{.}}} } from './{{.}}';
+import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
     {{.}}FromJSON,
     {{.}}FromJSONTyped,
     {{.}}ToJSON,
-} from './{{.}}';
+} from './{{.}}{{importFileExtension}}';
 {{/imports}}
 
 {{/hasImports}}
@@ -15,7 +15,7 @@ import {
 {{#discriminator.mappedModels}}
      {{modelName}}FromJSONTyped{{^-last}},{{/-last}}
 {{/discriminator.mappedModels}}
-} from './';
+} from './index{{importFileExtension}}';
 
 {{/discriminator}}
 {{>modelGenericInterfaces}}
@@ -46,7 +46,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
 {{#discriminator}}
     if (!ignoreDiscriminator) {
 {{#discriminator.mappedModels}}
-        if (json['{{discriminator.propertyName}}'] === '{{mappingName}}') {
+        if (json['{{discriminator.propertyBaseName}}'] === '{{mappingName}}') {
             return {{modelName}}FromJSONTyped(json, true);
         }
 {{/discriminator.mappedModels}}

@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -54,16 +53,13 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<ModelClient>(instance);
         }
 
-
         /// <summary>
-        /// Test the property '_ClientProperty'
+        /// Test the property 'VarClient'
         /// </summary>
         [Fact]
-        public void _ClientPropertyTest()
+        public void VarClientTest()
         {
-            // TODO unit test for the property '_ClientProperty'
+            // TODO unit test for the property 'VarClient'
         }
-
     }
-
 }

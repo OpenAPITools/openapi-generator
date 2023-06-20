@@ -34,6 +34,9 @@ jobs:
           path: |
             ~/.m2
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
-      - name: Build
+      - name: Build with Maven
         working-directory: ${{ matrix.sample }}
         run: mvn clean package
+      - name: Build with Gradle
+        working-directory: ${{ matrix.sample }}
+        run: gradle clean build

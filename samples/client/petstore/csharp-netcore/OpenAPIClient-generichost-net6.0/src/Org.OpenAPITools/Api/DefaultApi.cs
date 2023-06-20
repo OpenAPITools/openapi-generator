@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.IApi
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;FooGetDefaultResponse&gt;&gt;</returns>
-        Task<ApiResponse<FooGetDefaultResponse>> FooGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<FooGetDefaultResponse>> FooGetAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -44,10 +44,9 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;FooGetDefaultResponse&gt;</returns>
-        Task<FooGetDefaultResponse> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;FooGetDefaultResponse&gt;&gt;</returns>
+        Task<ApiResponse<FooGetDefaultResponse>> FooGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -59,7 +58,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> GetCountryWithHttpInfoAsync(string country, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> GetCountryAsync(string country, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -67,11 +66,31 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> GetCountryAsync(string country, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Hello
+        /// </summary>
+        /// <remarks>
+        /// Hello
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&lt;List&lt;Guid&gt;&gt;&gt;</returns>
+        Task<ApiResponse<List<Guid>>> HelloAsync(System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Hello
+        /// </summary>
+        /// <remarks>
+        /// Hello
+        /// </remarks>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task&lt;ApiResponse&gt;List&lt;Guid&gt;&gt;&gt;</returns>
+        Task<ApiResponse<List<Guid>>> HelloOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
     }
 }
 
@@ -80,7 +99,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class DefaultApi : IApi.IDefaultApi
+    public sealed partial class DefaultApi : IApi.IDefaultApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
@@ -123,11 +142,11 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="DefaultApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, 
-            TokenProvider<ApiKeyToken> apiKeyProvider, 
-            TokenProvider<BearerToken> bearerTokenProvider, 
-            TokenProvider<BasicToken> basicTokenProvider, 
-            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider, 
+        public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider,
+            TokenProvider<ApiKeyToken> apiKeyProvider,
+            TokenProvider<BearerToken> bearerTokenProvider,
+            TokenProvider<BasicToken> basicTokenProvider,
+            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider,
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
@@ -141,78 +160,59 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Logs the api response
+        /// Processes the server response
         /// </summary>
-        /// <param name="args"></param>
-        protected virtual void OnApiResponded(ApiResponseEventArgs args)
+        /// <param name="apiResponseLocalVar"></param>
+        private void AfterFooGetDefaultImplementation(ApiResponse<FooGetDefaultResponse> apiResponseLocalVar)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
-        }
-
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="FooGetDefaultResponse"/>&gt;</returns>
-        public async Task<FooGetDefaultResponse> FooGetAsync(System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<FooGetDefaultResponse> result = await FooGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
-
-            return result.Content;
-        }
-
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="FooGetDefaultResponse"/>&gt;</returns>
-        public async Task<FooGetDefaultResponse> FooGetOrDefaultAsync(System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<FooGetDefaultResponse> result = null;
-            try 
-            {
-                result = await FooGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
-                : null;
-        }
-
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <returns></returns>
-        protected virtual void OnFooGet()
-        {
-            return;
+            bool suppressDefaultLog = false;
+            AfterFooGet(ref suppressDefaultLog, apiResponseLocalVar);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponse"></param>
-        protected virtual void AfterFooGet(ApiResponse<FooGetDefaultResponse> apiResponse)
-        {
-        }
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        partial void AfterFooGet(ref bool suppressDefaultLog, ApiResponse<FooGetDefaultResponse> apiResponseLocalVar);
 
         /// <summary>
-        /// Processes the server response
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        protected virtual void OnErrorFooGet(Exception exception, string pathFormat, string path)
+        private void OnErrorFooGetDefaultImplementation(Exception exception, string pathFormat, string path)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorFooGet(exception, pathFormat, path);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        partial void OnErrorFooGet(Exception exception, string pathFormat, string path);
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="FooGetDefaultResponse"/></returns>
+        public async Task<ApiResponse<FooGetDefaultResponse>> FooGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await FooGetAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -221,109 +221,61 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="FooGetDefaultResponse"/></returns>
-        public async Task<ApiResponse<FooGetDefaultResponse>> FooGetWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<FooGetDefaultResponse>> FooGetAsync(System.Threading.CancellationToken cancellationToken = default)
         {
-            UriBuilder uriBuilder = new UriBuilder();
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                OnFooGet();
-
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/foo";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/foo";
 
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-
-                    request.RequestUri = uriBuilder.Uri;
-
-                    string[] accepts = new string[] { 
-                        "application/json" 
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
                     };
 
-                    string accept = ClientUtils.SelectHeaderAccept(accepts);
+                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
-                    if (accept != null)
-                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
 
-                    request.Method = HttpMethod.Get;
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
-                    DateTime requestedAt = DateTime.UtcNow;
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/foo", uriBuilder.Path));
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        ApiResponse<FooGetDefaultResponse> apiResponseLocalVar = new ApiResponse<FooGetDefaultResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/foo", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        ApiResponse<FooGetDefaultResponse> apiResponse = new ApiResponse<FooGetDefaultResponse>(responseMessage, responseContent);
+                        AfterFooGetDefaultImplementation(apiResponseLocalVar);
 
-                        if (apiResponse.IsSuccessStatusCode)
-                        {
-                            apiResponse.Content = JsonSerializer.Deserialize<FooGetDefaultResponse>(apiResponse.RawContent, _jsonSerializerOptions);
-                            AfterFooGet(apiResponse);
-                        }
-
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                OnErrorFooGet(e, "/foo", uriBuilder.Path);
+                OnErrorFooGetDefaultImplementation(e, "/foo", uriBuilderLocalVar.Path);
                 throw;
             }
         }
 
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="country"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> GetCountryAsync(string country, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> result = await GetCountryWithHttpInfoAsync(country, cancellationToken).ConfigureAwait(false);
-
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
-
-            return result.Content;
-        }
-
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="country"></param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> result = null;
-            try 
-            {
-                result = await GetCountryWithHttpInfoAsync(country, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
-                : null;
-        }
+        partial void FormatGetCountry(ref string country);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="country"></param>
         /// <returns></returns>
-        protected virtual string OnGetCountry(string country)
+        private void ValidateGetCountry(string country)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -331,31 +283,69 @@ namespace Org.OpenAPITools.Api
             if (country == null)
                 throw new ArgumentNullException(nameof(country));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return country;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponse"></param>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="country"></param>
-        protected virtual void AfterGetCountry(ApiResponse<object> apiResponse, string country)
+        private void AfterGetCountryDefaultImplementation(ApiResponse<object> apiResponseLocalVar, string country)
         {
+            bool suppressDefaultLog = false;
+            AfterGetCountry(ref suppressDefaultLog, apiResponseLocalVar, country);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="country"></param>
+        partial void AfterGetCountry(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, string country);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="country"></param>
-        protected virtual void OnErrorGetCountry(Exception exception, string pathFormat, string path, string country)
+        private void OnErrorGetCountryDefaultImplementation(Exception exception, string pathFormat, string path, string country)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorGetCountry(exception, pathFormat, path, country);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="country"></param>
+        partial void OnErrorGetCountry(Exception exception, string pathFormat, string path, string country);
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="country"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> GetCountryOrDefaultAsync(string country, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await GetCountryAsync(country, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -365,69 +355,172 @@ namespace Org.OpenAPITools.Api
         /// <param name="country"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> GetCountryWithHttpInfoAsync(string country, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> GetCountryAsync(string country, System.Threading.CancellationToken cancellationToken = default)
         {
-            UriBuilder uriBuilder = new UriBuilder();
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                country = OnGetCountry(country);
+                ValidateGetCountry(country);
 
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                FormatGetCountry(ref country);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/country";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/country";
 
-                    MultipartContent multipartContent = new MultipartContent();
+                    MultipartContent multipartContentLocalVar = new MultipartContent();
 
-                    request.Content = multipartContent;
+                    httpRequestMessageLocalVar.Content = multipartContentLocalVar;
 
-                    List<KeyValuePair<string, string>> formParams = new List<KeyValuePair<string, string>>();
+                    List<KeyValuePair<string, string>> formParameterLocalVars = new List<KeyValuePair<string, string>>();
 
-                    multipartContent.Add(new FormUrlEncodedContent(formParams));
+                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
 
-                    formParams.Add(new KeyValuePair<string, string>("country", ClientUtils.ParameterToString(country)));
+                    formParameterLocalVars.Add(new KeyValuePair<string, string>("country", ClientUtils.ParameterToString(country)));
 
-
-
-                    request.RequestUri = uriBuilder.Uri;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/x-www-form-urlencoded" 
+                        "application/x-www-form-urlencoded"
                     };
 
-                    string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
+                    string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentType != null)
-                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
-                        
-                    request.Method = HttpMethod.Post;
+                    if (contentTypeLocalVar != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    DateTime requestedAt = DateTime.UtcNow;
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/country", uriBuilder.Path));
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/country", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
+                        AfterGetCountryDefaultImplementation(apiResponseLocalVar, country);
 
-                        if (apiResponse.IsSuccessStatusCode)
-                        {
-                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
-                            AfterGetCountry(apiResponse, country);
-                        }
-
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                OnErrorGetCountry(e, "/country", uriBuilder.Path, country);
+                OnErrorGetCountryDefaultImplementation(e, "/country", uriBuilderLocalVar.Path, country);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        private void AfterHelloDefaultImplementation(ApiResponse<List<Guid>> apiResponseLocalVar)
+        {
+            bool suppressDefaultLog = false;
+            AfterHello(ref suppressDefaultLog, apiResponseLocalVar);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        partial void AfterHello(ref bool suppressDefaultLog, ApiResponse<List<Guid>> apiResponseLocalVar);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        private void OnErrorHelloDefaultImplementation(Exception exception, string pathFormat, string path)
+        {
+            Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorHello(exception, pathFormat, path);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        partial void OnErrorHello(Exception exception, string pathFormat, string path);
+
+        /// <summary>
+        /// Hello Hello
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
+        public async Task<ApiResponse<List<Guid>>> HelloOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await HelloAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Hello Hello
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
+        public async Task<ApiResponse<List<Guid>>> HelloAsync(System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/hello";
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
+                    };
+
+                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+
+                        ApiResponse<List<Guid>> apiResponseLocalVar = new ApiResponse<List<Guid>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/hello", requestedAtLocalVar, _jsonSerializerOptions);
+
+                        AfterHelloDefaultImplementation(apiResponseLocalVar);
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorHelloDefaultImplementation(e, "/hello", uriBuilderLocalVar.Path);
                 throw;
             }
         }

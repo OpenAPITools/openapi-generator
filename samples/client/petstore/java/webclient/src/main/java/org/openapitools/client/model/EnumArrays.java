@@ -146,6 +146,9 @@ public class EnumArrays {
   }
 
   public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
+    if (this.arrayEnum == null) {
+      this.arrayEnum = new ArrayList<>();
+    }
     this.arrayEnum.add(arrayEnumItem);
     return this;
   }
@@ -168,7 +171,6 @@ public class EnumArrays {
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
-
 
   @Override
   public boolean equals(Object o) {

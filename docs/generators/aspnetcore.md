@@ -105,6 +105,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>long</li>
 <li>long?</li>
 <li>string</li>
+<li>uint</li>
+<li>uint?</li>
+<li>ulong</li>
+<li>ulong?</li>
 </ul>
 
 ## RESERVED WORDS
@@ -320,6 +324,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

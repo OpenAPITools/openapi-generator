@@ -6,7 +6,7 @@ import {
     {{{.}}}FromJSON,
     {{{.}}}FromJSONTyped,
     {{{.}}}ToJSON,
-} from './{{.}}';
+} from './{{.}}{{importFileExtension}}';
 {{/oneOf}}
 
 {{/hasImports}}
@@ -21,7 +21,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         return json;
     }
 {{#discriminator}}
-    switch (json['{{discriminator.propertyName}}']) {
+    switch (json['{{discriminator.propertyBaseName}}']) {
 {{#discriminator.mappedModels}}
         case '{{mappingName}}':
             return {...{{modelName}}FromJSONTyped(json, true), {{discriminator.propertyName}}: '{{mappingName}}'};

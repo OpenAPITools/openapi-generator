@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -54,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<ApiResponse>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Code'
         /// </summary>
@@ -63,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Code'
         }
+
         /// <summary>
         /// Test the property 'Message'
         /// </summary>
@@ -71,6 +70,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Message'
         }
+
         /// <summary>
         /// Test the property 'Type'
         /// </summary>
@@ -79,7 +79,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Type'
         }
-
     }
-
 }

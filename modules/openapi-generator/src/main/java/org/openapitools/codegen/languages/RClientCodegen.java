@@ -102,7 +102,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
                         SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.BearerToken
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,

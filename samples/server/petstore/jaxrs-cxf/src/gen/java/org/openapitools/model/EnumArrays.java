@@ -82,7 +82,7 @@ FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
 }
 
   @ApiModelProperty(value = "")
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  private List<ArrayEnumEnum> arrayEnum;
  /**
    * Get justSymbol
    * @return justSymbol

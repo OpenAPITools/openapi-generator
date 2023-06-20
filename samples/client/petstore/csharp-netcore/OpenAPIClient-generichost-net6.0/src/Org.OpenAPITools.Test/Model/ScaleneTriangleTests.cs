@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -54,8 +53,22 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<ScaleneTriangle>(instance);
         }
 
+        /// <summary>
+        /// Test the property 'ShapeType'
+        /// </summary>
+        [Fact]
+        public void ShapeTypeTest()
+        {
+            // TODO unit test for the property 'ShapeType'
+        }
 
-
+        /// <summary>
+        /// Test the property 'TriangleType'
+        /// </summary>
+        [Fact]
+        public void TriangleTypeTest()
+        {
+            // TODO unit test for the property 'TriangleType'
+        }
     }
-
 }

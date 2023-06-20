@@ -21,7 +21,6 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CatAllOfDto {
 
-  @JsonProperty("declawed")
   private Boolean declawed;
 
   public CatAllOfDto declawed(Boolean declawed) {
@@ -34,6 +33,7 @@ public class CatAllOfDto {
    * @return declawed
   */
   
+  @JsonProperty("declawed")
   public Boolean getDeclawed() {
     return declawed;
   }

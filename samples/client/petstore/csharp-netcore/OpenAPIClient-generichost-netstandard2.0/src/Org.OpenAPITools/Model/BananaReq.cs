@@ -36,21 +36,12 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public BananaReq(decimal lengthCm, bool sweet)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (lengthCm == null)
-                throw new ArgumentNullException("lengthCm is a required property for BananaReq and cannot be null.");
-
-            if (sweet == null)
-                throw new ArgumentNullException("sweet is a required property for BananaReq and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             LengthCm = lengthCm;
             Sweet = sweet;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets LengthCm
@@ -77,24 +68,25 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
     /// <summary>
-    /// A Json converter for type BananaReq
+    /// A Json converter for type <see cref="BananaReq" />
     /// </summary>
     public class BananaReqJsonConverter : JsonConverter<BananaReq>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="BananaReq" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -110,8 +102,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            decimal lengthCm = default;
-            bool sweet = default;
+            decimal? lengthCm = default;
+            bool? sweet = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,10 +121,12 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "lengthCm":
-                            lengthCm = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                lengthCm = utf8JsonReader.GetDecimal();
                             break;
                         case "sweet":
-                            sweet = utf8JsonReader.GetBoolean();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                sweet = utf8JsonReader.GetBoolean();
                             break;
                         default:
                             break;
@@ -140,11 +134,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new BananaReq(lengthCm, sweet);
+            if (lengthCm == null)
+                throw new ArgumentNullException(nameof(lengthCm), "Property is required for class BananaReq.");
+
+            if (sweet == null)
+                throw new ArgumentNullException(nameof(sweet), "Property is required for class BananaReq.");
+
+            return new BananaReq(lengthCm.Value, sweet.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="BananaReq" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="bananaReq"></param>

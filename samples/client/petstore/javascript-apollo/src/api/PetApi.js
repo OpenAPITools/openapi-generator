@@ -85,7 +85,7 @@ export default class PetApi extends ApiClient {
      * 
      * @param {Number} petId Pet id to delete
      * @param {Object} opts Optional parameters
-     * @param {String} opts.apiKey 
+     * @param {String} [apiKey] 
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -283,8 +283,8 @@ export default class PetApi extends ApiClient {
      * 
      * @param {Number} petId ID of pet that needs to be updated
      * @param {Object} opts Optional parameters
-     * @param {String} opts.name Updated name of the pet
-     * @param {String} opts.status Updated status of the pet
+     * @param {String} [name] Updated name of the pet
+     * @param {String} [status] Updated status of the pet
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -326,8 +326,8 @@ export default class PetApi extends ApiClient {
      * 
      * @param {Number} petId ID of pet to update
      * @param {Object} opts Optional parameters
-     * @param {String} opts.additionalMetadata Additional data to pass to server
-     * @param {File} opts.file file to upload
+     * @param {String} [additionalMetadata] Additional data to pass to server
+     * @param {File} [file] file to upload
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<module:model/ApiResponse>}
      */
@@ -370,7 +370,7 @@ export default class PetApi extends ApiClient {
      * @param {Number} petId ID of pet to update
      * @param {File} requiredFile file to upload
      * @param {Object} opts Optional parameters
-     * @param {String} opts.additionalMetadata Additional data to pass to server
+     * @param {String} [additionalMetadata] Additional data to pass to server
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<module:model/ApiResponse>}
      */

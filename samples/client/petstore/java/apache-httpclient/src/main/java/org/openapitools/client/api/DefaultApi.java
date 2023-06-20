@@ -24,6 +24,7 @@ import org.openapitools.client.model.FooGetDefaultResponse;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,8 @@ import java.util.StringJoiner;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DefaultApi {
+
+
   private ApiClient apiClient;
 
   public DefaultApi() {
@@ -56,6 +59,18 @@ public class DefaultApi {
    * @throws ApiException if fails to make API call
    */
   public FooGetDefaultResponse fooGet() throws ApiException {
+    return this.fooGet(Collections.emptyMap());
+  }
+
+
+  /**
+   * 
+   * 
+   * @param additionalHeaders additionalHeaders for this call
+   * @return FooGetDefaultResponse
+   * @throws ApiException if fails to make API call
+   */
+  public FooGetDefaultResponse fooGet(Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -70,6 +85,8 @@ public class DefaultApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -101,4 +118,5 @@ public class DefaultApi {
         localVarReturnType
     );
   }
+
 }

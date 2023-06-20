@@ -22,10 +22,8 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Addressable {
 
-  @JsonProperty("href")
   private String href;
 
-  @JsonProperty("id")
   private String id;
 
   public Addressable href(String href) {
@@ -39,6 +37,7 @@ public class Addressable {
   */
   
   @Schema(name = "href", description = "Hyperlink reference", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("href")
   public String getHref() {
     return href;
   }
@@ -58,6 +57,7 @@ public class Addressable {
   */
   
   @Schema(name = "id", description = "unique identifier", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
   public String getId() {
     return id;
   }

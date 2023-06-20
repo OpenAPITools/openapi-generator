@@ -35,6 +35,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -61,7 +65,7 @@ public class ArrayOfInlineAllOf {
 
   public static final String SERIALIZED_NAME_ARRAY_ALLOF_DOG_PROPERTY = "array_allof_dog_property";
   @SerializedName(SERIALIZED_NAME_ARRAY_ALLOF_DOG_PROPERTY)
-  private List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty = new ArrayList<>();
+  private List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty;
 
   public ArrayOfInlineAllOf() {
   }
@@ -77,7 +81,6 @@ public class ArrayOfInlineAllOf {
    * @return id
   **/
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
@@ -99,7 +102,6 @@ public class ArrayOfInlineAllOf {
    * @return name
   **/
   @javax.annotation.Nonnull
-
   public String getName() {
     return name;
   }
@@ -129,7 +131,6 @@ public class ArrayOfInlineAllOf {
    * @return arrayAllofDogProperty
   **/
   @javax.annotation.Nullable
-
   public List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> getArrayAllofDogProperty() {
     return arrayAllofDogProperty;
   }

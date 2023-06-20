@@ -160,11 +160,10 @@ Class | Method | HTTP request | Description
  - [Animal](docs/Animal.md)
  - [Apple](docs/Apple.md)
  - [AppleReq](docs/AppleReq.md)
+ - [ArrayDefault](docs/ArrayDefault.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfInlineAllOf](docs/ArrayOfInlineAllOf.md)
  - [ArrayOfInlineAllOfArrayAllofDogPropertyInner](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInner.md)
- - [ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf.md)
- - [ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf1](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInnerAllOf1.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
  - [Banana](docs/Banana.md)
@@ -172,7 +171,6 @@ Class | Method | HTTP request | Description
  - [BasquePig](docs/BasquePig.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
- - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
@@ -180,7 +178,6 @@ Class | Method | HTTP request | Description
  - [DanishPig](docs/DanishPig.md)
  - [DeprecatedObject](docs/DeprecatedObject.md)
  - [Dog](docs/Dog.md)
- - [DogAllOf](docs/DogAllOf.md)
  - [Drawing](docs/Drawing.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
@@ -238,9 +235,12 @@ Class | Method | HTTP request | Description
  - [Zebra](docs/Zebra.md)
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
+
 Authentication schemes defined for the API:
+<a id="petstore_auth"></a>
 ### petstore_auth
 
 - **Type**: OAuth
@@ -250,29 +250,29 @@ Authentication schemes defined for the API:
   - write:pets: modify pets in your account
   - read:pets: read your pets
 
+<a id="api_key"></a>
 ### api_key
 
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
+<a id="api_key_query"></a>
 ### api_key_query
 
 - **Type**: API key
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
+<a id="http_basic_test"></a>
 ### http_basic_test
 
 - **Type**: HTTP basic authentication
 
+<a id="bearer_test"></a>
 ### bearer_test
 
-- **Type**: HTTP basic authentication
-
-### http_signature_test
-
-- **Type**: HTTP basic authentication
+- **Type**: HTTP Bearer Token authentication (JWT)
 
 
 ## Recommendation

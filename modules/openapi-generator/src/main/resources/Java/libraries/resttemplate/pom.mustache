@@ -218,6 +218,13 @@
             <version>${swagger-annotations-version}</version>
         </dependency>
         {{/swagger1AnnotationLibrary}}
+        {{#swagger2AnnotationLibrary}}
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotations-version}</version>
+        </dependency>
+        {{/swagger2AnnotationLibrary}}
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -314,7 +321,12 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        {{#swagger1AnnotationLibrary}}
         <swagger-annotations-version>1.6.9</swagger-annotations-version>
+        {{/swagger1AnnotationLibrary}}
+        {{#swagger2AnnotationLibrary}}
+        <swagger-annotations-version>2.2.9</swagger-annotations-version>
+        {{/swagger2AnnotationLibrary}}
         {{#useJakartaEe}}
         <spring-web-version>6.0.3</spring-web-version>
         {{/useJakartaEe}}

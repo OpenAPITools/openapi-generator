@@ -215,7 +215,7 @@ public class Triangle extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<>();
 
     public Triangle() {
         super("oneOf", Boolean.FALSE);
@@ -234,7 +234,7 @@ public class Triangle extends AbstractOpenApiSchema {
   @JsonAnySetter
   public Triangle putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, Object>();
+        this.additionalProperties = new HashMap<>();
     }
     this.additionalProperties.put(key, value);
     return this;
@@ -294,7 +294,7 @@ public class Triangle extends AbstractOpenApiSchema {
         });
         JSON.registerDescendants(Triangle.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
-        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        Map<String, Class<?>> mappings = new HashMap<>();
         mappings.put("EquilateralTriangle", EquilateralTriangle.class);
         mappings.put("IsoscelesTriangle", IsoscelesTriangle.class);
         mappings.put("ScaleneTriangle", ScaleneTriangle.class);
@@ -317,17 +317,17 @@ public class Triangle extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(EquilateralTriangle.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(EquilateralTriangle.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(IsoscelesTriangle.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(IsoscelesTriangle.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(ScaleneTriangle.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(ScaleneTriangle.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }

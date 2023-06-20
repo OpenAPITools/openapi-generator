@@ -35,17 +35,11 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (arrayArrayNumber == null)
-                throw new ArgumentNullException("arrayArrayNumber is a required property for ArrayOfArrayOfNumberOnly and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             ArrayArrayNumber = arrayArrayNumber;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ArrayArrayNumber
@@ -72,24 +66,25 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
     /// <summary>
-    /// A Json converter for type ArrayOfArrayOfNumberOnly
+    /// A Json converter for type <see cref="ArrayOfArrayOfNumberOnly" />
     /// </summary>
     public class ArrayOfArrayOfNumberOnlyJsonConverter : JsonConverter<ArrayOfArrayOfNumberOnly>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ArrayOfArrayOfNumberOnly" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -123,7 +118,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "ArrayArrayNumber":
-                            arrayArrayNumber = JsonSerializer.Deserialize<List<List<decimal>>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                arrayArrayNumber = JsonSerializer.Deserialize<List<List<decimal>>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -131,11 +127,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (arrayArrayNumber == null)
+                throw new ArgumentNullException(nameof(arrayArrayNumber), "Property is required for class ArrayOfArrayOfNumberOnly.");
+
             return new ArrayOfArrayOfNumberOnly(arrayArrayNumber);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ArrayOfArrayOfNumberOnly" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="arrayOfArrayOfNumberOnly"></param>

@@ -128,7 +128,7 @@ public class EnumArrays {
   // items.name=arrayEnum items.baseName=arrayEnum items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "arrayEnum")
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  private List<ArrayEnumEnum> arrayEnum;
 
   public EnumArrays() {
   }
@@ -182,6 +182,8 @@ public class EnumArrays {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_enum")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
@@ -190,10 +192,11 @@ public class EnumArrays {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_enum")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
-
 
   @Override
   public boolean equals(Object o) {

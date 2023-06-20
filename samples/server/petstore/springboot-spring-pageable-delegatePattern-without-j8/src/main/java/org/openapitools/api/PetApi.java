@@ -218,6 +218,42 @@ public interface PetApi {
 
 
     /**
+     * GET /pet/all : List all pets
+     *
+     * @return successful operation (status code 200)
+     *         or Invalid status value (status code 400)
+     */
+    @ApiOperation(
+        tags = { "pet" },
+        value = "List all pets",
+        nickname = "listAllPets",
+        notes = "",
+        response = Pet.class,
+        responseContainer = "List",
+        authorizations = {
+            @Authorization(value = "petstore_auth", scopes = {
+                @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+                @AuthorizationScope(scope = "read:pets", description = "read your pets")
+            })
+         }
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
+        @ApiResponse(code = 400, message = "Invalid status value")
+    })
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/pet/all",
+        produces = { "application/xml", "application/json" }
+    )
+    default ResponseEntity<List<Pet>> listAllPets(
+        @ApiIgnore final Pageable pageable
+    ) {
+        return getDelegate().listAllPets(pageable);
+    }
+
+
+    /**
      * PUT /pet : Update an existing pet
      *
      * @param body Pet object that needs to be added to the store (required)

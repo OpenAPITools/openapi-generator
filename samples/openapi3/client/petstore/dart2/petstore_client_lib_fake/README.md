@@ -60,6 +60,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123testSpecialTags**](doc//AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**fooGet**](doc//DefaultApi.md#fooget) | **GET** /foo | 
+*FakeApi* | [**fakeBigDecimalMap**](doc//FakeApi.md#fakebigdecimalmap) | **GET** /fake/BigDecimalMap | 
 *FakeApi* | [**fakeHealthGet**](doc//FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeHttpSignatureTest**](doc//FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fakeOuterBooleanSerialize**](doc//FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
@@ -112,15 +113,14 @@ Class | Method | HTTP request | Description
  - [ArrayTest](doc//ArrayTest.md)
  - [Capitalization](doc//Capitalization.md)
  - [Cat](doc//Cat.md)
- - [CatAllOf](doc//CatAllOf.md)
  - [Category](doc//Category.md)
  - [ClassModel](doc//ClassModel.md)
  - [DeprecatedObject](doc//DeprecatedObject.md)
  - [Dog](doc//Dog.md)
- - [DogAllOf](doc//DogAllOf.md)
  - [EnumArrays](doc//EnumArrays.md)
  - [EnumClass](doc//EnumClass.md)
  - [EnumTest](doc//EnumTest.md)
+ - [FakeBigDecimalMap200Response](doc//FakeBigDecimalMap200Response.md)
  - [FileSchemaTestClass](doc//FileSchemaTestClass.md)
  - [Foo](doc//Foo.md)
  - [FooGetDefaultResponse](doc//FooGetDefaultResponse.md)
@@ -156,7 +156,8 @@ Class | Method | HTTP request | Description
 ## Documentation For Authorization
 
 
-## petstore_auth
+Authentication schemes defined for the API:
+### petstore_auth
 
 - **Type**: OAuth
 - **Flow**: implicit
@@ -165,28 +166,29 @@ Class | Method | HTTP request | Description
  - **write:pets**: modify pets in your account
  - **read:pets**: read your pets
 
-## api_key
+### api_key
 
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
-## api_key_query
+### api_key_query
 
 - **Type**: API key
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
-## http_basic_test
+### http_basic_test
 
 - **Type**: HTTP Basic authentication
 
-## bearer_test
+### bearer_test
 
 - **Type**: HTTP Bearer authentication
 
-## http_signature_test
+### http_signature_test
 
+- **Type**: HTTP signature authentication
 
 
 ## Author

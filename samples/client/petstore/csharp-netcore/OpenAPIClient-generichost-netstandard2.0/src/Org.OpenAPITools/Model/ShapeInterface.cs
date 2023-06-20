@@ -35,17 +35,11 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public ShapeInterface(string shapeType)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (shapeType == null)
-                throw new ArgumentNullException("shapeType is a required property for ShapeInterface and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             ShapeType = shapeType;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ShapeType
@@ -72,24 +66,25 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
     /// <summary>
-    /// A Json converter for type ShapeInterface
+    /// A Json converter for type <see cref="ShapeInterface" />
     /// </summary>
     public class ShapeInterfaceJsonConverter : JsonConverter<ShapeInterface>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ShapeInterface" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -131,11 +126,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (shapeType == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is required for class ShapeInterface.");
+
             return new ShapeInterface(shapeType);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ShapeInterface" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="shapeInterface"></param>

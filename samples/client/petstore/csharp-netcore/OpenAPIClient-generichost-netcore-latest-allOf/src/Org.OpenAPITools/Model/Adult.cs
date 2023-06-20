@@ -33,20 +33,24 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Adult" /> class.
         /// </summary>
-        /// <param name="adultAllOf"></param>
+        /// <param name="children">children</param>
         /// <param name="firstName">firstName</param>
         /// <param name="lastName">lastName</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        internal Adult(AdultAllOf adultAllOf, string firstName, string lastName, string type) : base(firstName, lastName, type)
+        public Adult(List<Child> children, string firstName, string lastName, string type) : base(firstName, lastName, type)
         {
-            AdultAllOf = adultAllOf;
+            Children = children;
+            OnCreated();
         }
 
+        partial void OnCreated();
+
         /// <summary>
-        /// Gets or Sets AdultAllOf
+        /// Gets or Sets Children
         /// </summary>
-        public AdultAllOf AdultAllOf { get; set; }
+        [JsonPropertyName("children")]
+        public List<Child> Children { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,19 +60,20 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Adult {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  Children: ").Append(Children).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
     }
 
     /// <summary>
-    /// A Json converter for type Adult
+    /// A Json converter for type <see cref="Adult" />
     /// </summary>
     public class AdultJsonConverter : JsonConverter<Adult>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Adult" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -84,12 +89,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader adultAllOfReader = utf8JsonReader;
-            bool adultAllOfDeserialized = Client.ClientUtils.TryDeserialize<AdultAllOf>(ref utf8JsonReader, jsonSerializerOptions, out AdultAllOf? adultAllOf);
-
-            string firstName = default;
-            string lastName = default;
-            string type = default;
+            List<Child>? children = default;
+            string? firstName = default;
+            string? lastName = default;
+            string? type = default;
 
             while (utf8JsonReader.Read())
             {
@@ -106,6 +109,10 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "children":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                children = JsonSerializer.Deserialize<List<Child>>(ref utf8JsonReader, jsonSerializerOptions);
+                            break;
                         case "firstName":
                             firstName = utf8JsonReader.GetString();
                             break;
@@ -121,11 +128,23 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Adult(adultAllOf, firstName, lastName, type);
+            if (children == null)
+                throw new ArgumentNullException(nameof(children), "Property is required for class Adult.");
+
+            if (firstName == null)
+                throw new ArgumentNullException(nameof(firstName), "Property is required for class Adult.");
+
+            if (lastName == null)
+                throw new ArgumentNullException(nameof(lastName), "Property is required for class Adult.");
+
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class Adult.");
+
+            return new Adult(children, firstName, lastName, type);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Adult" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="adult"></param>
@@ -135,6 +154,8 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            writer.WritePropertyName("children");
+            JsonSerializer.Serialize(writer, adult.Children, jsonSerializerOptions);
             writer.WriteString("firstName", adult.FirstName);
             writer.WriteString("lastName", adult.LastName);
             writer.WriteString("$_type", adult.Type);

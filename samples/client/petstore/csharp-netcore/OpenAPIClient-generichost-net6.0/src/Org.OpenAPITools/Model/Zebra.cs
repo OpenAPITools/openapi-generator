@@ -36,21 +36,12 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Zebra(string className, TypeEnum type) : base()
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (type == null)
-                throw new ArgumentNullException("type is a required property for Zebra and cannot be null.");
-
-            if (className == null)
-                throw new ArgumentNullException("className is a required property for Zebra and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             ClassName = className;
             Type = type;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Defines Type
@@ -71,14 +62,14 @@ namespace Org.OpenAPITools.Model
             /// Enum Grevys for value: grevys
             /// </summary>
             Grevys = 3
-
         }
 
         /// <summary>
-        /// Returns a TypeEnum
+        /// Returns a <see cref="TypeEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static TypeEnum TypeEnumFromString(string value)
         {
             if (value == "plains")
@@ -94,7 +85,26 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="TypeEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static TypeEnum? TypeEnumFromStringOrDefault(string value)
+        {
+            if (value == "plains")
+                return TypeEnum.Plains;
+
+            if (value == "mountain")
+                return TypeEnum.Mountain;
+
+            if (value == "grevys")
+                return TypeEnum.Grevys;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="TypeEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -139,31 +149,32 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Zebra {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
     /// <summary>
-    /// A Json converter for type Zebra
+    /// A Json converter for type <see cref="Zebra" />
     /// </summary>
     public class ZebraJsonConverter : JsonConverter<Zebra>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Zebra" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -180,7 +191,7 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             string className = default;
-            Zebra.TypeEnum type = default;
+            Zebra.TypeEnum? type = default;
 
             while (utf8JsonReader.Read())
             {
@@ -202,7 +213,9 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "type":
                             string typeRawValue = utf8JsonReader.GetString();
-                            type = Zebra.TypeEnumFromString(typeRawValue);
+                            type = typeRawValue == null
+                                ? null
+                                : Zebra.TypeEnumFromStringOrDefault(typeRawValue);
                             break;
                         default:
                             break;
@@ -210,11 +223,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Zebra(className, type);
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Zebra.");
+
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class Zebra.");
+
+            return new Zebra(className, type.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Zebra" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="zebra"></param>
@@ -225,6 +244,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             writer.WriteString("className", zebra.ClassName);
+
             var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type);
             if (typeRawValue != null)
                 writer.WriteString("type", typeRawValue);

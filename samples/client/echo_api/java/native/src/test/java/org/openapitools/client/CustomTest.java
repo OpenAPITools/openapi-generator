@@ -88,7 +88,7 @@ public class CustomTest {
 
         String response = api.testQueryStyleFormExplodeTrueObjectAllOf(queryObject);
         org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
-        Assert.assertEquals("/query/style_form/explode_true/object/allOf?text=Hello%20World&id=3487&outcomes=SKIPPED&outcomes=FAILURE", p.path);
+        Assert.assertEquals("/query/style_form/explode_true/object/allOf?id=3487&outcomes=SKIPPED&outcomes=FAILURE&text=Hello%20World", p.path);
     }
 
     /**
@@ -168,8 +168,7 @@ public class CustomTest {
 
         Assert.assertNull(d.getArrayStringNullable());
         Assert.assertNull(d.getArrayStringExtensionNullable());
-        Assert.assertEquals(d.getArrayString().size(), 0);
-
+        Assert.assertNull(d.getArrayString());
 
         // test addItem
         d.addArrayStringEnumDefaultItem(DefaultValue.ArrayStringEnumDefaultEnum.UNCLASSIFIED);
@@ -212,9 +211,9 @@ public class CustomTest {
 
         Assert.assertNull(d.getArrayStringNullable());
         Assert.assertNull(d.getArrayStringExtensionNullable());
-        Assert.assertEquals(d.getArrayString().size(), 0);
+        Assert.assertNull(d.getArrayString());
 
-        Assert.assertEquals(apiClient.getObjectMapper().writeValueAsString(d), "{\"array_string_enum_ref_default\":[\"success\",\"failure\"],\"array_string_enum_default\":[\"success\",\"failure\"],\"array_string_default\":[\"failure\",\"skipped\"],\"array_integer_default\":[1,3],\"array_string\":[]}");
+        Assert.assertEquals(apiClient.getObjectMapper().writeValueAsString(d), "{\"array_string_enum_ref_default\":[\"success\",\"failure\"],\"array_string_enum_default\":[\"success\",\"failure\"],\"array_string_default\":[\"failure\",\"skipped\"],\"array_integer_default\":[1,3]}");
     }
 
     @Test
@@ -241,9 +240,9 @@ public class CustomTest {
 
         Assert.assertNull(d.getArrayStringNullable());
         Assert.assertNull(d.getArrayStringExtensionNullable());
-        Assert.assertEquals(d.getArrayString().size(), 0);
+        Assert.assertNull(d.getArrayString());
 
-        Assert.assertEquals(apiClient.getObjectMapper().writeValueAsString(d), "{\"array_string_enum_ref_default\":[\"unclassified\"],\"array_string_enum_default\":[\"unclassified\"],\"array_string_default\":[\"failure\"],\"array_integer_default\":[1,3],\"array_string\":[]}");
+        Assert.assertEquals(apiClient.getObjectMapper().writeValueAsString(d), "{\"array_string_enum_ref_default\":[\"unclassified\"],\"array_string_enum_default\":[\"unclassified\"],\"array_string_default\":[\"failure\"],\"array_integer_default\":[1,3]}");
     }
 
     @Test

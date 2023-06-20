@@ -16,15 +16,25 @@
 
 package org.openapitools.codegen.dart.dio;
 
+import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.Generator;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.DartDioClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -38,6 +48,15 @@ public class DartDioClientCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
         Assert.assertTrue(codegen.isHideGenerationTimestamp());
+    }
+
+    @Test
+    public void testInitialFeatures() {
+        final DartDioClientCodegen codegen = new DartDioClientCodegen();
+        codegen.processOpts();
+
+        Assert.assertNotNull(codegen.getFeatureSet().getSecurityFeatures());
+        Assert.assertFalse(codegen.getFeatureSet().getSecurityFeatures().isEmpty());
     }
 
     @Test
@@ -82,4 +101,26 @@ public class DartDioClientCodegenTest {
         }
     }
 
+    @Test
+    public void verifyDartDioGeneratorRuns() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setGitUserId("my-user")
+                .setGitRepoId("my-repo")
+                .setPackageName("my-package")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        ClientOptInput opts = configurator.toClientOptInput();
+        
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.ensureContainsFile(files, output, "README.md");
+        TestUtils.ensureContainsFile(files, output, "lib/src/api.dart");
+    }
 }

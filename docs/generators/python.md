@@ -10,26 +10,27 @@ title: Documentation for the python Generator
 | generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Python | |
-| generator language version | >=3.7 | |
-| generator default templating engine | handlebars | |
-| helpTxt | Generates a Python client library<br /><br />Features in this generator:<br />- type hints on endpoints and model creation<br />- model parameter names use the spec defined keys and cases<br />- robust composition (oneOf/anyOf/allOf/not) where payload data is stored in one instance only<br />- endpoint parameter names use the spec defined keys and cases<br />- inline schemas are supported at any location including composition<br />- multiple content types supported in request body and response bodies<br />- run time type checking<br />- Sending/receiving decimals as strings supported with type:string format: number -> DecimalSchema<br />- Sending/receiving uuids as strings supported with type:string format: uuid -> UUIDSchema<br />- quicker load time for python modules (a single endpoint can be imported and used without loading others)<br />- all instances of schemas dynamically inherit from all matching schemas so one can use isinstance to check if validation passed<br />- composed schemas with type constraints supported (type:object + oneOf/anyOf/allOf)<br />- schemas are not coerced/cast. For example string + date are both stored as string, and there is a date accessor<br />    - Exceptions: int/float is stored as Decimal, When receiving data from headers it will start as str and may need to be cast for example to int | |
+| generator language version | 3.7+ | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a Python client library. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|dateFormat|date format for query parameters| |%Y-%m-%d|
+|datetimeFormat|datetime format for query parameters| |%Y-%m-%dT%H:%M:%S%z|
+|disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |generateSourceCodeOnly|Specifies that only a library source code is to be generated.| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|library|library template (sub-template) to use: urllib3| |urllib3|
-|nonCompliantUseDiscriminatorIfCompositionFails|When true, If the payload fails to validate against composed schemas (allOf/anyOf/oneOf/not) and a discriminator is present, then ignore the composition validation errors and attempt to use the discriminator to validate the payload.&lt;br /&gt;Note: setting this to true makes the generated client not comply with json schema because it ignores composition validation errors. Please consider making your schemas more restrictive rather than setting this to true. You can do that by:&lt;ul&gt;&lt;li&gt;defining the propertyName as an enum with only one value in the schemas that are in your discriminator map&lt;/li&gt;&lt;li&gt;setting additionalProperties: false in your schemas&lt;/li&gt;&lt;/ul&gt;|<dl><dt>**true**</dt><dd>If composition fails and a discriminator exists, the composition errors will be ignored and validation will be attempted with the discriminator</dd><dt>**false**</dt><dd>Composition validation must succeed. Discriminator validation must succeed.</dd></dl>|false|
+|library|library template (sub-template) to use: asyncio, tornado (deprecated), urllib3| |urllib3|
+|mapNumberTo|Map number to Union[StrictFloat, StrictInt], StrictStr or float.| |Union[StrictFloat, StrictInt]|
 |packageName|python package name (convention: snake_case).| |openapi_client|
 |packageUrl|python package URL.| |null|
 |packageVersion|python package version.| |1.0.0|
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
 |recursionLimit|Set the recursion limit. If not set, use the system default value.| |null|
-|useInlineModelResolver|use the inline model resolver, if true inline complex models will be extracted into components and $refs to them will be used| |false|
-|useNose|use the nose test framework| |false|
 
 ## IMPORT MAPPING
 
@@ -41,7 +42,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|map|dict|
 
 
 ## LANGUAGE PRIMITIVES
@@ -50,12 +50,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>Dict</li>
 <li>List</li>
 <li>bool</li>
+<li>bytearray</li>
 <li>bytes</li>
 <li>date</li>
 <li>datetime</li>
+<li>decimal.Decimal</li>
 <li>dict</li>
-<li>file</li>
-<li>file_type</li>
 <li>float</li>
 <li>int</li>
 <li>list</li>
@@ -67,61 +67,46 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
-<li>all_params</li>
 <li>and</li>
 <li>as</li>
 <li>assert</li>
 <li>async</li>
-<li>auth_settings</li>
 <li>await</li>
-<li>body_params</li>
-<li>bool</li>
+<li>base64</li>
 <li>break</li>
 <li>class</li>
 <li>continue</li>
+<li>date</li>
 <li>def</li>
 <li>del</li>
-<li>dict</li>
 <li>elif</li>
 <li>else</li>
 <li>except</li>
 <li>exec</li>
 <li>false</li>
-<li>file_type</li>
 <li>finally</li>
-<li>float</li>
 <li>for</li>
-<li>form_params</li>
 <li>from</li>
-<li>frozendict</li>
 <li>global</li>
-<li>header_params</li>
 <li>if</li>
 <li>import</li>
 <li>in</li>
-<li>int</li>
 <li>is</li>
+<li>json</li>
 <li>lambda</li>
-<li>list</li>
-<li>local_var_files</li>
 <li>none</li>
-<li>none_type</li>
 <li>nonlocal</li>
 <li>not</li>
 <li>or</li>
 <li>pass</li>
-<li>path_params</li>
 <li>print</li>
 <li>property</li>
-<li>query_params</li>
 <li>raise</li>
-<li>resource_path</li>
 <li>return</li>
+<li>schema</li>
 <li>self</li>
-<li>str</li>
 <li>true</li>
 <li>try</li>
-<li>tuple</li>
 <li>while</li>
 <li>with</li>
 <li>yield</li>
@@ -155,10 +140,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |DateTime|✓|OAS2,OAS3
 |Password|✓|OAS2,OAS3
 |File|✓|OAS2
-|Uuid|✓|
+|Uuid|✗|
 |Array|✓|OAS2,OAS3
-|Null|✓|OAS3
-|AnyType|✓|OAS2,OAS3
+|Null|✗|OAS3
+|AnyType|✗|OAS2,OAS3
 |Object|✓|OAS2,OAS3
 |Maps|✓|ToolingExtension
 |CollectionFormat|✓|OAS2
@@ -196,8 +181,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Examples|✓|OAS2,OAS3
 |XMLStructureDefinitions|✗|OAS2,OAS3
 |MultiServer|✗|OAS3
-|ParameterizedServer|✓|OAS3
-|ParameterStyling|✓|OAS3
+|ParameterizedServer|✗|OAS3
+|ParameterStyling|✗|OAS3
 |Callbacks|✗|OAS3
 |LinkObjects|✗|OAS3
 
@@ -218,11 +203,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Simple|✓|OAS2,OAS3
 |Composite|✓|OAS2,OAS3
 |Polymorphism|✓|OAS2,OAS3
-|Union|✓|OAS3
+|Union|✗|OAS3
 |allOf|✓|OAS2,OAS3
 |anyOf|✓|OAS3
 |oneOf|✓|OAS3
-|not|✓|OAS3
+|not|✗|OAS3
 
 ### Security Feature
 | Name | Supported | Defined By |
@@ -235,11 +220,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✓|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
 |JSON|✓|OAS2,OAS3
-|XML|✗|OAS2,OAS3
+|XML|✓|OAS2,OAS3
 |PROTOBUF|✗|ToolingExtension
 |Custom|✓|OAS2,OAS3

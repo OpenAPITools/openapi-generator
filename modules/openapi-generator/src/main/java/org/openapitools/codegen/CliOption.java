@@ -22,6 +22,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class CliOption {
     private final String opt;
@@ -143,5 +144,23 @@ public class CliOption {
             }
         }
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CliOption cliOption = (CliOption) o;
+        return Objects.equals(opt, cliOption.opt) &&
+                Objects.equals(description, cliOption.description) &&
+                Objects.equals(type, cliOption.type) &&
+                Objects.equals(defaultValue, cliOption.defaultValue) &&
+                Objects.equals(optValue, cliOption.optValue) &&
+                Objects.equals(enumValues, cliOption.enumValues);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(opt, description, type, defaultValue, optValue, enumValues);
     }
 }

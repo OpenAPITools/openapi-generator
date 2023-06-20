@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -54,8 +53,40 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Mammal>(instance);
         }
 
+        /// <summary>
+        /// Test the property 'ClassName'
+        /// </summary>
+        [Fact]
+        public void ClassNameTest()
+        {
+            // TODO unit test for the property 'ClassName'
+        }
 
+        /// <summary>
+        /// Test the property 'HasBaleen'
+        /// </summary>
+        [Fact]
+        public void HasBaleenTest()
+        {
+            // TODO unit test for the property 'HasBaleen'
+        }
 
+        /// <summary>
+        /// Test the property 'HasTeeth'
+        /// </summary>
+        [Fact]
+        public void HasTeethTest()
+        {
+            // TODO unit test for the property 'HasTeeth'
+        }
+
+        /// <summary>
+        /// Test the property 'Type'
+        /// </summary>
+        [Fact]
+        public void TypeTest()
+        {
+            // TODO unit test for the property 'Type'
+        }
     }
-
 }

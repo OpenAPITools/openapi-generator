@@ -1070,7 +1070,7 @@ public final class GeneratorSettings implements Serializable {
         public GeneratorSettings build() {
             GeneratorSettings instance = new GeneratorSettings(this);
             //noinspection PlaceholderCountMatchesArgumentCount
-            LOGGER.debug("GeneratorSettings#build: %s", instance.toString());
+            LOGGER.debug("GeneratorSettings#build: {}", instance);
             return instance;
         }
     }

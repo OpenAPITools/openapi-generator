@@ -30,11 +30,15 @@ components:
       description: to test anyOf
       anyOf:
         - type: string
+        - type: 'null'
         - type: null
+        - $ref: null
     OneOfTest:
       description: to test oneOf
       oneOf:
         - type: integer
+        - type: 'null'
+        - type: null
         - $ref: null
     OneOfNullableTest:
       description: to test oneOf nullable
@@ -42,4 +46,40 @@ components:
         - type: integer
         - type: string
         - $ref: null
-
+    SingleAnyOfTest:
+      description: to test anyOf (enum string only)
+      anyOf:
+        - type: string
+          enum:
+            - A
+            - B
+    Parent:
+      type: object
+      properties:
+        number:
+          anyOf:
+            - $ref: '#/components/schemas/Number'
+    ParentWithOneOfProperty:
+      type: object
+      properties:
+        number:
+          oneOf:
+            - $ref: '#/components/schemas/Number'
+    ParentWithPluralOneOfProperty:
+      type: object
+      properties:
+        number:
+          oneOf:
+            - $ref: '#/components/schemas/Number'
+            - $ref: '#/components/schemas/Number2'
+    Number:
+      enum:
+        - one
+        - two
+        - three
+      type: string
+    Number2:
+      enum:
+        - one
+        - two
+      type: string

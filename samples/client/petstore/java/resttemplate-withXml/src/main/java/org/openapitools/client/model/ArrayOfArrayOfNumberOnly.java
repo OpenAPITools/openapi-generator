@@ -46,7 +46,7 @@ public class ArrayOfArrayOfNumberOnly {
   // items.name=arrayArrayNumber items.baseName=arrayArrayNumber items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;BigDecimal&gt;
   @XmlElement(name = "arrayArrayNumber")
-  private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
+  private List<List<BigDecimal>> arrayArrayNumber;
 
   public ArrayOfArrayOfNumberOnly() {
   }
@@ -72,6 +72,8 @@ public class ArrayOfArrayOfNumberOnly {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "ArrayArrayNumber")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
@@ -80,10 +82,11 @@ public class ArrayOfArrayOfNumberOnly {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "ArrayArrayNumber")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
-
 
   @Override
   public boolean equals(Object o) {

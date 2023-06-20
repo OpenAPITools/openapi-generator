@@ -45,7 +45,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |discriminatorCaseSensitive|Whether the discriminator value lookup should be case-sensitive or not. This option only works for Java API client| |true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
-|fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
 |generateControllerAsAbstract|Generate an abstract class for controller to be extended. (apiPackage is then used for the abstract class, and controllerPackage is used for implementation that extends it.)| |false|
 |generateControllerFromExamples|Generate the implementation of controller and tests from parameter and return examples that will verify that the api works as desired (for testing)| |false|
 |generateOperationOnlyForFirstTag|When false, the operation method will be duplicated in each of the tags if multiple tags are assigned to this operation. If true, each operation will be generated only once in the first assigned tag.| |true|
@@ -57,7 +56,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |implicitHeaders|Skip header parameters in the generated API methods using @ApiImplicitParams annotation.| |false|
 |implicitHeadersRegex|Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true| |null|
 |invokerPackage|root package for generated code| |org.openapitools|
-|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |micronautVersion|Micronaut version, only &gt;=3.0.0 versions are supported| |3.4.3|
@@ -84,6 +83,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useAuth|Whether to import authorization and to annotate controller methods accordingly| |true|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
+|useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
 |useOptional|Use Optional container for optional parameters| |false|
 |visitable|Generate visitor for subtypes with a discriminator| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
@@ -345,6 +345,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✓|OAS2,OAS3
 |OAuth2_ClientCredentials|✓|OAS2,OAS3
 |OAuth2_AuthorizationCode|✓|OAS2,OAS3
+|SignatureAuth|✗|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

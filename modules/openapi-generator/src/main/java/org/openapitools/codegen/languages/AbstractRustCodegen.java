@@ -334,4 +334,8 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         return toApiName(name);
     }
 
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        return pattern;
+    }
 }

@@ -23,6 +23,7 @@ import org.openapitools.client.Pair;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
@@ -35,6 +36,7 @@ import org.openapitools.client.model.User;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +44,8 @@ import java.util.StringJoiner;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeApi {
+
+
   private ApiClient apiClient;
 
   public FakeApi() {
@@ -61,12 +65,91 @@ public class FakeApi {
   }
 
   /**
+   * 
+   * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+   * @return FakeBigDecimalMap200Response
+   * @throws ApiException if fails to make API call
+   */
+  public FakeBigDecimalMap200Response fakeBigDecimalMap() throws ApiException {
+    return this.fakeBigDecimalMap(Collections.emptyMap());
+  }
+
+
+  /**
+   * 
+   * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+   * @param additionalHeaders additionalHeaders for this call
+   * @return FakeBigDecimalMap200Response
+   * @throws ApiException if fails to make API call
+   */
+  public FakeBigDecimalMap200Response fakeBigDecimalMap(Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/fake/BigDecimalMap";
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      "*/*"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    TypeReference<FakeBigDecimalMap200Response> localVarReturnType = new TypeReference<FakeBigDecimalMap200Response>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "GET",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  /**
    * Health check endpoint
    * 
    * @return HealthCheckResult
    * @throws ApiException if fails to make API call
    */
   public HealthCheckResult fakeHealthGet() throws ApiException {
+    return this.fakeHealthGet(Collections.emptyMap());
+  }
+
+
+  /**
+   * Health check endpoint
+   * 
+   * @param additionalHeaders additionalHeaders for this call
+   * @return HealthCheckResult
+   * @throws ApiException if fails to make API call
+   */
+  public HealthCheckResult fakeHealthGet(Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -81,6 +164,8 @@ public class FakeApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -112,6 +197,7 @@ public class FakeApi {
         localVarReturnType
     );
   }
+
   /**
    * test http signature authentication
    * 
@@ -121,6 +207,20 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void fakeHttpSignatureTest(Pet pet, String query1, String header1) throws ApiException {
+    this.fakeHttpSignatureTest(pet, query1, header1, Collections.emptyMap());
+  }
+
+
+  /**
+   * test http signature authentication
+   * 
+   * @param pet Pet object that needs to be added to the store (required)
+   * @param query1 query parameter (optional)
+   * @param header1 header parameter (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @throws ApiException if fails to make API call
+   */
+  public void fakeHttpSignatureTest(Pet pet, String query1, String header1, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = pet;
     
     // verify the required parameter 'pet' is set
@@ -142,6 +242,8 @@ public class FakeApi {
     localVarQueryParams.addAll(apiClient.parameterToPair("query_1", query1));
     if (header1 != null)
       localVarHeaderParams.put("header_1", apiClient.parameterToString(header1));
+
+    localVarHeaderParams.putAll(additionalHeaders);
 
     
     
@@ -173,6 +275,7 @@ public class FakeApi {
         null
     );
   }
+
   /**
    * 
    * Test serialization of outer boolean types
@@ -181,6 +284,19 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public Boolean fakeOuterBooleanSerialize(Boolean body) throws ApiException {
+    return this.fakeOuterBooleanSerialize(body, Collections.emptyMap());
+  }
+
+
+  /**
+   * 
+   * Test serialization of outer boolean types
+   * @param body Input boolean as post body (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return Boolean
+   * @throws ApiException if fails to make API call
+   */
+  public Boolean fakeOuterBooleanSerialize(Boolean body, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = body;
     
     // create path and map variables
@@ -195,6 +311,8 @@ public class FakeApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -226,6 +344,7 @@ public class FakeApi {
         localVarReturnType
     );
   }
+
   /**
    * 
    * Test serialization of object with outer number type
@@ -234,6 +353,19 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws ApiException {
+    return this.fakeOuterCompositeSerialize(outerComposite, Collections.emptyMap());
+  }
+
+
+  /**
+   * 
+   * Test serialization of object with outer number type
+   * @param outerComposite Input composite as post body (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return OuterComposite
+   * @throws ApiException if fails to make API call
+   */
+  public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = outerComposite;
     
     // create path and map variables
@@ -248,6 +380,8 @@ public class FakeApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -279,6 +413,7 @@ public class FakeApi {
         localVarReturnType
     );
   }
+
   /**
    * 
    * Test serialization of outer number types
@@ -287,6 +422,19 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws ApiException {
+    return this.fakeOuterNumberSerialize(body, Collections.emptyMap());
+  }
+
+
+  /**
+   * 
+   * Test serialization of outer number types
+   * @param body Input number as post body (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return BigDecimal
+   * @throws ApiException if fails to make API call
+   */
+  public BigDecimal fakeOuterNumberSerialize(BigDecimal body, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = body;
     
     // create path and map variables
@@ -301,6 +449,8 @@ public class FakeApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -332,6 +482,7 @@ public class FakeApi {
         localVarReturnType
     );
   }
+
   /**
    * 
    * Test serialization of outer string types
@@ -340,6 +491,19 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public String fakeOuterStringSerialize(String body) throws ApiException {
+    return this.fakeOuterStringSerialize(body, Collections.emptyMap());
+  }
+
+
+  /**
+   * 
+   * Test serialization of outer string types
+   * @param body Input string as post body (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String fakeOuterStringSerialize(String body, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = body;
     
     // create path and map variables
@@ -354,6 +518,8 @@ public class FakeApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -385,6 +551,7 @@ public class FakeApi {
         localVarReturnType
     );
   }
+
   /**
    * 
    * Test serialization of enum (int) properties with examples
@@ -393,6 +560,19 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws ApiException {
+    return this.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, Collections.emptyMap());
+  }
+
+
+  /**
+   * 
+   * Test serialization of enum (int) properties with examples
+   * @param outerObjectWithEnumProperty Input enum (int) as post body (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return OuterObjectWithEnumProperty
+   * @throws ApiException if fails to make API call
+   */
+  public OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = outerObjectWithEnumProperty;
     
     // verify the required parameter 'outerObjectWithEnumProperty' is set
@@ -412,6 +592,8 @@ public class FakeApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -443,6 +625,7 @@ public class FakeApi {
         localVarReturnType
     );
   }
+
   /**
    * 
    * For this test, the body has to be a binary file.
@@ -450,6 +633,18 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testBodyWithBinary(File body) throws ApiException {
+    this.testBodyWithBinary(body, Collections.emptyMap());
+  }
+
+
+  /**
+   * 
+   * For this test, the body has to be a binary file.
+   * @param body image to upload (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @throws ApiException if fails to make API call
+   */
+  public void testBodyWithBinary(File body, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = body;
     
     // verify the required parameter 'body' is set
@@ -469,6 +664,8 @@ public class FakeApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -499,6 +696,7 @@ public class FakeApi {
         null
     );
   }
+
   /**
    * 
    * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
@@ -506,6 +704,18 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
+    this.testBodyWithFileSchema(fileSchemaTestClass, Collections.emptyMap());
+  }
+
+
+  /**
+   * 
+   * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
+   * @param fileSchemaTestClass  (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @throws ApiException if fails to make API call
+   */
+  public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = fileSchemaTestClass;
     
     // verify the required parameter 'fileSchemaTestClass' is set
@@ -525,6 +735,8 @@ public class FakeApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -555,6 +767,7 @@ public class FakeApi {
         null
     );
   }
+
   /**
    * 
    * 
@@ -563,6 +776,19 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testBodyWithQueryParams(String query, User user) throws ApiException {
+    this.testBodyWithQueryParams(query, user, Collections.emptyMap());
+  }
+
+
+  /**
+   * 
+   * 
+   * @param query  (required)
+   * @param user  (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @throws ApiException if fails to make API call
+   */
+  public void testBodyWithQueryParams(String query, User user, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = user;
     
     // verify the required parameter 'query' is set
@@ -588,6 +814,8 @@ public class FakeApi {
 
     localVarQueryParams.addAll(apiClient.parameterToPair("query", query));
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -618,6 +846,7 @@ public class FakeApi {
         null
     );
   }
+
   /**
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
@@ -626,6 +855,19 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public Client testClientModel(Client client) throws ApiException {
+    return this.testClientModel(client, Collections.emptyMap());
+  }
+
+
+  /**
+   * To test \&quot;client\&quot; model
+   * To test \&quot;client\&quot; model
+   * @param client client model (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return Client
+   * @throws ApiException if fails to make API call
+   */
+  public Client testClientModel(Client client, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = client;
     
     // verify the required parameter 'client' is set
@@ -645,6 +887,8 @@ public class FakeApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -676,6 +920,7 @@ public class FakeApi {
         localVarReturnType
     );
   }
+
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -696,6 +941,31 @@ public class FakeApi {
    * @throws ApiException if fails to make API call
    */
   public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+    this.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, Collections.emptyMap());
+  }
+
+
+  /**
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * @param number None (required)
+   * @param _double None (required)
+   * @param patternWithoutDelimiter None (required)
+   * @param _byte None (required)
+   * @param integer None (optional)
+   * @param int32 None (optional)
+   * @param int64 None (optional)
+   * @param _float None (optional)
+   * @param string None (optional)
+   * @param binary None (optional)
+   * @param date None (optional)
+   * @param dateTime None (optional)
+   * @param password None (optional)
+   * @param paramCallback None (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @throws ApiException if fails to make API call
+   */
+  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'number' is set
@@ -730,6 +1000,8 @@ public class FakeApi {
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     if (integer != null)
       localVarFormParams.put("integer", integer);
@@ -788,6 +1060,7 @@ if (paramCallback != null)
         null
     );
   }
+
   /**
    * To test enum parameters
    * To test enum parameters
@@ -803,6 +1076,26 @@ if (paramCallback != null)
    * @throws ApiException if fails to make API call
    */
   public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws ApiException {
+    this.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, Collections.emptyMap());
+  }
+
+
+  /**
+   * To test enum parameters
+   * To test enum parameters
+   * @param enumHeaderStringArray Header parameter enum test (string array) (optional
+   * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
+   * @param enumQueryStringArray Query parameter enum test (string array) (optional
+   * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
+   * @param enumQueryInteger Query parameter enum test (double) (optional)
+   * @param enumQueryDouble Query parameter enum test (double) (optional)
+   * @param enumQueryModelArray  (optional
+   * @param enumFormStringArray Form parameter enum test (string array) (optional
+   * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+   * @param additionalHeaders additionalHeaders for this call
+   * @throws ApiException if fails to make API call
+   */
+  public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -825,6 +1118,8 @@ if (paramCallback != null)
       localVarHeaderParams.put("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
 if (enumHeaderString != null)
       localVarHeaderParams.put("enum_header_string", apiClient.parameterToString(enumHeaderString));
+
+    localVarHeaderParams.putAll(additionalHeaders);
 
     
     if (enumFormStringArray != null)
@@ -860,6 +1155,7 @@ if (enumFormString != null)
         null
     );
   }
+
   /**
    * Fake endpoint to test group parameters (optional)
    * Fake endpoint to test group parameters (optional)
@@ -872,6 +1168,23 @@ if (enumFormString != null)
    * @throws ApiException if fails to make API call
    */
   public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
+    this.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, Collections.emptyMap());
+  }
+
+
+  /**
+   * Fake endpoint to test group parameters (optional)
+   * Fake endpoint to test group parameters (optional)
+   * @param requiredStringGroup Required String in group parameters (required)
+   * @param requiredBooleanGroup Required Boolean in group parameters (required)
+   * @param requiredInt64Group Required Integer in group parameters (required)
+   * @param stringGroup String in group parameters (optional)
+   * @param booleanGroup Boolean in group parameters (optional)
+   * @param int64Group Integer in group parameters (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @throws ApiException if fails to make API call
+   */
+  public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'requiredStringGroup' is set
@@ -909,6 +1222,8 @@ if (enumFormString != null)
 if (booleanGroup != null)
       localVarHeaderParams.put("boolean_group", apiClient.parameterToString(booleanGroup));
 
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -939,6 +1254,7 @@ if (booleanGroup != null)
         null
     );
   }
+
   /**
    * test inline additionalProperties
    * 
@@ -946,6 +1262,18 @@ if (booleanGroup != null)
    * @throws ApiException if fails to make API call
    */
   public void testInlineAdditionalProperties(Map<String, String> requestBody) throws ApiException {
+    this.testInlineAdditionalProperties(requestBody, Collections.emptyMap());
+  }
+
+
+  /**
+   * test inline additionalProperties
+   * 
+   * @param requestBody request body (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @throws ApiException if fails to make API call
+   */
+  public void testInlineAdditionalProperties(Map<String, String> requestBody, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = requestBody;
     
     // verify the required parameter 'requestBody' is set
@@ -965,6 +1293,8 @@ if (booleanGroup != null)
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -995,6 +1325,7 @@ if (booleanGroup != null)
         null
     );
   }
+
   /**
    * test json serialization of form data
    * 
@@ -1003,6 +1334,19 @@ if (booleanGroup != null)
    * @throws ApiException if fails to make API call
    */
   public void testJsonFormData(String param, String param2) throws ApiException {
+    this.testJsonFormData(param, param2, Collections.emptyMap());
+  }
+
+
+  /**
+   * test json serialization of form data
+   * 
+   * @param param field1 (required)
+   * @param param2 field2 (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @throws ApiException if fails to make API call
+   */
+  public void testJsonFormData(String param, String param2, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'param' is set
@@ -1027,6 +1371,8 @@ if (booleanGroup != null)
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     if (param != null)
       localVarFormParams.put("param", param);
@@ -1061,6 +1407,7 @@ if (param2 != null)
         null
     );
   }
+
   /**
    * 
    * To test the collection format in query parameters
@@ -1074,6 +1421,24 @@ if (param2 != null)
    * @throws ApiException if fails to make API call
    */
   public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) throws ApiException {
+    this.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, Collections.emptyMap());
+  }
+
+
+  /**
+   * 
+   * To test the collection format in query parameters
+   * @param pipe  (required)
+   * @param ioutil  (required)
+   * @param http  (required)
+   * @param url  (required)
+   * @param context  (required)
+   * @param allowEmpty  (required)
+   * @param language  (optional
+   * @param additionalHeaders additionalHeaders for this call
+   * @throws ApiException if fails to make API call
+   */
+  public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'pipe' is set
@@ -1125,6 +1490,8 @@ if (param2 != null)
     localVarQueryParams.addAll(apiClient.parameterToPair("language", language));
     localVarQueryParams.addAll(apiClient.parameterToPair("allowEmpty", allowEmpty));
     
+    localVarHeaderParams.putAll(additionalHeaders);
+
     
     
     final String[] localVarAccepts = {
@@ -1155,4 +1522,5 @@ if (param2 != null)
         null
     );
   }
+
 }

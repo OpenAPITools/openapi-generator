@@ -42,37 +42,16 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Pet(Category category, long id, string name, List<string> photoUrls, StatusEnum status, List<Tag> tags)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (id == null)
-                throw new ArgumentNullException("id is a required property for Pet and cannot be null.");
-
-            if (category == null)
-                throw new ArgumentNullException("category is a required property for Pet and cannot be null.");
-
-            if (name == null)
-                throw new ArgumentNullException("name is a required property for Pet and cannot be null.");
-
-            if (photoUrls == null)
-                throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null.");
-
-            if (tags == null)
-                throw new ArgumentNullException("tags is a required property for Pet and cannot be null.");
-
-            if (status == null)
-                throw new ArgumentNullException("status is a required property for Pet and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Category = category;
             Id = id;
             Name = name;
             PhotoUrls = photoUrls;
             Status = status;
             Tags = tags;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// pet status in the store
@@ -94,14 +73,14 @@ namespace Org.OpenAPITools.Model
             /// Enum Sold for value: sold
             /// </summary>
             Sold = 3
-
         }
 
         /// <summary>
-        /// Returns a StatusEnum
+        /// Returns a <see cref="StatusEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static StatusEnum StatusEnumFromString(string value)
         {
             if (value == "available")
@@ -117,7 +96,26 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="StatusEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static StatusEnum? StatusEnumFromStringOrDefault(string value)
+        {
+            if (value == "available")
+                return StatusEnum.Available;
+
+            if (value == "pending")
+                return StatusEnum.Pending;
+
+            if (value == "sold")
+                return StatusEnum.Sold;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="StatusEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -158,6 +156,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
+        /// <example>doggie</example>
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
@@ -197,24 +196,25 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
     /// <summary>
-    /// A Json converter for type Pet
+    /// A Json converter for type <see cref="Pet" />
     /// </summary>
     public class PetJsonConverter : JsonConverter<Pet>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Pet" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -230,12 +230,12 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Category category = default;
-            long id = default;
-            string name = default;
-            List<string> photoUrls = default;
-            Pet.StatusEnum status = default;
-            List<Tag> tags = default;
+            Category? category = default;
+            long? id = default;
+            string? name = default;
+            List<string>? photoUrls = default;
+            Pet.StatusEnum? status = default;
+            List<Tag>? tags = default;
 
             while (utf8JsonReader.Read())
             {
@@ -253,23 +253,29 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "category":
-                            category = JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                category = JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "id":
-                            id = utf8JsonReader.GetInt64();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                id = utf8JsonReader.GetInt64();
                             break;
                         case "name":
                             name = utf8JsonReader.GetString();
                             break;
                         case "photoUrls":
-                            photoUrls = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                photoUrls = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "status":
-                            string statusRawValue = utf8JsonReader.GetString();
-                            status = Pet.StatusEnumFromString(statusRawValue);
+                            string? statusRawValue = utf8JsonReader.GetString();
+                            status = statusRawValue == null
+                                ? null
+                                : Pet.StatusEnumFromStringOrDefault(statusRawValue);
                             break;
                         case "tags":
-                            tags = JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                tags = JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -277,11 +283,29 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Pet(category, id, name, photoUrls, status, tags);
+            if (category == null)
+                throw new ArgumentNullException(nameof(category), "Property is required for class Pet.");
+
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class Pet.");
+
+            if (name == null)
+                throw new ArgumentNullException(nameof(name), "Property is required for class Pet.");
+
+            if (photoUrls == null)
+                throw new ArgumentNullException(nameof(photoUrls), "Property is required for class Pet.");
+
+            if (status == null)
+                throw new ArgumentNullException(nameof(status), "Property is required for class Pet.");
+
+            if (tags == null)
+                throw new ArgumentNullException(nameof(tags), "Property is required for class Pet.");
+
+            return new Pet(category, id.Value, name, photoUrls, status.Value, tags);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Pet" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="pet"></param>
@@ -297,11 +321,13 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("name", pet.Name);
             writer.WritePropertyName("photoUrls");
             JsonSerializer.Serialize(writer, pet.PhotoUrls, jsonSerializerOptions);
+
             var statusRawValue = Pet.StatusEnumToJsonValue(pet.Status);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
+
             writer.WritePropertyName("tags");
             JsonSerializer.Serialize(writer, pet.Tags, jsonSerializerOptions);
 

@@ -4,7 +4,7 @@
 {{{version}}}
 :toc: left
 :numbered:
-:toclevels: 3
+:toclevels: 4
 :source-highlighter: highlightjs
 :keywords: openapi, rest, {{appName}}
 :specDir: {{specDir}}
@@ -32,6 +32,7 @@
 {{#isBasic}}
 {{#isBasicBasic}}* *HTTP Basic* Authentication _{{{name}}}_{{/isBasicBasic}}
 {{#isBasicBearer}}* *Bearer* Authentication {{/isBasicBearer}}
+{{#isHttpSignature}}* *HTTP signature* Authentication{{/isHttpSignature}}
 {{/isBasic}}
 {{#isOAuth}}* *OAuth*  AuthorizationUrl: _{{authorizationUrl}}_, TokenUrl:   _{{tokenUrl}}_ {{/isOAuth}}
 {{#isApiKey}}* *APIKey* KeyParamName:     _{{keyParamName}}_,     KeyInQuery: _{{isKeyInQuery}}_, KeyInHeader: _{{isKeyInHeader}}_{{/isApiKey}}

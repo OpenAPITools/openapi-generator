@@ -5,6 +5,7 @@ import org.openapitools.client.ApiClient;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
@@ -57,6 +58,70 @@ public class FakeApi {
         this.apiClient = apiClient;
     }
 
+    /**
+     * 
+     * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+     * <p><b>200</b> - successful operation
+     * @return FakeBigDecimalMap200Response
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    private ResponseSpec fakeBigDecimalMapRequestCreation() throws WebClientResponseException {
+        Object postBody = null;
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { 
+            "*/*"
+        };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<FakeBigDecimalMap200Response> localVarReturnType = new ParameterizedTypeReference<FakeBigDecimalMap200Response>() {};
+        return apiClient.invokeAPI("/fake/BigDecimalMap", HttpMethod.GET, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * 
+     * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+     * <p><b>200</b> - successful operation
+     * @return FakeBigDecimalMap200Response
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<FakeBigDecimalMap200Response> fakeBigDecimalMap() throws WebClientResponseException {
+        ParameterizedTypeReference<FakeBigDecimalMap200Response> localVarReturnType = new ParameterizedTypeReference<FakeBigDecimalMap200Response>() {};
+        return fakeBigDecimalMapRequestCreation().bodyToMono(localVarReturnType);
+    }
+
+    /**
+     * 
+     * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+     * <p><b>200</b> - successful operation
+     * @return ResponseEntity&lt;FakeBigDecimalMap200Response&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<FakeBigDecimalMap200Response>> fakeBigDecimalMapWithHttpInfo() throws WebClientResponseException {
+        ParameterizedTypeReference<FakeBigDecimalMap200Response> localVarReturnType = new ParameterizedTypeReference<FakeBigDecimalMap200Response>() {};
+        return fakeBigDecimalMapRequestCreation().toEntity(localVarReturnType);
+    }
+
+    /**
+     * 
+     * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+     * <p><b>200</b> - successful operation
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec fakeBigDecimalMapWithResponseSpec() throws WebClientResponseException {
+        return fakeBigDecimalMapRequestCreation();
+    }
     /**
      * Health check endpoint
      * 

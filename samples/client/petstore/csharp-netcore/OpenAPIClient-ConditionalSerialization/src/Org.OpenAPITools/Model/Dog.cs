@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="breed">breed.</param>
         /// <param name="className">className (required) (default to &quot;Dog&quot;).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Dog(string breed = default(string), string className = "Dog", string color = "red") : base(className, color)
+        public Dog(string breed = default(string), string className = @"Dog", string color = @"red") : base(className, color)
         {
             this._Breed = breed;
             if (this.Breed != null)
@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }

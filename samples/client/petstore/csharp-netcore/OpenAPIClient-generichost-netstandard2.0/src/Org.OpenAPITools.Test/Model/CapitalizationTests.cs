@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -54,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Capitalization>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'ATT_NAME'
         /// </summary>
@@ -63,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ATT_NAME'
         }
+
         /// <summary>
         /// Test the property 'CapitalCamel'
         /// </summary>
@@ -71,6 +70,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'CapitalCamel'
         }
+
         /// <summary>
         /// Test the property 'CapitalSnake'
         /// </summary>
@@ -79,6 +79,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'CapitalSnake'
         }
+
         /// <summary>
         /// Test the property 'SCAETHFlowPoints'
         /// </summary>
@@ -87,6 +88,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'SCAETHFlowPoints'
         }
+
         /// <summary>
         /// Test the property 'SmallCamel'
         /// </summary>
@@ -95,6 +97,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'SmallCamel'
         }
+
         /// <summary>
         /// Test the property 'SmallSnake'
         /// </summary>
@@ -103,7 +106,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'SmallSnake'
         }
-
     }
-
 }

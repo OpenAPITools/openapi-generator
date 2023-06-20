@@ -101,6 +101,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public boolean hasChildren;
     public boolean isMap;
     public boolean isNull;
+    public boolean isVoid = false;
     /**
      * Indicates the OAS schema specifies "deprecated: true".
      */
@@ -881,6 +882,16 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getIsVoid() {
+        return isVoid;
+    }
+
+    @Override
+    public void setIsVoid(boolean isVoid) {
+        this.isVoid = isVoid;
+    }
+
+    @Override
     public boolean getAdditionalPropertiesIsAnyType() {
         return additionalPropertiesIsAnyType;
     }
@@ -1209,10 +1220,25 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         return sb.toString();
     }
 
-    public void addDiscriminatorMappedModelsImports() {
+    /*
+     * To clean up mapped models if needed and add mapped models to imports
+     *
+     * @param cleanUpMappedModels Clean up mapped models if set to true
+     */
+    public void addDiscriminatorMappedModelsImports(boolean cleanUpMappedModels) {
         if (discriminator == null || discriminator.getMappedModels() == null) {
             return;
         }
+
+        if (cleanUpMappedModels && !this.hasChildren && // no child
+                (this.oneOf == null || this.oneOf.isEmpty()) && // not oneOf
+                (this.anyOf == null || this.anyOf.isEmpty())) { // not anyOf
+            //clear the mapping
+            discriminator.setMappedModels(null);
+            return;
+        }
+
+        // import child schemas defined in mapped models
         for (CodegenDiscriminator.MappedModel mm : discriminator.getMappedModels()) {
             if (!"".equals(mm.getModelName())) {
                 imports.add(mm.getModelName());

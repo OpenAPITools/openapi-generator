@@ -51,7 +51,7 @@ final api = Openapi().getDefaultApi();
 try {
     final response = await api.rootGet();
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print("Exception when calling DefaultApi->rootGet: $e\n");
 }
 
@@ -75,7 +75,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Authorization
 
- All endpoints do not require authorization.
+Endpoints do not require authorization.
 
 
 ## Author

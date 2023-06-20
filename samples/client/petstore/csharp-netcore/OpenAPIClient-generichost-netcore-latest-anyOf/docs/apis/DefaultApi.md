@@ -6,7 +6,7 @@ All URIs are relative to *http://localhost*
 |--------|--------------|-------------|
 | [**RootGet**](DefaultApi.md#rootget) | **GET** / |  |
 
-<a name="rootget"></a>
+<a id="rootget"></a>
 # **RootGet**
 > Fruit RootGet ()
 

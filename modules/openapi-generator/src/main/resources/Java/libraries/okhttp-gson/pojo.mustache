@@ -8,6 +8,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -29,6 +33,11 @@ import {{invokerPackage}}.JSON;
 @ApiModel(description = "{{{.}}}")
 {{/description}}
 {{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+{{#description}}
+@Schema(description = "{{{.}}}")
+{{/description}}
+{{/swagger2AnnotationLibrary}}
 {{#jackson}}
 @JsonPropertyOrder({
 {{#vars}}
@@ -87,6 +96,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/isXmlAttribute}}
   {{/withXml}}
   {{#gson}}
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/gson}}
   {{#vendorExtensions.x-field-extra-annotation}}
@@ -138,6 +150,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{#vars}}
 
   {{^isReadOnly}}
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});{{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}this.{{name}} = {{name}};{{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -158,13 +173,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     return this;
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}
-    {{^required}}
-    {{#defaultValue}}
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
     }
-    {{/defaultValue}}
-    {{/required}}
     this.{{name}}.add({{name}}Item);
     return this;
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -185,13 +196,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     return this;
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}
-    {{^required}}
-    {{#defaultValue}}
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
     }
-    {{/defaultValue}}
-    {{/required}}
     this.{{name}}.put(key, {{name}}Item);
     return this;
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -240,6 +247,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 {{#swagger1AnnotationLibrary}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
 {{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+  @Schema({{#example}}example = "{{{.}}}", {{/example}}requiredMode = {{#required}}Schema.RequiredMode.REQUIRED{{/required}}{{^required}}Schema.RequiredMode.NOT_REQUIRED{{/required}}, description = "{{{description}}}")
+{{/swagger2AnnotationLibrary}}
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}
@@ -247,8 +257,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{!unannotated, Jackson would pick this up automatically and add it *in addition* to the _JsonNullable getter field}}
   @JsonIgnore
 {{/vendorExtensions.x-is-jackson-optional-nullable}}
-{{^vendorExtensions.x-is-jackson-optional-nullable}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}{{/vendorExtensions.x-is-jackson-optional-nullable}}
-  public {{{datatypeWithEnum}}} {{getter}}() {
+{{^vendorExtensions.x-is-jackson-optional-nullable}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}{{/vendorExtensions.x-is-jackson-optional-nullable}}  public {{{datatypeWithEnum}}} {{getter}}() {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     {{#isReadOnly}}{{! A readonly attribute doesn't have setter => jackson will set null directly if explicitly returned by API, so make sure we have an empty JsonNullable}}
     if ({{name}} == null) {
@@ -277,7 +286,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 
   {{^isReadOnly}}
 {{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
-{{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{> jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+{{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{> jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}{{#deprecated}}  @Deprecated
+{{/deprecated}}  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -524,7 +534,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       {{/isArray}}
       {{^isContainer}}
       {{#isString}}
-      if ({{^required}}(jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) && {{/required}}!jsonObj.get("{{{baseName}}}").isJsonPrimitive()) {
+      if ({{#notRequiredOrIsNullable}}(jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) && {{/notRequiredOrIsNullable}}!jsonObj.get("{{{baseName}}}").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be a primitive type in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
       }
       {{/isString}}
@@ -553,7 +563,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
           {{modelName}}.validateJsonObject(jsonObj);
           break;
       {{/mappedModels}}
-        default: 
+        default:
           throw new IllegalArgumentException(String.format("The value of the `{{{propertyBaseName}}}` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
       }
       {{/discriminator}}

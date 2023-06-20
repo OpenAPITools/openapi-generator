@@ -35,21 +35,16 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public DateOnlyClass(DateTime dateOnlyProperty)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (dateOnlyProperty == null)
-                throw new ArgumentNullException("dateOnlyProperty is a required property for DateOnlyClass and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             DateOnlyProperty = dateOnlyProperty;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
+        /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
         [JsonPropertyName("dateOnlyProperty")]
         public DateTime DateOnlyProperty { get; set; }
 
@@ -72,29 +67,30 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
     /// <summary>
-    /// A Json converter for type DateOnlyClass
+    /// A Json converter for type <see cref="DateOnlyClass" />
     /// </summary>
     public class DateOnlyClassJsonConverter : JsonConverter<DateOnlyClass>
     {
         /// <summary>
         /// The format to use to serialize DateOnlyProperty
         /// </summary>
-        public static string DateOnlyPropertyFormat { get; set; } = "yyyy-MM-dd";
+        public static string DateOnlyPropertyFormat { get; set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="DateOnlyClass" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -110,7 +106,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            DateTime dateOnlyProperty = default;
+            DateTime? dateOnlyProperty = default;
 
             while (utf8JsonReader.Read())
             {
@@ -128,7 +124,8 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "dateOnlyProperty":
-                            dateOnlyProperty = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                dateOnlyProperty = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -136,11 +133,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new DateOnlyClass(dateOnlyProperty);
+            if (dateOnlyProperty == null)
+                throw new ArgumentNullException(nameof(dateOnlyProperty), "Property is required for class DateOnlyClass.");
+
+            return new DateOnlyClass(dateOnlyProperty.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="DateOnlyClass" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dateOnlyClass"></param>

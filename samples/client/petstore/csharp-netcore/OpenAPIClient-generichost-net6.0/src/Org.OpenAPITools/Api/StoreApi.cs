@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;object&gt;&gt;</returns>
-        Task<ApiResponse<object>> DeleteOrderWithHttpInfoAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<object>> DeleteOrderAsync(string orderId, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete purchase order by ID
@@ -45,11 +45,10 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;object&gt;</returns>
-        Task<object> DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;object&gt;&gt;</returns>
+        Task<ApiResponse<object>> DeleteOrderOrDefaultAsync(string orderId, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns pet inventories by status
@@ -60,7 +59,7 @@ namespace Org.OpenAPITools.IApi
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Dictionary&lt;string, int&gt;&gt;&gt;</returns>
-        Task<ApiResponse<Dictionary<string, int>>> GetInventoryWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<Dictionary<string, int>>> GetInventoryAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Returns pet inventories by status
@@ -68,10 +67,9 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// Returns a map of status codes to quantities
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;Dictionary&lt;string, int&gt;&gt;</returns>
-        Task<Dictionary<string, int>> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;Dictionary&lt;string, int&gt;&gt;&gt;</returns>
+        Task<ApiResponse<Dictionary<string, int>>> GetInventoryOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Find purchase order by ID
@@ -83,7 +81,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Order&gt;&gt;</returns>
-        Task<ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<Order>> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Find purchase order by ID
@@ -91,11 +89,10 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;Order&gt;</returns>
-        Task<Order> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;Order&gt;&gt;</returns>
+        Task<ApiResponse<Order>> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Place an order for a pet
@@ -107,7 +104,7 @@ namespace Org.OpenAPITools.IApi
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Order&gt;&gt;</returns>
-        Task<ApiResponse<Order>> PlaceOrderWithHttpInfoAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);
+        Task<ApiResponse<Order>> PlaceOrderAsync(Order order, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Place an order for a pet
@@ -115,11 +112,10 @@ namespace Org.OpenAPITools.IApi
         /// <remarks>
         /// 
         /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse&lt;Order&gt;</returns>
-        Task<Order> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null);
+        /// <returns>Task&lt;ApiResponse&gt;Order&gt;&gt;</returns>
+        Task<ApiResponse<Order>> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken cancellationToken = default);
     }
 }
 
@@ -128,7 +124,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public partial class StoreApi : IApi.IStoreApi
+    public sealed partial class StoreApi : IApi.IStoreApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
@@ -171,11 +167,11 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="StoreApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public StoreApi(ILogger<StoreApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, 
-            TokenProvider<ApiKeyToken> apiKeyProvider, 
-            TokenProvider<BearerToken> bearerTokenProvider, 
-            TokenProvider<BasicToken> basicTokenProvider, 
-            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider, 
+        public StoreApi(ILogger<StoreApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider,
+            TokenProvider<ApiKeyToken> apiKeyProvider,
+            TokenProvider<BearerToken> bearerTokenProvider,
+            TokenProvider<BasicToken> basicTokenProvider,
+            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider,
             TokenProvider<OAuthToken> oauthTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
@@ -188,61 +184,14 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
-        /// <summary>
-        /// Logs the api response
-        /// </summary>
-        /// <param name="args"></param>
-        protected virtual void OnApiResponded(ApiResponseEventArgs args)
-        {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (args.ReceivedAt - args.RequestedAt).TotalSeconds, args.HttpStatus, args.Path);
-        }
-
-        /// <summary>
-        /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> DeleteOrderAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> result = await DeleteOrderWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
-
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
-
-            return result.Content;
-        }
-
-        /// <summary>
-        /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of the order that needs to be deleted</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="object"/>&gt;</returns>
-        public async Task<object> DeleteOrderOrDefaultAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<object> result = null;
-            try 
-            {
-                result = await DeleteOrderWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
-                : null;
-        }
+        partial void FormatDeleteOrder(ref string orderId);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        protected virtual string OnDeleteOrder(string orderId)
+        private void ValidateDeleteOrder(string orderId)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -250,31 +199,69 @@ namespace Org.OpenAPITools.Api
             if (orderId == null)
                 throw new ArgumentNullException(nameof(orderId));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return orderId;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponse"></param>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        protected virtual void AfterDeleteOrder(ApiResponse<object> apiResponse, string orderId)
+        private void AfterDeleteOrderDefaultImplementation(ApiResponse<object> apiResponseLocalVar, string orderId)
         {
+            bool suppressDefaultLog = false;
+            AfterDeleteOrder(ref suppressDefaultLog, apiResponseLocalVar, orderId);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="orderId"></param>
+        partial void AfterDeleteOrder(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, string orderId);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="orderId"></param>
-        protected virtual void OnErrorDeleteOrder(Exception exception, string pathFormat, string path, string orderId)
+        private void OnErrorDeleteOrderDefaultImplementation(Exception exception, string pathFormat, string path, string orderId)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorDeleteOrder(exception, pathFormat, path, orderId);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="orderId"></param>
+        partial void OnErrorDeleteOrder(Exception exception, string pathFormat, string path, string orderId);
+
+        /// <summary>
+        /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        /// </summary>
+        /// <param name="orderId">ID of the order that needs to be deleted</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
+        public async Task<ApiResponse<object>> DeleteOrderOrDefaultAsync(string orderId, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await DeleteOrderAsync(orderId, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -284,98 +271,103 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="object"/></returns>
-        public async Task<ApiResponse<object>> DeleteOrderWithHttpInfoAsync(string orderId, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<object>> DeleteOrderAsync(string orderId, System.Threading.CancellationToken cancellationToken = default)
         {
-            UriBuilder uriBuilder = new UriBuilder();
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                orderId = OnDeleteOrder(orderId);
+                ValidateDeleteOrder(orderId);
 
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                FormatDeleteOrder(ref orderId);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order/{order_id}";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/store/order/{order_id}";
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
 
-                    uriBuilder.Path = uriBuilder.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    request.RequestUri = uriBuilder.Uri;
-                        
-                    request.Method = HttpMethod.Delete;
+                    httpRequestMessageLocalVar.Method = HttpMethod.Delete;
 
-                    DateTime requestedAt = DateTime.UtcNow;
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}", uriBuilder.Path));
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order/{order_id}", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        ApiResponse<object> apiResponse = new ApiResponse<object>(responseMessage, responseContent);
+                        AfterDeleteOrderDefaultImplementation(apiResponseLocalVar, orderId);
 
-                        if (apiResponse.IsSuccessStatusCode)
-                        {
-                            apiResponse.Content = JsonSerializer.Deserialize<object>(apiResponse.RawContent, _jsonSerializerOptions);
-                            AfterDeleteOrder(apiResponse, orderId);
-                        }
-
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                OnErrorDeleteOrder(e, "/store/order/{order_id}", uriBuilder.Path, orderId);
+                OnErrorDeleteOrderDefaultImplementation(e, "/store/order/{order_id}", uriBuilderLocalVar.Path, orderId);
                 throw;
             }
         }
 
         /// <summary>
-        /// Returns pet inventories by status Returns a map of status codes to quantities
+        /// Processes the server response
         /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="Dictionary&lt;string, int&gt;"/>&gt;</returns>
-        public async Task<Dictionary<string, int>> GetInventoryAsync(System.Threading.CancellationToken? cancellationToken = null)
+        /// <param name="apiResponseLocalVar"></param>
+        private void AfterGetInventoryDefaultImplementation(ApiResponse<Dictionary<string, int>> apiResponseLocalVar)
         {
-            ApiResponse<Dictionary<string, int>> result = await GetInventoryWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
-
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            if (result.Content == null)
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
-
-            return result.Content;
-        }
-
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <returns></returns>
-        protected virtual void OnGetInventory()
-        {
-            return;
+            bool suppressDefaultLog = false;
+            AfterGetInventory(ref suppressDefaultLog, apiResponseLocalVar);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponse"></param>
-        protected virtual void AfterGetInventory(ApiResponse<Dictionary<string, int>> apiResponse)
-        {
-        }
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        partial void AfterGetInventory(ref bool suppressDefaultLog, ApiResponse<Dictionary<string, int>> apiResponseLocalVar);
 
         /// <summary>
-        /// Processes the server response
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        protected virtual void OnErrorGetInventory(Exception exception, string pathFormat, string path)
+        private void OnErrorGetInventoryDefaultImplementation(Exception exception, string pathFormat, string path)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorGetInventory(exception, pathFormat, path);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        partial void OnErrorGetInventory(Exception exception, string pathFormat, string path);
+
+        /// <summary>
+        /// Returns pet inventories by status Returns a map of status codes to quantities
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Dictionary{TKey, TValue}"/></returns>
+        public async Task<ApiResponse<Dictionary<string, int>>> GetInventoryOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await GetInventoryAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -383,119 +375,74 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Dictionary&lt;string, int&gt;"/></returns>
-        public async Task<ApiResponse<Dictionary<string, int>>> GetInventoryWithHttpInfoAsync(System.Threading.CancellationToken? cancellationToken = null)
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Dictionary{TKey, TValue}"/></returns>
+        public async Task<ApiResponse<Dictionary<string, int>>> GetInventoryAsync(System.Threading.CancellationToken cancellationToken = default)
         {
-            UriBuilder uriBuilder = new UriBuilder();
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                OnGetInventory();
-
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/inventory";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/store/inventory";
 
-                    List<TokenBase> tokens = new List<TokenBase>();
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
 
-                    ApiKeyToken apiKey = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    ApiKeyToken apiKeyTokenLocalVar = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokens.Add(apiKey);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar);
 
-                    apiKey.UseInHeader(request, "api_key");
+                    apiKeyTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "api_key");
 
-                    request.RequestUri = uriBuilder.Uri;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    string[] accepts = new string[] { 
-                        "application/json" 
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
                     };
 
-                    string accept = ClientUtils.SelectHeaderAccept(accepts);
+                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
-                    if (accept != null)
-                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
 
-                    request.Method = HttpMethod.Get;
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
-                    DateTime requestedAt = DateTime.UtcNow;
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/inventory", uriBuilder.Path));
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        ApiResponse<Dictionary<string, int>> apiResponseLocalVar = new ApiResponse<Dictionary<string, int>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/inventory", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        ApiResponse<Dictionary<string, int>> apiResponse = new ApiResponse<Dictionary<string, int>>(responseMessage, responseContent);
+                        AfterGetInventoryDefaultImplementation(apiResponseLocalVar);
 
-                        if (apiResponse.IsSuccessStatusCode)
-                        {
-                            apiResponse.Content = JsonSerializer.Deserialize<Dictionary<string, int>>(apiResponse.RawContent, _jsonSerializerOptions);
-                            AfterGetInventory(apiResponse);
-                        }
-                        else if (apiResponse.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase token in tokens)
-                                token.BeginRateLimit();
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
 
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                OnErrorGetInventory(e, "/store/inventory", uriBuilder.Path);
+                OnErrorGetInventoryDefaultImplementation(e, "/store/inventory", uriBuilderLocalVar.Path);
                 throw;
             }
         }
 
-        /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="Order"/>&gt;</returns>
-        public async Task<Order> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<Order> result = await GetOrderByIdWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
-
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
-
-            return result.Content;
-        }
-
-        /// <summary>
-        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="Order"/>&gt;</returns>
-        public async Task<Order> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<Order> result = null;
-            try 
-            {
-                result = await GetOrderByIdWithHttpInfoAsync(orderId, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
-                : null;
-        }
+        partial void FormatGetOrderById(ref long orderId);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>
-        protected virtual long OnGetOrderById(long orderId)
+        private void ValidateGetOrderById(long orderId)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -503,31 +450,69 @@ namespace Org.OpenAPITools.Api
             if (orderId == null)
                 throw new ArgumentNullException(nameof(orderId));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return orderId;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponse"></param>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        protected virtual void AfterGetOrderById(ApiResponse<Order> apiResponse, long orderId)
+        private void AfterGetOrderByIdDefaultImplementation(ApiResponse<Order> apiResponseLocalVar, long orderId)
         {
+            bool suppressDefaultLog = false;
+            AfterGetOrderById(ref suppressDefaultLog, apiResponseLocalVar, orderId);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="orderId"></param>
+        partial void AfterGetOrderById(ref bool suppressDefaultLog, ApiResponse<Order> apiResponseLocalVar, long orderId);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="orderId"></param>
-        protected virtual void OnErrorGetOrderById(Exception exception, string pathFormat, string path, long orderId)
+        private void OnErrorGetOrderByIdDefaultImplementation(Exception exception, string pathFormat, string path, long orderId)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorGetOrderById(exception, pathFormat, path, orderId);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="orderId"></param>
+        partial void OnErrorGetOrderById(Exception exception, string pathFormat, string path, long orderId);
+
+        /// <summary>
+        /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+        /// </summary>
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
+        public async Task<ApiResponse<Order>> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await GetOrderByIdAsync(orderId, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -537,110 +522,67 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
-        public async Task<ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync(long orderId, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<Order>> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken cancellationToken = default)
         {
-            UriBuilder uriBuilder = new UriBuilder();
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                orderId = OnGetOrderById(orderId);
+                ValidateGetOrderById(orderId);
 
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                FormatGetOrderById(ref orderId);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order/{order_id}";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/store/order/{order_id}";
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
 
-                    uriBuilder.Path = uriBuilder.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    request.RequestUri = uriBuilder.Uri;
-
-                    string[] accepts = new string[] { 
-                        "application/xml", 
-                        "application/json" 
+                    string[] acceptLocalVars = new string[] {
+                        "application/xml",
+                        "application/json"
                     };
 
-                    string accept = ClientUtils.SelectHeaderAccept(accepts);
+                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
-                    if (accept != null)
-                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
 
-                    request.Method = HttpMethod.Get;
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
-                    DateTime requestedAt = DateTime.UtcNow;
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order/{order_id}", uriBuilder.Path));
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        ApiResponse<Order> apiResponseLocalVar = new ApiResponse<Order>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order/{order_id}", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        ApiResponse<Order> apiResponse = new ApiResponse<Order>(responseMessage, responseContent);
+                        AfterGetOrderByIdDefaultImplementation(apiResponseLocalVar, orderId);
 
-                        if (apiResponse.IsSuccessStatusCode)
-                        {
-                            apiResponse.Content = JsonSerializer.Deserialize<Order>(apiResponse.RawContent, _jsonSerializerOptions);
-                            AfterGetOrderById(apiResponse, orderId);
-                        }
-
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                OnErrorGetOrderById(e, "/store/order/{order_id}", uriBuilder.Path, orderId);
+                OnErrorGetOrderByIdDefaultImplementation(e, "/store/order/{order_id}", uriBuilderLocalVar.Path, orderId);
                 throw;
             }
         }
 
-        /// <summary>
-        /// Place an order for a pet 
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="Order"/>&gt;</returns>
-        public async Task<Order> PlaceOrderAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<Order> result = await PlaceOrderWithHttpInfoAsync(order, cancellationToken).ConfigureAwait(false);
-
-            if (result.Content == null)
-                throw new ApiException(result.ReasonPhrase, result.StatusCode, result.RawContent);
-
-            return result.Content;
-        }
-
-        /// <summary>
-        /// Place an order for a pet 
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="Order"/>&gt;</returns>
-        public async Task<Order> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
-        {
-            ApiResponse<Order> result = null;
-            try 
-            {
-                result = await PlaceOrderWithHttpInfoAsync(order, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-            }
-
-            return result != null && result.IsSuccessStatusCode
-                ? result.Content
-                : null;
-        }
+        partial void FormatPlaceOrder(Order order);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        protected virtual Order OnPlaceOrder(Order order)
+        private void ValidatePlaceOrder(Order order)
         {
             #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
@@ -648,31 +590,69 @@ namespace Org.OpenAPITools.Api
             if (order == null)
                 throw new ArgumentNullException(nameof(order));
 
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            return order;
+            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
-        /// <param name="apiResponse"></param>
+        /// <param name="apiResponseLocalVar"></param>
         /// <param name="order"></param>
-        protected virtual void AfterPlaceOrder(ApiResponse<Order> apiResponse, Order order)
+        private void AfterPlaceOrderDefaultImplementation(ApiResponse<Order> apiResponseLocalVar, Order order)
         {
+            bool suppressDefaultLog = false;
+            AfterPlaceOrder(ref suppressDefaultLog, apiResponseLocalVar, order);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="order"></param>
+        partial void AfterPlaceOrder(ref bool suppressDefaultLog, ApiResponse<Order> apiResponseLocalVar, Order order);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
         /// </summary>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="order"></param>
-        protected virtual void OnErrorPlaceOrder(Exception exception, string pathFormat, string path, Order order)
+        private void OnErrorPlaceOrderDefaultImplementation(Exception exception, string pathFormat, string path, Order order)
         {
             Logger.LogError(exception, "An error occurred while sending the request to the server.");
+            OnErrorPlaceOrder(exception, pathFormat, path, order);
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="order"></param>
+        partial void OnErrorPlaceOrder(Exception exception, string pathFormat, string path, Order order);
+
+        /// <summary>
+        /// Place an order for a pet 
+        /// </summary>
+        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
+        public async Task<ApiResponse<Order>> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await PlaceOrderAsync(order, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -682,73 +662,67 @@ namespace Org.OpenAPITools.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
-        public async Task<ApiResponse<Order>> PlaceOrderWithHttpInfoAsync(Order order, System.Threading.CancellationToken? cancellationToken = null)
+        public async Task<ApiResponse<Order>> PlaceOrderAsync(Order order, System.Threading.CancellationToken cancellationToken = default)
         {
-            UriBuilder uriBuilder = new UriBuilder();
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                order = OnPlaceOrder(order);
+                ValidatePlaceOrder(order);
 
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                FormatPlaceOrder(order);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
-                    uriBuilder.Host = HttpClient.BaseAddress.Host;
-                    uriBuilder.Port = HttpClient.BaseAddress.Port;
-                    uriBuilder.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilder.Path = ClientUtils.CONTEXT_PATH + "/store/order";
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/store/order";
 
-                    request.Content = (order as object) is System.IO.Stream stream
-                        ? request.Content = new StreamContent(stream)
-                        : request.Content = new StringContent(JsonSerializer.Serialize(order, _jsonSerializerOptions));
+                    httpRequestMessageLocalVar.Content = (order as object) is System.IO.Stream stream
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(order, _jsonSerializerOptions));
 
-
-
-                    request.RequestUri = uriBuilder.Uri;
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
-                        "application/json" 
+                        "application/json"
                     };
 
-                    string contentType = ClientUtils.SelectHeaderContentType(contentTypes);
+                    string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentType != null)
-                        request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                    if (contentTypeLocalVar != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
-                    string[] accepts = new string[] { 
-                        "application/xml", 
-                        "application/json" 
+                    string[] acceptLocalVars = new string[] {
+                        "application/xml",
+                        "application/json"
                     };
 
-                    string accept = ClientUtils.SelectHeaderAccept(accepts);
+                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
 
-                    if (accept != null)
-                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(accept));
+                    if (acceptLocalVar != null)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
 
-                    request.Method = HttpMethod.Post;
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
 
-                    DateTime requestedAt = DateTime.UtcNow;
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
 
-                    using (HttpResponseMessage responseMessage = await HttpClient.SendAsync(request, cancellationToken.GetValueOrDefault()).ConfigureAwait(false))
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        OnApiResponded(new ApiResponseEventArgs(requestedAt, DateTime.UtcNow, responseMessage.StatusCode, "/store/order", uriBuilder.Path));
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        string responseContent = await responseMessage.Content.ReadAsStringAsync(cancellationToken.GetValueOrDefault()).ConfigureAwait(false);
+                        ApiResponse<Order> apiResponseLocalVar = new ApiResponse<Order>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        ApiResponse<Order> apiResponse = new ApiResponse<Order>(responseMessage, responseContent);
+                        AfterPlaceOrderDefaultImplementation(apiResponseLocalVar, order);
 
-                        if (apiResponse.IsSuccessStatusCode)
-                        {
-                            apiResponse.Content = JsonSerializer.Deserialize<Order>(apiResponse.RawContent, _jsonSerializerOptions);
-                            AfterPlaceOrder(apiResponse, order);
-                        }
-
-                        return apiResponse;
+                        return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                OnErrorPlaceOrder(e, "/store/order", uriBuilder.Path, order);
+                OnErrorPlaceOrderDefaultImplementation(e, "/store/order", uriBuilderLocalVar.Path, order);
                 throw;
             }
         }

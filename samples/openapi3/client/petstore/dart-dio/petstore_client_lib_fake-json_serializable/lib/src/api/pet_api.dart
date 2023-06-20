@@ -31,7 +31,7 @@ class PetApi {
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> addPet({ 
     required Pet pet,
     CancelToken? cancelToken,
@@ -65,12 +65,12 @@ class PetApi {
     try {
 _bodyData=jsonEncode(pet);
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -102,7 +102,7 @@ _bodyData=jsonEncode(pet);
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> deletePet({ 
     required int petId,
     String? apiKey,
@@ -156,9 +156,9 @@ _bodyData=jsonEncode(pet);
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [List<Pet>] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<List<Pet>>> findPetsByStatus({ 
-    required List<String> status,
+    @Deprecated('status is deprecated') required List<String> status,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -197,15 +197,16 @@ _bodyData=jsonEncode(pet);
       onReceiveProgress: onReceiveProgress,
     );
 
-    List<Pet> _responseData;
+    List<Pet>? _responseData;
 
     try {
-_responseData = deserialize<List<Pet>, Pet>(_response.data!, 'List<Pet>', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<List<Pet>, Pet>(rawData, 'List<Pet>', growable: true);
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -236,7 +237,7 @@ _responseData = deserialize<List<Pet>, Pet>(_response.data!, 'List<Pet>', growab
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [Set<Pet>] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   @Deprecated('This operation has been deprecated')
   Future<Response<Set<Pet>>> findPetsByTags({ 
     required Set<String> tags,
@@ -278,15 +279,16 @@ _responseData = deserialize<List<Pet>, Pet>(_response.data!, 'List<Pet>', growab
       onReceiveProgress: onReceiveProgress,
     );
 
-    Set<Pet> _responseData;
+    Set<Pet>? _responseData;
 
     try {
-_responseData = deserialize<Set<Pet>, Pet>(_response.data!, 'Set<Pet>', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Set<Pet>, Pet>(rawData, 'Set<Pet>', growable: true);
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -317,7 +319,7 @@ _responseData = deserialize<Set<Pet>, Pet>(_response.data!, 'Set<Pet>', growable
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [Pet] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<Pet>> getPetById({ 
     required int petId,
     CancelToken? cancelToken,
@@ -355,15 +357,16 @@ _responseData = deserialize<Set<Pet>, Pet>(_response.data!, 'Set<Pet>', growable
       onReceiveProgress: onReceiveProgress,
     );
 
-    Pet _responseData;
+    Pet? _responseData;
 
     try {
-_responseData = deserialize<Pet, Pet>(_response.data!, 'Pet', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<Pet, Pet>(rawData, 'Pet', growable: true);
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -394,7 +397,7 @@ _responseData = deserialize<Pet, Pet>(_response.data!, 'Pet', growable: true);
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> updatePet({ 
     required Pet pet,
     CancelToken? cancelToken,
@@ -428,12 +431,12 @@ _responseData = deserialize<Pet, Pet>(_response.data!, 'Pet', growable: true);
     try {
 _bodyData=jsonEncode(pet);
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -466,7 +469,7 @@ _bodyData=jsonEncode(pet);
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<void>> updatePetWithForm({ 
     required int petId,
     String? name,
@@ -502,12 +505,12 @@ _bodyData=jsonEncode(pet);
     try {
 
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -540,7 +543,7 @@ _bodyData=jsonEncode(pet);
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<ApiResponse>> uploadFile({ 
     required int petId,
     String? additionalMetadata,
@@ -576,12 +579,12 @@ _bodyData=jsonEncode(pet);
     try {
 
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -596,15 +599,16 @@ _bodyData=jsonEncode(pet);
       onReceiveProgress: onReceiveProgress,
     );
 
-    ApiResponse _responseData;
+    ApiResponse? _responseData;
 
     try {
-_responseData = deserialize<ApiResponse, ApiResponse>(_response.data!, 'ApiResponse', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(rawData, 'ApiResponse', growable: true);
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -637,7 +641,7 @@ _responseData = deserialize<ApiResponse, ApiResponse>(_response.data!, 'ApiRespo
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<ApiResponse>> uploadFileWithRequiredFile({ 
     required int petId,
     required MultipartFile requiredFile,
@@ -673,12 +677,12 @@ _responseData = deserialize<ApiResponse, ApiResponse>(_response.data!, 'ApiRespo
     try {
 
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -693,15 +697,16 @@ _responseData = deserialize<ApiResponse, ApiResponse>(_response.data!, 'ApiRespo
       onReceiveProgress: onReceiveProgress,
     );
 
-    ApiResponse _responseData;
+    ApiResponse? _responseData;
 
     try {
-_responseData = deserialize<ApiResponse, ApiResponse>(_response.data!, 'ApiResponse', growable: true);
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<ApiResponse, ApiResponse>(rawData, 'ApiResponse', growable: true);
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );

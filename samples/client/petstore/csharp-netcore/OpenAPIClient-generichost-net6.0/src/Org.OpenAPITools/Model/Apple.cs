@@ -36,21 +36,12 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Apple(string cultivar, string origin)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (cultivar == null)
-                throw new ArgumentNullException("cultivar is a required property for Apple and cannot be null.");
-
-            if (origin == null)
-                throw new ArgumentNullException("origin is a required property for Apple and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Cultivar = cultivar;
             Origin = origin;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Cultivar
@@ -84,22 +75,23 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             // Cultivar (string) pattern
-            Regex regexCultivar = new Regex(@"^[a-zA-Z\\s]*$", RegexOptions.CultureInvariant);
+            Regex regexCultivar = new Regex(@"^[a-zA-Z\s]*$", RegexOptions.CultureInvariant);
             if (false == regexCultivar.Match(this.Cultivar).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
             }
 
             // Origin (string) pattern
-            Regex regexOrigin = new Regex(@"^[A-Z\\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            Regex regexOrigin = new Regex(@"^[A-Z\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexOrigin.Match(this.Origin).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });
@@ -110,12 +102,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Apple
+    /// A Json converter for type <see cref="Apple" />
     /// </summary>
     public class AppleJsonConverter : JsonConverter<Apple>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Apple" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -161,11 +153,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (cultivar == null)
+                throw new ArgumentNullException(nameof(cultivar), "Property is required for class Apple.");
+
+            if (origin == null)
+                throw new ArgumentNullException(nameof(origin), "Property is required for class Apple.");
+
             return new Apple(cultivar, origin);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Apple" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="apple"></param>

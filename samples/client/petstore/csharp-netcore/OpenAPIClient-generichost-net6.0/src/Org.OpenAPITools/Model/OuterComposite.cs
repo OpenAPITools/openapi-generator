@@ -37,25 +37,13 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public OuterComposite(bool myBoolean, decimal myNumber, string myString)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (myNumber == null)
-                throw new ArgumentNullException("myNumber is a required property for OuterComposite and cannot be null.");
-
-            if (myString == null)
-                throw new ArgumentNullException("myString is a required property for OuterComposite and cannot be null.");
-
-            if (myBoolean == null)
-                throw new ArgumentNullException("myBoolean is a required property for OuterComposite and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             MyBoolean = myBoolean;
             MyNumber = myNumber;
             MyString = myString;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets MyBoolean
@@ -96,24 +84,25 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
     /// <summary>
-    /// A Json converter for type OuterComposite
+    /// A Json converter for type <see cref="OuterComposite" />
     /// </summary>
     public class OuterCompositeJsonConverter : JsonConverter<OuterComposite>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="OuterComposite" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -129,8 +118,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            bool myBoolean = default;
-            decimal myNumber = default;
+            bool? myBoolean = default;
+            decimal? myNumber = default;
             string myString = default;
 
             while (utf8JsonReader.Read())
@@ -149,10 +138,12 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "my_boolean":
-                            myBoolean = utf8JsonReader.GetBoolean();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                myBoolean = utf8JsonReader.GetBoolean();
                             break;
                         case "my_number":
-                            myNumber = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                myNumber = utf8JsonReader.GetDecimal();
                             break;
                         case "my_string":
                             myString = utf8JsonReader.GetString();
@@ -163,11 +154,20 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new OuterComposite(myBoolean, myNumber, myString);
+            if (myBoolean == null)
+                throw new ArgumentNullException(nameof(myBoolean), "Property is required for class OuterComposite.");
+
+            if (myNumber == null)
+                throw new ArgumentNullException(nameof(myNumber), "Property is required for class OuterComposite.");
+
+            if (myString == null)
+                throw new ArgumentNullException(nameof(myString), "Property is required for class OuterComposite.");
+
+            return new OuterComposite(myBoolean.Value, myNumber.Value, myString);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="OuterComposite" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="outerComposite"></param>

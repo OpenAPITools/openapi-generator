@@ -33,31 +33,26 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Child" /> class.
         /// </summary>
-        /// <param name="childAllOf"></param>
-        /// <param name="boosterSeat">boosterSeat</param>
+        /// <param name="age">age</param>
         /// <param name="firstName">firstName</param>
         /// <param name="lastName">lastName</param>
         /// <param name="type">type</param>
+        /// <param name="boosterSeat">boosterSeat</param>
         [JsonConstructor]
-        public Child(ChildAllOf childAllOf, bool boosterSeat, string firstName, string lastName, string type) : base(firstName, lastName, type)
+        public Child(int age, string firstName, string lastName, string type, bool boosterSeat) : base(firstName, lastName, type)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (boosterSeat == null)
-                throw new ArgumentNullException("boosterSeat is a required property for Child and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            ChildAllOf = childAllOf;
+            Age = age;
             BoosterSeat = boosterSeat;
+            OnCreated();
         }
 
+        partial void OnCreated();
+
         /// <summary>
-        /// Gets or Sets ChildAllOf
+        /// Gets or Sets Age
         /// </summary>
-        public ChildAllOf ChildAllOf { get; set; }
+        [JsonPropertyName("age")]
+        public int Age { get; set; }
 
         /// <summary>
         /// Gets or Sets BoosterSeat
@@ -73,7 +68,8 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Child {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  Age: ").Append(Age).Append("\n");
             sb.Append("  BoosterSeat: ").Append(BoosterSeat).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -81,12 +77,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type Child
+    /// A Json converter for type <see cref="Child" />
     /// </summary>
     public class ChildJsonConverter : JsonConverter<Child>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Child" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -102,13 +98,11 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader childAllOfReader = utf8JsonReader;
-            bool childAllOfDeserialized = Client.ClientUtils.TryDeserialize<ChildAllOf>(ref utf8JsonReader, jsonSerializerOptions, out ChildAllOf? childAllOf);
-
-            bool boosterSeat = default;
-            string firstName = default;
-            string lastName = default;
-            string type = default;
+            int? age = default;
+            string? firstName = default;
+            string? lastName = default;
+            string? type = default;
+            bool? boosterSeat = default;
 
             while (utf8JsonReader.Read())
             {
@@ -125,8 +119,9 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "boosterSeat":
-                            boosterSeat = utf8JsonReader.GetBoolean();
+                        case "age":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                age = utf8JsonReader.GetInt32();
                             break;
                         case "firstName":
                             firstName = utf8JsonReader.GetString();
@@ -137,17 +132,36 @@ namespace Org.OpenAPITools.Model
                         case "$_type":
                             type = utf8JsonReader.GetString();
                             break;
+                        case "boosterSeat":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                boosterSeat = utf8JsonReader.GetBoolean();
+                            break;
                         default:
                             break;
                     }
                 }
             }
 
-            return new Child(childAllOf, boosterSeat, firstName, lastName, type);
+            if (age == null)
+                throw new ArgumentNullException(nameof(age), "Property is required for class Child.");
+
+            if (firstName == null)
+                throw new ArgumentNullException(nameof(firstName), "Property is required for class Child.");
+
+            if (lastName == null)
+                throw new ArgumentNullException(nameof(lastName), "Property is required for class Child.");
+
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class Child.");
+
+            if (boosterSeat == null)
+                throw new ArgumentNullException(nameof(boosterSeat), "Property is required for class Child.");
+
+            return new Child(age.Value, firstName, lastName, type, boosterSeat.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Child" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="child"></param>
@@ -157,10 +171,11 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteBoolean("boosterSeat", child.BoosterSeat);
+            writer.WriteNumber("age", child.Age);
             writer.WriteString("firstName", child.FirstName);
             writer.WriteString("lastName", child.LastName);
             writer.WriteString("$_type", child.Type);
+            writer.WriteBoolean("boosterSeat", child.BoosterSeat);
 
             writer.WriteEndObject();
         }

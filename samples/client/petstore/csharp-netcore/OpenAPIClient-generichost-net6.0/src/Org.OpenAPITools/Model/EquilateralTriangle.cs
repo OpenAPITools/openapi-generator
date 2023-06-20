@@ -31,24 +31,29 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="EquilateralTriangle" /> class.
         /// </summary>
-        /// <param name="shapeInterface"></param>
-        /// <param name="triangleInterface"></param>
+        /// <param name="shapeType">shapeType</param>
+        /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        internal EquilateralTriangle(ShapeInterface shapeInterface, TriangleInterface triangleInterface)
+        public EquilateralTriangle(string shapeType, string triangleType)
         {
-            ShapeInterface = shapeInterface;
-            TriangleInterface = triangleInterface;
+            ShapeType = shapeType;
+            TriangleType = triangleType;
+            OnCreated();
         }
 
-        /// <summary>
-        /// Gets or Sets ShapeInterface
-        /// </summary>
-        public ShapeInterface ShapeInterface { get; set; }
+        partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets TriangleInterface
+        /// Gets or Sets ShapeType
         /// </summary>
-        public TriangleInterface TriangleInterface { get; set; }
+        [JsonPropertyName("shapeType")]
+        public string ShapeType { get; set; }
+
+        /// <summary>
+        /// Gets or Sets TriangleType
+        /// </summary>
+        [JsonPropertyName("triangleType")]
+        public string TriangleType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -64,28 +69,31 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class EquilateralTriangle {\n");
+            sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
+            sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
     /// <summary>
-    /// A Json converter for type EquilateralTriangle
+    /// A Json converter for type <see cref="EquilateralTriangle" />
     /// </summary>
     public class EquilateralTriangleJsonConverter : JsonConverter<EquilateralTriangle>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="EquilateralTriangle" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -101,12 +109,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader shapeInterfaceReader = utf8JsonReader;
-            bool shapeInterfaceDeserialized = Client.ClientUtils.TryDeserialize<ShapeInterface>(ref utf8JsonReader, jsonSerializerOptions, out ShapeInterface shapeInterface);
-
-            Utf8JsonReader triangleInterfaceReader = utf8JsonReader;
-            bool triangleInterfaceDeserialized = Client.ClientUtils.TryDeserialize<TriangleInterface>(ref utf8JsonReader, jsonSerializerOptions, out TriangleInterface triangleInterface);
-
+            string shapeType = default;
+            string triangleType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -123,17 +127,29 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "shapeType":
+                            shapeType = utf8JsonReader.GetString();
+                            break;
+                        case "triangleType":
+                            triangleType = utf8JsonReader.GetString();
+                            break;
                         default:
                             break;
                     }
                 }
             }
 
-            return new EquilateralTriangle(shapeInterface, triangleInterface);
+            if (shapeType == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is required for class EquilateralTriangle.");
+
+            if (triangleType == null)
+                throw new ArgumentNullException(nameof(triangleType), "Property is required for class EquilateralTriangle.");
+
+            return new EquilateralTriangle(shapeType, triangleType);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="EquilateralTriangle" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="equilateralTriangle"></param>
@@ -143,6 +159,8 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            writer.WriteString("shapeType", equilateralTriangle.ShapeType);
+            writer.WriteString("triangleType", equilateralTriangle.TriangleType);
 
             writer.WriteEndObject();
         }

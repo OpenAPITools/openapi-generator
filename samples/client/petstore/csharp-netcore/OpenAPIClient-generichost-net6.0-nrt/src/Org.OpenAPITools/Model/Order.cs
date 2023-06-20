@@ -42,37 +42,16 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Order(long id, long petId, int quantity, DateTime shipDate, StatusEnum status, bool complete = false)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (id == null)
-                throw new ArgumentNullException("id is a required property for Order and cannot be null.");
-
-            if (petId == null)
-                throw new ArgumentNullException("petId is a required property for Order and cannot be null.");
-
-            if (quantity == null)
-                throw new ArgumentNullException("quantity is a required property for Order and cannot be null.");
-
-            if (shipDate == null)
-                throw new ArgumentNullException("shipDate is a required property for Order and cannot be null.");
-
-            if (status == null)
-                throw new ArgumentNullException("status is a required property for Order and cannot be null.");
-
-            if (complete == null)
-                throw new ArgumentNullException("complete is a required property for Order and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Id = id;
             PetId = petId;
             Quantity = quantity;
             ShipDate = shipDate;
             Status = status;
             Complete = complete;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Order Status
@@ -94,14 +73,14 @@ namespace Org.OpenAPITools.Model
             /// Enum Delivered for value: delivered
             /// </summary>
             Delivered = 3
-
         }
 
         /// <summary>
-        /// Returns a StatusEnum
+        /// Returns a <see cref="StatusEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static StatusEnum StatusEnumFromString(string value)
         {
             if (value == "placed")
@@ -117,7 +96,26 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="StatusEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static StatusEnum? StatusEnumFromStringOrDefault(string value)
+        {
+            if (value == "placed")
+                return StatusEnum.Placed;
+
+            if (value == "approved")
+                return StatusEnum.Approved;
+
+            if (value == "delivered")
+                return StatusEnum.Delivered;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="StatusEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -164,6 +162,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
+        /// <example>2020-02-02T20:20:20.000222Z</example>
         [JsonPropertyName("shipDate")]
         public DateTime ShipDate { get; set; }
 
@@ -197,19 +196,20 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
     /// <summary>
-    /// A Json converter for type Order
+    /// A Json converter for type <see cref="Order" />
     /// </summary>
     public class OrderJsonConverter : JsonConverter<Order>
     {
@@ -219,7 +219,7 @@ namespace Org.OpenAPITools.Model
         public static string ShipDateFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Order" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -235,12 +235,12 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            long id = default;
-            long petId = default;
-            int quantity = default;
-            DateTime shipDate = default;
-            Order.StatusEnum status = default;
-            bool complete = default;
+            long? id = default;
+            long? petId = default;
+            int? quantity = default;
+            DateTime? shipDate = default;
+            Order.StatusEnum? status = default;
+            bool? complete = default;
 
             while (utf8JsonReader.Read())
             {
@@ -258,23 +258,30 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "id":
-                            id = utf8JsonReader.GetInt64();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                id = utf8JsonReader.GetInt64();
                             break;
                         case "petId":
-                            petId = utf8JsonReader.GetInt64();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                petId = utf8JsonReader.GetInt64();
                             break;
                         case "quantity":
-                            quantity = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                quantity = utf8JsonReader.GetInt32();
                             break;
                         case "shipDate":
-                            shipDate = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                shipDate = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "status":
-                            string statusRawValue = utf8JsonReader.GetString();
-                            status = Order.StatusEnumFromString(statusRawValue);
+                            string? statusRawValue = utf8JsonReader.GetString();
+                            status = statusRawValue == null
+                                ? null
+                                : Order.StatusEnumFromStringOrDefault(statusRawValue);
                             break;
                         case "complete":
-                            complete = utf8JsonReader.GetBoolean();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                complete = utf8JsonReader.GetBoolean();
                             break;
                         default:
                             break;
@@ -282,11 +289,29 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Order(id, petId, quantity, shipDate, status, complete);
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class Order.");
+
+            if (petId == null)
+                throw new ArgumentNullException(nameof(petId), "Property is required for class Order.");
+
+            if (quantity == null)
+                throw new ArgumentNullException(nameof(quantity), "Property is required for class Order.");
+
+            if (shipDate == null)
+                throw new ArgumentNullException(nameof(shipDate), "Property is required for class Order.");
+
+            if (status == null)
+                throw new ArgumentNullException(nameof(status), "Property is required for class Order.");
+
+            if (complete == null)
+                throw new ArgumentNullException(nameof(complete), "Property is required for class Order.");
+
+            return new Order(id.Value, petId.Value, quantity.Value, shipDate.Value, status.Value, complete.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Order" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="order"></param>
@@ -300,11 +325,13 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("petId", order.PetId);
             writer.WriteNumber("quantity", order.Quantity);
             writer.WriteString("shipDate", order.ShipDate.ToString(ShipDateFormat));
+
             var statusRawValue = Order.StatusEnumToJsonValue(order.Status);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
+
             writer.WriteBoolean("complete", order.Complete);
 
             writer.WriteEndObject();

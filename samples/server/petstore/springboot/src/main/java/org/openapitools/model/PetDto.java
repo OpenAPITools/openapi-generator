@@ -32,22 +32,17 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class PetDto {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("category")
   private CategoryDto category;
 
-  @JsonProperty("name")
   private String name;
 
-  @JsonProperty("photoUrls")
   @Valid
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  @JsonProperty("tags")
   @Valid
-  private List<@Valid TagDto> tags = null;
+  private List<@Valid TagDto> tags;
 
   /**
    * pet status in the store
@@ -86,14 +81,8 @@ public class PetDto {
     }
   }
 
-  @JsonProperty("status")
   private StatusEnum status;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link PetDto#PetDto(String, Set<String>)}
-   */
-  @Deprecated
   public PetDto() {
     super();
   }
@@ -117,6 +106,7 @@ public class PetDto {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -136,6 +126,7 @@ public class PetDto {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("category")
   public CategoryDto getCategory() {
     return category;
   }
@@ -155,6 +146,7 @@ public class PetDto {
   */
   @NotNull 
   @ApiModelProperty(example = "doggie", required = true, value = "")
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -169,6 +161,9 @@ public class PetDto {
   }
 
   public PetDto addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
@@ -179,6 +174,7 @@ public class PetDto {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -207,6 +203,7 @@ public class PetDto {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("tags")
   public List<@Valid TagDto> getTags() {
     return tags;
   }
@@ -226,6 +223,7 @@ public class PetDto {
   */
   
   @ApiModelProperty(value = "pet status in the store")
+  @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }

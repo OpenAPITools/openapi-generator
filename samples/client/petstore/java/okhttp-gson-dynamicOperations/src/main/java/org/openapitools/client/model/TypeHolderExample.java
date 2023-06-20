@@ -35,6 +35,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -89,7 +93,6 @@ public class TypeHolderExample {
    * @return stringItem
   **/
   @javax.annotation.Nonnull
-
   public String getStringItem() {
     return stringItem;
   }
@@ -111,7 +114,6 @@ public class TypeHolderExample {
    * @return numberItem
   **/
   @javax.annotation.Nonnull
-
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -133,7 +135,6 @@ public class TypeHolderExample {
    * @return floatItem
   **/
   @javax.annotation.Nonnull
-
   public Float getFloatItem() {
     return floatItem;
   }
@@ -155,7 +156,6 @@ public class TypeHolderExample {
    * @return integerItem
   **/
   @javax.annotation.Nonnull
-
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -177,7 +177,6 @@ public class TypeHolderExample {
    * @return boolItem
   **/
   @javax.annotation.Nonnull
-
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -195,6 +194,9 @@ public class TypeHolderExample {
   }
 
   public TypeHolderExample addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -204,7 +206,6 @@ public class TypeHolderExample {
    * @return arrayItem
   **/
   @javax.annotation.Nonnull
-
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

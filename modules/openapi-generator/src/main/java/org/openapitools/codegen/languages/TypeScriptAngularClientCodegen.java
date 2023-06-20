@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -90,6 +91,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .includeSecurityFeatures(SecurityFeature.BearerToken)
                 .includeGlobalFeatures(GlobalFeature.ParameterStyling)
         );
 

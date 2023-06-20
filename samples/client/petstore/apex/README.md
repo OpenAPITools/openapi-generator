@@ -99,6 +99,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Authorization
 
+
 Authentication schemes defined for the API:
 ### petstore_auth
 
@@ -110,7 +111,6 @@ Authentication schemes defined for the API:
   - read:pets: read your pets
 
 ### api_key
-
 
 - **Type**: API key
 - **API key parameter name**: api_key

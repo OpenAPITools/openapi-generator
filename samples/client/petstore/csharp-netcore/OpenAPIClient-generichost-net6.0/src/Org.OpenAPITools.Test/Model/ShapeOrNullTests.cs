@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -54,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<ShapeOrNull>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'QuadrilateralType'
         /// </summary>
@@ -64,6 +62,13 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'QuadrilateralType'
         }
 
+        /// <summary>
+        /// Test the property 'ShapeType'
+        /// </summary>
+        [Fact]
+        public void ShapeTypeTest()
+        {
+            // TODO unit test for the property 'ShapeType'
+        }
     }
-
 }

@@ -108,6 +108,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooGet) | **GET** /foo | 
+*FakeApi* | [**fakeBigDecimalMap**](docs/FakeApi.md#fakeBigDecimalMap) | **GET** /fake/BigDecimalMap | 
 *FakeApi* | [**fakeHealthGet**](docs/FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeHttpSignatureTest**](docs/FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
@@ -159,16 +160,15 @@ Class | Method | HTTP request | Description
  - [ArrayTest](docs/ArrayTest.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
- - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [DeprecatedObject](docs/DeprecatedObject.md)
  - [Dog](docs/Dog.md)
- - [DogAllOf](docs/DogAllOf.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
+ - [FakeBigDecimalMap200Response](docs/FakeBigDecimalMap200Response.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
  - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
@@ -201,9 +201,12 @@ Class | Method | HTTP request | Description
  - [User](docs/User.md)
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
+
 Authentication schemes defined for the API:
+<a id="petstore_auth"></a>
 ### petstore_auth
 
 
@@ -214,6 +217,7 @@ Authentication schemes defined for the API:
   - write:pets: modify pets in your account
   - read:pets: read your pets
 
+<a id="api_key"></a>
 ### api_key
 
 
@@ -221,6 +225,7 @@ Authentication schemes defined for the API:
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
+<a id="api_key_query"></a>
 ### api_key_query
 
 
@@ -228,20 +233,23 @@ Authentication schemes defined for the API:
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
+<a id="http_basic_test"></a>
 ### http_basic_test
 
 
 - **Type**: HTTP basic authentication
 
+<a id="bearer_test"></a>
 ### bearer_test
 
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP Bearer Token authentication (JWT)
 
+<a id="http_signature_test"></a>
 ### http_signature_test
 
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP signature authentication
 
 
 ## Recommendation

@@ -1,5 +1,5 @@
     /// <summary>
-    /// A Json converter for type {{classname}}
+    /// A Json converter for type <see cref="{{classname}}" />
     /// </summary>
     {{>visibility}} class {{classname}}JsonConverter : JsonConverter<{{classname}}>
     {
@@ -8,19 +8,19 @@
         /// <summary>
         /// The format to use to serialize {{name}}
         /// </summary>
-        public static string {{name}}Format { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public static string {{name}}Format { get; set; } = "{{{dateTimeFormat}}}";
 
         {{/isDateTime}}
         {{#isDate}}
         /// <summary>
         /// The format to use to serialize {{name}}
         /// </summary>
-        public static string {{name}}Format { get; set; } = "yyyy-MM-dd";
+        public static string {{name}}Format { get; set; } = "{{{dateFormat}}}";
 
         {{/isDate}}
         {{/allVars}}
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="{{classname}}" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -37,26 +37,18 @@
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             {{#composedSchemas.anyOf}}
-            Utf8JsonReader {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = utf8JsonReader;
-            bool {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Deserialized = Client.ClientUtils.TryDeserialize<{{{dataType}}}>(ref {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader, jsonSerializerOptions, out {{{dataType}}}{{^isBoolean}}{{nrt?}}{{/isBoolean}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}});
+            {{^vendorExtensions.x-duplicated-data-type}}
+            Utf8JsonReader {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Reader = utf8JsonReader;
+            bool {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Deserialized = Client.ClientUtils.TryDeserialize<{{{dataType}}}>(ref {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Reader, jsonSerializerOptions, out {{{dataType}}}{{^isBoolean}}{{nrt?}}{{/isBoolean}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}});
 
+            {{/vendorExtensions.x-duplicated-data-type}}
             {{/composedSchemas.anyOf}}
-            {{#composedSchemas.oneOf}}
-            Utf8JsonReader {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = utf8JsonReader;
-            bool {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Deserialized = Client.ClientUtils.TryDeserialize<{{{dataType}}}>(ref {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader, jsonSerializerOptions, out {{{dataType}}}{{^isBoolean}}{{nrt?}}{{/isBoolean}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}});
-
-            {{/composedSchemas.oneOf}}
-            {{#composedSchemas.allOf}}
-            {{^isInherited}}
-            Utf8JsonReader {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Reader = utf8JsonReader;
-            bool {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Deserialized = Client.ClientUtils.TryDeserialize<{{{dataType}}}>(ref utf8JsonReader, jsonSerializerOptions, out {{{dataType}}}{{^isBoolean}}{{nrt?}}{{/isBoolean}} {{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}});
-
-            {{/isInherited}}
-            {{/composedSchemas.allOf}}
             {{#allVars}}
-            {{#isInnerEnum}}{{^isMap}}{{classname}}.{{/isMap}}{{/isInnerEnum}}{{{datatypeWithEnum}}}{{#isEnum}}{{#isNullable}}?{{/isNullable}}{{/isEnum}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = default;
-            {{/allVars}}
+            {{#isInnerEnum}}{{^isMap}}{{classname}}.{{/isMap}}{{/isInnerEnum}}{{#nrt}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/nrt}}{{^nrt}}{{{datatypeWithEnum}}}{{#vendorExtensions.x-csharp-value-type}}?{{/vendorExtensions.x-csharp-value-type}}{{/nrt}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = default;
+            {{#-last}}
 
+            {{/-last}}
+            {{/allVars}}
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -84,33 +76,33 @@
                         {{/isMap}}
                         {{/isString}}
                         {{#isBoolean}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.GetBoolean();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.GetBoolean();
                         {{/isBoolean}}
                         {{#isNumeric}}
                         {{^isEnum}}
                         {{#isDouble}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.GetDouble();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.GetDouble();
                         {{/isDouble}}
                         {{#isDecimal}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.GetDecimal();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.GetDecimal();
                         {{/isDecimal}}
                         {{#isFloat}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = (float)utf8JsonReader.GetDouble();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = (float)utf8JsonReader.GetDouble();
                         {{/isFloat}}
                         {{#isLong}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.GetInt64();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.Get{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int64();
                         {{/isLong}}
                         {{^isLong}}
                         {{^isFloat}}
                         {{^isDecimal}}
                         {{^isDouble}}
-                        {{#isNullable}}
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.GetInt32();
-                        {{/isNullable}}
-                        {{^isNullable}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.GetInt32();
-                        {{/isNullable}}
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.Get{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int32();
                         {{/isDouble}}
                         {{/isDecimal}}
                         {{/isFloat}}
@@ -118,29 +110,37 @@
                         {{/isEnum}}
                         {{/isNumeric}}
                         {{#isDate}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions);
                         {{/isDate}}
                         {{#isDateTime}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<DateTime{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions);
                         {{/isDateTime}}
                         {{#isEnum}}
                         {{^isMap}}
                         {{#isNumeric}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = ({{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}) utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = ({{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}})utf8JsonReader.Get{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int32();
                         {{/isNumeric}}
                         {{^isNumeric}}
-                            string {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = utf8JsonReader.GetString();
+                            string{{nrt?}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = utf8JsonReader.GetString();
                             {{^isInnerEnum}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{{datatypeWithEnum}}}Converter.FromString{{#isNullable}}OrDefault{{/isNullable}}({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue == null
+                                ? null
+                                : {{{datatypeWithEnum}}}Converter.FromStringOrDefault({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
                             {{/isInnerEnum}}
                             {{#isInnerEnum}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{classname}}.{{{datatypeWithEnum}}}FromString({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
+                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue == null
+                                ? null
+                                : {{classname}}.{{{datatypeWithEnum}}}FromStringOrDefault({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
                             {{/isInnerEnum}}
                         {{/isNumeric}}
                         {{/isMap}}
                         {{/isEnum}}
                         {{#isUuid}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.GetGuid();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = utf8JsonReader.GetGuid();
                         {{/isUuid}}
                         {{^isUuid}}
                         {{^isEnum}}
@@ -149,7 +149,8 @@
                         {{^isNumeric}}
                         {{^isDate}}
                         {{^isDateTime}}
-                            {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<{{{datatypeWithEnum}}}>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = JsonSerializer.Deserialize<{{{datatypeWithEnum}}}>(ref utf8JsonReader, jsonSerializerOptions);
                         {{/isDateTime}}
                         {{/isDate}}
                         {{/isNumeric}}
@@ -165,21 +166,31 @@
                 }
             }
 
-            {{#composedSchemas.oneOf}}
-            if ({{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}Deserialized)
-                return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}  {{#model.composedSchemas.allOf}}{{^isInherited}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/isInherited}}{{/model.composedSchemas.allOf}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/allVars}}{{/lambda.joinWithComma}});
+            {{#allVars}}
+            {{^isNullable}}
+            if ({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} == null)
+                throw new ArgumentNullException(nameof({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}), "Property is required for class {{classname}}.");
 
+            {{/isNullable}}
+            {{/allVars}}
+            {{#composedSchemas.oneOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+            Utf8JsonReader {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Reader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<{{{dataType}}}>(ref {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}Reader, jsonSerializerOptions, out {{{dataType}}}{{^isBoolean}}{{nrt?}}{{/isBoolean}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}))
+                return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{#model.composedSchemas.anyOf}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{/allVars}}{{/lambda.joinWithComma}});
+
+            {{/vendorExtensions.x-duplicated-data-type}}
             {{#-last}}
             throw new JsonException();
             {{/-last}}
             {{/composedSchemas.oneOf}}
             {{^composedSchemas.oneOf}}
-            return new {{classname}}({{#lambda.joinWithComma}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}  {{/model.composedSchemas.anyOf}}{{#model.composedSchemas.allOf}}{{^isInherited}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{#isArray}}{{{dataFormat}}}{{/isArray}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}  {{/isInherited}}{{/model.composedSchemas.allOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{/allVars}}{{/lambda.joinWithComma}});
+            return new {{classname}}({{#lambda.joinWithComma}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{/allVars}}{{/lambda.joinWithComma}});
             {{/composedSchemas.oneOf}}
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="{{classname}}" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="{{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}"></param>
@@ -187,6 +198,19 @@
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, {{classname}} {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}, JsonSerializerOptions jsonSerializerOptions)
         {
+            {{#lambda.trimLineBreaks}}
+            {{#composedSchemas.anyOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+            System.Text.Json.JsonSerializer.Serialize(writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}, jsonSerializerOptions);
+
+            {{/vendorExtensions.x-duplicated-data-type}}
+            {{/composedSchemas.anyOf}}
+            {{#composedSchemas.oneOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
+            System.Text.Json.JsonSerializer.Serialize(writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}, jsonSerializerOptions);
+
+            {{/vendorExtensions.x-duplicated-data-type}}
+            {{/composedSchemas.oneOf}}
             writer.WriteStartObject();
 
             {{#allVars}}
@@ -201,10 +225,12 @@
             {{/isString}}
             {{#isBoolean}}
             {{#isNullable}}
+
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} != null)
                 writer.WriteBoolean("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value);
             else
                 writer.WriteNull("{{baseName}}");
+
             {{/isNullable}}
             {{^isNullable}}
             writer.WriteBoolean("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}});
@@ -213,10 +239,12 @@
             {{^isEnum}}
             {{#isNumeric}}
             {{#isNullable}}
+
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} != null)
                 writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value);
             else
                 writer.WriteNull("{{baseName}}");
+
             {{/isNullable}}
             {{^isNullable}}
             writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}});
@@ -225,10 +253,12 @@
             {{/isEnum}}
             {{#isDate}}
             {{#isNullable}}
+
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} != null)
                 writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value.ToString({{name}}Format));
             else
                 writer.WriteNull("{{baseName}}");
+
             {{/isNullable}}
             {{^isNullable}}
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.ToString({{name}}Format));
@@ -236,10 +266,12 @@
             {{/isDate}}
             {{#isDateTime}}
             {{#isNullable}}
+
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} != null)
                 writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value.ToString({{name}}Format));
             else
                 writer.WriteNull("{{baseName}}");
+
             {{/isNullable}}
             {{^isNullable}}
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.ToString({{name}}Format));
@@ -252,22 +284,60 @@
             {{^isMap}}
             {{^isNumeric}}
             {{#isInnerEnum}}
+
             var {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = {{classname}}.{{{datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}});
             if ({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue != null)
                 writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
             else
                 writer.WriteNull("{{baseName}}");
+
             {{/isInnerEnum}}
             {{^isInnerEnum}}
             {{#isNullable}}
+
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} == null)
                 writer.WriteNull("{{baseName}}");
+            else
+            {
+                var {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = {{{datatypeWithEnum}}}Converter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{#isNullable}}.Value{{/isNullable}});
+                {{#allowableValues}}
+                {{#enumVars}}
+                {{#-first}}
+                {{#isString}}
+                if ({{#lambda.camelcase_param}}{{nameInCamelCase}}{{/lambda.camelcase_param}}RawValue != null){{! we cant use name here because enumVar also has a name property, so use the camel case variant only as a work around }}
+                    writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{nameInCamelCase}}{{/lambda.camelcase_param}}RawValue);
+                else
+                    writer.WriteNull("{{baseName}}");
+                {{/isString}}
+                {{^isString}}
+                writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_param}}{{nameInCamelCase}}{{/lambda.camelcase_param}}RawValue);
+                {{/isString}}
+                {{/-first}}
+                {{/enumVars}}
+                {{/allowableValues}}
+            }
+
             {{/isNullable}}
-            var {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = {{{datatypeWithEnum}}}Converter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{#isNullable}}.Value{{/isNullable}});
-            if ({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue != null)
-                writer.Write{{#allowableValues}}{{#enumVars}}{{#-first}}{{#isString}}String{{/isString}}{{^isString}}Number{{/isString}}{{/-first}}{{/enumVars}}{{/allowableValues}}("{{baseName}}", {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
+            {{^isNullable}}
+            var {{#lambda.camelcase_param}}{{nameInCamelCase}}{{/lambda.camelcase_param}}RawValue = {{{datatypeWithEnum}}}Converter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{#isNullable}}.Value{{/isNullable}});
+            {{#allowableValues}}
+            {{#enumVars}}
+            {{#-first}}
+            {{#isString}}
+
+            if ({{#lambda.camelcase_param}}{{nameInCamelCase}}{{/lambda.camelcase_param}}RawValue != null)
+                writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{nameInCamelCase}}{{/lambda.camelcase_param}}RawValue);
             else
                 writer.WriteNull("{{baseName}}");
+
+            {{/isString}}
+            {{^isString}}
+            writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_param}}{{nameInCamelCase}}{{/lambda.camelcase_param}}RawValue);
+            {{/isString}}
+            {{/-first}}
+            {{/enumVars}}
+            {{/allowableValues}}
+            {{/isNullable}}
             {{/isInnerEnum}}
             {{/isNumeric}}
             {{/isMap}}
@@ -277,10 +347,12 @@
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}});
             {{/isNullable}}
             {{#isNullable}}
+
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}} == null)
                 writer.WriteNull("{{baseName}}");
             else
                 writer.WriteString("{{baseName}}", {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}.Value);
+
             {{/isNullable}}
             {{/isUuid}}
             {{^isUuid}}
@@ -302,5 +374,6 @@
             {{/allVars}}
 
             writer.WriteEndObject();
+            {{/lambda.trimLineBreaks}}
         }
     }

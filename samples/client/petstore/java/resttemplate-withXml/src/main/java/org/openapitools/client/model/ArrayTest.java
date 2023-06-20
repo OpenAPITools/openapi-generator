@@ -48,21 +48,21 @@ public class ArrayTest {
   // items.name=arrayOfString items.baseName=arrayOfString items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "arrayOfString")
-  private List<String> arrayOfString = new ArrayList<>();
+  private List<String> arrayOfString;
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   // Is a container wrapped=false
   // items.name=arrayArrayOfInteger items.baseName=arrayArrayOfInteger items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;Long&gt;
   @XmlElement(name = "arrayArrayOfInteger")
-  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+  private List<List<Long>> arrayArrayOfInteger;
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   // Is a container wrapped=false
   // items.name=arrayArrayOfModel items.baseName=arrayArrayOfModel items.xmlName= items.xmlNamespace=
   // items.example= items.type=List&lt;ReadOnlyFirst&gt;
   @XmlElement(name = "arrayArrayOfModel")
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
 
   public ArrayTest() {
   }
@@ -88,6 +88,8 @@ public class ArrayTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_of_string")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<String> getArrayOfString() {
     return arrayOfString;
@@ -96,6 +98,8 @@ public class ArrayTest {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_of_string")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
@@ -122,6 +126,8 @@ public class ArrayTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_array_of_integer")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
@@ -130,6 +136,8 @@ public class ArrayTest {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_array_of_integer")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
@@ -156,6 +164,8 @@ public class ArrayTest {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_array_of_model")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
@@ -164,10 +174,11 @@ public class ArrayTest {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_array_of_model")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
-
 
   @Override
   public boolean equals(Object o) {

@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -54,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<AdditionalPropertiesClass>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'EmptyMap'
         /// </summary>
@@ -63,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'EmptyMap'
         }
+
         /// <summary>
         /// Test the property 'MapOfMapProperty'
         /// </summary>
@@ -71,6 +70,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'MapOfMapProperty'
         }
+
         /// <summary>
         /// Test the property 'MapProperty'
         /// </summary>
@@ -79,6 +79,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'MapProperty'
         }
+
         /// <summary>
         /// Test the property 'MapWithUndeclaredPropertiesAnytype1'
         /// </summary>
@@ -87,6 +88,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'MapWithUndeclaredPropertiesAnytype1'
         }
+
         /// <summary>
         /// Test the property 'MapWithUndeclaredPropertiesAnytype2'
         /// </summary>
@@ -95,6 +97,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'MapWithUndeclaredPropertiesAnytype2'
         }
+
         /// <summary>
         /// Test the property 'MapWithUndeclaredPropertiesAnytype3'
         /// </summary>
@@ -103,6 +106,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'MapWithUndeclaredPropertiesAnytype3'
         }
+
         /// <summary>
         /// Test the property 'MapWithUndeclaredPropertiesString'
         /// </summary>
@@ -111,6 +115,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'MapWithUndeclaredPropertiesString'
         }
+
         /// <summary>
         /// Test the property 'Anytype1'
         /// </summary>
@@ -119,7 +124,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Anytype1'
         }
-
     }
-
 }

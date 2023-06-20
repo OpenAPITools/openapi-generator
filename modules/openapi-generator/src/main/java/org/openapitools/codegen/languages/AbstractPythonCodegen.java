@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +49,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     public AbstractPythonCodegen() {
         super();
+
+        modifyFeatureSet(features -> features.securityFeatures(EnumSet.of(
+                SecurityFeature.BasicAuth,
+                SecurityFeature.BearerToken,
+                SecurityFeature.ApiKey,
+                SecurityFeature.OAuth2_Implicit
+        )));
 
         // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
         setReservedWordsLowerCase(
@@ -153,11 +161,15 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 return p.getDefault().toString();
             }
         } else if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
-                    return "'''" + p.getDefault() + "'''";
-                else
-                    return "'" + ((String) p.getDefault()).replace("'", "\'") + "'";
+            String defaultValue = (String)p.getDefault();
+            if (defaultValue != null) {
+                defaultValue = defaultValue.replace("\\", "\\\\")
+                    .replace("'", "\'");
+                if (Pattern.compile("\r\n|\r|\n").matcher(defaultValue).find()) {
+                    return "'''" + defaultValue + "'''";
+                } else {
+                    return "'" + defaultValue + "'";
+                }
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {

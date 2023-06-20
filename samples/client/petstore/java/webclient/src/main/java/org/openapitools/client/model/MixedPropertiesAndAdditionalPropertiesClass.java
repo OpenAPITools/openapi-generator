@@ -109,6 +109,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass putMapItem(String key, Animal mapItem) {
+    if (this.map == null) {
+      this.map = new HashMap<>();
+    }
     this.map.put(key, mapItem);
     return this;
   }
@@ -131,7 +134,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
-
 
   @Override
   public boolean equals(Object o) {

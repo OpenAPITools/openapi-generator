@@ -50,7 +50,6 @@ namespace Org.OpenAPITools.Test.Api
             _instance = _host.Services.GetRequiredService<IApi.IDefaultApi>();
         }
 
-
         /// <summary>
         /// Test FooGet
         /// </summary>
@@ -58,7 +57,29 @@ namespace Org.OpenAPITools.Test.Api
         public async Task FooGetAsyncTest()
         {
             var response = await _instance.FooGetAsync();
-            Assert.IsType<FooGetDefaultResponse>(response);
+            var model = response.AsModel();
+            Assert.IsType<FooGetDefaultResponse>(model);
+        }
+
+        /// <summary>
+        /// Test GetCountry
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task GetCountryAsyncTest()
+        {
+            string country = default;
+            await _instance.GetCountryAsync(country);
+        }
+
+        /// <summary>
+        /// Test Hello
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task HelloAsyncTest()
+        {
+            var response = await _instance.HelloAsync();
+            var model = response.AsModel();
+            Assert.IsType<List<Guid>>(model);
         }
     }
 }

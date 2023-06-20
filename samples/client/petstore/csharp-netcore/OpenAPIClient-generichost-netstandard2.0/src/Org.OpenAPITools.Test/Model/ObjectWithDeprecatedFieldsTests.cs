@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -54,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<ObjectWithDeprecatedFields>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Bars'
         /// </summary>
@@ -63,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Bars'
         }
+
         /// <summary>
         /// Test the property 'DeprecatedRef'
         /// </summary>
@@ -71,6 +70,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'DeprecatedRef'
         }
+
         /// <summary>
         /// Test the property 'Id'
         /// </summary>
@@ -79,6 +79,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Id'
         }
+
         /// <summary>
         /// Test the property 'Uuid'
         /// </summary>
@@ -87,7 +88,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Uuid'
         }
-
     }
-
 }

@@ -33,19 +33,23 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
-        /// <param name="dogAllOf"></param>
+        /// <param name="breed">breed</param>
         /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        internal Dog(DogAllOf dogAllOf, string className, string color = "red") : base(className, color)
+        public Dog(string breed, string className, string color = @"red") : base(className, color)
         {
-            DogAllOf = dogAllOf;
+            Breed = breed;
+            OnCreated();
         }
 
+        partial void OnCreated();
+
         /// <summary>
-        /// Gets or Sets DogAllOf
+        /// Gets or Sets Breed
         /// </summary>
-        public DogAllOf DogAllOf { get; set; }
+        [JsonPropertyName("breed")]
+        public string Breed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -55,19 +59,20 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Dog {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
+            sb.Append("  Breed: ").Append(Breed).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
     }
 
     /// <summary>
-    /// A Json converter for type Dog
+    /// A Json converter for type <see cref="Dog" />
     /// </summary>
     public class DogJsonConverter : JsonConverter<Dog>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Dog" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -83,11 +88,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader dogAllOfReader = utf8JsonReader;
-            bool dogAllOfDeserialized = Client.ClientUtils.TryDeserialize<DogAllOf>(ref utf8JsonReader, jsonSerializerOptions, out DogAllOf? dogAllOf);
-
-            string className = default;
-            string color = default;
+            string? breed = default;
+            string? className = default;
+            string? color = default;
 
             while (utf8JsonReader.Read())
             {
@@ -104,6 +107,9 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "breed":
+                            breed = utf8JsonReader.GetString();
+                            break;
                         case "className":
                             className = utf8JsonReader.GetString();
                             break;
@@ -116,11 +122,20 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Dog(dogAllOf, className, color);
+            if (breed == null)
+                throw new ArgumentNullException(nameof(breed), "Property is required for class Dog.");
+
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Dog.");
+
+            if (color == null)
+                throw new ArgumentNullException(nameof(color), "Property is required for class Dog.");
+
+            return new Dog(breed, className, color);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Dog" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="dog"></param>
@@ -130,6 +145,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            writer.WriteString("breed", dog.Breed);
             writer.WriteString("className", dog.ClassName);
             writer.WriteString("color", dog.Color);
 

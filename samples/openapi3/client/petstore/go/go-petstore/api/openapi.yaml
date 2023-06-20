@@ -1409,12 +1409,18 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - $ref: '#/components/schemas/Address'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Address:
       additionalProperties:
         type: integer
@@ -1987,7 +1993,11 @@ components:
     DuplicatedPropChild:
       allOf:
       - $ref: '#/components/schemas/DuplicatedPropParent'
-      - $ref: '#/components/schemas/DuplicatedPropChild_allOf'
+      - properties:
+          dup-prop:
+            description: A discriminator value
+            type: string
+        type: object
     DuplicatedPropParent:
       description: parent model with duplicated property
       discriminator:
@@ -2016,7 +2026,11 @@ components:
         type: string
     AllOfPrimitiveTypes:
       allOf:
-      - $ref: '#/components/schemas/AllOfPrimitiveTypes_allOf'
+      - properties:
+          test:
+            format: date-time
+            type: string
+        type: object
     _foo_get_default_response:
       example:
         string:
@@ -2160,32 +2174,6 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
-    DuplicatedPropChild_allOf:
-      properties:
-        dup-prop:
-          description: A discriminator value
-          type: string
-      type: object
-      example: null
-    AllOfPrimitiveTypes_allOf:
-      properties:
-        test:
-          format: date-time
-          type: string
-      type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:

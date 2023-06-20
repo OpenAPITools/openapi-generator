@@ -16,8 +16,12 @@
 
 package org.openapitools.generator.gradle.plugin.tasks
 
+import javax.inject.Inject
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.Project
+import org.gradle.api.file.FileSystemOperations
+import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
@@ -35,6 +39,7 @@ import org.gradle.internal.logging.text.StyledTextOutputFactory
 import org.gradle.kotlin.dsl.listProperty
 import org.gradle.kotlin.dsl.mapProperty
 import org.gradle.kotlin.dsl.property
+import org.gradle.util.GradleVersion
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.config.CodegenConfigurator
@@ -52,7 +57,8 @@ import org.openapitools.codegen.config.MergedSpecBuilder
  */
 @Suppress("UnstableApiUsage")
 @CacheableTask
-open class GenerateTask : DefaultTask() {
+open class GenerateTask @Inject constructor(private val objectFactory: ObjectFactory) : DefaultTask() {
+
     /**
      * The verbosity of generation
      */
@@ -106,7 +112,7 @@ open class GenerateTask : DefaultTask() {
     val inputSpecRootDirectory = project.objects.property<String>();
 
     /**
-     * Name of the file that will contains all merged specs
+     * Name of the file that will contain all merged specs
      */
     @Input
     @Optional
@@ -521,6 +527,13 @@ open class GenerateTask : DefaultTask() {
     @Input
     val cleanupOutput = project.objects.property<Boolean>()
 
+    /**
+     * Defines whether the generator should run in dry-run mode.
+     */
+    @Optional
+    @Input
+    val dryRun = project.objects.property<Boolean>()
+
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
             val item: T? = get()
@@ -540,6 +553,14 @@ open class GenerateTask : DefaultTask() {
 
     protected open fun createDefaultCodegenConfigurator(): CodegenConfigurator = CodegenConfigurator()
 
+    private fun createFileSystemManager(): FileSystemManager {
+        return if(GradleVersion.current() >= GradleVersion.version("6.0")) {
+            objectFactory.newInstance(FileSystemManagerDefault::class.java)
+        } else {
+            objectFactory.newInstance(FileSystemManagerLegacy::class.java, project)
+        }
+    }
+
     @Suppress("unused")
     @TaskAction
     fun doWork() {
@@ -550,7 +571,7 @@ open class GenerateTask : DefaultTask() {
 
         cleanupOutput.ifNotEmpty { cleanup ->
             if (cleanup) {
-                project.delete(outputDir)
+                createFileSystemManager().delete(outputDir)
                 val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
                 out.withStyle(StyledTextOutput.Style.Success)
                 out.println("Cleaned up output directory ${outputDir.get()} before code generation (cleanupOutput set to true).")
@@ -822,6 +843,11 @@ open class GenerateTask : DefaultTask() {
                 }
             }
 
+            var dryRunSetting = false
+            dryRun.ifNotEmpty { setting ->
+                dryRunSetting = setting
+            }
+
             val clientOptInput = configurator.toClientOptInput()
             val codegenConfig = clientOptInput.config
 
@@ -838,7 +864,7 @@ open class GenerateTask : DefaultTask() {
                 val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
                 out.withStyle(StyledTextOutput.Style.Success)
 
-                DefaultGenerator().opts(clientOptInput).generate()
+                DefaultGenerator(dryRunSetting).opts(clientOptInput).generate()
 
                 out.println("Successfully generated code to ${outputDir.get()}")
             } catch (e: RuntimeException) {
@@ -847,5 +873,25 @@ open class GenerateTask : DefaultTask() {
         } finally {
             GlobalSettings.reset()
         }
+    }
+}
+
+internal interface FileSystemManager {
+
+    fun delete(outputDir: Property<String>)
+
+}
+
+internal open class FileSystemManagerLegacy @Inject constructor(private val project: Project): FileSystemManager {
+
+    override fun delete(outputDir: Property<String>) {
+        project.delete(outputDir)
+    }
+}
+
+internal open class FileSystemManagerDefault @Inject constructor(private val fs: FileSystemOperations) : FileSystemManager {
+
+    override fun delete(outputDir: Property<String>) {
+        fs.delete { delete(outputDir) }
     }
 }

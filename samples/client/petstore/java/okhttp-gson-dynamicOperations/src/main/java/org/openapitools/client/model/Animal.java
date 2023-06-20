@@ -21,9 +21,6 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import org.openapitools.client.model.BigCat;
-import org.openapitools.client.model.Cat;
-import org.openapitools.client.model.Dog;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,6 +32,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -74,7 +75,6 @@ public class Animal {
    * @return className
   **/
   @javax.annotation.Nonnull
-
   public String getClassName() {
     return className;
   }
@@ -96,7 +96,6 @@ public class Animal {
    * @return color
   **/
   @javax.annotation.Nullable
-
   public String getColor() {
     return color;
   }
@@ -186,7 +185,7 @@ public class Animal {
         case "Dog":
           Dog.validateJsonObject(jsonObj);
           break;
-        default: 
+        default:
           throw new IllegalArgumentException(String.format("The value of the `className` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
       }
   }

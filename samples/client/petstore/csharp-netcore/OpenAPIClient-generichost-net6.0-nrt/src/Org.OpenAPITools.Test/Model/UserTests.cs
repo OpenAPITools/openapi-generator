@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -54,7 +53,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<User>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Email'
         /// </summary>
@@ -63,6 +61,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Email'
         }
+
         /// <summary>
         /// Test the property 'FirstName'
         /// </summary>
@@ -71,6 +70,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'FirstName'
         }
+
         /// <summary>
         /// Test the property 'Id'
         /// </summary>
@@ -79,6 +79,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Id'
         }
+
         /// <summary>
         /// Test the property 'LastName'
         /// </summary>
@@ -87,6 +88,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'LastName'
         }
+
         /// <summary>
         /// Test the property 'ObjectWithNoDeclaredProps'
         /// </summary>
@@ -95,6 +97,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ObjectWithNoDeclaredProps'
         }
+
         /// <summary>
         /// Test the property 'Password'
         /// </summary>
@@ -103,6 +106,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Password'
         }
+
         /// <summary>
         /// Test the property 'Phone'
         /// </summary>
@@ -111,6 +115,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Phone'
         }
+
         /// <summary>
         /// Test the property 'UserStatus'
         /// </summary>
@@ -119,6 +124,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'UserStatus'
         }
+
         /// <summary>
         /// Test the property 'Username'
         /// </summary>
@@ -127,6 +133,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Username'
         }
+
         /// <summary>
         /// Test the property 'AnyTypeProp'
         /// </summary>
@@ -135,6 +142,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'AnyTypeProp'
         }
+
         /// <summary>
         /// Test the property 'AnyTypePropNullable'
         /// </summary>
@@ -143,6 +151,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'AnyTypePropNullable'
         }
+
         /// <summary>
         /// Test the property 'ObjectWithNoDeclaredPropsNullable'
         /// </summary>
@@ -151,7 +160,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ObjectWithNoDeclaredPropsNullable'
         }
-
     }
-
 }

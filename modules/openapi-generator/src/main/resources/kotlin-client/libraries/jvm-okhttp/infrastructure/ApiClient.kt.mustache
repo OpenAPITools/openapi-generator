@@ -357,7 +357,7 @@ import com.squareup.moshi.adapter
 
         val contentType = if (headers[ContentType] != null) {
             // TODO: support multiple contentType options here.
-            (headers[ContentType] as String).substringBefore(";").lowercase(Locale.getDefault())
+            (headers[ContentType] as String).substringBefore(";").lowercase(Locale.US)
         } else {
             null
         }
@@ -392,7 +392,7 @@ import com.squareup.moshi.adapter
         val response = client.newCall(request).execute()
         {{/useCoroutines}}
 
-        val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.getDefault())
+        val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.US)
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         return when {

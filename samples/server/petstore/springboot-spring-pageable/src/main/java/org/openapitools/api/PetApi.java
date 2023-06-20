@@ -269,6 +269,57 @@ public interface PetApi {
 
 
     /**
+     * GET /pet/all : List all pets
+     *
+     * @return successful operation (status code 200)
+     *         or Invalid status value (status code 400)
+     */
+    @ApiOperation(
+        tags = { "pet" },
+        value = "List all pets",
+        nickname = "listAllPets",
+        notes = "",
+        response = Pet.class,
+        responseContainer = "List",
+        authorizations = {
+            @Authorization(value = "petstore_auth", scopes = {
+                @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+                @AuthorizationScope(scope = "read:pets", description = "read your pets")
+            })
+         }
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
+        @ApiResponse(code = 400, message = "Invalid status value")
+    })
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/pet/all",
+        produces = { "application/xml", "application/json" }
+    )
+    default ResponseEntity<List<Pet>> listAllPets(
+        @ApiIgnore final Pageable pageable
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "[ { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }, { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" } ]";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<Pet> <id>123456789</id> <Category> <id>123456789</id> <name>aeiou</name> </Category> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> <Tag> <id>123456789</id> <name>aeiou</name> </Tag> </tags> <status>aeiou</status> </Pet>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
      * PUT /pet : Update an existing pet
      *
      * @param body Pet object that needs to be added to the store (required)

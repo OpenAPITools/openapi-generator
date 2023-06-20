@@ -22,7 +22,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |additionalOneOfTypeAnnotations|Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
-|annotationLibrary|Select the complementary documentation annotation library.|<dl><dt>**none**</dt><dd>Do not annotate Model and Api with complementary annotations.</dd><dt>**swagger1**</dt><dd>Annotate Model and Api using the Swagger Annotations 1.x library.</dd></dl>|none|
+|annotationLibrary|Select the complementary documentation annotation library.|<dl><dt>**none**</dt><dd>Do not annotate Model and Api with complementary annotations.</dd><dt>**swagger1**</dt><dd>Annotate Model and Api using the Swagger Annotations 1.x library.</dd><dt>**swagger2**</dt><dd>Annotate Model and Api using the Swagger Annotations 2.x library.</dd></dl>|none|
 |apiPackage|package for generated api classes| |org.openapitools.client.api|
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
 |artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-java-client|
@@ -48,7 +48,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |errorObjectType|Error Object type. (This option is for okhttp-gson-next-gen only)| |null|
-|fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
+|generateClientAsBean|For resttemplate, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).| |false|
 |gradleProperties|Append additional Gradle properties to the gradle.properties file| |null|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
@@ -56,7 +56,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |implicitHeaders|Skip header parameters in the generated API methods using @ApiImplicitParams annotation.| |false|
 |implicitHeadersRegex|Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true| |null|
 |invokerPackage|root package for generated code| |org.openapitools.client|
-|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C#have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |library|library template (sub-template) to use|<dl><dt>**jersey1**</dt><dd>HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey3' or other HTTP libraries instead.</dd><dt>**jersey2**</dt><dd>HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x</dd><dt>**jersey3**</dt><dd>HTTP client: Jersey client 3.x. JSON processing: Jackson 2.x</dd><dt>**feign**</dt><dd>HTTP client: OpenFeign 10.x. JSON processing: Jackson 2.9.x. or Gson 2.x</dd><dt>**okhttp-gson**</dt><dd>[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.</dd><dt>**retrofit2**</dt><dd>HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)</dd><dt>**resttemplate**</dt><dd>HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x</dd><dt>**webclient**</dt><dd>HTTP client: Spring WebClient 5.x. JSON processing: Jackson 2.9.x</dd><dt>**resteasy**</dt><dd>HTTP client: Resteasy client 3.x. JSON processing: Jackson 2.9.x</dd><dt>**vertx**</dt><dd>HTTP client: VertX client 3.x. JSON processing: Jackson 2.9.x</dd><dt>**google-api-client**</dt><dd>HTTP client: Google API client 1.x. JSON processing: Jackson 2.9.x</dd><dt>**rest-assured**</dt><dd>HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.10.x. Only for Java 8</dd><dt>**native**</dt><dd>HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+</dd><dt>**microprofile**</dt><dd>HTTP client: Microprofile client 1.x. JSON processing: JSON-B or Jackson 2.9.x</dd><dt>**apache-httpclient**</dt><dd>HTTP client: Apache httpclient 5.x</dd></dl>|okhttp-gson|
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
@@ -87,6 +87,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useGzipFeature|Send gzip-encoded requests| |false|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped. Only jersey2, jersey3, native, okhttp-gson support this option.| |false|
+|useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
 |usePlayWS|Use Play! Async HTTP client (Play WS API)| |false|
 |useReflectionEqualsHashCode|Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact.| |false|
 |useRuntimeException|Use RuntimeException instead of Exception. Only jersey, jersey2, jersey3, okhttp-gson, vertx, microprofile support this option.| |false|
@@ -335,14 +336,15 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Security Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasicAuth|✗|OAS2,OAS3
-|ApiKey|✗|OAS2,OAS3
+|BasicAuth|✓|OAS2,OAS3
+|ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
-|OAuth2_Implicit|✗|OAS2,OAS3
-|OAuth2_Password|✗|OAS2,OAS3
-|OAuth2_ClientCredentials|✗|OAS2,OAS3
-|OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|BearerToken|✓|OAS3
+|OAuth2_Implicit|✓|OAS2,OAS3
+|OAuth2_Password|✓|OAS2,OAS3
+|OAuth2_ClientCredentials|✓|OAS2,OAS3
+|OAuth2_AuthorizationCode|✓|OAS2,OAS3
+|SignatureAuth|✓|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

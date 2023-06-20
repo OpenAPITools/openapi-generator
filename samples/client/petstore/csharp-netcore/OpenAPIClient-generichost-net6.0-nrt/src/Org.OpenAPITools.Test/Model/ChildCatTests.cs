@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -54,8 +53,22 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<ChildCat>(instance);
         }
 
+        /// <summary>
+        /// Test the property 'Name'
+        /// </summary>
+        [Fact]
+        public void NameTest()
+        {
+            // TODO unit test for the property 'Name'
+        }
 
-
+        /// <summary>
+        /// Test the property 'PetType'
+        /// </summary>
+        [Fact]
+        public void PetTypeTest()
+        {
+            // TODO unit test for the property 'PetType'
+        }
     }
-
 }

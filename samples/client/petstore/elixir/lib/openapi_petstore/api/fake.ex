@@ -10,6 +10,34 @@ defmodule OpenapiPetstore.Api.Fake do
   import OpenapiPetstore.RequestBuilder
 
   @doc """
+  for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+
+  ### Parameters
+
+  - `connection` (OpenapiPetstore.Connection): Connection to server
+  - `opts` (keyword): Optional parameters
+
+  ### Returns
+
+  - `{:ok, OpenapiPetstore.Model.FakeBigDecimalMap200Response.t}` on success
+  - `{:error, Tesla.Env.t}` on failure
+  """
+  @spec fake_big_decimal_map(Tesla.Env.client, keyword()) :: {:ok, OpenapiPetstore.Model.FakeBigDecimalMap200Response.t} | {:error, Tesla.Env.t}
+  def fake_big_decimal_map(connection, _opts \\ []) do
+    request =
+      %{}
+      |> method(:get)
+      |> url("/fake/BigDecimalMap")
+      |> Enum.into([])
+
+    connection
+    |> Connection.request(request)
+    |> evaluate_response([
+      {200, %OpenapiPetstore.Model.FakeBigDecimalMap200Response{}}
+    ])
+  end
+
+  @doc """
   Health check endpoint
 
   ### Parameters

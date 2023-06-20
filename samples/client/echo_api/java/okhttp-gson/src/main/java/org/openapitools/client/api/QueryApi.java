@@ -31,6 +31,7 @@ import org.openapitools.client.model.DataQuery;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
 
@@ -78,6 +79,127 @@ public class QueryApi {
         this.localCustomBaseUrl = customBaseUrl;
     }
 
+    /**
+     * Build call for testEnumRefString
+     * @param enumRefStringQuery  (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call testEnumRefStringCall(StringEnumRef enumRefStringQuery, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/query/enum_ref_string";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (enumRefStringQuery != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("enum_ref_string_query", enumRefStringQuery));
+        }
+
+        final String[] localVarAccepts = {
+            "text/plain"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call testEnumRefStringValidateBeforeCall(StringEnumRef enumRefStringQuery, final ApiCallback _callback) throws ApiException {
+        return testEnumRefStringCall(enumRefStringQuery, _callback);
+
+    }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * @param enumRefStringQuery  (optional)
+     * @return String
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public String testEnumRefString(StringEnumRef enumRefStringQuery) throws ApiException {
+        ApiResponse<String> localVarResp = testEnumRefStringWithHttpInfo(enumRefStringQuery);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * @param enumRefStringQuery  (optional)
+     * @return ApiResponse&lt;String&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<String> testEnumRefStringWithHttpInfo(StringEnumRef enumRefStringQuery) throws ApiException {
+        okhttp3.Call localVarCall = testEnumRefStringValidateBeforeCall(enumRefStringQuery, null);
+        Type localVarReturnType = new TypeToken<String>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Test query parameter(s) (asynchronously)
+     * Test query parameter(s)
+     * @param enumRefStringQuery  (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call testEnumRefStringAsync(StringEnumRef enumRefStringQuery, final ApiCallback<String> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = testEnumRefStringValidateBeforeCall(enumRefStringQuery, _callback);
+        Type localVarReturnType = new TypeToken<String>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
     /**
      * Build call for testQueryDatetimeDateString
      * @param datetimeQuery  (optional)

@@ -38,29 +38,14 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public ObjectWithDeprecatedFields(List<string> bars, DeprecatedObject deprecatedRef, decimal id, string uuid)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (uuid == null)
-                throw new ArgumentNullException("uuid is a required property for ObjectWithDeprecatedFields and cannot be null.");
-
-            if (id == null)
-                throw new ArgumentNullException("id is a required property for ObjectWithDeprecatedFields and cannot be null.");
-
-            if (deprecatedRef == null)
-                throw new ArgumentNullException("deprecatedRef is a required property for ObjectWithDeprecatedFields and cannot be null.");
-
-            if (bars == null)
-                throw new ArgumentNullException("bars is a required property for ObjectWithDeprecatedFields and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Bars = bars;
             DeprecatedRef = deprecatedRef;
             Id = id;
             Uuid = uuid;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Bars
@@ -111,24 +96,25 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
     /// <summary>
-    /// A Json converter for type ObjectWithDeprecatedFields
+    /// A Json converter for type <see cref="ObjectWithDeprecatedFields" />
     /// </summary>
     public class ObjectWithDeprecatedFieldsJsonConverter : JsonConverter<ObjectWithDeprecatedFields>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="ObjectWithDeprecatedFields" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -146,7 +132,7 @@ namespace Org.OpenAPITools.Model
 
             List<string> bars = default;
             DeprecatedObject deprecatedRef = default;
-            decimal id = default;
+            decimal? id = default;
             string uuid = default;
 
             while (utf8JsonReader.Read())
@@ -165,13 +151,16 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "bars":
-                            bars = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                bars = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "deprecatedRef":
-                            deprecatedRef = JsonSerializer.Deserialize<DeprecatedObject>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                deprecatedRef = JsonSerializer.Deserialize<DeprecatedObject>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "id":
-                            id = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                id = utf8JsonReader.GetDecimal();
                             break;
                         case "uuid":
                             uuid = utf8JsonReader.GetString();
@@ -182,11 +171,23 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new ObjectWithDeprecatedFields(bars, deprecatedRef, id, uuid);
+            if (bars == null)
+                throw new ArgumentNullException(nameof(bars), "Property is required for class ObjectWithDeprecatedFields.");
+
+            if (deprecatedRef == null)
+                throw new ArgumentNullException(nameof(deprecatedRef), "Property is required for class ObjectWithDeprecatedFields.");
+
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class ObjectWithDeprecatedFields.");
+
+            if (uuid == null)
+                throw new ArgumentNullException(nameof(uuid), "Property is required for class ObjectWithDeprecatedFields.");
+
+            return new ObjectWithDeprecatedFields(bars, deprecatedRef, id.Value, uuid);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="ObjectWithDeprecatedFields" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="objectWithDeprecatedFields"></param>

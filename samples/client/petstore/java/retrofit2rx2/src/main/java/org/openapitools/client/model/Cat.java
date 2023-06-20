@@ -22,7 +22,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
-import org.openapitools.client.model.BigCat;
 
 /**
  * Cat
@@ -58,6 +57,17 @@ public class Cat extends Animal {
     this.declawed = declawed;
   }
 
+  @Override
+  public Cat className(String className) {
+    this.setClassName(className);
+    return this;
+  }
+
+  @Override
+  public Cat color(String color) {
+    this.setColor(color);
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

@@ -13,7 +13,6 @@ using System;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Api;
 
 namespace Org.OpenAPITools.Extensions
 {
@@ -26,22 +25,9 @@ namespace Org.OpenAPITools.Extensions
         /// Add the api to your host builder.
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="options"></param>
-        public static void AddApi<TDefaultApi>(this IServiceCollection services)
-            where TDefaultApi : class, IApi.IDefaultApi
-        {
-            HostConfiguration<TDefaultApi> config = new HostConfiguration<TDefaultApi>(services);
-            AddApi(services, config);
-        }
-
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="options"></param>
         public static void AddApi(this IServiceCollection services)
         {
-            HostConfiguration<DefaultApi> config = new HostConfiguration<DefaultApi>(services);
+            HostConfiguration config = new(services);
             AddApi(services, config);
         }
 
@@ -50,28 +36,14 @@ namespace Org.OpenAPITools.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <param name="options"></param>
-        public static void AddApi<TDefaultApi>(this IServiceCollection services, Action<HostConfiguration<TDefaultApi>> options)
-            where TDefaultApi : class, IApi.IDefaultApi
+        public static void AddApi(this IServiceCollection services, Action<HostConfiguration> options)
         {
-            HostConfiguration<TDefaultApi> config = new HostConfiguration<TDefaultApi>(services);
+            HostConfiguration config = new(services);
             options(config);
             AddApi(services, config);
         }
 
-        /// <summary>
-        /// Add the api to your host builder.
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="options"></param>
-        public static void AddApi(this IServiceCollection services, Action<HostConfiguration<DefaultApi>> options)
-        {
-            HostConfiguration<DefaultApi> config = new HostConfiguration<DefaultApi>(services);
-            options(config);
-            AddApi(services, config);
-        }
-
-        internal static void AddApi<TDefaultApi>(IServiceCollection services, HostConfiguration<TDefaultApi> host)
-            where TDefaultApi : class, IApi.IDefaultApi
+        internal static void AddApi(IServiceCollection services, HostConfiguration host)
         {
             if (!host.HttpClientsAdded)
                 host.AddApiHttpClients();

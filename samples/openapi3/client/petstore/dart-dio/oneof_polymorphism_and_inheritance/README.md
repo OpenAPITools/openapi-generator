@@ -53,7 +53,7 @@ final BarCreate barCreate = ; // BarCreate |
 try {
     final response = await api.createBar(barCreate);
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print("Exception when calling BarApi->createBar: $e\n");
 }
 
@@ -94,7 +94,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Authorization
 
- All endpoints do not require authorization.
+Endpoints do not require authorization.
 
 
 ## Author

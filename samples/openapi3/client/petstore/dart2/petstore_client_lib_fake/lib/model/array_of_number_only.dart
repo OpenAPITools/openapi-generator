@@ -55,15 +55,15 @@ class ArrayOfNumberOnly {
       }());
 
       return ArrayOfNumberOnly(
-        arrayNumber: json[r'ArrayNumber'] is List
-            ? (json[r'ArrayNumber'] as List).cast<num>()
+        arrayNumber: json[r'ArrayNumber'] is Iterable
+            ? (json[r'ArrayNumber'] as Iterable).cast<num>().toList(growable: false)
             : const [],
       );
     }
     return null;
   }
 
-  static List<ArrayOfNumberOnly>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<ArrayOfNumberOnly> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <ArrayOfNumberOnly>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -94,12 +94,10 @@ class ArrayOfNumberOnly {
   static Map<String, List<ArrayOfNumberOnly>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<ArrayOfNumberOnly>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = ArrayOfNumberOnly.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = ArrayOfNumberOnly.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

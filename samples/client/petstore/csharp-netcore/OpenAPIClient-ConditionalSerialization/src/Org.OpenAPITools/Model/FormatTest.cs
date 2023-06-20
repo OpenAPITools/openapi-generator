@@ -45,13 +45,15 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="integer">integer.</param>
         /// <param name="int32">int32.</param>
+        /// <param name="unsignedInteger">unsignedInteger.</param>
         /// <param name="int64">int64.</param>
+        /// <param name="unsignedLong">unsignedLong.</param>
         /// <param name="number">number (required).</param>
-        /// <param name="_float">_float.</param>
-        /// <param name="_double">_double.</param>
-        /// <param name="_decimal">_decimal.</param>
-        /// <param name="_string">_string.</param>
-        /// <param name="_byte">_byte (required).</param>
+        /// <param name="varFloat">varFloat.</param>
+        /// <param name="varDouble">varDouble.</param>
+        /// <param name="varDecimal">varDecimal.</param>
+        /// <param name="varString">varString.</param>
+        /// <param name="varByte">varByte (required).</param>
         /// <param name="binary">binary.</param>
         /// <param name="date">date (required).</param>
         /// <param name="dateTime">dateTime.</param>
@@ -59,15 +61,16 @@ namespace Org.OpenAPITools.Model
         /// <param name="password">password (required).</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), decimal _decimal = default(decimal), string _string = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string))
+        /// <param name="patternWithBackslash">None.</param>
+        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
         {
             this._Number = number;
-            // to ensure "_byte" is required (not null)
-            if (_byte == null)
+            // to ensure "varByte" is required (not null)
+            if (varByte == null)
             {
-                throw new ArgumentNullException("_byte is a required property for FormatTest and cannot be null");
+                throw new ArgumentNullException("varByte is a required property for FormatTest and cannot be null");
             }
-            this._Byte = _byte;
+            this._VarByte = varByte;
             this._Date = date;
             // to ensure "password" is required (not null)
             if (password == null)
@@ -85,30 +88,40 @@ namespace Org.OpenAPITools.Model
             {
                 this._flagInt32 = true;
             }
+            this._UnsignedInteger = unsignedInteger;
+            if (this.UnsignedInteger != null)
+            {
+                this._flagUnsignedInteger = true;
+            }
             this._Int64 = int64;
             if (this.Int64 != null)
             {
                 this._flagInt64 = true;
             }
-            this._Float = _float;
-            if (this.Float != null)
+            this._UnsignedLong = unsignedLong;
+            if (this.UnsignedLong != null)
             {
-                this._flagFloat = true;
+                this._flagUnsignedLong = true;
             }
-            this._Double = _double;
-            if (this.Double != null)
+            this._VarFloat = varFloat;
+            if (this.VarFloat != null)
             {
-                this._flagDouble = true;
+                this._flagVarFloat = true;
             }
-            this._Decimal = _decimal;
-            if (this.Decimal != null)
+            this._VarDouble = varDouble;
+            if (this.VarDouble != null)
             {
-                this._flagDecimal = true;
+                this._flagVarDouble = true;
             }
-            this._String = _string;
-            if (this.String != null)
+            this._VarDecimal = varDecimal;
+            if (this.VarDecimal != null)
             {
-                this._flagString = true;
+                this._flagVarDecimal = true;
+            }
+            this._VarString = varString;
+            if (this.VarString != null)
+            {
+                this._flagVarString = true;
             }
             this._Binary = binary;
             if (this.Binary != null)
@@ -134,6 +147,11 @@ namespace Org.OpenAPITools.Model
             if (this.PatternWithDigitsAndDelimiter != null)
             {
                 this._flagPatternWithDigitsAndDelimiter = true;
+            }
+            this._PatternWithBackslash = patternWithBackslash;
+            if (this.PatternWithBackslash != null)
+            {
+                this._flagPatternWithBackslash = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -187,6 +205,30 @@ namespace Org.OpenAPITools.Model
             return _flagInt32;
         }
         /// <summary>
+        /// Gets or Sets UnsignedInteger
+        /// </summary>
+        [DataMember(Name = "unsigned_integer", EmitDefaultValue = false)]
+        public uint UnsignedInteger
+        {
+            get{ return _UnsignedInteger;}
+            set
+            {
+                _UnsignedInteger = value;
+                _flagUnsignedInteger = true;
+            }
+        }
+        private uint _UnsignedInteger;
+        private bool _flagUnsignedInteger;
+
+        /// <summary>
+        /// Returns false as UnsignedInteger should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeUnsignedInteger()
+        {
+            return _flagUnsignedInteger;
+        }
+        /// <summary>
         /// Gets or Sets Int64
         /// </summary>
         [DataMember(Name = "int64", EmitDefaultValue = false)]
@@ -209,6 +251,30 @@ namespace Org.OpenAPITools.Model
         public bool ShouldSerializeInt64()
         {
             return _flagInt64;
+        }
+        /// <summary>
+        /// Gets or Sets UnsignedLong
+        /// </summary>
+        [DataMember(Name = "unsigned_long", EmitDefaultValue = false)]
+        public ulong UnsignedLong
+        {
+            get{ return _UnsignedLong;}
+            set
+            {
+                _UnsignedLong = value;
+                _flagUnsignedLong = true;
+            }
+        }
+        private ulong _UnsignedLong;
+        private bool _flagUnsignedLong;
+
+        /// <summary>
+        /// Returns false as UnsignedLong should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeUnsignedLong()
+        {
+            return _flagUnsignedLong;
         }
         /// <summary>
         /// Gets or Sets Number
@@ -235,124 +301,124 @@ namespace Org.OpenAPITools.Model
             return _flagNumber;
         }
         /// <summary>
-        /// Gets or Sets Float
+        /// Gets or Sets VarFloat
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
-        public float Float
+        public float VarFloat
         {
-            get{ return _Float;}
+            get{ return _VarFloat;}
             set
             {
-                _Float = value;
-                _flagFloat = true;
+                _VarFloat = value;
+                _flagVarFloat = true;
             }
         }
-        private float _Float;
-        private bool _flagFloat;
+        private float _VarFloat;
+        private bool _flagVarFloat;
 
         /// <summary>
-        /// Returns false as Float should not be serialized given that it's read-only.
+        /// Returns false as VarFloat should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeFloat()
+        public bool ShouldSerializeVarFloat()
         {
-            return _flagFloat;
+            return _flagVarFloat;
         }
         /// <summary>
-        /// Gets or Sets Double
+        /// Gets or Sets VarDouble
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
-        public double Double
+        public double VarDouble
         {
-            get{ return _Double;}
+            get{ return _VarDouble;}
             set
             {
-                _Double = value;
-                _flagDouble = true;
+                _VarDouble = value;
+                _flagVarDouble = true;
             }
         }
-        private double _Double;
-        private bool _flagDouble;
+        private double _VarDouble;
+        private bool _flagVarDouble;
 
         /// <summary>
-        /// Returns false as Double should not be serialized given that it's read-only.
+        /// Returns false as VarDouble should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeDouble()
+        public bool ShouldSerializeVarDouble()
         {
-            return _flagDouble;
+            return _flagVarDouble;
         }
         /// <summary>
-        /// Gets or Sets Decimal
+        /// Gets or Sets VarDecimal
         /// </summary>
         [DataMember(Name = "decimal", EmitDefaultValue = false)]
-        public decimal Decimal
+        public decimal VarDecimal
         {
-            get{ return _Decimal;}
+            get{ return _VarDecimal;}
             set
             {
-                _Decimal = value;
-                _flagDecimal = true;
+                _VarDecimal = value;
+                _flagVarDecimal = true;
             }
         }
-        private decimal _Decimal;
-        private bool _flagDecimal;
+        private decimal _VarDecimal;
+        private bool _flagVarDecimal;
 
         /// <summary>
-        /// Returns false as Decimal should not be serialized given that it's read-only.
+        /// Returns false as VarDecimal should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeDecimal()
+        public bool ShouldSerializeVarDecimal()
         {
-            return _flagDecimal;
+            return _flagVarDecimal;
         }
         /// <summary>
-        /// Gets or Sets String
+        /// Gets or Sets VarString
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public string String
+        public string VarString
         {
-            get{ return _String;}
+            get{ return _VarString;}
             set
             {
-                _String = value;
-                _flagString = true;
+                _VarString = value;
+                _flagVarString = true;
             }
         }
-        private string _String;
-        private bool _flagString;
+        private string _VarString;
+        private bool _flagVarString;
 
         /// <summary>
-        /// Returns false as String should not be serialized given that it's read-only.
+        /// Returns false as VarString should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeString()
+        public bool ShouldSerializeVarString()
         {
-            return _flagString;
+            return _flagVarString;
         }
         /// <summary>
-        /// Gets or Sets Byte
+        /// Gets or Sets VarByte
         /// </summary>
         [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = true)]
-        public byte[] Byte
+        public byte[] VarByte
         {
-            get{ return _Byte;}
+            get{ return _VarByte;}
             set
             {
-                _Byte = value;
-                _flagByte = true;
+                _VarByte = value;
+                _flagVarByte = true;
             }
         }
-        private byte[] _Byte;
-        private bool _flagByte;
+        private byte[] _VarByte;
+        private bool _flagVarByte;
 
         /// <summary>
-        /// Returns false as Byte should not be serialized given that it's read-only.
+        /// Returns false as VarByte should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeByte()
+        public bool ShouldSerializeVarByte()
         {
-            return _flagByte;
+            return _flagVarByte;
         }
         /// <summary>
         /// Gets or Sets Binary
@@ -381,6 +447,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
+        /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
         [JsonConverter(typeof(OpenAPIDateConverter))]
         [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = true)]
         public DateTime Date
@@ -406,6 +473,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
+        /// <example>2007-12-03T10:15:30+01:00</example>
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
         public DateTime DateTime
         {
@@ -430,6 +498,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
+        /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
         public Guid Uuid
         {
@@ -526,6 +595,31 @@ namespace Org.OpenAPITools.Model
             return _flagPatternWithDigitsAndDelimiter;
         }
         /// <summary>
+        /// None
+        /// </summary>
+        /// <value>None</value>
+        [DataMember(Name = "pattern_with_backslash", EmitDefaultValue = false)]
+        public string PatternWithBackslash
+        {
+            get{ return _PatternWithBackslash;}
+            set
+            {
+                _PatternWithBackslash = value;
+                _flagPatternWithBackslash = true;
+            }
+        }
+        private string _PatternWithBackslash;
+        private bool _flagPatternWithBackslash;
+
+        /// <summary>
+        /// Returns false as PatternWithBackslash should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializePatternWithBackslash()
+        {
+            return _flagPatternWithBackslash;
+        }
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -541,13 +635,15 @@ namespace Org.OpenAPITools.Model
             sb.Append("class FormatTest {\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
             sb.Append("  Int32: ").Append(Int32).Append("\n");
+            sb.Append("  UnsignedInteger: ").Append(UnsignedInteger).Append("\n");
             sb.Append("  Int64: ").Append(Int64).Append("\n");
+            sb.Append("  UnsignedLong: ").Append(UnsignedLong).Append("\n");
             sb.Append("  Number: ").Append(Number).Append("\n");
-            sb.Append("  Float: ").Append(Float).Append("\n");
-            sb.Append("  Double: ").Append(Double).Append("\n");
-            sb.Append("  Decimal: ").Append(Decimal).Append("\n");
-            sb.Append("  String: ").Append(String).Append("\n");
-            sb.Append("  Byte: ").Append(Byte).Append("\n");
+            sb.Append("  VarFloat: ").Append(VarFloat).Append("\n");
+            sb.Append("  VarDouble: ").Append(VarDouble).Append("\n");
+            sb.Append("  VarDecimal: ").Append(VarDecimal).Append("\n");
+            sb.Append("  VarString: ").Append(VarString).Append("\n");
+            sb.Append("  VarByte: ").Append(VarByte).Append("\n");
             sb.Append("  Binary: ").Append(Binary).Append("\n");
             sb.Append("  Date: ").Append(Date).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
@@ -555,6 +651,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
             sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
+            sb.Append("  PatternWithBackslash: ").Append(PatternWithBackslash).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -600,18 +697,20 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Integer.GetHashCode();
                 hashCode = (hashCode * 59) + this.Int32.GetHashCode();
+                hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
                 hashCode = (hashCode * 59) + this.Int64.GetHashCode();
+                hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
                 hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.Float.GetHashCode();
-                hashCode = (hashCode * 59) + this.Double.GetHashCode();
-                hashCode = (hashCode * 59) + this.Decimal.GetHashCode();
-                if (this.String != null)
+                hashCode = (hashCode * 59) + this.VarFloat.GetHashCode();
+                hashCode = (hashCode * 59) + this.VarDouble.GetHashCode();
+                hashCode = (hashCode * 59) + this.VarDecimal.GetHashCode();
+                if (this.VarString != null)
                 {
-                    hashCode = (hashCode * 59) + this.String.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarString.GetHashCode();
                 }
-                if (this.Byte != null)
+                if (this.VarByte != null)
                 {
-                    hashCode = (hashCode * 59) + this.Byte.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarByte.GetHashCode();
                 }
                 if (this.Binary != null)
                 {
@@ -641,6 +740,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.PatternWithDigitsAndDelimiter.GetHashCode();
                 }
+                if (this.PatternWithBackslash != null)
+                {
+                    hashCode = (hashCode * 59) + this.PatternWithBackslash.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
@@ -654,7 +757,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             // Integer (int) maximum
             if (this.Integer > (int)100)
@@ -680,6 +783,18 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
             }
 
+            // UnsignedInteger (uint) maximum
+            if (this.UnsignedInteger > (uint)200)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value less than or equal to 200.", new [] { "UnsignedInteger" });
+            }
+
+            // UnsignedInteger (uint) minimum
+            if (this.UnsignedInteger < (uint)20)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value greater than or equal to 20.", new [] { "UnsignedInteger" });
+            }
+
             // Number (decimal) maximum
             if (this.Number > (decimal)543.2)
             {
@@ -692,35 +807,35 @@ namespace Org.OpenAPITools.Model
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
             }
 
-            // Float (float) maximum
-            if (this.Float > (float)987.6)
+            // VarFloat (float) maximum
+            if (this.VarFloat > (float)987.6)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value less than or equal to 987.6.", new [] { "Float" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarFloat, must be a value less than or equal to 987.6.", new [] { "VarFloat" });
             }
 
-            // Float (float) minimum
-            if (this.Float < (float)54.3)
+            // VarFloat (float) minimum
+            if (this.VarFloat < (float)54.3)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value greater than or equal to 54.3.", new [] { "Float" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarFloat, must be a value greater than or equal to 54.3.", new [] { "VarFloat" });
             }
 
-            // Double (double) maximum
-            if (this.Double > (double)123.4)
+            // VarDouble (double) maximum
+            if (this.VarDouble > (double)123.4)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value less than or equal to 123.4.", new [] { "Double" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarDouble, must be a value less than or equal to 123.4.", new [] { "VarDouble" });
             }
 
-            // Double (double) minimum
-            if (this.Double < (double)67.8)
+            // VarDouble (double) minimum
+            if (this.VarDouble < (double)67.8)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value greater than or equal to 67.8.", new [] { "Double" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarDouble, must be a value greater than or equal to 67.8.", new [] { "VarDouble" });
             }
 
-            // String (string) pattern
-            Regex regexString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-            if (false == regexString.Match(this.String).Success)
+            // VarString (string) pattern
+            Regex regexVarString = new Regex(@"[a-z]", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            if (false == regexVarString.Match(this.VarString).Success)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for String, must match a pattern of " + regexString, new [] { "String" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarString, must match a pattern of " + regexVarString, new [] { "VarString" });
             }
 
             // Password (string) maxLength
@@ -736,17 +851,24 @@ namespace Org.OpenAPITools.Model
             }
 
             // PatternWithDigits (string) pattern
-            Regex regexPatternWithDigits = new Regex(@"^\\d{10}$", RegexOptions.CultureInvariant);
+            Regex regexPatternWithDigits = new Regex(@"^\d{10}$", RegexOptions.CultureInvariant);
             if (false == regexPatternWithDigits.Match(this.PatternWithDigits).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigits, must match a pattern of " + regexPatternWithDigits, new [] { "PatternWithDigits" });
             }
 
             // PatternWithDigitsAndDelimiter (string) pattern
-            Regex regexPatternWithDigitsAndDelimiter = new Regex(@"^image_\\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            Regex regexPatternWithDigitsAndDelimiter = new Regex(@"^image_\d{1,3}$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
             if (false == regexPatternWithDigitsAndDelimiter.Match(this.PatternWithDigitsAndDelimiter).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigitsAndDelimiter, must match a pattern of " + regexPatternWithDigitsAndDelimiter, new [] { "PatternWithDigitsAndDelimiter" });
+            }
+
+            // PatternWithBackslash (string) pattern
+            Regex regexPatternWithBackslash = new Regex(@"^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$", RegexOptions.CultureInvariant);
+            if (false == regexPatternWithBackslash.Match(this.PatternWithBackslash).Success)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithBackslash, must match a pattern of " + regexPatternWithBackslash, new [] { "PatternWithBackslash" });
             }
 
             yield break;

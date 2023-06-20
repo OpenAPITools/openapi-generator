@@ -10,9 +10,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.BigCatDto;
-import org.openapitools.model.CatDto;
-import org.openapitools.model.DogDto;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -40,17 +37,10 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AnimalDto {
 
-  @JsonProperty("className")
   private String className;
 
-  @JsonProperty("color")
   private String color = "red";
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link AnimalDto#AnimalDto(String)}
-   */
-  @Deprecated
   public AnimalDto() {
     super();
   }
@@ -73,6 +63,7 @@ public class AnimalDto {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("className")
   public String getClassName() {
     return className;
   }
@@ -92,6 +83,7 @@ public class AnimalDto {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("color")
   public String getColor() {
     return color;
   }

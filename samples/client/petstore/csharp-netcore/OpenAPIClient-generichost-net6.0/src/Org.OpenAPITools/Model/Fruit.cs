@@ -32,43 +32,41 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
         /// <param name="apple"></param>
+        /// <param name="cultivar">cultivar</param>
+        /// <param name="lengthCm">lengthCm</param>
+        /// <param name="origin">origin</param>
         /// <param name="color">color</param>
         [JsonConstructor]
-        public Fruit(Apple apple, string color)
+        public Fruit(Apple apple, string cultivar, decimal lengthCm, string origin, string color)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (color == null)
-                throw new ArgumentNullException(nameof(Color));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Apple = apple;
+            Cultivar = cultivar;
+            LengthCm = lengthCm;
+            Origin = origin;
             Color = color;
+            OnCreated();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
         /// <param name="banana"></param>
+        /// <param name="cultivar">cultivar</param>
+        /// <param name="lengthCm">lengthCm</param>
+        /// <param name="origin">origin</param>
         /// <param name="color">color</param>
         [JsonConstructor]
-        public Fruit(Banana banana, string color)
+        public Fruit(Banana banana, string cultivar, decimal lengthCm, string origin, string color)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (color == null)
-                throw new ArgumentNullException(nameof(Color));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             Banana = banana;
+            Cultivar = cultivar;
+            LengthCm = lengthCm;
+            Origin = origin;
             Color = color;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Apple
@@ -79,6 +77,24 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Banana
         /// </summary>
         public Banana Banana { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Cultivar
+        /// </summary>
+        [JsonPropertyName("cultivar")]
+        public string Cultivar { get; set; }
+
+        /// <summary>
+        /// Gets or Sets LengthCm
+        /// </summary>
+        [JsonPropertyName("lengthCm")]
+        public decimal LengthCm { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Origin
+        /// </summary>
+        [JsonPropertyName("origin")]
+        public string Origin { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
@@ -95,27 +111,45 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Fruit {\n");
             sb.Append("  Color: ").Append(Color).Append("\n");
+            sb.Append("  Cultivar: ").Append(Cultivar).Append("\n");
+            sb.Append("  LengthCm: ").Append(LengthCm).Append("\n");
+            sb.Append("  Origin: ").Append(Origin).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
+            // Cultivar (string) pattern
+            Regex regexCultivar = new Regex(@"^[a-zA-Z\s]*$", RegexOptions.CultureInvariant);
+            if (false == regexCultivar.Match(this.Cultivar).Success)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
+            }
+
+            // Origin (string) pattern
+            Regex regexOrigin = new Regex(@"^[A-Z\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+            if (false == regexOrigin.Match(this.Origin).Success)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });
+            }
+
             yield break;
         }
     }
 
     /// <summary>
-    /// A Json converter for type Fruit
+    /// A Json converter for type <see cref="Fruit" />
     /// </summary>
     public class FruitJsonConverter : JsonConverter<Fruit>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Fruit" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -131,12 +165,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader appleReader = utf8JsonReader;
-            bool appleDeserialized = Client.ClientUtils.TryDeserialize<Apple>(ref appleReader, jsonSerializerOptions, out Apple apple);
-
-            Utf8JsonReader bananaReader = utf8JsonReader;
-            bool bananaDeserialized = Client.ClientUtils.TryDeserialize<Banana>(ref bananaReader, jsonSerializerOptions, out Banana banana);
-
+            string cultivar = default;
+            decimal? lengthCm = default;
+            string origin = default;
             string color = default;
 
             while (utf8JsonReader.Read())
@@ -154,6 +185,16 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "cultivar":
+                            cultivar = utf8JsonReader.GetString();
+                            break;
+                        case "lengthCm":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                lengthCm = utf8JsonReader.GetDecimal();
+                            break;
+                        case "origin":
+                            origin = utf8JsonReader.GetString();
+                            break;
                         case "color":
                             color = utf8JsonReader.GetString();
                             break;
@@ -163,17 +204,31 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (appleDeserialized)
-                return new Fruit(apple, color);
+            if (cultivar == null)
+                throw new ArgumentNullException(nameof(cultivar), "Property is required for class Fruit.");
 
-            if (bananaDeserialized)
-                return new Fruit(banana, color);
+            if (lengthCm == null)
+                throw new ArgumentNullException(nameof(lengthCm), "Property is required for class Fruit.");
+
+            if (origin == null)
+                throw new ArgumentNullException(nameof(origin), "Property is required for class Fruit.");
+
+            if (color == null)
+                throw new ArgumentNullException(nameof(color), "Property is required for class Fruit.");
+
+            Utf8JsonReader appleReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<Apple>(ref appleReader, jsonSerializerOptions, out Apple apple))
+                return new Fruit(apple, cultivar, lengthCm.Value, origin, color);
+
+            Utf8JsonReader bananaReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<Banana>(ref bananaReader, jsonSerializerOptions, out Banana banana))
+                return new Fruit(banana, cultivar, lengthCm.Value, origin, color);
 
             throw new JsonException();
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Fruit" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="fruit"></param>
@@ -181,8 +236,15 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
         {
+            System.Text.Json.JsonSerializer.Serialize(writer, fruit.Apple, jsonSerializerOptions);
+
+            System.Text.Json.JsonSerializer.Serialize(writer, fruit.Banana, jsonSerializerOptions);
+
             writer.WriteStartObject();
 
+            writer.WriteString("cultivar", fruit.Cultivar);
+            writer.WriteNumber("lengthCm", fruit.LengthCm);
+            writer.WriteString("origin", fruit.Origin);
             writer.WriteString("color", fruit.Color);
 
             writer.WriteEndObject();

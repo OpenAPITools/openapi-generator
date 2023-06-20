@@ -22,7 +22,7 @@ func TestPutBodyWithFileSchema(t *testing.T) {
 		File:  &sw.File{SourceURI: sw.PtrString("https://example.com/image.png")},
 		Files: []sw.File{{SourceURI: sw.PtrString("https://example.com/image.png")}}}
 
-	r, err := client.FakeApi.TestBodyWithFileSchema(context.Background()).FileSchemaTestClass(schema).Execute()
+	r, err := client.FakeAPI.TestBodyWithFileSchema(context.Background()).FileSchemaTestClass(schema).Execute()
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)
@@ -33,7 +33,7 @@ func TestPutBodyWithFileSchema(t *testing.T) {
 }
 
 func TestQueryDeepObject(t *testing.T) {
-	req := client.FakeApi.TestQueryDeepObject(context.Background())
+	req := client.FakeAPI.TestQueryDeepObject(context.Background())
 
 	var id = int64(1)
 	var idTag1 = int64(2)

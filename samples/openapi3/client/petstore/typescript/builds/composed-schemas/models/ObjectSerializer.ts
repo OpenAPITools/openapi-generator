@@ -1,7 +1,5 @@
 export * from '../models/Cat';
-export * from '../models/CatAllOf';
 export * from '../models/Dog';
-export * from '../models/DogAllOf';
 export * from '../models/FilePostRequest';
 export * from '../models/PetByAge';
 export * from '../models/PetByType';
@@ -9,9 +7,7 @@ export * from '../models/PetsFilteredPatchRequest';
 export * from '../models/PetsPatchRequest';
 
 import { Cat } from '../models/Cat';
-import { CatAllOf } from '../models/CatAllOf';
 import { Dog , DogBreedEnum   } from '../models/Dog';
-import { DogAllOf , DogAllOfBreedEnum   } from '../models/DogAllOf';
 import { FilePostRequest } from '../models/FilePostRequest';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType, PetByTypePetTypeEnum    } from '../models/PetByType';
@@ -39,7 +35,6 @@ const supportedMediaTypes: { [mediaType: string]: number } = {
 
 let enumsMap: Set<string> = new Set<string>([
     "DogBreedEnum",
-    "DogAllOfBreedEnum",
     "PetByTypePetTypeEnum",
     "PetsFilteredPatchRequestPetTypeEnum",
     "PetsPatchRequestBreedEnum",
@@ -47,9 +42,7 @@ let enumsMap: Set<string> = new Set<string>([
 
 let typeMap: {[index: string]: any} = {
     "Cat": Cat,
-    "CatAllOf": CatAllOf,
     "Dog": Dog,
-    "DogAllOf": DogAllOf,
     "FilePostRequest": FilePostRequest,
     "PetByAge": PetByAge,
     "PetByType": PetByType,
@@ -197,7 +190,7 @@ export class ObjectSerializer {
      */
     public static getPreferredMediaType(mediaTypes: Array<string>): string {
         /** According to OAS 3 we should default to json */
-        if (!mediaTypes) {
+        if (mediaTypes.length === 0) {
             return "application/json";
         }
 

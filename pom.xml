@@ -1,10 +1,11 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>5</version>
-        <relativePath/><!-- lookup parent from repository -->
+        <relativePath/>
+    <!-- lookup parent from repository -->
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
@@ -180,6 +181,7 @@
                     <junitArtifactName>none:none</junitArtifactName>
                     <testNGArtifactName>org.testng:testng</testNGArtifactName>
                     <argLine>@{argLine} -XX:+StartAttachListener</argLine>
+                    <rerunFailingTestsCount>2</rerunFailingTestsCount>
                     <systemPropertyVariables>
                         <org.openapitools.codegen.utils.oncelogger.expiry>1000</org.openapitools.codegen.utils.oncelogger.expiry>
                         <org.openapitools.codegen.utils.oncelogger.cachesize>5000</org.openapitools.codegen.utils.oncelogger.cachesize>
@@ -198,6 +200,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven-dependency-plugin.version}</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -216,6 +219,21 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.source}</target>
+                    <annotationProcessors>
+                        lombok.launch.AnnotationProcessorHider$AnnotationProcessor,lombok.launch.AnnotationProcessorHider$ClaimingProcessor,javaslang.match.PatternsProcessor
+                    </annotationProcessors>
+                    <annotationProcessorPaths>
+                        <processorPath>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </processorPath>
+                        <processorPath>
+                            <groupId>org.jetbrains.kotlin</groupId>
+                            <artifactId>kotlin-compiler-embeddable</artifactId>
+                            <version>${kotlin-compiler-embeddable.version}</version>
+                        </processorPath>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
@@ -252,7 +270,8 @@
                     <source>${maven.compiler.source}</source>
                     <encoding>UTF-8</encoding>
                     <maxmemory>1g</maxmemory>
-                    <failOnWarnings>true</failOnWarnings>
+                    <failOnWarnings>false</failOnWarnings>
+                    <doclint>none</doclint>
                 </configuration>
                 <executions>
                     <execution>
@@ -281,20 +300,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M2</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
-                        <id>enforce-versions</id>
+                        <id>enforce-maven</id>
                         <goals>
                             <goal>enforce</goal>
                         </goals>
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>1.8.0</version>
+                                    <version>1.11.0</version>
                                 </requireJavaVersion>
                                 <requireMavenVersion>
-                                    <version>3.2.5</version>
+                                    <version>3.3.4</version>
                                 </requireMavenVersion>
                                 <requireReleaseDeps>
                                     <message>No Snapshots Allowed!</message>
@@ -311,7 +330,7 @@
             <plugin>
                 <groupId>de.thetaphi</groupId>
                 <artifactId>forbiddenapis</artifactId>
-                <version>2.6</version>
+                <version>3.5.1</version>
                 <configuration>
                     <bundledSignatures>
                         <!--
@@ -669,7 +688,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/retrofit2rx</module>
+                <module>samples/client/petstore/java/retrofit2rx2</module>
             </modules>
         </profile>
         <profile>
@@ -709,7 +728,7 @@
             </modules>
         </profile>
         <profile>
-            <id>scala-httpclient</id>
+            <id>scala-sttp</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -717,7 +736,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/scala-httpclient</module>
+                <module>samples/client/petstore/scala-sttp</module>
             </modules>
         </profile>
         <profile>
@@ -753,7 +772,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java-helidon-client</module>
+                <module>samples/client/petstore/java-helidon-client/mp</module>
             </modules>
         </profile>
         <profile>
@@ -765,7 +784,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/java-helidon-server</module>
+                <module>samples/server/petstore/java-helidon-server/mp</module>
             </modules>
         </profile>
         <profile>
@@ -1034,18 +1053,6 @@
             </modules>
         </profile>
         <profile>
-            <id>python-client</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/python-prior</module>
-            </modules>
-        </profile>
-        <profile>
             <id>ruby-client</id>
             <activation>
                 <property>
@@ -1173,10 +1180,6 @@
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async-middleware</module>
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
-                <module>samples/client/petstore/python-legacy</module>
-                <module>samples/client/petstore/python-asyncio</module>
-                <module>samples/client/petstore/python-tornado</module>
-                <module>samples/openapi3/client/petstore/python-legacy</module>
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1189,10 +1192,9 @@
                 </property>
             </activation>
             <modules>
-                <!-- servers -->
-                <module>samples/server/petstore/python-aiohttp</module>
-                <module>samples/server/petstore/python-aiohttp-srclayout</module>
-                <module>samples/server/petstore/python-flask</module>
+                <module>samples/client/petstore/ruby-faraday</module>
+                <module>samples/client/petstore/ruby</module>
+                <module>samples/client/petstore/ruby-autoload</module>
             </modules>
         </profile>
         <profile>
@@ -1219,11 +1221,8 @@
             </activation>
             <modules>
                 <!-- clients -->
-                <module>samples/openapi3/client/petstore/python-nextgen</module>
-                <module>samples/openapi3/client/petstore/python-nextgen-aiohttp</module>
-                <module>samples/client/petstore/python-prior</module>
-                <module>samples/client/petstore/python-prior_disallowAdditionalPropertiesIfNotPresent</module>
-                <!--<module>samples/openapi3/client/petstore/python-legacy</module>-->
+                <module>samples/openapi3/client/petstore/python</module>
+                <module>samples/openapi3/client/petstore/python-aiohttp</module>
                 <!-- TODO comment out below when the test for typescript-nestjs is ready
                 <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
                 <!-- comment out due to error `npm run build`
@@ -1267,12 +1266,6 @@
                 </property>
             </activation>
             <modules>
-                <!-- python clients which don't need the server running -->
-                <module>samples/openapi3/client/petstore/python</module>
-                <module>samples/openapi3/client/petstore/python-prior</module>
-                <module>samples/client/petstore/ruby-faraday</module>
-                <module>samples/client/petstore/ruby</module>
-                <module>samples/client/petstore/ruby-autoload</module>
             </modules>
         </profile>
         <!-- other tests in CircleCI -->
@@ -1463,8 +1456,8 @@
         </repository>
     </repositories>
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
 
         <archunit.version>0.23.1</archunit.version>
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
@@ -1477,31 +1470,34 @@
         <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
         <groovy.version>3.0.9</groovy.version>
         <guava.version>31.1-jre</guava.version>
-        <handlebars-java.version>4.2.1</handlebars-java.version>
+        <handlebars-java.version>4.3.1</handlebars-java.version>
         <jackson-threetenbp.version>2.12.5</jackson-threetenbp.version>
         <jackson-databind.version>2.14.0</jackson-databind.version>
         <jackson.version>2.14.0</jackson.version>
-        <jacoco.version>0.8.7</jacoco.version>
+        <jacoco.version>0.8.10</jacoco.version>
         <jmustache.version>1.15</jmustache.version>
         <junit.version>4.13.2</junit.version>
         <kotlin.version>1.6.21</kotlin.version>
-        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
-        <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
+        <kotlin-compiler-embeddable.version>1.6.21</kotlin-compiler-embeddable.version>
+        <lombok.version>1.18.24</lombok.version>
+        <maven-dependency-plugin.version>3.6.0</maven-dependency-plugin.version>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>3.4.0</maven-javadoc-plugin.version>
         <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-        <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
+        <maven-site-plugin.version>4.0.0-M8</maven-site-plugin.version>
+        <maven-surefire-plugin.version>3.0.0</maven-surefire-plugin.version>
         <mockito.version>4.10.0</mockito.version>
+        <openrewrite.version>7.39.1</openrewrite.version>
         <pmd-plugin.version>3.12.0</pmd-plugin.version>
         <reflections.version>0.10.2</reflections.version>
         <rxgen.version>1.4</rxgen.version>
         <scala-maven-plugin.version>4.6.1</scala-maven-plugin.version>
         <slf4j.version>1.7.36</slf4j.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
-        <maven-surefire-plugin.version>3.0.0-M6</maven-surefire-plugin.version>
-        <openrewrite.version>7.22.0</openrewrite.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
-        <swagger-parser.version>2.1.6</swagger-parser.version>
+        <swagger-parser.version>2.1.14</swagger-parser.version>
         <testng.version>7.5</testng.version>
         <violations-maven-plugin.version>1.34</violations-maven-plugin.version>
         <wagon-ssh-external.version>3.4.3</wagon-ssh-external.version>

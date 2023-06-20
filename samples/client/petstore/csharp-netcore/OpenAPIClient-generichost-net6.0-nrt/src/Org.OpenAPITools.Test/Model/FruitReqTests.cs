@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -54,8 +53,40 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<FruitReq>(instance);
         }
 
+        /// <summary>
+        /// Test the property 'Cultivar'
+        /// </summary>
+        [Fact]
+        public void CultivarTest()
+        {
+            // TODO unit test for the property 'Cultivar'
+        }
 
+        /// <summary>
+        /// Test the property 'LengthCm'
+        /// </summary>
+        [Fact]
+        public void LengthCmTest()
+        {
+            // TODO unit test for the property 'LengthCm'
+        }
 
+        /// <summary>
+        /// Test the property 'Mealy'
+        /// </summary>
+        [Fact]
+        public void MealyTest()
+        {
+            // TODO unit test for the property 'Mealy'
+        }
+
+        /// <summary>
+        /// Test the property 'Sweet'
+        /// </summary>
+        [Fact]
+        public void SweetTest()
+        {
+            // TODO unit test for the property 'Sweet'
+        }
     }
-
 }

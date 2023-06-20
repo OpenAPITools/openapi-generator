@@ -49,6 +49,11 @@
   infoLink: "https://www.askul.co.jp/"
   pinned: true
 -
+  caption: Amazon Web Services (AWS)
+  image: "img/companies/aws.png"
+  infoLink: "https://aws.amazon.com/"
+  pinned: false 
+-
   caption: "b<>com"
   image: "img/companies/b-com.png"
   infoLink: "https://b-com.com/en"
@@ -197,6 +202,11 @@
   caption: "Fenergo"
   image: "img/companies/fenergo.png"
   infoLink: "https://www.fenergo.com/"
+  pinned: false
+-
+  caption: "Flipkart"
+  image: "img/companies/flipkart.png"
+  infoLink: "https://www.flipkart.com/"
   pinned: false
 -
   caption: FiNC Technologies
@@ -397,6 +407,11 @@
   caption: Plaid
   image: "img/companies/plaid.png"
   infoLink: "https://www.plaid.com/"
+  pinned: false
+-
+  caption: Pinterest 
+  image: "img/companies/pinterest.png"
+  infoLink: "https://www.pinterest.com/"
   pinned: false
 -
   caption: Ponicode

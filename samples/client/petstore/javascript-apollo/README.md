@@ -174,7 +174,6 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.BasquePig](docs/BasquePig.md)
  - [OpenApiPetstore.Capitalization](docs/Capitalization.md)
  - [OpenApiPetstore.Cat](docs/Cat.md)
- - [OpenApiPetstore.CatAllOf](docs/CatAllOf.md)
  - [OpenApiPetstore.Category](docs/Category.md)
  - [OpenApiPetstore.ClassModel](docs/ClassModel.md)
  - [OpenApiPetstore.Client](docs/Client.md)
@@ -182,7 +181,6 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.DanishPig](docs/DanishPig.md)
  - [OpenApiPetstore.DeprecatedObject](docs/DeprecatedObject.md)
  - [OpenApiPetstore.Dog](docs/Dog.md)
- - [OpenApiPetstore.DogAllOf](docs/DogAllOf.md)
  - [OpenApiPetstore.EnumArrays](docs/EnumArrays.md)
  - [OpenApiPetstore.EnumClass](docs/EnumClass.md)
  - [OpenApiPetstore.EnumTest](docs/EnumTest.md)
@@ -223,7 +221,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Authorization
 
 
-
+Authentication schemes defined for the API:
 ### petstore_auth
 
 
@@ -234,16 +232,12 @@ Class | Method | HTTP request | Description
   - write:pets: modify pets in your account
   - read:pets: read your pets
 
-
-
 ### api_key
 
 
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
-
-
 
 ### api_key_query
 
@@ -252,20 +246,15 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
-
-
 ### http_basic_test
 
 - **Type**: HTTP basic authentication
-
-
 
 ### bearer_test
 
 - **Type**: Bearer authentication (JWT)
 
-
-
 ### http_signature_test
 
+- **Type**: HTTP signature authentication
 

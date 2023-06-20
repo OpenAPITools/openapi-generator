@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -54,6 +53,14 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Child>(instance);
         }
 
+        /// <summary>
+        /// Test the property 'Age'
+        /// </summary>
+        [Fact]
+        public void AgeTest()
+        {
+            // TODO unit test for the property 'Age'
+        }
 
         /// <summary>
         /// Test the property 'BoosterSeat'
@@ -63,7 +70,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'BoosterSeat'
         }
-
     }
-
 }

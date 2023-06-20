@@ -32,21 +32,37 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="NullableShape" /> class.
         /// </summary>
         /// <param name="triangle"></param>
+        /// <param name="quadrilateralType">quadrilateralType</param>
+        /// <param name="shapeType">shapeType</param>
+        /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        internal NullableShape(Triangle triangle)
+        public NullableShape(Triangle triangle, string quadrilateralType, string shapeType, string triangleType)
         {
             Triangle = triangle;
+            QuadrilateralType = quadrilateralType;
+            ShapeType = shapeType;
+            TriangleType = triangleType;
+            OnCreated();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableShape" /> class.
         /// </summary>
         /// <param name="quadrilateral"></param>
+        /// <param name="quadrilateralType">quadrilateralType</param>
+        /// <param name="shapeType">shapeType</param>
+        /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        internal NullableShape(Quadrilateral quadrilateral)
+        public NullableShape(Quadrilateral quadrilateral, string quadrilateralType, string shapeType, string triangleType)
         {
             Quadrilateral = quadrilateral;
+            QuadrilateralType = quadrilateralType;
+            ShapeType = shapeType;
+            TriangleType = triangleType;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Triangle
@@ -57,6 +73,24 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Quadrilateral
         /// </summary>
         public Quadrilateral Quadrilateral { get; set; }
+
+        /// <summary>
+        /// Gets or Sets QuadrilateralType
+        /// </summary>
+        [JsonPropertyName("quadrilateralType")]
+        public string QuadrilateralType { get; set; }
+
+        /// <summary>
+        /// Gets or Sets ShapeType
+        /// </summary>
+        [JsonPropertyName("shapeType")]
+        public string ShapeType { get; set; }
+
+        /// <summary>
+        /// Gets or Sets TriangleType
+        /// </summary>
+        [JsonPropertyName("triangleType")]
+        public string TriangleType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -72,16 +106,19 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class NullableShape {\n");
+            sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append("\n");
+            sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -98,12 +135,12 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type NullableShape
+    /// A Json converter for type <see cref="NullableShape" />
     /// </summary>
     public class NullableShapeJsonConverter : JsonConverter<NullableShape>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="NullableShape" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -119,12 +156,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader triangleReader = utf8JsonReader;
-            bool triangleDeserialized = Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, jsonSerializerOptions, out Triangle triangle);
-
-            Utf8JsonReader quadrilateralReader = utf8JsonReader;
-            bool quadrilateralDeserialized = Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, jsonSerializerOptions, out Quadrilateral quadrilateral);
-
+            string quadrilateralType = default;
+            string shapeType = default;
+            string triangleType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -141,23 +175,43 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "quadrilateralType":
+                            quadrilateralType = utf8JsonReader.GetString();
+                            break;
+                        case "shapeType":
+                            shapeType = utf8JsonReader.GetString();
+                            break;
+                        case "triangleType":
+                            triangleType = utf8JsonReader.GetString();
+                            break;
                         default:
                             break;
                     }
                 }
             }
 
-            if (triangleDeserialized)
-                return new NullableShape(triangle);
+            if (quadrilateralType == null)
+                throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class NullableShape.");
 
-            if (quadrilateralDeserialized)
-                return new NullableShape(quadrilateral);
+            if (shapeType == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is required for class NullableShape.");
+
+            if (triangleType == null)
+                throw new ArgumentNullException(nameof(triangleType), "Property is required for class NullableShape.");
+
+            Utf8JsonReader triangleReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, jsonSerializerOptions, out Triangle triangle))
+                return new NullableShape(triangle, quadrilateralType, shapeType, triangleType);
+
+            Utf8JsonReader quadrilateralReader = utf8JsonReader;
+            if (Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, jsonSerializerOptions, out Quadrilateral quadrilateral))
+                return new NullableShape(quadrilateral, quadrilateralType, shapeType, triangleType);
 
             throw new JsonException();
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="NullableShape" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="nullableShape"></param>
@@ -165,8 +219,15 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, NullableShape nullableShape, JsonSerializerOptions jsonSerializerOptions)
         {
+            System.Text.Json.JsonSerializer.Serialize(writer, nullableShape.Triangle, jsonSerializerOptions);
+
+            System.Text.Json.JsonSerializer.Serialize(writer, nullableShape.Quadrilateral, jsonSerializerOptions);
+
             writer.WriteStartObject();
 
+            writer.WriteString("quadrilateralType", nullableShape.QuadrilateralType);
+            writer.WriteString("shapeType", nullableShape.ShapeType);
+            writer.WriteString("triangleType", nullableShape.TriangleType);
 
             writer.WriteEndObject();
         }

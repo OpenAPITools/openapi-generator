@@ -33,32 +33,23 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Model200Response" /> class.
         /// </summary>
-        /// <param name="classProperty">classProperty</param>
+        /// <param name="varClass">varClass</param>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public Model200Response(string classProperty, int name)
+        public Model200Response(string varClass, int name)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (name == null)
-                throw new ArgumentNullException("name is a required property for Model200Response and cannot be null.");
-
-            if (classProperty == null)
-                throw new ArgumentNullException("classProperty is a required property for Model200Response and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            ClassProperty = classProperty;
+            VarClass = varClass;
             Name = name;
+            OnCreated();
         }
 
+        partial void OnCreated();
+
         /// <summary>
-        /// Gets or Sets ClassProperty
+        /// Gets or Sets VarClass
         /// </summary>
         [JsonPropertyName("class")]
-        public string ClassProperty { get; set; }
+        public string VarClass { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
@@ -80,30 +71,31 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Model200Response {\n");
-            sb.Append("  ClassProperty: ").Append(ClassProperty).Append("\n");
+            sb.Append("  VarClass: ").Append(VarClass).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
     /// <summary>
-    /// A Json converter for type Model200Response
+    /// A Json converter for type <see cref="Model200Response" />
     /// </summary>
     public class Model200ResponseJsonConverter : JsonConverter<Model200Response>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="Model200Response" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -119,8 +111,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string classProperty = default;
-            int name = default;
+            string? varClass = default;
+            int? name = default;
 
             while (utf8JsonReader.Read())
             {
@@ -138,10 +130,11 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "class":
-                            classProperty = utf8JsonReader.GetString();
+                            varClass = utf8JsonReader.GetString();
                             break;
                         case "name":
-                            name = utf8JsonReader.GetInt32();
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                name = utf8JsonReader.GetInt32();
                             break;
                         default:
                             break;
@@ -149,11 +142,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new Model200Response(classProperty, name);
+            if (varClass == null)
+                throw new ArgumentNullException(nameof(varClass), "Property is required for class Model200Response.");
+
+            if (name == null)
+                throw new ArgumentNullException(nameof(name), "Property is required for class Model200Response.");
+
+            return new Model200Response(varClass, name.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="Model200Response" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="model200Response"></param>
@@ -163,7 +162,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("class", model200Response.ClassProperty);
+            writer.WriteString("class", model200Response.VarClass);
             writer.WriteNumber("name", model200Response.Name);
 
             writer.WriteEndObject();

@@ -36,11 +36,13 @@ Class | Method
 {{#models}}{{#model}} - [{{{classname}}}]({{modelDocPath}}{{{classname}}}.md)
 {{/model}}{{/models}}
 
+<a id="authorization"></a>
 ## Authorization
-{{^authMethods}} Endpoints do not require authorization.
-{{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
+{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
+{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
 {{#authMethods}}
-## {{{name}}}
+<a id="{{name}}"></a>
+### {{{name}}}
 {{#isApiKey}}- **Type**: API key
 
 Example
@@ -53,7 +55,7 @@ Example
     result = callApi(api, args...; api_key)
 ```
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
+{{#isBasicBasic}}- **Type**: HTTP basic authentication
 
 Example
 ```
@@ -65,7 +67,11 @@ Example
     api = MyApi(client)
     result = callApi(api, args...; api_key)
 ```
-{{/isBasic}}
+{{/isBasicBasic}}
+{{#isBasicBearer}}- **Type**: HTTP Bearer Token authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
+{{/isBasicBearer}}
+{{#isHttpSignature}}- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{#isOAuth}}- **Type**: OAuth
 - **Flow**: {{{flow}}}
 - **Authorization URL**: {{{authorizationUrl}}}

@@ -38,21 +38,12 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public EnumArrays(List<EnumArrays.ArrayEnumEnum> arrayEnum, JustSymbolEnum justSymbol)
         {
-#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (justSymbol == null)
-                throw new ArgumentNullException("justSymbol is a required property for EnumArrays and cannot be null.");
-
-            if (arrayEnum == null)
-                throw new ArgumentNullException("arrayEnum is a required property for EnumArrays and cannot be null.");
-
-#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-#pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             ArrayEnum = arrayEnum;
             JustSymbol = justSymbol;
+            OnCreated();
         }
+
+        partial void OnCreated();
 
         /// <summary>
         /// Defines ArrayEnum
@@ -68,14 +59,14 @@ namespace Org.OpenAPITools.Model
             /// Enum Crab for value: crab
             /// </summary>
             Crab = 2
-
         }
 
         /// <summary>
-        /// Returns a ArrayEnumEnum
+        /// Returns a <see cref="ArrayEnumEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static ArrayEnumEnum ArrayEnumEnumFromString(string value)
         {
             if (value == "fish")
@@ -88,7 +79,23 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="ArrayEnumEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static ArrayEnumEnum? ArrayEnumEnumFromStringOrDefault(string value)
+        {
+            if (value == "fish")
+                return ArrayEnumEnum.Fish;
+
+            if (value == "crab")
+                return ArrayEnumEnum.Crab;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="ArrayEnumEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -118,14 +125,14 @@ namespace Org.OpenAPITools.Model
             /// Enum Dollar for value: $
             /// </summary>
             Dollar = 2
-
         }
 
         /// <summary>
-        /// Returns a JustSymbolEnum
+        /// Returns a <see cref="JustSymbolEnum"/>
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static JustSymbolEnum JustSymbolEnumFromString(string value)
         {
             if (value == ">=")
@@ -138,7 +145,23 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Returns equivalent json value
+        /// Returns a <see cref="JustSymbolEnum"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static JustSymbolEnum? JustSymbolEnumFromStringOrDefault(string value)
+        {
+            if (value == ">=")
+                return JustSymbolEnum.GreaterThanOrEqualTo;
+
+            if (value == "$")
+                return JustSymbolEnum.Dollar;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="JustSymbolEnum"/> to the json value
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -146,7 +169,7 @@ namespace Org.OpenAPITools.Model
         public static string JustSymbolEnumToJsonValue(JustSymbolEnum value)
         {
             if (value == JustSymbolEnum.GreaterThanOrEqualTo)
-                return "&gt;&#x3D;";
+                return ">=";
 
             if (value == JustSymbolEnum.Dollar)
                 return "$";
@@ -186,24 +209,25 @@ namespace Org.OpenAPITools.Model
             sb.Append("}\n");
             return sb.ToString();
         }
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        public IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
     }
 
     /// <summary>
-    /// A Json converter for type EnumArrays
+    /// A Json converter for type <see cref="EnumArrays" />
     /// </summary>
     public class EnumArraysJsonConverter : JsonConverter<EnumArrays>
     {
         /// <summary>
-        /// A Json reader.
+        /// Deserializes json to <see cref="EnumArrays" />
         /// </summary>
         /// <param name="utf8JsonReader"></param>
         /// <param name="typeToConvert"></param>
@@ -219,8 +243,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<EnumArrays.ArrayEnumEnum> arrayEnum = default;
-            EnumArrays.JustSymbolEnum justSymbol = default;
+            List<EnumArrays.ArrayEnumEnum>? arrayEnum = default;
+            EnumArrays.JustSymbolEnum? justSymbol = default;
 
             while (utf8JsonReader.Read())
             {
@@ -238,11 +262,14 @@ namespace Org.OpenAPITools.Model
                     switch (propertyName)
                     {
                         case "array_enum":
-                            arrayEnum = JsonSerializer.Deserialize<List<EnumArrays.ArrayEnumEnum>>(ref utf8JsonReader, jsonSerializerOptions);
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                arrayEnum = JsonSerializer.Deserialize<List<EnumArrays.ArrayEnumEnum>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "just_symbol":
-                            string justSymbolRawValue = utf8JsonReader.GetString();
-                            justSymbol = EnumArrays.JustSymbolEnumFromString(justSymbolRawValue);
+                            string? justSymbolRawValue = utf8JsonReader.GetString();
+                            justSymbol = justSymbolRawValue == null
+                                ? null
+                                : EnumArrays.JustSymbolEnumFromStringOrDefault(justSymbolRawValue);
                             break;
                         default:
                             break;
@@ -250,11 +277,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            return new EnumArrays(arrayEnum, justSymbol);
+            if (arrayEnum == null)
+                throw new ArgumentNullException(nameof(arrayEnum), "Property is required for class EnumArrays.");
+
+            if (justSymbol == null)
+                throw new ArgumentNullException(nameof(justSymbol), "Property is required for class EnumArrays.");
+
+            return new EnumArrays(arrayEnum, justSymbol.Value);
         }
 
         /// <summary>
-        /// A Json writer
+        /// Serializes a <see cref="EnumArrays" />
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="enumArrays"></param>
@@ -266,6 +299,7 @@ namespace Org.OpenAPITools.Model
 
             writer.WritePropertyName("array_enum");
             JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
+
             var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbol);
             if (justSymbolRawValue != null)
                 writer.WriteString("just_symbol", justSymbolRawValue);

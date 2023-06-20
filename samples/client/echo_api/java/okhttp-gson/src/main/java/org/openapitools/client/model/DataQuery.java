@@ -36,6 +36,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -78,7 +82,6 @@ public class DataQuery extends Query {
    * @return suffix
   **/
   @javax.annotation.Nullable
-
   public String getSuffix() {
     return suffix;
   }
@@ -100,7 +103,6 @@ public class DataQuery extends Query {
    * @return text
   **/
   @javax.annotation.Nullable
-
   public String getText() {
     return text;
   }
@@ -122,7 +124,6 @@ public class DataQuery extends Query {
    * @return date
   **/
   @javax.annotation.Nullable
-
   public OffsetDateTime getDate() {
     return date;
   }
@@ -184,11 +185,11 @@ public class DataQuery extends Query {
   static {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
+    openapiFields.add("id");
+    openapiFields.add("outcomes");
     openapiFields.add("suffix");
     openapiFields.add("text");
     openapiFields.add("date");
-    openapiFields.add("id");
-    openapiFields.add("outcomes");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
