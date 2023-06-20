@@ -966,8 +966,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
                 if (schema.getDefault() instanceof ArrayNode) { // array of default values
                     ArrayNode _default = (ArrayNode) schema.getDefault();
-                    if (_default.isEmpty()) {
-                        return "null";
+                    if (_default.isEmpty()) { // e.g. default: []
+                        return "new ArrayList<>()";
                     }
 
                     List<String> final_values = _values;
