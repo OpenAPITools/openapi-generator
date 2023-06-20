@@ -1597,7 +1597,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             // If none of them is provided then fallbacks to default version
             if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION) && additionalProperties.get(CodegenConstants.ARTIFACT_VERSION) != null) {
                 this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
-            } else if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
+            } else if (openAPI.getInfo() != null && !StringUtils.isBlank(openAPI.getInfo().getVersion())) {
                 this.setArtifactVersion(openAPI.getInfo().getVersion());
             } else {
                 this.setArtifactVersion(ARTIFACT_VERSION_DEFAULT_VALUE);
