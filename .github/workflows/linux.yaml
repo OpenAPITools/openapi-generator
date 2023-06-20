@@ -74,7 +74,7 @@ jobs:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         run: |
           cd modules/openapi-generator-maven-plugin
-          ./mvnw clean verify -Pintegration
+          mvnw clean verify -Pintegration
 
   verify:
     name: Verify outputs on ${{ matrix.os }}
