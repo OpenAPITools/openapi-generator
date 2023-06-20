@@ -6899,7 +6899,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         codegenParameter.baseType = codegenProperty.baseType;
         codegenParameter.dataType = codegenProperty.dataType;
-        codegenParameter.defaultValue = toDefaultParameterValue(codegenProperty, propertySchema);
         codegenParameter.baseName = codegenProperty.baseName;
         codegenParameter.paramName = toParamName(codegenParameter.baseName);
         codegenParameter.dataFormat = codegenProperty.dataFormat;
@@ -6909,6 +6908,9 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.isEnumRef = codegenProperty.isEnumRef;
         codegenParameter._enum = codegenProperty._enum;
         codegenParameter.allowableValues = codegenProperty.allowableValues;
+
+        // set default value
+        codegenParameter.defaultValue = toDefaultParameterValue(codegenProperty, propertySchema);
 
         if (ModelUtils.isFileSchema(ps) && !ModelUtils.isStringSchema(ps)) {
             // swagger v2 only, type file
@@ -7044,7 +7046,10 @@ public class DefaultCodegen implements CodegenConfig {
                 imports.add(codegenProperty.complexType);
             }
         }
+
+        // set example value
         setParameterExampleValue(codegenParameter);
+
         // set nullable
         setParameterNullable(codegenParameter, codegenProperty);
 
