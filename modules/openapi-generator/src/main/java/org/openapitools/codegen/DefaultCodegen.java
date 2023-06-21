@@ -2180,6 +2180,21 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Return the default value of the parameter
+     * <p>
+     * Return null if you do NOT want a default value.
+     * Any non-null value will cause {{#defaultValue} check to pass.
+     *
+     * @param codegenProperty Codegen Property
+     * @param schema Parameter schema
+     * @return string presentation of the default value of the parameter
+     */
+    public String toDefaultParameterValue(CodegenProperty codegenProperty, Schema<?> schema) {
+        // by default works as original method to be backward compatible
+        return toDefaultParameterValue(schema);
+    }
+
+    /**
      * Return property value depending on property type.
      *
      * @param schema property type
@@ -5120,9 +5135,6 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isNullable = true;
         }
 
-        // set default value
-        codegenParameter.defaultValue = toDefaultParameterValue(parameterSchema);
-
         if (parameter.getStyle() != null) {
             codegenParameter.style = parameter.getStyle().toString();
             codegenParameter.isDeepObject = Parameter.StyleEnum.DEEPOBJECT == parameter.getStyle();
@@ -5289,6 +5301,9 @@ public class DefaultCodegen implements CodegenConfig {
                         codegenParameter);
             }
         }
+
+        // set default value
+        codegenParameter.defaultValue = toDefaultParameterValue(codegenProperty, parameterSchema);
 
         finishUpdatingParameter(codegenParameter, parameter);
         return codegenParameter;
@@ -6901,7 +6916,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         codegenParameter.baseType = codegenProperty.baseType;
         codegenParameter.dataType = codegenProperty.dataType;
-        codegenParameter.defaultValue = toDefaultParameterValue(propertySchema);
         codegenParameter.baseName = codegenProperty.baseName;
         codegenParameter.paramName = toParamName(codegenParameter.baseName);
         codegenParameter.dataFormat = codegenProperty.dataFormat;
@@ -6911,6 +6925,9 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.isEnumRef = codegenProperty.isEnumRef;
         codegenParameter._enum = codegenProperty._enum;
         codegenParameter.allowableValues = codegenProperty.allowableValues;
+
+        // set default value
+        codegenParameter.defaultValue = toDefaultParameterValue(codegenProperty, propertySchema);
 
         if (ModelUtils.isFileSchema(ps) && !ModelUtils.isStringSchema(ps)) {
             // swagger v2 only, type file
@@ -7046,7 +7063,10 @@ public class DefaultCodegen implements CodegenConfig {
                 imports.add(codegenProperty.complexType);
             }
         }
+
+        // set example value
         setParameterExampleValue(codegenParameter);
+
         // set nullable
         setParameterNullable(codegenParameter, codegenProperty);
 
