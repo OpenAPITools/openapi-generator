@@ -66,7 +66,7 @@ public class ModelList  implements Serializable {
       return false;
     }
     ModelList _list = (ModelList) o;
-    return Objects.equals(this._123list, _list._123list);
+    return Objects.equals(_123list, _list._123list);
   }
 
   @Override
