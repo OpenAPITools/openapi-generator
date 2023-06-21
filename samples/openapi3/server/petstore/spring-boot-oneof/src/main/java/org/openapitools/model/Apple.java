@@ -25,17 +25,10 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Apple implements Fruit {
 
-  @JsonProperty("seeds")
   private Integer seeds;
 
-  @JsonProperty("fruitType")
   private FruitType fruitType;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Apple#Apple(Integer)}
-   */
-  @Deprecated
   public Apple() {
     super();
   }
@@ -59,6 +52,7 @@ public class Apple implements Fruit {
   */
   @NotNull 
   @Schema(name = "seeds", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("seeds")
   public Integer getSeeds() {
     return seeds;
   }
@@ -78,6 +72,7 @@ public class Apple implements Fruit {
   */
   @NotNull @Valid 
   @Schema(name = "fruitType", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("fruitType")
   public FruitType getFruitType() {
     return fruitType;
   }
