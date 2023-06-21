@@ -57,6 +57,7 @@ public class {{classname}} {
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
+  private ApiClient apiClient;
 
   public {{classname}}() {
     this(new ApiClient());
@@ -70,6 +71,7 @@ public class {{classname}} {
     memberVarReadTimeout = apiClient.getReadTimeout();
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
     memberVarAsyncResponseInterceptor = apiClient.getAsyncResponseInterceptor();
+    this.apiClient = apiClient;
   }
   {{#asyncNative}}
 
@@ -393,7 +395,7 @@ public class {{classname}} {
                 {{/hasVars}}
             {{/isExplode}}
             {{^isExplode}}
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}));
+    localVarQueryParams.addAll(apiClient.parameterToPairsWithObjectMapper("{{baseName}}", {{paramName}}));
             {{/isExplode}}
         {{/isDeepObject}}
       {{/collectionFormat}}

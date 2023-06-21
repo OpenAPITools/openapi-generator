@@ -1393,6 +1393,37 @@ public class JavaClientCodegenTest {
         );
     }
 
+  /**
+   * See https://github.com/OpenAPITools/openapi-generator/issues/10806
+   */
+  @Test
+  public void testNativeClientJsonQueryParamObject() throws IOException {
+    Map<String, Object> properties = new HashMap<>();
+    properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+    File output = Files.createTempDirectory("test").toFile();
+    output.deleteOnExit();
+
+    final CodegenConfigurator configurator = new CodegenConfigurator()
+        .setGeneratorName("java")
+        .setLibrary(JavaClientCodegen.NATIVE)
+        .setAdditionalProperties(properties)
+        .setInputSpec("src/test/resources/3_0/issue10806.yaml")
+        .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+    final ClientOptInput clientOptInput = configurator.toClientOptInput();
+    DefaultGenerator generator = new DefaultGenerator();
+    List<File> files = generator.opts(clientOptInput).generate();
+
+    Assert.assertEquals(files.size(), 38);
+    validateJavaSourceFiles(files);
+
+    TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
+        "localVarQueryParams.addAll(apiClient.parameterToPairsWithObjectMapper(\"QueryObject\", queryObject));"
+
+    );
+  }
+
     @Test
     public void testExtraAnnotationsNative() throws IOException {
         testExtraAnnotations(JavaClientCodegen.NATIVE);
