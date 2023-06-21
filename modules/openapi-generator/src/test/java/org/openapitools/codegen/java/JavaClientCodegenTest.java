@@ -1771,6 +1771,28 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testReturnTypeMapping() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_0/issue14525.yaml")
+                .addTypeMapping("array","Stack")
+                .addImportMapping("Stack","java.util.Stack")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/DefaultApi.java"),
+                "import java.util.Stack;"
+        );
+
+    }
+
+    @Test
     public void testNativeClientExplodedQueryParamWithArrayProperty() throws IOException {
         Map<String, Object> properties = new HashMap<>();
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");

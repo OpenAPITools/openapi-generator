@@ -124,7 +124,8 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
-                        "array"
+                        "array",
+                        "map"
                 )
         );
 
