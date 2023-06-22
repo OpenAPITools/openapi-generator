@@ -8,6 +8,7 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -76,6 +77,38 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, "original");
         codegen.processOpts();
         Assert.assertEquals(codegen.toVarName("valid_var"), "valid_var");
+    }
+
+    @Test
+    public void toEnumVarName() {
+        TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumVarName("", "string"), "Empty");
+        Assert.assertEquals(codegen.toEnumVarName("$", "string"), "Dollar");
+        Assert.assertEquals(codegen.toEnumVarName("valid_var", "string"), "ValidVar");
+        Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "ValidVar");
+        Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30validVar");
+
+        codegen = new TypeScriptFetchClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "original");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumVarName("", "string"), "empty");
+        Assert.assertEquals(codegen.toEnumVarName("$", "string"), "Dollar");
+        Assert.assertEquals(codegen.toEnumVarName("valid_var", "string"), "valid_var");
+        Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "valid_var");
+        Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30valid_var");
+
+        codegen = new TypeScriptFetchClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "UPPERCASE");
+        codegen.additionalProperties().put(AbstractTypeScriptClientCodegen.ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR, "true");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumVarName("", "string"), "EMPTY");
+        Assert.assertEquals(codegen.toEnumVarName("$", "string"), "DOLLAR");
+        Assert.assertEquals(codegen.toEnumVarName("valid_var", "string"), "VALID_VAR");
+        Assert.assertEquals(codegen.toEnumVarName("-valid_+var", "string"), "MINUS_VALID_PLUS_VAR");
+        Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "MINUS_VALID_VAR_PLUS");
+        Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30VALID_PLUS_VAR");
+
     }
 
     @Test
