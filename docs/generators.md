@@ -59,6 +59,7 @@ The following generators are available:
 * [scala-gatling](generators/scala-gatling.md)  
 * [scala-sttp](generators/scala-sttp.md)  
 * [scalaz](generators/scalaz.md)  
+* [swift-combine](generators/swift-combine.md)  
 * [swift5](generators/swift5.md)  
 * [typescript (experimental)](generators/typescript.md)  
 * [typescript-angular](generators/typescript-angular.md)  
