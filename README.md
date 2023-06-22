@@ -1009,6 +1009,7 @@ Here is a list of template creators:
    * Swift 3: @hexelon
    * Swift 4: @ehyche
    * Swift 5: @4brunu
+   * Swift Combine: @dydus0x14
    * TypeScript (Angular1): @mhardorf
    * TypeScript (Angular2): @roni-frantchi
    * TypeScript (Angular6): @akehir
