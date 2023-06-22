@@ -1231,6 +1231,7 @@
                 <module>samples/client/petstore/typescript-angular-v13-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v14-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v15-provided-in-root</module>
+                <module>samples/client/petstore/typescript-angular-v16-provided-in-root</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/default</module>
                 <module>samples/openapi3/client/petstore/typescript/tests/default</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/jquery</module>

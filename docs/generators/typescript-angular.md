@@ -4,52 +4,52 @@ title: Documentation for the typescript-angular Generator
 
 ## METADATA
 
-| Property | Value | Notes |
-| -------- | ----- | ----- |
-| generator name | typescript-angular | pass this to the generate command after -g |
-| generator stability | STABLE | |
-| generator type | CLIENT | |
-| generator language | Typescript | |
-| generator default templating engine | mustache | |
-| helpTxt | Generates a TypeScript Angular (9.x - 15.x) client library. | |
+| Property | Value                                                       | Notes |
+| -------- |-------------------------------------------------------------| ----- |
+| generator name | typescript-angular                                          | pass this to the generate command after -g |
+| generator stability | STABLE                                                      | |
+| generator type | CLIENT                                                      | |
+| generator language | Typescript                                                  | |
+| generator default templating engine | mustache                                                    | |
+| helpTxt | Generates a TypeScript Angular (9.x - 16.x) client library. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
-| Option | Description | Values | Default |
-| ------ | ----------- | ------ | ------- |
-|allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
-|apiModulePrefix|The prefix of the generated ApiModule.| |null|
-|configurationPrefix|The prefix of the generated Configuration.| |null|
-|disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
-|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
-|enumNameSuffix|Suffix that will be appended to all enum names.| |Enum|
-|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |PascalCase|
-|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
-|fileNaming|Naming convention for the output files: 'camelCase', 'kebab-case'.| |camelCase|
-|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
-|modelFileSuffix|The suffix of the file of the generated model (model&lt;suffix&gt;.ts).| |null|
-|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name. Only change it if you provide your own run-time code for (de-)serialization of models| |original|
-|modelSuffix|The suffix of the generated model.| |null|
-|ngVersion|The version of Angular. (At least 9.0.0)| |15.0.3|
-|npmName|The name under which you want to publish generated npm package. Required to generate a full package| |null|
-|npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
-|npmVersion|The version of your npm package. If not provided, using the version from the OpenAPI specification file.| |1.0.0|
-|nullSafeAdditionalProps|Set to make additional properties types declare that their indexer may return undefined| |false|
-|paramNaming|Naming convention for parameters: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
-|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|providedIn|Use this property to provide Injectables in wanted level.|<dl><dt>**root**</dt><dd>The application-level injector in most apps.</dd><dt>**none**</dt><dd>No providedIn)</dd><dt>**any**</dt><dd>Provides a unique instance in each lazy loaded module while all eagerly loaded modules share one instance.</dd><dt>**platform**</dt><dd>A special singleton platform injector shared by all applications on the page.</dd></dl>|root|
-|queryParamObjectFormat|The format for query param objects: 'dot', 'json', 'key'.| |dot|
-|serviceFileSuffix|The suffix of the file of the generated service (service&lt;suffix&gt;.ts).| |.service|
-|serviceSuffix|The suffix of the generated service.| |Service|
-|snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
-|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
-|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|stringEnums|Generate string enums instead of objects for enum values.| |false|
-|supportsES6|Generate code that conforms to ES6.| |false|
-|taggedUnions|Use discriminators to create tagged unions instead of extending interfaces.| |false|
-|useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
-|withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
+| Option | Description | Values | Default    |
+| ------ | ----------- | ------ |------------|
+|allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| | false      |
+|apiModulePrefix|The prefix of the generated ApiModule.| | null       |
+|configurationPrefix|The prefix of the generated Configuration.| | null       |
+|disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>| true       |
+|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| | true       |
+|enumNameSuffix|Suffix that will be appended to all enum names.| | Enum       |
+|enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| | PascalCase |
+|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>| false      |
+|fileNaming|Naming convention for the output files: 'camelCase', 'kebab-case'.| | camelCase  |
+|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>| true       |
+|modelFileSuffix|The suffix of the file of the generated model (model&lt;suffix&gt;.ts).| | null       |
+|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name. Only change it if you provide your own run-time code for (de-)serialization of models| | original   |
+|modelSuffix|The suffix of the generated model.| | null       |
+|ngVersion|The version of Angular. (At least 9.0.0)| | 16.1.1     |
+|npmName|The name under which you want to publish generated npm package. Required to generate a full package| | null       |
+|npmRepository|Use this property to set an url your private npmRepo in the package.json| | null       |
+|npmVersion|The version of your npm package. If not provided, using the version from the OpenAPI specification file.| | 1.0.0      |
+|nullSafeAdditionalProps|Set to make additional properties types declare that their indexer may return undefined| | false      |
+|paramNaming|Naming convention for parameters: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| | camelCase  |
+|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| | false      |
+|providedIn|Use this property to provide Injectables in wanted level.|<dl><dt>**root**</dt><dd>The application-level injector in most apps.</dd><dt>**none**</dt><dd>No providedIn)</dd><dt>**any**</dt><dd>Provides a unique instance in each lazy loaded module while all eagerly loaded modules share one instance.</dd><dt>**platform**</dt><dd>A special singleton platform injector shared by all applications on the page.</dd></dl>| root       |
+|queryParamObjectFormat|The format for query param objects: 'dot', 'json', 'key'.| | dot        |
+|serviceFileSuffix|The suffix of the file of the generated service (service&lt;suffix&gt;.ts).| | .service   |
+|serviceSuffix|The suffix of the generated service.| | Service    |
+|snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| | false      |
+|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| | true       |
+|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| | true       |
+|stringEnums|Generate string enums instead of objects for enum values.| | false      |
+|supportsES6|Generate code that conforms to ES6.| | false      |
+|taggedUnions|Use discriminators to create tagged unions instead of extending interfaces.| | false      |
+|useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| | false      |
+|withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| | false      |
 
 ## IMPORT MAPPING
 
