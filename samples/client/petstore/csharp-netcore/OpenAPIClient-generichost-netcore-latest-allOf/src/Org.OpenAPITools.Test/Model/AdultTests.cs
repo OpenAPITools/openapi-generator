@@ -52,5 +52,14 @@ namespace Org.OpenAPITools.Test.Model
             // TODO uncomment below to test "IsType" Adult
             //Assert.IsType<Adult>(instance);
         }
+
+        /// <summary>
+        /// Test the property 'Children'
+        /// </summary>
+        [Fact]
+        public void ChildrenTest()
+        {
+            // TODO unit test for the property 'Children'
+        }
     }
 }

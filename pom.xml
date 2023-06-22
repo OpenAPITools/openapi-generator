@@ -688,7 +688,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/retrofit2rx</module>
+                <module>samples/client/petstore/java/retrofit2rx2</module>
             </modules>
         </profile>
         <profile>
@@ -728,7 +728,7 @@
             </modules>
         </profile>
         <profile>
-            <id>scala-httpclient</id>
+            <id>scala-sttp</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -736,7 +736,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/scala-httpclient</module>
+                <module>samples/client/petstore/scala-sttp</module>
             </modules>
         </profile>
         <profile>
@@ -772,7 +772,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java-helidon-client</module>
+                <module>samples/client/petstore/java-helidon-client/mp</module>
             </modules>
         </profile>
         <profile>
@@ -784,7 +784,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/java-helidon-server</module>
+                <module>samples/server/petstore/java-helidon-server/mp</module>
             </modules>
         </profile>
         <profile>

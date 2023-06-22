@@ -89,8 +89,8 @@ public class Category   {
       return false;
     }
     Category category = (Category) o;
-    return Objects.equals(this.id, category.id) &&
-        Objects.equals(this.name, category.name);
+    return Objects.equals(id, category.id) &&
+        Objects.equals(name, category.name);
   }
 
   @Override

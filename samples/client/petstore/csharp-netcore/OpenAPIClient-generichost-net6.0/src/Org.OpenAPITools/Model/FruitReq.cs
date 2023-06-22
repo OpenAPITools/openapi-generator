@@ -32,10 +32,18 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
         /// <param name="appleReq"></param>
+        /// <param name="cultivar">cultivar</param>
+        /// <param name="lengthCm">lengthCm</param>
+        /// <param name="mealy">mealy</param>
+        /// <param name="sweet">sweet</param>
         [JsonConstructor]
-        internal FruitReq(AppleReq appleReq)
+        public FruitReq(AppleReq appleReq, string cultivar, decimal lengthCm, bool mealy, bool sweet)
         {
             AppleReq = appleReq;
+            Cultivar = cultivar;
+            LengthCm = lengthCm;
+            Mealy = mealy;
+            Sweet = sweet;
             OnCreated();
         }
 
@@ -43,10 +51,18 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
         /// <param name="bananaReq"></param>
+        /// <param name="cultivar">cultivar</param>
+        /// <param name="lengthCm">lengthCm</param>
+        /// <param name="mealy">mealy</param>
+        /// <param name="sweet">sweet</param>
         [JsonConstructor]
-        internal FruitReq(BananaReq bananaReq)
+        public FruitReq(BananaReq bananaReq, string cultivar, decimal lengthCm, bool mealy, bool sweet)
         {
             BananaReq = bananaReq;
+            Cultivar = cultivar;
+            LengthCm = lengthCm;
+            Mealy = mealy;
+            Sweet = sweet;
             OnCreated();
         }
 
@@ -63,6 +79,30 @@ namespace Org.OpenAPITools.Model
         public BananaReq BananaReq { get; set; }
 
         /// <summary>
+        /// Gets or Sets Cultivar
+        /// </summary>
+        [JsonPropertyName("cultivar")]
+        public string Cultivar { get; set; }
+
+        /// <summary>
+        /// Gets or Sets LengthCm
+        /// </summary>
+        [JsonPropertyName("lengthCm")]
+        public decimal LengthCm { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Mealy
+        /// </summary>
+        [JsonPropertyName("mealy")]
+        public bool Mealy { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Sweet
+        /// </summary>
+        [JsonPropertyName("sweet")]
+        public bool Sweet { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -70,6 +110,10 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class FruitReq {\n");
+            sb.Append("  Cultivar: ").Append(Cultivar).Append("\n");
+            sb.Append("  LengthCm: ").Append(LengthCm).Append("\n");
+            sb.Append("  Mealy: ").Append(Mealy).Append("\n");
+            sb.Append("  Sweet: ").Append(Sweet).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -107,6 +151,11 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
+            string cultivar = default;
+            decimal? lengthCm = default;
+            bool? mealy = default;
+            bool? sweet = default;
+
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -122,19 +171,46 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "cultivar":
+                            cultivar = utf8JsonReader.GetString();
+                            break;
+                        case "lengthCm":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                lengthCm = utf8JsonReader.GetDecimal();
+                            break;
+                        case "mealy":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                mealy = utf8JsonReader.GetBoolean();
+                            break;
+                        case "sweet":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                sweet = utf8JsonReader.GetBoolean();
+                            break;
                         default:
                             break;
                     }
                 }
             }
 
+            if (cultivar == null)
+                throw new ArgumentNullException(nameof(cultivar), "Property is required for class FruitReq.");
+
+            if (lengthCm == null)
+                throw new ArgumentNullException(nameof(lengthCm), "Property is required for class FruitReq.");
+
+            if (mealy == null)
+                throw new ArgumentNullException(nameof(mealy), "Property is required for class FruitReq.");
+
+            if (sweet == null)
+                throw new ArgumentNullException(nameof(sweet), "Property is required for class FruitReq.");
+
             Utf8JsonReader appleReqReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<AppleReq>(ref appleReqReader, jsonSerializerOptions, out AppleReq appleReq))
-                return new FruitReq(appleReq);
+                return new FruitReq(appleReq, cultivar, lengthCm.Value, mealy.Value, sweet.Value);
 
             Utf8JsonReader bananaReqReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<BananaReq>(ref bananaReqReader, jsonSerializerOptions, out BananaReq bananaReq))
-                return new FruitReq(bananaReq);
+                return new FruitReq(bananaReq, cultivar, lengthCm.Value, mealy.Value, sweet.Value);
 
             throw new JsonException();
         }
@@ -152,6 +228,14 @@ namespace Org.OpenAPITools.Model
 
             System.Text.Json.JsonSerializer.Serialize(writer, fruitReq.BananaReq, jsonSerializerOptions);
 
+            writer.WriteStartObject();
+
+            writer.WriteString("cultivar", fruitReq.Cultivar);
+            writer.WriteNumber("lengthCm", fruitReq.LengthCm);
+            writer.WriteBoolean("mealy", fruitReq.Mealy);
+            writer.WriteBoolean("sweet", fruitReq.Sweet);
+
+            writer.WriteEndObject();
         }
     }
 }

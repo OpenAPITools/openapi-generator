@@ -308,16 +308,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="user"></param>
         private void AfterCreateUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar, User user)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterCreateUser(apiResponseLocalVar, user);
+            bool suppressDefaultLog = false;
+            AfterCreateUser(ref suppressDefaultLog, apiResponseLocalVar, user);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
-        partial void AfterCreateUser(ApiResponse<object> apiResponseLocalVar, User user);
+        partial void AfterCreateUser(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, User user);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -447,16 +450,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="user"></param>
         private void AfterCreateUsersWithArrayInputDefaultImplementation(ApiResponse<object> apiResponseLocalVar, List<User> user)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterCreateUsersWithArrayInput(apiResponseLocalVar, user);
+            bool suppressDefaultLog = false;
+            AfterCreateUsersWithArrayInput(ref suppressDefaultLog, apiResponseLocalVar, user);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
-        partial void AfterCreateUsersWithArrayInput(ApiResponse<object> apiResponseLocalVar, List<User> user);
+        partial void AfterCreateUsersWithArrayInput(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, List<User> user);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -586,16 +592,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="user"></param>
         private void AfterCreateUsersWithListInputDefaultImplementation(ApiResponse<object> apiResponseLocalVar, List<User> user)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterCreateUsersWithListInput(apiResponseLocalVar, user);
+            bool suppressDefaultLog = false;
+            AfterCreateUsersWithListInput(ref suppressDefaultLog, apiResponseLocalVar, user);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
-        partial void AfterCreateUsersWithListInput(ApiResponse<object> apiResponseLocalVar, List<User> user);
+        partial void AfterCreateUsersWithListInput(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, List<User> user);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -725,16 +734,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="username"></param>
         private void AfterDeleteUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar, string username)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterDeleteUser(apiResponseLocalVar, username);
+            bool suppressDefaultLog = false;
+            AfterDeleteUser(ref suppressDefaultLog, apiResponseLocalVar, username);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="username"></param>
-        partial void AfterDeleteUser(ApiResponse<object> apiResponseLocalVar, string username);
+        partial void AfterDeleteUser(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, string username);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -852,16 +864,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="username"></param>
         private void AfterGetUserByNameDefaultImplementation(ApiResponse<User> apiResponseLocalVar, string username)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterGetUserByName(apiResponseLocalVar, username);
+            bool suppressDefaultLog = false;
+            AfterGetUserByName(ref suppressDefaultLog, apiResponseLocalVar, username);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="username"></param>
-        partial void AfterGetUserByName(ApiResponse<User> apiResponseLocalVar, string username);
+        partial void AfterGetUserByName(ref bool suppressDefaultLog, ApiResponse<User> apiResponseLocalVar, string username);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -994,17 +1009,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="password"></param>
         private void AfterLoginUserDefaultImplementation(ApiResponse<string> apiResponseLocalVar, string username, string password)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterLoginUser(apiResponseLocalVar, username, password);
+            bool suppressDefaultLog = false;
+            AfterLoginUser(ref suppressDefaultLog, apiResponseLocalVar, username, password);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        partial void AfterLoginUser(ApiResponse<string> apiResponseLocalVar, string username, string password);
+        partial void AfterLoginUser(ref bool suppressDefaultLog, ApiResponse<string> apiResponseLocalVar, string username, string password);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1122,15 +1140,18 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         private void AfterLogoutUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterLogoutUser(apiResponseLocalVar);
+            bool suppressDefaultLog = false;
+            AfterLogoutUser(ref suppressDefaultLog, apiResponseLocalVar);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterLogoutUser(ApiResponse<object> apiResponseLocalVar);
+        partial void AfterLogoutUser(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1244,17 +1265,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="username"></param>
         private void AfterUpdateUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar, User user, string username)
         {
-            Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-            AfterUpdateUser(apiResponseLocalVar, user, username);
+            bool suppressDefaultLog = false;
+            AfterUpdateUser(ref suppressDefaultLog, apiResponseLocalVar, user, username);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
         /// <param name="username"></param>
-        partial void AfterUpdateUser(ApiResponse<object> apiResponseLocalVar, User user, string username);
+        partial void AfterUpdateUser(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, User user, string username);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response

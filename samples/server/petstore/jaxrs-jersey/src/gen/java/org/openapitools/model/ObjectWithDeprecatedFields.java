@@ -151,10 +151,10 @@ public class ObjectWithDeprecatedFields   {
       return false;
     }
     ObjectWithDeprecatedFields objectWithDeprecatedFields = (ObjectWithDeprecatedFields) o;
-    return Objects.equals(this.uuid, objectWithDeprecatedFields.uuid) &&
-        Objects.equals(this.id, objectWithDeprecatedFields.id) &&
-        Objects.equals(this.deprecatedRef, objectWithDeprecatedFields.deprecatedRef) &&
-        Objects.equals(this.bars, objectWithDeprecatedFields.bars);
+    return Objects.equals(uuid, objectWithDeprecatedFields.uuid) &&
+        Objects.equals(id, objectWithDeprecatedFields.id) &&
+        Objects.equals(deprecatedRef, objectWithDeprecatedFields.deprecatedRef) &&
+        Objects.equals(bars, objectWithDeprecatedFields.bars);
   }
 
   @Override

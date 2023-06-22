@@ -1,6 +1,5 @@
 package org.openapitools.api;
 
-import java.util.List;
 import java.time.LocalDateTime;
 import org.openapitools.model.User;
 

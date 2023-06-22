@@ -432,4 +432,52 @@ public class PythonClientCodegenTest {
         Assert.assertTrue(files.size() > 0);
         return outputPath + "/";
     }
+
+    @Test(description = "test containerType in parameters")
+    public void testContainerType() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        // path parameter
+        String path = "/store/order/{orderId}";
+        Operation p = openAPI.getPaths().get(path).getGet();
+        CodegenOperation op = codegen.fromOperation(path, "get", p, null);
+        Assert.assertEquals(op.allParams.get(0).containerType, null);
+        Assert.assertEquals(op.allParams.get(0).baseName, "orderId");
+
+        // query parameter
+        path = "/user/login";
+        p = openAPI.getPaths().get(path).getGet();
+        op = codegen.fromOperation(path, "get", p, null);
+        Assert.assertEquals(op.allParams.get(0).containerType, null);
+        Assert.assertEquals(op.allParams.get(0).baseName, "username");
+        Assert.assertEquals(op.allParams.get(1).containerType, null);
+        Assert.assertEquals(op.allParams.get(1).baseName, "password");
+
+        // body parameter
+        path = "/user/createWithList";
+        p = openAPI.getPaths().get(path).getPost();
+        op = codegen.fromOperation(path, "post", p, null);
+        Assert.assertEquals(op.allParams.get(0).baseName, "User");
+        Assert.assertEquals(op.allParams.get(0).containerType, "array");
+
+        path = "/pet";
+        p = openAPI.getPaths().get(path).getPost();
+        op = codegen.fromOperation(path, "post", p, null);
+        Assert.assertEquals(op.allParams.get(0).baseName, "Pet");
+        Assert.assertEquals(op.allParams.get(0).containerType, null);
+    }
+
+    @Test(description = "test containerType (dict) in parameters")
+    public void testContainerTypeForDict() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/dict_query_parameter.yaml");
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        // query parameter
+        String path = "/query_parameter_dict";
+        Operation p = openAPI.getPaths().get(path).getGet();
+        CodegenOperation op = codegen.fromOperation(path, "get", p, null);
+        Assert.assertEquals(op.allParams.get(0).containerType, "map");
+        Assert.assertEquals(op.allParams.get(0).baseName, "dict_string_integer");
+    }
 }

@@ -52,5 +52,14 @@ namespace Org.OpenAPITools.Test.Model
             // TODO uncomment below to test "IsType" Dog
             //Assert.IsType<Dog>(instance);
         }
+
+        /// <summary>
+        /// Test the property 'Breed'
+        /// </summary>
+        [Fact]
+        public void BreedTest()
+        {
+            // TODO unit test for the property 'Breed'
+        }
     }
 }

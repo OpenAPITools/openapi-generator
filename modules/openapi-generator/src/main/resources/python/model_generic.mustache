@@ -151,6 +151,18 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/items.isPrimitiveType}}
         {{/isArray}}
         {{#isMap}}
+        {{#items.isArray}}
+        # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict of array)
+        _field_dict_of_array = {}
+        if self.{{{name}}}:
+            for _key in self.{{{name}}}:
+                if self.{{{name}}}[_key]:
+                    _field_dict_of_array[_key] = [
+                        _item.to_dict() for _item in self.{{{name}}}[_key]
+                    ]
+            _dict['{{{baseName}}}'] = _field_dict_of_array
+        {{/items.isArray}}
+        {{^items.isArray}}
         {{^items.isPrimitiveType}}
         {{^items.isEnumOrRef}}
         # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict)
@@ -162,6 +174,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             _dict['{{{baseName}}}'] = _field_dict
         {{/items.isEnumOrRef}}
         {{/items.isPrimitiveType}}
+        {{/items.isArray}}
         {{/isMap}}
         {{/isContainer}}
         {{^isContainer}}
@@ -260,15 +273,13 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{/items.isMap}}
             {{#items.isArray}}
             "{{{name}}}": dict(
-                (_k, [(_ik, {{{items.items.dataType}}}.from_dict(_iv))]
-                    for _ik, _iv in _v.items()
-                    if _v is not None
-                    else None
+                (_k,
+                        [{{{items.items.dataType}}}.from_dict(_item) for _item in _v]
+                        if _v is not None
+                        else None
                 )
                 for _k, _v in obj.get("{{{baseName}}}").items()
             )
-            if obj.get("{{{baseName}}}") is not None
-            else None{{^-last}},{{/-last}}
             {{/items.isArray}}
             {{/items.isContainer}}
             {{^items.isContainer}}

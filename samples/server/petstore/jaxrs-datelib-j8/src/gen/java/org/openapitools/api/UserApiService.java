@@ -4,7 +4,6 @@ import org.openapitools.api.*;
 
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
-import java.util.List;
 import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 

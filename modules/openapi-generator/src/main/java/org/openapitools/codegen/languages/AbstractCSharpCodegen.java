@@ -95,11 +95,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected Boolean zeroBasedEnums = null;
     protected static final String zeroBasedEnumVendorExtension = "x-zero-based-enum";
 
-    // nullable type
-    protected Set<String> nullableType = new HashSet<>();
-
-    protected Set<String> valueTypes = new HashSet<>();
-
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
     // special property keywords not allowed as these are the function names in the model files
@@ -200,42 +195,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         instantiationTypes.put("array", "List");
         instantiationTypes.put("list", "List");
         instantiationTypes.put("map", "Dictionary");
-
-
-        // Nullable types here assume C# 2 support is not part of base
-        typeMapping = new HashMap<>();
-        typeMapping.put("string", "string");
-        typeMapping.put("binary", "byte[]");
-        typeMapping.put("ByteArray", "byte[]");
-        typeMapping.put("boolean", "bool?");
-        typeMapping.put("integer", "int?");
-        typeMapping.put("UnsignedInteger", "uint?");
-        typeMapping.put("UnsignedLong", "ulong?");
-        typeMapping.put("long", "long?");
-        typeMapping.put("float", "float?");
-        typeMapping.put("double", "double?");
-        typeMapping.put("number", "decimal?");
-        typeMapping.put("BigDecimal", "decimal?");
-        typeMapping.put("DateTime", "DateTime?");
-        typeMapping.put("date", "DateTime?");
-        typeMapping.put("file", "System.IO.Stream");
-        typeMapping.put("array", "List");
-        typeMapping.put("list", "List");
-        typeMapping.put("map", "Dictionary");
-        typeMapping.put("object", "Object");
-        typeMapping.put("UUID", "Guid?");
-        typeMapping.put("URI", "string");
-        typeMapping.put("AnyType", "Object");
-
-        // nullable type
-        nullableType = new HashSet<>(
-                Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
-                        "DateTime", "DateTimeOffset", "Guid")
-        );
-        // value Types
-        valueTypes = new HashSet<>(
-                Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double")
-        );
 
         this.setSortParamsByRequiredFlag(true);
 
@@ -449,6 +408,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 writer.write(content);
             }
         });
+
+        this.setTypeMapping();
     }
 
     @Override
@@ -532,7 +493,32 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
-            removeCircularReferencesInComposedSchemas(model);
+
+            CodegenComposedSchemas composedSchemas = model.getComposedSchemas();
+            if (composedSchemas != null) {
+                List<CodegenProperty> allOf = composedSchemas.getAllOf();
+                if (allOf != null) {
+                    for(CodegenProperty property : allOf) {
+                        property.name = patchPropertyName(model, property.baseType);
+                    }
+                }
+
+                List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
+                if (anyOf != null) {
+                    for(CodegenProperty property : anyOf) {
+                        property.name = patchPropertyName(model, property.baseType);
+                        property.isNullable = true;
+                    }
+                }
+
+                List<CodegenProperty> oneOf = composedSchemas.getOneOf();
+                if (oneOf != null) {
+                    for(CodegenProperty property : oneOf) {
+                        property.name = patchPropertyName(model, property.baseType);
+                        property.isNullable = true;
+                    }
+                }
+            }
 
             // https://github.com/OpenAPITools/openapi-generator/issues/12324
             // TODO: why do these collections contain different instances?
@@ -565,7 +551,22 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return processed;
     }
 
-    private void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
+    private String patchPropertyName(CodegenModel model, String value) {
+        // the casing will be wrong if we just set the name to escapeReservedWord
+        // if we try to fix it with camelize, underscores get stripped out
+        // so test if the name was escaped and then replace var with Var
+        String tmpPropertyName = escapeReservedWord(model, value);
+        if (!value.equals(tmpPropertyName) || value.startsWith(this.invalidNamePrefix)) {
+            value = tmpPropertyName;
+            String firstCharacter = value.substring(0, 1);
+            value = value.substring(1);
+            value = firstCharacter.toUpperCase(Locale.ROOT) + value;
+        }
+
+        return value;
+    }
+
+    protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
         if (enumRefs.containsKey(property.dataType)) {
             // Handle any enum properties referred to by $ref.
             // This is different in C# than most other generators, because enums in C# are compiled to integral types,
@@ -578,22 +579,22 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isPrimitiveType = true;
         }
 
-        if (!property.isContainer && (nullableType.contains(property.dataType) || property.isEnum)) {
+        if (!property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
             property.vendorExtensions.put("x-csharp-value-type", true);
         }
 
         property.vendorExtensions.put("x-is-value-type", isValueType(property));
 
-        String tmpPropertyName = escapeReservedWord(model, property.name);
-        if (!property.name.equals(tmpPropertyName) || property.name.startsWith(this.invalidNamePrefix)) {
-            // the casing will be wrong if we just set the name to escapeReservedWord
-            // if we try to fix it with camelize, underscores get stripped out
-            // so test if the name was escaped and then replace var with Var
-            property.name = tmpPropertyName;
-            String firstCharacter = property.name.substring(0, 1);
-            property.name = property.name.substring(1);
-            property.name = firstCharacter.toUpperCase(Locale.ROOT) + property.name;
+        if (property.isNullable && !property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
+            property.vendorExtensions.put("x-nullable-value-type", true);
         }
+
+        if (this.getNullableReferencesTypes() || (property.vendorExtensions.get("x-nullable-value-type") != null)) {
+            property.vendorExtensions.put("x-nullable-type", true);
+        }
+
+        String tmpPropertyName = escapeReservedWord(model, property.name);
+        property.name = patchPropertyName(model, property.name);
 
         // fix incorrect data types for maps of maps
         if (property.datatypeWithEnum.endsWith(", List>") && property.items != null) {
@@ -608,33 +609,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // HOTFIX: https://github.com/OpenAPITools/openapi-generator/issues/14944
         if (property.datatypeWithEnum.equals("decimal")) {
             property.isDecimal = true;
-        }
-    }
-
-    /**
-     * Mitigates https://github.com/OpenAPITools/openapi-generator/issues/13709
-     */
-    private void removeCircularReferencesInComposedSchemas(CodegenModel cm) {
-        cm.anyOf.removeIf(anyOf -> anyOf.equals(cm.classname));
-        cm.oneOf.removeIf(oneOf -> oneOf.equals(cm.classname));
-        cm.allOf.removeIf(allOf -> allOf.equals(cm.classname));
-
-        CodegenComposedSchemas composedSchemas = cm.getComposedSchemas();
-        if (composedSchemas != null) {
-            List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
-            if (anyOf != null) {
-                anyOf.removeIf(p -> p.dataType.equals(cm.classname));
-            }
-
-            List<CodegenProperty> oneOf = composedSchemas.getOneOf();
-            if (oneOf != null) {
-                oneOf.removeIf(p -> p.dataType.equals(cm.classname));
-            }
-
-            List<CodegenProperty> allOf = composedSchemas.getAllOf();
-            if (allOf != null) {
-                allOf.removeIf(p -> p.dataType.equals(cm.classname));
-            }
         }
     }
 
@@ -756,79 +730,48 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         CodegenModel codegenModel = modelHashMap.getModel();
 
                         for (CodegenParameter parameter : operation.allParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.bodyParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.cookieParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.formParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.headerParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.implicitHeadersParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.optionalParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.pathParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.queryParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter, allModels);
                         }
 
-                        for (CodegenParameter parameter : operation.requiredAndNotNullableParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                        for (CodegenParameter parameter : operation.notNullableParams) {
+                            patchParameter(parameter, allModels);
                         }
 
                         for (CodegenParameter parameter : operation.requiredParams) {
-                            parameter.paramName = escapeReservedWord(parameter.paramName);
+                            patchParameter(parameter, allModels);
                         }
-                    }
-
-                    if (!isSupportNullable()) {
-                        for (CodegenParameter parameter : operation.allParams) {
-                            CodegenModel model = null;
-                            for (ModelMap modelHashMap : allModels) {
-                                CodegenModel codegenModel = modelHashMap.getModel();
-                                if (codegenModel.getClassname().equals(parameter.dataType)) {
-                                    model = codegenModel;
-                                    break;
-                                }
-                            }
-
-                            if (model == null) {
-                                // Primitive data types all come already marked
-                                parameter.isNullable = true;
-                            } else {
-                                // Effectively mark enum models as enums and non-nullable
-                                if (model.isEnum) {
-                                    parameter.isEnum = true;
-                                    parameter.allowableValues = model.allowableValues;
-                                    parameter.isPrimitiveType = true;
-                                    parameter.isNullable = false;
-                                } else {
-                                    parameter.isNullable = true;
-                                }
-                            }
-                        }
-                    } else {
-                        // Effectively mark enum models as enums
-                        updateCodegenParametersEnum(operation.allParams, allModels);
                     }
 
                     processOperation(operation);
@@ -839,38 +782,61 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return objs;
     }
 
-    protected void processOperation(CodegenOperation operation) {
-        // default noop
-    }
+    private void patchParameter(CodegenParameter parameter, List<ModelMap> allModels) {
+        parameter.paramName = escapeReservedWord(parameter.paramName);
 
-    private void updateCodegenParametersEnum(List<CodegenParameter> parameters, List<ModelMap> allModels) {
-        for (CodegenParameter parameter : parameters) {
-            CodegenModel model = null;
-            for (ModelMap modelHashMap : allModels) {
-                CodegenModel codegenModel = modelHashMap.getModel();
-                if (codegenModel.getClassname().equals(parameter.dataType)) {
-                    model = codegenModel;
-                    break;
-                }
+        if (parameter.isNullable && !parameter.isContainer && (this.getNullableTypes().contains(parameter.dataType) || parameter.isEnum)) {
+            parameter.vendorExtensions.put("x-nullable-value-type", true);
+        }
+
+        if (this.getNullableReferencesTypes() || (parameter.vendorExtensions.get("x-nullable-value-type") != null)) {
+            parameter.vendorExtensions.put("x-nullable-type", true);
+        }
+
+
+        CodegenModel model = null;
+        for (ModelMap modelHashMap : allModels) {
+            CodegenModel codegenModel = modelHashMap.getModel();
+            if (codegenModel.getClassname().equals(parameter.dataType)) {
+                model = codegenModel;
+                break;
             }
+        }
 
-            if (model != null) {
-                // Effectively mark enum models as enums and non-nullable
+        if (!isSupportNullable()) {
+            if (model == null) {
+                parameter.isNullable = true;
+            } else {
                 if (model.isEnum) {
                     parameter.isEnum = true;
                     parameter.allowableValues = model.allowableValues;
                     parameter.isPrimitiveType = true;
-                    parameter.vendorExtensions.put("x-csharp-value-type", true);
+                    parameter.isNullable = false;
+                } else {
+                    parameter.isNullable = true;
                 }
             }
+        } else {
+            updateCodegenParameterEnum(parameter, model);
+        }
+    }
 
-            if (!parameter.isContainer && nullableType.contains(parameter.dataType)) {
+    protected void processOperation(CodegenOperation operation) {
+        // default noop
+    }
+
+    protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
+        if (model != null) {
+            if (model.isEnum) {
+                parameter.isEnum = true;
+                parameter.allowableValues = model.allowableValues;
+                parameter.isPrimitiveType = true;
                 parameter.vendorExtensions.put("x-csharp-value-type", true);
             }
+        }
 
-            if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
-                parameter.dataType = parameter.dataType + "?";
-            }
+        if (!parameter.isContainer && this.getNullableTypes().contains(parameter.dataType)) {
+            parameter.vendorExtensions.put("x-csharp-value-type", true);
         }
     }
 
@@ -1358,7 +1324,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      */
 
     protected boolean isValueType(CodegenProperty var) {
-        return (valueTypes.contains(var.dataType) || var.isEnum);
+        return (this.getValueTypes().contains(var.dataType) || var.isEnum);
     }
 
     @Override
@@ -1490,19 +1456,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public void postProcessParameter(CodegenParameter parameter) {
-        super.postProcessParameter(parameter);
-
-        // TODO: instead of appending the ?
-        // use isNullable, OptionalParameterLambda, or RequiredParameterLambda
-        if (!parameter.required && (nullReferenceTypesFlag || nullableType.contains(parameter.dataType))) {
-            parameter.dataType = parameter.dataType.endsWith("?")
-                    ? parameter.dataType
-                    : parameter.dataType + "?";
-        }
-    }
-
-    @Override
     public void postProcessFile(File file, String fileType) {
         if (file == null) {
             return;
@@ -1555,4 +1508,38 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return pattern;
     }
 
+    @Deprecated
+    protected Set<String> getNullableTypes() {
+        throw new RuntimeException("This method should no longer be used.");
+    }
+
+    protected Set<String> getValueTypes() {
+        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
+    }
+
+    protected void setTypeMapping() {
+        typeMapping = new HashMap<>();
+        typeMapping.put("string", "string");
+        typeMapping.put("binary", "byte[]");
+        typeMapping.put("ByteArray", "byte[]");
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("integer", "int");
+        typeMapping.put("UnsignedInteger", "uint");
+        typeMapping.put("UnsignedLong", "ulong");
+        typeMapping.put("long", "long");
+        typeMapping.put("float", "float");
+        typeMapping.put("double", "double");
+        typeMapping.put("number", "decimal");
+        typeMapping.put("BigDecimal", "decimal");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DateTime");
+        typeMapping.put("file", "System.IO.Stream");
+        typeMapping.put("array", "List");
+        typeMapping.put("list", "List");
+        typeMapping.put("map", "Dictionary");
+        typeMapping.put("object", "Object");
+        typeMapping.put("UUID", "Guid");
+        typeMapping.put("URI", "string");
+        typeMapping.put("AnyType", "Object");
+    }
 }

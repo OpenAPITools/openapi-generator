@@ -270,12 +270,6 @@ public class DefaultGenerator implements Generator {
             InlineModelResolver inlineModelResolver = new InlineModelResolver();
             inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
             inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
-            if (inlineModelResolver.refactorAllOfInlineSchemas == null &&  // option not set
-                    config instanceof CSharpClientCodegen) { // default to true for csharp-netcore generator
-                inlineModelResolver.refactorAllOfInlineSchemas = true;
-                LOGGER.info("inlineModelResolver.refactorAllOfInlineSchemas is default to true instead of false for `csharp-netcore` generator." +
-                        "Add --inline-schema-name-defaults REFACTOR_ALLOF_INLINE_SCHEMAS=false in CLI for example to set it to false instead.");
-            }
 
             inlineModelResolver.flatten(openAPI);
         }

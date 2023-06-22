@@ -26,9 +26,11 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
@@ -386,6 +388,46 @@ public class SpringCodegenTest {
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"start\""))
                 .containsWithNameAndAttributes("DateTimeFormat", ImmutableMap.of("iso", "DateTimeFormat.ISO.DATE_TIME"));
+    }
+
+    @Test
+    public void testJavaClientCorrectConstructorOrderForRequiredFields_issue15825() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setAdditionalProperties(properties)
+                .setGeneratorName("spring")
+                .setLibrary(SPRING_BOOT)
+                .setInputSpec("src/test/resources/bugs/issue_constructor-required-values-with-multiple-inheritance.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("SubType.java"))
+                .assertConstructor("TypeEnum", "SchemaVersion", "UUID", "Boolean", "Boolean", "SomeEnum")
+                .bodyContainsLines("super(someBoolean, someEnum, schemaVersion, id, oneBoolean);",
+                        "this.type = type;");
+        JavaFileAssert.assertThat(files.get("IntermediateSubType.java"))
+                .assertConstructor("Boolean", "SomeEnum", "SchemaVersion", "UUID", "Boolean")
+                .bodyContainsLines("super(oneBoolean, schemaVersion, id);",
+                        "this.someBoolean = someBoolean;",
+                        "this.someEnum = someEnum");
+        JavaFileAssert.assertThat(files.get("IntermediateType.java"))
+                .assertConstructor("Boolean", "SchemaVersion", "UUID")
+                .bodyContainsLines("super(schemaVersion, id);",
+                        "this.oneBoolean = oneBoolean;");
+        JavaFileAssert.assertThat(files.get("BaseType.java"))
+                .assertConstructor("SchemaVersion", "UUID")
+                .bodyContainsLines(
+                        "this.schemaVersion = schemaVersion;",
+                        "this.id = id;");
     }
 
     @Test

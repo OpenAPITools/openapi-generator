@@ -34,10 +34,12 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
         /// <param name="basquePig"></param>
+        /// <param name="className">className</param>
         [JsonConstructor]
-        internal Pig(BasquePig basquePig)
+        public Pig(BasquePig? basquePig, string className)
         {
             BasquePig = basquePig;
+            ClassName = className;
             OnCreated();
         }
 
@@ -45,10 +47,12 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
         /// <param name="danishPig"></param>
+        /// <param name="className">className</param>
         [JsonConstructor]
-        internal Pig(DanishPig danishPig)
+        public Pig(DanishPig? danishPig, string className)
         {
             DanishPig = danishPig;
+            ClassName = className;
             OnCreated();
         }
 
@@ -65,6 +69,12 @@ namespace Org.OpenAPITools.Model
         public DanishPig? DanishPig { get; set; }
 
         /// <summary>
+        /// Gets or Sets ClassName
+        /// </summary>
+        [JsonPropertyName("className")]
+        public string ClassName { get; set; }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -78,6 +88,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Pig {\n");
+            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -126,6 +137,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
+            string? className = default;
+
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -141,19 +154,25 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "className":
+                            className = utf8JsonReader.GetString();
+                            break;
                         default:
                             break;
                     }
                 }
             }
 
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Pig.");
+
             Utf8JsonReader basquePigReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<BasquePig>(ref basquePigReader, jsonSerializerOptions, out BasquePig? basquePig))
-                return new Pig(basquePig);
+                return new Pig(basquePig, className);
 
             Utf8JsonReader danishPigReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<DanishPig>(ref danishPigReader, jsonSerializerOptions, out DanishPig? danishPig))
-                return new Pig(danishPig);
+                return new Pig(danishPig, className);
 
             throw new JsonException();
         }
@@ -171,6 +190,11 @@ namespace Org.OpenAPITools.Model
 
             System.Text.Json.JsonSerializer.Serialize(writer, pig.DanishPig, jsonSerializerOptions);
 
+            writer.WriteStartObject();
+
+            writer.WriteString("className", pig.ClassName);
+
+            writer.WriteEndObject();
         }
     }
 }

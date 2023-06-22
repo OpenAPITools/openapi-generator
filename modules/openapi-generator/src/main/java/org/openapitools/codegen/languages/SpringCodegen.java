@@ -23,16 +23,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
@@ -874,6 +865,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             objs.put("tagDescription", escapeText(firstTag.getDescription()));
         }
 
+        removeImport(objs, "java.util.List");
+
         return objs;
     }
 
@@ -1174,13 +1167,12 @@ public class SpringCodegen extends AbstractJavaCodegen
                                     codegenModel.getImports().add(imp);
                                 }
                             }
-
-                            if (property.required) {
-                                codegenModel.parentRequiredVars.add(parentVar.clone());
-                            }
                         }
                     }
                     parentCodegenModel = parentCodegenModel.getParentModel();
+                }
+                if (codegenModel.getParentModel() != null) {
+                    codegenModel.parentRequiredVars = new ArrayList<>(codegenModel.getParentModel().requiredVars);
                 }
                 // There must be a better way ...
                 for (String imp: inheritedImports) {

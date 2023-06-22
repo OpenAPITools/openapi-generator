@@ -41,6 +41,7 @@ mime = "0.3"
 
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+validator = { version = "0.16", features = ["derive"] }
 
 # Crates included if required by the API definition
 # TODO: this should be updated to point at the official crate once
@@ -48,7 +49,7 @@ serde_json = "1.0"
 serde-xml-rs = {git = "https://github.com/Metaswitch/serde-xml-rs" , branch = "master"}
 mime_0_2 = { package = "mime", version = "0.2.6", optional = true }
 multipart = { version = "0.16", default-features = false, optional = true }
-uuid = {version = "0.8", features = ["serde", "v4"]}
+uuid = {version = "1.3.1", features = ["serde", "v4"]}
 
 # Common between server and client features
 hyper = {version = "0.14", features = ["full"], optional = true}
