@@ -77,6 +77,26 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVER_PORT), "8080");
     }
 
+    @Test
+    public void testNoRequestMappingAnnotation() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary("spring-cloud");
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/feat13488_use_kotlinSpring_with_springCloud.yaml"))
+                        .config(codegen))
+                .generate();
+
+        // Check that the @RequestMapping annotation is not generated in the Api file
+        assertFileNotContains(
+                Paths.get( output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                "@RequestMapping(\"\\${api.base-path"
+        );
+    }
 
     @Test
     public void testSettersForConfigValues() throws Exception {
@@ -402,8 +422,8 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SKIP_DEFAULT_INTERFACE, true);
 
         new DefaultGenerator().opts(new ClientOptInput()
-                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/skip-default-interface.yaml"))
-                    .config(codegen))
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/skip-default-interface.yaml"))
+                        .config(codegen))
                 .generate();
 
         assertFileNotContains(
@@ -459,12 +479,12 @@ public class KotlinSpringServerCodegenTest {
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY,
-            isInterfaceOnly);
+                isInterfaceOnly);
 
         new DefaultGenerator().opts(new ClientOptInput()
-                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue4111-multiline-operation-description.yaml"))
-                .config(codegen))
-            .generate();
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue4111-multiline-operation-description.yaml"))
+                        .config(codegen))
+                .generate();
 
         final String pingApiFileName;
         if (isInterfaceOnly) {
@@ -473,15 +493,15 @@ public class KotlinSpringServerCodegenTest {
             pingApiFileName = "PingApiController.kt";
         }
         assertFileContains(
-            Paths.get(
-                outputPath + "/src/main/kotlin/org/openapitools/api/" + pingApiFileName),
-            "description = \"\"\"# Multi-line descriptions\n"
-                + "\n"
-                + "This is an example of a multi-line description.\n"
-                + "\n"
-                + "It:\n"
-                + "- has multiple lines\n"
-                + "- uses Markdown (CommonMark) for rich text representation\"\"\""
+                Paths.get(
+                        outputPath + "/src/main/kotlin/org/openapitools/api/" + pingApiFileName),
+                "description = \"\"\"# Multi-line descriptions\n"
+                        + "\n"
+                        + "This is an example of a multi-line description.\n"
+                        + "\n"
+                        + "It:\n"
+                        + "- has multiple lines\n"
+                        + "- uses Markdown (CommonMark) for rich text representation\"\"\""
         );
     }
 
