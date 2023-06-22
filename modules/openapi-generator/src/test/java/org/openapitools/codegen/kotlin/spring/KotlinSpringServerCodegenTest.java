@@ -482,8 +482,8 @@ public class KotlinSpringServerCodegenTest {
             isInterfaceOnly);
 
         new DefaultGenerator().opts(new ClientOptInput()
-                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue4111-multiline-operation-description.yaml"))
-                    .config(codegen))
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue4111-multiline-operation-description.yaml"))
+                .config(codegen))
             .generate();
 
         final String pingApiFileName;
