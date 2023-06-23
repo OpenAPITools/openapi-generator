@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -303,7 +302,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
             }
             return "[String: " + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isComposedSchema(target)) {
-            List<Schema> schemas = ModelUtils.getInterfaces((ComposedSchema)target);
+            List<Schema> schemas = ModelUtils.getInterfaces((ComposedSchema) target);
             if (schemas.size() == 1) {
                 return getTypeDeclaration(schemas.get(0));
             } else {
@@ -562,6 +561,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
     public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
+
     @Override
     public String toEnumValue(String value, String datatype) {
         // for string, array of string
@@ -804,7 +804,9 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.SWIFT; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.SWIFT;
+    }
 
     protected void addAnyDecoderIfNeeded() {
         if (!anyDecoderWasAdded) {
