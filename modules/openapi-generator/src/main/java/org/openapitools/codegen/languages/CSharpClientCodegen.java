@@ -1614,17 +1614,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 for (Map.Entry<String, ModelsMap> composedEntry : objs.entrySet()) {
                     CodegenModel composedModel = ModelUtils.getModelByName(composedEntry.getKey(), objs);
                     if (ref.endsWith("/" + composedModel.name)) {
-                        if (discriminatorName != null) {
-                            composedModel.vars.removeIf(v -> v.name.equals(discriminatorName));
-                            composedModel.allVars.removeIf(v -> v.name.equals(discriminatorName));
-                            composedModel.readOnlyVars.removeIf(v -> v.name.equals(discriminatorName));
-                            composedModel.nonNullableVars.removeIf(v -> v.name.equals(discriminatorName));
-                            composedModel.optionalVars.removeIf(v -> v.name.equals(discriminatorName));
-                            composedModel.parentRequiredVars.removeIf(v -> v.name.equals(discriminatorName));
-                            composedModel.readWriteVars.removeIf(v -> v.name.equals(discriminatorName));
-                            composedModel.requiredVars.removeIf(v -> v.name.equals(discriminatorName));
-                        }
-
                         for (CodegenProperty composedProperty : composedModel.allVars) {
                             if (discriminatorName != null && composedProperty.name.equals(discriminatorName)) {
                                 continue;
