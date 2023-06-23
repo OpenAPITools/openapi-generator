@@ -33,17 +33,25 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Whale" /> class.
         /// </summary>
+        /// <param name="className">className</param>
         /// <param name="hasBaleen">hasBaleen</param>
         /// <param name="hasTeeth">hasTeeth</param>
         [JsonConstructor]
-        public Whale(bool hasBaleen, bool hasTeeth)
+        public Whale(string className, bool hasBaleen, bool hasTeeth)
         {
+            ClassName = className;
             HasBaleen = hasBaleen;
             HasTeeth = hasTeeth;
             OnCreated();
         }
 
         partial void OnCreated();
+
+        /// <summary>
+        /// Gets or Sets ClassName
+        /// </summary>
+        [JsonPropertyName("className")]
+        public string ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets HasBaleen
@@ -71,6 +79,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Whale {\n");
+            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  HasBaleen: ").Append(HasBaleen).Append("\n");
             sb.Append("  HasTeeth: ").Append(HasTeeth).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -111,6 +120,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
+            string? className = default;
             bool? hasBaleen = default;
             bool? hasTeeth = default;
 
@@ -129,6 +139,9 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "className":
+                            className = utf8JsonReader.GetString();
+                            break;
                         case "hasBaleen":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 hasBaleen = utf8JsonReader.GetBoolean();
@@ -143,13 +156,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Whale.");
+
             if (hasBaleen == null)
                 throw new ArgumentNullException(nameof(hasBaleen), "Property is required for class Whale.");
 
             if (hasTeeth == null)
                 throw new ArgumentNullException(nameof(hasTeeth), "Property is required for class Whale.");
 
-            return new Whale(hasBaleen.Value, hasTeeth.Value);
+            return new Whale(className, hasBaleen.Value, hasTeeth.Value);
         }
 
         /// <summary>
@@ -163,6 +179,7 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            writer.WriteString("className", whale.ClassName);
             writer.WriteBoolean("hasBaleen", whale.HasBaleen);
             writer.WriteBoolean("hasTeeth", whale.HasTeeth);
 

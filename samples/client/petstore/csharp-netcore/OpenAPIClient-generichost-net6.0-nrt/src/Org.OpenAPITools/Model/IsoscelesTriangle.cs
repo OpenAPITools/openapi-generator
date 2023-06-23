@@ -34,10 +34,12 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="IsoscelesTriangle" /> class.
         /// </summary>
         /// <param name="shapeType">shapeType</param>
+        /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public IsoscelesTriangle(string shapeType)
+        public IsoscelesTriangle(string shapeType, string triangleType)
         {
             ShapeType = shapeType;
+            TriangleType = triangleType;
             OnCreated();
         }
 
@@ -50,6 +52,12 @@ namespace Org.OpenAPITools.Model
         public string ShapeType { get; set; }
 
         /// <summary>
+        /// Gets or Sets TriangleType
+        /// </summary>
+        [JsonPropertyName("triangleType")]
+        public string TriangleType { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -58,6 +66,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class IsoscelesTriangle {\n");
             sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
+            sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -96,6 +105,7 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             string? shapeType = default;
+            string? triangleType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -115,6 +125,9 @@ namespace Org.OpenAPITools.Model
                         case "shapeType":
                             shapeType = utf8JsonReader.GetString();
                             break;
+                        case "triangleType":
+                            triangleType = utf8JsonReader.GetString();
+                            break;
                         default:
                             break;
                     }
@@ -124,7 +137,10 @@ namespace Org.OpenAPITools.Model
             if (shapeType == null)
                 throw new ArgumentNullException(nameof(shapeType), "Property is required for class IsoscelesTriangle.");
 
-            return new IsoscelesTriangle(shapeType);
+            if (triangleType == null)
+                throw new ArgumentNullException(nameof(triangleType), "Property is required for class IsoscelesTriangle.");
+
+            return new IsoscelesTriangle(shapeType, triangleType);
         }
 
         /// <summary>
@@ -139,6 +155,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             writer.WriteString("shapeType", isoscelesTriangle.ShapeType);
+            writer.WriteString("triangleType", isoscelesTriangle.TriangleType);
 
             writer.WriteEndObject();
         }
