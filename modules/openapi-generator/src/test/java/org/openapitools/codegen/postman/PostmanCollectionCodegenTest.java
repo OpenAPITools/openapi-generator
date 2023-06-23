@@ -6,10 +6,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PostmanCollectionCodegen;
 
@@ -465,6 +462,32 @@ public class PostmanCollectionCodegenTest {
         assertFileNotContains(path, "\\\"dateOfBirth\\\" : \\\"{{$isoTimestamp}}\\\"");
 
     }
+
+    @Test
+    public void testHeaderParameters() throws IOException {
+
+        File output = Files.createTempDirectory("postmantest_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("postman-collection")
+                .setInputSpec("./src/test/resources/SampleProject.yaml")
+                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/postman.json");
+        TestUtils.assertFileExists(path);
+        TestUtils.assertFileContains(path, "{ \"key\": \"Content-Type\", \"value\": \"application/json\"");
+        TestUtils.assertFileContains(path, "{ \"key\": \"Accept\", \"value\": \"application/json\"");
+        TestUtils.assertFileContains(path, "{ \"key\": \"Custom-Header\", \"value\": \"null\"");
+    }
+
 
     @Test
     public void testFormatDescription() {
