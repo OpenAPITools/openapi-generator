@@ -75,7 +75,8 @@ namespace Org.OpenAPITools.Test.Api
             //MultipartMixedStatus status = null;
             //System.IO.Stream file = null;
             //MultipartMixedRequestMarker marker = null;
-            //instance.MultipartMixed(status, file, marker);
+            //List<MultipartMixedStatus> statusArray = null;
+            //instance.MultipartMixed(status, file, marker, statusArray);
         }
 
         /// <summary>
