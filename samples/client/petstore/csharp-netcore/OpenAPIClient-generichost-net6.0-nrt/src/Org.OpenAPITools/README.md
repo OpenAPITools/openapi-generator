@@ -147,7 +147,6 @@ namespace YourProject
 - [Microsoft.Extensions.Hosting](https://www.nuget.org/packages/Microsoft.Extensions.Hosting/) - 5.0.0 or later
 - [Microsoft.Extensions.Http](https://www.nuget.org/packages/Microsoft.Extensions.Http/) - 5.0.0 or later
 - [Microsoft.Extensions.Http.Polly](https://www.nuget.org/packages/Microsoft.Extensions.Http.Polly/) - 5.0.1 or later
-- [Polly](https://www.nuget.org/packages/Polly/) - 7.2.3 or later
 - [CompareNETObjects](https://www.nuget.org/packages/CompareNETObjects) - 4.61.0 or later
 - [System.ComponentModel.Annotations](https://www.nuget.org/packages/System.ComponentModel.Annotations) - 4.7.0 or later
 
