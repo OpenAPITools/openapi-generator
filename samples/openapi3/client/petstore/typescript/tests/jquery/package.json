@@ -9,11 +9,11 @@
     "node-qunit-puppeteer": "^1.0.12",
     "qunit": "^2.9.2",
     "requirejs": "^2.3.6",
-    "rewire": "^4.0.1",
+    "rewire": "^6.0.0",
     "ts-node": "^3.3.0",
     "ts-petstore-client": "file:../../builds/jquery",
-    "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.4"
   },
   "scripts": {
     "test": "node ./dist/test-runner.js",
@@ -22,7 +22,7 @@
   "devDependencies": {
     "@types/node": "^8.10.48",
     "raw-loader": "^4.0.0",
-    "ts-loader": "^4.3.1",
+    "ts-loader": "^9.4.3",
     "typescript": "^2.4.1"
   },
   "name": "typescript-test",
