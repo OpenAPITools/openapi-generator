@@ -1,12 +1,12 @@
 ---
-title: Documentation for the csharp-netcore-functions Generator
+title: Documentation for the csharp-functions Generator
 ---
 
 ## METADATA
 
 | Property | Value | Notes |
 | -------- | ----- | ----- |
-| generator name | csharp-netcore-functions | pass this to the generate command after -g |
+| generator name | csharp-functions | pass this to the generate command after -g |
 | generator stability | STABLE | |
 | generator type | SERVER | |
 | generator language | C# | |
