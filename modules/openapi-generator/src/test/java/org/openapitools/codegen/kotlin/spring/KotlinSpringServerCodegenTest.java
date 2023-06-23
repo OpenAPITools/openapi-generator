@@ -93,7 +93,7 @@ public class KotlinSpringServerCodegenTest {
 
         // Check that the @RequestMapping annotation is not generated in the Api file
         assertFileNotContains(
-                Paths.get( output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
                 "@RequestMapping(\"\\${api.base-path"
         );
     }
