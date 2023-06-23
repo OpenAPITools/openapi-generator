@@ -33,6 +33,7 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.SneakyThrows;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -1966,6 +1967,50 @@ public class JavaClientCodegenTest {
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Cat.class, name = \"Cat\")");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Dog.class, name = \"Dog\")");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Lizard.class, name = \"Lizard\")");
+    }
+
+    @Test
+    public void shouldProperlyExplodeRestTemplateQueryParameters_issue907() {
+
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/explode-query-parameter.yaml",
+                JavaClientCodegen.RESTTEMPLATE
+        );
+
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .printFileContent()
+                .assertMethod("searchWithHttpInfo")
+                .bodyContainsLines("localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"regular-param\", regularParam));")
+                .bodyContainsLines("localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someString\", objectParam.getSomeString()));")
+                .bodyContainsLines("localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someBoolean\", objectParam.getSomeBoolean()));")
+                .bodyContainsLines("localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someInteger\", objectParam.getSomeInteger()));")
+        ;
+    }
+
+    private static Map<String, File> generateFromContract(final String pathToSpecification, final String library) {
+        return generateFromContract(pathToSpecification, library, new HashMap<>());
+    }
+
+    @SneakyThrows
+    private static Map<String, File> generateFromContract(
+            final String pathToSpecification,
+            final String library,
+            final Map<String, Object> properties
+    ) {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(library)
+                .setAdditionalProperties(properties)
+                .setInputSpec(pathToSpecification)
+                .setOutputDir(output.getAbsolutePath());
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        return generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
     }
 
     @Test
