@@ -165,7 +165,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         apiTemplateFiles.put("api.mustache", ".cs");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-        embeddedTemplateDir = templateDir = "csharp-netcore";
+        embeddedTemplateDir = templateDir = "csharp";
 
         cliOptions.clear();
 
@@ -565,7 +565,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String getName() {
-        return "csharp-netcore";
+        return "csharp";
     }
 
     public String getNameUsingModelPropertyNaming(String name) {
