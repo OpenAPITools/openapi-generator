@@ -224,19 +224,16 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             if (mammal.Pig != null) {
-                writer.WriteString("className", "Pig");
                 PigJsonConverter pigJsonConverter = (PigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Pig.GetType()));
                 pigJsonConverter.WriteProperties(ref writer, mammal.Pig, jsonSerializerOptions);
             }
 
             if (mammal.Whale != null) {
-                writer.WriteString("className", "whale");
                 WhaleJsonConverter whaleJsonConverter = (WhaleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Whale.GetType()));
                 whaleJsonConverter.WriteProperties(ref writer, mammal.Whale, jsonSerializerOptions);
             }
 
             if (mammal.Zebra != null) {
-                writer.WriteString("className", "zebra");
                 ZebraJsonConverter zebraJsonConverter = (ZebraJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Zebra.GetType()));
                 zebraJsonConverter.WriteProperties(ref writer, mammal.Zebra, jsonSerializerOptions);
             }

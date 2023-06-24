@@ -218,13 +218,11 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             if (shape.Quadrilateral != null) {
-                writer.WriteString("shapeType", "Quadrilateral");
                 QuadrilateralJsonConverter quadrilateralJsonConverter = (QuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(shape.Quadrilateral.GetType()));
                 quadrilateralJsonConverter.WriteProperties(ref writer, shape.Quadrilateral, jsonSerializerOptions);
             }
 
             if (shape.Triangle != null) {
-                writer.WriteString("shapeType", "Triangle");
                 TriangleJsonConverter triangleJsonConverter = (TriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(shape.Triangle.GetType()));
                 triangleJsonConverter.WriteProperties(ref writer, shape.Triangle, jsonSerializerOptions);
             }

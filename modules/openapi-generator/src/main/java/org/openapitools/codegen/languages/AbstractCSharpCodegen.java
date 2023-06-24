@@ -516,6 +516,17 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         Map<String, CodegenModel> enumRefs = new HashMap<>();
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), processed);
+
+            // if we don't call setHasDiscriminatorWithNonEmptyMapping then hasDiscriminatorWithNonEmptyMapping will be false, and we need it in the JsonConverter
+            // the checks on oneOf and anyOf must be there or else hasDiscriminatorWithNonEmptyMapping will be true for GrandparentAnimal.
+            // GrandparentAnimal has a discriminator, but no oneOf nor anyOf
+            // modules\openapi-generator\src\test\resources\3_0\csharp\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
+            model.setHasDiscriminatorWithNonEmptyMapping(
+                    ((model.anyOf != null && model.anyOf.size() > 0) || (model.anyOf != null &&model.oneOf.size() > 0)) &&
+                    model.discriminator != null &&
+                    model.discriminator.getMappedModels() != null &&
+                    model.discriminator.getMappedModels().size() > 0);
+
             if (model.isEnum) {
                 enumRefs.put(model.getClassname(), model);
             }

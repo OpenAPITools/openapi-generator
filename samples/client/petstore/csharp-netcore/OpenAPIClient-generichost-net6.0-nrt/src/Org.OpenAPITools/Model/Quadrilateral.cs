@@ -201,13 +201,11 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             if (quadrilateral.ComplexQuadrilateral != null) {
-                writer.WriteString("quadrilateralType", "ComplexQuadrilateral");
                 ComplexQuadrilateralJsonConverter complexQuadrilateralJsonConverter = (ComplexQuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(quadrilateral.ComplexQuadrilateral.GetType()));
                 complexQuadrilateralJsonConverter.WriteProperties(ref writer, quadrilateral.ComplexQuadrilateral, jsonSerializerOptions);
             }
 
             if (quadrilateral.SimpleQuadrilateral != null) {
-                writer.WriteString("quadrilateralType", "SimpleQuadrilateral");
                 SimpleQuadrilateralJsonConverter simpleQuadrilateralJsonConverter = (SimpleQuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(quadrilateral.SimpleQuadrilateral.GetType()));
                 simpleQuadrilateralJsonConverter.WriteProperties(ref writer, quadrilateral.SimpleQuadrilateral, jsonSerializerOptions);
             }

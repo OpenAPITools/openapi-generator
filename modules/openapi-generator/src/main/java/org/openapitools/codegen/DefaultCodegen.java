@@ -470,6 +470,13 @@ public class DefaultCodegen implements CodegenConfig {
         for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
 
+            if (model.discriminator != null && model.discriminator.getMappedModels() != null) {
+                for (CodegenDiscriminator.MappedModel mappedModel : model.discriminator.getMappedModels()) {
+                    CodegenModel mappedCodegenModel = ModelUtils.getModelByName(mappedModel.getModelName(), objs);
+                    mappedModel.setModel(mappedCodegenModel);
+                }
+            }
+
             for (CodegenProperty property : model.allVars){
                 property.isNew = codegenPropertyIsNew(model, property);
             }

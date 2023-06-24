@@ -44,7 +44,7 @@
             {{/-last}}
             {{/allVars}}
             {{#model.discriminator}}
-            {{#hasMappedModels}}
+            {{#model.hasDiscriminatorWithNonEmptyMapping}}
             {{#mappedModels}}
             {{#model}}
             {{^vendorExtensions.x-duplicated-data-type}}
@@ -82,7 +82,7 @@
                 }
             }
 
-            {{/hasMappedModels}}
+            {{/model.hasDiscriminatorWithNonEmptyMapping}}
             {{/model.discriminator}}
             {{^model.discriminator}}
             {{#composedSchemas}}
@@ -272,7 +272,7 @@
             {{/allVars}}
             {{^vendorExtensions.x-duplicated-data-type}}
             {{#model.discriminator}}
-            {{#hasMappedModels}}
+            {{#model.hasDiscriminatorWithNonEmptyMapping}}
             {{#mappedModels}}
             if ({{#lambda.camelcase_param}}{{model.classname}}{{/lambda.camelcase_param}} != null)
                 return new {{classname}}({{#lambda.joinWithComma}}{{#lambda.camelcase_param}}{{model.classname}}{{/lambda.camelcase_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{#model.composedSchemas.anyOf}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{/allVars}}{{/lambda.joinWithComma}});
@@ -281,7 +281,7 @@
             throw new JsonException();
             {{/-last}}
             {{/mappedModels}}
-            {{/hasMappedModels}}
+            {{/model.hasDiscriminatorWithNonEmptyMapping}}
             {{/model.discriminator}}
             {{^composedSchemas.oneOf}}
             return new {{classname}}({{#lambda.joinWithComma}}{{#model.composedSchemas.anyOf}}{{#lambda.camelcase_param}}{{#lambda.camelcase_param}}{{baseType}}{{/lambda.camelcase_param}}{{/lambda.camelcase_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{/model.composedSchemas.anyOf}}{{#allVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#vendorExtensions.x-is-value-type}}{{^isNullable}}.Value{{/isNullable}}{{/vendorExtensions.x-is-value-type}}  {{/allVars}}{{/lambda.joinWithComma}});
@@ -315,16 +315,15 @@
             writer.WriteStartObject();
 
             {{#model.discriminator}}
-            {{#hasMappedModels}}
+            {{#model.hasDiscriminatorWithNonEmptyMapping}}
             {{#mappedModels}}
             if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{model.classname}} != null) {
-                writer.WriteString("{{propertyBaseName}}", "{{mappingName}}");
                 {{model.classname}}JsonConverter {{#lambda.camelcase_param}}{{model.classname}}JsonConverter{{/lambda.camelcase_param}} = ({{model.classname}}JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{model.classname}}.GetType()));
                 {{#lambda.camelcase_param}}{{model.classname}}JsonConverter{{/lambda.camelcase_param}}.WriteProperties(ref writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{model.classname}}, jsonSerializerOptions);
             }
 
             {{/mappedModels}}
-            {{/hasMappedModels}}
+            {{/model.hasDiscriminatorWithNonEmptyMapping}}
             {{/model.discriminator}}
             {{^model.discriminator}}
             {{#composedSchemas}}

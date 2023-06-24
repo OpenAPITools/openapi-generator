@@ -78,10 +78,6 @@ public class CodegenDiscriminator {
         this.mapping = mapping;
     }
 
-    private Boolean hasMappedModels = hasMappedModels = mappedModels != null && mappedModels.size() > 0;
-
-    public void setHasMappedModels() { hasMappedModels = mappedModels != null && mappedModels.size() > 0; }
-
     public Set<MappedModel> getMappedModels() {
         return mappedModels;
     }

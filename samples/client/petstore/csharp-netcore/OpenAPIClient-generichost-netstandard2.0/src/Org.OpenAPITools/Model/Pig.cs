@@ -199,13 +199,11 @@ namespace Org.OpenAPITools.Model
             writer.WriteStartObject();
 
             if (pig.BasquePig != null) {
-                writer.WriteString("className", "BasquePig");
                 BasquePigJsonConverter basquePigJsonConverter = (BasquePigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(pig.BasquePig.GetType()));
                 basquePigJsonConverter.WriteProperties(ref writer, pig.BasquePig, jsonSerializerOptions);
             }
 
             if (pig.DanishPig != null) {
-                writer.WriteString("className", "DanishPig");
                 DanishPigJsonConverter danishPigJsonConverter = (DanishPigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(pig.DanishPig.GetType()));
                 danishPigJsonConverter.WriteProperties(ref writer, pig.DanishPig, jsonSerializerOptions);
             }
