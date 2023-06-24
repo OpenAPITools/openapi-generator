@@ -13,8 +13,9 @@ using System.Text.Json;
 using System.Text.RegularExpressions;{{#useCompareNetObjects}}
 using KellermanSoftware.CompareNetObjects;{{/useCompareNetObjects}}
 using {{packageName}}.{{modelPackage}};
+using System.Runtime.CompilerServices;
 
-namespace {{packageName}}.{{clientPackage}}
+{{>Assembly}}namespace {{packageName}}.{{clientPackage}}
 {
     /// <summary>
     /// Utility functions providing some benefit to API client consumers.
