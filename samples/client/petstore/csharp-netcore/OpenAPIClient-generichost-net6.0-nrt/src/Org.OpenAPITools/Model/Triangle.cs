@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="equilateralTriangle"></param>
         [JsonConstructor]
-        internal Triangle(EquilateralTriangle equilateralTriangle)
+        public Triangle(EquilateralTriangle equilateralTriangle)
         {
             EquilateralTriangle = equilateralTriangle;
             OnCreated();
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="isoscelesTriangle"></param>
         [JsonConstructor]
-        internal Triangle(IsoscelesTriangle isoscelesTriangle)
+        public Triangle(IsoscelesTriangle isoscelesTriangle)
         {
             IsoscelesTriangle = isoscelesTriangle;
             OnCreated();
@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="scaleneTriangle"></param>
         [JsonConstructor]
-        internal Triangle(ScaleneTriangle scaleneTriangle)
+        public Triangle(ScaleneTriangle scaleneTriangle)
         {
             ScaleneTriangle = scaleneTriangle;
             OnCreated();

@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="basquePig"></param>
         [JsonConstructor]
-        internal Pig(BasquePig basquePig)
+        public Pig(BasquePig basquePig)
         {
             BasquePig = basquePig;
             OnCreated();
@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="danishPig"></param>
         [JsonConstructor]
-        internal Pig(DanishPig danishPig)
+        public Pig(DanishPig danishPig)
         {
             DanishPig = danishPig;
             OnCreated();

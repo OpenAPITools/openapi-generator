@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="triangle"></param>
         [JsonConstructor]
-        internal NullableShape(Triangle triangle)
+        public NullableShape(Triangle triangle)
         {
             Triangle = triangle;
             OnCreated();
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="quadrilateral"></param>
         [JsonConstructor]
-        internal NullableShape(Quadrilateral quadrilateral)
+        public NullableShape(Quadrilateral quadrilateral)
         {
             Quadrilateral = quadrilateral;
             OnCreated();

@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="simpleQuadrilateral"></param>
         [JsonConstructor]
-        internal Quadrilateral(SimpleQuadrilateral simpleQuadrilateral)
+        public Quadrilateral(SimpleQuadrilateral simpleQuadrilateral)
         {
             SimpleQuadrilateral = simpleQuadrilateral;
             OnCreated();
@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="complexQuadrilateral"></param>
         [JsonConstructor]
-        internal Quadrilateral(ComplexQuadrilateral complexQuadrilateral)
+        public Quadrilateral(ComplexQuadrilateral complexQuadrilateral)
         {
             ComplexQuadrilateral = complexQuadrilateral;
             OnCreated();

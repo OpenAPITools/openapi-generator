@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="whale"></param>
         [JsonConstructor]
-        internal Mammal(Whale whale)
+        public Mammal(Whale whale)
         {
             Whale = whale;
             OnCreated();
@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="zebra"></param>
         [JsonConstructor]
-        internal Mammal(Zebra zebra)
+        public Mammal(Zebra zebra)
         {
             Zebra = zebra;
             OnCreated();
@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="pig"></param>
         [JsonConstructor]
-        internal Mammal(Pig pig)
+        public Mammal(Pig pig)
         {
             Pig = pig;
             OnCreated();
