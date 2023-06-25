@@ -667,6 +667,23 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Removes importToRemove from the imports of objs, if present.
+     * This is useful to remove imports that are already present in operations-related template files, to avoid importing the same thing twice.
+     *
+     * @param objs imports will be removed from this objs' imports collection
+     * @param importToRemove the import statement to be removed
+     */
+    protected void removeImport(OperationsMap objs, String importToRemove) {
+        List<Map<String, String>> imports = objs.getImports();
+        for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
+            String itrImport = itr.next().get("import");
+            if (itrImport.equals(importToRemove)) {
+                itr.remove();
+            }
+        }
+    }
+
+    /**
      * Removes imports from the model that points to itself
      * Marks a self referencing property, if detected
      *
@@ -2167,6 +2184,21 @@ public class DefaultCodegen implements CodegenConfig {
     public String toDefaultParameterValue(Schema<?> schema) {
         // by default works as original method to be backward compatible
         return toDefaultValue(schema);
+    }
+
+    /**
+     * Return the default value of the parameter
+     * <p>
+     * Return null if you do NOT want a default value.
+     * Any non-null value will cause {{#defaultValue} check to pass.
+     *
+     * @param codegenProperty Codegen Property
+     * @param schema Parameter schema
+     * @return string presentation of the default value of the parameter
+     */
+    public String toDefaultParameterValue(CodegenProperty codegenProperty, Schema<?> schema) {
+        // by default works as original method to be backward compatible
+        return toDefaultParameterValue(schema);
     }
 
     /**
@@ -5110,9 +5142,6 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isNullable = true;
         }
 
-        // set default value
-        codegenParameter.defaultValue = toDefaultParameterValue(parameterSchema);
-
         if (parameter.getStyle() != null) {
             codegenParameter.style = parameter.getStyle().toString();
             codegenParameter.isDeepObject = Parameter.StyleEnum.DEEPOBJECT == parameter.getStyle();
@@ -5203,7 +5232,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.dataType = codegenProperty.dataType;
         }
         if (!addSchemaImportsFromV3SpecLocations) {
-            if (ModelUtils.isSet(parameterSchema)) {
+            if (ModelUtils.isArraySchema(parameterSchema)) {
                 imports.add(codegenProperty.baseType);
             }
         }
@@ -5279,6 +5308,9 @@ public class DefaultCodegen implements CodegenConfig {
                         codegenParameter);
             }
         }
+
+        // set default value
+        codegenParameter.defaultValue = toDefaultParameterValue(codegenProperty, parameterSchema);
 
         finishUpdatingParameter(codegenParameter, parameter);
         return codegenParameter;
@@ -6891,7 +6923,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         codegenParameter.baseType = codegenProperty.baseType;
         codegenParameter.dataType = codegenProperty.dataType;
-        codegenParameter.defaultValue = toDefaultParameterValue(propertySchema);
         codegenParameter.baseName = codegenProperty.baseName;
         codegenParameter.paramName = toParamName(codegenParameter.baseName);
         codegenParameter.dataFormat = codegenProperty.dataFormat;
@@ -6901,6 +6932,9 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.isEnumRef = codegenProperty.isEnumRef;
         codegenParameter._enum = codegenProperty._enum;
         codegenParameter.allowableValues = codegenProperty.allowableValues;
+
+        // set default value
+        codegenParameter.defaultValue = toDefaultParameterValue(codegenProperty, propertySchema);
 
         if (ModelUtils.isFileSchema(ps) && !ModelUtils.isStringSchema(ps)) {
             // swagger v2 only, type file
@@ -7036,7 +7070,10 @@ public class DefaultCodegen implements CodegenConfig {
                 imports.add(codegenProperty.complexType);
             }
         }
+
+        // set example value
         setParameterExampleValue(codegenParameter);
+
         // set nullable
         setParameterNullable(codegenParameter, codegenProperty);
 
@@ -7410,7 +7447,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (addSchemaImportsFromV3SpecLocations) {
                     addImports(imports, schemaProp.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet()));
                 } else {
-                    addImports(imports, schemaProp.getImports(false, importBaseType, generatorMetadata.getFeatureSet()));
+                    addImports(imports, schemaProp.getImports(true, importBaseType, generatorMetadata.getFeatureSet()));
                 }
             }
         }

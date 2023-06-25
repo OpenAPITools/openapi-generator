@@ -18,7 +18,6 @@
 #include "PFXOauth.h"
 
 #include "PFXUser.h"
-#include <QList>
 #include <QString>
 
 #include <QObject>

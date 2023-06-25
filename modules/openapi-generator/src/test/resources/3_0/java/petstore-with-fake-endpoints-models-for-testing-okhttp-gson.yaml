@@ -2213,3 +2213,14 @@ components:
           enum:
             - type_a
             - type_b
+    ArrayDefault:
+      properties:
+        WithDefaultEmptyBracket:
+          default: []
+          items:
+            type: string
+          type: array
+        WithoutDefault:
+          items:
+            type: string
+          type: array

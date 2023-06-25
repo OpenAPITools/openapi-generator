@@ -52,7 +52,7 @@ jobs:
 
       - name: Build with Maven
         shell: bash
-        run: mvn clean -nsu -B --quiet -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress install --file pom.xml
+        run: ./mvnw clean -nsu -B --quiet -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress install --file pom.xml
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
 
@@ -101,7 +101,7 @@ jobs:
           git config --global core.fileMode false
           git config --global core.safecrlf false
           git config --global core.autocrlf true
-          mvn clean package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+          ./mvnw clean package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
           # test with java (jersey2) client generation only as ensure-up-to-date script is run in another job instead
           ./bin/generate-samples.sh ./bin/configs/java-jersey2-8.yaml
           # test debugSupportingFiles
