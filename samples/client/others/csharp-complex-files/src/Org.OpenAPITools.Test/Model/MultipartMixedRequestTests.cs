@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -55,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<MultipartMixedRequest>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Status'
         /// </summary>
@@ -64,6 +62,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Status'
         }
+
         /// <summary>
         /// Test the property 'Marker'
         /// </summary>
@@ -72,6 +71,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Marker'
         }
+
         /// <summary>
         /// Test the property 'File'
         /// </summary>
@@ -81,6 +81,13 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'File'
         }
 
+        /// <summary>
+        /// Test the property 'StatusArray'
+        /// </summary>
+        [Fact]
+        public void StatusArrayTest()
+        {
+            // TODO unit test for the property 'StatusArray'
+        }
     }
-
 }

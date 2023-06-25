@@ -108,7 +108,7 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("function.mustache", ".cs");
 
-        embeddedTemplateDir = templateDir = "csharp-netcore-functions";
+        embeddedTemplateDir = templateDir = "csharp-functions";
 
         // contextually reserved words
         // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
@@ -302,7 +302,7 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String getName() {
-        return "csharp-netcore-functions";
+        return "csharp-functions";
     }
 
     @Override
