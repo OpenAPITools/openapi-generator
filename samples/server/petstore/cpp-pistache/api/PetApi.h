@@ -31,6 +31,7 @@
 #include "ApiResponse.h"
 #include "Pet.h"
 #include <string>
+#include <vector>
 
 namespace org::openapitools::server::api
 {

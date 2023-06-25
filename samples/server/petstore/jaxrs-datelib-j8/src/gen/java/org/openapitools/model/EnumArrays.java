@@ -163,8 +163,8 @@ public class EnumArrays  implements Serializable {
       return false;
     }
     EnumArrays enumArrays = (EnumArrays) o;
-    return Objects.equals(this.justSymbol, enumArrays.justSymbol) &&
-        Objects.equals(this.arrayEnum, enumArrays.arrayEnum);
+    return Objects.equals(justSymbol, enumArrays.justSymbol) &&
+        Objects.equals(arrayEnum, enumArrays.arrayEnum);
   }
 
   @Override

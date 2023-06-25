@@ -39,14 +39,13 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
       return false;
     }
     {{classname}} {{classVarName}} = ({{classname}}) o;{{#hasVars}}
-    return {{#vars}}Objects.equals({{name}}, {{classVarName}}.{{name}}){{^-last}} &&
-        {{/-last}}{{#-last}};{{/-last}}{{/vars}}{{/hasVars}}{{^hasVars}}
-    return true;{{/hasVars}}
+    return {{#parent}}super.equals(o) && {{/parent}}{{#vars}}Objects.equals({{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+        {{/-last}}{{#-last}};{{/-last}}{{/vars}}{{/hasVars}}{{^hasVars}}{{#parent}}return super.equals(o);{{/parent}}{{^parent}}return true;{{/parent}}{{/hasVars}}
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}});
+    return {{^hasVars}}{{#parent}}super.hashCode(){{/parent}}{{^parent}}1{{/parent}}{{/hasVars}}{{#hasVars}}Objects.hash({{#vars}}{{#parent}}super.hashCode(), {{/parent}}{{name}}{{^-last}}, {{/-last}}{{/vars}}){{/hasVars}};
   }
 
   @Override
