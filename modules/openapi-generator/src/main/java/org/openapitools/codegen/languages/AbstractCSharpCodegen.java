@@ -580,17 +580,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isPrimitiveType = true;
         }
 
-        if (!property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
-            property.vendorExtensions.put("x-csharp-value-type", true);
-        }
+        Boolean isValueType = isValueType(property);
 
-        property.vendorExtensions.put("x-is-value-type", isValueType(property));
+        property.vendorExtensions.put("x-is-value-type", isValueType);
 
-        if (property.isNullable && !property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
+        if (property.isNullable && !property.isContainer && isValueType) {
             property.vendorExtensions.put("x-nullable-value-type", true);
         }
 
-        if (this.getNullableReferencesTypes() || (property.vendorExtensions.get("x-nullable-value-type") != null)) {
+        if (this.getNullableReferencesTypes() || isValueType) {
             property.vendorExtensions.put("x-nullable-type", true);
         }
 
@@ -826,7 +824,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // default noop
     }
 
-    protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
+    protected void updateCodegenParameterEnumLegacy(CodegenParameter parameter, CodegenModel model) {
         if (model != null) {
             if (model.isEnum) {
                 parameter.isEnum = true;
@@ -838,6 +836,21 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         if (!parameter.isContainer && this.getNullableTypes().contains(parameter.dataType)) {
             parameter.vendorExtensions.put("x-csharp-value-type", true);
+        }
+    }
+
+    protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
+        if (model != null) {
+            if (model.isEnum) {
+                parameter.isEnum = true;
+                parameter.allowableValues = model.allowableValues;
+                parameter.isPrimitiveType = true;
+                parameter.vendorExtensions.put("x-is-value-type", true);
+            }
+        }
+
+        if (!parameter.isContainer && this.getValueTypes().contains(parameter.dataType)) {
+            parameter.vendorExtensions.put("x-is-value-type", true);
         }
     }
 

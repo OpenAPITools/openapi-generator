@@ -44,7 +44,7 @@
             {{/vendorExtensions.x-duplicated-data-type}}
             {{/composedSchemas.anyOf}}
             {{#allVars}}
-            {{#isInnerEnum}}{{^isMap}}{{classname}}.{{/isMap}}{{/isInnerEnum}}{{#nrt}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/nrt}}{{^nrt}}{{{datatypeWithEnum}}}{{#vendorExtensions.x-csharp-value-type}}?{{/vendorExtensions.x-csharp-value-type}}{{/nrt}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = default;
+            {{#isInnerEnum}}{{^isMap}}{{classname}}.{{/isMap}}{{/isInnerEnum}}{{#nrt}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/nrt}}{{^nrt}}{{{datatypeWithEnum}}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = default;
             {{#-last}}
 
             {{/-last}}

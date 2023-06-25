@@ -267,7 +267,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "number_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                numberProp = utf8JsonReader.GetInt32();
+                                numberProp = utf8JsonReader.GetDecimal();
                             break;
                         case "object_and_items_nullable_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
