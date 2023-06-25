@@ -506,6 +506,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                 List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
                 if (anyOf != null) {
+                    removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
                     for(CodegenProperty property : anyOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
@@ -514,6 +515,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                 List<CodegenProperty> oneOf = composedSchemas.getOneOf();
                 if (oneOf != null) {
+                    removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
                     for(CodegenProperty property : oneOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
@@ -550,6 +552,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             }
         }
         return processed;
+    }
+
+    protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {
     }
 
     private String patchPropertyName(CodegenModel model, String value) {

@@ -32,16 +32,12 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ShapeOrNull" /> class.
         /// </summary>
         /// <param name="triangle"></param>
-        /// <param name="quadrilateralType">quadrilateralType</param>
         /// <param name="shapeType">shapeType</param>
-        /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public ShapeOrNull(Triangle triangle, string quadrilateralType, string shapeType, string triangleType)
+        public ShapeOrNull(Triangle triangle, string shapeType)
         {
             Triangle = triangle;
-            QuadrilateralType = quadrilateralType;
             ShapeType = shapeType;
-            TriangleType = triangleType;
             OnCreated();
         }
 
@@ -49,16 +45,12 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ShapeOrNull" /> class.
         /// </summary>
         /// <param name="quadrilateral"></param>
-        /// <param name="quadrilateralType">quadrilateralType</param>
         /// <param name="shapeType">shapeType</param>
-        /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public ShapeOrNull(Quadrilateral quadrilateral, string quadrilateralType, string shapeType, string triangleType)
+        public ShapeOrNull(Quadrilateral quadrilateral, string shapeType)
         {
             Quadrilateral = quadrilateral;
-            QuadrilateralType = quadrilateralType;
             ShapeType = shapeType;
-            TriangleType = triangleType;
             OnCreated();
         }
 
@@ -75,22 +67,10 @@ namespace Org.OpenAPITools.Model
         public Quadrilateral Quadrilateral { get; set; }
 
         /// <summary>
-        /// Gets or Sets QuadrilateralType
-        /// </summary>
-        [JsonPropertyName("quadrilateralType")]
-        public string QuadrilateralType { get; set; }
-
-        /// <summary>
         /// Gets or Sets ShapeType
         /// </summary>
         [JsonPropertyName("shapeType")]
         public string ShapeType { get; set; }
-
-        /// <summary>
-        /// Gets or Sets TriangleType
-        /// </summary>
-        [JsonPropertyName("triangleType")]
-        public string TriangleType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -106,7 +86,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ShapeOrNull {\n");
-            sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append("\n");
             sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -156,9 +135,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string quadrilateralType = default;
             string shapeType = default;
-            string triangleType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -175,14 +152,8 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "quadrilateralType":
-                            quadrilateralType = utf8JsonReader.GetString();
-                            break;
                         case "shapeType":
                             shapeType = utf8JsonReader.GetString();
-                            break;
-                        case "triangleType":
-                            triangleType = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -190,22 +161,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (quadrilateralType == null)
-                throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class ShapeOrNull.");
-
             if (shapeType == null)
                 throw new ArgumentNullException(nameof(shapeType), "Property is required for class ShapeOrNull.");
 
-            if (triangleType == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is required for class ShapeOrNull.");
-
             Utf8JsonReader triangleReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, jsonSerializerOptions, out Triangle triangle))
-                return new ShapeOrNull(triangle, quadrilateralType, shapeType, triangleType);
+                return new ShapeOrNull(triangle, shapeType);
 
             Utf8JsonReader quadrilateralReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, jsonSerializerOptions, out Quadrilateral quadrilateral))
-                return new ShapeOrNull(quadrilateral, quadrilateralType, shapeType, triangleType);
+                return new ShapeOrNull(quadrilateral, shapeType);
 
             throw new JsonException();
         }
@@ -225,9 +190,7 @@ namespace Org.OpenAPITools.Model
 
             writer.WriteStartObject();
 
-            writer.WriteString("quadrilateralType", shapeOrNull.QuadrilateralType);
             writer.WriteString("shapeType", shapeOrNull.ShapeType);
-            writer.WriteString("triangleType", shapeOrNull.TriangleType);
 
             writer.WriteEndObject();
         }

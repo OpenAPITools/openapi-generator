@@ -35,16 +35,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="apple"></param>
         /// <param name="banana"></param>
-        /// <param name="count">count</param>
-        /// <param name="kind">kind</param>
         /// <param name="color">color</param>
         [JsonConstructor]
-        public Fruit(Apple? apple, Banana? banana, decimal count, string kind, string color)
+        public Fruit(Apple? apple, Banana? banana, string color)
         {
             Apple = Apple;
             Banana = Banana;
-            Count = count;
-            Kind = kind;
             Color = color;
             OnCreated();
         }
@@ -60,18 +56,6 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Banana
         /// </summary>
         public Banana? Banana { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Count
-        /// </summary>
-        [JsonPropertyName("count")]
-        public decimal Count { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Kind
-        /// </summary>
-        [JsonPropertyName("kind")]
-        public string Kind { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
@@ -94,8 +78,6 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Fruit {\n");
             sb.Append("  Color: ").Append(Color).Append("\n");
-            sb.Append("  Count: ").Append(Count).Append("\n");
-            sb.Append("  Kind: ").Append(Kind).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -140,8 +122,6 @@ namespace Org.OpenAPITools.Model
             Utf8JsonReader bananaReader = utf8JsonReader;
             bool bananaDeserialized = Client.ClientUtils.TryDeserialize<Banana>(ref bananaReader, jsonSerializerOptions, out Banana? banana);
 
-            decimal? count = default;
-            string? kind = default;
             string? color = default;
 
             while (utf8JsonReader.Read())
@@ -159,13 +139,6 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "count":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                count = utf8JsonReader.GetDecimal();
-                            break;
-                        case "kind":
-                            kind = utf8JsonReader.GetString();
-                            break;
                         case "color":
                             color = utf8JsonReader.GetString();
                             break;
@@ -175,16 +148,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (count == null)
-                throw new ArgumentNullException(nameof(count), "Property is required for class Fruit.");
-
-            if (kind == null)
-                throw new ArgumentNullException(nameof(kind), "Property is required for class Fruit.");
-
             if (color == null)
                 throw new ArgumentNullException(nameof(color), "Property is required for class Fruit.");
 
-            return new Fruit(apple, banana, count.Value, kind, color);
+            return new Fruit(apple, banana, color);
         }
 
         /// <summary>
@@ -202,8 +169,6 @@ namespace Org.OpenAPITools.Model
 
             writer.WriteStartObject();
 
-            writer.WriteNumber("count", fruit.Count);
-            writer.WriteString("kind", fruit.Kind);
             writer.WriteString("color", fruit.Color);
 
             writer.WriteEndObject();

@@ -34,13 +34,11 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="equilateralTriangle"></param>
-        /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(EquilateralTriangle? equilateralTriangle, string shapeType, string triangleType)
+        public Triangle(EquilateralTriangle? equilateralTriangle, string triangleType)
         {
             EquilateralTriangle = equilateralTriangle;
-            ShapeType = shapeType;
             TriangleType = triangleType;
             OnCreated();
         }
@@ -49,13 +47,11 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="isoscelesTriangle"></param>
-        /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(IsoscelesTriangle? isoscelesTriangle, string shapeType, string triangleType)
+        public Triangle(IsoscelesTriangle? isoscelesTriangle, string triangleType)
         {
             IsoscelesTriangle = isoscelesTriangle;
-            ShapeType = shapeType;
             TriangleType = triangleType;
             OnCreated();
         }
@@ -64,13 +60,11 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="scaleneTriangle"></param>
-        /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(ScaleneTriangle? scaleneTriangle, string shapeType, string triangleType)
+        public Triangle(ScaleneTriangle? scaleneTriangle, string triangleType)
         {
             ScaleneTriangle = scaleneTriangle;
-            ShapeType = shapeType;
             TriangleType = triangleType;
             OnCreated();
         }
@@ -93,12 +87,6 @@ namespace Org.OpenAPITools.Model
         public ScaleneTriangle? ScaleneTriangle { get; set; }
 
         /// <summary>
-        /// Gets or Sets ShapeType
-        /// </summary>
-        [JsonPropertyName("shapeType")]
-        public string ShapeType { get; set; }
-
-        /// <summary>
         /// Gets or Sets TriangleType
         /// </summary>
         [JsonPropertyName("triangleType")]
@@ -118,7 +106,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Triangle {\n");
-            sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
             sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -168,7 +155,6 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? shapeType = default;
             string? triangleType = default;
 
             while (utf8JsonReader.Read())
@@ -186,9 +172,6 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "shapeType":
-                            shapeType = utf8JsonReader.GetString();
-                            break;
                         case "triangleType":
                             triangleType = utf8JsonReader.GetString();
                             break;
@@ -198,23 +181,20 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (shapeType == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is required for class Triangle.");
-
             if (triangleType == null)
                 throw new ArgumentNullException(nameof(triangleType), "Property is required for class Triangle.");
 
             Utf8JsonReader equilateralTriangleReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<EquilateralTriangle>(ref equilateralTriangleReader, jsonSerializerOptions, out EquilateralTriangle? equilateralTriangle))
-                return new Triangle(equilateralTriangle, shapeType, triangleType);
+                return new Triangle(equilateralTriangle, triangleType);
 
             Utf8JsonReader isoscelesTriangleReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<IsoscelesTriangle>(ref isoscelesTriangleReader, jsonSerializerOptions, out IsoscelesTriangle? isoscelesTriangle))
-                return new Triangle(isoscelesTriangle, shapeType, triangleType);
+                return new Triangle(isoscelesTriangle, triangleType);
 
             Utf8JsonReader scaleneTriangleReader = utf8JsonReader;
             if (Client.ClientUtils.TryDeserialize<ScaleneTriangle>(ref scaleneTriangleReader, jsonSerializerOptions, out ScaleneTriangle? scaleneTriangle))
-                return new Triangle(scaleneTriangle, shapeType, triangleType);
+                return new Triangle(scaleneTriangle, triangleType);
 
             throw new JsonException();
         }
@@ -236,7 +216,6 @@ namespace Org.OpenAPITools.Model
 
             writer.WriteStartObject();
 
-            writer.WriteString("shapeType", triangle.ShapeType);
             writer.WriteString("triangleType", triangle.TriangleType);
 
             writer.WriteEndObject();
