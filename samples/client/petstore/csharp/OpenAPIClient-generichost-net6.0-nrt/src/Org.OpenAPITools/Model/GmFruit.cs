@@ -39,8 +39,8 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public GmFruit(Apple? apple, Banana? banana, string color)
         {
-            Apple = Apple;
-            Banana = Banana;
+            Apple = apple;
+            Banana = banana;
             Color = color;
             OnCreated();
         }

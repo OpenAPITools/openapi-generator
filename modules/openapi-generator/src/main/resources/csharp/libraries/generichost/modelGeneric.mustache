@@ -51,7 +51,7 @@
         {{#readWriteVars}}{{#-first}}public{{/-first}}{{/readWriteVars}}{{^readWriteVars}}internal{{/readWriteVars}} {{classname}}({{#lambda.joinWithComma}}{{#composedSchemas.anyOf}}{{{name}}}{{>NullConditionalProperty}} {{#lambda.camelcase_param}}{{baseType}}{{/lambda.camelcase_param}}  {{/composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
         {
             {{#composedSchemas.anyOf}}
-            {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}} = {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}};
+            {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{/composedSchemas.anyOf}}
             {{#allVars}}
             {{^isInherited}}
