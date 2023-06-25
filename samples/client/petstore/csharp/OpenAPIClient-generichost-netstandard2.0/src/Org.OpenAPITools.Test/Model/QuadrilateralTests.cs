@@ -52,5 +52,14 @@ namespace Org.OpenAPITools.Test.Model
             // TODO uncomment below to test "IsType" Quadrilateral
             //Assert.IsType<Quadrilateral>(instance);
         }
+
+        /// <summary>
+        /// Test the property 'QuadrilateralType'
+        /// </summary>
+        [Fact]
+        public void QuadrilateralTypeTest()
+        {
+            // TODO unit test for the property 'QuadrilateralType'
+        }
     }
 }

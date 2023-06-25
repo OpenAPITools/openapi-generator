@@ -52,5 +52,14 @@ namespace Org.OpenAPITools.Test.Model
             // TODO uncomment below to test "IsType" NullableShape
             //Assert.IsType<NullableShape>(instance);
         }
+
+        /// <summary>
+        /// Test the property 'ShapeType'
+        /// </summary>
+        [Fact]
+        public void ShapeTypeTest()
+        {
+            // TODO unit test for the property 'ShapeType'
+        }
     }
 }

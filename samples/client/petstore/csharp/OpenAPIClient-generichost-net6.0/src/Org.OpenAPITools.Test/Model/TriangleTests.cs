@@ -52,5 +52,14 @@ namespace Org.OpenAPITools.Test.Model
             // TODO uncomment below to test "IsType" Triangle
             //Assert.IsType<Triangle>(instance);
         }
+
+        /// <summary>
+        /// Test the property 'TriangleType'
+        /// </summary>
+        [Fact]
+        public void TriangleTypeTest()
+        {
+            // TODO unit test for the property 'TriangleType'
+        }
     }
 }
