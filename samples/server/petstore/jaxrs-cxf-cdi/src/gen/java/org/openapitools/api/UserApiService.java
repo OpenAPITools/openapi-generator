@@ -6,7 +6,6 @@ import org.openapitools.model.*;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 
-import java.util.List;
 import org.openapitools.model.User;
 
 import java.util.List;

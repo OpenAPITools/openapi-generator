@@ -160,6 +160,7 @@ Class | Method | HTTP request | Description
  - [Animal](docs/Animal.md)
  - [Apple](docs/Apple.md)
  - [AppleReq](docs/AppleReq.md)
+ - [ArrayDefault](docs/ArrayDefault.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfInlineAllOf](docs/ArrayOfInlineAllOf.md)
  - [ArrayOfInlineAllOfArrayAllofDogPropertyInner](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInner.md)

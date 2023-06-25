@@ -574,4 +574,19 @@ public class JSONTest {
         z.putAdditionalProperty("new_object", t);
         assertEquals(z.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\",\"new_key\":\"new_value\",\"new_boolean\":true,\"new_object\":{\"id\":34,\"name\":\"just a tag\"},\"from_json\":4567,\"from_json_map\":{\"nested_string\":\"nested_value\"},\"new_number\":1.23}");
     }
+
+    /**
+     * Test the default value in array properties.
+     */
+    @Test
+    public void testDefaultValue() throws Exception {
+        // None of these should throw exceptions due to the list being null
+        // as the add*Itme method should initialise an empty list if it's set
+        // to null
+        ArrayDefault ad = new ArrayDefault();
+        ad = ad.withDefaultEmptyBracket(null);
+        ad.addWithDefaultEmptyBracketItem("test");
+        ad = ad.withoutDefault(null);
+        ad.addWithoutDefaultItem("hello world");
+    }
 }
