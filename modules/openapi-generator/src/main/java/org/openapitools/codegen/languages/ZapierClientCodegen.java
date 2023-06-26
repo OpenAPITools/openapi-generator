@@ -1,11 +1,17 @@
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.escape;
 
 public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -29,50 +35,49 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
         super();
 
         outputFolder = "generated-code" + File.separator + "zapier";
-        modelTemplateFiles.put("model.mustache", ".zz");
-        apiTemplateFiles.put("api.mustache", ".zz");
+        modelTemplateFiles.put("model.mustache", ".js");
+        apiTemplateFiles.put("api.mustache", ".js");
         embeddedTemplateDir = templateDir = "zapier";
-        apiPackage = "Apis";
-        modelPackage = "Models";
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        apiPackage = "apis";
+        modelPackage = "models";
+        supportingFiles.add(new SupportingFile("actions.mustache", "operations", "actions.js"));
+        supportingFiles.add(new SupportingFile("utils.mustache", "utils", "utils.js"));
+        supportingFiles.add(new SupportingFile("index.mustache", "", "index.js"));
+        supportingFiles.add(new SupportingFile("authentication.mustache", "", "authentication.js"));
+        supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
 
         languageSpecificPrimitives.clear();
-        languageSpecificPrimitives.add("ByteArray");
-        languageSpecificPrimitives.add("DateTime");
-        languageSpecificPrimitives.add("URI");
-        languageSpecificPrimitives.add("UUID");
-        languageSpecificPrimitives.add("boolean");
-        languageSpecificPrimitives.add("char");
-        languageSpecificPrimitives.add("date");
-        languageSpecificPrimitives.add("decimal");
-        languageSpecificPrimitives.add("double");
-        languageSpecificPrimitives.add("file");
-        languageSpecificPrimitives.add("float");
-        languageSpecificPrimitives.add("int");
-        languageSpecificPrimitives.add("integer");
-        languageSpecificPrimitives.add("long");
-        languageSpecificPrimitives.add("number");
-        languageSpecificPrimitives.add("object");
-        languageSpecificPrimitives.add("short");
-        languageSpecificPrimitives.add("string");
-        // TODO: Fill this out.
-    }
+        languageSpecificPrimitives = new HashSet<>(
+                Arrays.asList("number", "integer", "string", "boolean", "array", "file")
+        );
 
-    @Override
-    protected void initializeSpecialCharacterMapping() {
-        // escape only those symbols that can mess up markdown
-        specialCharReplacements.put("\\", "\\\\");
-        specialCharReplacements.put("/", "\\/");
-        specialCharReplacements.put("`", "\\`");
-        specialCharReplacements.put("*", "\\*");
-        specialCharReplacements.put("_", "\\_");
-        specialCharReplacements.put("[", "\\[");
-        specialCharReplacements.put("]", "\\]");
-
-        // todo Current markdown api and model mustache templates display properties and parameters in tables. Pipe
-        //  symbol in a table can be commonly escaped with a backslash (e.g. GFM supports this). However, in some cases
-        //  it may be necessary to choose a different approach.
-        specialCharReplacements.put("|", "\\|");
+        instantiationTypes.put("array", "array");
+        instantiationTypes.put("set", "array");
+        instantiationTypes.put("list", "array");
+        instantiationTypes.put("map", "object");
+        typeMapping = new HashMap<>();
+        typeMapping.put("array", "array");
+        typeMapping.put("set", "array");
+        typeMapping.put("map", "object");
+        typeMapping.put("List", "array");
+        typeMapping.put("boolean", "boolean");
+        typeMapping.put("string", "string");
+        typeMapping.put("int", "integer");
+        typeMapping.put("float", "number");
+        typeMapping.put("number", "number");
+        typeMapping.put("decimal", "number");
+        typeMapping.put("DateTime", "string");
+        typeMapping.put("date", "string");
+        typeMapping.put("long", "number");
+        typeMapping.put("short", "number");
+        typeMapping.put("char", "string");
+        typeMapping.put("double", "number");
+        typeMapping.put("object", "object");
+        typeMapping.put("integer", "integer");
+        typeMapping.put("binary", "file");
+        typeMapping.put("file", "file");
+        typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
     }
 
     /**
@@ -94,6 +99,29 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toModelName(final String name) {
         return name;
+    }
+
+    @Override
+    public String toModelImport(String name) {
+        return "const " + name + " = " + "require('../" + modelPackage() + "/" + name + "');";
+    }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
+        String type = null;
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
+            if (!needToImport(type)) {
+                return type;
+            }
+        } else {
+            type = openAPIType;
+        }
+        if (null == type) {
+            LOGGER.error("No Type defined for Schema {}", p);
+        }
+        return toModelName(type);
     }
 
     @Override
