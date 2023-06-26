@@ -3,4 +3,5 @@ outputDir: samples/client/petstore/zapier
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/zapier
 additionalProperties:
-  hideGenerationTimestamp: "true"
+  npmVersion: 0.0.1
+  npmName: '@openapitools/zapier'
