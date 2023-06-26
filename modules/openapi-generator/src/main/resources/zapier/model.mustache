@@ -1,0 +1,97 @@
+const _ = require('lodash')
+const utils = require('../utils/utils');
+{{#imports}}{{{import}}}
+{{/imports}}
+{{#models}}
+{{#model}}
+
+{{#isEnum}}
+module.exports = {
+        fields: (key) => (
+            {
+                label: `{{#description}}{{{.}}} - {{/description}}[${key}]`,
+                choices: [
+                    {{#allowableValues}}
+                    {{#values}}
+                    '{{.}}',
+                    {{/values}}
+                    {{/allowableValues}}
+                ],
+            }
+        )
+    }
+{{/isEnum}}
+{{^isEnum}}
+module.exports = {
+    fields: (prefix = '', isInput = true) => {
+        let keyPrefix = prefix && `${prefix}${isInput ? '.' : '__'}`
+        let labelPrefix = keyPrefix && keyPrefix.replaceAll('__', '.')
+        return [
+            {{#vars}}
+            {{#isPrimitiveType}}
+            {
+                key: `${keyPrefix}{{baseName}}`,
+                label: `{{#description}}{{{.}}} - {{/description}}[${labelPrefix}{{baseName}}]`,
+                {{#isArray}}
+                list: true,
+                type: '{{#items}}{{baseType}}{{/items}}',
+                {{/isArray}}
+                {{^isArray}}
+                type: '{{#isInteger}}integer{{/isInteger}}{{^isInteger}}{{#isNumeric}}number{{/isNumeric}}{{/isInteger}}{{#isString}}string{{/isString}}{{#isBoolean}}boolean{{/isBoolean}}{{#isDateTime}}datetime{{/isDateTime}}{{#isDate}}datetime{{/isDate}}{{#isFile}}file{{/isFile}}',
+                {{/isArray}}
+                {{#isEnum}}
+                choices: [
+                    {{#_enum}}
+                    '{{.}}',
+                    {{/_enum}}
+                ],
+                {{/isEnum}}
+            },
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+            {{#isArray}}
+            {
+                key: `${keyPrefix}{{baseName}}`,{{#items}}{{^isEnumRef}}
+                label: `{{#description}}{{{.}}} - {{/description}}[${labelPrefix}{{baseName}}]`,
+                children: {{complexType}}.fields(`${keyPrefix}{{baseName}}${!isInput && '[]'}`), {{/isEnumRef}}{{#isEnumRef}}
+                list: true,
+                type: 'string',
+                ...{{complexType}}.fields(`${keyPrefix}{{baseName}}`, isInput),{{/isEnumRef}}{{/items}}
+            },
+            {{/isArray}}
+            {{^isArray}}
+            {{^allowableValues}}
+            {{#isFreeFormObject}}
+            {
+                key: `${keyPrefix}{{baseName}}`,
+                label: `{{#description}}{{{.}}} - {{/description}}[${labelPrefix}{{baseName}}]`,
+                dict: true,
+            },
+            {{/isFreeFormObject}}
+            {{^isFreeFormObject}}
+            ...{{complexType}}.fields(`${keyPrefix}{{baseName}}`, isInput),
+            {{/isFreeFormObject}}
+            {{/allowableValues}}
+            {{#allowableValues}}
+            {
+                key: `${keyPrefix}{{baseName}}`,
+                ...{{complexType}}.fields(`${keyPrefix}{{baseName}}`, isInput),
+            },
+            {{/allowableValues}}
+            {{/isArray}}
+            {{/isPrimitiveType}}
+            {{/vars}}
+        ]
+    },
+    mapping: (bundle, prefix = '') => {
+        let keyPrefix = prefix && `${prefix}.`
+        return {
+            {{#vars}}
+            '{{baseName}}': {{#isPrimitiveType}}bundle.inputData?.[`${keyPrefix}{{baseName}}`]{{/isPrimitiveType}}{{^isPrimitiveType}}{{^allowableValues}}{{^isArray}}{{#isFreeFormObject}}bundle.inputData?.[`${keyPrefix}{{baseName}}`]{{/isFreeFormObject}}{{^isFreeFormObject}}utils.removeIfEmpty({{complexType}}.mapping(bundle, `${keyPrefix}{{baseName}}`)){{/isFreeFormObject}}{{/isArray}}{{#isArray}}utils.removeKeyPrefixes(bundle.inputData?.[`${keyPrefix}{{baseName}}`]){{/isArray}}{{/allowableValues}}{{#allowableValues}}bundle.inputData?.[`${keyPrefix}{{baseName}}`]{{/allowableValues}}{{/isPrimitiveType}},
+            {{/vars}}
+        }
+    },
+}
+{{/isEnum}}
+{{/model}}
+{{/models}}
