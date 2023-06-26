@@ -42,7 +42,9 @@
 
         <!-- Perfana Dashboard settings -->
         <systemUnderTest>{{ systemUnderTest }}</systemUnderTest>
-        <perfanaApplications>{{ systemUnderTest }}</perfanaApplications>
+        <!-- Update perfanaApplications with other services that are in scope of the test for example:
+        <perfanaApplications>^order-service$|^member-service$</perfanaApplications> -->
+        <perfanaApplications>^{{ systemUnderTest }}$</perfanaApplications>
         <version>1.0</version>
         <tags></tags>
         <influx.host>{{ influxHost }}</influx.host>
@@ -199,7 +201,7 @@
             <properties>
                 <debug>true</debug>
                 <scenario>debug</scenario>
-<!--                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${maven.build.timestamp}</testRunId>-->
+                <!-- <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${maven.build.timestamp}</testRunId> -->
                 <graphitePrefix>gatling2.debug</graphitePrefix>
                 <assertResultsEnabled>false</assertResultsEnabled>
                 <initialUsersPerSecond>1</initialUsersPerSecond>
