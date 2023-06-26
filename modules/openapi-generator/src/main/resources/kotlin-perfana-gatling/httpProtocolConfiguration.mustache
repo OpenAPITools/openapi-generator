@@ -21,8 +21,7 @@ object HttpProtocolConfiguration {
         .userAgentHeader("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36")
         .shareConnections()
         .header("perfana-test-run-id", TestConfiguration.testRunId)
-        // Uncomment the below header to use JWT authorization
-        // .header("X-Authorization", "#{jwt}")
+        .header("X-Authorization", "#{jwt}")
         .run {
             if (TestConfiguration.useProxy) {
                 proxy(HttpDsl.Proxy("localhost", 8888))

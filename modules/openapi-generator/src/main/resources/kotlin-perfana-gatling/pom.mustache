@@ -18,7 +18,7 @@
         </repository>
     </repositories>
 
-    <groupId>com.ah</groupId>
+    <groupId>com.ahold</groupId>
     <artifactId>{{ artifactId }}</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
@@ -43,7 +43,7 @@
         <!-- Perfana Dashboard settings -->
         <systemUnderTest>{{ systemUnderTest }}</systemUnderTest>
         <perfanaApplications>{{ systemUnderTest }}</perfanaApplications>
-        <version>{{ apiVersion }}</version>
+        <version>1.0</version>
         <tags></tags>
         <influx.host>{{ influxHost }}</influx.host>
         <influx.port>{{ influxPort }}</influx.port>
@@ -74,14 +74,54 @@
                 <configuration>
                     <jvmArgs combine.children="append">
                         <jvmArg>-DtestEnvironment=${testEnvironment}</jvmArg>
-                        <!--Uncomment below arg to use idpUrl for JWT authorization -->
-                        <!-- <jvmArg>-DidpUrl=${idpUrl}</jvmArg> -->
+                        <jvmArg>-DidpUrl=${idpUrl}</jvmArg>
                         <jvmArg>-Ddb.url=${db.url}</jvmArg>
                         <jvmArg>-Ddb.username=${db.username}</jvmArg>
                         <jvmArg>-Ddb.password=${db.password}</jvmArg>
                         <jvmArg>-Xms1g</jvmArg>
                         <jvmArg>-Xmx4g</jvmArg>
                     </jvmArgs>
+                    <eventSchedulerConfig>
+                        <debugEnabled>false</debugEnabled>
+                        <schedulerEnabled>${eventsEnabled}</schedulerEnabled>
+                        <failOnError>true</failOnError>
+                        <continueOnEventCheckFailure>true</continueOnEventCheckFailure>
+                        <scheduleScript>
+                            ${eventScheduleScript}
+                        </scheduleScript>
+                        <eventConfigs>
+                            <eventConfig implementation="io.perfana.event.PerfanaEventConfig">
+                                <name>PerfanaEvent</name>
+                                <perfanaUrl>${perfanaUrl}</perfanaUrl>
+                                <enabled>${perfanaEnabled}</enabled>
+                                <apiKey>${apiKey}</apiKey>
+                                <assertResultsEnabled>${assertResultsEnabled}</assertResultsEnabled>
+                                <variables>
+                                    <perfana-applications>${perfanaApplications}</perfana-applications>
+                                </variables>
+                                <testConfig>
+                                    <systemUnderTest>${systemUnderTest}</systemUnderTest>
+                                    <version>${version}</version>
+                                    <workload>${workload}</workload>
+                                    <testEnvironment>${testEnvironment}</testEnvironment>
+                                    <testRunId>${testRunId}</testRunId>
+                                    <buildResultsUrl>${buildResultsUrl}</buildResultsUrl>
+                                    <rampupTimeInSeconds>${rampupTimeInSeconds}</rampupTimeInSeconds>
+                                    <constantLoadTimeInSeconds>${constantLoadTimeInSeconds}</constantLoadTimeInSeconds>
+                                    <annotations>${annotations}</annotations>
+                                    <tags>${tags}</tags>
+                                </testConfig>
+                            </eventConfig>
+                            <eventConfig implementation="io.perfana.events.testrunconfigcommand.TestRunConfigCommandEventConfig">
+                                <name>KubernetesGetDeployment</name>
+                                <command>kubectl get deployment ${systemUnderTest} -n ah -ojson</command>
+                                <includes>resources,image,replicas,strategy,kubernetes</includes>
+                                <excludes>status,password,TOKEN,env</excludes>
+                                <output>keys</output>
+                                <tags>kubernetes,${systemUnderTest}</tags>
+                            </eventConfig>
+                        </eventConfigs>
+                    </eventSchedulerConfig>
                 </configuration>
             </plugin>
         </plugins>
@@ -159,7 +199,7 @@
             <properties>
                 <debug>true</debug>
                 <scenario>debug</scenario>
-                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${maven.build.timestamp}</testRunId>
+<!--                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${maven.build.timestamp}</testRunId>-->
                 <graphitePrefix>gatling2.debug</graphitePrefix>
                 <assertResultsEnabled>false</assertResultsEnabled>
                 <initialUsersPerSecond>1</initialUsersPerSecond>
