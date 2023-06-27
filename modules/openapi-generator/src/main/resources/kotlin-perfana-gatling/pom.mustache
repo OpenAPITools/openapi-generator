@@ -137,7 +137,10 @@
     == ************************************************************************ -->
 
     <profiles>
-        <!-- Test testEnvironment profiles -->
+        <!-- Test testEnvironment profiles:
+        make sure the testEnvironment value is identical to the namespace where the application is deployed.
+        This value is used for automatic dashboard (Kubernetes, JVM, ELK errors etc.) generation in Perfana.
+        -->
         <profile>
             <id>tst</id>
             <properties>
