@@ -29,13 +29,12 @@ jobs:
           - samples/server/petstore/scala-akka-http-server
           - samples/server/petstore/scalatra
           - samples/server/petstore/scala-finch # cannot be tested with jdk11
-          - samples/client/petstore/scala/sttp4
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 11
+          java-version: 8
       - name: Cache maven dependencies
         uses: actions/cache@v3
         env:
