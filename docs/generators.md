@@ -58,6 +58,7 @@ The following generators are available:
 * [scala-akka](generators/scala-akka.md)  
 * [scala-gatling](generators/scala-gatling.md)  
 * [scala-sttp](generators/scala-sttp.md)  
+* [scala-sttp4 (beta)](generators/scala-sttp4.md)  
 * [scalaz](generators/scalaz.md)  
 * [swift-combine](generators/swift-combine.md)  
 * [swift5](generators/swift5.md)  
