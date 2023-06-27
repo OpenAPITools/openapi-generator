@@ -10,8 +10,7 @@ import sttp.model.Method
 
 {{#operations}}
 object {{classname}} {
-
-def apply(baseUrl: String = "{{{basePath}}}") = new {{classname}}(baseUrl)
+  def apply(baseUrl: String = "{{{basePath}}}") = new {{classname}}(baseUrl)
 }
 
 class {{classname}}(baseUrl: String) {
