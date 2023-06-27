@@ -12,7 +12,6 @@
 
 package org.openapitools.client.model;
 
-
 import java.lang.reflect.Type;
 import jakarta.json.bind.annotation.JsonbTypeDeserializer;
 import jakarta.json.bind.annotation.JsonbTypeSerializer;
@@ -126,4 +125,3 @@ public class ModelApiResponse  {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
