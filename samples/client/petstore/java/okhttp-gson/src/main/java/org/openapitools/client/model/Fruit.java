@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Apple;
 import org.openapitools.client.model.Banana;
 
-import javax.ws.rs.core.GenericType;
+
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -146,7 +146,7 @@ public class Fruit extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, Class<?>> schemas = new HashMap<String, Class<?>>();
 
     public Fruit() {
         super("oneOf", Boolean.FALSE);
@@ -163,14 +163,12 @@ public class Fruit extends AbstractOpenApiSchema {
     }
 
     static {
-        schemas.put("Apple", new GenericType<Apple>() {
-        });
-        schemas.put("Banana", new GenericType<Banana>() {
-        });
+        schemas.put("Apple", Apple.class);
+        schemas.put("Banana", Banana.class);
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, Class<?>> getSchemas() {
         return Fruit.schemas;
     }
 

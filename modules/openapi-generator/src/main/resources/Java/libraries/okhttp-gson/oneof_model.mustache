@@ -1,4 +1,4 @@
-import {{javaxPackage}}.ws.rs.core.GenericType;
+
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -126,7 +126,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, Class<?>> schemas = new HashMap<String, Class<?>>();
 
     public {{classname}}() {
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
@@ -141,13 +141,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     {{/oneOf}}
     static {
         {{#oneOf}}
-        schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
-        });
+        schemas.put("{{{.}}}", {{{.}}}.class);
         {{/oneOf}}
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, Class<?>> getSchemas() {
         return {{classname}}.schemas;
     }
 

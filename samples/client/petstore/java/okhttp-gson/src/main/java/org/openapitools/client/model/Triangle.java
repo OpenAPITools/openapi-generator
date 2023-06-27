@@ -25,7 +25,7 @@ import org.openapitools.client.model.EquilateralTriangle;
 import org.openapitools.client.model.IsoscelesTriangle;
 import org.openapitools.client.model.ScaleneTriangle;
 
-import javax.ws.rs.core.GenericType;
+
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -191,7 +191,7 @@ public class Triangle extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, Class<?>> schemas = new HashMap<String, Class<?>>();
 
     public Triangle() {
         super("oneOf", Boolean.FALSE);
@@ -213,16 +213,13 @@ public class Triangle extends AbstractOpenApiSchema {
     }
 
     static {
-        schemas.put("EquilateralTriangle", new GenericType<EquilateralTriangle>() {
-        });
-        schemas.put("IsoscelesTriangle", new GenericType<IsoscelesTriangle>() {
-        });
-        schemas.put("ScaleneTriangle", new GenericType<ScaleneTriangle>() {
-        });
+        schemas.put("EquilateralTriangle", EquilateralTriangle.class);
+        schemas.put("IsoscelesTriangle", IsoscelesTriangle.class);
+        schemas.put("ScaleneTriangle", ScaleneTriangle.class);
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, Class<?>> getSchemas() {
         return Triangle.schemas;
     }
 

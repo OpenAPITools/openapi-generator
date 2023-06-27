@@ -25,7 +25,7 @@ import org.openapitools.client.model.Pig;
 import org.openapitools.client.model.Whale;
 import org.openapitools.client.model.Zebra;
 
-import javax.ws.rs.core.GenericType;
+
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -191,7 +191,7 @@ public class Mammal extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, Class<?>> schemas = new HashMap<String, Class<?>>();
 
     public Mammal() {
         super("oneOf", Boolean.FALSE);
@@ -213,16 +213,13 @@ public class Mammal extends AbstractOpenApiSchema {
     }
 
     static {
-        schemas.put("Pig", new GenericType<Pig>() {
-        });
-        schemas.put("Whale", new GenericType<Whale>() {
-        });
-        schemas.put("Zebra", new GenericType<Zebra>() {
-        });
+        schemas.put("Pig", Pig.class);
+        schemas.put("Whale", Whale.class);
+        schemas.put("Zebra", Zebra.class);
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, Class<?>> getSchemas() {
         return Mammal.schemas;
     }
 
