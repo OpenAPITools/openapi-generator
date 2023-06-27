@@ -186,6 +186,7 @@ public class PetApi {
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "status", status));
 
+
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
          };
@@ -239,6 +240,7 @@ public class PetApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "tags", tags));
+
 
         final String[] localVarAccepts = { 
             "application/xml", "application/json"

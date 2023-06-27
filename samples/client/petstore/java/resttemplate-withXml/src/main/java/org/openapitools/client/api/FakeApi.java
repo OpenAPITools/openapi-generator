@@ -349,6 +349,7 @@ public class FakeApi {
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query", query));
 
+
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { 
@@ -575,6 +576,7 @@ public class FakeApi {
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_integer", enumQueryInteger));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_double", enumQueryDouble));
 
+
         if (enumHeaderStringArray != null)
         localVarHeaderParams.add("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
         if (enumHeaderString != null)
@@ -654,6 +656,7 @@ public class FakeApi {
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_int64_group", requiredInt64Group));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_group", stringGroup));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "int64_group", int64Group));
+
 
         if (requiredBooleanGroup != null)
         localVarHeaderParams.add("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
@@ -838,6 +841,7 @@ public class FakeApi {
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("ssv".toUpperCase(Locale.ROOT)), "http", http));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "url", url));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "context", context));
+
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);

@@ -10,6 +10,7 @@ docs/Animal.md
 docs/AnotherFakeApi.md
 docs/Apple.md
 docs/AppleReq.md
+docs/ArrayDefault.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfInlineAllOf.md
 docs/ArrayOfInlineAllOfArrayAllofDogPropertyInner.md
@@ -130,6 +131,7 @@ src/main/java/org/openapitools/client/model/AdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/Animal.java
 src/main/java/org/openapitools/client/model/Apple.java
 src/main/java/org/openapitools/client/model/AppleReq.java
+src/main/java/org/openapitools/client/model/ArrayDefault.java
 src/main/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnly.java
 src/main/java/org/openapitools/client/model/ArrayOfInlineAllOf.java
 src/main/java/org/openapitools/client/model/ArrayOfInlineAllOfArrayAllofDogPropertyInner.java

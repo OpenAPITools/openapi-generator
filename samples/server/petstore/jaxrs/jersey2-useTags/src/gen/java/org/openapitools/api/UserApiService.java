@@ -5,7 +5,6 @@ import org.openapitools.api.*;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
 import java.util.Date;
-import java.util.List;
 import org.openapitools.model.User;
 
 import java.util.List;

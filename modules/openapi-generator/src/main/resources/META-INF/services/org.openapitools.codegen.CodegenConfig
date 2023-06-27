@@ -139,3 +139,4 @@ org.openapitools.codegen.languages.TypeScriptRxjsClientCodegen
 org.openapitools.codegen.languages.WsdlSchemaCodegen
 org.openapitools.codegen.languages.XojoClientCodegen
 org.openapitools.codegen.languages.ScalaSttp4ClientCodegen
+org.openapitools.codegen.languages.SwiftCombineClientCodegen

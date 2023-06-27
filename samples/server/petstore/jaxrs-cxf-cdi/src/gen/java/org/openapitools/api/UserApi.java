@@ -1,6 +1,5 @@
 package org.openapitools.api;
 
-import java.util.List;
 import org.openapitools.model.User;
 import org.openapitools.api.UserApiService;
 
