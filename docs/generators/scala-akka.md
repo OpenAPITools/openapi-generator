@@ -39,6 +39,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ---------- | ------- |
 |Array|java.util.List|
 |ArrayList|java.util.ArrayList|
+|BigDecimal|java.math.BigDecimal|
 |Date|java.util.Date|
 |DateTime|org.joda.time.*|
 |File|java.io.File|
