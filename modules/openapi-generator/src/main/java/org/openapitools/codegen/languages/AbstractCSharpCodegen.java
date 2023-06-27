@@ -506,6 +506,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                 List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
                 if (anyOf != null) {
+                    removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
                     for(CodegenProperty property : anyOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
@@ -514,6 +515,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                 List<CodegenProperty> oneOf = composedSchemas.getOneOf();
                 if (oneOf != null) {
+                    removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
                     for(CodegenProperty property : oneOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
@@ -552,6 +554,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return processed;
     }
 
+    protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {
+    }
+
     private String patchPropertyName(CodegenModel model, String value) {
         // the casing will be wrong if we just set the name to escapeReservedWord
         // if we try to fix it with camelize, underscores get stripped out
@@ -580,17 +585,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isPrimitiveType = true;
         }
 
-        if (!property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
-            property.vendorExtensions.put("x-csharp-value-type", true);
-        }
+        Boolean isValueType = isValueType(property);
 
-        property.vendorExtensions.put("x-is-value-type", isValueType(property));
+        property.vendorExtensions.put("x-is-value-type", isValueType);
 
-        if (property.isNullable && !property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
+        if (property.isNullable && !property.isContainer && isValueType) {
             property.vendorExtensions.put("x-nullable-value-type", true);
         }
 
-        if (this.getNullableReferencesTypes() || (property.vendorExtensions.get("x-nullable-value-type") != null)) {
+        if (this.getNullableReferencesTypes() || isValueType) {
             property.vendorExtensions.put("x-nullable-type", true);
         }
 
@@ -826,7 +829,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // default noop
     }
 
-    protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
+    protected void updateCodegenParameterEnumLegacy(CodegenParameter parameter, CodegenModel model) {
         if (model != null) {
             if (model.isEnum) {
                 parameter.isEnum = true;
@@ -838,6 +841,21 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         if (!parameter.isContainer && this.getNullableTypes().contains(parameter.dataType)) {
             parameter.vendorExtensions.put("x-csharp-value-type", true);
+        }
+    }
+
+    protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
+        if (model != null) {
+            if (model.isEnum) {
+                parameter.isEnum = true;
+                parameter.allowableValues = model.allowableValues;
+                parameter.isPrimitiveType = true;
+                parameter.vendorExtensions.put("x-is-value-type", true);
+            }
+        }
+
+        if (!parameter.isContainer && this.getValueTypes().contains(parameter.dataType)) {
+            parameter.vendorExtensions.put("x-is-value-type", true);
         }
     }
 
