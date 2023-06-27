@@ -729,8 +729,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co,
-            Map<String, List<CodegenOperation>> operations) {
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
         if (supportLibraryUseTags() && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
