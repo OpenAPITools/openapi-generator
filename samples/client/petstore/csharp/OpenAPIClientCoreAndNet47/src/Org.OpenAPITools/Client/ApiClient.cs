@@ -454,7 +454,8 @@ namespace Org.OpenAPITools.Client
                 CookieContainer = cookies,
                 MaxTimeout = configuration.Timeout,
                 Proxy = configuration.Proxy,
-                UserAgent = configuration.UserAgent
+                UserAgent = configuration.UserAgent,
+                UseDefaultCredentials = configuration.UseDefaultCredentials        
             };
 
             RestClient client = new RestClient(clientOptions)
@@ -563,7 +564,8 @@ namespace Org.OpenAPITools.Client
                 ClientCertificates = configuration.ClientCertificates,
                 MaxTimeout = configuration.Timeout,
                 Proxy = configuration.Proxy,
-                UserAgent = configuration.UserAgent
+                UserAgent = configuration.UserAgent,
+                UseDefaultCredentials = configuration.UseDefaultCredentials
             };
 
             RestClient client = new RestClient(clientOptions)

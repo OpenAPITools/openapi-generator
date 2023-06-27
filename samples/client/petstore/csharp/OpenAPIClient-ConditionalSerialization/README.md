@@ -103,136 +103,136 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AnotherFakeApi* | [**Call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
-*DefaultApi* | [**FooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
-*DefaultApi* | [**GetCountry**](docs/DefaultApi.md#getcountry) | **POST** /country | 
-*DefaultApi* | [**Hello**](docs/DefaultApi.md#hello) | **GET** /hello | Hello
-*FakeApi* | [**FakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
-*FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
-*FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
-*FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
-*FakeApi* | [**FakeOuterStringSerialize**](docs/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
-*FakeApi* | [**GetArrayOfEnums**](docs/FakeApi.md#getarrayofenums) | **GET** /fake/array-of-enums | Array of Enums
-*FakeApi* | [**TestBodyWithFileSchema**](docs/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
-*FakeApi* | [**TestBodyWithQueryParams**](docs/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
-*FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
-*FakeApi* | [**TestEndpointParameters**](docs/FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-*FakeApi* | [**TestEnumParameters**](docs/FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
-*FakeApi* | [**TestGroupParameters**](docs/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
-*FakeApi* | [**TestInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-*FakeApi* | [**TestJsonFormData**](docs/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeApi* | [**TestQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
-*FakeClassnameTags123Api* | [**TestClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
-*PetApi* | [**AddPet**](docs/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
-*PetApi* | [**DeletePet**](docs/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
-*PetApi* | [**FindPetsByStatus**](docs/PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
-*PetApi* | [**FindPetsByTags**](docs/PetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
-*PetApi* | [**GetPetById**](docs/PetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
-*PetApi* | [**UpdatePet**](docs/PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
-*PetApi* | [**UpdatePetWithForm**](docs/PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
-*PetApi* | [**UploadFile**](docs/PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
-*PetApi* | [**UploadFileWithRequiredFile**](docs/PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
-*StoreApi* | [**DeleteOrder**](docs/StoreApi.md#deleteorder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
-*StoreApi* | [**GetInventory**](docs/StoreApi.md#getinventory) | **GET** /store/inventory | Returns pet inventories by status
-*StoreApi* | [**GetOrderById**](docs/StoreApi.md#getorderbyid) | **GET** /store/order/{order_id} | Find purchase order by ID
-*StoreApi* | [**PlaceOrder**](docs/StoreApi.md#placeorder) | **POST** /store/order | Place an order for a pet
-*UserApi* | [**CreateUser**](docs/UserApi.md#createuser) | **POST** /user | Create user
-*UserApi* | [**CreateUsersWithArrayInput**](docs/UserApi.md#createuserswitharrayinput) | **POST** /user/createWithArray | Creates list of users with given input array
-*UserApi* | [**CreateUsersWithListInput**](docs/UserApi.md#createuserswithlistinput) | **POST** /user/createWithList | Creates list of users with given input array
-*UserApi* | [**DeleteUser**](docs/UserApi.md#deleteuser) | **DELETE** /user/{username} | Delete user
-*UserApi* | [**GetUserByName**](docs/UserApi.md#getuserbyname) | **GET** /user/{username} | Get user by user name
-*UserApi* | [**LoginUser**](docs/UserApi.md#loginuser) | **GET** /user/login | Logs user into the system
-*UserApi* | [**LogoutUser**](docs/UserApi.md#logoutuser) | **GET** /user/logout | Logs out current logged in user session
-*UserApi* | [**UpdateUser**](docs/UserApi.md#updateuser) | **PUT** /user/{username} | Updated user
+*AnotherFakeApi* | [**Call123TestSpecialTags**](docs\AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
+*DefaultApi* | [**FooGet**](docs\DefaultApi.md#fooget) | **GET** /foo | 
+*DefaultApi* | [**GetCountry**](docs\DefaultApi.md#getcountry) | **POST** /country | 
+*DefaultApi* | [**Hello**](docs\DefaultApi.md#hello) | **GET** /hello | Hello
+*FakeApi* | [**FakeHealthGet**](docs\FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
+*FakeApi* | [**FakeOuterBooleanSerialize**](docs\FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
+*FakeApi* | [**FakeOuterCompositeSerialize**](docs\FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
+*FakeApi* | [**FakeOuterNumberSerialize**](docs\FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
+*FakeApi* | [**FakeOuterStringSerialize**](docs\FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**GetArrayOfEnums**](docs\FakeApi.md#getarrayofenums) | **GET** /fake/array-of-enums | Array of Enums
+*FakeApi* | [**TestBodyWithFileSchema**](docs\FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
+*FakeApi* | [**TestBodyWithQueryParams**](docs\FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
+*FakeApi* | [**TestClientModel**](docs\FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
+*FakeApi* | [**TestEndpointParameters**](docs\FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+*FakeApi* | [**TestEnumParameters**](docs\FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
+*FakeApi* | [**TestGroupParameters**](docs\FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
+*FakeApi* | [**TestInlineAdditionalProperties**](docs\FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**TestJsonFormData**](docs\FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**TestQueryParameterCollectionFormat**](docs\FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
+*FakeClassnameTags123Api* | [**TestClassname**](docs\FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
+*PetApi* | [**AddPet**](docs\PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
+*PetApi* | [**DeletePet**](docs\PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
+*PetApi* | [**FindPetsByStatus**](docs\PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
+*PetApi* | [**FindPetsByTags**](docs\PetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
+*PetApi* | [**GetPetById**](docs\PetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
+*PetApi* | [**UpdatePet**](docs\PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
+*PetApi* | [**UpdatePetWithForm**](docs\PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
+*PetApi* | [**UploadFile**](docs\PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
+*PetApi* | [**UploadFileWithRequiredFile**](docs\PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+*StoreApi* | [**DeleteOrder**](docs\StoreApi.md#deleteorder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
+*StoreApi* | [**GetInventory**](docs\StoreApi.md#getinventory) | **GET** /store/inventory | Returns pet inventories by status
+*StoreApi* | [**GetOrderById**](docs\StoreApi.md#getorderbyid) | **GET** /store/order/{order_id} | Find purchase order by ID
+*StoreApi* | [**PlaceOrder**](docs\StoreApi.md#placeorder) | **POST** /store/order | Place an order for a pet
+*UserApi* | [**CreateUser**](docs\UserApi.md#createuser) | **POST** /user | Create user
+*UserApi* | [**CreateUsersWithArrayInput**](docs\UserApi.md#createuserswitharrayinput) | **POST** /user/createWithArray | Creates list of users with given input array
+*UserApi* | [**CreateUsersWithListInput**](docs\UserApi.md#createuserswithlistinput) | **POST** /user/createWithList | Creates list of users with given input array
+*UserApi* | [**DeleteUser**](docs\UserApi.md#deleteuser) | **DELETE** /user/{username} | Delete user
+*UserApi* | [**GetUserByName**](docs\UserApi.md#getuserbyname) | **GET** /user/{username} | Get user by user name
+*UserApi* | [**LoginUser**](docs\UserApi.md#loginuser) | **GET** /user/login | Logs user into the system
+*UserApi* | [**LogoutUser**](docs\UserApi.md#logoutuser) | **GET** /user/logout | Logs out current logged in user session
+*UserApi* | [**UpdateUser**](docs\UserApi.md#updateuser) | **PUT** /user/{username} | Updated user
 
 
 <a id="documentation-for-models"></a>
 ## Documentation for Models
 
- - [Model.Activity](docs/Activity.md)
- - [Model.ActivityOutputElementRepresentation](docs/ActivityOutputElementRepresentation.md)
- - [Model.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
- - [Model.Animal](docs/Animal.md)
- - [Model.ApiResponse](docs/ApiResponse.md)
- - [Model.Apple](docs/Apple.md)
- - [Model.AppleReq](docs/AppleReq.md)
- - [Model.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
- - [Model.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
- - [Model.ArrayTest](docs/ArrayTest.md)
- - [Model.Banana](docs/Banana.md)
- - [Model.BananaReq](docs/BananaReq.md)
- - [Model.BasquePig](docs/BasquePig.md)
- - [Model.Capitalization](docs/Capitalization.md)
- - [Model.Cat](docs/Cat.md)
- - [Model.Category](docs/Category.md)
- - [Model.ChildCat](docs/ChildCat.md)
- - [Model.ClassModel](docs/ClassModel.md)
- - [Model.ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
- - [Model.DanishPig](docs/DanishPig.md)
- - [Model.DateOnlyClass](docs/DateOnlyClass.md)
- - [Model.DeprecatedObject](docs/DeprecatedObject.md)
- - [Model.Dog](docs/Dog.md)
- - [Model.Drawing](docs/Drawing.md)
- - [Model.EnumArrays](docs/EnumArrays.md)
- - [Model.EnumClass](docs/EnumClass.md)
- - [Model.EnumTest](docs/EnumTest.md)
- - [Model.EquilateralTriangle](docs/EquilateralTriangle.md)
- - [Model.File](docs/File.md)
- - [Model.FileSchemaTestClass](docs/FileSchemaTestClass.md)
- - [Model.Foo](docs/Foo.md)
- - [Model.FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
- - [Model.FormatTest](docs/FormatTest.md)
- - [Model.Fruit](docs/Fruit.md)
- - [Model.FruitReq](docs/FruitReq.md)
- - [Model.GmFruit](docs/GmFruit.md)
- - [Model.GrandparentAnimal](docs/GrandparentAnimal.md)
- - [Model.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
- - [Model.HealthCheckResult](docs/HealthCheckResult.md)
- - [Model.IsoscelesTriangle](docs/IsoscelesTriangle.md)
- - [Model.List](docs/List.md)
- - [Model.LiteralStringClass](docs/LiteralStringClass.md)
- - [Model.Mammal](docs/Mammal.md)
- - [Model.MapTest](docs/MapTest.md)
- - [Model.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
- - [Model.Model200Response](docs/Model200Response.md)
- - [Model.ModelClient](docs/ModelClient.md)
- - [Model.Name](docs/Name.md)
- - [Model.NullableClass](docs/NullableClass.md)
- - [Model.NullableGuidClass](docs/NullableGuidClass.md)
- - [Model.NullableShape](docs/NullableShape.md)
- - [Model.NumberOnly](docs/NumberOnly.md)
- - [Model.ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
- - [Model.OneOfString](docs/OneOfString.md)
- - [Model.Order](docs/Order.md)
- - [Model.OuterComposite](docs/OuterComposite.md)
- - [Model.OuterEnum](docs/OuterEnum.md)
- - [Model.OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
- - [Model.OuterEnumInteger](docs/OuterEnumInteger.md)
- - [Model.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
- - [Model.ParentPet](docs/ParentPet.md)
- - [Model.Pet](docs/Pet.md)
- - [Model.Pig](docs/Pig.md)
- - [Model.PolymorphicProperty](docs/PolymorphicProperty.md)
- - [Model.Quadrilateral](docs/Quadrilateral.md)
- - [Model.QuadrilateralInterface](docs/QuadrilateralInterface.md)
- - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
- - [Model.Return](docs/Return.md)
- - [Model.ScaleneTriangle](docs/ScaleneTriangle.md)
- - [Model.Shape](docs/Shape.md)
- - [Model.ShapeInterface](docs/ShapeInterface.md)
- - [Model.ShapeOrNull](docs/ShapeOrNull.md)
- - [Model.SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
- - [Model.SpecialModelName](docs/SpecialModelName.md)
- - [Model.Tag](docs/Tag.md)
- - [Model.TestCollectionEndingWithWordList](docs/TestCollectionEndingWithWordList.md)
- - [Model.TestCollectionEndingWithWordListObject](docs/TestCollectionEndingWithWordListObject.md)
- - [Model.Triangle](docs/Triangle.md)
- - [Model.TriangleInterface](docs/TriangleInterface.md)
- - [Model.User](docs/User.md)
- - [Model.Whale](docs/Whale.md)
- - [Model.Zebra](docs/Zebra.md)
- - [Model.ZeroBasedEnum](docs/ZeroBasedEnum.md)
- - [Model.ZeroBasedEnumClass](docs/ZeroBasedEnumClass.md)
+ - [Model.Activity](docs\Activity.md)
+ - [Model.ActivityOutputElementRepresentation](docs\ActivityOutputElementRepresentation.md)
+ - [Model.AdditionalPropertiesClass](docs\AdditionalPropertiesClass.md)
+ - [Model.Animal](docs\Animal.md)
+ - [Model.ApiResponse](docs\ApiResponse.md)
+ - [Model.Apple](docs\Apple.md)
+ - [Model.AppleReq](docs\AppleReq.md)
+ - [Model.ArrayOfArrayOfNumberOnly](docs\ArrayOfArrayOfNumberOnly.md)
+ - [Model.ArrayOfNumberOnly](docs\ArrayOfNumberOnly.md)
+ - [Model.ArrayTest](docs\ArrayTest.md)
+ - [Model.Banana](docs\Banana.md)
+ - [Model.BananaReq](docs\BananaReq.md)
+ - [Model.BasquePig](docs\BasquePig.md)
+ - [Model.Capitalization](docs\Capitalization.md)
+ - [Model.Cat](docs\Cat.md)
+ - [Model.Category](docs\Category.md)
+ - [Model.ChildCat](docs\ChildCat.md)
+ - [Model.ClassModel](docs\ClassModel.md)
+ - [Model.ComplexQuadrilateral](docs\ComplexQuadrilateral.md)
+ - [Model.DanishPig](docs\DanishPig.md)
+ - [Model.DateOnlyClass](docs\DateOnlyClass.md)
+ - [Model.DeprecatedObject](docs\DeprecatedObject.md)
+ - [Model.Dog](docs\Dog.md)
+ - [Model.Drawing](docs\Drawing.md)
+ - [Model.EnumArrays](docs\EnumArrays.md)
+ - [Model.EnumClass](docs\EnumClass.md)
+ - [Model.EnumTest](docs\EnumTest.md)
+ - [Model.EquilateralTriangle](docs\EquilateralTriangle.md)
+ - [Model.File](docs\File.md)
+ - [Model.FileSchemaTestClass](docs\FileSchemaTestClass.md)
+ - [Model.Foo](docs\Foo.md)
+ - [Model.FooGetDefaultResponse](docs\FooGetDefaultResponse.md)
+ - [Model.FormatTest](docs\FormatTest.md)
+ - [Model.Fruit](docs\Fruit.md)
+ - [Model.FruitReq](docs\FruitReq.md)
+ - [Model.GmFruit](docs\GmFruit.md)
+ - [Model.GrandparentAnimal](docs\GrandparentAnimal.md)
+ - [Model.HasOnlyReadOnly](docs\HasOnlyReadOnly.md)
+ - [Model.HealthCheckResult](docs\HealthCheckResult.md)
+ - [Model.IsoscelesTriangle](docs\IsoscelesTriangle.md)
+ - [Model.List](docs\List.md)
+ - [Model.LiteralStringClass](docs\LiteralStringClass.md)
+ - [Model.Mammal](docs\Mammal.md)
+ - [Model.MapTest](docs\MapTest.md)
+ - [Model.MixedPropertiesAndAdditionalPropertiesClass](docs\MixedPropertiesAndAdditionalPropertiesClass.md)
+ - [Model.Model200Response](docs\Model200Response.md)
+ - [Model.ModelClient](docs\ModelClient.md)
+ - [Model.Name](docs\Name.md)
+ - [Model.NullableClass](docs\NullableClass.md)
+ - [Model.NullableGuidClass](docs\NullableGuidClass.md)
+ - [Model.NullableShape](docs\NullableShape.md)
+ - [Model.NumberOnly](docs\NumberOnly.md)
+ - [Model.ObjectWithDeprecatedFields](docs\ObjectWithDeprecatedFields.md)
+ - [Model.OneOfString](docs\OneOfString.md)
+ - [Model.Order](docs\Order.md)
+ - [Model.OuterComposite](docs\OuterComposite.md)
+ - [Model.OuterEnum](docs\OuterEnum.md)
+ - [Model.OuterEnumDefaultValue](docs\OuterEnumDefaultValue.md)
+ - [Model.OuterEnumInteger](docs\OuterEnumInteger.md)
+ - [Model.OuterEnumIntegerDefaultValue](docs\OuterEnumIntegerDefaultValue.md)
+ - [Model.ParentPet](docs\ParentPet.md)
+ - [Model.Pet](docs\Pet.md)
+ - [Model.Pig](docs\Pig.md)
+ - [Model.PolymorphicProperty](docs\PolymorphicProperty.md)
+ - [Model.Quadrilateral](docs\Quadrilateral.md)
+ - [Model.QuadrilateralInterface](docs\QuadrilateralInterface.md)
+ - [Model.ReadOnlyFirst](docs\ReadOnlyFirst.md)
+ - [Model.Return](docs\Return.md)
+ - [Model.ScaleneTriangle](docs\ScaleneTriangle.md)
+ - [Model.Shape](docs\Shape.md)
+ - [Model.ShapeInterface](docs\ShapeInterface.md)
+ - [Model.ShapeOrNull](docs\ShapeOrNull.md)
+ - [Model.SimpleQuadrilateral](docs\SimpleQuadrilateral.md)
+ - [Model.SpecialModelName](docs\SpecialModelName.md)
+ - [Model.Tag](docs\Tag.md)
+ - [Model.TestCollectionEndingWithWordList](docs\TestCollectionEndingWithWordList.md)
+ - [Model.TestCollectionEndingWithWordListObject](docs\TestCollectionEndingWithWordListObject.md)
+ - [Model.Triangle](docs\Triangle.md)
+ - [Model.TriangleInterface](docs\TriangleInterface.md)
+ - [Model.User](docs\User.md)
+ - [Model.Whale](docs\Whale.md)
+ - [Model.Zebra](docs\Zebra.md)
+ - [Model.ZeroBasedEnum](docs\ZeroBasedEnum.md)
+ - [Model.ZeroBasedEnumClass](docs\ZeroBasedEnumClass.md)
 
 
 <a id="documentation-for-authorization"></a>

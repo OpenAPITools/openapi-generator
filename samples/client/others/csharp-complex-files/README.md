@@ -101,19 +101,19 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*MultipartApi* | [**MultipartArray**](docs/MultipartApi.md#multipartarray) | **POST** /multipart-array | 
-*MultipartApi* | [**MultipartMixed**](docs/MultipartApi.md#multipartmixed) | **POST** /multipart-mixed | 
-*MultipartApi* | [**MultipartSingle**](docs/MultipartApi.md#multipartsingle) | **POST** /multipart-single | 
+*MultipartApi* | [**MultipartArray**](docs\MultipartApi.md#multipartarray) | **POST** /multipart-array | 
+*MultipartApi* | [**MultipartMixed**](docs\MultipartApi.md#multipartmixed) | **POST** /multipart-mixed | 
+*MultipartApi* | [**MultipartSingle**](docs\MultipartApi.md#multipartsingle) | **POST** /multipart-single | 
 
 
 <a id="documentation-for-models"></a>
 ## Documentation for Models
 
- - [Model.MultipartArrayRequest](docs/MultipartArrayRequest.md)
- - [Model.MultipartMixedRequest](docs/MultipartMixedRequest.md)
- - [Model.MultipartMixedRequestMarker](docs/MultipartMixedRequestMarker.md)
- - [Model.MultipartMixedStatus](docs/MultipartMixedStatus.md)
- - [Model.MultipartSingleRequest](docs/MultipartSingleRequest.md)
+ - [Model.MultipartArrayRequest](docs\MultipartArrayRequest.md)
+ - [Model.MultipartMixedRequest](docs\MultipartMixedRequest.md)
+ - [Model.MultipartMixedRequestMarker](docs\MultipartMixedRequestMarker.md)
+ - [Model.MultipartMixedStatus](docs\MultipartMixedStatus.md)
+ - [Model.MultipartSingleRequest](docs\MultipartSingleRequest.md)
 
 
 <a id="documentation-for-authorization"></a>
