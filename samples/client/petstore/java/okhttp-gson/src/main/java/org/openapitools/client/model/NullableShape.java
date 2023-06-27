@@ -24,7 +24,7 @@ import java.io.IOException;
 import org.openapitools.client.model.Quadrilateral;
 import org.openapitools.client.model.Triangle;
 
-import javax.ws.rs.core.GenericType;
+
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -165,7 +165,7 @@ public class NullableShape extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, Class<?>> schemas = new HashMap<String, Class<?>>();
 
     public NullableShape() {
         super("oneOf", Boolean.TRUE);
@@ -182,14 +182,12 @@ public class NullableShape extends AbstractOpenApiSchema {
     }
 
     static {
-        schemas.put("Quadrilateral", new GenericType<Quadrilateral>() {
-        });
-        schemas.put("Triangle", new GenericType<Triangle>() {
-        });
+        schemas.put("Quadrilateral", Quadrilateral.class);
+        schemas.put("Triangle", Triangle.class);
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, Class<?>> getSchemas() {
         return NullableShape.schemas;
     }
 
