@@ -18,8 +18,7 @@ import sttp.client4._
 import sttp.model.Method
 
 object UserApi {
-
-def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new UserApi(baseUrl)
+  def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new UserApi(baseUrl)
 }
 
 class UserApi(baseUrl: String) {
@@ -35,8 +34,7 @@ class UserApi(baseUrl: String) {
    * 
    * @param user Created user object
    */
-  def createUser(apiKey: String)(user: User
-): Request[Either[Either[String, String], Unit]] =
+  def createUser(apiKey: String)(user: User): Request[Either[Either[String, String], Unit]] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user")
       .contentType("application/json")
@@ -55,8 +53,7 @@ class UserApi(baseUrl: String) {
    * 
    * @param user List of user object
    */
-  def createUsersWithArrayInput(apiKey: String)(user: Seq[User]
-): Request[Either[Either[String, String], Unit]] =
+  def createUsersWithArrayInput(apiKey: String)(user: Seq[User]): Request[Either[Either[String, String], Unit]] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithArray")
       .contentType("application/json")
@@ -75,8 +72,7 @@ class UserApi(baseUrl: String) {
    * 
    * @param user List of user object
    */
-  def createUsersWithListInput(apiKey: String)(user: Seq[User]
-): Request[Either[Either[String, String], Unit]] =
+  def createUsersWithListInput(apiKey: String)(user: Seq[User]): Request[Either[Either[String, String], Unit]] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithList")
       .contentType("application/json")
@@ -96,8 +92,7 @@ class UserApi(baseUrl: String) {
    * 
    * @param username The name that needs to be deleted
    */
-  def deleteUser(apiKey: String)(username: String
-): Request[Either[ResponseException[String, Exception], Unit]] =
+  def deleteUser(apiKey: String)(username: String): Request[Either[ResponseException[String, Exception], Unit]] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/user/${username}")
       .contentType("application/json")
@@ -114,8 +109,7 @@ class UserApi(baseUrl: String) {
    * 
    * @param username The name that needs to be fetched. Use user1 for testing.
    */
-  def getUserByName(username: String
-): Request[Either[ResponseException[String, Exception], User]] =
+  def getUserByName(username: String): Request[Either[ResponseException[String, Exception], User]] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/${username}")
       .contentType("application/json")
@@ -135,8 +129,7 @@ class UserApi(baseUrl: String) {
    * @param username The user name for login
    * @param password The password for login in clear text
    */
-  def loginUser(username: String, password: String
-): Request[Either[ResponseException[String, Exception], String]] =
+  def loginUser(username: String, password: String): Request[Either[ResponseException[String, Exception], String]] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/login?username=${ username }&password=${ password }")
       .contentType("application/json")
@@ -151,8 +144,7 @@ class UserApi(baseUrl: String) {
    * Available security schemes:
    *   api_key (apiKey)
    */
-  def logoutUser(apiKey: String)(
-): Request[Either[Either[String, String], Unit]] =
+  def logoutUser(apiKey: String)(): Request[Either[Either[String, String], Unit]] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/logout")
       .contentType("application/json")
@@ -172,8 +164,7 @@ class UserApi(baseUrl: String) {
    * @param username name that need to be deleted
    * @param user Updated user object
    */
-  def updateUser(apiKey: String)(username: String, user: User
-): Request[Either[ResponseException[String, Exception], Unit]] =
+  def updateUser(apiKey: String)(username: String, user: User): Request[Either[ResponseException[String, Exception], Unit]] =
     basicRequest
       .method(Method.PUT, uri"$baseUrl/user/${username}")
       .contentType("application/json")

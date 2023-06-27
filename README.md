@@ -1005,6 +1005,7 @@ Here is a list of template creators:
    * Scala (scalaz & http4s): @tbrown1979
    * Scala (Akka): @cchafer
    * Scala (sttp): @chameleon82
+   * Scala (sttp4): @flsh86
    * Swift: @tkqubo
    * Swift 3: @hexelon
    * Swift 4: @ehyche

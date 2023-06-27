@@ -13,11 +13,11 @@ package org.openapitools.client.model
 
 
   /**
-   *                     Pet category
-   *                 A category for a pet
+   * Pet category
+   * A category for a pet
    */
-            case class Category(
-                id: Option[Long] = None,
-                name: Option[String] = None
-            )
+case class Category(
+  id: Option[Long] = None,
+  name: Option[String] = None
+)
 

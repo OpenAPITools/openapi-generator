@@ -11,29 +11,29 @@
  */
 package org.openapitools.client.model
 
-    import java.time.OffsetDateTime
+import java.time.OffsetDateTime
 
   /**
-   *                     Pet Order
-   *                 An order for a pets from the pet store
+   * Pet Order
+   * An order for a pets from the pet store
    */
-            case class Order(
-                id: Option[Long] = None,
-                petId: Option[Long] = None,
-                quantity: Option[Int] = None,
-                shipDate: Option[OffsetDateTime] = None,
-                    /* Order Status */
-                status: Option[OrderEnums.Status] = None,
-                complete: Option[Boolean] = None
-            )
+case class Order(
+  id: Option[Long] = None,
+  petId: Option[Long] = None,
+  quantity: Option[Int] = None,
+  shipDate: Option[OffsetDateTime] = None,
+  /* Order Status */
+  status: Option[OrderEnums.Status] = None,
+  complete: Option[Boolean] = None
+)
 
-            object OrderEnums {
+object OrderEnums {
 
-                    type Status = Status.Value
-                    object Status extends Enumeration {
-                        val Placed = Value("placed")
-                        val Approved = Value("approved")
-                        val Delivered = Value("delivered")
-                    }
+  type Status = Status.Value
+  object Status extends Enumeration {
+    val Placed = Value("placed")
+    val Approved = Value("approved")
+    val Delivered = Value("delivered")
+  }
 
-            }
+}

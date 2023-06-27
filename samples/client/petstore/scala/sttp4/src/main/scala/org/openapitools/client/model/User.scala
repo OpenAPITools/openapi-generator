@@ -13,18 +13,18 @@ package org.openapitools.client.model
 
 
   /**
-   *                     a User
-   *                 A User who is purchasing from the pet store
+   * a User
+   * A User who is purchasing from the pet store
    */
-            case class User(
-                id: Option[Long] = None,
-                username: Option[String] = None,
-                firstName: Option[String] = None,
-                lastName: Option[String] = None,
-                email: Option[String] = None,
-                password: Option[String] = None,
-                phone: Option[String] = None,
-                    /* User Status */
-                userStatus: Option[Int] = None
-            )
+case class User(
+  id: Option[Long] = None,
+  username: Option[String] = None,
+  firstName: Option[String] = None,
+  lastName: Option[String] = None,
+  email: Option[String] = None,
+  password: Option[String] = None,
+  phone: Option[String] = None,
+  /* User Status */
+  userStatus: Option[Int] = None
+)
 

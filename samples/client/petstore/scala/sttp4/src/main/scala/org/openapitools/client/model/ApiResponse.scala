@@ -13,12 +13,12 @@ package org.openapitools.client.model
 
 
   /**
-   *                     An uploaded response
-   *                 Describes the result of uploading an image resource
+   * An uploaded response
+   * Describes the result of uploading an image resource
    */
-            case class ApiResponse(
-                code: Option[Int] = None,
-                `type`: Option[String] = None,
-                message: Option[String] = None
-            )
+case class ApiResponse(
+  code: Option[Int] = None,
+  `type`: Option[String] = None,
+  message: Option[String] = None
+)
 

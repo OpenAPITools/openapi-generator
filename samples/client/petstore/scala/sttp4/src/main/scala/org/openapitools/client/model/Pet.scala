@@ -13,26 +13,26 @@ package org.openapitools.client.model
 
 
   /**
-   *                     a Pet
-   *                 A pet for sale in the pet store
+   * a Pet
+   * A pet for sale in the pet store
    */
-            case class Pet(
-                id: Option[Long] = None,
-                category: Option[Category] = None,
-                name: String,
-                photoUrls: Seq[String],
-                tags: Option[Seq[Tag]] = None,
-                    /* pet status in the store */
-                status: Option[PetEnums.Status] = None
-            )
+case class Pet(
+  id: Option[Long] = None,
+  category: Option[Category] = None,
+  name: String,
+  photoUrls: Seq[String],
+  tags: Option[Seq[Tag]] = None,
+  /* pet status in the store */
+  status: Option[PetEnums.Status] = None
+)
 
-            object PetEnums {
+object PetEnums {
 
-                    type Status = Status.Value
-                    object Status extends Enumeration {
-                        val Available = Value("available")
-                        val Pending = Value("pending")
-                        val Sold = Value("sold")
-                    }
+  type Status = Status.Value
+  object Status extends Enumeration {
+    val Available = Value("available")
+    val Pending = Value("pending")
+    val Sold = Value("sold")
+  }
 
-            }
+}

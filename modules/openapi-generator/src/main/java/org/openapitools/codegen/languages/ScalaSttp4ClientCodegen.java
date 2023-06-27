@@ -238,7 +238,7 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
 
     /**
      * Update/clean up model imports
-     *
+     * <p>
      * append '._" if the import is a Enum class, otherwise
      * remove model imports to avoid warnings for importing class in the same package in Scala
      *
@@ -272,8 +272,7 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
                         item.put("import", importPath.concat("._"));
                         newImports.add(item);
                     }
-                }
-                else {
+                } else {
                     item.put("import", importPath);
                     newImports.add(item);
                 }
@@ -353,8 +352,7 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
                 Map<String, String> item = new HashMap<>();
                 if (isEnumClass(importPath, enumRefs)) {
                     item.put("import", importPath.concat("._"));
-                }
-                else {
+                } else {
                     item.put("import", importPath);
                 }
                 newImports.add(item);
