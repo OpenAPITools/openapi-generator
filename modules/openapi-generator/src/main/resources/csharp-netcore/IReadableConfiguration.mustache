@@ -124,6 +124,11 @@ namespace {{packageName}}.Client
         string Password { get; }
 
         /// <summary>
+        /// Determine whether or not the "default credentials" (e.g. the user account under which the current process is running) will be sent along to the server. The default is false.
+        /// </summary>
+        bool UseDefaultCredentials { get; }
+
+        /// <summary>
         /// Get the servers associated with the operation.
         /// </summary>
         /// <value>Operation servers.</value>
