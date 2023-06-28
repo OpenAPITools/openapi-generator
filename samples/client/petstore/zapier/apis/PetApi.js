@@ -1,6 +1,7 @@
 const ApiResponse = require('../models/ApiResponse');
 const Pet = require('../models/Pet');
 const utils = require('../utils/utils');
+const FormData = require('form-data');
 
 module.exports = {
     addPet: {
@@ -332,19 +333,22 @@ module.exports = {
                 ...ApiResponse.fields('', false),
             ],
             perform: async (z, bundle) => {
+                const formData = new FormData()
+                formData.append('additionalMetadata', bundle.inputData?.['additionalMetadata'])
+                const filename = bundle.inputData?.['filename'] || bundle.inputData?.['file'].split('/').slice(-1)[0]
+                formData.append('file', (await (await z.request({url: bundle.inputData?.['file'], method: 'GET', raw: true})).buffer()), { filename: filename })
                 const options = {
                     url: utils.replacePathParameters('http://petstore.swagger.io/v2/pet/{petId}/uploadImage'),
                     method: 'POST',
                     removeMissingValuesFrom: { params: true, body: true },
                     headers: {
                         'Authorization': 'Bearer {{bundle.authData.access_token}}',
-                        'Content-Type': 'multipart/form-data',
+                        
                         'Accept': 'application/json',
                     },
                     params: {
                     },
-                    body: {
-                    },
+                    body: formData,
                 }
                 return z.request(options).then((response) => {
                     response.throwForStatus();
