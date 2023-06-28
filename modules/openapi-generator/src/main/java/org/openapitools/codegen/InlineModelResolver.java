@@ -956,6 +956,50 @@ public class InlineModelResolver {
             name = inlineSchemaNameMapping.get(name);
         }
 
+        // If name only consists of underscores, and schema has chlidren models, create new name
+        if (name.replace("_", "") == "" & schema instanceof ComposedSchema) {
+            ComposedSchema m = (ComposedSchema) schema;
+            List<Schema> children = new ArrayList<Schema>();
+            String suffix = "";
+            if (m.getAllOf() != null) {
+                children.addAll(m.getAllOf());
+                suffix = "allOf";
+            } else if (m.getAnyOf() != null) {
+                children.addAll(m.getAnyOf());
+                suffix = "anyOf";
+            } else if (m.getOneOf() != null) {
+                children.addAll(m.getOneOf());
+                suffix = "oneOf";
+            } else if (m.getNot() != null) {
+                children.add(m.getNot());
+                suffix = "not";
+            }
+
+            if (children.size() == 1) {
+                Schema child = children.get(0);
+                if (child.get$ref() != null) {
+                    name = ModelUtils.getSimpleRef(child.get$ref());
+                } else {
+                    name = child.getType();
+                }
+            } else if (children.size() > 1) {
+                name = "";
+                for (Schema child : children) {
+                    if (child.getType() != null) {
+                        name += child.getType();
+                    } else {
+                        name += ModelUtils.getSimpleRef(child.get$ref());
+                    }
+                    name += "_";
+                }
+                name += suffix;
+            }
+        }
+
+        if (openAPI.getComponents().getSchemas().get(name) != null) {
+            return name;
+        }
+
         addGenerated(name, schema);
         openAPI.getComponents().addSchemas(name, schema);
         if (!name.equals(schema.getTitle()) && !inlineSchemaNameMappingValues.contains(name)) {
