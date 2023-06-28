@@ -996,6 +996,8 @@ public class InlineModelResolver {
             }
         }
 
+        // If found name in components, return the name
+        // This condition occurs when allOf/anyOf/allOf/not contains exactly one schema
         if (openAPI.getComponents().getSchemas().get(name) != null) {
             return name;
         }
