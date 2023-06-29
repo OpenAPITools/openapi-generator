@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -189,6 +190,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         apiPackage = "org.openapitools.client.api";
         modelPackage = "org.openapitools.client.model";
         rootJavaEEPackage = MICROPROFILE_REST_CLIENT_DEFAULT_ROOT_PACKAGE;
+
+        languageSpecificPrimitives.add("BigDecimal");
 
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
@@ -1017,6 +1020,16 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         return codegenModel;
+    }
+
+    @Override
+    protected boolean needToImport(String type) {
+        // add import for BigDecimal explicitly since it is a primitive type
+        if("BigDecimal".equals(type)) {
+            return true;
+        }
+
+        return super.needToImport(type) && !type.contains(".");
     }
 
     @Override

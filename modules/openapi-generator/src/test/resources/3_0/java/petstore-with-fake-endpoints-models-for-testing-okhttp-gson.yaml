@@ -1109,6 +1109,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /values:
+    get:
+      tags:
+        - values
+      summary: Get some primitive variable values
+      description: ''
+      operationId: getSomeValues
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Variable'
+        '400':
+          description: Invalid Value
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2224,3 +2240,31 @@ components:
           items:
             type: string
           type: array
+    Variable:
+      description: Value object
+      properties:
+        name:
+          type: string
+          example: 'variable_1'
+        value:
+          $ref: '#/components/schemas/Value'
+      required:
+        - name
+        - value
+    Value:
+      oneOf:
+        - $ref: '#/components/schemas/Scalar'
+        - $ref: '#/components/schemas/Array'
+    Scalar:
+      description: Values of scalar type
+      oneOf:
+        - type: string
+          maxLength: 1089
+        - type: number
+        - type: boolean
+    Array:
+      description: Values of array type
+      type: array
+      minItems: 1
+      items:
+        $ref: '#/components/schemas/Scalar'

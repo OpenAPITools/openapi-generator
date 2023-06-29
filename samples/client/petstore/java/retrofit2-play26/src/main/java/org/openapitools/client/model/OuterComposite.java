@@ -59,7 +59,6 @@ public class OuterComposite {
    * @return myNumber
   **/
   @javax.annotation.Nullable
-  @Valid
 
   @JsonProperty(JSON_PROPERTY_MY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
