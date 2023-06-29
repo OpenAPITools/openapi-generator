@@ -24,7 +24,7 @@ import java.io.IOException;
 import org.openapitools.client.model.BasquePig;
 import org.openapitools.client.model.DanishPig;
 
-import javax.ws.rs.core.GenericType;
+
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -165,7 +165,7 @@ public class Pig extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, Class<?>> schemas = new HashMap<String, Class<?>>();
 
     public Pig() {
         super("oneOf", Boolean.FALSE);
@@ -182,14 +182,12 @@ public class Pig extends AbstractOpenApiSchema {
     }
 
     static {
-        schemas.put("BasquePig", new GenericType<BasquePig>() {
-        });
-        schemas.put("DanishPig", new GenericType<DanishPig>() {
-        });
+        schemas.put("BasquePig", BasquePig.class);
+        schemas.put("DanishPig", DanishPig.class);
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, Class<?>> getSchemas() {
         return Pig.schemas;
     }
 

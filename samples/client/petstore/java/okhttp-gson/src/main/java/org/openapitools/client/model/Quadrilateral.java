@@ -24,7 +24,7 @@ import java.io.IOException;
 import org.openapitools.client.model.ComplexQuadrilateral;
 import org.openapitools.client.model.SimpleQuadrilateral;
 
-import javax.ws.rs.core.GenericType;
+
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -165,7 +165,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, Class<?>> schemas = new HashMap<String, Class<?>>();
 
     public Quadrilateral() {
         super("oneOf", Boolean.FALSE);
@@ -182,14 +182,12 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     }
 
     static {
-        schemas.put("ComplexQuadrilateral", new GenericType<ComplexQuadrilateral>() {
-        });
-        schemas.put("SimpleQuadrilateral", new GenericType<SimpleQuadrilateral>() {
-        });
+        schemas.put("ComplexQuadrilateral", ComplexQuadrilateral.class);
+        schemas.put("SimpleQuadrilateral", SimpleQuadrilateral.class);
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, Class<?>> getSchemas() {
         return Quadrilateral.schemas;
     }
 
