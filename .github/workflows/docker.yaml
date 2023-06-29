@@ -37,4 +37,3 @@ jobs:
         shell: bash
         run: |
           docker build modules/openapi-generator-online/ -t test
-          docker run test
