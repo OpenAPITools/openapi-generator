@@ -71,7 +71,7 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
         {{/isDateTime}}
         {{^isDateTime}}
         {{#isDate}}
-        queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString().substr(0,10);
+        queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString().substring(0,10);
         {{/isDate}}
         {{^isDate}}
         queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
