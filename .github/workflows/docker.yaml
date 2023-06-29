@@ -27,7 +27,7 @@ jobs:
         shell: bash
         run: |
           sed -i 's/ -it / /g' run-in-docker.sh
-          ./run-in-docker.sh ./mvnw clean install
+          ./run-in-docker.sh mvn clean install
 
       - name: Build Dockerfile
         shell: bash
