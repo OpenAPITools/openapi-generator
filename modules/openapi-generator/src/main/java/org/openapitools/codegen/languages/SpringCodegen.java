@@ -958,7 +958,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             return "DefaultApi";
         }
         name = sanitizeName(name);
-        return camelize(name) + "Api";
+        return camelize(apiNamePrefix + "_" + name + "_" + apiNameSuffix);
     }
 
     @Override
