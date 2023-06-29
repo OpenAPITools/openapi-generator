@@ -10,4 +10,5 @@ additionalProperties:
   dateLibrary: "java8"
   useOptional: "true"
   useSwaggerUI: "false"
+  hideGenerationTimestamp: "true"
   documentationProvider: none

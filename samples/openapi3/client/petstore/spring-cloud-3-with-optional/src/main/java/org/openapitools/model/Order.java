@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * An order for a pets from the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-06-29T07:34:40.904254Z[UTC]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Order {
 
   private Long id;

@@ -17,7 +17,7 @@ import jakarta.annotation.Generated;
  * A User who is purchasing from the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2023-06-29T07:34:40.904254Z[UTC]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class User {
 
   private Long id;
