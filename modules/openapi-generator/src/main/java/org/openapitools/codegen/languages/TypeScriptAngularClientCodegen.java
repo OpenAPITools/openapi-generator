@@ -307,7 +307,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         // Set the rxJS version compatible to the Angular version
         if (ngVersion.atLeast("16.0.0")) {
-            additionalProperties.put("rxjsVersion", "^6.5.3 || ^7.4.0");
+            additionalProperties.put("rxjsVersion", "7.4.0");
         } else if (ngVersion.atLeast("15.0.0")) {
             additionalProperties.put("rxjsVersion", "7.5.5");
         } else if (ngVersion.atLeast("14.0.0")) {
@@ -324,7 +324,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         // Specific ng-packagr configuration
         if (ngVersion.atLeast("16.0.0")) {
-            additionalProperties.put("ngPackagrVersion", "^16.0.0");
+            additionalProperties.put("ngPackagrVersion", "16.0.0");
             // tsTickle is not required and there is no available version compatible with
             // versions of TypeScript compatible with Angular 16.
         } else if (ngVersion.atLeast("15.0.0")) {
@@ -353,7 +353,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         // set zone.js version
         if (ngVersion.atLeast("16.0.0")) {
-            additionalProperties.put("zonejsVersion", ">=0.11.5,<=0.14");
+            additionalProperties.put("zonejsVersion", "0.13.0");
         } else if (ngVersion.atLeast("15.0.0")) {
             additionalProperties.put("zonejsVersion", "0.11.5");
         } else if (ngVersion.atLeast("14.0.0")) {
