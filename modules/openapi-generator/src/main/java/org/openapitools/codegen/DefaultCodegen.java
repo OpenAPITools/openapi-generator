@@ -292,10 +292,6 @@ public class DefaultCodegen implements CodegenConfig {
     // if true then container types will be imported
     protected boolean importContainerType = true;
 
-    // if True codegenParameter and codegenResponse imports will come
-    // from deeper schema defined locations
-    protected boolean addSchemaImportsFromV3SpecLocations = false;
-
     protected boolean addSuffixToDuplicateOperationNicknames = true;
 
     public boolean getAddSuffixToDuplicateOperationNicknames() {
@@ -3157,9 +3153,6 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        if (addSchemaImportsFromV3SpecLocations) {
-            addImports(m.imports, m.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet()));
-        }
         return m;
     }
 
@@ -4476,16 +4469,15 @@ public class DefaultCodegen implements CodegenConfig {
                 String mediaTypeSchemaSuffix = String.format(Locale.ROOT, "%sResponseBody", r.code);
                 r.setContent(getContent(response.getContent(), imports, mediaTypeSchemaSuffix));
 
-                if (!addSchemaImportsFromV3SpecLocations) {
-                    if (r.baseType != null &&
-                            !defaultIncludes.contains(r.baseType) &&
-                            !languageSpecificPrimitives.contains(r.baseType)) {
-                        imports.add(r.baseType);
-                    }
-                    if ("set".equals(r.containerType) && typeMapping.containsKey(r.containerType)) {
-                        op.uniqueItems = true;
-                        imports.add(typeMapping.get(r.containerType));
-                    }
+                if (r.baseType != null &&
+                        !defaultIncludes.contains(r.baseType) &&
+                        !languageSpecificPrimitives.contains(r.baseType)) {
+                    imports.add(r.baseType);
+                }
+
+                if ("set".equals(r.containerType) && typeMapping.containsKey(r.containerType)) {
+                    op.uniqueItems = true;
+                    imports.add(typeMapping.get(r.containerType));
                 }
 
                 op.responses.add(r);
@@ -4992,12 +4984,10 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.isContainer = true;
         codegenParameter.isMap = true;
 
-        if (!addSchemaImportsFromV3SpecLocations) {
-            // recursively add import
-            while (codegenProperty != null) {
-                imports.add(codegenProperty.baseType);
-                codegenProperty = codegenProperty.items;
-            }
+        // recursively add import
+        while (codegenProperty != null) {
+            imports.add(codegenProperty.baseType);
+            codegenProperty = codegenProperty.items;
         }
     }
 
@@ -5082,9 +5072,6 @@ public class DefaultCodegen implements CodegenConfig {
                 prop = fromProperty(parameter.getName(), parameterSchema, false);
             }
             codegenParameter.setSchema(prop);
-            if (addSchemaImportsFromV3SpecLocations) {
-                addImports(imports, prop.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet()));
-            }
         } else if (parameter.getContent() != null) {
             Content content = parameter.getContent();
             if (content.size() > 1) {
@@ -5205,12 +5192,10 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.mostInnerItems = itemsProperty.mostInnerItems;
             codegenParameter.baseType = itemsProperty.dataType;
             codegenParameter.isContainer = true;
-            if (!addSchemaImportsFromV3SpecLocations) {
-                // recursively add import
-                while (itemsProperty != null) {
-                    imports.add(itemsProperty.baseType);
-                    itemsProperty = itemsProperty.items;
-                }
+            // recursively add import
+            while (itemsProperty != null) {
+                imports.add(itemsProperty.baseType);
+                itemsProperty = itemsProperty.items;
             }
         } else {
             // referenced schemas
@@ -5229,11 +5214,11 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             codegenParameter.dataType = codegenProperty.dataType;
         }
-        if (!addSchemaImportsFromV3SpecLocations) {
-            if (ModelUtils.isArraySchema(parameterSchema)) {
-                imports.add(codegenProperty.baseType);
-            }
+
+        if (ModelUtils.isArraySchema(parameterSchema)) {
+            imports.add(codegenProperty.baseType);
         }
+
         codegenParameter.dataFormat = codegenProperty.dataFormat;
         if (parameter.getRequired() != null) {
             codegenParameter.required = parameter.getRequired().booleanValue();
@@ -5270,12 +5255,11 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isCollectionFormatMulti = true;
         }
         codegenParameter.paramName = toParamName(parameter.getName());
-        if (!addSchemaImportsFromV3SpecLocations) {
-            // import
-            if (codegenProperty.complexType != null) {
-                imports.add(codegenProperty.complexType);
-            }
+        // import
+        if (codegenProperty.complexType != null) {
+            imports.add(codegenProperty.complexType);
         }
+
         codegenParameter.pattern = toRegularExpression(parameterSchema.getPattern());
 
         if (codegenParameter.isQueryParam && codegenParameter.isDeepObject && loadDeepObjectIntoItems) {
@@ -5649,15 +5633,13 @@ public class DefaultCodegen implements CodegenConfig {
         final CodegenProperty property = fromProperty(name, schema, false);
         addImport(model, property.complexType);
         model.parent = toInstantiationType(schema);
-        if (!addSchemaImportsFromV3SpecLocations) {
-            final String instantiationType = instantiationTypes.get(property.containerType);
-            if (instantiationType != null) {
-                addImport(model, instantiationType);
-            }
+        final String instantiationType = instantiationTypes.get(property.containerType);
+        if (instantiationType != null) {
+            addImport(model, instantiationType);
+        }
 
-            if (property.containerTypeMapped != null) {
-                addImport(model, property.containerTypeMapped);
-            }
+        if (property.containerTypeMapped != null) {
+            addImport(model, property.containerTypeMapped);
         }
     }
 
@@ -5866,9 +5848,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (!Boolean.TRUE.equals(cp.isReadOnly)) {
                     cm.hasOnlyReadOnly = false;
                 }
-                if (!addSchemaImportsFromV3SpecLocations) {
-                    addImportsForPropertyType(cm, cp);
-                }
+                addImportsForPropertyType(cm, cp);
 
                 // if required, add to the list "requiredVars"
                 if (Boolean.FALSE.equals(cp.required)) {
@@ -7025,12 +7005,10 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
             codegenParameter.isCollectionFormatMulti = "multi".equals(collectionFormat);
 
-            if (!addSchemaImportsFromV3SpecLocations) {
-                // recursively add import
-                while (arrayInnerProperty != null) {
-                    imports.add(arrayInnerProperty.baseType);
-                    arrayInnerProperty = arrayInnerProperty.items;
-                }
+            // recursively add import
+            while (arrayInnerProperty != null) {
+                imports.add(arrayInnerProperty.baseType);
+                arrayInnerProperty = arrayInnerProperty.items;
             }
         } else {
             // referenced schemas
@@ -7062,11 +7040,9 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        if (!addSchemaImportsFromV3SpecLocations) {
-            // import
-            if (codegenProperty.complexType != null) {
-                imports.add(codegenProperty.complexType);
-            }
+        // import
+        if (codegenProperty.complexType != null) {
+            imports.add(codegenProperty.complexType);
         }
 
         // set example value
@@ -7099,18 +7075,15 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
             codegenParameter.description = codegenModel.description;
             codegenParameter.isNullable = codegenModel.isNullable;
-            if (!addSchemaImportsFromV3SpecLocations) {
-                imports.add(codegenParameter.baseType);
-            }
-        } else {
+            imports.add(codegenParameter.baseType);
+       } else {
             CodegenProperty codegenProperty = fromProperty("property", schema, false);
 
             if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
-                if (!addSchemaImportsFromV3SpecLocations) {
-                    // TODO move this splitting logic to the generator that needs it only
-                    List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
-                    imports.addAll(parts);
-                }
+                // TODO move this splitting logic to the generator that needs it only
+                List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
+                imports.addAll(parts);
+
                 String codegenModelName = codegenProperty.getComplexType();
                 codegenParameter.baseName = codegenModelName;
                 codegenParameter.paramName = toParamName(codegenParameter.baseName);
@@ -7148,12 +7121,10 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.baseType = codegenModelName;
                     codegenParameter.dataType = getTypeDeclaration(codegenModelName);
                     codegenParameter.description = codegenModelDescription;
-                    if (!addSchemaImportsFromV3SpecLocations) {
-                        imports.add(codegenParameter.baseType);
+                    imports.add(codegenParameter.baseType);
 
-                        if (codegenProperty.complexType != null) {
-                            imports.add(codegenProperty.complexType);
-                        }
+                    if (codegenProperty.complexType != null) {
+                        imports.add(codegenProperty.complexType);
                     }
                 }
             }
@@ -7175,16 +7146,15 @@ public class DefaultCodegen implements CodegenConfig {
             }
             CodegenProperty codegenProperty = fromProperty("property", schema, false);
 
-            if (!addSchemaImportsFromV3SpecLocations) {
-                imports.add(codegenProperty.baseType);
-                CodegenProperty innerCp = codegenProperty;
-                while (innerCp != null) {
-                    if (innerCp.complexType != null) {
-                        imports.add(innerCp.complexType);
-                    }
-                    innerCp = innerCp.items;
+            imports.add(codegenProperty.baseType);
+            CodegenProperty innerCp = codegenProperty;
+            while (innerCp != null) {
+                if (innerCp.complexType != null) {
+                    imports.add(innerCp.complexType);
                 }
+                innerCp = innerCp.items;
             }
+
 
             if (StringUtils.isEmpty(bodyParameterName)) {
                 codegenParameter.baseName = "request_body";
@@ -7223,10 +7193,8 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.pattern = codegenProperty.pattern;
             codegenParameter.isNullable = codegenProperty.isNullable;
 
-            if (!addSchemaImportsFromV3SpecLocations) {
-                if (codegenProperty.complexType != null) {
-                    imports.add(codegenProperty.complexType);
-                }
+            if (codegenProperty.complexType != null) {
+                imports.add(codegenProperty.complexType);
             }
         }
         // set nullable
@@ -7277,18 +7245,14 @@ public class DefaultCodegen implements CodegenConfig {
                throw new RuntimeException("CodegenProperty cannot be null. arraySchema for debugging: " + arraySchema);
             }
 
-            if (!addSchemaImportsFromV3SpecLocations) {
-                imports.add(codegenProperty.baseType);
-            }
+            imports.add(codegenProperty.baseType);
             CodegenProperty innerCp = codegenProperty;
             CodegenProperty mostInnerItem = innerCp;
             // loop through multidimensional array to add proper import
             // also find the most inner item
             while (innerCp != null) {
-                if (!addSchemaImportsFromV3SpecLocations) {
-                    if (innerCp.complexType != null) {
-                        imports.add(innerCp.complexType);
-                    }
+                if (innerCp.complexType != null) {
+                    imports.add(innerCp.complexType);
                 }
                 mostInnerItem = innerCp;
                 innerCp = innerCp.items;
@@ -7316,11 +7280,9 @@ public class DefaultCodegen implements CodegenConfig {
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
 
-            if (!addSchemaImportsFromV3SpecLocations) {
-                while (codegenProperty != null) {
-                    imports.add(codegenProperty.baseType);
-                    codegenProperty = codegenProperty.items;
-                }
+            while (codegenProperty != null) {
+                imports.add(codegenProperty.baseType);
+                codegenProperty = codegenProperty.items;
             }
         }
     }
@@ -7444,11 +7406,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             cmtContent.put(contentType, codegenMt);
             if (schemaProp != null) {
-                if (addSchemaImportsFromV3SpecLocations) {
-                    addImports(imports, schemaProp.getImports(importContainerType, importBaseType, generatorMetadata.getFeatureSet()));
-                } else {
-                    addImports(imports, schemaProp.getImports(true, importBaseType, generatorMetadata.getFeatureSet()));
-                }
+                addImports(imports, schemaProp.getImports(true, importBaseType, generatorMetadata.getFeatureSet()));
             }
         }
         return cmtContent;
