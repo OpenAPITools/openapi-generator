@@ -50,6 +50,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |taggedUnions|Use discriminators to create tagged unions instead of extending interfaces.| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
+|httpOptionsName|Setting this property will provide a custom name for API client service options?| |options|
 
 ## IMPORT MAPPING
 
