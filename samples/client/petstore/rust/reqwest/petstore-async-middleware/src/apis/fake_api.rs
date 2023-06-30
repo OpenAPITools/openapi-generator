@@ -15,7 +15,7 @@ use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
 /// struct for passing parameters to the method [`test_nullable_required_param`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct TestNullableRequiredParamParams {
     /// The name that needs to be fetched. Use user1 for testing.
     pub username: String,
