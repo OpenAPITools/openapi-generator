@@ -131,6 +131,51 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void resolveInlineModelTestWithUnicodeTitle() {
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.getComponents().addSchemas("UserAddress", new ObjectSchema()
+                .name("UserAddress")
+                .description("description")
+                .addProperties("street", new StringSchema())
+                .addProperties("city", new StringSchema()));
+        openapi.getComponents().addSchemas("User", new ObjectSchema()
+                .name("user")
+                .description("a common user")
+                .addProperties("name", new StringSchema())
+                .addProperties("address", new ComposedSchema()
+                        .title("ユーザーの住所")
+                        .anyOf(List.of(
+                                new StringSchema(),
+                                new Schema().$ref("#/components/schemas/UserAddress")))));
+
+        openapi.getComponents().addSchemas("AnotherUser", new ObjectSchema()
+                .name("AnotherUser")
+                .description("a common user")
+                .addProperties("name", new StringSchema())
+                .addProperties("address", new ComposedSchema()
+                        .title("ユーザーの住所")
+                        .readOnly(false)
+                        .allOf(List.of(
+                                new Schema().$ref("#/components/schemas/UserAddress")))
+                        .description("description")
+                        .name("name")));
+
+        new InlineModelResolver().flatten(openapi);
+
+        Schema user = openapi.getComponents().getSchemas().get("User");
+
+        assertNotNull(user);
+        assertTrue(user.getProperties().get("address") instanceof Schema);
+
+        Schema address = openapi.getComponents().getSchemas().get("string_UserAddress_anyOf");
+        assertNotNull(address);
+        assertTrue(((Schema) address.getAnyOf().get(0)) instanceof StringSchema);
+        assertTrue(ModelUtils.getSimpleRef(((Schema) address.getAnyOf().get(1)).get$ref()).equals("UserAddress"));
+        assertNull(openapi.getComponents().getSchemas().get("UserAddress_allOf"));
+    }
+
+    @Test
     public void resolveInlineModel2EqualInnerModels() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
