@@ -3679,6 +3679,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         property.isContainer = true;
         property.containerType = "map";
+        property.containerTypeMapped = typeMapping.get(property.containerType);
         // TODO remove this hack in the future, code should use minProperties and maxProperties for object schemas
         property.minItems = p.getMinProperties();
         property.maxItems = p.getMaxProperties();
@@ -4025,8 +4026,10 @@ public class DefaultCodegen implements CodegenConfig {
             property.isContainer = true;
             if (ModelUtils.isSet(p)) {
                 property.containerType = "set";
+                property.containerTypeMapped = typeMapping.get(property.containerType);
             } else {
                 property.containerType = "array";
+                property.containerTypeMapped = typeMapping.get(property.containerType);
             }
             property.baseType = getSchemaType(p);
 
@@ -4816,6 +4819,7 @@ public class DefaultCodegen implements CodegenConfig {
             r.simpleType = false;
             r.isArray = true;
             r.containerType = cp.containerType;
+            r.containerTypeMapped = typeMapping.get(cp.containerType);
             ArraySchema as = (ArraySchema) responseSchema;
             CodegenProperty items = fromProperty("response", getSchemaItems(as), false);
             r.setItems(items);
@@ -4877,6 +4881,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             r.simpleType = false;
             r.containerType = cp.containerType;
+            r.containerTypeMapped = cp.containerTypeMapped;
             addVarsRequiredVarsAdditionalProps(responseSchema, r);
         } else if (ModelUtils.isAnyType(responseSchema)) {
             addVarsRequiredVarsAdditionalProps(responseSchema, r);
@@ -5236,6 +5241,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // set containerType
         codegenParameter.containerType = codegenProperty.containerType;
+        codegenParameter.containerTypeMapped = codegenProperty.containerTypeMapped;
 
         // enum
         updateCodegenPropertyEnum(codegenProperty);
@@ -5644,15 +5650,13 @@ public class DefaultCodegen implements CodegenConfig {
         addImport(model, property.complexType);
         model.parent = toInstantiationType(schema);
         if (!addSchemaImportsFromV3SpecLocations) {
-            final String containerType = property.containerType;
-            final String instantiationType = instantiationTypes.get(containerType);
+            final String instantiationType = instantiationTypes.get(property.containerType);
             if (instantiationType != null) {
                 addImport(model, instantiationType);
             }
 
-            final String mappedType = typeMapping.get(containerType);
-            if (mappedType != null) {
-                addImport(model, mappedType);
+            if (property.containerTypeMapped != null) {
+                addImport(model, property.containerTypeMapped);
             }
         }
     }
@@ -7041,6 +7045,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.unescapedDescription = codegenProperty.getDescription();
         codegenParameter.jsonSchema = Json.pretty(propertySchema);
         codegenParameter.containerType = codegenProperty.containerType;
+        codegenParameter.containerTypeMapped = codegenProperty.containerTypeMapped;
 
         if (codegenProperty.getVendorExtensions() != null && !codegenProperty.getVendorExtensions().isEmpty()) {
             codegenParameter.vendorExtensions = codegenProperty.getVendorExtensions();
@@ -7195,6 +7200,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isMap = Boolean.TRUE;
             codegenParameter.isNullable = codegenProperty.isNullable;
             codegenParameter.containerType = codegenProperty.containerType;
+            codegenParameter.containerTypeMapped = codegenProperty.containerTypeMapped;
 
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
@@ -7305,6 +7311,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isContainer = Boolean.TRUE;
             codegenParameter.isNullable = codegenProperty.isNullable;
             codegenParameter.containerType = codegenProperty.containerType;
+            codegenParameter.containerTypeMapped = codegenProperty.containerTypeMapped;
 
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
