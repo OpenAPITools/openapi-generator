@@ -51,5 +51,6 @@ public class TypeScriptAngularClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setQueryParamObjectFormat(TypeScriptAngularClientOptionsProvider.QUERY_PARAM_OBJECT_FORMAT_VALUE);
         verify(clientCodegen).setParamNaming(TypeScriptAngularClientOptionsProvider.PARAM_NAMING_VALUE);
         verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(TypeScriptAngularClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen).setHttpOptionsName(TypeScriptAngularClientOptionsProvider.HTTP_OPTIONS_NAME_VALUE);
     }
 }

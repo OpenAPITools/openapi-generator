@@ -71,6 +71,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
+    public static final String HTTP_OPTIONS_NAME = "httpOptionsName";
 
     protected String ngVersion = "15.0.3";
     protected String npmRepository = null;
@@ -83,6 +84,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     protected Boolean stringEnums = false;
     protected QUERY_PARAM_OBJECT_FORMAT_TYPE queryParamObjectFormat = QUERY_PARAM_OBJECT_FORMAT_TYPE.dot;
     protected PROVIDED_IN_LEVEL providedIn = PROVIDED_IN_LEVEL.root;
+    protected String httpOptionsName = "options";
 
     private boolean taggedUnions = false;
 
@@ -269,6 +271,13 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (additionalProperties.containsKey(QUERY_PARAM_OBJECT_FORMAT)) {
             setQueryParamObjectFormat((String) additionalProperties.get(QUERY_PARAM_OBJECT_FORMAT));
         }
+
+        if (additionalProperties.containsKey(HTTP_OPTIONS_NAME)) {
+            setHttpOptionsName((String) additionalProperties.get(HTTP_OPTIONS_NAME));
+        }
+
+        writePropertyBack(HTTP_OPTIONS_NAME, this.httpOptionsName);
+
         additionalProperties.put("isQueryParamObjectFormatDot", getQueryParamObjectFormatDot());
         additionalProperties.put("isQueryParamObjectFormatJson", getQueryParamObjectFormatJson());
         additionalProperties.put("isQueryParamObjectFormatKey", getQueryParamObjectFormatKey());
@@ -305,7 +314,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             additionalProperties.put("rxjsVersion", "7.5.5");
         } else if (ngVersion.atLeast("14.0.0")) {
             additionalProperties.put("rxjsVersion", "7.5.5");
-        } else  if (ngVersion.atLeast("13.0.0")) {
+        } else if (ngVersion.atLeast("13.0.0")) {
             additionalProperties.put("rxjsVersion", "7.4.0");
         } else if (ngVersion.atLeast("10.0.0")) {
             additionalProperties.put("rxjsVersion", "6.6.0");
@@ -398,7 +407,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             return super.getTypeDeclaration(p);
         }
     }
-
 
     private String applyLocalTypeMapping(String type) {
         if (typeMapping.containsKey(type)) {
@@ -754,7 +762,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      *
      * @param level the wanted level
      */
-    public void setProvidedIn (String level) {
+    public void setProvidedIn(String level) {
         try {
             providedIn = PROVIDED_IN_LEVEL.valueOf(level);
         } catch (IllegalArgumentException e) {
@@ -765,6 +773,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             String msg = String.format(Locale.ROOT, "Invalid providedIn level '%s'. Must be one of %s.", level, values);
             throw new IllegalArgumentException(msg);
         }
+    }
+
+    /**
+     * 
+     * @param optionsName the name of the options parameter
+     */
+    public void setHttpOptionsName(String optionsName) {
+        this.httpOptionsName = optionsName;
     }
 
     /**
