@@ -957,7 +957,7 @@ public class InlineModelResolver {
         }
 
         // If name only consists of underscores, and schema has chlidren models, create new name
-        if (name.replace("_", "") == "" & schema instanceof ComposedSchema) {
+        if (name.replace("_", "").equals("") & schema instanceof ComposedSchema) {
             ComposedSchema m = (ComposedSchema) schema;
             List<Schema> children = new ArrayList<Schema>();
             String suffix = "";
