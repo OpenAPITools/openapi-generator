@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="appleReq"></param>
         [JsonConstructor]
-        internal FruitReq(AppleReq appleReq)
+        public FruitReq(AppleReq appleReq)
         {
             AppleReq = appleReq;
             OnCreated();
@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="bananaReq"></param>
         [JsonConstructor]
-        internal FruitReq(BananaReq bananaReq)
+        public FruitReq(BananaReq bananaReq)
         {
             BananaReq = bananaReq;
             OnCreated();

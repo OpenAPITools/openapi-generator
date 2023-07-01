@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="equilateralTriangle"></param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(EquilateralTriangle? equilateralTriangle, string triangleType)
+        public Triangle(EquilateralTriangle equilateralTriangle, string triangleType)
         {
             EquilateralTriangle = equilateralTriangle;
             TriangleType = triangleType;
@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="isoscelesTriangle"></param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(IsoscelesTriangle? isoscelesTriangle, string triangleType)
+        public Triangle(IsoscelesTriangle isoscelesTriangle, string triangleType)
         {
             IsoscelesTriangle = isoscelesTriangle;
             TriangleType = triangleType;
@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="scaleneTriangle"></param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
-        public Triangle(ScaleneTriangle? scaleneTriangle, string triangleType)
+        public Triangle(ScaleneTriangle scaleneTriangle, string triangleType)
         {
             ScaleneTriangle = scaleneTriangle;
             TriangleType = triangleType;

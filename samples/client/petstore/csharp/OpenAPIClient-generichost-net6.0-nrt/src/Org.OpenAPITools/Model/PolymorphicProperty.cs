@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varBool"></param>
         [JsonConstructor]
-        internal PolymorphicProperty(bool? varBool)
+        internal PolymorphicProperty(bool varBool)
         {
             VarBool = varBool;
             OnCreated();
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varString"></param>
         [JsonConstructor]
-        internal PolymorphicProperty(string? varString)
+        internal PolymorphicProperty(string varString)
         {
             VarString = varString;
             OnCreated();
@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varObject"></param>
         [JsonConstructor]
-        internal PolymorphicProperty(Object? varObject)
+        internal PolymorphicProperty(Object varObject)
         {
             VarObject = varObject;
             OnCreated();
@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="list"></param>
         [JsonConstructor]
-        internal PolymorphicProperty(List<string>? list)
+        internal PolymorphicProperty(List<string> list)
         {
             List = list;
             OnCreated();

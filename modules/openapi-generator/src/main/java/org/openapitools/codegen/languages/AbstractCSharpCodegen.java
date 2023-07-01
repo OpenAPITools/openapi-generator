@@ -535,6 +535,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+            model.vendorExtensions.put("x-model-is-mutatable", modelIsMutatable(model, null));
 
             CodegenComposedSchemas composedSchemas = model.getComposedSchemas();
             if (composedSchemas != null) {
@@ -593,6 +594,27 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             }
         }
         return processed;
+    }
+
+    /**
+     *  Returns true if the model contains any properties with a public setter
+     *  If true, the model's constructor accessor should be made public to ensure end users
+     *  can instantiate the object. If false, then the model is only ever given
+     *  to us by the server, so we do not need a public constructor
+     */
+    private boolean modelIsMutatable(CodegenModel model, Set<String> processed) {
+        if (processed == null) {
+            processed = new HashSet<String>();
+        }
+        Boolean isMutatable = model.allVars.stream().anyMatch(v -> !v.isReadOnly);
+        if (!isMutatable && !processed.contains(model.classname) && model.getDiscriminator() != null && model.getDiscriminator().getMappedModels() != null) {
+            processed.add(model.classname);
+            for (CodegenDiscriminator.MappedModel mappedModel : model.getDiscriminator().getMappedModels()) {
+                isMutatable = modelIsMutatable(model, processed);
+            }
+        }
+
+        return isMutatable;
     }
 
     protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {

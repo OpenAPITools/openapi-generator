@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="basquePig"></param>
         /// <param name="className">className</param>
         [JsonConstructor]
-        public Pig(BasquePig? basquePig, string className)
+        public Pig(BasquePig basquePig, string className)
         {
             BasquePig = basquePig;
             ClassName = className;
@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="danishPig"></param>
         /// <param name="className">className</param>
         [JsonConstructor]
-        public Pig(DanishPig? danishPig, string className)
+        public Pig(DanishPig danishPig, string className)
         {
             DanishPig = danishPig;
             ClassName = className;

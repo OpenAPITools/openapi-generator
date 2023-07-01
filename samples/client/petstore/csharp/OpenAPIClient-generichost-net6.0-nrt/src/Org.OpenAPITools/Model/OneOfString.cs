@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varString"></param>
         [JsonConstructor]
-        internal OneOfString(string? varString)
+        internal OneOfString(string varString)
         {
             VarString = varString;
             OnCreated();

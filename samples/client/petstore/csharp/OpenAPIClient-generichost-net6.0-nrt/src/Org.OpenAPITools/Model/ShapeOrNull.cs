@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="triangle"></param>
         /// <param name="shapeType">shapeType</param>
         [JsonConstructor]
-        public ShapeOrNull(Triangle? triangle, string shapeType)
+        public ShapeOrNull(Triangle triangle, string shapeType)
         {
             Triangle = triangle;
             ShapeType = shapeType;
@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="quadrilateral"></param>
         /// <param name="shapeType">shapeType</param>
         [JsonConstructor]
-        public ShapeOrNull(Quadrilateral? quadrilateral, string shapeType)
+        public ShapeOrNull(Quadrilateral quadrilateral, string shapeType)
         {
             Quadrilateral = quadrilateral;
             ShapeType = shapeType;

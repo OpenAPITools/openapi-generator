@@ -53,21 +53,21 @@ namespace OpenAPIClient_generichost_manual_tests
             Assert.IsTrue(apple2 != null && apple.Cultivar.Equals(apple2.Cultivar) && apple.Origin.Equals(apple2.Origin));
         }
 
-        //[TestMethod]
-        //public void Pig()
-        //{
-        //    BasquePig basquePig = new("BasquePig");
-        //    Pig pig = new(basquePig);
-        //    string pigJson = JsonSerializer.Serialize(pig, _jsonSerializerOptions);
-        //    Pig? pig2 = JsonSerializer.Deserialize<Pig>(pigJson, _jsonSerializerOptions);
-        //    Assert.IsTrue(
-        //        pig.DanishPig == null &&
-        //        pig.BasquePig != null &&
-        //        pig2 != null &&
-        //        pig2.BasquePig != null &&
-        //        pig2.DanishPig == null &&
-        //        pig2.BasquePig.ClassName.Equals(pig.BasquePig.ClassName));
-        //}
+        [TestMethod]
+        public void Pig()
+        {
+           BasquePig basquePig = new("BasquePig");
+           Pig pig = new(basquePig, "BasquePig");
+           string pigJson = JsonSerializer.Serialize(pig, _jsonSerializerOptions);
+           Pig? pig2 = JsonSerializer.Deserialize<Pig>(pigJson, _jsonSerializerOptions);
+           Assert.IsTrue(
+               pig.DanishPig == null &&
+               pig.BasquePig != null &&
+               pig2 != null &&
+               pig2.BasquePig != null &&
+               pig2.DanishPig == null &&
+               pig2.BasquePig.ClassName.Equals(pig.BasquePig.ClassName));
+        }
 
         [TestMethod]
         public void DanishPig()
@@ -110,21 +110,21 @@ namespace OpenAPIClient_generichost_manual_tests
             Assert.IsTrue(equilateralTriangle2 != null && equilateralTriangle.TriangleType.Equals(equilateralTriangle2.TriangleType) && equilateralTriangle.ShapeType.Equals(equilateralTriangle2.ShapeType));
         }
 
-        //[TestMethod]
-        //public void Quadrilateral()
-        //{
-        //    ComplexQuadrilateral complexQuadrilateral = new("ComplexQuadrilateral", "shapeType");
-        //    Quadrilateral quadrilateral = new(complexQuadrilateral);
-        //    string quadrilateralJson = JsonSerializer.Serialize(quadrilateral, _jsonSerializerOptions);
-        //    Quadrilateral? quadrilateral2 = JsonSerializer.Deserialize<Quadrilateral>(quadrilateralJson, _jsonSerializerOptions);
-        //    Assert.IsTrue(
-        //        quadrilateral.ComplexQuadrilateral != null &&
-        //        quadrilateral2 != null &&
-        //        quadrilateral2.SimpleQuadrilateral == null &&
-        //        quadrilateral2.ComplexQuadrilateral != null &&
-        //        quadrilateral2.ComplexQuadrilateral.QuadrilateralType.Equals(quadrilateral.ComplexQuadrilateral.QuadrilateralType) &&
-        //        quadrilateral2.ComplexQuadrilateral.ShapeType.Equals(quadrilateral.ComplexQuadrilateral.ShapeType));
-        //}
+        [TestMethod]
+        public void Quadrilateral()
+        {
+           ComplexQuadrilateral complexQuadrilateral = new("ComplexQuadrilateral", "shapeType");
+           Quadrilateral quadrilateral = new(complexQuadrilateral, "ComplexQuadrilateral");
+           string quadrilateralJson = JsonSerializer.Serialize(quadrilateral, _jsonSerializerOptions);
+           Quadrilateral? quadrilateral2 = JsonSerializer.Deserialize<Quadrilateral>(quadrilateralJson, _jsonSerializerOptions);
+           Assert.IsTrue(
+               quadrilateral.ComplexQuadrilateral != null &&
+               quadrilateral2 != null &&
+               quadrilateral2.SimpleQuadrilateral == null &&
+               quadrilateral2.ComplexQuadrilateral != null &&
+               quadrilateral2.ComplexQuadrilateral.QuadrilateralType.Equals(quadrilateral.ComplexQuadrilateral.QuadrilateralType) &&
+               quadrilateral2.ComplexQuadrilateral.ShapeType.Equals(quadrilateral.ComplexQuadrilateral.ShapeType));
+        }
 
         [TestMethod]
         public void ChildCat()
