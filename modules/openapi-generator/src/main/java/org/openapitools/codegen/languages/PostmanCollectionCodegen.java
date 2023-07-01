@@ -567,9 +567,10 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      * @return Formatted text
      */
     public String formatDescription(String description) {
-
-        description = description.replace("\n", JSON_ESCAPE_NEW_LINE);
-        description = description.replace("\"", JSON_ESCAPE_DOUBLE_QUOTE);
+        if (description != null) {
+            description = description.replace("\n", JSON_ESCAPE_NEW_LINE);
+            description = description.replace("\"", JSON_ESCAPE_DOUBLE_QUOTE);
+        }
 
         return description;
     }

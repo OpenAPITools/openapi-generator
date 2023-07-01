@@ -420,7 +420,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
-                .put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda());
+                .put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda())
+                .put("first", new FirstLambda());
     }
 
     @Override
@@ -642,17 +643,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isPrimitiveType = true;
         }
 
-        if (!property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
-            property.vendorExtensions.put("x-csharp-value-type", true);
-        }
+        Boolean isValueType = isValueType(property);
 
-        property.vendorExtensions.put("x-is-value-type", isValueType(property));
+        property.vendorExtensions.put("x-is-value-type", isValueType);
 
-        if (property.isNullable && !property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
+        if (property.isNullable && !property.isContainer && isValueType) {
             property.vendorExtensions.put("x-nullable-value-type", true);
         }
 
-        if (this.getNullableReferencesTypes() || (property.vendorExtensions.get("x-nullable-value-type") != null)) {
+        if (this.getNullableReferencesTypes() || isValueType) {
             property.vendorExtensions.put("x-nullable-type", true);
         }
 
@@ -672,33 +671,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // HOTFIX: https://github.com/OpenAPITools/openapi-generator/issues/14944
         if (property.datatypeWithEnum.equals("decimal")) {
             property.isDecimal = true;
-        }
-    }
-
-    /**
-     * Mitigates https://github.com/OpenAPITools/openapi-generator/issues/13709
-     */
-    private void removeCircularReferencesInComposedSchemas(CodegenModel cm) {
-        cm.anyOf.removeIf(anyOf -> anyOf.equals(cm.classname));
-        cm.oneOf.removeIf(oneOf -> oneOf.equals(cm.classname));
-        cm.allOf.removeIf(allOf -> allOf.equals(cm.classname));
-
-        CodegenComposedSchemas composedSchemas = cm.getComposedSchemas();
-        if (composedSchemas != null) {
-            List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
-            if (anyOf != null) {
-                anyOf.removeIf(p -> p.dataType.equals(cm.classname));
-            }
-
-            List<CodegenProperty> oneOf = composedSchemas.getOneOf();
-            if (oneOf != null) {
-                oneOf.removeIf(p -> p.dataType.equals(cm.classname));
-            }
-
-            List<CodegenProperty> allOf = composedSchemas.getAllOf();
-            if (allOf != null) {
-                allOf.removeIf(p -> p.dataType.equals(cm.classname));
-            }
         }
     }
 
@@ -915,7 +887,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // default noop
     }
 
-    protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
+    protected void updateCodegenParameterEnumLegacy(CodegenParameter parameter, CodegenModel model) {
         if (model != null) {
             if (model.isEnum) {
                 parameter.isEnum = true;
@@ -927,6 +899,21 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         if (!parameter.isContainer && this.getNullableTypes().contains(parameter.dataType)) {
             parameter.vendorExtensions.put("x-csharp-value-type", true);
+        }
+    }
+
+    protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
+        if (model != null) {
+            if (model.isEnum) {
+                parameter.isEnum = true;
+                parameter.allowableValues = model.allowableValues;
+                parameter.isPrimitiveType = true;
+                parameter.vendorExtensions.put("x-is-value-type", true);
+            }
+        }
+
+        if (!parameter.isContainer && this.getValueTypes().contains(parameter.dataType)) {
+            parameter.vendorExtensions.put("x-is-value-type", true);
         }
     }
 

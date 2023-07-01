@@ -165,7 +165,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         apiTemplateFiles.put("api.mustache", ".cs");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-        embeddedTemplateDir = templateDir = "csharp-netcore";
+        embeddedTemplateDir = templateDir = "csharp";
 
         cliOptions.clear();
 
@@ -343,13 +343,16 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Deprecated
     @Override
     protected Set<String> getNullableTypes() {
-        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
-            "DateTime", "DateTimeOffset", "Guid"));
+        return GENERICHOST.equals(getLibrary())
+            ? super.getNullableTypes()
+            : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
     }
 
     @Override
     protected Set<String> getValueTypes() {
-        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
+        return GENERICHOST.equals(getLibrary())
+            ? super.getValueTypes()
+            : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
     }
 
     @Override
@@ -387,7 +390,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
-        super.updateCodegenParameterEnum(parameter, model);
+        if (GENERICHOST.equals(getLibrary())) {
+            super.updateCodegenParameterEnum(parameter, model);
+            return;
+        }
+
+        super.updateCodegenParameterEnumLegacy(parameter, model);
 
         if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
             parameter.dataType = parameter.dataType + "?";
@@ -565,7 +573,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String getName() {
-        return "csharp-netcore";
+        return "csharp";
     }
 
     public String getNameUsingModelPropertyNaming(String name) {
@@ -587,6 +595,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String getNullableType(Schema p, String type) {
+        if (GENERICHOST.equals(getLibrary())) {
+            return super.getNullableType(p, type);
+        }
+
         if (languageSpecificPrimitives.contains(type)) {
             if (isSupportNullable() && ModelUtils.isNullable(p) && this.getNullableTypes().contains(type)) {
                 return type + "?";
@@ -638,7 +650,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
         postProcessEmitDefaultValue(parameter.vendorExtensions);
 
-        if (!parameter.dataType.endsWith("?") && !parameter.required && (nullReferenceTypesFlag || this.getNullableTypes().contains(parameter.dataType))) {
+        if (!GENERICHOST.equals(getLibrary()) && !parameter.dataType.endsWith("?") && !parameter.required && (nullReferenceTypesFlag || this.getNullableTypes().contains(parameter.dataType))) {
             parameter.dataType = parameter.dataType + "?";
         }
 
@@ -1525,12 +1537,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
         super.patchProperty(enumRefs, model, property);
 
-        if (!GENERICHOST.equals(getLibrary()) || model.parentModel == null) {
-            return;
-        }
-
-        if (model.parentModel.allVars.stream().anyMatch(v -> v.baseName.equals(property.baseName))){
-            property.isInherited = true;
+        if (!GENERICHOST.equals(getLibrary())) {
+            if (!property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
+                property.vendorExtensions.put("x-csharp-value-type", true);
+            }
+        } else {
+            if (model.parentModel != null && model.parentModel.allVars.stream().anyMatch(v -> v.baseName.equals(property.baseName))) {
+                property.isInherited = true;
+            }
         }
     }
 
@@ -1589,17 +1603,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 ? null
                 : model.discriminator.getPropertyName();
 
-        if (discriminatorName != null) {
-            model.vars.removeIf(v -> v.name.equals(discriminatorName));
-            model.allVars.removeIf(v -> v.name.equals(discriminatorName));
-            model.readOnlyVars.removeIf(v -> v.name.equals(discriminatorName));
-            model.nonNullableVars.removeIf(v -> v.name.equals(discriminatorName));
-            model.optionalVars.removeIf(v -> v.name.equals(discriminatorName));
-            model.parentRequiredVars.removeIf(v -> v.name.equals(discriminatorName));
-            model.readWriteVars.removeIf(v -> v.name.equals(discriminatorName));
-            model.requiredVars.removeIf(v -> v.name.equals(discriminatorName));
-        }
-
         for(CodegenProperty oneOfProperty : composedProperties) {
             String ref = oneOfProperty.getRef();
             if (ref != null) {
@@ -1635,7 +1638,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean isValueType(CodegenProperty var) {
         // this is temporary until x-csharp-value-type is removed
         return this.getLibrary().equals("generichost")
-            ? this.getNullableTypes().contains(var.dataType) || var.isEnum
+            ? super.isValueType(var)
             : this.getValueTypes().contains(var.dataType) || var.isEnum;
     }
 

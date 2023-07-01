@@ -121,13 +121,17 @@ public class AbstractRustCodegenTest {
         // Empty strings need to be mapped to "Empty"
         // https://github.com/OpenAPITools/openapi-generator/issues/13453
         Assert.assertEquals(codegen.toEnumVarName("", null), "Empty");
+        // Reserved words should be sanitized properly
+        // https://github.com/OpenAPITools/openapi-generator/pull/15710
+        Assert.assertEquals(codegen.toEnumVarName("type", null), "Type");
+        Assert.assertEquals(codegen.toEnumVarName("Self", null), "VariantSelf");
     }
 
     @Test
     public void testToEnumName() {
         Function<String, String> toEnumName = (String name) -> {
             CodegenProperty property = new CodegenProperty();
-            property.name = name;
+            property.baseName = name;
             return codegen.toEnumName(property);
         };
         // Should be converted to camel case

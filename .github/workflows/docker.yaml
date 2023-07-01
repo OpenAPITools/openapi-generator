@@ -7,13 +7,14 @@ on:
       - run-in-docker.sh
       - pom.xml
       - modules/openapi-generator-online/pom.xml
+      - modules/openapi-generator-online/Dockerfile
   pull_request:
     paths:
       - Dockerfile
       - run-in-docker.sh
       - pom.xml
       - modules/openapi-generator-online/pom.xml
-
+      - modules/openapi-generator-online/Dockerfile
 jobs:
   build:
     name: 'Build: Docker'
@@ -34,4 +35,5 @@ jobs:
 
       - name: Build modules/openapi-generator-online
         shell: bash
-        run: docker build modules/openapi-generator-online/
+        run: |
+          docker build modules/openapi-generator-online/ -t test
