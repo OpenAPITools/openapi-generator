@@ -17,6 +17,9 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using KellermanSoftware.CompareNetObjects;
 using Org.OpenAPITools.Model;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Org.OpenAPITools.Test")]
 
 namespace Org.OpenAPITools.Client
 {
