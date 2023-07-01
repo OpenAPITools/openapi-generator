@@ -21,7 +21,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 {{#authMethods}}
 {{#isOAuth}}
+{{#useSpringBoot3}}
+import org.springframework.cloud.security.oauth2.client.feign.OAuth2FeignRequestInterceptor;
+{{/useSpringBoot3}}
+{{^useSpringBoot3}}
 import org.springframework.cloud.openfeign.security.OAuth2FeignRequestInterceptor;
+{{/useSpringBoot3}}
 import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 {{#isApplication}}

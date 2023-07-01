@@ -1,13 +1,14 @@
 generatorName: spring
 library: spring-cloud
-outputDir: samples/openapi3/client/petstore/spring-cloud-3
+outputDir: samples/openapi3/client/petstore/spring-cloud-3-with-optional
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
   groupId: org.openapitools.openapi3
-  documentationProvider: springdoc
   artifactId: spring-cloud-oas3
   useSpringBoot3: "true"
-  interfaceOnly: "false"
-  singleContentTypes: "true"
+  dateLibrary: "java8"
+  useOptional: "true"
+  useSwaggerUI: "false"
   hideGenerationTimestamp: "true"
+  documentationProvider: none
