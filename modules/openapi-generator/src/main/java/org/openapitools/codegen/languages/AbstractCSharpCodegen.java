@@ -535,7 +535,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
-            removeCircularReferencesInComposedSchemas(model);
             model.vendorExtensions.put("x-model-is-mutatable", modelIsMutatable(model, null));
 
             CodegenComposedSchemas composedSchemas = model.getComposedSchemas();
