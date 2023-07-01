@@ -145,9 +145,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("quadrilateralType", quadrilateralInterface.QuadrilateralType);
-
+            WriteProperties(ref writer, quadrilateralInterface, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="QuadrilateralInterface" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="quadrilateralInterface"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, QuadrilateralInterface quadrilateralInterface, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("quadrilateralType", quadrilateralInterface.QuadrilateralType);
         }
     }
 }

@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task FakeOuterBooleanSerializeAsyncTest()
         {
-            bool? body = default;
+            bool body = default;
             var response = await _instance.FakeOuterBooleanSerializeAsync(body);
             var model = response.AsModel();
             Assert.IsType<bool>(model);
@@ -91,7 +91,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task FakeOuterNumberSerializeAsyncTest()
         {
-            decimal? body = default;
+            decimal body = default;
             var response = await _instance.FakeOuterNumberSerializeAsync(body);
             var model = response.AsModel();
             Assert.IsType<decimal>(model);
@@ -164,16 +164,16 @@ namespace Org.OpenAPITools.Test.Api
             decimal number = default;
             double varDouble = default;
             string patternWithoutDelimiter = default;
-            DateTime? date = default;
+            DateTime date = default;
             System.IO.Stream binary = default;
-            float? varFloat = default;
-            int? integer = default;
-            int? int32 = default;
-            long? int64 = default;
+            float varFloat = default;
+            int integer = default;
+            int int32 = default;
+            long int64 = default;
             string varString = default;
             string password = default;
             string callback = default;
-            DateTime? dateTime = default;
+            DateTime dateTime = default;
             await _instance.TestEndpointParametersAsync(varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
         }
 
@@ -185,8 +185,8 @@ namespace Org.OpenAPITools.Test.Api
         {
             List<string> enumHeaderStringArray = default;
             List<string> enumQueryStringArray = default;
-            double? enumQueryDouble = default;
-            int? enumQueryInteger = default;
+            double enumQueryDouble = default;
+            int enumQueryInteger = default;
             List<string> enumFormStringArray = default;
             string enumHeaderString = default;
             string enumQueryString = default;
@@ -203,9 +203,9 @@ namespace Org.OpenAPITools.Test.Api
             bool requiredBooleanGroup = default;
             int requiredStringGroup = default;
             long requiredInt64Group = default;
-            bool? booleanGroup = default;
-            int? stringGroup = default;
-            long? int64Group = default;
+            bool booleanGroup = default;
+            int stringGroup = default;
+            long int64Group = default;
             await _instance.TestGroupParametersAsync(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
         }
 

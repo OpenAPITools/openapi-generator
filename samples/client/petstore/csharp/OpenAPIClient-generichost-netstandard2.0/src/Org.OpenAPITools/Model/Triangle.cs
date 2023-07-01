@@ -155,6 +155,45 @@ namespace Org.OpenAPITools.Model
 
             string triangleType = default;
 
+            EquilateralTriangle equilateralTriangle = null;
+            IsoscelesTriangle isoscelesTriangle = null;
+            ScaleneTriangle scaleneTriangle = null;
+
+            Utf8JsonReader utf8JsonReaderDiscriminator = utf8JsonReader;
+            while (utf8JsonReaderDiscriminator.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderDiscriminator.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderDiscriminator.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth)
+                    break;
+
+                if (utf8JsonReaderDiscriminator.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth - 1)
+                {
+                    string propertyName = utf8JsonReaderDiscriminator.GetString();
+                    utf8JsonReaderDiscriminator.Read();
+                    if (propertyName.Equals("triangleType"))
+                    {
+                        string discriminator = utf8JsonReaderDiscriminator.GetString();
+                        if (discriminator.Equals("EquilateralTriangle"))
+                        {
+                            Utf8JsonReader utf8JsonReaderEquilateralTriangle = utf8JsonReader;
+                            equilateralTriangle = JsonSerializer.Deserialize<EquilateralTriangle>(ref utf8JsonReaderEquilateralTriangle, jsonSerializerOptions);
+                        }
+                        if (discriminator.Equals("IsoscelesTriangle"))
+                        {
+                            Utf8JsonReader utf8JsonReaderIsoscelesTriangle = utf8JsonReader;
+                            isoscelesTriangle = JsonSerializer.Deserialize<IsoscelesTriangle>(ref utf8JsonReaderIsoscelesTriangle, jsonSerializerOptions);
+                        }
+                        if (discriminator.Equals("ScaleneTriangle"))
+                        {
+                            Utf8JsonReader utf8JsonReaderScaleneTriangle = utf8JsonReader;
+                            scaleneTriangle = JsonSerializer.Deserialize<ScaleneTriangle>(ref utf8JsonReaderScaleneTriangle, jsonSerializerOptions);
+                        }
+                    }
+                }
+            }
+
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -182,16 +221,13 @@ namespace Org.OpenAPITools.Model
             if (triangleType == null)
                 throw new ArgumentNullException(nameof(triangleType), "Property is required for class Triangle.");
 
-            Utf8JsonReader equilateralTriangleReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<EquilateralTriangle>(ref equilateralTriangleReader, jsonSerializerOptions, out EquilateralTriangle equilateralTriangle))
+            if (equilateralTriangle != null)
                 return new Triangle(equilateralTriangle, triangleType);
 
-            Utf8JsonReader isoscelesTriangleReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<IsoscelesTriangle>(ref isoscelesTriangleReader, jsonSerializerOptions, out IsoscelesTriangle isoscelesTriangle))
+            if (isoscelesTriangle != null)
                 return new Triangle(isoscelesTriangle, triangleType);
 
-            Utf8JsonReader scaleneTriangleReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<ScaleneTriangle>(ref scaleneTriangleReader, jsonSerializerOptions, out ScaleneTriangle scaleneTriangle))
+            if (scaleneTriangle != null)
                 return new Triangle(scaleneTriangle, triangleType);
 
             throw new JsonException();
@@ -206,17 +242,37 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions jsonSerializerOptions)
         {
-            System.Text.Json.JsonSerializer.Serialize(writer, triangle.EquilateralTriangle, jsonSerializerOptions);
-
-            System.Text.Json.JsonSerializer.Serialize(writer, triangle.IsoscelesTriangle, jsonSerializerOptions);
-
-            System.Text.Json.JsonSerializer.Serialize(writer, triangle.ScaleneTriangle, jsonSerializerOptions);
-
             writer.WriteStartObject();
 
-            writer.WriteString("triangleType", triangle.TriangleType);
+            if (triangle.EquilateralTriangle != null) {
+                EquilateralTriangleJsonConverter equilateralTriangleJsonConverter = (EquilateralTriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(triangle.EquilateralTriangle.GetType()));
+                equilateralTriangleJsonConverter.WriteProperties(ref writer, triangle.EquilateralTriangle, jsonSerializerOptions);
+            }
 
+            if (triangle.IsoscelesTriangle != null) {
+                IsoscelesTriangleJsonConverter isoscelesTriangleJsonConverter = (IsoscelesTriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(triangle.IsoscelesTriangle.GetType()));
+                isoscelesTriangleJsonConverter.WriteProperties(ref writer, triangle.IsoscelesTriangle, jsonSerializerOptions);
+            }
+
+            if (triangle.ScaleneTriangle != null) {
+                ScaleneTriangleJsonConverter scaleneTriangleJsonConverter = (ScaleneTriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(triangle.ScaleneTriangle.GetType()));
+                scaleneTriangleJsonConverter.WriteProperties(ref writer, triangle.ScaleneTriangle, jsonSerializerOptions);
+            }
+
+            WriteProperties(ref writer, triangle, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Triangle" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="triangle"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("triangleType", triangle.TriangleType);
         }
     }
 }

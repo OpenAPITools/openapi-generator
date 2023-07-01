@@ -163,12 +163,22 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WritePropertyName("file");
-            JsonSerializer.Serialize(writer, fileSchemaTestClass.File, jsonSerializerOptions);
-            writer.WritePropertyName("files");
-            JsonSerializer.Serialize(writer, fileSchemaTestClass.Files, jsonSerializerOptions);
-
+            WriteProperties(ref writer, fileSchemaTestClass, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="FileSchemaTestClass" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="fileSchemaTestClass"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, FileSchemaTestClass fileSchemaTestClass, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WritePropertyName("file");
+            JsonSerializer.Serialize(writer, fileSchemaTestClass.File, jsonSerializerOptions);            writer.WritePropertyName("files");
+            JsonSerializer.Serialize(writer, fileSchemaTestClass.Files, jsonSerializerOptions);
         }
     }
 }

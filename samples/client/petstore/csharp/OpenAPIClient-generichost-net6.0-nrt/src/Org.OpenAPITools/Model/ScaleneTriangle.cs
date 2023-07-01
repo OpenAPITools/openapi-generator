@@ -161,10 +161,21 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, scaleneTriangle, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="ScaleneTriangle" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="scaleneTriangle"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, ScaleneTriangle scaleneTriangle, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("shapeType", scaleneTriangle.ShapeType);
             writer.WriteString("triangleType", scaleneTriangle.TriangleType);
-
-            writer.WriteEndObject();
         }
     }
 }

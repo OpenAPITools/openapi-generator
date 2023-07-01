@@ -458,6 +458,36 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
 
+            if (cm.getComposedSchemas() != null) {
+                List<CodegenProperty> oneOf = cm.getComposedSchemas().getOneOf();
+                if (oneOf != null) {
+                    Set<String> dataTypeSet = new HashSet<>();
+                    for (CodegenProperty oneOfProperty : oneOf) {
+                        if (dataTypeSet.contains(oneOfProperty.dataType)) {
+                            // add "x-duplicated-data-type" to indicate if the dataType already occurs before
+                            // in other sub-schemas of allOf/anyOf/oneOf
+                            oneOfProperty.vendorExtensions.putIfAbsent("x-composed-data-type", true);
+                        } else {
+                            dataTypeSet.add(oneOfProperty.dataType);
+                        }
+                    }
+                }
+
+                List<CodegenProperty> anyOf = cm.getComposedSchemas().getAnyOf();
+                if (anyOf != null) {
+                    Set<String> dataTypeSet = new HashSet<>();
+                    for (CodegenProperty anyOfProperty : anyOf) {
+                        if (dataTypeSet.contains(anyOfProperty.dataType)) {
+                            // add "x-duplicated-data-type" to indicate if the dataType already occurs before
+                            // in other sub-schemas of allOf/anyOf/oneOf
+                            anyOfProperty.vendorExtensions.putIfAbsent("x-composed-data-type", true);
+                        } else {
+                            dataTypeSet.add(anyOfProperty.dataType);
+                        }
+                    }
+                }
+            }
+
             if (cm.isEnum && !cm.vendorExtensions.containsKey(this.zeroBasedEnumVendorExtension)) {
                 if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
                     cm.vendorExtensions.put(this.zeroBasedEnumVendorExtension, true);
@@ -487,6 +517,17 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         Map<String, CodegenModel> enumRefs = new HashMap<>();
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), processed);
+
+            // if we don't call setHasDiscriminatorWithNonEmptyMapping then hasDiscriminatorWithNonEmptyMapping will be false, and we need it in the JsonConverter
+            // the checks on oneOf and anyOf must be there or else hasDiscriminatorWithNonEmptyMapping will be true for GrandparentAnimal.
+            // GrandparentAnimal has a discriminator, but no oneOf nor anyOf
+            // modules\openapi-generator\src\test\resources\3_0\csharp\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
+            model.setHasDiscriminatorWithNonEmptyMapping(
+                    ((model.anyOf != null && model.anyOf.size() > 0) || (model.anyOf != null &&model.oneOf.size() > 0)) &&
+                    model.discriminator != null &&
+                    model.discriminator.getMappedModels() != null &&
+                    model.discriminator.getMappedModels().size() > 0);
+
             if (model.isEnum) {
                 enumRefs.put(model.getClassname(), model);
             }

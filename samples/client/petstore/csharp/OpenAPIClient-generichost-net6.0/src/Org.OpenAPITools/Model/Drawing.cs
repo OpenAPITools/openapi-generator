@@ -183,16 +183,24 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WritePropertyName("mainShape");
-            JsonSerializer.Serialize(writer, drawing.MainShape, jsonSerializerOptions);
-            writer.WritePropertyName("shapes");
-            JsonSerializer.Serialize(writer, drawing.Shapes, jsonSerializerOptions);
-            writer.WritePropertyName("nullableShape");
-            JsonSerializer.Serialize(writer, drawing.NullableShape, jsonSerializerOptions);
-            writer.WritePropertyName("shapeOrNull");
-            JsonSerializer.Serialize(writer, drawing.ShapeOrNull, jsonSerializerOptions);
-
+            WriteProperties(ref writer, drawing, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Drawing" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="drawing"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Drawing drawing, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WritePropertyName("mainShape");
+            JsonSerializer.Serialize(writer, drawing.MainShape, jsonSerializerOptions);            writer.WritePropertyName("shapes");
+            JsonSerializer.Serialize(writer, drawing.Shapes, jsonSerializerOptions);            writer.WritePropertyName("nullableShape");
+            JsonSerializer.Serialize(writer, drawing.NullableShape, jsonSerializerOptions);            writer.WritePropertyName("shapeOrNull");
+            JsonSerializer.Serialize(writer, drawing.ShapeOrNull, jsonSerializerOptions);
         }
     }
 }

@@ -145,9 +145,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("shapeType", shapeInterface.ShapeType);
-
+            WriteProperties(ref writer, shapeInterface, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="ShapeInterface" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="shapeInterface"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, ShapeInterface shapeInterface, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("shapeType", shapeInterface.ShapeType);
         }
     }
 }

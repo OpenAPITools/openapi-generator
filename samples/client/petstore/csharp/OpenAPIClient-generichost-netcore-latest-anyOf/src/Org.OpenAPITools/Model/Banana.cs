@@ -146,9 +146,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteNumber("count", banana.Count);
-
+            WriteProperties(ref writer, banana, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Banana" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="banana"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Banana banana, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteNumber("count", banana.Count);
         }
     }
 }

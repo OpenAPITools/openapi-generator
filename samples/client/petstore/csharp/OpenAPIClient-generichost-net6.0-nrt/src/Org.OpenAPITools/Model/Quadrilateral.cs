@@ -139,6 +139,39 @@ namespace Org.OpenAPITools.Model
 
             string? quadrilateralType = default;
 
+            ComplexQuadrilateral? complexQuadrilateral = null;
+            SimpleQuadrilateral? simpleQuadrilateral = null;
+
+            Utf8JsonReader utf8JsonReaderDiscriminator = utf8JsonReader;
+            while (utf8JsonReaderDiscriminator.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderDiscriminator.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderDiscriminator.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth)
+                    break;
+
+                if (utf8JsonReaderDiscriminator.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth - 1)
+                {
+                    string? propertyName = utf8JsonReaderDiscriminator.GetString();
+                    utf8JsonReaderDiscriminator.Read();
+                    if (propertyName?.Equals("quadrilateralType") ?? false)
+                    {
+                        string? discriminator = utf8JsonReaderDiscriminator.GetString();
+                        if (discriminator?.Equals("ComplexQuadrilateral") ?? false)
+                        {
+                            Utf8JsonReader utf8JsonReaderComplexQuadrilateral = utf8JsonReader;
+                            complexQuadrilateral = JsonSerializer.Deserialize<ComplexQuadrilateral>(ref utf8JsonReaderComplexQuadrilateral, jsonSerializerOptions);
+                        }
+                        if (discriminator?.Equals("SimpleQuadrilateral") ?? false)
+                        {
+                            Utf8JsonReader utf8JsonReaderSimpleQuadrilateral = utf8JsonReader;
+                            simpleQuadrilateral = JsonSerializer.Deserialize<SimpleQuadrilateral>(ref utf8JsonReaderSimpleQuadrilateral, jsonSerializerOptions);
+                        }
+                    }
+                }
+            }
+
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -166,13 +199,11 @@ namespace Org.OpenAPITools.Model
             if (quadrilateralType == null)
                 throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class Quadrilateral.");
 
-            Utf8JsonReader simpleQuadrilateralReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<SimpleQuadrilateral>(ref simpleQuadrilateralReader, jsonSerializerOptions, out SimpleQuadrilateral? simpleQuadrilateral))
-                return new Quadrilateral(simpleQuadrilateral, quadrilateralType);
-
-            Utf8JsonReader complexQuadrilateralReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<ComplexQuadrilateral>(ref complexQuadrilateralReader, jsonSerializerOptions, out ComplexQuadrilateral? complexQuadrilateral))
+            if (complexQuadrilateral != null)
                 return new Quadrilateral(complexQuadrilateral, quadrilateralType);
+
+            if (simpleQuadrilateral != null)
+                return new Quadrilateral(simpleQuadrilateral, quadrilateralType);
 
             throw new JsonException();
         }
@@ -186,15 +217,32 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Quadrilateral quadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
-            System.Text.Json.JsonSerializer.Serialize(writer, quadrilateral.SimpleQuadrilateral, jsonSerializerOptions);
-
-            System.Text.Json.JsonSerializer.Serialize(writer, quadrilateral.ComplexQuadrilateral, jsonSerializerOptions);
-
             writer.WriteStartObject();
 
-            writer.WriteString("quadrilateralType", quadrilateral.QuadrilateralType);
+            if (quadrilateral.ComplexQuadrilateral != null) {
+                ComplexQuadrilateralJsonConverter complexQuadrilateralJsonConverter = (ComplexQuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(quadrilateral.ComplexQuadrilateral.GetType()));
+                complexQuadrilateralJsonConverter.WriteProperties(ref writer, quadrilateral.ComplexQuadrilateral, jsonSerializerOptions);
+            }
 
+            if (quadrilateral.SimpleQuadrilateral != null) {
+                SimpleQuadrilateralJsonConverter simpleQuadrilateralJsonConverter = (SimpleQuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(quadrilateral.SimpleQuadrilateral.GetType()));
+                simpleQuadrilateralJsonConverter.WriteProperties(ref writer, quadrilateral.SimpleQuadrilateral, jsonSerializerOptions);
+            }
+
+            WriteProperties(ref writer, quadrilateral, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Quadrilateral" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="quadrilateral"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Quadrilateral quadrilateral, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("quadrilateralType", quadrilateral.QuadrilateralType);
         }
     }
 }

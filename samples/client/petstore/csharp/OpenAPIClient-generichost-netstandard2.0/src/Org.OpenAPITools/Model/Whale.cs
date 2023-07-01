@@ -177,11 +177,22 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, whale, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Whale" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="whale"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Whale whale, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("className", whale.ClassName);
             writer.WriteBoolean("hasBaleen", whale.HasBaleen);
             writer.WriteBoolean("hasTeeth", whale.HasTeeth);
-
-            writer.WriteEndObject();
         }
     }
 }

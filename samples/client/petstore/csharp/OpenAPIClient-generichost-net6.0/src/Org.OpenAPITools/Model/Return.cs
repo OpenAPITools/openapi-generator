@@ -144,9 +144,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteNumber("return", varReturn.VarReturn);
-
+            WriteProperties(ref writer, varReturn, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Return" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="varReturn"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteNumber("return", varReturn.VarReturn);
         }
     }
 }

@@ -146,10 +146,21 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, arrayOfNumberOnly, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="ArrayOfNumberOnly" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="arrayOfNumberOnly"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, ArrayOfNumberOnly arrayOfNumberOnly, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WritePropertyName("ArrayNumber");
             JsonSerializer.Serialize(writer, arrayOfNumberOnly.ArrayNumber, jsonSerializerOptions);
-
-            writer.WriteEndObject();
         }
     }
 }

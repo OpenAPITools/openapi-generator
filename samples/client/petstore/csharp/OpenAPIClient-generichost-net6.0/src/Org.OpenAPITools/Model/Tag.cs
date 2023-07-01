@@ -160,10 +160,21 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, tag, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Tag" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="tag"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Tag tag, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteNumber("id", tag.Id);
             writer.WriteString("name", tag.Name);
-
-            writer.WriteEndObject();
         }
     }
 }

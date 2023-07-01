@@ -143,9 +143,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("className", danishPig.ClassName);
-
+            WriteProperties(ref writer, danishPig, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="DanishPig" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="danishPig"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, DanishPig danishPig, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("className", danishPig.ClassName);
         }
     }
 }

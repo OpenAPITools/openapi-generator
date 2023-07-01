@@ -195,10 +195,21 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, readOnlyFirst, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="ReadOnlyFirst" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="readOnlyFirst"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, ReadOnlyFirst readOnlyFirst, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("bar", readOnlyFirst.Bar);
             writer.WriteString("baz", readOnlyFirst.Baz);
-
-            writer.WriteEndObject();
         }
     }
 }

@@ -143,9 +143,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("123-list", list.Var123List);
-
+            WriteProperties(ref writer, list, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="List" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="list"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, List list, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("123-list", list.Var123List);
         }
     }
 }

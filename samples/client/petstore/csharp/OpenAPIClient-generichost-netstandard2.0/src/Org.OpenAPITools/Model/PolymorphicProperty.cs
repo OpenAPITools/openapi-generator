@@ -146,6 +146,36 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
+            bool varBool = default;
+            string varString = default;
+            Object varObject = default;
+            List<string> list = default;
+
+            Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
+            while (utf8JsonReaderOneOf.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
+                    break;
+
+                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
+                {
+                    Utf8JsonReader utf8JsonReaderVarBool = utf8JsonReader;
+                    OpenAPIClientUtils.TryDeserialize<bool>(ref utf8JsonReaderVarBool, jsonSerializerOptions, out varBool);
+
+                    Utf8JsonReader utf8JsonReaderVarString = utf8JsonReader;
+                    OpenAPIClientUtils.TryDeserialize<string>(ref utf8JsonReaderVarString, jsonSerializerOptions, out varString);
+
+                    Utf8JsonReader utf8JsonReaderVarObject = utf8JsonReader;
+                    OpenAPIClientUtils.TryDeserialize<Object>(ref utf8JsonReaderVarObject, jsonSerializerOptions, out varObject);
+
+                    Utf8JsonReader utf8JsonReaderList = utf8JsonReader;
+                    OpenAPIClientUtils.TryDeserialize<List<string>>(ref utf8JsonReaderList, jsonSerializerOptions, out list);
+                }
+            }
+
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -167,20 +197,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            Utf8JsonReader varBoolReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<bool>(ref varBoolReader, jsonSerializerOptions, out bool varBool))
+            if (varBool != null)
                 return new PolymorphicProperty(varBool);
 
-            Utf8JsonReader varStringReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<string>(ref varStringReader, jsonSerializerOptions, out string varString))
+            if (varString != null)
                 return new PolymorphicProperty(varString);
 
-            Utf8JsonReader varObjectReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<Object>(ref varObjectReader, jsonSerializerOptions, out Object varObject))
+            if (varObject != null)
                 return new PolymorphicProperty(varObject);
 
-            Utf8JsonReader listReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<List<string>>(ref listReader, jsonSerializerOptions, out List<string> list))
+            if (list != null)
                 return new PolymorphicProperty(list);
 
             throw new JsonException();
@@ -195,17 +221,22 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, PolymorphicProperty polymorphicProperty, JsonSerializerOptions jsonSerializerOptions)
         {
-            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.VarBool, jsonSerializerOptions);
-
-            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.VarString, jsonSerializerOptions);
-
-            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.VarObject, jsonSerializerOptions);
-
-            System.Text.Json.JsonSerializer.Serialize(writer, polymorphicProperty.List, jsonSerializerOptions);
-
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, polymorphicProperty, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="PolymorphicProperty" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="polymorphicProperty"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, PolymorphicProperty polymorphicProperty, JsonSerializerOptions jsonSerializerOptions)
+        {
+
         }
     }
 }

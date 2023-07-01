@@ -39,8 +39,8 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public Fruit(Apple? apple, Banana? banana, string color)
         {
-            Apple = Apple;
-            Banana = Banana;
+            Apple = apple;
+            Banana = banana;
             Color = color;
             OnCreated();
         }
@@ -116,13 +116,29 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Utf8JsonReader appleReader = utf8JsonReader;
-            bool appleDeserialized = Client.ClientUtils.TryDeserialize<Apple>(ref appleReader, jsonSerializerOptions, out Apple? apple);
-
-            Utf8JsonReader bananaReader = utf8JsonReader;
-            bool bananaDeserialized = Client.ClientUtils.TryDeserialize<Banana>(ref bananaReader, jsonSerializerOptions, out Banana? banana);
-
             string? color = default;
+
+            Apple? apple = default;
+            Banana? banana = default;
+
+            Utf8JsonReader utf8JsonReaderAnyOf = utf8JsonReader;
+            while (utf8JsonReaderAnyOf.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderAnyOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderAnyOf.CurrentDepth)
+                    break;
+
+                if (utf8JsonReaderAnyOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderAnyOf.CurrentDepth - 1)
+                {
+                    Utf8JsonReader utf8JsonReaderApple = utf8JsonReader;
+                    OpenAPIClientUtils.TryDeserialize<Apple?>(ref utf8JsonReaderApple, jsonSerializerOptions, out apple);
+
+                    Utf8JsonReader utf8JsonReaderBanana = utf8JsonReader;
+                    OpenAPIClientUtils.TryDeserialize<Banana?>(ref utf8JsonReaderBanana, jsonSerializerOptions, out banana);
+                }
+            }
 
             while (utf8JsonReader.Read())
             {
@@ -163,15 +179,34 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
         {
-            System.Text.Json.JsonSerializer.Serialize(writer, fruit.Apple, jsonSerializerOptions);
-
-            System.Text.Json.JsonSerializer.Serialize(writer, fruit.Banana, jsonSerializerOptions);
-
             writer.WriteStartObject();
 
-            writer.WriteString("color", fruit.Color);
+            if (fruit.Apple != null)
+            {
+                AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.Apple.GetType()));
+                AppleJsonConverter.WriteProperties(ref writer, fruit.Apple, jsonSerializerOptions);
+            }
 
+            if (fruit.Banana != null)
+            {
+                BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.Banana.GetType()));
+                BananaJsonConverter.WriteProperties(ref writer, fruit.Banana, jsonSerializerOptions);
+            }
+
+            WriteProperties(ref writer, fruit, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Fruit" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="fruit"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("color", fruit.Color);
         }
     }
 }

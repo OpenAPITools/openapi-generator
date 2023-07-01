@@ -243,6 +243,19 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, zebra, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Zebra" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="zebra"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("className", zebra.ClassName);
 
             var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type);
@@ -250,8 +263,6 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("type", typeRawValue);
             else
                 writer.WriteNull("type");
-
-            writer.WriteEndObject();
         }
     }
 }

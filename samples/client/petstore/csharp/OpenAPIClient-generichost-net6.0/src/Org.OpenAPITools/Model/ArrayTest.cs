@@ -178,14 +178,23 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WritePropertyName("array_array_of_integer");
-            JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfInteger, jsonSerializerOptions);
-            writer.WritePropertyName("array_array_of_model");
-            JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfModel, jsonSerializerOptions);
-            writer.WritePropertyName("array_of_string");
-            JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, jsonSerializerOptions);
-
+            WriteProperties(ref writer, arrayTest, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="ArrayTest" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="arrayTest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, ArrayTest arrayTest, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WritePropertyName("array_array_of_integer");
+            JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfInteger, jsonSerializerOptions);            writer.WritePropertyName("array_array_of_model");
+            JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfModel, jsonSerializerOptions);            writer.WritePropertyName("array_of_string");
+            JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, jsonSerializerOptions);
         }
     }
 }

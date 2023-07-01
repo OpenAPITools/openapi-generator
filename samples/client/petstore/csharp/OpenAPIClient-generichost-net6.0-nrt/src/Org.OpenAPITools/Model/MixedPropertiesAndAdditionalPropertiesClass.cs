@@ -209,13 +209,23 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, mixedPropertiesAndAdditionalPropertiesClass, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="MixedPropertiesAndAdditionalPropertiesClass" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="mixedPropertiesAndAdditionalPropertiesClass"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTime.ToString(DateTimeFormat));
             writer.WritePropertyName("map");
-            JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, jsonSerializerOptions);
-            writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.Uuid);
+            JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, jsonSerializerOptions);            writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.Uuid);
             writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern);
-
-            writer.WriteEndObject();
         }
     }
 }

@@ -157,6 +157,45 @@ namespace Org.OpenAPITools.Model
 
             string? className = default;
 
+            Pig? pig = null;
+            Whale? whale = null;
+            Zebra? zebra = null;
+
+            Utf8JsonReader utf8JsonReaderDiscriminator = utf8JsonReader;
+            while (utf8JsonReaderDiscriminator.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderDiscriminator.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderDiscriminator.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth)
+                    break;
+
+                if (utf8JsonReaderDiscriminator.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth - 1)
+                {
+                    string? propertyName = utf8JsonReaderDiscriminator.GetString();
+                    utf8JsonReaderDiscriminator.Read();
+                    if (propertyName?.Equals("className") ?? false)
+                    {
+                        string? discriminator = utf8JsonReaderDiscriminator.GetString();
+                        if (discriminator?.Equals("Pig") ?? false)
+                        {
+                            Utf8JsonReader utf8JsonReaderPig = utf8JsonReader;
+                            pig = JsonSerializer.Deserialize<Pig>(ref utf8JsonReaderPig, jsonSerializerOptions);
+                        }
+                        if (discriminator?.Equals("whale") ?? false)
+                        {
+                            Utf8JsonReader utf8JsonReaderWhale = utf8JsonReader;
+                            whale = JsonSerializer.Deserialize<Whale>(ref utf8JsonReaderWhale, jsonSerializerOptions);
+                        }
+                        if (discriminator?.Equals("zebra") ?? false)
+                        {
+                            Utf8JsonReader utf8JsonReaderZebra = utf8JsonReader;
+                            zebra = JsonSerializer.Deserialize<Zebra>(ref utf8JsonReaderZebra, jsonSerializerOptions);
+                        }
+                    }
+                }
+            }
+
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -184,17 +223,14 @@ namespace Org.OpenAPITools.Model
             if (className == null)
                 throw new ArgumentNullException(nameof(className), "Property is required for class Mammal.");
 
-            Utf8JsonReader whaleReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<Whale>(ref whaleReader, jsonSerializerOptions, out Whale? whale))
+            if (pig != null)
+                return new Mammal(pig, className);
+
+            if (whale != null)
                 return new Mammal(whale, className);
 
-            Utf8JsonReader zebraReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<Zebra>(ref zebraReader, jsonSerializerOptions, out Zebra? zebra))
+            if (zebra != null)
                 return new Mammal(zebra, className);
-
-            Utf8JsonReader pigReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<Pig>(ref pigReader, jsonSerializerOptions, out Pig? pig))
-                return new Mammal(pig, className);
 
             throw new JsonException();
         }
@@ -208,17 +244,37 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
-            System.Text.Json.JsonSerializer.Serialize(writer, mammal.Whale, jsonSerializerOptions);
-
-            System.Text.Json.JsonSerializer.Serialize(writer, mammal.Zebra, jsonSerializerOptions);
-
-            System.Text.Json.JsonSerializer.Serialize(writer, mammal.Pig, jsonSerializerOptions);
-
             writer.WriteStartObject();
 
-            writer.WriteString("className", mammal.ClassName);
+            if (mammal.Pig != null) {
+                PigJsonConverter pigJsonConverter = (PigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Pig.GetType()));
+                pigJsonConverter.WriteProperties(ref writer, mammal.Pig, jsonSerializerOptions);
+            }
 
+            if (mammal.Whale != null) {
+                WhaleJsonConverter whaleJsonConverter = (WhaleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Whale.GetType()));
+                whaleJsonConverter.WriteProperties(ref writer, mammal.Whale, jsonSerializerOptions);
+            }
+
+            if (mammal.Zebra != null) {
+                ZebraJsonConverter zebraJsonConverter = (ZebraJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Zebra.GetType()));
+                zebraJsonConverter.WriteProperties(ref writer, mammal.Zebra, jsonSerializerOptions);
+            }
+
+            WriteProperties(ref writer, mammal, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Mammal" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="mammal"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("className", mammal.ClassName);
         }
     }
 }

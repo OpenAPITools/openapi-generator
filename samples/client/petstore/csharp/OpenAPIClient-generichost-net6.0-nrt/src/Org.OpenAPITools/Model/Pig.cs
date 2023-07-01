@@ -139,6 +139,39 @@ namespace Org.OpenAPITools.Model
 
             string? className = default;
 
+            BasquePig? basquePig = null;
+            DanishPig? danishPig = null;
+
+            Utf8JsonReader utf8JsonReaderDiscriminator = utf8JsonReader;
+            while (utf8JsonReaderDiscriminator.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderDiscriminator.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderDiscriminator.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth)
+                    break;
+
+                if (utf8JsonReaderDiscriminator.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth - 1)
+                {
+                    string? propertyName = utf8JsonReaderDiscriminator.GetString();
+                    utf8JsonReaderDiscriminator.Read();
+                    if (propertyName?.Equals("className") ?? false)
+                    {
+                        string? discriminator = utf8JsonReaderDiscriminator.GetString();
+                        if (discriminator?.Equals("BasquePig") ?? false)
+                        {
+                            Utf8JsonReader utf8JsonReaderBasquePig = utf8JsonReader;
+                            basquePig = JsonSerializer.Deserialize<BasquePig>(ref utf8JsonReaderBasquePig, jsonSerializerOptions);
+                        }
+                        if (discriminator?.Equals("DanishPig") ?? false)
+                        {
+                            Utf8JsonReader utf8JsonReaderDanishPig = utf8JsonReader;
+                            danishPig = JsonSerializer.Deserialize<DanishPig>(ref utf8JsonReaderDanishPig, jsonSerializerOptions);
+                        }
+                    }
+                }
+            }
+
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -166,12 +199,10 @@ namespace Org.OpenAPITools.Model
             if (className == null)
                 throw new ArgumentNullException(nameof(className), "Property is required for class Pig.");
 
-            Utf8JsonReader basquePigReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<BasquePig>(ref basquePigReader, jsonSerializerOptions, out BasquePig? basquePig))
+            if (basquePig != null)
                 return new Pig(basquePig, className);
 
-            Utf8JsonReader danishPigReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<DanishPig>(ref danishPigReader, jsonSerializerOptions, out DanishPig? danishPig))
+            if (danishPig != null)
                 return new Pig(danishPig, className);
 
             throw new JsonException();
@@ -186,15 +217,32 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
         {
-            System.Text.Json.JsonSerializer.Serialize(writer, pig.BasquePig, jsonSerializerOptions);
-
-            System.Text.Json.JsonSerializer.Serialize(writer, pig.DanishPig, jsonSerializerOptions);
-
             writer.WriteStartObject();
 
-            writer.WriteString("className", pig.ClassName);
+            if (pig.BasquePig != null) {
+                BasquePigJsonConverter basquePigJsonConverter = (BasquePigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(pig.BasquePig.GetType()));
+                basquePigJsonConverter.WriteProperties(ref writer, pig.BasquePig, jsonSerializerOptions);
+            }
 
+            if (pig.DanishPig != null) {
+                DanishPigJsonConverter danishPigJsonConverter = (DanishPigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(pig.DanishPig.GetType()));
+                danishPigJsonConverter.WriteProperties(ref writer, pig.DanishPig, jsonSerializerOptions);
+            }
+
+            WriteProperties(ref writer, pig, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Pig" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="pig"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("className", pig.ClassName);
         }
     }
 }

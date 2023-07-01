@@ -139,6 +139,39 @@ namespace Org.OpenAPITools.Model
 
             string? shapeType = default;
 
+            Quadrilateral? quadrilateral = null;
+            Triangle? triangle = null;
+
+            Utf8JsonReader utf8JsonReaderDiscriminator = utf8JsonReader;
+            while (utf8JsonReaderDiscriminator.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderDiscriminator.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderDiscriminator.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth)
+                    break;
+
+                if (utf8JsonReaderDiscriminator.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth - 1)
+                {
+                    string? propertyName = utf8JsonReaderDiscriminator.GetString();
+                    utf8JsonReaderDiscriminator.Read();
+                    if (propertyName?.Equals("shapeType") ?? false)
+                    {
+                        string? discriminator = utf8JsonReaderDiscriminator.GetString();
+                        if (discriminator?.Equals("Quadrilateral") ?? false)
+                        {
+                            Utf8JsonReader utf8JsonReaderQuadrilateral = utf8JsonReader;
+                            quadrilateral = JsonSerializer.Deserialize<Quadrilateral>(ref utf8JsonReaderQuadrilateral, jsonSerializerOptions);
+                        }
+                        if (discriminator?.Equals("Triangle") ?? false)
+                        {
+                            Utf8JsonReader utf8JsonReaderTriangle = utf8JsonReader;
+                            triangle = JsonSerializer.Deserialize<Triangle>(ref utf8JsonReaderTriangle, jsonSerializerOptions);
+                        }
+                    }
+                }
+            }
+
             while (utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
@@ -166,13 +199,11 @@ namespace Org.OpenAPITools.Model
             if (shapeType == null)
                 throw new ArgumentNullException(nameof(shapeType), "Property is required for class NullableShape.");
 
-            Utf8JsonReader triangleReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<Triangle>(ref triangleReader, jsonSerializerOptions, out Triangle? triangle))
-                return new NullableShape(triangle, shapeType);
-
-            Utf8JsonReader quadrilateralReader = utf8JsonReader;
-            if (Client.ClientUtils.TryDeserialize<Quadrilateral>(ref quadrilateralReader, jsonSerializerOptions, out Quadrilateral? quadrilateral))
+            if (quadrilateral != null)
                 return new NullableShape(quadrilateral, shapeType);
+
+            if (triangle != null)
+                return new NullableShape(triangle, shapeType);
 
             throw new JsonException();
         }
@@ -186,15 +217,32 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, NullableShape nullableShape, JsonSerializerOptions jsonSerializerOptions)
         {
-            System.Text.Json.JsonSerializer.Serialize(writer, nullableShape.Triangle, jsonSerializerOptions);
-
-            System.Text.Json.JsonSerializer.Serialize(writer, nullableShape.Quadrilateral, jsonSerializerOptions);
-
             writer.WriteStartObject();
 
-            writer.WriteString("shapeType", nullableShape.ShapeType);
+            if (nullableShape.Quadrilateral != null) {
+                QuadrilateralJsonConverter quadrilateralJsonConverter = (QuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(nullableShape.Quadrilateral.GetType()));
+                quadrilateralJsonConverter.WriteProperties(ref writer, nullableShape.Quadrilateral, jsonSerializerOptions);
+            }
 
+            if (nullableShape.Triangle != null) {
+                TriangleJsonConverter triangleJsonConverter = (TriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(nullableShape.Triangle.GetType()));
+                triangleJsonConverter.WriteProperties(ref writer, nullableShape.Triangle, jsonSerializerOptions);
+            }
+
+            WriteProperties(ref writer, nullableShape, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="NullableShape" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="nullableShape"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, NullableShape nullableShape, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("shapeType", nullableShape.ShapeType);
         }
     }
 }

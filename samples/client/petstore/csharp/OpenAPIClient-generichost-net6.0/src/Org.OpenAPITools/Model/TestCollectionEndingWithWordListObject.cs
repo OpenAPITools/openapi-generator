@@ -144,10 +144,21 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, testCollectionEndingWithWordListObject, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="TestCollectionEndingWithWordListObject" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="testCollectionEndingWithWordListObject"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, TestCollectionEndingWithWordListObject testCollectionEndingWithWordListObject, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WritePropertyName("TestCollectionEndingWithWordList");
             JsonSerializer.Serialize(writer, testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList, jsonSerializerOptions);
-
-            writer.WriteEndObject();
         }
     }
 }
