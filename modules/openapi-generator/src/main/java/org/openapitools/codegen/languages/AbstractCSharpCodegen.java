@@ -420,7 +420,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
-                .put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda());
+                .put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda())
+                .put("first", new FirstLambda());
     }
 
     @Override
@@ -457,6 +458,36 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
 
+            if (cm.getComposedSchemas() != null) {
+                List<CodegenProperty> oneOf = cm.getComposedSchemas().getOneOf();
+                if (oneOf != null) {
+                    Set<String> dataTypeSet = new HashSet<>();
+                    for (CodegenProperty oneOfProperty : oneOf) {
+                        if (dataTypeSet.contains(oneOfProperty.dataType)) {
+                            // add "x-duplicated-data-type" to indicate if the dataType already occurs before
+                            // in other sub-schemas of allOf/anyOf/oneOf
+                            oneOfProperty.vendorExtensions.putIfAbsent("x-composed-data-type", true);
+                        } else {
+                            dataTypeSet.add(oneOfProperty.dataType);
+                        }
+                    }
+                }
+
+                List<CodegenProperty> anyOf = cm.getComposedSchemas().getAnyOf();
+                if (anyOf != null) {
+                    Set<String> dataTypeSet = new HashSet<>();
+                    for (CodegenProperty anyOfProperty : anyOf) {
+                        if (dataTypeSet.contains(anyOfProperty.dataType)) {
+                            // add "x-duplicated-data-type" to indicate if the dataType already occurs before
+                            // in other sub-schemas of allOf/anyOf/oneOf
+                            anyOfProperty.vendorExtensions.putIfAbsent("x-composed-data-type", true);
+                        } else {
+                            dataTypeSet.add(anyOfProperty.dataType);
+                        }
+                    }
+                }
+            }
+
             if (cm.isEnum && !cm.vendorExtensions.containsKey(this.zeroBasedEnumVendorExtension)) {
                 if (Boolean.TRUE.equals(this.zeroBasedEnums)) {
                     cm.vendorExtensions.put(this.zeroBasedEnumVendorExtension, true);
@@ -486,6 +517,17 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         Map<String, CodegenModel> enumRefs = new HashMap<>();
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), processed);
+
+            // if we don't call setHasDiscriminatorWithNonEmptyMapping then hasDiscriminatorWithNonEmptyMapping will be false, and we need it in the JsonConverter
+            // the checks on oneOf and anyOf must be there or else hasDiscriminatorWithNonEmptyMapping will be true for GrandparentAnimal.
+            // GrandparentAnimal has a discriminator, but no oneOf nor anyOf
+            // modules\openapi-generator\src\test\resources\3_0\csharp\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
+            model.setHasDiscriminatorWithNonEmptyMapping(
+                    ((model.anyOf != null && model.anyOf.size() > 0) || (model.anyOf != null &&model.oneOf.size() > 0)) &&
+                    model.discriminator != null &&
+                    model.discriminator.getMappedModels() != null &&
+                    model.discriminator.getMappedModels().size() > 0);
+
             if (model.isEnum) {
                 enumRefs.put(model.getClassname(), model);
             }
@@ -493,6 +535,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
             CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+            model.vendorExtensions.put("x-model-is-mutatable", modelIsMutatable(model, null));
 
             CodegenComposedSchemas composedSchemas = model.getComposedSchemas();
             if (composedSchemas != null) {
@@ -505,6 +548,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                 List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
                 if (anyOf != null) {
+                    removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
                     for(CodegenProperty property : anyOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
@@ -513,6 +557,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                 List<CodegenProperty> oneOf = composedSchemas.getOneOf();
                 if (oneOf != null) {
+                    removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
                     for(CodegenProperty property : oneOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
@@ -551,6 +596,30 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return processed;
     }
 
+    /**
+     *  Returns true if the model contains any properties with a public setter
+     *  If true, the model's constructor accessor should be made public to ensure end users
+     *  can instantiate the object. If false, then the model is only ever given
+     *  to us by the server, so we do not need a public constructor
+     */
+    private boolean modelIsMutatable(CodegenModel model, Set<String> processed) {
+        if (processed == null) {
+            processed = new HashSet<String>();
+        }
+        Boolean isMutatable = model.allVars.stream().anyMatch(v -> !v.isReadOnly);
+        if (!isMutatable && !processed.contains(model.classname) && model.getDiscriminator() != null && model.getDiscriminator().getMappedModels() != null) {
+            processed.add(model.classname);
+            for (CodegenDiscriminator.MappedModel mappedModel : model.getDiscriminator().getMappedModels()) {
+                isMutatable = modelIsMutatable(model, processed);
+            }
+        }
+
+        return isMutatable;
+    }
+
+    protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {
+    }
+
     private String patchPropertyName(CodegenModel model, String value) {
         // the casing will be wrong if we just set the name to escapeReservedWord
         // if we try to fix it with camelize, underscores get stripped out
@@ -579,17 +648,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isPrimitiveType = true;
         }
 
-        if (!property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
-            property.vendorExtensions.put("x-csharp-value-type", true);
-        }
+        Boolean isValueType = isValueType(property);
 
-        property.vendorExtensions.put("x-is-value-type", isValueType(property));
+        property.vendorExtensions.put("x-is-value-type", isValueType);
 
-        if (property.isNullable && !property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
+        if (property.isNullable && !property.isContainer && isValueType) {
             property.vendorExtensions.put("x-nullable-value-type", true);
         }
 
-        if (this.getNullableReferencesTypes() || (property.vendorExtensions.get("x-nullable-value-type") != null)) {
+        if (this.getNullableReferencesTypes() || isValueType) {
             property.vendorExtensions.put("x-nullable-type", true);
         }
 
@@ -825,7 +892,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // default noop
     }
 
-    protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
+    protected void updateCodegenParameterEnumLegacy(CodegenParameter parameter, CodegenModel model) {
         if (model != null) {
             if (model.isEnum) {
                 parameter.isEnum = true;
@@ -837,6 +904,21 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         if (!parameter.isContainer && this.getNullableTypes().contains(parameter.dataType)) {
             parameter.vendorExtensions.put("x-csharp-value-type", true);
+        }
+    }
+
+    protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
+        if (model != null) {
+            if (model.isEnum) {
+                parameter.isEnum = true;
+                parameter.allowableValues = model.allowableValues;
+                parameter.isPrimitiveType = true;
+                parameter.vendorExtensions.put("x-is-value-type", true);
+            }
+        }
+
+        if (!parameter.isContainer && this.getValueTypes().contains(parameter.dataType)) {
+            parameter.vendorExtensions.put("x-is-value-type", true);
         }
     }
 

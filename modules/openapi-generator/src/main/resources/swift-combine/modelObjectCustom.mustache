@@ -1,0 +1,66 @@
+{{#isDeprecated}}
+@available(*, deprecated, message: "Deprecated API parameter")
+{{/isDeprecated}}
+public struct {{{classname}}}: Codable {
+{{#allVars}}
+{{#isEnum}}
+{{> modelInlineEnumDeclaration}}
+{{/isEnum}}
+{{/allVars}}
+{{#allVars}}
+{{#isEnum}}
+    {{#description}}/// {{{.}}}
+    {{/description}}public var {{{name}}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}
+{{/isEnum}}
+{{^isEnum}}
+    {{#description}}/// {{{.}}}
+    {{/description}}public var {{{name}}}: {{{datatype}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}
+{{/isEnum}}
+{{/allVars}}
+{{#hasVars}}
+
+    public init({{#allVars}}{{{name}}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^defaultValue}}{{^required}} = nil{{/required}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/allVars}}) {
+        {{#allVars}}
+        self.{{{name}}} = {{{name}}}
+        {{/allVars}}
+    }
+{{/hasVars}}
+
+    public enum CodingKeys: {{#hasVars}}String, {{/hasVars}}CodingKey, CaseIterable {
+        {{#allVars}}
+        case {{{name}}}{{#vendorExtensions.x-codegen-escaped-property-name}} = "{{{baseName}}}"{{/vendorExtensions.x-codegen-escaped-property-name}}
+        {{/allVars}}
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        {{#allVars}}
+        {{{name}}} = try container.decode{{^required}}IfPresent{{/required}}({{{datatypeWithEnum}}}.self, forKey: .{{{name}}})
+        {{/allVars}}
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        {{#allVars}}
+        {{#vendorExtensions.x-swift-is-not-codable}}
+        {{#required}}
+        try container.encode(try JSONSerialization.data(withJSONObject: {{{name}}}), forKey: .{{{name}}})
+        {{/required}}
+        {{^required}}
+        if let {{{name}}} = {{{name}}} {
+            try container.encodeIfPresent(try JSONSerialization.data(withJSONObject: {{{name}}}), forKey: .{{{name}}})
+        }
+        {{/required}}
+        {{/vendorExtensions.x-swift-is-not-codable}}
+        {{^vendorExtensions.x-swift-is-not-codable}}
+        try container.encode{{^required}}IfPresent{{/required}}({{{name}}}, forKey: .{{{name}}})
+        {{/vendorExtensions.x-swift-is-not-codable}}
+        {{/allVars}}
+        {{#generateModelAdditionalProperties}}
+        {{#additionalPropertiesType}}
+        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
+        try additionalPropertiesContainer.encodeMap(additionalProperties)
+        {{/additionalPropertiesType}}
+        {{/generateModelAdditionalProperties}}
+    }
+}

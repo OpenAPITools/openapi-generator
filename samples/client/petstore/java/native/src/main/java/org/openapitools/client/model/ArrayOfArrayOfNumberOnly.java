@@ -153,11 +153,9 @@ public class ArrayOfArrayOfNumberOnly {
     // add `ArrayArrayNumber` to the URL query string
     if (getArrayArrayNumber() != null) {
       for (int i = 0; i < getArrayArrayNumber().size(); i++) {
-        if (getArrayArrayNumber().get(i) != null) {
-          joiner.add(String.format("%sArrayArrayNumber%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-              URLEncoder.encode(String.valueOf(getArrayArrayNumber().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-        }
+        joiner.add(String.format("%sArrayArrayNumber%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(String.valueOf(getArrayArrayNumber().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
       }
     }
 

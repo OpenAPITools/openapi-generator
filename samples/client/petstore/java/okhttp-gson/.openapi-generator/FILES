@@ -75,6 +75,7 @@ docs/Pig.md
 docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
 docs/ReadOnlyFirst.md
+docs/Scalar.md
 docs/ScaleneTriangle.md
 docs/Shape.md
 docs/ShapeInterface.md
@@ -87,6 +88,9 @@ docs/Triangle.md
 docs/TriangleInterface.md
 docs/User.md
 docs/UserApi.md
+docs/Value.md
+docs/ValuesApi.md
+docs/Variable.md
 docs/Whale.md
 docs/Zebra.md
 git_push.sh
@@ -118,6 +122,7 @@ src/main/java/org/openapitools/client/api/FakeClassnameTags123Api.java
 src/main/java/org/openapitools/client/api/PetApi.java
 src/main/java/org/openapitools/client/api/StoreApi.java
 src/main/java/org/openapitools/client/api/UserApi.java
+src/main/java/org/openapitools/client/api/ValuesApi.java
 src/main/java/org/openapitools/client/auth/ApiKeyAuth.java
 src/main/java/org/openapitools/client/auth/Authentication.java
 src/main/java/org/openapitools/client/auth/HttpBasicAuth.java
@@ -192,6 +197,7 @@ src/main/java/org/openapitools/client/model/Pig.java
 src/main/java/org/openapitools/client/model/Quadrilateral.java
 src/main/java/org/openapitools/client/model/QuadrilateralInterface.java
 src/main/java/org/openapitools/client/model/ReadOnlyFirst.java
+src/main/java/org/openapitools/client/model/Scalar.java
 src/main/java/org/openapitools/client/model/ScaleneTriangle.java
 src/main/java/org/openapitools/client/model/Shape.java
 src/main/java/org/openapitools/client/model/ShapeInterface.java
@@ -202,5 +208,7 @@ src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/Triangle.java
 src/main/java/org/openapitools/client/model/TriangleInterface.java
 src/main/java/org/openapitools/client/model/User.java
+src/main/java/org/openapitools/client/model/Value.java
+src/main/java/org/openapitools/client/model/Variable.java
 src/main/java/org/openapitools/client/model/Whale.java
 src/main/java/org/openapitools/client/model/Zebra.java

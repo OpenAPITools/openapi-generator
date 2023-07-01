@@ -26,6 +26,7 @@ jobs:
           - samples/openapi3/client/petstore/spring-stubs-skip-default-interface
           - samples/openapi3/client/petstore/spring-cloud-async
           - samples/openapi3/client/petstore/spring-cloud-spring-pageable
+          - samples/openapi3/client/petstore/spring-cloud-3-with-optional.yaml
           # servers
           - samples/server/petstore/springboot
           - samples/openapi3/server/petstore/springboot

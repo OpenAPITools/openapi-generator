@@ -1132,6 +1132,23 @@ paths:
       tags:
       - fake
       x-accepts: application/json
+  /values:
+    get:
+      description: ""
+      operationId: getSomeValues
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Variable'
+          description: successful operation
+        "400":
+          description: Invalid Value
+      summary: Get some primitive variable values
+      tags:
+      - values
+      x-accepts: application/json
 components:
   requestBodies:
     UserArray:
@@ -2217,6 +2234,37 @@ components:
           items:
             type: string
           type: array
+    Variable:
+      description: Value object
+      example:
+        name: variable_1
+        value: null
+      properties:
+        name:
+          example: variable_1
+          type: string
+        value:
+          $ref: '#/components/schemas/Value'
+      required:
+      - name
+      - value
+    Value:
+      oneOf:
+      - $ref: '#/components/schemas/Scalar'
+      - $ref: '#/components/schemas/Array'
+    Scalar:
+      description: Values of scalar type
+      oneOf:
+      - maxLength: 1089
+        type: string
+      - type: number
+      - type: boolean
+    Array:
+      description: Values of array type
+      items:
+        $ref: '#/components/schemas/Scalar'
+      minItems: 1
+      type: array
     _foo_get_default_response:
       example:
         string:
