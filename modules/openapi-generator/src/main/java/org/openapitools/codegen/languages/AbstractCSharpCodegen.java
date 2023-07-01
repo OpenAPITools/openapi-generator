@@ -596,6 +596,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return processed;
     }
 
+    /**
+     *  Returns true if the model contains any properties with a public setter
+     *  If true, the model's constructor accessor should be made public to ensure end users
+     *  can instantiate the object. If false, then the model is only ever given
+     *  to us by the server, so we do not need a public constructor
+     */
     private boolean modelIsMutatable(CodegenModel model, Set<String> processed) {
         if (processed == null) {
             processed = new HashSet<String>();
