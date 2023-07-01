@@ -93,7 +93,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NET_6_0,
             FrameworkStrategy.NET_7_0
     );
-    private static FrameworkStrategy latestFramework = FrameworkStrategy.NET_7_0;
+    private static FrameworkStrategy latestFramework = frameworkStrategies.get(frameworkStrategies.size() -1);
     protected final Map<String, String> frameworks;
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Client";
