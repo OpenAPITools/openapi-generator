@@ -57,7 +57,7 @@ namespace OpenAPIClient_generichost_manual_tests
         public void Pig()
         {
            BasquePig basquePig = new("BasquePig");
-           Pig pig = new(basquePig);
+           Pig pig = new(basquePig, "BasquePig");
            string pigJson = JsonSerializer.Serialize(pig, _jsonSerializerOptions);
            Pig? pig2 = JsonSerializer.Deserialize<Pig>(pigJson, _jsonSerializerOptions);
            Assert.IsTrue(
@@ -114,7 +114,7 @@ namespace OpenAPIClient_generichost_manual_tests
         public void Quadrilateral()
         {
            ComplexQuadrilateral complexQuadrilateral = new("ComplexQuadrilateral", "shapeType");
-           Quadrilateral quadrilateral = new(complexQuadrilateral);
+           Quadrilateral quadrilateral = new(complexQuadrilateral, "ComplexQuadrilateral");
            string quadrilateralJson = JsonSerializer.Serialize(quadrilateral, _jsonSerializerOptions);
            Quadrilateral? quadrilateral2 = JsonSerializer.Deserialize<Quadrilateral>(quadrilateralJson, _jsonSerializerOptions);
            Assert.IsTrue(
