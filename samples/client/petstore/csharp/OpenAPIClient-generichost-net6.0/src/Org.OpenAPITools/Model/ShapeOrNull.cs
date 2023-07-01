@@ -32,12 +32,12 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ShapeOrNull" /> class.
         /// </summary>
         /// <param name="triangle"></param>
-        /// <param name="quadrilateralType">quadrilateralType</param>
+        /// <param name="shapeType">shapeType</param>
         [JsonConstructor]
-        public ShapeOrNull(Triangle triangle, string quadrilateralType)
+        public ShapeOrNull(Triangle triangle, string shapeType)
         {
             Triangle = triangle;
-            QuadrilateralType = quadrilateralType;
+            ShapeType = shapeType;
             OnCreated();
         }
 
@@ -45,12 +45,12 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ShapeOrNull" /> class.
         /// </summary>
         /// <param name="quadrilateral"></param>
-        /// <param name="quadrilateralType">quadrilateralType</param>
+        /// <param name="shapeType">shapeType</param>
         [JsonConstructor]
-        public ShapeOrNull(Quadrilateral quadrilateral, string quadrilateralType)
+        public ShapeOrNull(Quadrilateral quadrilateral, string shapeType)
         {
             Quadrilateral = quadrilateral;
-            QuadrilateralType = quadrilateralType;
+            ShapeType = shapeType;
             OnCreated();
         }
 
@@ -67,10 +67,10 @@ namespace Org.OpenAPITools.Model
         public Quadrilateral Quadrilateral { get; set; }
 
         /// <summary>
-        /// Gets or Sets QuadrilateralType
+        /// Gets or Sets ShapeType
         /// </summary>
-        [JsonPropertyName("quadrilateralType")]
-        public string QuadrilateralType { get; set; }
+        [JsonPropertyName("shapeType")]
+        public string ShapeType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -86,7 +86,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ShapeOrNull {\n");
-            sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append("\n");
+            sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -135,7 +135,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string quadrilateralType = default;
+            string shapeType = default;
 
             Quadrilateral quadrilateral = null;
             Triangle triangle = null;
@@ -185,8 +185,8 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
-                        case "quadrilateralType":
-                            quadrilateralType = utf8JsonReader.GetString();
+                        case "shapeType":
+                            shapeType = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -194,14 +194,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (quadrilateralType == null)
-                throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class ShapeOrNull.");
+            if (shapeType == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is required for class ShapeOrNull.");
 
             if (quadrilateral != null)
-                return new ShapeOrNull(quadrilateral, quadrilateralType);
+                return new ShapeOrNull(quadrilateral, shapeType);
 
             if (triangle != null)
-                return new ShapeOrNull(triangle, quadrilateralType);
+                return new ShapeOrNull(triangle, shapeType);
 
             throw new JsonException();
         }
@@ -240,7 +240,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ShapeOrNull shapeOrNull, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("quadrilateralType", shapeOrNull.QuadrilateralType);
+            writer.WriteString("shapeType", shapeOrNull.ShapeType);
         }
     }
 }

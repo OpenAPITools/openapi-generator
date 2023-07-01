@@ -54,12 +54,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'QuadrilateralType'
+        /// Test the property 'ShapeType'
         /// </summary>
         [Fact]
-        public void QuadrilateralTypeTest()
+        public void ShapeTypeTest()
         {
-            // TODO unit test for the property 'QuadrilateralType'
+            // TODO unit test for the property 'ShapeType'
         }
     }
 }

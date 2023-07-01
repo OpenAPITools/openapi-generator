@@ -32,10 +32,12 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="whale"></param>
+        /// <param name="className">className</param>
         [JsonConstructor]
-        public Mammal(Whale whale)
+        public Mammal(Whale whale, string className)
         {
             Whale = whale;
+            ClassName = className;
             OnCreated();
         }
 
@@ -43,10 +45,12 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="zebra"></param>
+        /// <param name="className">className</param>
         [JsonConstructor]
-        public Mammal(Zebra zebra)
+        public Mammal(Zebra zebra, string className)
         {
             Zebra = zebra;
+            ClassName = className;
             OnCreated();
         }
 
@@ -54,10 +58,12 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         /// <param name="pig"></param>
+        /// <param name="className">className</param>
         [JsonConstructor]
-        public Mammal(Pig pig)
+        public Mammal(Pig pig, string className)
         {
             Pig = pig;
+            ClassName = className;
             OnCreated();
         }
 
@@ -79,6 +85,12 @@ namespace Org.OpenAPITools.Model
         public Pig Pig { get; set; }
 
         /// <summary>
+        /// Gets or Sets ClassName
+        /// </summary>
+        [JsonPropertyName("className")]
+        public string ClassName { get; set; }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -92,6 +104,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Mammal {\n");
+            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -139,6 +152,8 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException();
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+
+            string className = default;
 
             Pig pig = null;
             Whale whale = null;
@@ -194,20 +209,26 @@ namespace Org.OpenAPITools.Model
 
                     switch (propertyName)
                     {
+                        case "className":
+                            className = utf8JsonReader.GetString();
+                            break;
                         default:
                             break;
                     }
                 }
             }
 
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Mammal.");
+
             if (pig != null)
-                return new Mammal(pig);
+                return new Mammal(pig, className);
 
             if (whale != null)
-                return new Mammal(whale);
+                return new Mammal(whale, className);
 
             if (zebra != null)
-                return new Mammal(zebra);
+                return new Mammal(zebra, className);
 
             throw new JsonException();
         }
@@ -251,6 +272,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
+            writer.WriteString("className", mammal.ClassName);
         }
     }
 }
