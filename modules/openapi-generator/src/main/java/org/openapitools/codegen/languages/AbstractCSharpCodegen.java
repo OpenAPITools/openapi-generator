@@ -209,12 +209,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public void setUseCollection(boolean useCollection) {
         this.useCollection = useCollection;
         if (useCollection) {
-            typeMapping.put("array", "Collection");
-            typeMapping.put("list", "Collection");
-
             instantiationTypes.put("array", "Collection");
             instantiationTypes.put("list", "Collection");
         }
+        this.setTypeMapping();
     }
 
     public void setOptionalMethodArgumentFlag(boolean flag) {
@@ -227,11 +225,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public void useDateTimeOffset(boolean flag) {
         this.useDateTimeOffsetFlag = flag;
-        if (flag) {
-            typeMapping.put("DateTime", "DateTimeOffset");
-        } else {
-            typeMapping.put("DateTime", "DateTime");
-        }
+        this.setTypeMapping();
     }
 
 
@@ -1612,8 +1606,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("float", "float");
         typeMapping.put("double", "double");
         typeMapping.put("number", "decimal");
+        typeMapping.put("decimal", "decimal");
         typeMapping.put("BigDecimal", "decimal");
-        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("DateTime", this.useDateTimeOffsetFlag ? "DateTimeOffset" : "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("file", "System.IO.Stream");
         typeMapping.put("array", "List");
@@ -1623,5 +1618,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("UUID", "Guid");
         typeMapping.put("URI", "string");
         typeMapping.put("AnyType", "Object");
+
+        if (this.useCollection) {
+            typeMapping.put("array", "Collection");
+            typeMapping.put("list", "Collection");
+        }
     }
 }
