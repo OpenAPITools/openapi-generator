@@ -357,31 +357,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     protected void setTypeMapping() {
-        typeMapping = new HashMap<>();
-        // mapped non-nullable type without ?
-        typeMapping = new HashMap<String, String>();
-        typeMapping.put("string", "string");
-        typeMapping.put("binary", "byte[]");
-        typeMapping.put("ByteArray", "byte[]");
-        typeMapping.put("boolean", "bool");
-        typeMapping.put("integer", "int");
-        typeMapping.put("long", "long");
-        typeMapping.put("UnsignedInteger", "uint");
-        typeMapping.put("UnsignedLong", "ulong");
-        typeMapping.put("float", "float");
-        typeMapping.put("double", "double");
-        typeMapping.put("number", "decimal");
-        typeMapping.put("decimal", "decimal");
-        typeMapping.put("DateTime", "DateTime");
-        typeMapping.put("date", "DateTime");
-        typeMapping.put("file", "System.IO.Stream");
-        typeMapping.put("array", "List");
-        typeMapping.put("list", "List");
-        typeMapping.put("map", "Dictionary");
-        typeMapping.put("object", "Object");
-        typeMapping.put("UUID", "Guid");
-        typeMapping.put("URI", "string");
-        typeMapping.put("AnyType", "Object");
+        super.setTypeMapping();
 
         if (HTTPCLIENT.equals(getLibrary())) {
             typeMapping.put("file", "FileParameter");
@@ -1545,6 +1521,15 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             if (model.parentModel != null && model.parentModel.allVars.stream().anyMatch(v -> v.baseName.equals(property.baseName))) {
                 property.isInherited = true;
             }
+        }
+    }
+
+    @Override
+    protected void patchVendorExtensionNullableValueType(CodegenParameter parameter) {
+        if (getLibrary().equals(GENERICHOST)) {
+            super.patchVendorExtensionNullableValueType(parameter);
+        } else {
+            super.patchVendorExtensionNullableValueTypeLegacy(parameter);
         }
     }
 

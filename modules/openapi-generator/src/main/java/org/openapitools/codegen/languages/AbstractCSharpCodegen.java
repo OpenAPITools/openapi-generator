@@ -209,12 +209,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public void setUseCollection(boolean useCollection) {
         this.useCollection = useCollection;
         if (useCollection) {
-            typeMapping.put("array", "Collection");
-            typeMapping.put("list", "Collection");
-
             instantiationTypes.put("array", "Collection");
             instantiationTypes.put("list", "Collection");
         }
+        this.setTypeMapping();
     }
 
     public void setOptionalMethodArgumentFlag(boolean flag) {
@@ -227,11 +225,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public void useDateTimeOffset(boolean flag) {
         this.useDateTimeOffsetFlag = flag;
-        if (flag) {
-            typeMapping.put("DateTime", "DateTimeOffset");
-        } else {
-            typeMapping.put("DateTime", "DateTime");
-        }
+        this.setTypeMapping();
     }
 
 
@@ -849,12 +843,23 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return objs;
     }
 
-    private void patchParameter(CodegenParameter parameter, List<ModelMap> allModels) {
-        parameter.paramName = escapeReservedWord(parameter.paramName);
+    protected void patchVendorExtensionNullableValueType(CodegenParameter parameter) {
+        if (parameter.isNullable && !parameter.isContainer && (this.getValueTypes().contains(parameter.dataType) || parameter.isEnum)) {
+            parameter.vendorExtensions.put("x-nullable-value-type", true);
+        }
+    }
 
+    /** This is the same as patchVendorExtensionNullableValueType except it uses the deprecated getNullableTypes property */
+    protected void patchVendorExtensionNullableValueTypeLegacy(CodegenParameter parameter) {
         if (parameter.isNullable && !parameter.isContainer && (this.getNullableTypes().contains(parameter.dataType) || parameter.isEnum)) {
             parameter.vendorExtensions.put("x-nullable-value-type", true);
         }
+    }
+
+    private void patchParameter(CodegenParameter parameter, List<ModelMap> allModels) {
+        parameter.paramName = escapeReservedWord(parameter.paramName);
+
+        patchVendorExtensionNullableValueType(parameter);
 
         if (this.getNullableReferencesTypes() || (parameter.vendorExtensions.get("x-nullable-value-type") != null)) {
             parameter.vendorExtensions.put("x-nullable-type", true);
@@ -1612,8 +1617,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("float", "float");
         typeMapping.put("double", "double");
         typeMapping.put("number", "decimal");
+        typeMapping.put("decimal", "decimal");
         typeMapping.put("BigDecimal", "decimal");
-        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("DateTime", this.useDateTimeOffsetFlag ? "DateTimeOffset" : "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("file", "System.IO.Stream");
         typeMapping.put("array", "List");
@@ -1623,5 +1629,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("UUID", "Guid");
         typeMapping.put("URI", "string");
         typeMapping.put("AnyType", "Object");
+
+        if (this.useCollection) {
+            typeMapping.put("array", "Collection");
+            typeMapping.put("list", "Collection");
+        }
     }
 }

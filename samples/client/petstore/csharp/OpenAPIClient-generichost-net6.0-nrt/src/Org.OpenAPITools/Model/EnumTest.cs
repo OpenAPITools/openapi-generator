@@ -571,25 +571,25 @@ namespace Org.OpenAPITools.Model
                             string? outerEnumDefaultValueRawValue = utf8JsonReader.GetString();
                             outerEnumDefaultValue = outerEnumDefaultValueRawValue == null
                                 ? null
-                                : OuterEnumDefaultValueConverter.FromStringOrDefault(outerEnumDefaultValueRawValue);
+                                : OuterEnumDefaultValueValueConverter.FromStringOrDefault(outerEnumDefaultValueRawValue);
                             break;
                         case "outerEnumInteger":
                             string? outerEnumIntegerRawValue = utf8JsonReader.GetString();
                             outerEnumInteger = outerEnumIntegerRawValue == null
                                 ? null
-                                : OuterEnumIntegerConverter.FromStringOrDefault(outerEnumIntegerRawValue);
+                                : OuterEnumIntegerValueConverter.FromStringOrDefault(outerEnumIntegerRawValue);
                             break;
                         case "outerEnumIntegerDefaultValue":
                             string? outerEnumIntegerDefaultValueRawValue = utf8JsonReader.GetString();
                             outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValueRawValue == null
                                 ? null
-                                : OuterEnumIntegerDefaultValueConverter.FromStringOrDefault(outerEnumIntegerDefaultValueRawValue);
+                                : OuterEnumIntegerDefaultValueValueConverter.FromStringOrDefault(outerEnumIntegerDefaultValueRawValue);
                             break;
                         case "outerEnum":
                             string? outerEnumRawValue = utf8JsonReader.GetString();
                             outerEnum = outerEnumRawValue == null
                                 ? null
-                                : OuterEnumConverter.FromStringOrDefault(outerEnumRawValue);
+                                : OuterEnumValueConverter.FromStringOrDefault(outerEnumRawValue);
                             break;
                         default:
                             break;
@@ -664,23 +664,23 @@ namespace Org.OpenAPITools.Model
             else
                 writer.WriteNull("enum_string_required");
 
-            var outerEnumDefaultValueRawValue = OuterEnumDefaultValueConverter.ToJsonValue(enumTest.OuterEnumDefaultValue);
+            var outerEnumDefaultValueRawValue = OuterEnumDefaultValueValueConverter.ToJsonValue(enumTest.OuterEnumDefaultValue);
 
             if (outerEnumDefaultValueRawValue != null)
                 writer.WriteString("outerEnumDefaultValue", outerEnumDefaultValueRawValue);
             else
                 writer.WriteNull("outerEnumDefaultValue");
 
-            var outerEnumIntegerRawValue = OuterEnumIntegerConverter.ToJsonValue(enumTest.OuterEnumInteger);
+            var outerEnumIntegerRawValue = OuterEnumIntegerValueConverter.ToJsonValue(enumTest.OuterEnumInteger);
             writer.WriteNumber("outerEnumInteger", outerEnumIntegerRawValue);
-            var outerEnumIntegerDefaultValueRawValue = OuterEnumIntegerDefaultValueConverter.ToJsonValue(enumTest.OuterEnumIntegerDefaultValue);
+            var outerEnumIntegerDefaultValueRawValue = OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(enumTest.OuterEnumIntegerDefaultValue);
             writer.WriteNumber("outerEnumIntegerDefaultValue", outerEnumIntegerDefaultValueRawValue);
 
             if (enumTest.OuterEnum == null)
                 writer.WriteNull("outerEnum");
             else
             {
-                var outerEnumRawValue = OuterEnumConverter.ToJsonValue(enumTest.OuterEnum.Value);
+                var outerEnumRawValue = OuterEnumValueConverter.ToJsonValue(enumTest.OuterEnum.Value);
                 if (outerEnumRawValue != null)
                     writer.WriteString("outerEnum", outerEnumRawValue);
                 else
