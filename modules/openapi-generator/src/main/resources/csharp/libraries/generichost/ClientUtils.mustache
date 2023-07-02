@@ -132,7 +132,7 @@ using System.Runtime.CompilerServices;
             {{#isEnum}}
             if (obj is {{classname}} {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}})
                 {{! below has #isNumeric as a work around but should probably have ^isString instead https://github.com/OpenAPITools/openapi-generator/issues/15038}}
-                return {{classname}}Converter.{{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}){{#isNumeric}}.ToString(){{/isNumeric}};
+                return {{classname}}ValueConverter.{{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}){{#isNumeric}}.ToString(){{/isNumeric}};
             {{/isEnum}}
             {{^isEnum}}
             {{#vars}}
@@ -158,7 +158,7 @@ using System.Runtime.CompilerServices;
             {{/models}}
             if (obj is ICollection collection)
             {
-                List<string{{nrt?}}> entries = new List<string{{nrt?}}>();
+                List<string{{nrt?}}> entries = new{{^net70OrLater}} List<string{{nrt?}}>{{/net70OrLater}}();
                 foreach (var entry in collection)
                     entries.Add(ParameterToString(entry));
                 return string.Join(",", entries);

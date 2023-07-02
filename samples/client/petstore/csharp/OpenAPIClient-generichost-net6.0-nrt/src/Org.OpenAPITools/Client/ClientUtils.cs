@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Client
             if (obj is EnumArrays.JustSymbolEnum enumArraysJustSymbolEnum)
                 return EnumArrays.JustSymbolEnumToJsonValue(enumArraysJustSymbolEnum);
             if (obj is EnumClass enumClass)
-                return EnumClassConverter.ToJsonValue(enumClass);
+                return EnumClassValueConverter.ToJsonValue(enumClass);
             if (obj is EnumTest.EnumIntegerEnum enumTestEnumIntegerEnum)
                 return EnumTest.EnumIntegerEnumToJsonValue(enumTestEnumIntegerEnum).ToString();
             if (obj is EnumTest.EnumIntegerOnlyEnum enumTestEnumIntegerOnlyEnum)
@@ -156,24 +156,24 @@ namespace Org.OpenAPITools.Client
             if (obj is Order.StatusEnum orderStatusEnum)
                 return Order.StatusEnumToJsonValue(orderStatusEnum);
             if (obj is OuterEnum outerEnum)
-                return OuterEnumConverter.ToJsonValue(outerEnum);
+                return OuterEnumValueConverter.ToJsonValue(outerEnum);
             if (obj is OuterEnumDefaultValue outerEnumDefaultValue)
-                return OuterEnumDefaultValueConverter.ToJsonValue(outerEnumDefaultValue);
+                return OuterEnumDefaultValueValueConverter.ToJsonValue(outerEnumDefaultValue);
             if (obj is OuterEnumInteger outerEnumInteger)
-                return OuterEnumIntegerConverter.ToJsonValue(outerEnumInteger).ToString();
+                return OuterEnumIntegerValueConverter.ToJsonValue(outerEnumInteger).ToString();
             if (obj is OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue)
-                return OuterEnumIntegerDefaultValueConverter.ToJsonValue(outerEnumIntegerDefaultValue).ToString();
+                return OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(outerEnumIntegerDefaultValue).ToString();
             if (obj is Pet.StatusEnum petStatusEnum)
                 return Pet.StatusEnumToJsonValue(petStatusEnum);
             if (obj is Zebra.TypeEnum zebraTypeEnum)
                 return Zebra.TypeEnumToJsonValue(zebraTypeEnum);
             if (obj is ZeroBasedEnum zeroBasedEnum)
-                return ZeroBasedEnumConverter.ToJsonValue(zeroBasedEnum);
+                return ZeroBasedEnumValueConverter.ToJsonValue(zeroBasedEnum);
             if (obj is ZeroBasedEnumClass.ZeroBasedEnumEnum zeroBasedEnumClassZeroBasedEnumEnum)
                 return ZeroBasedEnumClass.ZeroBasedEnumEnumToJsonValue(zeroBasedEnumClassZeroBasedEnumEnum);
             if (obj is ICollection collection)
             {
-                List<string?> entries = new List<string?>();
+                List<string?> entries = new();
                 foreach (var entry in collection)
                     entries.Add(ParameterToString(entry));
                 return string.Join(",", entries);

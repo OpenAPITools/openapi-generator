@@ -47,10 +47,9 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type <see cref="OuterEnumIntegerDefaultValue"/>
+    /// Converts <see cref="OuterEnumIntegerDefaultValue"/> to and from the JSON value
     /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
-    public class OuterEnumIntegerDefaultValueConverter : JsonConverter<OuterEnumIntegerDefaultValue>
+    public static class OuterEnumIntegerDefaultValueValueConverter
     {
         /// <summary>
         /// Parses a given value to <see cref="OuterEnumIntegerDefaultValue"/>
@@ -100,7 +99,14 @@ namespace Org.OpenAPITools.Model
         {
             return (int) value;
         }
+    }
 
+    /// <summary>
+    /// A Json converter for type <see cref="OuterEnumIntegerDefaultValue"/>
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    public class OuterEnumIntegerDefaultValueJsonConverter : JsonConverter<OuterEnumIntegerDefaultValue>
+    {
         /// <summary>
         /// Returns a  from the Json object
         /// </summary>
@@ -114,7 +120,7 @@ namespace Org.OpenAPITools.Model
 
             OuterEnumIntegerDefaultValue? result = rawValue == null
                 ? null
-                : OuterEnumIntegerDefaultValueConverter.FromStringOrDefault(rawValue);
+                : OuterEnumIntegerDefaultValueValueConverter.FromStringOrDefault(rawValue);
 
             if (result != null)
                 return result.Value;
@@ -137,7 +143,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="OuterEnumIntegerDefaultValue"/>
     /// </summary>
-    public class OuterEnumIntegerDefaultValueNullableConverter : JsonConverter<OuterEnumIntegerDefaultValue?>
+    public class OuterEnumIntegerDefaultValueNullableJsonConverter : JsonConverter<OuterEnumIntegerDefaultValue?>
     {
         /// <summary>
         /// Returns a OuterEnumIntegerDefaultValue from the Json object
@@ -152,7 +158,7 @@ namespace Org.OpenAPITools.Model
 
             OuterEnumIntegerDefaultValue? result = rawValue == null
                 ? null
-                : OuterEnumIntegerDefaultValueConverter.FromStringOrDefault(rawValue);
+                : OuterEnumIntegerDefaultValueValueConverter.FromStringOrDefault(rawValue);
 
             if (result != null)
                 return result.Value;
