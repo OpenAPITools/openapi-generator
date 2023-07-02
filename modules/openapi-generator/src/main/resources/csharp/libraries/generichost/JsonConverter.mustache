@@ -225,7 +225,7 @@
                             {{^isInnerEnum}}
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue == null
                                 ? null
-                                : {{{datatypeWithEnum}}}Converter.FromStringOrDefault({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
+                                : {{{datatypeWithEnum}}}ValueConverter.FromStringOrDefault({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue);
                             {{/isInnerEnum}}
                             {{#isInnerEnum}}
                             {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue == null
@@ -439,7 +439,7 @@
                 writer.WriteNull("{{baseName}}");
             else
             {
-                var {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = {{{datatypeWithEnum}}}Converter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{#isNullable}}.Value{{/isNullable}});
+                var {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}RawValue = {{{datatypeWithEnum}}}ValueConverter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{#isNullable}}.Value{{/isNullable}});
                 {{#allowableValues}}
                 {{#enumVars}}
                 {{#-first}}
@@ -459,7 +459,7 @@
 
             {{/isNullable}}
             {{^isNullable}}
-            var {{#lambda.camelcase_param}}{{nameInCamelCase}}{{/lambda.camelcase_param}}RawValue = {{{datatypeWithEnum}}}Converter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{#isNullable}}.Value{{/isNullable}});
+            var {{#lambda.camelcase_param}}{{nameInCamelCase}}{{/lambda.camelcase_param}}RawValue = {{{datatypeWithEnum}}}ValueConverter.ToJsonValue({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{#isNullable}}.Value{{/isNullable}});
             {{#allowableValues}}
             {{#enumVars}}
             {{#-first}}

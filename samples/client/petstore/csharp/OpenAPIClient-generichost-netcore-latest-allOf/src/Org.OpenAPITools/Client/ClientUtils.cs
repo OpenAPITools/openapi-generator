@@ -135,7 +135,7 @@ namespace Org.OpenAPITools.Client
                     : "false";
             if (obj is ICollection collection)
             {
-                List<string?> entries = new List<string?>();
+                List<string?> entries = new();
                 foreach (var entry in collection)
                     entries.Add(ParameterToString(entry));
                 return string.Join(",", entries);
