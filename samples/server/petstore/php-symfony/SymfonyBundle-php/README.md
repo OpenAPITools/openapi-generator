@@ -67,7 +67,7 @@ Step 4: Implement the API calls:
 
 ```php
 <?php
-// src/Acme/MyBundle/Api/PetApiInterface.php
+// src/Acme/MyBundle/Api/PetApi.php
 
 namespace Acme\MyBundle\Api;
 
