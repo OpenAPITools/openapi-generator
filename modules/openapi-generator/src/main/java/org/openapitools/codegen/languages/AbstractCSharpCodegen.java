@@ -843,12 +843,23 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return objs;
     }
 
-    private void patchParameter(CodegenParameter parameter, List<ModelMap> allModels) {
-        parameter.paramName = escapeReservedWord(parameter.paramName);
+    protected void patchVendorExtensionNullableValueType(CodegenParameter parameter) {
+        if (parameter.isNullable && !parameter.isContainer && (this.getValueTypes().contains(parameter.dataType) || parameter.isEnum)) {
+            parameter.vendorExtensions.put("x-nullable-value-type", true);
+        }
+    }
 
+    /** This is the same as patchVendorExtensionNullableValueType except it uses the deprecated getNullableTypes property */
+    protected void patchVendorExtensionNullableValueTypeLegacy(CodegenParameter parameter) {
         if (parameter.isNullable && !parameter.isContainer && (this.getNullableTypes().contains(parameter.dataType) || parameter.isEnum)) {
             parameter.vendorExtensions.put("x-nullable-value-type", true);
         }
+    }
+
+    private void patchParameter(CodegenParameter parameter, List<ModelMap> allModels) {
+        parameter.paramName = escapeReservedWord(parameter.paramName);
+
+        patchVendorExtensionNullableValueType(parameter);
 
         if (this.getNullableReferencesTypes() || (parameter.vendorExtensions.get("x-nullable-value-type") != null)) {
             parameter.vendorExtensions.put("x-nullable-type", true);

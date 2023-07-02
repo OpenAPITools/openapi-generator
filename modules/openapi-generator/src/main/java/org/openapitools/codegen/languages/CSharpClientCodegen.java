@@ -1525,6 +1525,15 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
+    protected void patchVendorExtensionNullableValueType(CodegenParameter parameter) {
+        if (getLibrary().equals(GENERICHOST)) {
+            super.patchVendorExtensionNullableValueType(parameter);
+        } else {
+            super.patchVendorExtensionNullableValueTypeLegacy(parameter);
+        }
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModels(objs);
 

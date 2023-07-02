@@ -951,6 +951,11 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
         return name;
     }
 
+    @Override
+    protected void patchVendorExtensionNullableValueType(CodegenParameter parameter) {
+        super.patchVendorExtensionNullableValueTypeLegacy(parameter);
+    }
+
     private CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
