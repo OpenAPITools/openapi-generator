@@ -93,7 +93,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NET_6_0,
             FrameworkStrategy.NET_7_0
     );
-    private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
+    private static FrameworkStrategy latestFramework = frameworkStrategies.get(frameworkStrategies.size() -1);
     protected final Map<String, String> frameworks;
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Client";
@@ -102,8 +102,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected String modelDocPath = "docs" + File.separator;
 
     // Defines TargetFrameworkVersion in csproj files
-    protected String targetFramework = defaultFramework.name;
-    protected String testTargetFramework = defaultFramework.testTargetFramework;
+    protected String targetFramework = latestFramework.name;
+    protected String testTargetFramework = latestFramework.testTargetFramework;
 
     // Defines nuget identifiers for target framework
     protected String targetFrameworkNuget = targetFramework;
@@ -752,7 +752,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient, and generichost are supported.");
         }
 
-        String inputFramework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
+        String inputFramework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, latestFramework.name);
         String[] frameworks;
         List<FrameworkStrategy> strategies = new ArrayList<>();
 
