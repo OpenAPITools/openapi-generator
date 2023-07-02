@@ -47,6 +47,11 @@ paths:
           schema:
             type: string
             example: 888
+        - description: Custom HTTP header
+          name: Custom-Header
+          in: header
+          schema:
+            type: string
 
       responses:
         '200':
