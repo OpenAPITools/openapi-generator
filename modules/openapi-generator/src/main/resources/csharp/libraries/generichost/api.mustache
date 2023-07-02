@@ -332,7 +332,17 @@ namespace {{packageName}}.{{apiPackage}}
                     {{#queryParams}}
                     {{^required}}
                     if ({{paramName}} != null)
+                    {{^isEnum}}
                         parseQueryStringLocalVar["{{baseName}}"] = {{paramName}}.ToString();
+                    {{/isEnum}}
+                    {{#isEnum}}
+                        {{#isInnerEnum}}
+                        // TODO
+                        {{/isInnerEnum}}
+                        {{^isInnerEnum}}
+                        parseQueryStringLocalVar["{{baseName}}"] = {{dataType}}ValueConverter.ToJsonValue({{paramName}}.Value){{#allowableValues}}{{#-first}}{{#enumVars}}{{#-first}}{{^isString}}.ToString(){{/isString}}{{/-first}}{{/enumVars}}{{/-first}}{{/allowableValues}};
+                        {{/isInnerEnum}}
+                    {{/isEnum}}
 
                     {{/required}}
                     {{#-last}}

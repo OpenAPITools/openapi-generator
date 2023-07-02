@@ -2291,16 +2291,16 @@ namespace Org.OpenAPITools.Api
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
                     if (enumQueryStringArray != null)
-                        parseQueryStringLocalVar["enum_query_string_array"] = enumQueryStringArray.ToString();
+                        parseQueryStringLocalVar["enum_query_string_array"] = List&lt;string&gt;ValueConverter.ToJsonValue(enumQueryStringArray.Value);
 
                     if (enumQueryDouble != null)
-                        parseQueryStringLocalVar["enum_query_double"] = enumQueryDouble.ToString();
+                        parseQueryStringLocalVar["enum_query_double"] = doubleValueConverter.ToJsonValue(enumQueryDouble.Value);
 
                     if (enumQueryInteger != null)
-                        parseQueryStringLocalVar["enum_query_integer"] = enumQueryInteger.ToString();
+                        parseQueryStringLocalVar["enum_query_integer"] = intValueConverter.ToJsonValue(enumQueryInteger.Value);
 
                     if (enumQueryString != null)
-                        parseQueryStringLocalVar["enum_query_string"] = enumQueryString.ToString();
+                        parseQueryStringLocalVar["enum_query_string"] = stringValueConverter.ToJsonValue(enumQueryString.Value);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
