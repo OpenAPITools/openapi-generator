@@ -21,7 +21,7 @@ The following generators are available:
 * [csharp-netcore](generators/csharp-netcore.md)  
 * [dart](generators/dart.md)  
 * [dart-dio](generators/dart-dio.md)  
-* [dart-next](generators/dart-next.md)  
+* [dart-next (experimental)](generators/dart-next.md)  
 * [eiffel](generators/eiffel.md)  
 * [elixir](generators/elixir.md)  
 * [elm](generators/elm.md)  
