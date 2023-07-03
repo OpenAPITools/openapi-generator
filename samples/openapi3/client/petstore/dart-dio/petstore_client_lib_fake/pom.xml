@@ -48,7 +48,6 @@
                         <configuration>
                             <executable>dart</executable>
                             <arguments>
-                                <argument>pub</argument>
                                 <argument>run</argument>
                                 <argument>build_runner</argument>
                                 <argument>build</argument>
