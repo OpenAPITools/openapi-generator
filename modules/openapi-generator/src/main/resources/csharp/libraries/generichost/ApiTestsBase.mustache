@@ -57,7 +57,9 @@ namespace {{packageName}}.Test.{{apiPackage}}
                 {{#hasOAuthMethods}}
                 string oauthTokenValue = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
                 OAuthToken oauthToken = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}(oauthTokenValue, timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(oauthToken);{{/hasOAuthMethods}}{{/lambda.trimTrailingWhiteSpace}}
+                options.AddTokens(oauthToken);
+                {{/hasOAuthMethods}}
+                {{/lambda.trimTrailingWhiteSpace}}
             });
     }
 }

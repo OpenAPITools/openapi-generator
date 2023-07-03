@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task FakeOuterBooleanSerializeAsyncTest()
         {
-            bool body = default!;
+            Client.Option<bool> body = default!;
             var response = await _instance.FakeOuterBooleanSerializeAsync(body);
             var model = response.AsModel();
             Assert.IsType<bool>(model);
@@ -79,7 +79,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task FakeOuterCompositeSerializeAsyncTest()
         {
-            OuterComposite outerComposite = default!;
+            Client.Option<OuterComposite> outerComposite = default!;
             var response = await _instance.FakeOuterCompositeSerializeAsync(outerComposite);
             var model = response.AsModel();
             Assert.IsType<OuterComposite>(model);
@@ -91,7 +91,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task FakeOuterNumberSerializeAsyncTest()
         {
-            decimal body = default!;
+            Client.Option<decimal> body = default!;
             var response = await _instance.FakeOuterNumberSerializeAsync(body);
             var model = response.AsModel();
             Assert.IsType<decimal>(model);
@@ -104,7 +104,7 @@ namespace Org.OpenAPITools.Test.Api
         public async Task FakeOuterStringSerializeAsyncTest()
         {
             Guid requiredStringUuid = default!;
-            string body = default!;
+            Client.Option<string> body = default!;
             var response = await _instance.FakeOuterStringSerializeAsync(requiredStringUuid, body);
             var model = response.AsModel();
             Assert.IsType<string>(model);
@@ -164,16 +164,16 @@ namespace Org.OpenAPITools.Test.Api
             decimal number = default!;
             double varDouble = default!;
             string patternWithoutDelimiter = default!;
-            DateTime date = default!;
-            System.IO.Stream binary = default!;
-            float varFloat = default!;
-            int integer = default!;
-            int int32 = default!;
-            long int64 = default!;
-            string varString = default!;
-            string password = default!;
-            string callback = default!;
-            DateTime dateTime = default!;
+            Client.Option<DateTime> date = default!;
+            Client.Option<System.IO.Stream> binary = default!;
+            Client.Option<float> varFloat = default!;
+            Client.Option<int> integer = default!;
+            Client.Option<int> int32 = default!;
+            Client.Option<long> int64 = default!;
+            Client.Option<string> varString = default!;
+            Client.Option<string> password = default!;
+            Client.Option<string> callback = default!;
+            Client.Option<DateTime> dateTime = default!;
             await _instance.TestEndpointParametersAsync(varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
         }
 
@@ -183,14 +183,14 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task TestEnumParametersAsyncTest()
         {
-            List<string> enumHeaderStringArray = default!;
-            List<string> enumQueryStringArray = default!;
-            double enumQueryDouble = default!;
-            int enumQueryInteger = default!;
-            List<string> enumFormStringArray = default!;
-            string enumHeaderString = default!;
-            string enumQueryString = default!;
-            string enumFormString = default!;
+            Client.Option<List<string>> enumHeaderStringArray = default!;
+            Client.Option<List<string>> enumQueryStringArray = default!;
+            Client.Option<double> enumQueryDouble = default!;
+            Client.Option<int> enumQueryInteger = default!;
+            Client.Option<List<string>> enumFormStringArray = default!;
+            Client.Option<string> enumHeaderString = default!;
+            Client.Option<string> enumQueryString = default!;
+            Client.Option<string> enumFormString = default!;
             await _instance.TestEnumParametersAsync(enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
         }
 
@@ -203,9 +203,9 @@ namespace Org.OpenAPITools.Test.Api
             bool requiredBooleanGroup = default!;
             int requiredStringGroup = default!;
             long requiredInt64Group = default!;
-            bool booleanGroup = default!;
-            int stringGroup = default!;
-            long int64Group = default!;
+            Client.Option<bool> booleanGroup = default!;
+            Client.Option<int> stringGroup = default!;
+            Client.Option<long> int64Group = default!;
             await _instance.TestGroupParametersAsync(requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
         }
 
@@ -241,7 +241,11 @@ namespace Org.OpenAPITools.Test.Api
             List<string> http = default!;
             List<string> url = default!;
             List<string> context = default!;
-            await _instance.TestQueryParameterCollectionFormatAsync(pipe, ioutil, http, url, context);
+            string requiredNotNullable = default!;
+            string? requiredNullable = default!;
+            Client.Option<string> notRequiredNotNullable = default!;
+            Client.Option<string?> notRequiredNullable = default!;
+            await _instance.TestQueryParameterCollectionFormatAsync(pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable);
         }
     }
 }

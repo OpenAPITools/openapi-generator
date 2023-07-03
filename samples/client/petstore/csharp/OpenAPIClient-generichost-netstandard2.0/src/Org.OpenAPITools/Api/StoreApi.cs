@@ -193,14 +193,8 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         private void ValidateDeleteOrder(string orderId)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (orderId == null)
                 throw new ArgumentNullException(nameof(orderId));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -436,23 +430,6 @@ namespace Org.OpenAPITools.Api
         partial void FormatGetOrderById(ref long orderId);
 
         /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <param name="orderId"></param>
-        /// <returns></returns>
-        private void ValidateGetOrderById(long orderId)
-        {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            if (orderId == null)
-                throw new ArgumentNullException(nameof(orderId));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-        }
-
-        /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
@@ -526,8 +503,6 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateGetOrderById(orderId);
-
                 FormatGetOrderById(ref orderId);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
@@ -581,14 +556,8 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         private void ValidatePlaceOrder(Order order)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (order == null)
                 throw new ArgumentNullException(nameof(order));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -688,7 +657,7 @@ namespace Org.OpenAPITools.Api
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentTypeLocalVar != null)
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
                     string[] acceptLocalVars = new string[] {

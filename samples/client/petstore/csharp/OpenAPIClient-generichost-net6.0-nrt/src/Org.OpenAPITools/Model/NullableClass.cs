@@ -320,10 +320,14 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, NullableClass nullableClass, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WritePropertyName("array_items_nullable");
-            JsonSerializer.Serialize(writer, nullableClass.ArrayItemsNullable, jsonSerializerOptions);            writer.WritePropertyName("object_items_nullable");
-            JsonSerializer.Serialize(writer, nullableClass.ObjectItemsNullable, jsonSerializerOptions);            writer.WritePropertyName("array_and_items_nullable_prop");
-            JsonSerializer.Serialize(writer, nullableClass.ArrayAndItemsNullableProp, jsonSerializerOptions);            writer.WritePropertyName("array_nullable_prop");
+            JsonSerializer.Serialize(writer, nullableClass.ArrayItemsNullable, jsonSerializerOptions);
+            writer.WritePropertyName("object_items_nullable");
+            JsonSerializer.Serialize(writer, nullableClass.ObjectItemsNullable, jsonSerializerOptions);
+            writer.WritePropertyName("array_and_items_nullable_prop");
+            JsonSerializer.Serialize(writer, nullableClass.ArrayAndItemsNullableProp, jsonSerializerOptions);
+            writer.WritePropertyName("array_nullable_prop");
             JsonSerializer.Serialize(writer, nullableClass.ArrayNullableProp, jsonSerializerOptions);
+
             if (nullableClass.BooleanProp != null)
                 writer.WriteBoolean("boolean_prop", nullableClass.BooleanProp.Value);
             else
@@ -350,8 +354,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNull("number_prop");
 
             writer.WritePropertyName("object_and_items_nullable_prop");
-            JsonSerializer.Serialize(writer, nullableClass.ObjectAndItemsNullableProp, jsonSerializerOptions);            writer.WritePropertyName("object_nullable_prop");
-            JsonSerializer.Serialize(writer, nullableClass.ObjectNullableProp, jsonSerializerOptions);            writer.WriteString("string_prop", nullableClass.StringProp);
+            JsonSerializer.Serialize(writer, nullableClass.ObjectAndItemsNullableProp, jsonSerializerOptions);
+            writer.WritePropertyName("object_nullable_prop");
+            JsonSerializer.Serialize(writer, nullableClass.ObjectNullableProp, jsonSerializerOptions);
+            writer.WriteString("string_prop", nullableClass.StringProp);
         }
     }
 }

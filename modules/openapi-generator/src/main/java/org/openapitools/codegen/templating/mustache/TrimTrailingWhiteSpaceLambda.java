@@ -38,6 +38,6 @@ import com.samskivert.mustache.Template.Fragment;
 public class TrimTrailingWhiteSpaceLambda implements Mustache.Lambda {
     @Override
     public void execute(Fragment fragment, Writer writer) throws IOException {
-        writer.write(fragment.execute().stripTrailing());
+        writer.write(fragment.execute().stripTrailing() + "\n");
     }
 }

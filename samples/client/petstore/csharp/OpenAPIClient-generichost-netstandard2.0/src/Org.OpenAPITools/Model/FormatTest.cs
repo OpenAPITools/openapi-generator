@@ -587,11 +587,14 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, FormatTest formatTest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WritePropertyName("binary");
-            JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);            writer.WritePropertyName("byte");
-            JsonSerializer.Serialize(writer, formatTest.VarByte, jsonSerializerOptions);            writer.WriteString("date", formatTest.Date.ToString(DateFormat));
+            JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
+            writer.WritePropertyName("byte");
+            JsonSerializer.Serialize(writer, formatTest.VarByte, jsonSerializerOptions);
+            writer.WriteString("date", formatTest.Date.ToString(DateFormat));
             writer.WriteString("dateTime", formatTest.DateTime.ToString(DateTimeFormat));
             writer.WritePropertyName("decimal");
-            JsonSerializer.Serialize(writer, formatTest.VarDecimal, jsonSerializerOptions);            writer.WriteNumber("double", formatTest.VarDouble);
+            JsonSerializer.Serialize(writer, formatTest.VarDecimal, jsonSerializerOptions);
+            writer.WriteNumber("double", formatTest.VarDouble);
             writer.WriteNumber("float", formatTest.VarFloat);
             writer.WriteNumber("int32", formatTest.Int32);
             writer.WriteNumber("int64", formatTest.Int64);
