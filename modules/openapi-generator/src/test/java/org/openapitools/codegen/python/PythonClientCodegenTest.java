@@ -460,12 +460,15 @@ public class PythonClientCodegenTest {
         op = codegen.fromOperation(path, "post", p, null);
         Assert.assertEquals(op.allParams.get(0).baseName, "User");
         Assert.assertEquals(op.allParams.get(0).containerType, "array");
+        Assert.assertEquals(op.allParams.get(0).containerTypeMapped, "List");
 
         path = "/pet";
         p = openAPI.getPaths().get(path).getPost();
         op = codegen.fromOperation(path, "post", p, null);
         Assert.assertEquals(op.allParams.get(0).baseName, "Pet");
         Assert.assertEquals(op.allParams.get(0).containerType, null);
+        Assert.assertEquals(op.allParams.get(0).containerTypeMapped, null);
+
     }
 
     @Test(description = "test containerType (dict) in parameters")
@@ -478,6 +481,7 @@ public class PythonClientCodegenTest {
         Operation p = openAPI.getPaths().get(path).getGet();
         CodegenOperation op = codegen.fromOperation(path, "get", p, null);
         Assert.assertEquals(op.allParams.get(0).containerType, "map");
+        Assert.assertEquals(op.allParams.get(0).containerTypeMapped, "Dict");
         Assert.assertEquals(op.allParams.get(0).baseName, "dict_string_integer");
     }
 }

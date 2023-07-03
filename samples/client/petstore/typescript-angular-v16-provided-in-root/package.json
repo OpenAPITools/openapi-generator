@@ -1,0 +1,51 @@
+{
+  "name": "typescript-angular-v16-unit-tests",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "update": "ng update"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^16.1.2",
+    "@angular/common": "^16.1.2",
+    "@angular/compiler": "^16.1.2",
+    "@angular/core": "^16.1.2",
+    "@angular/forms": "^16.1.2",
+    "@angular/platform-browser": "^16.1.2",
+    "@angular/platform-browser-dynamic": "^16.1.2",
+    "@angular/router": "^16.1.2",
+    "core-js": "^3.31.0",
+    "rxjs": "^7.8.1",
+    "tslib": "^2.5.3",
+    "zone.js": "~0.13.1"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^16.1.1",
+    "@angular/cli": "^16.1.1",
+    "@angular/compiler-cli": "^16.1.2",
+    "@angular/language-service": "^16.1.2",
+    "@types/jasmine": "~4.3.4",
+    "@types/jasminewd2": "~2.0.10",
+    "@types/node": "^18.16.18",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "eslint": "^8.43.0",
+    "eslint-config-standard-with-typescript": "^35.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "jasmine-core": "~5.0.1",
+    "jasmine-spec-reporter": "~7.0.0",
+    "karma": "~6.4.2",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage-istanbul-reporter": "~3.0.3",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "^2.1.0",
+    "ts-node": "~10.9.1",
+    "typescript": "^5.1.3"
+  }
+}

@@ -226,6 +226,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                 // produces mediaType as `Accept` header (use first mediaType only)
                 String mediaType = codegenOperation.produces.get(0).get("mediaType");
                 CodegenParameter acceptHeader = new CodegenParameter();
+                acceptHeader.baseName = "Accept";
                 acceptHeader.paramName = "Accept";
                 CodegenProperty schema = new CodegenProperty();
                 schema.defaultValue = mediaType;
@@ -237,6 +238,8 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                 // consumes mediaType as `Content-Type` header (use first mediaType only)
                 String mediaType = codegenOperation.consumes.get(0).get("mediaType");
                 CodegenParameter contentTypeHeader = new CodegenParameter();
+
+                contentTypeHeader.baseName = "Content-Type";
                 contentTypeHeader.paramName = "Content-Type";
                 CodegenProperty schema = new CodegenProperty();
                 schema.defaultValue = mediaType;
@@ -567,9 +570,10 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      * @return Formatted text
      */
     public String formatDescription(String description) {
-
-        description = description.replace("\n", JSON_ESCAPE_NEW_LINE);
-        description = description.replace("\"", JSON_ESCAPE_DOUBLE_QUOTE);
+        if (description != null) {
+            description = description.replace("\n", JSON_ESCAPE_NEW_LINE);
+            description = description.replace("\"", JSON_ESCAPE_DOUBLE_QUOTE);
+        }
 
         return description;
     }

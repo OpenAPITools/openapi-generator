@@ -1,4 +1,4 @@
-import {{javaxPackage}}.ws.rs.core.GenericType;
+
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -70,7 +70,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 @Override
                 public {{classname}} read(JsonReader in) throws IOException {
                     Object deserialized = null;
-                    JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
+                    JsonElement jsonElement = elementAdapter.read(in);
 
                     {{#useOneOfDiscriminatorLookup}}
                     {{#discriminator}}
@@ -80,7 +80,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     switch (discriminatorValue) {
                     {{#mappedModels}}
                         case "{{{mappingName}}}":
-                            deserialized = adapter{{modelName}}.fromJsonTree(jsonObject);
+                            deserialized = adapter{{modelName}}.fromJsonTree(jsonElement);
                             new{{classname}}.setActualInstance(deserialized);
                             return new{{classname}};
                     {{/mappedModels}}
@@ -94,10 +94,10 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     // deserialize {{{.}}}
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        {{.}}.validateJsonObject(jsonObject);
+                        {{.}}.validateJsonElement(jsonElement);
                         log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
                         {{classname}} ret = new {{classname}}();
-                        ret.setActualInstance(adapter{{.}}.fromJsonTree(jsonObject));
+                        ret.setActualInstance(adapter{{.}}.fromJsonTree(jsonElement));
                         return ret;
                     } catch (Exception e) {
                         // deserialization failed, continue
@@ -106,14 +106,14 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
                     {{/anyOf}}
 
-                    throw new IOException(String.format("Failed deserialization for {{classname}}: no class matched. JSON: %s", jsonObject.toString()));
+                    throw new IOException(String.format("Failed deserialization for {{classname}}: no class matched. JSON: %s", jsonElement.toString()));
                 }
             }.nullSafe();
         }
     }
 
     // store a list of schema names defined in anyOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, Class<?>> schemas = new HashMap<String, Class<?>>();
 
     public {{classname}}() {
         super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
@@ -128,13 +128,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     {{/anyOf}}
     static {
         {{#anyOf}}
-        schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
-        });
+        schemas.put("{{{.}}}", {{{.}}}.class);
         {{/anyOf}}
     }
 
     @Override
-    public Map<String, GenericType> getSchemas() {
+    public Map<String, Class<?>> getSchemas() {
         return {{classname}}.schemas;
     }
 
@@ -191,18 +190,18 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     {{/anyOf}}
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to {{classname}}
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to {{classname}}
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
     // validate anyOf schemas one by one
     int validCount = 0;
     {{#anyOf}}
     // validate the json string with {{{.}}}
     try {
-      {{{.}}}.validateJsonObject(jsonObj);
+      {{{.}}}.validateJsonElement(jsonElement);
       return; // return earlier as at least one schema is valid with respect to the Json object
       //validCount++;
     } catch (Exception e) {
@@ -210,7 +209,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
     {{/anyOf}}
     if (validCount == 0) {
-      throw new IOException(String.format("The JSON string is invalid for {{classname}} with anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. JSON: %s", jsonObj.toString()));
+      throw new IOException(String.format("The JSON string is invalid for {{classname}} with anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. JSON: %s", jsonElement.toString()));
     }
   }
 

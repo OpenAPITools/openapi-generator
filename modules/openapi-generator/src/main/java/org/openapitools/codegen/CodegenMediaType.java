@@ -13,6 +13,7 @@ public class CodegenMediaType {
     private HashMap<String, SchemaTestCase> testCases = new HashMap<>();
     private Map<String, Example> examples = null;
     private Object example = null;
+    public Map<String, Object> vendorExtensions = new HashMap<>();
 
     public CodegenMediaType(CodegenProperty schema, LinkedHashMap<String, CodegenEncoding> encoding, HashMap<String, SchemaTestCase> testCases) {
         this.schema = schema;
@@ -50,10 +51,15 @@ public class CodegenMediaType {
         return example;
     }
 
+    public Map<String, Object> getVendorExtensions() {
+        return vendorExtensions;
+    }
+
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenMediaType{");
         sb.append("schema=").append(schema);
         sb.append(", encoding=").append(encoding);
+        sb.append(", vendorExtensions=").append(vendorExtensions);
         sb.append('}');
         return sb.toString();
     }
@@ -63,12 +69,13 @@ public class CodegenMediaType {
         if (o == null || getClass() != o.getClass()) return false;
         CodegenMediaType that = (CodegenMediaType) o;
         return Objects.equals(schema,that.getSchema()) &&
-                Objects.equals(encoding, that.getEncoding());
+                Objects.equals(encoding, that.getEncoding()) &&
+                Objects.equals(vendorExtensions, that.vendorExtensions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(schema, encoding);
+        return Objects.hash(schema, encoding, vendorExtensions);
     }
 }
 

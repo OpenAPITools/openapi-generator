@@ -25,6 +25,7 @@ import org.openapitools.codegen.languages.features.SwaggerFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
 import java.util.HashMap;
@@ -149,6 +150,13 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
             }
         }
 
+        return objs;
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+        removeImport(objs, "java.util.List");
         return objs;
     }
 

@@ -47,6 +47,11 @@ jobs:
         run: ./mvnw clean --no-snapshot-updates --batch-mode --quiet install
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+      - name: Test Template Retrieval
+        run: |
+          cd modules/openapi-generator-cli/target
+          # generator names containing "-" caused problems in the past, see https://github.com/OpenAPITools/openapi-generator/issues/9528
+          java -jar ./openapi-generator-cli.jar author template --verbose  -g jaxrs-spec --library quarkus
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Gradle tests

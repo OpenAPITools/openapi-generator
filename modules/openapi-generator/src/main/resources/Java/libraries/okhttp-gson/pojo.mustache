@@ -448,25 +448,25 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to {{classname}}
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to {{classname}}
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!{{classname}}.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!{{classname}}.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in {{{classname}}} is not found in the empty JSON string", {{classname}}.openapiRequiredFields.toString()));
         }
       }
       {{^hasChildren}}
       {{^isAdditionalPropertiesTrue}}
 
-      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
         if (!{{classname}}.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `{{classname}}` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `{{classname}}` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
       {{/isAdditionalPropertiesTrue}}
@@ -475,14 +475,17 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : {{classname}}.openapiRequiredFields) {
-        if (jsonObj.get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
+        if (jsonElement.getAsJsonObject().get(requiredField) == null) {
+          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
       {{/-first}}
       {{/requiredVars}}
       {{/hasChildren}}
       {{^discriminator}}
+      {{#hasVars}}
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
+      {{/hasVars}}
       {{#vars}}
       {{#isArray}}
       {{#items.isModel}}
@@ -495,7 +498,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
       // validate the required field `{{{baseName}}}` (array)
       for (int i = 0; i < jsonArray{{name}}.size(); i++) {
-        {{{items.dataType}}}.validateJsonObject(jsonArray{{name}}.get(i).getAsJsonObject());
+        {{{items.dataType}}}.validateJsonElement(jsonArray{{name}}.get(i));
       };
       {{/required}}
       {{^required}}
@@ -509,7 +512,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 
           // validate the optional field `{{{baseName}}}` (array)
           for (int i = 0; i < jsonArray{{name}}.size(); i++) {
-            {{{items.dataType}}}.validateJsonObject(jsonArray{{name}}.get(i).getAsJsonObject());
+            {{{items.dataType}}}.validateJsonElement(jsonArray{{name}}.get(i));
           };
         }
       }
@@ -541,12 +544,12 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       {{#isModel}}
       {{#required}}
       // validate the required field `{{{baseName}}}`
-      {{{dataType}}}.validateJsonObject(jsonObj.getAsJsonObject("{{{baseName}}}"));
+      {{{dataType}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
       {{/required}}
       {{^required}}
       // validate the optional field `{{{baseName}}}`
       if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
-        {{{dataType}}}.validateJsonObject(jsonObj.getAsJsonObject("{{{baseName}}}"));
+        {{{dataType}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
       }
       {{/required}}
       {{/isModel}}
@@ -556,11 +559,11 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       {{#hasChildren}}
       {{#discriminator}}
 
-      String discriminatorValue = jsonObj.get("{{{propertyBaseName}}}").getAsString();
+      String discriminatorValue = jsonElement.getAsJsonObject().get("{{{propertyBaseName}}}").getAsString();
       switch (discriminatorValue) {
       {{#mappedModels}}
         case "{{mappingName}}":
-          {{modelName}}.validateJsonObject(jsonObj);
+          {{modelName}}.validateJsonElement(jsonElement);
           break;
       {{/mappedModels}}
         default:
@@ -610,9 +613,10 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 
            @Override
            public {{classname}} read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
              {{#isAdditionalPropertiesTrue}}
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
              // store additional fields in the deserialized instance
              {{classname}} instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
@@ -636,7 +640,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
              return instance;
              {{/isAdditionalPropertiesTrue}}
              {{^isAdditionalPropertiesTrue}}
-             return thisAdapter.fromJsonTree(jsonObj);
+             return thisAdapter.fromJsonTree(jsonElement);
              {{/isAdditionalPropertiesTrue}}
            }
 

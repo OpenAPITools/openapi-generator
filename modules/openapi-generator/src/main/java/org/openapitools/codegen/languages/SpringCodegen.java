@@ -23,16 +23,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
@@ -733,10 +724,13 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .anyMatch(it -> it.getEnum() != null && !it.getEnum().isEmpty());
     }
 
+    private boolean supportLibraryUseTags(){
+        return SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library);
+    }
+
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co,
-            Map<String, List<CodegenOperation>> operations) {
-        if ((SPRING_BOOT.equals(library) && !useTags)) {
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        if (supportLibraryUseTags() && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
@@ -754,9 +748,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             final List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
             opList.add(co);
             co.baseName = basePath;
-        } else {
-            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+            return;
         }
+        super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+
     }
 
     @Override
@@ -874,6 +869,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             objs.put("tagDescription", escapeText(firstTag.getDescription()));
         }
 
+        removeImport(objs, "java.util.List");
+
         return objs;
     }
 
@@ -965,7 +962,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             return "DefaultApi";
         }
         name = sanitizeName(name);
-        return camelize(name) + "Api";
+        return camelize(name) + apiNameSuffix;
     }
 
     @Override
