@@ -152,7 +152,7 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
                 {{/isDateTime}}
                 {{^isDateTime}}
                 {{#isDate}}
-                localVarQueryParameter['{{baseName}}'] = (({{paramName}}:any):Date).toISOString();
+                localVarQueryParameter['{{baseName}}'] = (({{paramName}}:any):Date).toISOString().slice(0, 10);
                 {{/isDate}}
                 {{^isDate}}
                 localVarQueryParameter['{{baseName}}'] = (({{paramName}}:any):string);
