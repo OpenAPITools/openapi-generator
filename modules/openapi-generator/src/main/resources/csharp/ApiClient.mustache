@@ -454,7 +454,8 @@ namespace {{packageName}}.Client
                 CookieContainer = cookies,
                 MaxTimeout = configuration.Timeout,
                 Proxy = configuration.Proxy,
-                UserAgent = configuration.UserAgent
+                UserAgent = configuration.UserAgent,
+                UseDefaultCredentials = configuration.UseDefaultCredentials        
             };
 
             RestClient client = new RestClient(clientOptions)
@@ -566,7 +567,8 @@ namespace {{packageName}}.Client
                 ClientCertificates = configuration.ClientCertificates,
                 MaxTimeout = configuration.Timeout,
                 Proxy = configuration.Proxy,
-                UserAgent = configuration.UserAgent
+                UserAgent = configuration.UserAgent,
+                UseDefaultCredentials = configuration.UseDefaultCredentials
             };
 
             RestClient client = new RestClient(clientOptions)
