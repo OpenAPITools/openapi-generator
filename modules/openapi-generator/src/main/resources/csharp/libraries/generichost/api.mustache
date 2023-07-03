@@ -132,18 +132,18 @@ namespace {{packageName}}.{{apiPackage}}
 
         {{/-first}}
         {{/allParams}}
-        {{#vendorExtensions.x-hasNotNullableReferenceTypes}}
+        {{#vendorExtensions.x-has-not-nullable-reference-types}}
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        {{#vendorExtensions.x-notNullableReferenceTypes}}
+        {{#vendorExtensions.x-not-nullable-reference-types}}
         /// <param name="{{paramName}}"></param>
-        {{/vendorExtensions.x-notNullableReferenceTypes}}
+        {{/vendorExtensions.x-not-nullable-reference-types}}
         /// <returns></returns>
-        private void Validate{{operationId}}({{#vendorExtensions.x-notNullableReferenceTypes}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-notNullableReferenceTypes}})
+        private void Validate{{operationId}}({{#vendorExtensions.x-not-nullable-reference-types}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-not-nullable-reference-types}})
         {
             {{#lambda.trimTrailingWhiteSpace}}
-            {{#vendorExtensions.x-notNullableReferenceTypes}}
+            {{#vendorExtensions.x-not-nullable-reference-types}}
             {{#required}}
             {{^vendorExtensions.x-is-value-type}}
             if ({{paramName}} == null)
@@ -158,11 +158,11 @@ namespace {{packageName}}.{{apiPackage}}
 
             {{/vendorExtensions.x-is-value-type}}
             {{/required}}
-            {{/vendorExtensions.x-notNullableReferenceTypes}}
+            {{/vendorExtensions.x-not-nullable-reference-types}}
             {{/lambda.trimTrailingWhiteSpace}}
         }
 
-        {{/vendorExtensions.x-hasNotNullableReferenceTypes}}
+        {{/vendorExtensions.x-has-not-nullable-reference-types}}
         /// <summary>
         /// Processes the server response
         /// </summary>
@@ -249,10 +249,10 @@ namespace {{packageName}}.{{apiPackage}}
 
             try
             {
-                {{#vendorExtensions.x-hasNotNullableReferenceTypes}}
-                Validate{{operationId}}({{#vendorExtensions.x-notNullableReferenceTypes}}{{paramName}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-notNullableReferenceTypes}});
+                {{#vendorExtensions.x-has-not-nullable-reference-types}}
+                Validate{{operationId}}({{#vendorExtensions.x-not-nullable-reference-types}}{{paramName}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-not-nullable-reference-types}});
 
-                {{/vendorExtensions.x-hasNotNullableReferenceTypes}}
+                {{/vendorExtensions.x-has-not-nullable-reference-types}}
                 {{#allParams}}
                 {{#-first}}
                 Format{{operationId}}({{#allParams}}{{#isPrimitiveType}}ref {{/isPrimitiveType}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
