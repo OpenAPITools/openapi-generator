@@ -56,6 +56,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.*;
 
 public class DefaultCodegenTest {
@@ -1508,6 +1509,12 @@ public class DefaultCodegenTest {
         mn = "BananaOneOfDisc";
         hs.add(new CodegenDiscriminator.MappedModel(mn, mn));
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
+
+        // ref oneOf models with enum property discriminator
+        modelName = "FruitOneOfEnumMappingDisc";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        assertThat(cm.discriminator.getPropertyType()).isEqualTo("FruitTypeEnum");
 
         // ref oneOf models with discriminator in the grandparent schemas of those oneof models
         modelName = "FruitGrandparentDisc";
