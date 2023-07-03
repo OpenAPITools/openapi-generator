@@ -50,6 +50,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>file</li>
 <li>integer</li>
 <li>number</li>
+<li>object</li>
 <li>string</li>
 </ul>
 
