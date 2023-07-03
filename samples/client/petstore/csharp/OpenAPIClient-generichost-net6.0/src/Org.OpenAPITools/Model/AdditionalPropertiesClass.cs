@@ -275,13 +275,20 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, AdditionalPropertiesClass additionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WritePropertyName("empty_map");
-            JsonSerializer.Serialize(writer, additionalPropertiesClass.EmptyMap, jsonSerializerOptions);            writer.WritePropertyName("map_of_map_property");
-            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapOfMapProperty, jsonSerializerOptions);            writer.WritePropertyName("map_property");
-            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapProperty, jsonSerializerOptions);            writer.WritePropertyName("map_with_undeclared_properties_anytype_1");
-            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1, jsonSerializerOptions);            writer.WritePropertyName("map_with_undeclared_properties_anytype_2");
-            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2, jsonSerializerOptions);            writer.WritePropertyName("map_with_undeclared_properties_anytype_3");
-            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3, jsonSerializerOptions);            writer.WritePropertyName("map_with_undeclared_properties_string");
-            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesString, jsonSerializerOptions);            writer.WritePropertyName("anytype_1");
+            JsonSerializer.Serialize(writer, additionalPropertiesClass.EmptyMap, jsonSerializerOptions);
+            writer.WritePropertyName("map_of_map_property");
+            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapOfMapProperty, jsonSerializerOptions);
+            writer.WritePropertyName("map_property");
+            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapProperty, jsonSerializerOptions);
+            writer.WritePropertyName("map_with_undeclared_properties_anytype_1");
+            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1, jsonSerializerOptions);
+            writer.WritePropertyName("map_with_undeclared_properties_anytype_2");
+            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2, jsonSerializerOptions);
+            writer.WritePropertyName("map_with_undeclared_properties_anytype_3");
+            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3, jsonSerializerOptions);
+            writer.WritePropertyName("map_with_undeclared_properties_string");
+            JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesString, jsonSerializerOptions);
+            writer.WritePropertyName("anytype_1");
             JsonSerializer.Serialize(writer, additionalPropertiesClass.Anytype1, jsonSerializerOptions);
         }
     }

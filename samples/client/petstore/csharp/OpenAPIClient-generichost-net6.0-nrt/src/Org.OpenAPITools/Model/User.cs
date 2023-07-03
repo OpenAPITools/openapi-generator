@@ -341,13 +341,16 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("id", user.Id);
             writer.WriteString("lastName", user.LastName);
             writer.WritePropertyName("objectWithNoDeclaredProps");
-            JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredProps, jsonSerializerOptions);            writer.WriteString("password", user.Password);
+            JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredProps, jsonSerializerOptions);
+            writer.WriteString("password", user.Password);
             writer.WriteString("phone", user.Phone);
             writer.WriteNumber("userStatus", user.UserStatus);
             writer.WriteString("username", user.Username);
             writer.WritePropertyName("anyTypeProp");
-            JsonSerializer.Serialize(writer, user.AnyTypeProp, jsonSerializerOptions);            writer.WritePropertyName("anyTypePropNullable");
-            JsonSerializer.Serialize(writer, user.AnyTypePropNullable, jsonSerializerOptions);            writer.WritePropertyName("objectWithNoDeclaredPropsNullable");
+            JsonSerializer.Serialize(writer, user.AnyTypeProp, jsonSerializerOptions);
+            writer.WritePropertyName("anyTypePropNullable");
+            JsonSerializer.Serialize(writer, user.AnyTypePropNullable, jsonSerializerOptions);
+            writer.WritePropertyName("objectWithNoDeclaredPropsNullable");
             JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredPropsNullable, jsonSerializerOptions);
         }
     }

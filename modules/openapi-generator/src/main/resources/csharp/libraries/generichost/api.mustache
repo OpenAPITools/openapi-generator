@@ -128,53 +128,41 @@ namespace {{packageName}}.{{apiPackage}}
 
         {{#allParams}}
         {{#-first}}
-        partial void Format{{operationId}}({{#allParams}}{{#isPrimitiveType}}ref {{/isPrimitiveType}}{{{dataType}}}{{>NullConditionalParameter}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        partial void Format{{operationId}}({{#allParams}}{{#isPrimitiveType}}ref {{/isPrimitiveType}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 
         {{/-first}}
         {{/allParams}}
-        {{#notNullableParams}}
-        {{#-first}}
+        {{#vendorExtensions.x-has-not-nullable-reference-types}}
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        {{/-first}}
+        {{#vendorExtensions.x-not-nullable-reference-types}}
         /// <param name="{{paramName}}"></param>
-        {{#-last}}
+        {{/vendorExtensions.x-not-nullable-reference-types}}
         /// <returns></returns>
-        private void Validate{{operationId}}({{#notNullableParams}}{{{dataType}}}{{>NullConditionalParameter}} {{paramName}}{{^-last}}, {{/-last}}{{/notNullableParams}})
+        private void Validate{{operationId}}({{#vendorExtensions.x-not-nullable-reference-types}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-not-nullable-reference-types}})
         {
-            {{#notNullableParams}}
-            {{#-first}}
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
-            {{/-first}}
-            {{#nrt}}
-            if ({{paramName}} == null)
-                throw new ArgumentNullException(nameof({{paramName}}));
-
-            {{/nrt}}
-            {{^nrt}}
+            {{#lambda.trimTrailingWhiteSpace}}
+            {{#vendorExtensions.x-not-nullable-reference-types}}
+            {{#required}}
             {{^vendorExtensions.x-is-value-type}}
             if ({{paramName}} == null)
                 throw new ArgumentNullException(nameof({{paramName}}));
 
             {{/vendorExtensions.x-is-value-type}}
-            {{#vendorExtensions.x-is-value-type}}
-            if ({{paramName}} == null)
+            {{/required}}
+            {{^required}}
+            {{^vendorExtensions.x-is-value-type}}
+            if ({{paramName}}.IsSet && {{paramName}}.Value == null)
                 throw new ArgumentNullException(nameof({{paramName}}));
 
             {{/vendorExtensions.x-is-value-type}}
-            {{/nrt}}
-            {{#-last}}
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            {{/-last}}
-            {{/notNullableParams}}
+            {{/required}}
+            {{/vendorExtensions.x-not-nullable-reference-types}}
+            {{/lambda.trimTrailingWhiteSpace}}
         }
 
-        {{/-last}}
-        {{/notNullableParams}}
+        {{/vendorExtensions.x-has-not-nullable-reference-types}}
         /// <summary>
         /// Processes the server response
         /// </summary>
@@ -182,7 +170,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        private void After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar  {{#allParams}}{{{dataType}}}{{>NullConditionalParameter}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
+        private void After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
         {
             bool suppressDefaultLog = false;
             After{{operationId}}({{#lambda.joinWithComma}}ref suppressDefaultLog  apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
@@ -197,7 +185,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        partial void After{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar  {{#allParams}}{{{dataType}}}{{>NullConditionalParameter}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+        partial void After{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -208,7 +196,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        private void OnError{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}Exception exception  string pathFormat  string path  {{#allParams}}{{{dataType}}}{{>NullConditionalParameter}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
+        private void OnError{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}Exception exception  string pathFormat  string path  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
         {
 {{>OnErrorDefaultImplementation}}
             OnError{{operationId}}({{#lambda.joinWithComma}}exception  pathFormat  path  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
@@ -223,7 +211,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        partial void OnError{{operationId}}({{#lambda.joinWithComma}}Exception exception  string pathFormat  string path  {{#allParams}}{{{dataType}}}{{>NullConditionalParameter}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+        partial void OnError{{operationId}}({{#lambda.joinWithComma}}Exception exception  string pathFormat  string path  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 
         /// <summary>
         /// {{summary}} {{notes}}
@@ -261,12 +249,10 @@ namespace {{packageName}}.{{apiPackage}}
 
             try
             {
-                {{#notNullableParams}}
-                {{#-first}}
-                Validate{{operationId}}({{#notNullableParams}}{{paramName}}{{^-last}}, {{/-last}}{{/notNullableParams}});
+                {{#vendorExtensions.x-has-not-nullable-reference-types}}
+                Validate{{operationId}}({{#vendorExtensions.x-not-nullable-reference-types}}{{paramName}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-not-nullable-reference-types}});
 
-                {{/-first}}
-                {{/notNullableParams}}
+                {{/vendorExtensions.x-has-not-nullable-reference-types}}
                 {{#allParams}}
                 {{#-first}}
                 Format{{operationId}}({{#allParams}}{{#isPrimitiveType}}ref {{/isPrimitiveType}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
@@ -295,8 +281,8 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/required}}
                     {{^required}}
 
-                    if ({{paramName}} != null)
-                        uriBuilderLocalVar.Path = uriBuilderLocalVar.Path + $"/{ Uri.EscapeDataString({{paramName}}).ToString()) }";
+                    if ({{paramName}}.IsSet)
+                        uriBuilderLocalVar.Path = uriBuilderLocalVar.Path + $"/{ Uri.EscapeDataString({{paramName}}.Value).ToString()) }";
                     {{#-last}}
 
                     {{/-last}}
@@ -325,14 +311,14 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/-first}}
                     {{/required}}
                     {{#required}}
-                    parseQueryStringLocalVar["{{baseName}}"] = {{paramName}}.ToString();
+                    parseQueryStringLocalVar["{{baseName}}"] = {{paramName}}{{#isNullable}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}{{/isNullable}}.ToString();
                     {{/required}}
                     {{/queryParams}}
 
                     {{#queryParams}}
                     {{^required}}
-                    if ({{paramName}} != null)
-                        parseQueryStringLocalVar["{{baseName}}"] = {{paramName}}.ToString();
+                    if ({{paramName}}.IsSet)
+                        parseQueryStringLocalVar["{{baseName}}"] = {{paramName}}.Value{{#isNullable}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}{{/isNullable}}.ToString();
 
                     {{/required}}
                     {{#-last}}
@@ -346,8 +332,8 @@ namespace {{packageName}}.{{apiPackage}}
 
                     {{/required}}
                     {{^required}}
-                    if ({{paramName}} != null)
-                        httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
+                    if ({{paramName}}.IsSet)
+                        httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value));
 
                     {{/required}}
                     {{/headerParams}}
@@ -365,8 +351,8 @@ namespace {{packageName}}.{{apiPackage}}
 
                     {{/required}}
                     {{^required}}
-                    if ({{paramName}} != null)
-                        formParameterLocalVars.Add(new KeyValuePair<string{{nrt?}}, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}})));
+                    if ({{paramName}}.IsSet)
+                        formParameterLocalVars.Add(new KeyValuePair<string{{nrt?}}, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value)));
 
                     {{/required}}
                     {{/isFile}}
@@ -376,16 +362,24 @@ namespace {{packageName}}.{{apiPackage}}
 
                     {{/required}}
                     {{^required}}
-                    if ({{paramName}} != null)
-                        multipartContentLocalVar.Add(new StreamContent({{paramName}}));
+                    if ({{paramName}}.IsSet)
+                        multipartContentLocalVar.Add(new StreamContent({{paramName}}.Value));
 
                     {{/required}}
                     {{/isFile}}
                     {{/formParams}}
                     {{#bodyParam}}
-                    httpRequestMessageLocalVar.Content = ({{paramName}} as object) is System.IO.Stream stream
+                    {{#required}}
+                    httpRequestMessageLocalVar.Content = ({{paramName}}{{^required}}.Value{{/required}} as object) is System.IO.Stream stream
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
-                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize({{paramName}}, _jsonSerializerOptions));
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize({{paramName}}{{^required}}.Value{{/required}}, _jsonSerializerOptions));
+                    {{/required}}
+                    {{^required}}
+                    if ({{paramName}}.IsSet)
+                        httpRequestMessageLocalVar.Content = ({{paramName}}{{^required}}.Value{{/required}} as object) is System.IO.Stream stream
+                            ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                            : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize({{paramName}}{{^required}}.Value{{/required}}, _jsonSerializerOptions));
+                    {{/required}}
 
                     {{/bodyParam}}
                     {{#authMethods}}
@@ -442,9 +436,11 @@ namespace {{packageName}}.{{apiPackage}}
 
                     tokenBaseLocalVars.Add(httpSignatureTokenLocalVar);
 
-                    string requestBodyLocalVar = await httpRequestMessageLocalVar.Content{{nrt!}}.ReadAsStringAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
+                    if (httpRequestMessageLocalVar.Content != null) {
+                        string requestBodyLocalVar = await httpRequestMessageLocalVar.Content.ReadAsStringAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
 
-                    httpSignatureTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
+                        httpSignatureTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
+                    }
                     {{/isHttpSignature}}
                     {{/authMethods}}
                     {{#consumes}}
@@ -462,7 +458,7 @@ namespace {{packageName}}.{{apiPackage}}
 
                     string{{nrt?}} contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentTypeLocalVar != null)
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
                     {{/-first}}

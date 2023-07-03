@@ -222,7 +222,8 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTime.ToString(DateTimeFormat));
             writer.WritePropertyName("map");
-            JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, jsonSerializerOptions);            writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.Uuid);
+            JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, jsonSerializerOptions);
+            writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.Uuid);
             writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern);
         }
     }

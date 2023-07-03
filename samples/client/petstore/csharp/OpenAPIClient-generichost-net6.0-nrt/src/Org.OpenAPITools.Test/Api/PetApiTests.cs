@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Test.Api
         public async Task DeletePetAsyncTest()
         {
             long petId = default!;
-            string apiKey = default!;
+            Client.Option<string> apiKey = default!;
             await _instance.DeletePetAsync(petId, apiKey);
         }
 
@@ -124,8 +124,8 @@ namespace Org.OpenAPITools.Test.Api
         public async Task UpdatePetWithFormAsyncTest()
         {
             long petId = default!;
-            string name = default!;
-            string status = default!;
+            Client.Option<string> name = default!;
+            Client.Option<string> status = default!;
             await _instance.UpdatePetWithFormAsync(petId, name, status);
         }
 
@@ -136,8 +136,8 @@ namespace Org.OpenAPITools.Test.Api
         public async Task UploadFileAsyncTest()
         {
             long petId = default!;
-            System.IO.Stream file = default!;
-            string additionalMetadata = default!;
+            Client.Option<System.IO.Stream> file = default!;
+            Client.Option<string> additionalMetadata = default!;
             var response = await _instance.UploadFileAsync(petId, file, additionalMetadata);
             var model = response.AsModel();
             Assert.IsType<ApiResponse>(model);
@@ -151,7 +151,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             System.IO.Stream requiredFile = default!;
             long petId = default!;
-            string additionalMetadata = default!;
+            Client.Option<string> additionalMetadata = default!;
             var response = await _instance.UploadFileWithRequiredFileAsync(requiredFile, petId, additionalMetadata);
             var model = response.AsModel();
             Assert.IsType<ApiResponse>(model);
