@@ -137,16 +137,7 @@ class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
     final serializedList = (serialized as Iterable<Object?>).toList();
     final discIndex = serializedList.indexOf(Fruit.discriminatorFieldName) + 1;
     final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
-    final unhandled = <Object?>[];
-    _deserializeProperties(
-      serializers,
-      serialized,
-      specifiedType: specifiedType,
-      serializedList: serializedList,
-      unhandled: unhandled,
-      result: result
-    );
-    oneOfDataSrc = unhandled;
+    oneOfDataSrc = serialized;
     final oneOfTypes = [Apple, Banana, ];
     Object oneOfResult;
     Type oneOfType;
