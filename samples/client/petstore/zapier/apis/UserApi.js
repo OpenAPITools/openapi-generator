@@ -1,3 +1,4 @@
+const samples = require('../samples/UserApi');
 const User = require('../models/User');
 const utils = require('../utils/utils');
 
@@ -37,7 +38,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: { data: {} }
         }
     },
     createUsersWithArrayInput: {
@@ -75,7 +77,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: { data: {} }
         }
     },
     createUsersWithListInput: {
@@ -113,7 +116,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: { data: {} }
         }
     },
     deleteUser: {
@@ -155,7 +159,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: { data: {} }
         }
     },
     getUserByName: {
@@ -198,7 +203,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: samples['UserSample']
         }
     },
     loginUser: {
@@ -246,9 +252,10 @@ module.exports = {
                 return z.request(options).then((response) => {
                     response.throwForStatus();
                     const results = response.json;
-                    return results;
+                    return { data: results };
                 })
-            }
+            },
+            sample: { data: {} }
         }
     },
     logoutUser: {
@@ -284,7 +291,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: { data: {} }
         }
     },
     updateUser: {
@@ -328,7 +336,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: { data: {} }
         }
     },
 }

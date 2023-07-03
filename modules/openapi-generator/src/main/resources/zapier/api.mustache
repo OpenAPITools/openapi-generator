@@ -1,3 +1,4 @@
+const samples = require('../samples/{{classFilename}}');
 {{#imports}}{{{import}}}
 {{/imports}}
 const utils = require('../utils/utils');
@@ -94,9 +95,10 @@ module.exports = {
                 return z.request(options).then((response) => {
                     response.throwForStatus();
                     const results = response.json;
-                    return results;
+                    return {{#returnType}}{{#returnTypeIsPrimitive}}{ data: results }{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}results{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}results{{/returnType}};
                 })
-            }
+            },
+            sample: {{#returnType}}{{^returnTypeIsPrimitive}}{{#responses}}{{#baseType}}samples['{{baseType}}Sample']{{/baseType}}{{/responses}}{{/returnTypeIsPrimitive}}{{#returnTypeIsPrimitive}}{ data: {} }{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}{ data: {} }{{/returnType}}
         }
     },
 {{/operation}}

@@ -1,5 +1,5 @@
+const samples = require('../samples/StoreApi');
 const Order = require('../models/Order');
-const object = require('../models/object');
 const utils = require('../utils/utils');
 
 module.exports = {
@@ -42,7 +42,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: { data: {} }
         }
     },
     getInventory: {
@@ -76,9 +77,10 @@ module.exports = {
                 return z.request(options).then((response) => {
                     response.throwForStatus();
                     const results = response.json;
-                    return results;
+                    return { data: results };
                 })
-            }
+            },
+            sample: { data: {} }
         }
     },
     getOrderById: {
@@ -121,7 +123,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: samples['OrderSample']
         }
     },
     placeOrder: {
@@ -160,7 +163,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: samples['OrderSample']
         }
     },
 }

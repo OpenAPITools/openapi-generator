@@ -1,3 +1,4 @@
+const samples = require('../samples/PetApi');
 const ApiResponse = require('../models/ApiResponse');
 const Pet = require('../models/Pet');
 const utils = require('../utils/utils');
@@ -40,7 +41,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: samples['PetSample']
         }
     },
     deletePet: {
@@ -87,7 +89,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: { data: {} }
         }
     },
     findPetsByStatus: {
@@ -126,7 +129,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: samples['PetSample']
         }
     },
     findPetsByTags: {
@@ -165,7 +169,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: samples['PetSample']
         }
     },
     getPetById: {
@@ -208,7 +213,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: samples['PetSample']
         }
     },
     updatePet: {
@@ -247,7 +253,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: samples['PetSample']
         }
     },
     updatePetWithForm: {
@@ -299,7 +306,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: { data: {} }
         }
     },
     uploadFile: {
@@ -355,7 +363,8 @@ module.exports = {
                     const results = response.json;
                     return results;
                 })
-            }
+            },
+            sample: samples['ApiResponseSample']
         }
     },
 }

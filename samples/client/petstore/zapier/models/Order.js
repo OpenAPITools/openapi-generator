@@ -24,7 +24,7 @@ module.exports = {
             {
                 key: `${keyPrefix}shipDate`,
                 label: `[${labelPrefix}shipDate]`,
-                type: 'datetime',
+                type: 'string',
             },
             {
                 key: `${keyPrefix}status`,

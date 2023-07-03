@@ -1,14 +1,17 @@
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -39,16 +42,19 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
         apiTemplateFiles.put("api.mustache", ".js");
         embeddedTemplateDir = templateDir = "zapier";
         apiPackage = "apis";
+        testPackage = "samples";
         modelPackage = "models";
+        apiTestTemplateFiles.put("sample.mustache", ".js");
         supportingFiles.add(new SupportingFile("actions.mustache", "operations", "actions.js"));
         supportingFiles.add(new SupportingFile("utils.mustache", "utils", "utils.js"));
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.js"));
         supportingFiles.add(new SupportingFile("authentication.mustache", "", "authentication.js"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives = new HashSet<>(
-                Arrays.asList("number", "integer", "string", "boolean", "array", "file")
+                Arrays.asList("number", "integer", "string", "boolean", "array", "file", "object")
         );
 
         instantiationTypes.put("array", "array");
@@ -78,6 +84,12 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("file", "file");
         typeMapping.put("UUID", "string");
         typeMapping.put("URI", "string");
+    }
+
+    @Override
+    protected void initializeSpecialCharacterMapping() {
+        super.initializeSpecialCharacterMapping();
+        specialCharReplacements.remove("_");
     }
 
     /**
@@ -130,6 +142,11 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
+    public String toApiTestFilename(String name) {
+        return toApiName(name);
+    }
+
+    @Override
     public GeneratorLanguage generatorLanguage() { return null; }
 
     @Override
@@ -143,4 +160,43 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
         // do nothing as the output is just doc
         return input;
     }
+
+    @Override
+    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
+        CodegenResponse r = super.fromResponse(responseCode, response);
+        try {
+            Map<String, Map<String, Map<String, Object>>> map = Json.mapper().readerFor(Map.class).readValue(Json.pretty(response.getContent()));
+            Map.Entry<String, Map<String, Map<String, Object>>> entry = map.entrySet().stream().findFirst().get();
+            Map<String, Map<String, Object>> example = entry.getValue();
+            List<Map<String, Object>> ex = toExamples(example.get("examples"));
+            r.examples = toExamples(example.get("examples"));
+        } catch (Exception e) {
+            LOGGER.error(e.toString());
+        }
+        return r;
+    }
+
+    @Override
+    protected List<Map<String, Object>> toExamples(Map<String, Object> examples) {
+        if (examples == null) {
+            return null;
+        }
+
+        final List<Map<String, Object>> output = new ArrayList<>(examples.size());
+        for (Map.Entry<String, Object> entry : examples.entrySet()) {
+            final Map<String, Object> kv = new HashMap<>();
+            @SuppressWarnings("unchecked")
+            Map<String, Object> map = (Map<String, Object>) entry.getValue();
+            String example = "";
+            try{
+                example = Json.mapper().writeValueAsString(map.getOrDefault("value", map));
+            } catch(Exception e) {}
+
+            kv.put("example", example);
+            output.add(kv);
+        }
+        
+        return output;
+    }
+
 }
