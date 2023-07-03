@@ -103,7 +103,7 @@ public class DartNextClientCodegen extends DartNextAbstractCodegen {
 
     private TemplateManager templateManager;
 
-    private Map<String, String> supportedSerializationLibraries = new LinkedHashMap<>();
+    private final Map<String, String> supportedSerializationLibraries = new LinkedHashMap<>();
 
     public DartNextClientCodegen() {
         super();
@@ -149,7 +149,7 @@ public class DartNextClientCodegen extends DartNextAbstractCodegen {
 
         final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES,
                 "Whether properties are marked as final when using Json Serializable for serialization");
-        finalProperties.setDefault("true");
+        finalProperties.setDefault(FINAL_PROPERTIES_DEFAULT_VALUE);
         cliOptions.add(finalProperties);
 
         final Map<String, String> dateOptions = new HashMap<>();
