@@ -2023,12 +2023,12 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="enumQueryStringArray"></param>
         /// <param name="enumFormStringArray"></param>
-        /// <param name="enumQueryString"></param>
+        /// <param name="enumHeaderString"></param>
         /// <param name="enumHeaderStringArray"></param>
         /// <param name="enumFormString"></param>
-        /// <param name="enumHeaderString"></param>
+        /// <param name="enumQueryString"></param>
         /// <returns></returns>
-        private void ValidateTestEnumParameters(Option<List<string>> enumQueryStringArray, Option<List<string>> enumFormStringArray, Option<string> enumQueryString, Option<List<string>> enumHeaderStringArray, Option<string> enumFormString, Option<string> enumHeaderString)
+        private void ValidateTestEnumParameters(Option<List<string>> enumQueryStringArray, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<List<string>> enumHeaderStringArray, Option<string> enumFormString, Option<string> enumQueryString)
         {
             if (enumQueryStringArray.IsSet && enumQueryStringArray.Value == null)
                 throw new ArgumentNullException(nameof(enumQueryStringArray));
@@ -2036,8 +2036,8 @@ namespace Org.OpenAPITools.Api
             if (enumFormStringArray.IsSet && enumFormStringArray.Value == null)
                 throw new ArgumentNullException(nameof(enumFormStringArray));
 
-            if (enumQueryString.IsSet && enumQueryString.Value == null)
-                throw new ArgumentNullException(nameof(enumQueryString));
+            if (enumHeaderString.IsSet && enumHeaderString.Value == null)
+                throw new ArgumentNullException(nameof(enumHeaderString));
 
             if (enumHeaderStringArray.IsSet && enumHeaderStringArray.Value == null)
                 throw new ArgumentNullException(nameof(enumHeaderStringArray));
@@ -2045,8 +2045,8 @@ namespace Org.OpenAPITools.Api
             if (enumFormString.IsSet && enumFormString.Value == null)
                 throw new ArgumentNullException(nameof(enumFormString));
 
-            if (enumHeaderString.IsSet && enumHeaderString.Value == null)
-                throw new ArgumentNullException(nameof(enumHeaderString));
+            if (enumQueryString.IsSet && enumQueryString.Value == null)
+                throw new ArgumentNullException(nameof(enumQueryString));
         }
 
         /// <summary>
@@ -2165,7 +2165,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateTestEnumParameters(enumQueryStringArray, enumFormStringArray, enumQueryString, enumHeaderStringArray, enumFormString, enumHeaderString);
+                ValidateTestEnumParameters(enumQueryStringArray, enumFormStringArray, enumHeaderString, enumHeaderStringArray, enumFormString, enumQueryString);
 
                 FormatTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, ref enumQueryDouble, ref enumQueryInteger, enumFormStringArray, ref enumHeaderString, ref enumQueryString, ref enumFormString);
 
