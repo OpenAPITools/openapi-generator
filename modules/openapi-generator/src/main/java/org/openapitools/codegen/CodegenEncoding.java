@@ -1,6 +1,6 @@
 package org.openapitools.codegen;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -11,7 +11,7 @@ public class CodegenEncoding {
     private String style;
     private boolean explode;
     private boolean allowReserved;
-    public Map<String, Object> vendorExtensions = new HashMap<>();
+    public Map<String, Object> vendorExtensions = new LinkedHashMap<>();
 
     public CodegenEncoding(String contentType, List<CodegenParameter> headers, String style, boolean explode, boolean allowReserved) {
         this.contentType = contentType;

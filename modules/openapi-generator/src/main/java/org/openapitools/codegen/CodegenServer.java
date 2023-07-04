@@ -1,6 +1,6 @@
 package org.openapitools.codegen;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -9,7 +9,7 @@ public class CodegenServer {
     public String url;
     public String description;
     public List<CodegenServerVariable> variables;
-    public Map<String, Object> vendorExtensions = new HashMap<>();
+    public Map<String, Object> vendorExtensions = new LinkedHashMap<>();
 
     @Override
     public boolean equals(Object o) {

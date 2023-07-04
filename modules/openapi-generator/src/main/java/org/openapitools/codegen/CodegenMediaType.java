@@ -13,7 +13,7 @@ public class CodegenMediaType {
     private HashMap<String, SchemaTestCase> testCases = new HashMap<>();
     private Map<String, Example> examples = null;
     private Object example = null;
-    public Map<String, Object> vendorExtensions = new HashMap<>();
+    public Map<String, Object> vendorExtensions = new LinkedHashMap<>();
 
     public CodegenMediaType(CodegenProperty schema, LinkedHashMap<String, CodegenEncoding> encoding, HashMap<String, SchemaTestCase> testCases) {
         this.schema = schema;

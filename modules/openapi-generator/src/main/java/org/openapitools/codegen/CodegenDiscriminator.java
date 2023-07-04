@@ -37,7 +37,7 @@ public class CodegenDiscriminator {
     // see the method createDiscriminator in DefaultCodegen.java
 
     private Set<MappedModel> mappedModels = new TreeSet<>();
-    private Map<String, Object> vendorExtensions = new HashMap<>();
+    private Map<String, Object> vendorExtensions = new LinkedHashMap<>();
 
 
     public String getPropertyName() {
