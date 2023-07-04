@@ -9,7 +9,7 @@ const utils = require('../utils/utils');
 module.exports = {
         fields: (key) => (
             {
-                label: `{{#description}}{{{.}}} - {{/description}}[${key}]`,
+                label: `{{#description}}{{{.}}} - {{/description}}[${key.replaceAll('__', '.')}]`,
                 choices: [
                     {{#allowableValues}}
                     {{#values}}
