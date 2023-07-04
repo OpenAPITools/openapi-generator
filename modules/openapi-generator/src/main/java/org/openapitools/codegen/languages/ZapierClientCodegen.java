@@ -151,13 +151,11 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        // do nothing as the output is just doc
         return input;
     }
 
     @Override
     public String escapeQuotationMark(String input) {
-        // do nothing as the output is just doc
         return input;
     }
 
@@ -168,7 +166,6 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
             Map<String, Map<String, Map<String, Object>>> map = Json.mapper().readerFor(Map.class).readValue(Json.pretty(response.getContent()));
             Map.Entry<String, Map<String, Map<String, Object>>> entry = map.entrySet().stream().findFirst().get();
             Map<String, Map<String, Object>> example = entry.getValue();
-            List<Map<String, Object>> ex = toExamples(example.get("examples"));
             r.examples = toExamples(example.get("examples"));
         } catch (Exception e) {
             LOGGER.error(e.toString());
@@ -190,7 +187,7 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
             String example = "";
             try{
                 example = Json.mapper().writeValueAsString(map.getOrDefault("value", map));
-            } catch(Exception e) {}
+            } catch(Exception ignored) {}
 
             kv.put("example", example);
             output.add(kv);
