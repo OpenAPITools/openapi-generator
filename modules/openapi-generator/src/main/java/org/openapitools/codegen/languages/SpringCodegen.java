@@ -724,10 +724,13 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .anyMatch(it -> it.getEnum() != null && !it.getEnum().isEmpty());
     }
 
+    private boolean supportLibraryUseTags(){
+        return SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library);
+    }
+
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co,
-            Map<String, List<CodegenOperation>> operations) {
-        if ((SPRING_BOOT.equals(library) && !useTags)) {
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        if (supportLibraryUseTags() && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
@@ -745,9 +748,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             final List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
             opList.add(co);
             co.baseName = basePath;
-        } else {
-            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+            return;
         }
+        super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+
     }
 
     @Override
@@ -958,7 +962,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             return "DefaultApi";
         }
         name = sanitizeName(name);
-        return camelize(name) + "Api";
+        return camelize(name) + apiNameSuffix;
     }
 
     @Override

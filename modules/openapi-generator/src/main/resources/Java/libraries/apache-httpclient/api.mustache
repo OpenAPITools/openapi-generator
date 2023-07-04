@@ -6,7 +6,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.Configuration;
+{{#models.0}}
 import {{modelPackage}}.*;
+{{/models.0}}
 import {{invokerPackage}}.Pair;
 
 {{#imports}}import {{import}};

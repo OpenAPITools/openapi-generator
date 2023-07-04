@@ -148,6 +148,10 @@
                                         {
                                             "key": "Accept",
                                             "value": "application/json"
+                                        },
+                                        {
+                                            "key": "Custom-Header",
+                                            "value": "null"
                                         }
                                     ],
                                     "body": {

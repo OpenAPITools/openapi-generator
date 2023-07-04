@@ -296,8 +296,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
             if (header1 != null) {
-                localVarHeaderParameter['header1'] = typeof header1 === 'string' 
-                    ? header1 
+                localVarHeaderParameter['header1'] = typeof header1 === 'string'
+                    ? header1
                     : JSON.stringify(header1);
             }
 
@@ -307,8 +307,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             }
 
             if (accept != null) {
-                localVarHeaderParameter['Accept'] = typeof accept === 'string' 
-                    ? accept 
+                localVarHeaderParameter['Accept'] = typeof accept === 'string'
+                    ? accept
                     : JSON.stringify(accept);
             }
 

@@ -77,6 +77,26 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVER_PORT), "8080");
     }
 
+    @Test
+    public void testNoRequestMappingAnnotation() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary("spring-cloud");
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/feat13488_use_kotlinSpring_with_springCloud.yaml"))
+                        .config(codegen))
+                .generate();
+
+        // Check that the @RequestMapping annotation is not generated in the Api file
+        assertFileNotContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                "@RequestMapping(\"\\${api.base-path"
+        );
+    }
 
     @Test
     public void testSettersForConfigValues() throws Exception {
