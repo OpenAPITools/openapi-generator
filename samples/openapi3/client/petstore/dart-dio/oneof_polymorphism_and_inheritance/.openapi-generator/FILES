@@ -2,6 +2,8 @@
 README.md
 analysis_options.yaml
 doc/Addressable.md
+doc/Apple.md
+doc/Banana.md
 doc/Bar.md
 doc/BarApi.md
 doc/BarCreate.md
@@ -14,6 +16,8 @@ doc/Foo.md
 doc/FooApi.md
 doc/FooRef.md
 doc/FooRefOrValue.md
+doc/Fruit.md
+doc/FruitType.md
 doc/Pasta.md
 doc/Pizza.md
 doc/PizzaSpeziale.md
@@ -29,6 +33,8 @@ lib/src/auth/bearer_auth.dart
 lib/src/auth/oauth.dart
 lib/src/date_serializer.dart
 lib/src/model/addressable.dart
+lib/src/model/apple.dart
+lib/src/model/banana.dart
 lib/src/model/bar.dart
 lib/src/model/bar_create.dart
 lib/src/model/bar_ref.dart
@@ -40,6 +46,8 @@ lib/src/model/extensible.dart
 lib/src/model/foo.dart
 lib/src/model/foo_ref.dart
 lib/src/model/foo_ref_or_value.dart
+lib/src/model/fruit.dart
+lib/src/model/fruit_type.dart
 lib/src/model/pasta.dart
 lib/src/model/pizza.dart
 lib/src/model/pizza_speziale.dart
