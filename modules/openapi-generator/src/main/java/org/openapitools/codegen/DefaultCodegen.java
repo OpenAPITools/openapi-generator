@@ -3531,10 +3531,6 @@ public class DefaultCodegen implements CodegenConfig {
         discriminator.setPropertyBaseName(sourceDiscriminator.getPropertyName());
         discriminator.setPropertyGetter(toGetter(discriminator.getPropertyName()));
 
-        if (sourceDiscriminator.getExtensions() != null) {
-            discriminator.setVendorExtensions(sourceDiscriminator.getExtensions());
-        }
-
         // FIXME: for now, we assume that the discriminator property is String
         discriminator.setPropertyType(typeMapping.get("string"));
 
@@ -7385,11 +7381,6 @@ public class DefaultCodegen implements CodegenConfig {
                             enc.getExplode() == null ? false : enc.getExplode().booleanValue(),
                             enc.getAllowReserved() == null ? false : enc.getAllowReserved().booleanValue()
                     );
-
-                    if (enc.getExtensions() != null) {
-                        ce.vendorExtensions = enc.getExtensions();
-                    }
-
                     String propName = encodingEntry.getKey();
                     ceMap.put(propName, ce);
                 }
@@ -7419,10 +7410,6 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases, mt.getExample());
             } else {
                 codegenMt = new CodegenMediaType(schemaProp, ceMap, schemaTestCases);
-            }
-
-            if (mt.getExtensions() != null) {
-                codegenMt.vendorExtensions = mt.getExtensions();
             }
 
             cmtContent.put(contentType, codegenMt);
@@ -7696,11 +7683,6 @@ public class DefaultCodegen implements CodegenConfig {
             cs.description = escapeText(server.getDescription());
             cs.url = server.getUrl();
             cs.variables = this.fromServerVariables(server.getVariables());
-
-            if (server.getExtensions() != null) {
-                cs.vendorExtensions = server.getExtensions();
-            }
-
             codegenServers.add(cs);
         }
         return codegenServers;
@@ -7724,10 +7706,6 @@ public class DefaultCodegen implements CodegenConfig {
             codegenServerVariable.description = escapeText(variable.getDescription());
             codegenServerVariable.enumValues = enums;
             codegenServerVariable.name = variableEntry.getKey();
-
-            if (variable.getExtensions() != null) {
-                codegenServerVariable.vendorExtensions = variable.getExtensions();
-            }
 
             // Sets the override value for a server variable pattern.
             // NOTE: OpenAPI Specification doesn't prevent multiple server URLs with variables. If multiple objects have the same
