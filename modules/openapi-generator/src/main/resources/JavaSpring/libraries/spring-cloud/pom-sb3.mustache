@@ -94,6 +94,9 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-client</artifactId>
+            {{^parentOverridden}}
+            <version>6.1.1</version>
+            {{/parentOverridden}}
         </dependency>
         {{#withXml}}
         <!-- XML processing: Jackson -->
