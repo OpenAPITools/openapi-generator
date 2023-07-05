@@ -93,7 +93,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NET_6_0,
             FrameworkStrategy.NET_7_0
     );
-    private static FrameworkStrategy latestFramework = frameworkStrategies.get(frameworkStrategies.size() -1);
+    private static FrameworkStrategy latestFramework = frameworkStrategies.get(frameworkStrategies.size() - 1);
     protected final Map<String, String> frameworks;
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Client";
@@ -344,15 +344,15 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     protected Set<String> getNullableTypes() {
         return GENERICHOST.equals(getLibrary())
-            ? super.getNullableTypes()
-            : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
+                ? super.getNullableTypes()
+                : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
     }
 
     @Override
     protected Set<String> getValueTypes() {
         return GENERICHOST.equals(getLibrary())
-            ? super.getValueTypes()
-            : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
+                ? super.getValueTypes()
+                : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
     }
 
     @Override
@@ -1589,7 +1589,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 ? null
                 : model.discriminator.getPropertyName();
 
-        for(CodegenProperty oneOfProperty : composedProperties) {
+        for (CodegenProperty oneOfProperty : composedProperties) {
             String ref = oneOfProperty.getRef();
             if (ref != null) {
                 for (Map.Entry<String, ModelsMap> composedEntry : objs.entrySet()) {
@@ -1624,8 +1624,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean isValueType(CodegenProperty var) {
         // this is temporary until x-csharp-value-type is removed
         return this.getLibrary().equals("generichost")
-            ? super.isValueType(var)
-            : this.getValueTypes().contains(var.dataType) || var.isEnum;
+                ? super.isValueType(var)
+                : this.getValueTypes().contains(var.dataType) || var.isEnum;
     }
 
     @Override
