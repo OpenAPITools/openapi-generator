@@ -11,3 +11,4 @@ additionalProperties:
   singleContentTypes: "true"
   hideGenerationTimestamp: "true"
   generatedConstructorWithRequiredArgs: "false"
+  useTags: "true"

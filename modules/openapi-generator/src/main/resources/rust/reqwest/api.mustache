@@ -11,7 +11,7 @@ use super::{Error, configuration};
 {{#allParams}}
 {{#-first}}
 /// struct for passing parameters to the method [`{{operationId}}`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct {{{operationIdCamelCase}}}Params {
 {{/-first}}
     {{#description}}
@@ -103,7 +103,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{#required}}
     {{#isArray}}
     local_var_req_builder = match "{{collectionFormat}}" {
-        "multi" => local_var_req_builder.query(&{{{paramName}}}.into_iter().map(|p| ("{{{baseName}}}".to_owned(), p)).collect::<Vec<(std::string::String, std::string::String)>>()),
+        "multi" => local_var_req_builder.query(&{{{paramName}}}.into_iter().map(|p| ("{{{baseName}}}".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
         _ => local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
     };
     {{/isArray}}

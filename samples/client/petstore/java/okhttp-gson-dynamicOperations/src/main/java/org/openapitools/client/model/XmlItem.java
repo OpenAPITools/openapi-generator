@@ -991,25 +991,26 @@ public class XmlItem {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to XmlItem
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to XmlItem
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!XmlItem.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!XmlItem.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in XmlItem is not found in the empty JSON string", XmlItem.openapiRequiredFields.toString()));
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
         if (!XmlItem.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `XmlItem` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `XmlItem` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("attribute_string") != null && !jsonObj.get("attribute_string").isJsonNull()) && !jsonObj.get("attribute_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `attribute_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("attribute_string").toString()));
       }
@@ -1083,9 +1084,9 @@ public class XmlItem {
 
            @Override
            public XmlItem read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
-             return thisAdapter.fromJsonTree(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             return thisAdapter.fromJsonTree(jsonElement);
            }
 
        }.nullSafe();

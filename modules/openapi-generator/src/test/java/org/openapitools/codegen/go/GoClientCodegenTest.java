@@ -19,6 +19,11 @@ package org.openapitools.codegen.go;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.languages.GoClientCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,17 +33,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.languages.GoClientCodegen;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-import org.testng.annotations.Ignore;
 
 
 public class GoClientCodegenTest {
@@ -179,7 +173,7 @@ public class GoClientCodegenTest {
         System.out.println(files);
         files.forEach(File::deleteOnExit);
 
-        Path docFile = Paths.get(output + "/docs/PetApi.md");
+        Path docFile = Paths.get(output + "/docs/PetAPI.md");
         TestUtils.assertFileContains(docFile, "openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}, openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}, openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}");
     }
 
@@ -201,7 +195,7 @@ public class GoClientCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
-        TestUtils.assertFileContains(Paths.get(output + "/api_pet.go"), "type PetApiAddPetRequest struct");
+        TestUtils.assertFileContains(Paths.get(output + "/api_pet.go"), "type PetAPIAddPetRequest struct");
     }
 
     @Test
@@ -229,7 +223,7 @@ public class GoClientCodegenTest {
 
         TestUtils.assertFileExists(Paths.get(output + "/test/api_pet_test.go"));
         TestUtils.assertFileContains(Paths.get(output + "/test/api_pet_test.go"),
-                "func Test_openapi_PetApiService(t *testing.T) {");
+                "func Test_openapi_PetAPIService(t *testing.T) {");
     }
 
     @Test
@@ -292,28 +286,9 @@ public class GoClientCodegenTest {
         TestUtils.assertFileNotContains(Paths.get(output + "/test/api_pet_test.go"),
                 "require.NotNil(t, resp)");
         TestUtils.assertFileNotContains(Paths.get(output + "/test/api_pet_test.go"),
-                "resp, httpRes, err := apiClient.PetApi.PetDelete(context.Background()).Execute()");
+                "resp, httpRes, err := apiClient.PetAPI.PetDelete(context.Background()).Execute()");
         TestUtils.assertFileContains(Paths.get(output + "/test/api_pet_test.go"),
-                "httpRes, err := apiClient.PetApi.PetDelete(context.Background()).Execute()");
-    }
-
-    @Test
-    public void verifyReadOnlyAttributes() throws IOException {
-        File output = Files.createTempDirectory("test").toFile();
-        output.deleteOnExit();
-
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("go")
-                .setInputSpec("src/test/resources/3_0/property-readonly.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
-
-        DefaultGenerator generator = new DefaultGenerator();
-        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
-
-        TestUtils.assertFileExists(Paths.get(output + "/model_request.go"));
-        TestUtils.assertFileContains(Paths.get(output + "/model_request.go"),
-                "// skip: customerCode is readOnly");
+                "httpRes, err := apiClient.PetAPI.PetDelete(context.Background()).Execute()");
     }
 
 }

@@ -49,11 +49,6 @@ public class EntityRef {
 
   private String atType;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link EntityRef#EntityRef(String)}
-   */
-  @Deprecated
   public EntityRef() {
     super();
   }

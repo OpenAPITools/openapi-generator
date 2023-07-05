@@ -8,9 +8,14 @@ pyproject.toml
 requirements.txt
 setup.cfg
 src/openapi_server/apis/__init__.py
+src/openapi_server/apis/fake_api.py
+src/openapi_server/apis/fake_api_base.py
 src/openapi_server/apis/pet_api.py
+src/openapi_server/apis/pet_api_base.py
 src/openapi_server/apis/store_api.py
+src/openapi_server/apis/store_api_base.py
 src/openapi_server/apis/user_api.py
+src/openapi_server/apis/user_api_base.py
 src/openapi_server/main.py
 src/openapi_server/models/__init__.py
 src/openapi_server/models/api_response.py

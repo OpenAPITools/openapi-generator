@@ -24,9 +24,9 @@ class StoreInventory
      *
      * @throws PHException\HttpCode 501 if the method is not implemented
      *
-     * @return \App\DTO\Collection34
+     * @return \App\DTO\Collection8
      */
-    public function getInventory(ServerRequestInterface $request): \App\DTO\Collection34
+    public function getInventory(ServerRequestInterface $request): \App\DTO\Collection8
     {
         //TODO implement method
         throw new PHException\HttpCode(501, "Not implemented");

@@ -4,89 +4,29 @@ OpenAPI Petstore
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 
-The version of the OpenAPI document: 1.0.0
+OpenAPI spec version: 1.0.0
 
 -->
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{19F1DEBC-DE5E-4517-8062-F000CD499087}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Org.OpenAPITools.Test</RootNamespace>
-    <AssemblyName>Org.OpenAPITools.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>net7.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Newtonsoft.Json">
-        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-        <HintPath Condition="Exists('..\packages')">..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-        <HintPath Condition="Exists('..\..\packages')">..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-        <HintPath Condition="Exists('..\..\vendor')">..\..\vendor\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="JsonSubTypes">
-        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\JsonSubTypes.1.6.0\lib\net45\JsonSubTypes.dll</HintPath>
-        <HintPath Condition="Exists('..\packages')">..\packages\JsonSubTypes.1.6.0\lib\net45\JsonSubTypes.dll</HintPath>
-        <HintPath Condition="Exists('..\..\packages')">..\..\packages\JsonSubTypes.1.6.0\lib\net45\JsonSubTypes.dll</HintPath>
-        <HintPath Condition="Exists('..\..\vendor')">..\..\vendor\JsonSubTypes.1.6.0\lib\net45\JsonSubTypes.dll</HintPath>
-    </Reference>
-    <Reference Include="RestSharp">
-        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\RestSharp.105.1.0\lib\net45\RestSharp.dll</HintPath>
-        <HintPath Condition="Exists('..\packages')">..\packages\RestSharp.105.1.0\lib\net45\RestSharp.dll</HintPath>
-        <HintPath Condition="Exists('..\..\packages')">..\..\packages\RestSharp.105.1.0\lib\net45\RestSharp.dll</HintPath>
-        <HintPath Condition="Exists('..\..\vendor')">..\..\vendor\RestSharp.105.1.0\lib\net45\RestSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\NUnit.3.11.0\lib\net45\nunit.framework.dll</HintPath>
-        <HintPath Condition="Exists('..\packages')">..\packages\NUnit.3.11.0\lib\net45\nunit.framework.dll</HintPath>
-        <HintPath Condition="Exists('..\..\packages')">..\..\packages\NUnit.3.11.0\lib\net45\nunit.framework.dll</HintPath>
-        <HintPath Condition="Exists('..\..\vendor')">..\..\vendor\NUnit.3.11.0\lib\net45\nunit.framework.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="**\*.cs"
-             Exclude="obj\**"/>
-  </ItemGroup>
-  <ItemGroup>
-      <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MsBuildToolsPath)\Microsoft.CSharp.targets" />
+
   <ItemGroup>
       <ProjectReference Include="..\Org.OpenAPITools\Org.OpenAPITools.csproj">
-          <Project>{321C8C3F-0156-40C1-AE42-D59761FB9B6C}</Project>
-          <Name>Org.OpenAPITools</Name>
       </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="linux-logo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.2" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5"><IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+<PrivateAssets>all</PrivateAssets>
+</PackageReference>
+  </ItemGroup>
 </Project>
-

@@ -148,15 +148,13 @@ public class ArrayOfNumberOnly {
     // add `ArrayNumber` to the URL query string
     if (getArrayNumber() != null) {
       for (int i = 0; i < getArrayNumber().size(); i++) {
-        if (getArrayNumber().get(i) != null) {
-          try {
-            joiner.add(String.format("%sArrayNumber%s%s=%s", prefix, suffix,
-                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-                URLEncoder.encode(String.valueOf(getArrayNumber().get(i)), "UTF-8").replaceAll("\\+", "%20")));
-          } catch (UnsupportedEncodingException e) {
-            // Should never happen, UTF-8 is always supported
-            throw new RuntimeException(e);
-          }
+        try {
+          joiner.add(String.format("%sArrayNumber%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+              URLEncoder.encode(String.valueOf(getArrayNumber().get(i)), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
         }
       }
     }

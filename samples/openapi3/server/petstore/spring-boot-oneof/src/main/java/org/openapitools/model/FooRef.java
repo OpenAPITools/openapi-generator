@@ -28,11 +28,6 @@ public class FooRef extends EntityRef implements FooRefOrValue {
 
   private String foorefPropA;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link FooRef#FooRef(String)}
-   */
-  @Deprecated
   public FooRef() {
     super();
   }
@@ -63,6 +58,7 @@ public class FooRef extends EntityRef implements FooRefOrValue {
   public void setFoorefPropA(String foorefPropA) {
     this.foorefPropA = foorefPropA;
   }
+
 
   public FooRef name(String name) {
     super.setName(name);
@@ -98,7 +94,6 @@ public class FooRef extends EntityRef implements FooRefOrValue {
     super.setAtType(atType);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

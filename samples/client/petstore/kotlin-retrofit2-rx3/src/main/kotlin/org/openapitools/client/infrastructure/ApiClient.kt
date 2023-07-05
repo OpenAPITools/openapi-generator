@@ -13,6 +13,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
+import retrofit2.CallAdapter
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import com.squareup.moshi.Moshi
@@ -24,7 +25,13 @@ class ApiClient(
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
     private val serializerBuilder: Moshi.Builder = Serializer.moshiBuilder,
     private val callFactory : Call.Factory? = null,
-    private val converterFactory: Converter.Factory? = null,
+    private val callAdapterFactories: List<CallAdapter.Factory> = listOf(
+        RxJava3CallAdapterFactory.create(),
+    ),
+    private val converterFactories: List<Converter.Factory> = listOf(
+        ScalarsConverterFactory.create(),
+        MoshiConverterFactory.create(serializerBuilder.build()),
+    )
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
     var logger: ((String) -> Unit)? = null
@@ -32,13 +39,14 @@ class ApiClient(
     private val retrofitBuilder: Retrofit.Builder by lazy {
         Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(ScalarsConverterFactory.create())
-
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .addConverterFactory(MoshiConverterFactory.create(serializerBuilder.build()))
             .apply {
-                if (converterFactory != null) {
-                    addConverterFactory(converterFactory)
+                callAdapterFactories.forEach {
+                    addCallAdapterFactory(it)
+                }
+            }
+            .apply {
+                converterFactories.forEach {
+                    addConverterFactory(it)
                 }
             }
     }
@@ -66,11 +74,16 @@ class ApiClient(
         authNames: Array<String>
     ) : this(baseUrl, okHttpClientBuilder, serializerBuilder) {
         authNames.forEach { authName ->
-            val auth = when (authName) {
-                "petstore_auth" -> OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets")"api_key" -> ApiKeyAuth("header", "api_key")
+            val auth = when (authName) { 
+                "petstore_auth" -> OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets")
+                
+                "api_key" -> ApiKeyAuth("header", "api_key")
+                
                 else -> throw RuntimeException("auth name $authName not found in available auth names")
             }
-            addAuthorization(authName, auth)
+            if (auth != null) {
+                addAuthorization(authName, auth)
+            }
         }
     }
 

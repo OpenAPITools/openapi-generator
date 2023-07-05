@@ -50,7 +50,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |discriminatorCaseSensitive|Whether the discriminator value lookup should be case-sensitive or not. This option only works for Java API client| |true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
-|fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
 |generateOperationOnlyForFirstTag|When false, the operation method will be duplicated in each of the tags if multiple tags are assigned to this operation. If true, each operation will be generated only once in the first assigned tag.| |false|
 |generateSwaggerAnnotations|Specify if you want to generate swagger annotations and which version|<dl><dt>**swagger2**</dt><dd>Use io.swagger.core.v3:swagger-annotations for annotating operations and schemas</dd><dt>**true**</dt><dd>Equivalent to &quot;swagger2&quot;</dd><dt>**false**</dt><dd>Do not generate swagger annotations</dd><dt>**swagger1**</dt><dd>Use io.swagger:swagger-annotations for annotating operations and schemas</dd></dl>|false|
 |groupId|groupId in generated pom.xml| |org.openapitools|
@@ -346,6 +345,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✓|OAS2,OAS3
 |OAuth2_ClientCredentials|✓|OAS2,OAS3
 |OAuth2_AuthorizationCode|✓|OAS2,OAS3
+|SignatureAuth|✗|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

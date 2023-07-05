@@ -31,10 +31,10 @@ class PetFindByTags
      *
      * @throws PHException\HttpCode 501 if the method is not implemented
      *
-     * @return \App\DTO\Collection26
+     * @return \App\DTO\Collection6
      * @deprecated
      */
-    public function findPetsByTags(ServerRequestInterface $request): \App\DTO\Collection26
+    public function findPetsByTags(ServerRequestInterface $request): \App\DTO\Collection6
     {
         //TODO implement method
         /** @var \App\DTO\FindPetsByTagsQueryData $queryData */

@@ -89,7 +89,10 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,

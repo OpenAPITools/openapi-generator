@@ -61,7 +61,6 @@ paths:
         "405":
           description: Invalid input
       security:
-      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -83,7 +82,6 @@ paths:
         "405":
           description: Validation exception
       security:
-      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -133,7 +131,6 @@ paths:
         "400":
           description: Invalid status value
       security:
-      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -175,7 +172,6 @@ paths:
         "400":
           description: Invalid tag value
       security:
-      - http_signature_test: []
       - petstore_auth:
         - write:pets
         - read:pets
@@ -1136,6 +1132,23 @@ paths:
       tags:
       - fake
       x-accepts: application/json
+  /values:
+    get:
+      description: ""
+      operationId: getSomeValues
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Variable'
+          description: successful operation
+        "400":
+          description: Invalid Value
+      summary: Get some primitive variable values
+      tags:
+      - values
+      x-accepts: application/json
 components:
   requestBodies:
     UserArray:
@@ -1416,12 +1429,18 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - $ref: '#/components/schemas/Address'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Address:
       additionalProperties:
         type: integer
@@ -1977,8 +1996,8 @@ components:
           type: string
     fruitReq:
       additionalProperties: false
+      nullable: true
       oneOf:
-      - type: "null"
       - $ref: '#/components/schemas/appleReq'
       - $ref: '#/components/schemas/bananaReq'
     appleReq:
@@ -2027,8 +2046,8 @@ components:
         in OAS schema >= 3.1.
       discriminator:
         propertyName: shapeType
+      nullable: true
       oneOf:
-      - type: "null"
       - $ref: '#/components/schemas/Triangle'
       - $ref: '#/components/schemas/Quadrilateral'
     NullableShape:
@@ -2204,6 +2223,48 @@ components:
       required:
       - enum_str_type
       type: object
+    ArrayDefault:
+      properties:
+        WithDefaultEmptyBracket:
+          default: []
+          items:
+            type: string
+          type: array
+        WithoutDefault:
+          items:
+            type: string
+          type: array
+    Variable:
+      description: Value object
+      example:
+        name: variable_1
+        value: null
+      properties:
+        name:
+          example: variable_1
+          type: string
+        value:
+          $ref: '#/components/schemas/Value'
+      required:
+      - name
+      - value
+    Value:
+      oneOf:
+      - $ref: '#/components/schemas/Scalar'
+      - $ref: '#/components/schemas/Array'
+    Scalar:
+      description: Values of scalar type
+      oneOf:
+      - maxLength: 1089
+        type: string
+      - type: number
+      - type: boolean
+    Array:
+      description: Values of array type
+      items:
+        $ref: '#/components/schemas/Scalar'
+      minItems: 1
+      type: array
     _foo_get_default_response:
       example:
         string:
@@ -2349,32 +2410,16 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
-    ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-    ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf_1:
-      properties:
-        color:
-          type: string
-      type: object
     ArrayOfInlineAllOf_array_allof_dog_property_inner:
       allOf:
-      - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf'
-      - $ref: '#/components/schemas/ArrayOfInlineAllOf_array_allof_dog_property_inner_allOf_1'
+      - properties:
+          breed:
+            type: string
+        type: object
+      - properties:
+          color:
+            type: string
+        type: object
   securitySchemes:
     petstore_auth:
       flows:
@@ -2398,8 +2443,5 @@ components:
     bearer_test:
       bearerFormat: JWT
       scheme: bearer
-      type: http
-    http_signature_test:
-      scheme: signature
       type: http
 

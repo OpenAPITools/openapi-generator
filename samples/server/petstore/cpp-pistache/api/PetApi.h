@@ -31,6 +31,7 @@
 #include "ApiResponse.h"
 #include "Pet.h"
 #include <string>
+#include <vector>
 
 namespace org::openapitools::server::api
 {
@@ -38,8 +39,8 @@ namespace org::openapitools::server::api
 class  PetApi : public ApiBase {
 public:
     explicit PetApi(const std::shared_ptr<Pistache::Rest::Router>& rtr);
-    virtual ~PetApi() = default;
-    void init();
+    ~PetApi() override = default;
+    void init() override;
 
     static const std::string base;
 

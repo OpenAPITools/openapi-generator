@@ -113,8 +113,8 @@ class Pet {
         id: mapValueOfType<int>(json, r'id'),
         category: Category.fromJson(json[r'category']),
         name: mapValueOfType<String>(json, r'name')!,
-        photoUrls: json[r'photoUrls'] is List
-            ? (json[r'photoUrls'] as List).cast<String>()
+        photoUrls: json[r'photoUrls'] is Iterable
+            ? (json[r'photoUrls'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         tags: Tag.listFromJson(json[r'tags']),
         status: PetStatusEnum.fromJson(json[r'status']),

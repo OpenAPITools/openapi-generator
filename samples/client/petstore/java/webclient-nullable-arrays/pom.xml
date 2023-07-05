@@ -120,7 +120,6 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.6.6</swagger-annotations-version>
         <jackson-version>2.13.4</jackson-version>
         <jackson-databind-version>2.13.4.2</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>

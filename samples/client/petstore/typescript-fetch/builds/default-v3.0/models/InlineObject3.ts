@@ -151,7 +151,7 @@ export function InlineObject3ToJSON(value?: InlineObject3 | null): any {
         'pattern_without_delimiter': value.patternWithoutDelimiter,
         'byte': value._byte,
         'binary': value.binary,
-        'date': value.date === undefined ? undefined : (value.date.toISOString().substr(0,10)),
+        'date': value.date === undefined ? undefined : (value.date.toISOString().substring(0,10)),
         'dateTime': value.dateTime === undefined ? undefined : (value.dateTime.toISOString()),
         'password': value.password,
         'callback': value.callback,

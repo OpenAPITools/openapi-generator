@@ -6,21 +6,21 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.Configuration;
+{{#models.0}}
 import {{modelPackage}}.*;
+{{/models.0}}
 import {{invokerPackage}}.Pair;
 
 {{#imports}}import {{import}};
 {{/imports}}
 
 
-{{^fullJavaUtil}}
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
-{{/fullJavaUtil}}
 
 {{>generatedAnnotation}}
 {{#operations}}
@@ -106,13 +106,13 @@ public class {{classname}} {
     String localVarPath = "{{{path}}}"{{#pathParams}}
       .replaceAll("\\{" + "{{baseName}}" + "\\}", apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
 
-    {{javaUtilPrefix}}StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;
-    {{javaUtilPrefix}}List<Pair> localVarQueryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
-    {{javaUtilPrefix}}List<Pair> localVarCollectionQueryParams = new {{javaUtilPrefix}}ArrayList<Pair>();
-    {{javaUtilPrefix}}Map<String, String> localVarHeaderParams = new {{javaUtilPrefix}}HashMap<String, String>();
-    {{javaUtilPrefix}}Map<String, String> localVarCookieParams = new {{javaUtilPrefix}}HashMap<String, String>();
-    {{javaUtilPrefix}}Map<String, Object> localVarFormParams = new {{javaUtilPrefix}}HashMap<String, Object>();
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
     {{#queryParams}}
         {{#isDeepObject}}

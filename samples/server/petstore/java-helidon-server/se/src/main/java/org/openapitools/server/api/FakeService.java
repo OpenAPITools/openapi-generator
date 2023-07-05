@@ -3,10 +3,12 @@ package org.openapitools.server.api;
 import java.math.BigDecimal;
 import org.openapitools.server.model.Client;
 import org.openapitools.server.model.EnumClass;
+import org.openapitools.server.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.server.model.FileSchemaTestClass;
 import io.helidon.webserver.Handler;
 import org.openapitools.server.model.HealthCheckResult;
+import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +31,7 @@ public interface FakeService extends Service {
      */
     @Override
     default void update(Routing.Rules rules) {
+        rules.get("/fake/BigDecimalMap", this::fakeBigDecimalMap);
         rules.get("/fake/health", this::fakeHealthGet);
         rules.get("/fake/http-signature-test", Handler.create(Pet.class, this::fakeHttpSignatureTest));
         rules.post("/fake/outer/boolean", this::fakeOuterBooleanSerialize);
@@ -48,6 +51,13 @@ public interface FakeService extends Service {
         rules.put("/fake/test-query-parameters", this::testQueryParameterCollectionFormat);
     }
 
+
+    /**
+     * GET /fake/BigDecimalMap.
+     * @param request the server request
+     * @param response the server response
+     */
+    void fakeBigDecimalMap(ServerRequest request, ServerResponse response);
 
     /**
      * GET /fake/health : Health check endpoint.

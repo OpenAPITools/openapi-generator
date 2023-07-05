@@ -13,11 +13,10 @@
 
 import type {
     Human,
-    SuperBabyAllOf,
 } from './';
 
 /**
  * @type SuperBaby
  * @export
  */
-export type SuperBaby = Human & SuperBabyAllOf;
+export type SuperBaby = Human;

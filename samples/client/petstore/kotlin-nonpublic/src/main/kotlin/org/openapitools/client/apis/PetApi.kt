@@ -190,7 +190,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpC
     /**
      * enum for parameter status
      */
-     internal enum class Status_findPetsByStatus(val value: kotlin.String) {
+     internal enum class StatusFindPetsByStatus(val value: kotlin.String) {
          @Json(name = "available") available("available"),
          @Json(name = "pending") pending("pending"),
          @Json(name = "sold") sold("sold")
@@ -209,7 +209,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpC
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun findPetsByStatus(status: kotlin.collections.List<Status_findPetsByStatus>) : kotlin.collections.List<Pet> {
+    fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>) : kotlin.collections.List<Pet> {
         val localVarResponse = findPetsByStatusWithHttpInfo(status = status)
 
         return when (localVarResponse.responseType) {
@@ -237,7 +237,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpC
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<Status_findPetsByStatus>) : ApiResponse<kotlin.collections.List<Pet>?> {
+    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<StatusFindPetsByStatus>) : ApiResponse<kotlin.collections.List<Pet>?> {
         val localVariableConfig = findPetsByStatusRequestConfig(status = status)
 
         return request<Unit, kotlin.collections.List<Pet>>(
@@ -251,7 +251,7 @@ internal class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpC
      * @param status Status values that need to be considered for filter
      * @return RequestConfig
      */
-    fun findPetsByStatusRequestConfig(status: kotlin.collections.List<Status_findPetsByStatus>) : RequestConfig<Unit> {
+    fun findPetsByStatusRequestConfig(status: kotlin.collections.List<StatusFindPetsByStatus>) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {

@@ -1,4 +1,5 @@
 import io.swagger.annotations.*;
+{{#useBeanValidation}}import javax.validation.Valid;{{/useBeanValidation}}
 
 {{#description}}@ApiModel(description="{{{.}}}"){{/description}}{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
 {{#vendorExtensions.x-class-extra-annotation}}
@@ -33,7 +34,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
   @JsonProperty("{{baseName}}")
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
+{{#useBeanValidation}}{{>beanValidation}}{{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}  @Valid
+{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
   {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
@@ -52,14 +54,13 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
       return false;
     }
     {{classname}} {{classVarName}} = ({{classname}}) o;{{#hasVars}}
-    return {{#vars}}Objects.equals({{name}}, {{classVarName}}.{{name}}){{^-last}} &&
-        {{/-last}}{{#-last}};{{/-last}}{{/vars}}{{/hasVars}}{{^hasVars}}
-    return true;{{/hasVars}}
+    return {{#parent}}super.equals(o) && {{/parent}}{{#vars}}Objects.equals({{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+        {{/-last}}{{#-last}};{{/-last}}{{/vars}}{{/hasVars}}{{^hasVars}}{{#parent}}return super.equals(o);{{/parent}}{{^parent}}return true;{{/parent}}{{/hasVars}}
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash({{#vars}}{{name}}{{^-last}}, {{/-last}}{{/vars}});
+    return {{^hasVars}}{{#parent}}super.hashCode(){{/parent}}{{^parent}}1{{/parent}}{{/hasVars}}{{#hasVars}}Objects.hash({{#vars}}{{#parent}}super.hashCode(), {{/parent}}{{name}}{{^-last}}, {{/-last}}{{/vars}}){{/hasVars}};
   }
 
   @Override

@@ -20,16 +20,13 @@ src/main/java/org/openapitools/model/ApiResponseDto.java
 src/main/java/org/openapitools/model/ArrayOfArrayOfNumberOnlyDto.java
 src/main/java/org/openapitools/model/ArrayOfNumberOnlyDto.java
 src/main/java/org/openapitools/model/ArrayTestDto.java
-src/main/java/org/openapitools/model/BigCatAllOfDto.java
 src/main/java/org/openapitools/model/BigCatDto.java
 src/main/java/org/openapitools/model/CapitalizationDto.java
-src/main/java/org/openapitools/model/CatAllOfDto.java
 src/main/java/org/openapitools/model/CatDto.java
 src/main/java/org/openapitools/model/CategoryDto.java
 src/main/java/org/openapitools/model/ClassModelDto.java
 src/main/java/org/openapitools/model/ClientDto.java
 src/main/java/org/openapitools/model/ContainerDefaultValueDto.java
-src/main/java/org/openapitools/model/DogAllOfDto.java
 src/main/java/org/openapitools/model/DogDto.java
 src/main/java/org/openapitools/model/EnumArraysDto.java
 src/main/java/org/openapitools/model/EnumClassDto.java

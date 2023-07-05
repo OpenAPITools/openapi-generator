@@ -13,6 +13,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
 
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;

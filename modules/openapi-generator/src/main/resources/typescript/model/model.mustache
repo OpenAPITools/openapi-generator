@@ -71,14 +71,26 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 
 {{#vars}}
 {{#isEnum}}
-export type {{classname}}{{enumName}} ={{#allowableValues}}{{#values}} "{{.}}" {{^-last}}|{{/-last}}{{/values}}{{/allowableValues}};
+export enum {{classname}}{{enumName}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{name}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+}
 {{/isEnum}}
 {{/vars}}
 
 {{/hasEnums}}
 {{/isEnum}}
 {{#isEnum}}
-export type {{classname}} ={{#allowableValues}}{{#values}} "{{.}}" {{^-last}}|{{/-last}}{{/values}}{{/allowableValues}};
+export enum {{classname}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{name}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+}
 {{/isEnum}}
 {{/model}}
 {{/models}}
