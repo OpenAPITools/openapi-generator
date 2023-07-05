@@ -836,7 +836,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
                     }
 
-                    Set<CodegenParameter> referenceTypes = operation.allParams.stream().filter(p -> p.vendorExtensions.get("x-is-value-type") == null && !p.isNullable).collect(Collectors.toSet());
+                    List<CodegenParameter> referenceTypes = operation.allParams.stream().filter(p -> p.vendorExtensions.get("x-is-value-type") == null && !p.isNullable).collect(Collectors.toList());
                     operation.vendorExtensions.put("x-not-nullable-reference-types", referenceTypes);
                     operation.vendorExtensions.put("x-has-not-nullable-reference-types", referenceTypes.size() > 0);
                     processOperation(operation);
