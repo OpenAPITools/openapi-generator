@@ -2139,6 +2139,8 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Return the example value of the property
+     * <p>
+     * This method should be overridden in the generator to meet its requirement.
      *
      * @param schema Property schema
      * @return string presentation of the example value of the property
@@ -2148,12 +2150,13 @@ public class DefaultCodegen implements CodegenConfig {
             return schema.getExample().toString();
         }
 
-        return getPropertyDefaultValue(schema);
+        return "null";
     }
 
     /**
      * Return the default value of the property
      * <p>
+     * This method should be overridden in the generator to meet its requirement.
      * Return null if you do NOT want a default value.
      * Any non-null value will cause {{#defaultValue} check to pass.
      *
@@ -2166,7 +2169,7 @@ public class DefaultCodegen implements CodegenConfig {
             return schema.getDefault().toString();
         }
 
-        return getPropertyDefaultValue(schema);
+        return "null";
     }
 
     /**
@@ -2196,36 +2199,6 @@ public class DefaultCodegen implements CodegenConfig {
     public String toDefaultParameterValue(CodegenProperty codegenProperty, Schema<?> schema) {
         // by default works as original method to be backward compatible
         return toDefaultParameterValue(schema);
-    }
-
-    /**
-     * Return property value depending on property type.
-     *
-     * @param schema property type
-     * @return property value
-     */
-    @SuppressWarnings("squid:S3923")
-    private String getPropertyDefaultValue(Schema schema) {
-        /*
-         * Although all branches return null, this is left intentionally as examples for new contributors
-         */
-        if (ModelUtils.isBooleanSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isDateSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isDateTimeSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isNumberSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isIntegerSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isStringSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isObjectSchema(schema)) {
-            return "null";
-        } else {
-            return "null";
-        }
     }
 
     /**
