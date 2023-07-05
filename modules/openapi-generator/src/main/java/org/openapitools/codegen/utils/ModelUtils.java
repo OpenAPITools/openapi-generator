@@ -1341,7 +1341,7 @@ public class ModelUtils {
                     if (s == null) {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
                         return "UNKNOWN_PARENT_NAME";
-                    } else if (hasOrInheritsDiscriminator(s, allSchemas)) {
+                    } else if (hasOrInheritsDiscriminator(s, allSchemas, new ArrayList<Schema>())) {
                         // discriminator.propertyName is used or x-parent is used
                         return parentName;
                     } else {
@@ -1391,7 +1391,7 @@ public class ModelUtils {
                     if (s == null) {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
                         names.add("UNKNOWN_PARENT_NAME");
-                    } else if (hasOrInheritsDiscriminator(s, allSchemas)) {
+                    } else if (hasOrInheritsDiscriminator(s, allSchemas, new ArrayList<Schema>())) {
                         // discriminator.propertyName is used or x-parent is used
                         names.add(parentName);
                         if (includeAncestors && s instanceof ComposedSchema) {
@@ -1416,7 +1416,14 @@ public class ModelUtils {
         return names;
     }
 
-    private static boolean hasOrInheritsDiscriminator(Schema schema, Map<String, Schema> allSchemas) {
+    private static boolean hasOrInheritsDiscriminator(Schema schema, Map<String, Schema> allSchemas, ArrayList<Schema> visitedSchemas) {
+        for (Schema s : visitedSchemas) {
+            if (s == schema) {
+                return false;
+            }
+        }
+        visitedSchemas.add(schema);
+
         if ((schema.getDiscriminator() != null && StringUtils.isNotEmpty(schema.getDiscriminator().getPropertyName()))
                 || (isExtensionParent(schema))) { // x-parent is used
             return true;
@@ -1424,7 +1431,7 @@ public class ModelUtils {
             String parentName = getSimpleRef(schema.get$ref());
             Schema s = allSchemas.get(parentName);
             if (s != null) {
-                return hasOrInheritsDiscriminator(s, allSchemas);
+                return hasOrInheritsDiscriminator(s, allSchemas, visitedSchemas);
             } else {
                 LOGGER.error("Failed to obtain schema from {}", parentName);
             }
@@ -1432,7 +1439,7 @@ public class ModelUtils {
             final ComposedSchema composed = (ComposedSchema) schema;
             final List<Schema> interfaces = getInterfaces(composed);
             for (Schema i : interfaces) {
-                if (hasOrInheritsDiscriminator(i, allSchemas)) {
+                if (hasOrInheritsDiscriminator(i, allSchemas, visitedSchemas)) {
                     return true;
                 }
             }
