@@ -1,7 +1,6 @@
 package org.openapitools.configuration;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
@@ -9,11 +8,11 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.security.core.AuthenticationException;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
@@ -28,7 +27,7 @@ public class ClientConfiguration {
   private static final String CLIENT_PRINCIPAL = "oauth2FeignClient";
 
   @Bean
-  public OAuth2RequestInterceptor requestInterceptor(final OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager ) {
+  public OAuth2RequestInterceptor oAuth2RequestInterceptor(final OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager ) {
      return new OAuth2RequestInterceptor(OAuth2AuthorizeRequest.withClientRegistrationId("petstoreAuth")
             .principal( new AnonymousAuthenticationToken( CLIENT_PRINCIPAL, CLIENT_PRINCIPAL, AuthorityUtils.createAuthorityList( "ROLE_ANONYMOUS" ) ) )
             .build(), oAuth2AuthorizedClientManager );
@@ -58,7 +57,7 @@ public class ClientConfiguration {
     public OAuth2AccessToken getAccessToken() {
       final OAuth2AuthorizedClient authorizedClient = oAuth2AuthorizedClientManager.authorize(oAuth2AuthorizeRequest);
       if (authorizedClient == null) {
-        throw new FeignAuthenticationException();
+        throw new OAuth2AuthenticationException( "Client failed to authenticate");
       }
      return authorizedClient.getAccessToken();
     }
@@ -66,13 +65,6 @@ public class ClientConfiguration {
     public String getBearerToken() {
       final OAuth2AccessToken accessToken = getAccessToken();
       return String.format( "%s %s", accessToken.getTokenType().getValue(), accessToken.getTokenValue() );
-    }
-  }
-
-  public static class FeignAuthenticationException extends AuthenticationException {
-
-    public FeignAuthenticationException() {
-      super( "Client failed to authenticate. Check the setting like authorization-grant-type" );
     }
   }
 
