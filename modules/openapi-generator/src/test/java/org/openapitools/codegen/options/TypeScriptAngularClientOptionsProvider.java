@@ -51,6 +51,7 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
     public static String MODEL_SUFFIX = "";
     public static String MODEL_FILE_SUFFIX = "";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
+    public static final String HTTP_OPTIONS_NAME_VALUE = "options";
 
     @Override
     public String getLanguage() {
@@ -92,6 +93,7 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .put(TypeScriptAngularClientCodegen.QUERY_PARAM_OBJECT_FORMAT, QUERY_PARAM_OBJECT_FORMAT_VALUE)
                 .put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, ENUM_UNKNOWN_DEFAULT_CASE_VALUE)
+                .put(TypeScriptAngularClientCodegen.HTTP_OPTIONS_NAME, HTTP_OPTIONS_NAME_VALUE)
                 .build();
     }
 
