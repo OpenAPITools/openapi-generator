@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.examples.Example;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -460,6 +461,24 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     public String escapeUnsafeCharacters(String input) {
         //TODO: check that this logic is safe to escape unsafe characters to avoid code injection
         return input;
+    }
+
+    /**
+     * Return the default value of the property
+     * <p>
+     * Return null when the default is not defined
+     *
+     * @param schema Property schema
+     * @return string presentation of the default value of the property
+     */
+    @SuppressWarnings("static-method")
+    @Override
+    public String toDefaultValue(Schema schema) {
+        if (schema.getDefault() != null) {
+            return schema.getDefault().toString();
+        }
+
+        return null;
     }
 
     /**
