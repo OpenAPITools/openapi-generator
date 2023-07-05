@@ -1436,16 +1436,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="query"></param>
         /// <param name="user"></param>
+        /// <param name="query"></param>
         /// <returns></returns>
-        private void ValidateTestBodyWithQueryParams(string query, User user)
+        private void ValidateTestBodyWithQueryParams(User user, string query)
         {
-            if (query == null)
-                throw new ArgumentNullException(nameof(query));
-
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
+
+            if (query == null)
+                throw new ArgumentNullException(nameof(query));
         }
 
         /// <summary>
@@ -1528,7 +1528,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateTestBodyWithQueryParams(query, user);
+                ValidateTestBodyWithQueryParams(user, query);
 
                 FormatTestBodyWithQueryParams(user, ref query);
 
@@ -1733,32 +1733,32 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Validates the request parameters
         /// </summary>
+        /// <param name="varByte"></param>
         /// <param name="password"></param>
-        /// <param name="patternWithoutDelimiter"></param>
         /// <param name="binary"></param>
+        /// <param name="patternWithoutDelimiter"></param>
         /// <param name="varString"></param>
         /// <param name="callback"></param>
-        /// <param name="varByte"></param>
         /// <returns></returns>
-        private void ValidateTestEndpointParameters(Option<string> password, string patternWithoutDelimiter, Option<System.IO.Stream> binary, Option<string> varString, Option<string> callback, byte[] varByte)
+        private void ValidateTestEndpointParameters(byte[] varByte, Option<string> password, Option<System.IO.Stream> binary, string patternWithoutDelimiter, Option<string> varString, Option<string> callback)
         {
+            if (varByte == null)
+                throw new ArgumentNullException(nameof(varByte));
+
             if (password.IsSet && password.Value == null)
                 throw new ArgumentNullException(nameof(password));
 
-            if (patternWithoutDelimiter == null)
-                throw new ArgumentNullException(nameof(patternWithoutDelimiter));
-
             if (binary.IsSet && binary.Value == null)
                 throw new ArgumentNullException(nameof(binary));
+
+            if (patternWithoutDelimiter == null)
+                throw new ArgumentNullException(nameof(patternWithoutDelimiter));
 
             if (varString.IsSet && varString.Value == null)
                 throw new ArgumentNullException(nameof(varString));
 
             if (callback.IsSet && callback.Value == null)
                 throw new ArgumentNullException(nameof(callback));
-
-            if (varByte == null)
-                throw new ArgumentNullException(nameof(varByte));
         }
 
         /// <summary>
@@ -1913,7 +1913,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateTestEndpointParameters(password, patternWithoutDelimiter, binary, varString, callback, varByte);
+                ValidateTestEndpointParameters(varByte, password, binary, patternWithoutDelimiter, varString, callback);
 
                 FormatTestEndpointParameters(ref varByte, ref number, ref varDouble, ref patternWithoutDelimiter, ref date, ref binary, ref varFloat, ref integer, ref int32, ref int64, ref varString, ref password, ref callback, ref dateTime);
 
@@ -2021,32 +2021,32 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="enumQueryStringArray"></param>
-        /// <param name="enumFormStringArray"></param>
-        /// <param name="enumHeaderString"></param>
         /// <param name="enumHeaderStringArray"></param>
-        /// <param name="enumFormString"></param>
+        /// <param name="enumQueryStringArray"></param>
+        /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
+        /// <param name="enumFormStringArray"></param>
+        /// <param name="enumFormString"></param>
         /// <returns></returns>
-        private void ValidateTestEnumParameters(Option<List<string>> enumQueryStringArray, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<List<string>> enumHeaderStringArray, Option<string> enumFormString, Option<string> enumQueryString)
+        private void ValidateTestEnumParameters(Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<string> enumHeaderString, Option<string> enumQueryString, Option<List<string>> enumFormStringArray, Option<string> enumFormString)
         {
+            if (enumHeaderStringArray.IsSet && enumHeaderStringArray.Value == null)
+                throw new ArgumentNullException(nameof(enumHeaderStringArray));
+
             if (enumQueryStringArray.IsSet && enumQueryStringArray.Value == null)
                 throw new ArgumentNullException(nameof(enumQueryStringArray));
-
-            if (enumFormStringArray.IsSet && enumFormStringArray.Value == null)
-                throw new ArgumentNullException(nameof(enumFormStringArray));
 
             if (enumHeaderString.IsSet && enumHeaderString.Value == null)
                 throw new ArgumentNullException(nameof(enumHeaderString));
 
-            if (enumHeaderStringArray.IsSet && enumHeaderStringArray.Value == null)
-                throw new ArgumentNullException(nameof(enumHeaderStringArray));
+            if (enumQueryString.IsSet && enumQueryString.Value == null)
+                throw new ArgumentNullException(nameof(enumQueryString));
+
+            if (enumFormStringArray.IsSet && enumFormStringArray.Value == null)
+                throw new ArgumentNullException(nameof(enumFormStringArray));
 
             if (enumFormString.IsSet && enumFormString.Value == null)
                 throw new ArgumentNullException(nameof(enumFormString));
-
-            if (enumQueryString.IsSet && enumQueryString.Value == null)
-                throw new ArgumentNullException(nameof(enumQueryString));
         }
 
         /// <summary>
@@ -2165,7 +2165,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateTestEnumParameters(enumQueryStringArray, enumFormStringArray, enumHeaderString, enumHeaderStringArray, enumFormString, enumQueryString);
+                ValidateTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, enumHeaderString, enumQueryString, enumFormStringArray, enumFormString);
 
                 FormatTestEnumParameters(enumHeaderStringArray, enumQueryStringArray, ref enumQueryDouble, ref enumQueryInteger, enumFormStringArray, ref enumHeaderString, ref enumQueryString, ref enumFormString);
 
@@ -2555,16 +2555,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="param"></param>
         /// <param name="param2"></param>
+        /// <param name="param"></param>
         /// <returns></returns>
-        private void ValidateTestJsonFormData(string param, string param2)
+        private void ValidateTestJsonFormData(string param2, string param)
         {
-            if (param == null)
-                throw new ArgumentNullException(nameof(param));
-
             if (param2 == null)
                 throw new ArgumentNullException(nameof(param2));
+
+            if (param == null)
+                throw new ArgumentNullException(nameof(param));
         }
 
         /// <summary>
@@ -2647,7 +2647,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateTestJsonFormData(param, param2);
+                ValidateTestJsonFormData(param2, param);
 
                 FormatTestJsonFormData(ref param, ref param2);
 
@@ -2709,24 +2709,27 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="pipe"></param>
-        /// <param name="http"></param>
-        /// <param name="notRequiredNotNullable"></param>
-        /// <param name="context"></param>
-        /// <param name="ioutil"></param>
         /// <param name="requiredNotNullable"></param>
         /// <param name="url"></param>
+        /// <param name="notRequiredNotNullable"></param>
+        /// <param name="pipe"></param>
+        /// <param name="context"></param>
+        /// <param name="ioutil"></param>
+        /// <param name="http"></param>
         /// <returns></returns>
-        private void ValidateTestQueryParameterCollectionFormat(List<string> pipe, List<string> http, Option<string> notRequiredNotNullable, List<string> context, List<string> ioutil, string requiredNotNullable, List<string> url)
+        private void ValidateTestQueryParameterCollectionFormat(string requiredNotNullable, List<string> url, Option<string> notRequiredNotNullable, List<string> pipe, List<string> context, List<string> ioutil, List<string> http)
         {
-            if (pipe == null)
-                throw new ArgumentNullException(nameof(pipe));
+            if (requiredNotNullable == null)
+                throw new ArgumentNullException(nameof(requiredNotNullable));
 
-            if (http == null)
-                throw new ArgumentNullException(nameof(http));
+            if (url == null)
+                throw new ArgumentNullException(nameof(url));
 
             if (notRequiredNotNullable.IsSet && notRequiredNotNullable.Value == null)
                 throw new ArgumentNullException(nameof(notRequiredNotNullable));
+
+            if (pipe == null)
+                throw new ArgumentNullException(nameof(pipe));
 
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -2734,11 +2737,8 @@ namespace Org.OpenAPITools.Api
             if (ioutil == null)
                 throw new ArgumentNullException(nameof(ioutil));
 
-            if (requiredNotNullable == null)
-                throw new ArgumentNullException(nameof(requiredNotNullable));
-
-            if (url == null)
-                throw new ArgumentNullException(nameof(url));
+            if (http == null)
+                throw new ArgumentNullException(nameof(http));
         }
 
         /// <summary>
@@ -2863,7 +2863,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateTestQueryParameterCollectionFormat(pipe, http, notRequiredNotNullable, context, ioutil, requiredNotNullable, url);
+                ValidateTestQueryParameterCollectionFormat(requiredNotNullable, url, notRequiredNotNullable, pipe, context, ioutil, http);
 
                 FormatTestQueryParameterCollectionFormat(pipe, ioutil, http, url, context, ref requiredNotNullable, ref requiredNullable, ref notRequiredNotNullable, ref notRequiredNullable);
 
