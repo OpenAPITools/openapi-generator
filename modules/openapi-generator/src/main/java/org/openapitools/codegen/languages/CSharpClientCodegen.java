@@ -916,7 +916,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             return op;
         }
 
-
         Collections.sort(op.allParams, parameterComparatorByName);
         Collections.sort(op.bodyParams, parameterComparatorByName);
         Collections.sort(op.pathParams, parameterComparatorByName);

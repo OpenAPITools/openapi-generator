@@ -451,7 +451,7 @@ No authorization required
 
 <a id="loginuser"></a>
 # **LoginUser**
-> string LoginUser (string username, string password)
+> string LoginUser (string password, string username)
 
 Logs user into the system
 
@@ -472,13 +472,13 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(config);
-            var username = "username_example";  // string | The user name for login
             var password = "password_example";  // string | The password for login in clear text
+            var username = "username_example";  // string | The user name for login
 
             try
             {
                 // Logs user into the system
-                string result = apiInstance.LoginUser(username, password);
+                string result = apiInstance.LoginUser(password, username);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -499,7 +499,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Logs user into the system
-    ApiResponse<string> response = apiInstance.LoginUserWithHttpInfo(username, password);
+    ApiResponse<string> response = apiInstance.LoginUserWithHttpInfo(password, username);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -516,8 +516,8 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **username** | **string** | The user name for login |  |
 | **password** | **string** | The password for login in clear text |  |
+| **username** | **string** | The user name for login |  |
 
 ### Return type
 
