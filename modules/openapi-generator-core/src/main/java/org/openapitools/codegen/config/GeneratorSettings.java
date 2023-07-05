@@ -38,6 +38,8 @@ public final class GeneratorSettings implements Serializable {
     private String modelPackage;
     private String invokerPackage;
     private String packageName;
+
+    private String resourceFolder;
     private String apiNameSuffix;
     private String modelNamePrefix;
     private String modelNameSuffix;
@@ -371,6 +373,15 @@ public final class GeneratorSettings implements Serializable {
         return httpUserAgent;
     }
 
+    /**
+     * Gets the resource folder.
+     *
+     * @return resource folder
+     */
+    public String getResourceFolder() {
+        return resourceFolder;
+    }
+
     private GeneratorSettings(Builder builder) {
         setDefaults();
 
@@ -401,6 +412,7 @@ public final class GeneratorSettings implements Serializable {
         gitRepoId = builder.gitRepoId;
         releaseNote = builder.releaseNote;
         httpUserAgent = builder.httpUserAgent;
+        resourceFolder = builder.resourceFolder;
 
         Map<String, Object> additional = new HashMap<>(builder.additionalProperties);
 
@@ -448,6 +460,10 @@ public final class GeneratorSettings implements Serializable {
         }
         if (isNotEmpty(httpUserAgent)) {
             additional.put("httpUserAgent", httpUserAgent);
+        }
+
+        if (isNotEmpty(resourceFolder)) {
+            additional.put("resourceFolder", resourceFolder);
         }
 
         additionalProperties = Collections.unmodifiableMap(additional);
@@ -565,6 +581,7 @@ public final class GeneratorSettings implements Serializable {
         private String artifactId;
         private String artifactVersion;
         private String library;
+        private String resourceFolder;
         private Map<String, String> instantiationTypes;
         private Map<String, String> typeMappings;
         private Map<String, Object> additionalProperties;
@@ -1073,6 +1090,11 @@ public final class GeneratorSettings implements Serializable {
             LOGGER.debug("GeneratorSettings#build: {}", instance);
             return instance;
         }
+
+        public Builder withResourceFolder( String resourceFolder ) {
+            this.resourceFolder = resourceFolder;
+            return this;
+        }
     }
 
     @Override
@@ -1101,6 +1123,7 @@ public final class GeneratorSettings implements Serializable {
                 ", gitRepoId='" + gitRepoId + '\'' +
                 ", releaseNote='" + releaseNote + '\'' +
                 ", httpUserAgent='" + httpUserAgent + '\'' +
+                ", resourceFolder='" + resourceFolder + '\'' +
                 '}';
     }
 
@@ -1135,7 +1158,8 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getGitUserId(), that.getGitUserId()) &&
                 Objects.equals(getGitRepoId(), that.getGitRepoId()) &&
                 Objects.equals(getReleaseNote(), that.getReleaseNote()) &&
-                Objects.equals(getHttpUserAgent(), that.getHttpUserAgent());
+                Objects.equals(getHttpUserAgent(), that.getHttpUserAgent()) &&
+                Objects.equals(getResourceFolder(), that.getResourceFolder()) ;
     }
 
     @Override
@@ -1167,7 +1191,8 @@ public final class GeneratorSettings implements Serializable {
                 getGitUserId(),
                 getGitRepoId(),
                 getReleaseNote(),
-                getHttpUserAgent()
+                getHttpUserAgent(),
+                getResourceFolder()
         );
     }
 }

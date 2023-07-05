@@ -575,9 +575,18 @@ public class SpringCodegen extends AbstractJavaCodegen
                         "RFC3339DateFormat.java"));
             }
             if (SPRING_CLOUD_LIBRARY.equals(library)) {
+
                 supportingFiles.add(new SupportingFile("apiKeyRequestInterceptor.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "ApiKeyRequestInterceptor.java"));
+                      (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                      "ApiKeyRequestInterceptor.java"));
+
+                supportingFiles.add(new SupportingFile("oauth2ClientProperties.mustache",
+                      resourceFolder, "oauth2-client.properties"));
+
+                supportingFiles.add(new SupportingFile("clientPropertiesConfiguration.mustache",
+                      (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                      "ClientPropertiesConfiguration.java"));
+
                 supportingFiles.add(new SupportingFile("clientConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "ClientConfiguration.java"));

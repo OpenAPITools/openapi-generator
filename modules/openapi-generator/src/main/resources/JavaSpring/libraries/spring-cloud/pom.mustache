@@ -108,11 +108,8 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
-            {{^parentOverridden}}
-            <version>2.2.5.RELEASE</version>
-            {{/parentOverridden}}
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-client</artifactId>
         </dependency>
         {{#withXml}}
         <!-- XML processing: Jackson -->
