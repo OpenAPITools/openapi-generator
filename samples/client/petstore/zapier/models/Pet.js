@@ -1,12 +1,10 @@
-const _ = require('lodash')
 const utils = require('../utils/utils');
 const Category = require('../models/Category');
 const Tag = require('../models/Tag');
 
 module.exports = {
-    fields: (prefix = '', isInput = true) => {
-        let keyPrefix = prefix && `${prefix}${isInput ? '.' : '__'}`
-        let labelPrefix = keyPrefix && keyPrefix.replaceAll('__', '.')
+    fields: (prefix = '', isInput = true, isArrayChild = false) => {
+        const {keyPrefix, labelPrefix} = utils.buildKeyAndLabel(prefix, isInput, isArrayChild)
         return [
             {
                 key: `${keyPrefix}id`,
@@ -28,7 +26,7 @@ module.exports = {
             {
                 key: `${keyPrefix}tags`,
                 label: `[${labelPrefix}tags]`,
-                children: Tag.fields(`${keyPrefix}tags${!isInput && '[]'}`), 
+                children: Tag.fields(`${keyPrefix}tags${!isInput ? '[]' : ''}`, isInput, true), 
             },
             {
                 key: `${keyPrefix}status`,
@@ -43,7 +41,7 @@ module.exports = {
         ]
     },
     mapping: (bundle, prefix = '') => {
-        let keyPrefix = prefix && `${prefix}.`
+        const {keyPrefix} = utils.buildKeyAndLabel(prefix)
         return {
             'id': bundle.inputData?.[`${keyPrefix}id`],
             'category': utils.removeIfEmpty(Category.mapping(bundle, `${keyPrefix}category`)),
