@@ -53,6 +53,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |openApiNullable|Enable OpenAPI Jackson Nullable library| |true|
 |performBeanValidation|Perform BeanValidation| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|resourceFolder|resource folder for generated resources| |src/main/resources|
 |rootJavaEEPackage|Root package name for Java EE| |Helidon 2.x and earlier: javax; Helidon 3.x and later: jakarta|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |false|
 |serializationLibrary|Serialization library, defaults to Jackson|<dl><dt>**jsonb**</dt><dd>Use JSON-B as serialization library</dd><dt>**jackson**</dt><dd>Use Jackson as serialization library</dd></dl>|null|

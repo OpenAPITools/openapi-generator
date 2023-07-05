@@ -58,6 +58,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|resourceFolder|resource folder for generated resources| |src/main/resources|
 |scmConnection|SCM connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmDeveloperConnection|SCM developer connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmUrl|SCM URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
