@@ -1,4 +1,3 @@
-const _ = require('lodash')
 const utils = require('../utils/utils');
 {{#imports}}{{{import}}}
 {{/imports}}
@@ -23,9 +22,8 @@ module.exports = {
 {{/isEnum}}
 {{^isEnum}}
 module.exports = {
-    fields: (prefix = '', isInput = true) => {
-        let keyPrefix = prefix && `${prefix}${isInput ? '.' : '__'}`
-        let labelPrefix = keyPrefix && keyPrefix.replaceAll('__', '.')
+    fields: (prefix = '', isInput = true, isArrayChild = false) => {
+        const {keyPrefix, labelPrefix} = utils.buildKeyAndLabel(prefix, isInput, isArrayChild)
         return [
             {{#vars}}
             {{#isPrimitiveType}}
@@ -58,7 +56,7 @@ module.exports = {
             {
                 key: `${keyPrefix}{{baseName}}`,{{#items}}{{^isEnumRef}}
                 label: `{{#description}}{{{.}}} - {{/description}}[${labelPrefix}{{baseName}}]`,
-                children: {{complexType}}.fields(`${keyPrefix}{{baseName}}${!isInput && '[]'}`), {{/isEnumRef}}{{#isEnumRef}}
+                children: {{complexType}}.fields(`${keyPrefix}{{baseName}}${!isInput ? '[]' : ''}`, isInput, true), {{/isEnumRef}}{{#isEnumRef}}
                 list: true,
                 type: 'string',
                 ...{{complexType}}.fields(`${keyPrefix}{{baseName}}`, isInput),{{/isEnumRef}}{{/items}}
@@ -82,7 +80,7 @@ module.exports = {
         ]
     },
     mapping: (bundle, prefix = '') => {
-        let keyPrefix = prefix && `${prefix}.`
+        const {keyPrefix} = utils.buildKeyAndLabel(prefix)
         return {
             {{#vars}}
             '{{baseName}}': {{#isPrimitiveType}}bundle.inputData?.[`${keyPrefix}{{baseName}}`]{{/isPrimitiveType}}{{^isPrimitiveType}}{{^allowableValues}}{{^isArray}}utils.removeIfEmpty({{complexType}}.mapping(bundle, `${keyPrefix}{{baseName}}`)){{/isArray}}{{#isArray}}utils.removeKeyPrefixes(bundle.inputData?.[`${keyPrefix}{{baseName}}`]){{/isArray}}{{/allowableValues}}{{#allowableValues}}bundle.inputData?.[`${keyPrefix}{{baseName}}`]{{/allowableValues}}{{/isPrimitiveType}},
