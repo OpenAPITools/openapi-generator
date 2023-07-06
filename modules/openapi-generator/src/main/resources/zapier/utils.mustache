@@ -11,11 +11,13 @@ const buildKeyAndLabel = (prefix, isInput = true, isArrayChild = false) => {
         labelPrefix:labelPrefix,
     }
 }
-const hasASearchField = action => action.operation.inputFields.length > 0
 const isSearchAction = (key) => {
     // TODO: custom logic
     return false
 }
+const hasASearchField = action => action.operation.inputFields.length > 0
+const returnsObjectsArray = action => !!action.operation.outputFields.find(field => 'children' in field)
+const hasSearchRequisites = action => hasASearchField(action) && returnsObjectsArray(action)
 const searchMiddleware = (action) => {
     // TODO: custom logic
     return action
@@ -26,7 +28,7 @@ module.exports = {
     removeKeyPrefixes: removeKeyPrefixes,
     removeIfEmpty: removeIfEmpty,
     buildKeyAndLabel: buildKeyAndLabel,
-    hasASearchField: hasASearchField,
+    hasSearchRequisites: hasSearchRequisites,
     isSearchAction: isSearchAction,
     searchMiddleware: searchMiddleware,
 }
