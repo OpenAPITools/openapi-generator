@@ -1201,16 +1201,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="username"></param>
         /// <param name="user"></param>
+        /// <param name="username"></param>
         /// <returns></returns>
-        private void ValidateUpdateUser(string username, User user)
+        private void ValidateUpdateUser(User user, string username)
         {
-            if (username == null)
-                throw new ArgumentNullException(nameof(username));
-
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
+
+            if (username == null)
+                throw new ArgumentNullException(nameof(username));
         }
 
         /// <summary>
@@ -1293,7 +1293,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateUpdateUser(username, user);
+                ValidateUpdateUser(user, username);
 
                 FormatUpdateUser(user, ref username);
 
