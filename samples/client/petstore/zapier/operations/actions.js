@@ -1,7 +1,7 @@
 const PetApi = require('../apis/PetApi');
 const StoreApi = require('../apis/StoreApi');
 const UserApi = require('../apis/UserApi');
-const { searchMiddleware, hasASearchField, isSearchAction } = require('../utils/utils');
+const { searchMiddleware, hasSearchRequisites, isSearchAction } = require('../utils/utils');
 
 const actions = {
     [PetApi.addPet.key]: PetApi.addPet,
@@ -27,6 +27,6 @@ const actions = {
 }
 
 module.exports = {
-    searchActions: () => Object.entries(actions).reduce((actions, [key, value]) => isSearchAction(key) && hasASearchField(value) ? {...actions, [key]: searchMiddleware(value)} : actions, {}),
+    searchActions: () => Object.entries(actions).reduce((actions, [key, value]) => isSearchAction(key) && hasSearchRequisites(value) ? {...actions, [key]: searchMiddleware(value)} : actions, {}),
     createActions: () => Object.entries(actions).reduce((actions, [key, value]) => !isSearchAction(key) ? {...actions, [key]: value} : actions, {}),
 }
