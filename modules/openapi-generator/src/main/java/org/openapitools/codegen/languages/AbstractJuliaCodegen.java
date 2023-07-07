@@ -18,7 +18,6 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
-import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
 import org.openapitools.codegen.meta.features.ParameterFeature;
@@ -27,6 +26,9 @@ import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import io.swagger.v3.oas.models.media.Schema;
@@ -36,6 +38,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -63,6 +66,10 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     protected String packageName;
     protected Boolean exportModels;
     protected Boolean exportOperations;
+
+    protected static final DateTimeFormatter OFFSET_DATE_TIME_FORMAT = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+    protected static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
+    protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
 
     public AbstractJuliaCodegen() {
         super();
@@ -367,27 +374,34 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
      */
     @Override
     public String toDefaultValue(Schema schema) {
-        if (ModelUtils.isBooleanSchema(schema)) {
-            if (schema.getDefault() != null) {
+        if (schema.getDefault() != null) {
+            if (ModelUtils.isBooleanSchema(schema)) {
                 return schema.getDefault().toString();
-            }
-        } else if (ModelUtils.isDateSchema(schema)) {
-            // TODO
-        } else if (ModelUtils.isDateTimeSchema(schema)) {
-            // TODO
-        } else if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isLongSchema(schema) || ModelUtils.isNumberSchema(schema)) {
-            if (schema.getDefault() != null) {
-                return schema.getDefault().toString();
-            }
-        } else if (ModelUtils.isStringSchema(schema)) {
-            if (schema.getDefault() != null) {
-                String _default = (String) schema.getDefault();
-                if (schema.getEnum() == null) {
-                    return "\"" + _default + "\"";
+            } else if (ModelUtils.isDateSchema(schema)) {
+                Object _default_obj = schema.getDefault();
+                String _default;
+                if (_default_obj instanceof Date) {
+                    _default = DATE_FORMAT.format(_default_obj);
                 } else {
-                    // convert to enum var name later in postProcessModels
-                    return _default;
+                    _default = _default_obj.toString();
                 }
+                return "OpenAPI.str2date(\"" + _default + "\")";
+            } else if (ModelUtils.isDateTimeSchema(schema)) {
+                Object _default_obj = schema.getDefault();
+                String _default;
+                if (_default_obj instanceof DateTime) {
+                    _default = DATE_TIME_FORMAT.format((DateTime)_default_obj);
+                } else if (_default_obj instanceof OffsetDateTime) {
+                    _default = OFFSET_DATE_TIME_FORMAT.format((OffsetDateTime)_default_obj);
+                } else {
+                    _default = _default_obj.toString();
+                }
+                return "OpenAPI.str2zoneddatetime(\"" + _default + "\")";
+            } else if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isLongSchema(schema) || ModelUtils.isNumberSchema(schema)) {
+                return schema.getDefault().toString();
+            } else if (ModelUtils.isStringSchema(schema)) {
+                String _default = (String) schema.getDefault();
+                return "\"" + _default + "\"";
             }
         }
 
