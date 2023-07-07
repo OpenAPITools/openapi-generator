@@ -102,9 +102,10 @@ public class DefaultCodegenTest {
         openAPI.getComponents().addSchemas("Pet", new ObjectSchema());
 
         final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
 
-        Assert.assertFalse(codegen.hasBodyParameter(openAPI, pingOperation));
-        Assert.assertTrue(codegen.hasBodyParameter(openAPI, createOperation));
+        Assert.assertFalse(codegen.hasBodyParameter(pingOperation));
+        Assert.assertTrue(codegen.hasBodyParameter(createOperation));
     }
 
     @Test(expectedExceptions = RuntimeException.class)

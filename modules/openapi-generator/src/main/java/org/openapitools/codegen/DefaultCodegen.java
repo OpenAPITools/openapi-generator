@@ -1025,7 +1025,7 @@ public class DefaultCodegen implements CodegenConfig {
                     if (e.getKey().contains("/")) {
                         // if this is property schema, we also need to generate the oneOf interface model
                         addOneOfNameExtension((ComposedSchema) s, nOneOf);
-                        addOneOfInterfaceModel((ComposedSchema) s, nOneOf, openAPI);
+                        addOneOfInterfaceModel((ComposedSchema) s, nOneOf);
                     } else {
                         // else this is a component schema, so we will just use that as the oneOf interface model
                         addOneOfNameExtension((ComposedSchema) s, n);
@@ -1034,13 +1034,13 @@ public class DefaultCodegen implements CodegenConfig {
                     Schema items = ((ArraySchema) s).getItems();
                     if (ModelUtils.isComposedSchema(items)) {
                         addOneOfNameExtension((ComposedSchema) items, nOneOf);
-                        addOneOfInterfaceModel((ComposedSchema) items, nOneOf, openAPI);
+                        addOneOfInterfaceModel((ComposedSchema) items, nOneOf);
                     }
                 } else if (ModelUtils.isMapSchema(s)) {
                     Schema addProps = getAdditionalProperties(s);
                     if (addProps != null && ModelUtils.isComposedSchema(addProps)) {
                         addOneOfNameExtension((ComposedSchema) addProps, nOneOf);
-                        addOneOfInterfaceModel((ComposedSchema) addProps, nOneOf, openAPI);
+                        addOneOfInterfaceModel((ComposedSchema) addProps, nOneOf);
                     }
                 }
             }
@@ -2662,7 +2662,7 @@ public class DefaultCodegen implements CodegenConfig {
                 for (Schema innerSchema : composed.getAllOf()) { // TODO need to work with anyOf, oneOf as well
                     if (m.discriminator == null && innerSchema.getDiscriminator() != null) {
                         LOGGER.debug("discriminator is set to null (not correctly set earlier): {}", m.name);
-                        m.setDiscriminator(createDiscriminator(m.name, innerSchema, this.openAPI));
+                        m.setDiscriminator(createDiscriminator(m.name, innerSchema));
                         modelDiscriminators++;
                     }
 
@@ -3029,7 +3029,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         m.isAlias = (typeAliases.containsKey(name)
                 || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
-        m.setDiscriminator(createDiscriminator(name, schema, this.openAPI));
+        m.setDiscriminator(createDiscriminator(name, schema));
 
         if (schema.getDeprecated() != null) {
             m.isDeprecated = schema.getDeprecated();
@@ -3385,10 +3385,9 @@ public class DefaultCodegen implements CodegenConfig {
      * @param composedSchemaName The String model name of the composed schema where we are setting the discriminator map
      * @param discPropName       The String that is the discriminator propertyName in the schema
      * @param c                  The ComposedSchema that contains the discriminator and oneOf/anyOf schemas
-     * @param openAPI            The OpenAPI spec that we are using
      * @return the list of oneOf and anyOf MappedModel that need to be added to the discriminator map
      */
-    protected List<MappedModel> getOneOfAnyOfDescendants(String composedSchemaName, String discPropName, ComposedSchema c, OpenAPI openAPI) {
+    protected List<MappedModel> getOneOfAnyOfDescendants(String composedSchemaName, String discPropName, ComposedSchema c) {
         ArrayList<List<Schema>> listOLists = new ArrayList<>();
         listOLists.add(c.getOneOf());
         listOLists.add(c.getAnyOf());
@@ -3452,7 +3451,7 @@ public class DefaultCodegen implements CodegenConfig {
         return descendentSchemas;
     }
 
-    protected List<MappedModel> getAllOfDescendants(String thisSchemaName, OpenAPI openAPI) {
+    protected List<MappedModel> getAllOfDescendants(String thisSchemaName) {
         ArrayList<String> queue = new ArrayList();
         List<MappedModel> descendentSchemas = new ArrayList();
         Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
@@ -3508,7 +3507,7 @@ public class DefaultCodegen implements CodegenConfig {
         return descendentSchemas;
     }
 
-    protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema, OpenAPI openAPI) {
+    protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
         Discriminator sourceDiscriminator = recursiveGetDiscriminator(schema, new ArrayList<Schema>());
         if (sourceDiscriminator == null) {
             return null;
@@ -3563,7 +3562,7 @@ public class DefaultCodegen implements CodegenConfig {
         boolean legacyUseCase = (this.getLegacyDiscriminatorBehavior() && uniqueDescendants.isEmpty());
         if (!this.getLegacyDiscriminatorBehavior() || legacyUseCase) {
             // for schemas that allOf inherit from this schema, add those descendants to this discriminator map
-            List<MappedModel> otherDescendants = getAllOfDescendants(schemaName, openAPI);
+            List<MappedModel> otherDescendants = getAllOfDescendants(schemaName);
             for (MappedModel otherDescendant : otherDescendants) {
                 // add only if the mapping names are not the same and the model names are not the same
                 boolean matched = false;
@@ -3582,7 +3581,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // if there are composed oneOf/anyOf schemas, add them to this discriminator
         if (ModelUtils.isComposedSchema(schema) && !this.getLegacyDiscriminatorBehavior()) {
-            List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discriminatorPropertyName, (ComposedSchema) schema, openAPI);
+            List<MappedModel> otherDescendants = getOneOfAnyOfDescendants(schemaName, discriminatorPropertyName, (ComposedSchema) schema);
             for (MappedModel otherDescendant : otherDescendants) {
                 if (!uniqueDescendants.contains(otherDescendant)) {
                     uniqueDescendants.add(otherDescendant);
@@ -6736,7 +6735,7 @@ public class DefaultCodegen implements CodegenConfig {
         return requestBody.getContent().keySet();
     }
 
-    public boolean hasFormParameter(OpenAPI openAPI, Operation operation) {
+    public boolean hasFormParameter(Operation operation) {
         Set<String> consumesInfo = getConsumesInfo(openAPI, operation);
 
         if (consumesInfo == null || consumesInfo.isEmpty()) {
@@ -6754,7 +6753,7 @@ public class DefaultCodegen implements CodegenConfig {
         return false;
     }
 
-    public boolean hasBodyParameter(OpenAPI openAPI, Operation operation) {
+    public boolean hasBodyParameter(Operation operation) {
         RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
         if (requestBody == null) {
             return false;
@@ -7869,16 +7868,15 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param cs      ComposedSchema object to create as interface model
      * @param type    name to use for the generated interface model
-     * @param openAPI OpenAPI spec that we are using
      */
-    public void addOneOfInterfaceModel(ComposedSchema cs, String type, OpenAPI openAPI) {
+    public void addOneOfInterfaceModel(ComposedSchema cs, String type) {
         if (cs.getOneOf() == null) {
             return;
         }
 
         CodegenModel cm = new CodegenModel();
 
-        cm.setDiscriminator(createDiscriminator("", cs, openAPI));
+        cm.setDiscriminator(createDiscriminator("", cs));
 
         for (Schema o : Optional.ofNullable(cs.getOneOf()).orElse(Collections.emptyList())) {
             if (o.get$ref() == null) {
