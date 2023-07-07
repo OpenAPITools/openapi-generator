@@ -18,6 +18,7 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Net.Http;
+using System.Net.Security;
 
 namespace Org.OpenAPITools.Client
 {
@@ -624,6 +625,11 @@ namespace Org.OpenAPITools.Client
             get { return _HttpSigningConfiguration; }
             set { _HttpSigningConfiguration = value; }
         }
+        
+        /// <summary>
+        /// Gets and Sets the RemoteCertificateValidationCallback
+        /// </summary>
+        public RemoteCertificateValidationCallback RemoteCertificateValidationCallback { get; set; }
 
         #endregion Properties
 
@@ -701,7 +707,8 @@ namespace Org.OpenAPITools.Client
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
                 DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat,
                 ClientCertificates = second.ClientCertificates ?? first.ClientCertificates,
-                UseDefaultCredentials = second.UseDefaultCredentials
+                UseDefaultCredentials = second.UseDefaultCredentials,
+                RemoteCertificateValidationCallback = second.RemoteCertificateValidationCallback ?? first.RemoteCertificateValidationCallback,
             };
             return config;
         }
