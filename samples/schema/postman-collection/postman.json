@@ -77,6 +77,53 @@
 	            "name": "advanced",
 	            "item": [
 	                        {
+    "name": "/groups/{{groupId}}",
+                "description": "Get group of users",
+                 "item": [
+                            {
+                                "name": "Get group by ID",
+                                "request": {
+                                    "method": "GET",
+                                    "header": [
+                                        {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "body": {
+                                        "mode": "raw",
+                                        "raw": "",
+                                        "options": {
+                                            "raw": {
+                                                "language": "json"
+                                            }
+                                        }
+                                    },
+                                    "url": {
+                                        "raw": "{{baseUrl}}/groups/{{groupId}}",
+                                        "host": [
+                                            "{{baseUrl}}"
+                                        ],
+                                        "path": [
+                                            "groups",
+                                            "{{groupId}}"
+                                        ],
+                                        "variable": [
+                                            {
+                                                "key": "groupId",
+                                                "value": "",
+                                                "description": "group Id"
+                                            }
+                                        ],
+                                        "query": [
+                                        ]
+                                    },
+                                    "description": "Get group of users"
+                                }
+                            }
+                            ]
+                        },
+	                        {
     "name": "/users/{{userId}}",
                 "description": "Retrieve the information of the user with the matching user ID.",
                  "item": [
@@ -269,13 +316,18 @@
 			"type": "string"
 		},
 		{
+			"key": "groupId",
+			"value": "1",
+			"type": "number"
+		},
+		{
 			"key": "port",
 			"value": "5000",
 			"type": "string"
 		},
 		{
 			"key": "userId",
-			"value": "a",
+			"value": "",
 			"type": "number"
 		}
 	]
