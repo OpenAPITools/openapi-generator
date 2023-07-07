@@ -73,5 +73,11 @@ public enum SecurityFeature {
      * <p>In OAS 2.0, this is called "accessCode" flow.</p>
      */
     @OAS2 @OAS3
-    OAuth2_AuthorizationCode
+    OAuth2_AuthorizationCode,
+
+    /**
+     * Supports http signature.
+     */
+    @OAS3
+    SignatureAuth,
 }

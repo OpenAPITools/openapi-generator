@@ -26,9 +26,11 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
@@ -389,6 +391,46 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testJavaClientCorrectConstructorOrderForRequiredFields_issue15825() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setAdditionalProperties(properties)
+                .setGeneratorName("spring")
+                .setLibrary(SPRING_BOOT)
+                .setInputSpec("src/test/resources/bugs/issue_constructor-required-values-with-multiple-inheritance.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("SubType.java"))
+                .assertConstructor("TypeEnum", "SchemaVersion", "UUID", "Boolean", "Boolean", "SomeEnum")
+                .bodyContainsLines("super(someBoolean, someEnum, schemaVersion, id, oneBoolean);",
+                        "this.type = type;");
+        JavaFileAssert.assertThat(files.get("IntermediateSubType.java"))
+                .assertConstructor("Boolean", "SomeEnum", "SchemaVersion", "UUID", "Boolean")
+                .bodyContainsLines("super(oneBoolean, schemaVersion, id);",
+                        "this.someBoolean = someBoolean;",
+                        "this.someEnum = someEnum");
+        JavaFileAssert.assertThat(files.get("IntermediateType.java"))
+                .assertConstructor("Boolean", "SchemaVersion", "UUID")
+                .bodyContainsLines("super(schemaVersion, id);",
+                        "this.oneBoolean = oneBoolean;");
+        JavaFileAssert.assertThat(files.get("BaseType.java"))
+                .assertConstructor("SchemaVersion", "UUID")
+                .bodyContainsLines(
+                        "this.schemaVersion = schemaVersion;",
+                        "this.id = id;");
+    }
+
+    @Test
     public void springcloudWithAsyncAndJava8HasResponseWrapperCompletableFuture() {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.additionalProperties().put(SpringCodegen.ASYNC, true);
@@ -606,6 +648,34 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testAdditionalProperties_issue1466() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml");
+
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesAnyType.java"))
+            .hasProperty("additionalProperties").withType("Map<String, Object>")
+            .toType()
+            .assertMethod("putAdditionalProperty", "String", "Object")
+            .toFileAssert()
+            .assertMethod("getAdditionalProperty", "String").hasReturnType("Object");
+
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesArray.java"))
+            .hasProperty("additionalProperties").withType("Map<String, List>")
+            .toType()
+            .assertMethod("putAdditionalProperty", "String", "List")
+            .toFileAssert()
+            .assertMethod("getAdditionalProperty", "String").hasReturnType("List");
+
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesInteger.java"))
+            .hasProperty("additionalProperties").withType("Map<String, Integer>")
+            .toType()
+            .assertMethod("putAdditionalProperty", "String", "Integer")
+            .toFileAssert()
+            .assertMethod("getAdditionalProperty", "String").hasReturnType("Integer");
+    }
+
+    @Test
     public void shouldAddParameterWithInHeaderWhenImplicitHeadersIsTrue_issue14418() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -639,6 +709,101 @@ public class SpringCodegenTest {
                 "value", "{ @Parameter(name = \"testHeader\", description = \"Test header\", required = true, in = ParameterIn.HEADER) }"
                 // in = ParameterIn.HEADER is missing?!
             ));
+    }
+
+    @Test
+    public void shouldApiNameSuffixForApiClassname() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+              .readLocation("src/test/resources/3_1/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_NAME_SUFFIX, "Controller");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
+
+
+        ClientOptInput input = new ClientOptInput()
+              .openAPI(openAPI)
+              .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+              .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PetController.java"))
+              .isInterface();
+
+        File notExisting = files.get("PetApi.java");
+        assertThat(notExisting).isNull();
+
+    }
+    @Test
+    public void shouldUseTagsForClassname() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+              .readLocation("src/test/resources/bugs/issue_15933.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_TAGS, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
+
+
+        ClientOptInput input = new ClientOptInput()
+              .openAPI(openAPI)
+              .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+              .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PetTagApi.java"))
+              .isInterface();
+
+        File notExisting = files.get("PetApi.java");
+        assertThat(notExisting).isNull();
+
+    }
+
+    @Test
+    public void shouldNotUseTagsForClassname() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+              .readLocation("src/test/resources/bugs/issue_15933.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_TAGS, "false");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
+
+
+
+        ClientOptInput input = new ClientOptInput()
+              .openAPI(openAPI)
+              .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+              .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+              .isInterface();
+
+        File notExisting = files.get("PetTagApi.java");
+        assertThat(notExisting).isNull();
     }
 
     @Test
@@ -1374,6 +1539,55 @@ public class SpringCodegenTest {
     }
 
     @Test
+    void testOneOfWithEnumDiscriminator() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/3_0/oneOfDiscriminator.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.setUseOneOfInterfaces(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setHateoas(true);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        //generator.setGeneratorPropertyDefault(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(
+            Paths.get(outputPath + "/src/main/java/org/openapitools/model/FruitOneOfEnumMappingDisc.java"),
+            "public FruitTypeEnum getFruitType();"
+        );
+        assertFileContains(
+            Paths.get(outputPath + "/src/main/java/org/openapitools/model/AppleOneOfEnumMappingDisc.java"),
+            "private FruitTypeEnum fruitType;",
+            "public FruitTypeEnum getFruitType() {"
+        );
+        assertFileContains(
+            Paths.get(outputPath + "/src/main/java/org/openapitools/model/BananaOneOfEnumMappingDisc.java"),
+            "private FruitTypeEnum fruitType;",
+            "public FruitTypeEnum getFruitType() {"
+        );
+    }
+
+    @Test
     public void testTypeMappings() {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.processOpts();
@@ -1385,7 +1599,6 @@ public class SpringCodegenTest {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.processOpts();
         Assert.assertEquals(codegen.importMapping().get("org.springframework.core.io.Resource"), "org.springframework.core.io.Resource");
-        Assert.assertEquals(codegen.importMapping().get("Pageable"), "org.springframework.data.domain.Pageable");
         Assert.assertEquals(codegen.importMapping().get("DateTimeFormat"), "org.springframework.format.annotation.DateTimeFormat");
         Assert.assertEquals(codegen.importMapping().get("ApiIgnore"), "springfox.documentation.annotations.ApiIgnore");
         Assert.assertEquals(codegen.importMapping().get("ParameterObject"), "org.springdoc.api.annotations.ParameterObject");
@@ -1652,7 +1865,6 @@ public class SpringCodegenTest {
     @Test
     public void testResponseWithArray_issue11897() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
         additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
@@ -1678,7 +1890,6 @@ public class SpringCodegenTest {
     @Test
     public void shouldGenerateMethodsWithoutUsingResponseEntityAndWithoutDelegation_issue11537() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
         additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
@@ -1710,7 +1921,6 @@ public class SpringCodegenTest {
     @Test
     public void shouldGenerateMethodsWithoutUsingResponseEntityAndDelegation_issue11537() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
         additionalProperties.put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
@@ -1784,7 +1994,7 @@ public class SpringCodegenTest {
         files = generateFromContract("src/test/resources/2_0/petstore-with-spring-pageable.yaml", SPRING_BOOT, additionalProperties);
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
-            .hasImports("org.springdoc.core.annotations.ParameterObject")
+            .hasImports("org.springdoc.core.annotations.ParameterObject", "org.springframework.data.domain.Pageable")
             .assertMethod("findPetsByStatus")
             .hasParameter("pageable").withType("Pageable")
             .assertParameterAnnotations()
@@ -1792,9 +2002,26 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void paramPageableIsNotSpringPaginated_issue13052() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
+        additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(USE_SPRING_BOOT3, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_13052.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .hasImports("org.openapitools.model.Pageable")
+                .hasNoImports("org.springframework.data.domain.Pageable", "org.springdoc.core.annotations.ParameterObject")
+                .assertMethod("findPageable")
+                .hasParameter("pageable").withType("Pageable");
+    }
+
+    @Test
     public void shouldSetDefaultValueForMultipleArrayItems() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
         additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
@@ -2043,6 +2270,7 @@ public class SpringCodegenTest {
             .hasImports("javax.validation.constraints");
     }
 
+    @Test
     public void shouldUseEqualsNullableForArrayWhenSetInConfig_issue13385() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -2670,4 +2898,30 @@ public class SpringCodegenTest {
                 .bodyContainsLines("if (b.value.equals(value)) {");
     }
 
+
+
+    @Test
+    public void multiLineOperationDescription() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, DocumentationProvider.SPRINGDOC.name());
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue12474-multiline-description.yaml", SPRING_BOOT, additionalProperties);
+
+        String expectedDescription = "# Multi-line descriptions  This is an example of a multi-line description.  It: - has multiple lines - uses Markdown (CommonMark) for rich text representation";
+        JavaFileAssert.assertThat(files.get("PingTagApi.java"))
+                .fileContains(expectedDescription);
+    }
+
+    @Test
+    public void multiLineTagDescription() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, DocumentationProvider.SPRINGDOC.name());
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue12474-multiline-description.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PingTagApi.java"))
+                .fileContains("This is a multine tag : * tag item 1 * tag item 2 ");
+    }
 }

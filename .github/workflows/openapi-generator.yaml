@@ -16,10 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 8
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          java-version: 8
+          java-version: 11
           distribution: 'temurin'
       - name: Cache maven dependencies
         uses: actions/cache@v3
@@ -36,7 +36,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
       - name: Run maven
-        run: mvn --no-snapshot-updates --batch-mode --quiet install -DskipTests -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+        run: ./mvnw clean --no-snapshot-updates --batch-mode --quiet install -DskipTests -Dorg.slf4j.simpleLogger.defaultLogLevel=error
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       - run: ls -la  modules/openapi-generator-cli/target
@@ -54,10 +54,10 @@ jobs:
       - build
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 8
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          java-version: 8
+          java-version: 11
           distribution: 'temurin'
       - name: Cache maven dependencies
         uses: actions/cache@v3
@@ -74,7 +74,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
       - name: Run unit tests
-        run: mvn --no-snapshot-updates --batch-mode --quiet --fail-at-end test -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+        run: ./mvnw clean --no-snapshot-updates --batch-mode --quiet --fail-at-end test -Dorg.slf4j.simpleLogger.defaultLogLevel=error
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       - name: Publish unit test reports
@@ -91,10 +91,10 @@ jobs:
       - build
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 8
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          java-version: 8
+          java-version: 11
           distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
         uses: actions/download-artifact@v3
@@ -130,10 +130,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 8
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          java-version: 8
+          java-version: 11
           distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
         uses: actions/download-artifact@v3

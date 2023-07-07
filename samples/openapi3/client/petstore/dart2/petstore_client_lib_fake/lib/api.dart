@@ -44,15 +44,14 @@ part 'model/array_of_number_only.dart';
 part 'model/array_test.dart';
 part 'model/capitalization.dart';
 part 'model/cat.dart';
-part 'model/cat_all_of.dart';
 part 'model/category.dart';
 part 'model/class_model.dart';
 part 'model/deprecated_object.dart';
 part 'model/dog.dart';
-part 'model/dog_all_of.dart';
 part 'model/enum_arrays.dart';
 part 'model/enum_class.dart';
 part 'model/enum_test.dart';
+part 'model/fake_big_decimal_map200_response.dart';
 part 'model/file_schema_test_class.dart';
 part 'model/foo.dart';
 part 'model/foo_get_default_response.dart';
@@ -93,3 +92,5 @@ final _regSet = RegExp(r'^Set<(.*)>$');
 final _regMap = RegExp(r'^Map<String,(.*)>$');
 
 ApiClient defaultApiClient = ApiClient();
+
+bool _isEpochMarker(String? pattern) => pattern == _dateEpochMarker || pattern == '/$_dateEpochMarker/';

@@ -144,11 +144,11 @@ No model defined in this package
 {{/-last}}
 {{/authMethods}}
 {{#authMethods}}
-{{#isBasic}}
+{{#isBasicBasic}}
 ### Security schema `{{name}}`
 > Important! To make Basic authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}]({{authSrcPath}}/{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}.php) class by [\{{authPackage}}\BasicAuthenticator](./src/Auth/BasicAuthenticator.php) class.
 
-{{/isBasic}}
+{{/isBasicBasic}}
 {{#isApiKey}}
 ### Security schema `{{name}}`
 > Important! To make ApiKey authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}]({{authSrcPath}}/{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}.php) class by [\{{authPackage}}\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.

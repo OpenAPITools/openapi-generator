@@ -31,9 +31,6 @@ $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-# Configure HTTP basic authorization: http_signature_test
-$Configuration.Username = "YOUR_USERNAME"
-$Configuration.Password = "YOUR_PASSWORD"
 # Configure HttpSignature for authorization :http_signature_test
 $httpSigningParams = @{
     KeyId = "xxxxxx1776876789ac747/xxxxxxx564612d31a62c01/xxxxxxxa1d7564612d31a66ee8"
@@ -144,9 +141,6 @@ $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-# Configure HTTP basic authorization: http_signature_test
-$Configuration.Username = "YOUR_USERNAME"
-$Configuration.Password = "YOUR_PASSWORD"
 # Configure HttpSignature for authorization :http_signature_test
 $httpSigningParams = @{
     KeyId = "xxxxxx1776876789ac747/xxxxxxx564612d31a62c01/xxxxxxxa1d7564612d31a66ee8"
@@ -204,9 +198,6 @@ $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-# Configure HTTP basic authorization: http_signature_test
-$Configuration.Username = "YOUR_USERNAME"
-$Configuration.Password = "YOUR_PASSWORD"
 # Configure HttpSignature for authorization :http_signature_test
 $httpSigningParams = @{
     KeyId = "xxxxxx1776876789ac747/xxxxxxx564612d31a62c01/xxxxxxxa1d7564612d31a66ee8"
@@ -314,9 +305,6 @@ $Configuration = Get-Configuration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration.AccessToken = "YOUR_ACCESS_TOKEN"
 
-# Configure HTTP basic authorization: http_signature_test
-$Configuration.Username = "YOUR_USERNAME"
-$Configuration.Password = "YOUR_PASSWORD"
 # Configure HttpSignature for authorization :http_signature_test
 $httpSigningParams = @{
     KeyId = "xxxxxx1776876789ac747/xxxxxxx564612d31a62c01/xxxxxxxa1d7564612d31a66ee8"

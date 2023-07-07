@@ -8,6 +8,6 @@ additionalProperties:
   documentationProvider: springdoc
   artifactId: spring-cloud-oas3
   useSpringBoot3: "true"
-  interfaceOnly: "true"
+  interfaceOnly: "false"
   singleContentTypes: "true"
   hideGenerationTimestamp: "true"

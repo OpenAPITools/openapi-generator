@@ -72,6 +72,8 @@ public class ArrayOfNumberOnly {
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "ArrayNumber")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
@@ -80,6 +82,8 @@ public class ArrayOfNumberOnly {
 
   @JsonProperty(JSON_PROPERTY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "ArrayNumber")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }

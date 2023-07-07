@@ -102,7 +102,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
                         SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.BearerToken
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
@@ -944,10 +945,14 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, int depth) {
-        if (depth > 10) return "...";
+        if (depth > 10) {
+            return "...";
+        }
         depth++;
 
-        if (codegenProperty.isArray) { // array
+        if (codegenProperty == null) {
+            return "TODO";
+        } else if (codegenProperty.isArray) { // array
             return "c(" + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
         } else if (codegenProperty.isMap) { // map
             return "c(key = " + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";

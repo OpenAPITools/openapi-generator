@@ -35,11 +35,6 @@ public class TypeHolderExample {
   
   private List<Integer> arrayItem = new ArrayList<>();
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link TypeHolderExample#TypeHolderExample(String, BigDecimal, Float, Integer, Boolean, List<Integer>)}
-   */
-  @Deprecated
   public TypeHolderExample() {
     super();
   }

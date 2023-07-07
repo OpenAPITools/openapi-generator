@@ -29,6 +29,7 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
     public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final Boolean SUPPORTS_ES6_VALUE = false;
+    public static final String IMPORT_FILE_EXTENSION_VALUE = "";
     public static final Boolean NULL_SAFE_ADDITIONAL_PROPS_VALUE = false;
     public static final String ENUM_NAME_SUFFIX = "Enum";
     public static final String MODEL_PROPERTY_NAMING_VALUE = "camelCase";
@@ -70,6 +71,7 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
                 .put(TypeScriptFetchClientCodegen.PREFIX_PARAMETER_INTERFACES, Boolean.FALSE.toString())
                 .put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, WITHOUT_RUNTIME_CHECKS)
                 .put(TypeScriptFetchClientCodegen.SAGAS_AND_RECORDS, SAGAS_AND_RECORDS)
+                .put(TypeScriptFetchClientCodegen.IMPORT_FILE_EXTENSION_SWITCH, IMPORT_FILE_EXTENSION_VALUE)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")

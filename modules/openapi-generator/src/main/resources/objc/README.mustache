@@ -67,10 +67,10 @@ Please follow the [installation procedure](#installation--usage) and then run th
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
 {{#hasAuthMethods}}
 {{classPrefix}}DefaultConfiguration *apiConfig = [{{classPrefix}}DefaultConfiguration sharedConfig];
-{{#authMethods}}{{#isBasic}}// Configure HTTP basic authorization (authentication scheme: {{{name}}})
+{{#authMethods}}{{#isBasicBasic}}// Configure HTTP basic authorization (authentication scheme: {{{name}}})
 [apiConfig setUsername:@"YOUR_USERNAME"];
 [apiConfig setPassword:@"YOUR_PASSWORD"];
-{{/isBasic}}{{#isApiKey}}
+{{/isBasicBasic}}{{#isApiKey}}
 // Configure API key authorization: (authentication scheme: {{{name}}})
 [apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"{{{keyParamName}}}"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -127,8 +127,12 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: {{{keyParamName}}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
-{{/isBasic}}
+{{#isBasicBasic}}- **Type**: HTTP basic authentication
+{{/isBasicBasic}}
+{{#isBasicBearer}}- **Type**: HTTP Bearer Token authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
+{{/isBasicBearer}}
+{{#isHttpSignature}}- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{#isOAuth}}- **Type**: OAuth
 - **Flow**: {{{flow}}}
 - **Authorization URL**: {{{authorizationUrl}}}

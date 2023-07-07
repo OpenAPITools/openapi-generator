@@ -16,11 +16,11 @@
 import * as runtime from '../runtime';
 import type {
   Club,
-} from '../models';
+} from '../models/index';
 import {
     ClubFromJSON,
     ClubToJSON,
-} from '../models';
+} from '../models/index';
 
 export interface ListRequest {
     personId: string;

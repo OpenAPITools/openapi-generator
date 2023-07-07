@@ -55,6 +55,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val inputSpec = project.objects.property<String>()
 
     /**
+     * Local root folder with spec files
+     */
+    val inputSpecRootDirectory = project.objects.property<String>()
+
+    /**
      * The remote Open API 2.0/3.x specification URL location.
      */
     val remoteInputSpec = project.objects.property<String>()
@@ -354,6 +359,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      */
     val cleanupOutput = project.objects.property<Boolean>()
 
+    /**
+     * Defines whether the generator should run in dry-run mode.
+     */
+    val dryRun = project.objects.property<Boolean>()
+
     init {
         applyDefaults()
     }
@@ -376,5 +386,6 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
         skipValidateSpec.set(false)
         generateAliasAsModel.set(false)
         cleanupOutput.set(false)
+        dryRun.set(false)
     }
 }

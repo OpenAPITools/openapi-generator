@@ -31,8 +31,10 @@ commands: # a reusable command with parameters
       # 'See docs on artifact collection here https://circleci.com/docs/2.0/artifacts/'
       - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
       # This is based on your 1.0 configuration file or project settings
+      #- run:
+      #    command: sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
       - run:
-          command: sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+          command: java -version
       - run:
           command: 'sudo docker info >/dev/null 2>&1 || sudo service docker start; '
       - run:
@@ -47,7 +49,7 @@ commands: # a reusable command with parameters
       - run: sleep 30
       - run: cat /etc/hosts
       # Test
-      - run: mvn --no-snapshot-updates --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+      - run: ./mvnw --no-snapshot-updates --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
       - run:
           name: "Setup custom environment variables"
           command: echo 'export CIRCLE_NODE_INDEX="<<parameters.nodeNo>>"' >> $BASH_ENV

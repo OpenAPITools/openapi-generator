@@ -1,0 +1,31 @@
+openapi: "3.0.1"
+info:
+  title: test
+  version: "1.0"
+
+tags:
+  - name: pingTag
+    description: |
+      This is a multine tag :
+      * tag item 1
+      * tag item 2
+
+paths:
+
+  /ping:
+    get:
+      tags:
+        - pingTag
+      summary: Multi-line descriptions
+      description: |-
+        # Multi-line descriptions
+        
+        This is an example of a multi-line description.
+        
+        It:
+        - has multiple lines
+        - uses Markdown (CommonMark) for rich text representation
+      operationId: ping
+      responses:
+        200:
+          description: OK

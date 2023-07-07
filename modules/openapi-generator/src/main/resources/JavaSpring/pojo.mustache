@@ -15,7 +15,7 @@
 {{/discriminator}}
 {{#jackson}}
 {{#isClassnameSanitized}}
-{{^hasDiscriminatorWithNonEmptyMapping}}  
+{{^hasDiscriminatorWithNonEmptyMapping}}
 @JsonTypeName("{{name}}")
 {{/hasDiscriminatorWithNonEmptyMapping}}
 {{/isClassnameSanitized}}
@@ -82,11 +82,6 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#generatedConstructorWithRequiredArgs}}
   {{#hasRequired}}
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link {{classname}}#{{classname}}({{#requiredVars}}{{{datatypeWithEnum}}}{{^-last}}, {{/-last}}{{/requiredVars}})}
-   */
-  @Deprecated
   public {{classname}}() {
     super();
   }
@@ -199,6 +194,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   }
   {{! end feature: getter and setter }}
   {{/vars}}
+{{>additionalProperties}}
   {{#parentVars}}
 
   {{! begin feature: fluent setter methods for inherited properties }}
@@ -222,7 +218,6 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/isMap}}
   {{! end feature: fluent setter methods for inherited properties }}
   {{/parentVars}}
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -233,30 +228,27 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     }{{#hasVars}}
     {{classname}} {{classVarName}} = ({{classname}}) o;
     return {{#vars}}{{#vendorExtensions.x-is-jackson-optional-nullable}}equalsNullable(this.{{name}}, {{classVarName}}.{{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^-last}} &&
-        {{/-last}}{{/vars}}{{#parent}} &&
+        {{/-last}}{{/vars}}{{#additionalPropertiesType}} &&
+    Objects.equals(this.additionalProperties, {{classVarName}}.additionalProperties){{/additionalPropertiesType}}{{#parent}} &&
         super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
     return true;{{/hasVars}}
-  }
-  {{#vendorExtensions.x-jackson-optional-nullable-helpers}}
+  }{{#vendorExtensions.x-jackson-optional-nullable-helpers}}
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
     return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
-  }
-  {{/vendorExtensions.x-jackson-optional-nullable-helpers}}
+  }{{/vendorExtensions.x-jackson-optional-nullable-helpers}}
 
   @Override
   public int hashCode() {
-    return Objects.hash({{#vars}}{{#vendorExtensions.x-is-jackson-optional-nullable}}hashCodeNullable({{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
-  }
-  {{#vendorExtensions.x-jackson-optional-nullable-helpers}}
+    return Objects.hash({{#vars}}{{#vendorExtensions.x-is-jackson-optional-nullable}}hashCodeNullable({{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}}{{#additionalPropertiesType}}{{#hasVars}}, {{/hasVars}}{{^hasVars}}{{#parent}}, {{/parent}}{{/hasVars}}additionalProperties{{/additionalPropertiesType}});
+  }{{#vendorExtensions.x-jackson-optional-nullable-helpers}}
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
     if (a == null) {
       return 1;
     }
     return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
-  }
-  {{/vendorExtensions.x-jackson-optional-nullable-helpers}}
+  }{{/vendorExtensions.x-jackson-optional-nullable-helpers}}
 
   @Override
   public String toString() {
@@ -266,7 +258,9 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     {{/parent}}
     {{#vars}}sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
-    {{/vars}}sb.append("}");
+    {{/vars}}{{#additionalPropertiesType}}
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
+    {{/additionalPropertiesType}}sb.append("}");
     return sb.toString();
   }
 

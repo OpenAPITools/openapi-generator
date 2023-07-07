@@ -3,7 +3,7 @@ import io.github.gradlenexus.publishplugin.ReleaseNexusStagingRepository
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("com.gradle.plugin-publish") version "1.0.0"
+    id("com.gradle.plugin-publish") version "1.1.0"
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
     id("java-gradle-plugin")
     id("maven-publish")
@@ -26,8 +26,8 @@ specifications as part of your build. Other tasks are available as command line 
 java {
     withSourcesJar()
     withJavadocJar()
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 1.11
+    targetCompatibility = 1.11
 }
 
 repositories {

@@ -107,6 +107,7 @@ mvn clean compile
 | `skipIfSpecIsUnchanged` |  `codegen.skipIfSpecIsUnchanged` | Skip the execution if the source file is older than the output folder (`false` by default. Can also be set globally through the `codegen.skipIfSpecIsUnchanged` property)
 | `addCompileSourceRoot` |  `openapi.generator.maven.plugin.addCompileSourceRoot` | Add the output directory to the project as a source root, so that the generated java types are compiled and included in the project artifact (`true` by default). Mutually exclusive with `addTestCompileSourceRoot`.
 | `addTestCompileSourceRoot` |  `openapi.generator.maven.plugin.addTestCompileSourceRoot` | Add the output directory to the project as a test source root, so that the generated java types are compiled only for the test classpath of the project (`false` by default). Mutually exclusive with `addCompileSourceRoot`.
+| `dryRun` | `openapi.generator.maven.plugin.dryRun` | Defines whether the generator should run in dry-run mode. In dry-run mode no files are written and a summary about file states is output ( `false` by default).
 | `environmentVariables` | N/A | deprecated. Use globalProperties instead.
 | `globalProperties` | N/A | A **map** of items conceptually similar to "environment variables" or "system properties". These are available to all aspects of the generation flow. See [Global Properties](https://openapi-generator.tech/docs/globals/) for list of available properties.
 | `configHelp` |  `codegen.configHelp` | dumps the configuration help for the specified library (generates no sources)

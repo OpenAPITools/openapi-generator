@@ -1,6 +1,8 @@
 export * from "./http/http{{importFileExtension}}";
 export * from "./auth/auth{{importFileExtension}}";
+{{#models.0}}
 export * from "./models/all{{importFileExtension}}";
+{{/models.0}}
 export { createConfiguration } from "./configuration{{importFileExtension}}"
 export{{#platforms}}{{#deno}} type{{/deno}}{{/platforms}} { Configuration } from "./configuration{{importFileExtension}}"
 export * from "./apis/exception{{importFileExtension}}";

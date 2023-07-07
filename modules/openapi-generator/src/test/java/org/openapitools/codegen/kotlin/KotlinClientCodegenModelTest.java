@@ -384,6 +384,27 @@ public class KotlinClientCodegenModelTest {
         );
     }
 
+    @Test
+    public void testOmitGradleWrapperDoesNotGenerateWrapper() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        String path = output.getAbsolutePath();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .addAdditionalProperty("omitGradleWrapper", true)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileNotExists(Paths.get(path, "gradlew"));
+        TestUtils.assertFileNotExists(Paths.get(path, "gradlew.bat"));
+        TestUtils.assertFileNotExists(Paths.get(path, "gradle", "wrapper", "gradle-wrapper.properties"));
+        TestUtils.assertFileNotExists(Paths.get(path, "gradle", "wrapper", "gradle-wrapper.jar"));
+    }
+
     private static class ModelNameTest {
         private final String expectedName;
         private final String expectedClassName;

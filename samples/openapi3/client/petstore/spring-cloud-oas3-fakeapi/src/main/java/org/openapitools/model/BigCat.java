@@ -88,6 +88,7 @@ public class BigCat extends Cat {
     this.kind = kind;
   }
 
+
   public BigCat declawed(Boolean declawed) {
     super.setDeclawed(declawed);
     return this;
@@ -102,7 +103,6 @@ public class BigCat extends Cat {
     super.setColor(color);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -1,0 +1,11 @@
+# for csharp generichost
+generatorName: csharp
+outputDir: samples/client/petstore/csharp/OpenAPIClient-generichost-netstandard2.0
+inputSpec: modules/openapi-generator/src/test/resources/3_0/csharp/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
+library: generichost
+templateDir: modules/openapi-generator/src/main/resources/csharp
+additionalProperties:
+  packageGuid: '{321C8C3F-0156-40C1-AE42-D59761FB9B6C}'
+  useCompareNetObjects: true 
+  disallowAdditionalPropertiesIfNotPresent: false
+  targetFramework: netstandard2.0

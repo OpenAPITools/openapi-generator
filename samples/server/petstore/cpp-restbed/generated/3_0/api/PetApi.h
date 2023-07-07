@@ -35,6 +35,7 @@
 #include "Pet.h"
 #include <set>
 #include <string>
+#include <vector>
 
 namespace org {
 namespace openapitools {

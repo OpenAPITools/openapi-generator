@@ -106,6 +106,10 @@ func (c *UserAPIController) CreateUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
+	if err := AssertUserConstraints(userParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
 	result, err := c.service.CreateUser(r.Context(), userParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -230,6 +234,10 @@ func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err := AssertUserRequired(userParam); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
+	if err := AssertUserConstraints(userParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}

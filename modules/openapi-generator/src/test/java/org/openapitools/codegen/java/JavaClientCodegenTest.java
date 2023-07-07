@@ -33,6 +33,7 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.SneakyThrows;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -49,9 +50,11 @@ import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
@@ -212,6 +215,42 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.iiii.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.iiii.invoker");
         Assert.assertEquals(codegen.getSerializationLibrary(), JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON);
+    }
+
+    @Test
+    public void testGeneratedAuthClassesJersey() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.JERSEY3)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/ApiKeyAuth.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/Authentication.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/HttpBasicAuth.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/HttpBearerAuth.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/HttpSignatureAuth.java");
+    }
+
+    @Test
+    public void testSupportedSecuritySchemesJersey() throws Exception {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, JavaClientCodegen.JERSEY3);
+        codegen.processOpts();
+
+        Assert.assertTrue(codegen.getFeatureSet().getSecurityFeatures().contains(SecurityFeature.SignatureAuth));
     }
 
     @Test
@@ -480,12 +519,10 @@ public class JavaClientCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 162);
+        Assert.assertEquals(files.size(), 153);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/Dog.java"),
-                "import xyz.abcdef.invoker.JSON;");
-        TestUtils.assertFileNotContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/DogAllOf.java"),
                 "import xyz.abcdef.invoker.JSON;");
     }
 
@@ -1372,6 +1409,11 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testExtraAnnotationsJersey3() throws IOException {
+        testExtraAnnotations(JavaClientCodegen.JERSEY3);
+    }
+
+    @Test
     public void testExtraAnnotationsMicroprofile() throws IOException {
         testExtraAnnotations(JavaClientCodegen.MICROPROFILE);
     }
@@ -1577,6 +1619,37 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testJavaClientDefaultValues_issueNoNumber() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setAdditionalProperties(properties)
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.WEBCLIENT)
+                .setInputSpec("src/test/resources/bugs/java-codegen-empty-array-as-default-value/issue_wrong-default.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
+                .hasProperty("stringDefault")
+                .asString().endsWith("= new ArrayList<>();");
+        JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
+                .hasProperty("stringDefault2")
+                .asString().endsWith("= new ArrayList<>(Arrays.asList(\"Hallo\", \"Huhu\"));");
+        JavaFileAssert.assertThat(files.get("DefaultValuesType.java"))
+                .hasProperty("objectDefault")
+                .asString().endsWith("= new ArrayList<>();");
+    }
+
+    @Test
     public void testWebClientJsonCreatorWithNullable_issue12790() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(AbstractJavaCodegen.OPENAPI_NULLABLE, "true");
@@ -1699,6 +1772,28 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testReturnTypeMapping() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_0/issue14525.yaml")
+                .addTypeMapping("array","Stack")
+                .addImportMapping("Stack","java.util.Stack")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/DefaultApi.java"),
+                "import java.util.Stack;"
+        );
+
+    }
+
+    @Test
     public void testNativeClientExplodedQueryParamWithArrayProperty() throws IOException {
         Map<String, Object> properties = new HashMap<>();
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
@@ -1746,7 +1841,7 @@ public class JavaClientCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 33);
+        Assert.assertEquals(files.size(), 24);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/model/Child.java"),
@@ -1872,6 +1967,50 @@ public class JavaClientCodegenTest {
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Cat.class, name = \"Cat\")");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Dog.class, name = \"Dog\")");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Lizard.class, name = \"Lizard\")");
+    }
+
+    @Test
+    public void shouldProperlyExplodeRestTemplateQueryParameters_issue907() {
+
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/explode-query-parameter.yaml",
+                JavaClientCodegen.RESTTEMPLATE
+        );
+
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .printFileContent()
+                .assertMethod("searchWithHttpInfo")
+                .bodyContainsLines("localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"regular-param\", regularParam));")
+                .bodyContainsLines("localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someString\", objectParam.getSomeString()));")
+                .bodyContainsLines("localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someBoolean\", objectParam.getSomeBoolean()));")
+                .bodyContainsLines("localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someInteger\", objectParam.getSomeInteger()));")
+        ;
+    }
+
+    private static Map<String, File> generateFromContract(final String pathToSpecification, final String library) {
+        return generateFromContract(pathToSpecification, library, new HashMap<>());
+    }
+
+    @SneakyThrows
+    private static Map<String, File> generateFromContract(
+            final String pathToSpecification,
+            final String library,
+            final Map<String, Object> properties
+    ) {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(library)
+                .setAdditionalProperties(properties)
+                .setInputSpec(pathToSpecification)
+                .setOutputDir(output.getAbsolutePath());
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        return generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
     }
 
     @Test
@@ -2019,6 +2158,38 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
     }
 
+    @DataProvider(name = "shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684")
+    public static Object[][] shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684_dataProvider() {
+        return new Object[][] {{"okhttp-gson"}, {"jersey2"}, {"jersey3"}, {"native"}};
+    }
+
+    @Test(dataProvider = "shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684")
+    public void shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684(String library) throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(library)
+            .addAdditionalProperty(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@annotation1;@annotation2")
+            .setInputSpec("src/test/resources/3_0/deprecated-properties.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("AbstractOpenApiSchema.java"))
+            .assertTypeAnnotations()
+            .doesNotContainsWithName("annotation1")
+            .doesNotContainsWithName("annotation2");
+        JavaFileAssert.assertThat(files.get("Animal.java"))
+            .assertTypeAnnotations()
+            .containsWithName("annotation1")
+            .containsWithName("annotation2");
+    }
+
     @Test
     public void testRestTemplateWithGeneratedClientAsBeanDisabled() throws IOException {
 
@@ -2081,4 +2252,27 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileContains(petApi, "@Component");
     }
 
+    @Test
+    public void testLogicToAvoidStackOverflow() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.GENERATE_CLIENT_AS_BEAN, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue_12929.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // shouldn't throw stackoverflow exception
+    }
 }

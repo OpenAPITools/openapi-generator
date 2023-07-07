@@ -29,11 +29,6 @@ public class Dog extends Animal {
 
   private String breed;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Dog#Dog(String)}
-   */
-  @Deprecated
   public Dog() {
     super();
   }
@@ -65,6 +60,7 @@ public class Dog extends Animal {
     this.breed = breed;
   }
 
+
   public Dog className(String className) {
     super.setClassName(className);
     return this;
@@ -74,7 +70,6 @@ public class Dog extends Animal {
     super.setColor(color);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

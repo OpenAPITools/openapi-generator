@@ -111,7 +111,6 @@ Class | Method | HTTP request | Description
  - [PSPetstore/Model.BasquePig](docs/BasquePig.md)
  - [PSPetstore/Model.Capitalization](docs/Capitalization.md)
  - [PSPetstore/Model.Cat](docs/Cat.md)
- - [PSPetstore/Model.CatAllOf](docs/CatAllOf.md)
  - [PSPetstore/Model.Category](docs/Category.md)
  - [PSPetstore/Model.ClassModel](docs/ClassModel.md)
  - [PSPetstore/Model.Client](docs/Client.md)
@@ -119,7 +118,6 @@ Class | Method | HTTP request | Description
  - [PSPetstore/Model.DanishPig](docs/DanishPig.md)
  - [PSPetstore/Model.DeprecatedObject](docs/DeprecatedObject.md)
  - [PSPetstore/Model.Dog](docs/Dog.md)
- - [PSPetstore/Model.DogAllOf](docs/DogAllOf.md)
  - [PSPetstore/Model.Drawing](docs/Drawing.md)
  - [PSPetstore/Model.EnumArrays](docs/EnumArrays.md)
  - [PSPetstore/Model.EnumTest](docs/EnumTest.md)
@@ -216,11 +214,11 @@ Authentication schemes defined for the API:
 ### bearer_test
 
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP Bearer Token authentication (JWT)
 
 <a id="http_signature_test"></a>
 ### http_signature_test
 
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP signature authentication
 

@@ -451,6 +451,14 @@ paths:
         schema:
           type: string
         style: form
+      - description: The password for login in clear text
+        explode: true
+        in: query
+        name: boolean_test
+        required: false
+        schema:
+          type: boolean
+        style: form
       responses:
         "200":
           content:
@@ -514,6 +522,14 @@ paths:
         schema:
           type: string
         style: simple
+      - description: boolean query parameter
+        explode: true
+        in: query
+        name: boolean_test
+        required: false
+        schema:
+          type: boolean
+        style: form
       responses:
         "400":
           description: Invalid username supplied

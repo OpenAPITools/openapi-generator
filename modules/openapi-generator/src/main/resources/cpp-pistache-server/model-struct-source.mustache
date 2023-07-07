@@ -85,6 +85,7 @@ bool {{classname}}::operator!=(const {{classname}}& other) const
 
 void to_json(nlohmann::json& j, const {{classname}}& o)
 {
+    j = nlohmann::json::object();
     {{#vars}}
     {{^required}}if (o.{{name}}.has_value()){{/required}}
         j["{{baseName}}"] = o.{{name}}{{^required}}.value(){{/required}};

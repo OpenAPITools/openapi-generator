@@ -45,11 +45,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
             return disableHtmlEscaping;
         }
 
-        // AbstractJavaCodegen.FULL_JAVA_UTIL
-        public boolean isFullJavaUtil() {
-            return fullJavaUtil;
-        }
-
         // JbossFeature.GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR
         public boolean isGenerateJbossDeploymentDescriptor() {
             return generateJbossDeploymentDescriptor;
@@ -222,7 +217,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         additionalProperties.put(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX, "isIt");
         additionalProperties.put(AbstractJavaCodegen.DATE_LIBRARY, "MyDateLibrary");
         additionalProperties.put(AbstractJavaCodegen.DISABLE_HTML_ESCAPING, "true");
-        additionalProperties.put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
         additionalProperties.put(AbstractJavaCodegen.SUPPORT_ASYNC, "true");
         additionalProperties.put(AbstractJavaCodegen.SUPPORT_JAVA6, "false");
         additionalProperties.put(AbstractJavaCodegen.WITH_XML, "true");
@@ -297,7 +291,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         assertEquals(testerCodegen.getBooleanGetterPrefix(), "isIt");
         assertEquals(testerCodegen.getDateLibrary(), "MyDateLibrary");
         assertEquals(testerCodegen.isDisableHtmlEscaping(), true);
-        assertEquals(testerCodegen.isFullJavaUtil(), true);
         assertEquals(testerCodegen.isSupportAsync(), true);
         assertEquals(testerCodegen.isWithXml(), true);
         assertEquals(testerCodegen.isOpenApiNullable(), false);
@@ -474,7 +467,6 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         assertEquals(additionalProperties.get(AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX), "get");
         assertNull(additionalProperties.get(AbstractJavaCodegen.DATE_LIBRARY));
         assertEquals(additionalProperties.get(AbstractJavaCodegen.DISABLE_HTML_ESCAPING), Boolean.FALSE);
-        assertEquals(additionalProperties.get(AbstractJavaCodegen.FULL_JAVA_UTIL), Boolean.FALSE);
         assertNull(additionalProperties.get(AbstractJavaCodegen.SUPPORT_ASYNC));
         assertEquals(additionalProperties.get(AbstractJavaCodegen.SUPPORT_JAVA6), Boolean.FALSE);
         assertEquals(additionalProperties.get(AbstractJavaCodegen.WITH_XML), false);

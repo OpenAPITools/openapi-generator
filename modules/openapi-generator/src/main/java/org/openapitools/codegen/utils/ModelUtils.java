@@ -524,6 +524,11 @@ public class ModelUtils {
      * @return true if the specified schema is a Map schema.
      */
     public static boolean isMapSchema(Schema schema) {
+        // additionalProperties explicitly set to false
+        if (schema.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(schema.getAdditionalProperties())) {
+            return false;
+        }
+
         return (schema instanceof MapSchema) ||
                 (schema.getAdditionalProperties() instanceof Schema) ||
                 (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties());
@@ -1336,7 +1341,7 @@ public class ModelUtils {
                     if (s == null) {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
                         return "UNKNOWN_PARENT_NAME";
-                    } else if (hasOrInheritsDiscriminator(s, allSchemas)) {
+                    } else if (hasOrInheritsDiscriminator(s, allSchemas, new ArrayList<Schema>())) {
                         // discriminator.propertyName is used or x-parent is used
                         return parentName;
                     } else {
@@ -1386,7 +1391,7 @@ public class ModelUtils {
                     if (s == null) {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
                         names.add("UNKNOWN_PARENT_NAME");
-                    } else if (hasOrInheritsDiscriminator(s, allSchemas)) {
+                    } else if (hasOrInheritsDiscriminator(s, allSchemas, new ArrayList<Schema>())) {
                         // discriminator.propertyName is used or x-parent is used
                         names.add(parentName);
                         if (includeAncestors && s instanceof ComposedSchema) {
@@ -1411,7 +1416,14 @@ public class ModelUtils {
         return names;
     }
 
-    private static boolean hasOrInheritsDiscriminator(Schema schema, Map<String, Schema> allSchemas) {
+    private static boolean hasOrInheritsDiscriminator(Schema schema, Map<String, Schema> allSchemas, ArrayList<Schema> visitedSchemas) {
+        for (Schema s : visitedSchemas) {
+            if (s == schema) {
+                return false;
+            }
+        }
+        visitedSchemas.add(schema);
+
         if ((schema.getDiscriminator() != null && StringUtils.isNotEmpty(schema.getDiscriminator().getPropertyName()))
                 || (isExtensionParent(schema))) { // x-parent is used
             return true;
@@ -1419,7 +1431,7 @@ public class ModelUtils {
             String parentName = getSimpleRef(schema.get$ref());
             Schema s = allSchemas.get(parentName);
             if (s != null) {
-                return hasOrInheritsDiscriminator(s, allSchemas);
+                return hasOrInheritsDiscriminator(s, allSchemas, visitedSchemas);
             } else {
                 LOGGER.error("Failed to obtain schema from {}", parentName);
             }
@@ -1427,7 +1439,7 @@ public class ModelUtils {
             final ComposedSchema composed = (ComposedSchema) schema;
             final List<Schema> interfaces = getInterfaces(composed);
             for (Schema i : interfaces) {
-                if (hasOrInheritsDiscriminator(i, allSchemas)) {
+                if (hasOrInheritsDiscriminator(i, allSchemas, visitedSchemas)) {
                     return true;
                 }
             }
@@ -1444,7 +1456,7 @@ public class ModelUtils {
      * @return boolean
      */
     public static boolean isExtensionParent(Schema schema) {
-        if (schema.getExtensions() == null) {
+        if (schema == null || schema.getExtensions() == null) {
             return false;
         }
 
@@ -1894,6 +1906,26 @@ public class ModelUtils {
                 schema.getMinItems() != null || schema.getMaxItems() != null ||
                 schema.getReadOnly() != null || schema.getWriteOnly() != null ||
                 schema.getPattern() != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns true if the schema is a parent (with discriminator).
+     *
+     * @param schema the schema.
+     *
+     * @return true if the schema is a parent.
+     */
+    public static boolean isParent(Schema schema) {
+        if (schema != null && schema.getDiscriminator() != null) {
+            return true;
+        }
+
+        // if x-parent is set
+        if (isExtensionParent(schema)) {
             return true;
         }
 

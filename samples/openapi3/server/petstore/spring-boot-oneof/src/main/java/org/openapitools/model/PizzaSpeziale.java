@@ -29,11 +29,6 @@ public class PizzaSpeziale extends Pizza {
 
   private String toppings;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link PizzaSpeziale#PizzaSpeziale(String)}
-   */
-  @Deprecated
   public PizzaSpeziale() {
     super();
   }
@@ -65,6 +60,7 @@ public class PizzaSpeziale extends Pizza {
     this.toppings = toppings;
   }
 
+
   public PizzaSpeziale pizzaSize(BigDecimal pizzaSize) {
     super.setPizzaSize(pizzaSize);
     return this;
@@ -94,7 +90,6 @@ public class PizzaSpeziale extends Pizza {
     super.setAtType(atType);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

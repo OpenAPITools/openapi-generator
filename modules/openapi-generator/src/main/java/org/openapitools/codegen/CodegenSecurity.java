@@ -46,36 +46,49 @@ public class CodegenSecurity {
     // OpenId specific
     public String openIdConnectUrl;
 
-    // Return a copy of the security object, filtering out any scopes from the passed-in list.
-    public CodegenSecurity filterByScopeNames(List<String> filterScopes) {
-        CodegenSecurity filteredSecurity = new CodegenSecurity();
-        // Copy all fields except the scopes.
-        filteredSecurity.name = name;
-        filteredSecurity.description = description;
-        filteredSecurity.type = type;
-        filteredSecurity.isBasic = isBasic;
-        filteredSecurity.isBasicBasic = isBasicBasic;
-        filteredSecurity.isHttpSignature = isHttpSignature;
-        filteredSecurity.isBasicBearer = isBasicBearer;
-        filteredSecurity.isApiKey = isApiKey;
-        filteredSecurity.isOAuth = isOAuth;
-        filteredSecurity.isOpenId = isOpenId;
-        filteredSecurity.keyParamName = keyParamName;
-        filteredSecurity.isCode = isCode;
-        filteredSecurity.isImplicit = isImplicit;
-        filteredSecurity.isApplication = isApplication;
-        filteredSecurity.isPassword = isPassword;
-        filteredSecurity.isKeyInCookie = isKeyInCookie;
-        filteredSecurity.isKeyInHeader = isKeyInHeader;
-        filteredSecurity.isKeyInQuery = isKeyInQuery;
-        filteredSecurity.flow = flow;
-        filteredSecurity.tokenUrl = tokenUrl;
-        filteredSecurity.authorizationUrl = authorizationUrl;
-        filteredSecurity.refreshUrl = refreshUrl;
-        filteredSecurity.openIdConnectUrl = openIdConnectUrl;
+    public CodegenSecurity () {
+    }
+
+    public CodegenSecurity (CodegenSecurity original) {
+        this.name = original.name;
+        this.description = original.description;
+        this.type = original.type;
+        this.scheme = original.scheme;
+        this.isBasic = original.isBasic;
+        this.isBasicBasic = original.isBasicBasic;
+        this.isHttpSignature = original.isHttpSignature;
+        this.bearerFormat = original.bearerFormat;
+        this.isBasicBearer = original.isBasicBearer;
+        this.isApiKey = original.isApiKey;
+        this.isOAuth = original.isOAuth;
+        this.isOpenId = original.isOpenId;
+        this.keyParamName = original.keyParamName;
+        this.isCode = original.isCode;
+        this.isImplicit = original.isImplicit;
+        this.isApplication = original.isApplication;
+        this.isPassword = original.isPassword;
+        this.isKeyInCookie = original.isKeyInCookie;
+        this.isKeyInHeader = original.isKeyInHeader;
+        this.isKeyInQuery = original.isKeyInQuery;
+        this.flow = original.flow;
+        this.tokenUrl = original.tokenUrl;
+        this.authorizationUrl = original.authorizationUrl;
+        this.refreshUrl = original.refreshUrl;
+        this.openIdConnectUrl = original.openIdConnectUrl;
+
         // It is not possible to deep copy the extensions, as we have no idea what types they are.
         // So the filtered method *will* refer to the original extensions, if any.
-        filteredSecurity.vendorExtensions = new HashMap<String, Object>(vendorExtensions);
+        this.vendorExtensions = original.vendorExtensions == null ? null : new HashMap<String, Object>(original.vendorExtensions);
+
+        // It is not possible to deep copy the extensions, as we have no idea what type their values are.
+        // So the filtered method *will* refer to the original scopes, if any.
+        this.scopes = original.scopes == null ? null : new ArrayList<Map<String, Object>>(original.scopes);
+    }
+
+    // Return a copy of the security object, filtering out any scopes from the passed-in list.
+    public CodegenSecurity filterByScopeNames(List<String> filterScopes) {
+        CodegenSecurity filteredSecurity = new CodegenSecurity(this);
+
         List<Map<String, Object>> returnedScopes = new ArrayList<Map<String, Object>>();
         Map<String, Object> lastScope = null;
         for (String filterScopeName : filterScopes) {

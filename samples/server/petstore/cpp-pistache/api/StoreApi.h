@@ -38,8 +38,8 @@ namespace org::openapitools::server::api
 class  StoreApi : public ApiBase {
 public:
     explicit StoreApi(const std::shared_ptr<Pistache::Rest::Router>& rtr);
-    virtual ~StoreApi() = default;
-    void init();
+    ~StoreApi() override = default;
+    void init() override;
 
     static const std::string base;
 

@@ -560,9 +560,6 @@ Fake endpoint to test group parameters (optional)
 ```powershell
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
-# Configure HTTP basic authorization: bearer_test
-$Configuration.Username = "YOUR_USERNAME"
-$Configuration.Password = "YOUR_PASSWORD"
 
 $RequiredStringGroup = 56 # Int32 | Required String in group parameters
 $RequiredBooleanGroup = $true # Boolean | Required Boolean in group parameters

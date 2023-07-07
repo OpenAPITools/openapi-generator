@@ -124,7 +124,6 @@ Class | Method | HTTP request | Description
 
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [AllOfPrimitiveTypes](docs/AllOfPrimitiveTypes.md)
- - [AllOfPrimitiveTypesAllOf](docs/AllOfPrimitiveTypesAllOf.md)
  - [Animal](docs/Animal.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [Apple](docs/Apple.md)
@@ -136,14 +135,11 @@ Class | Method | HTTP request | Description
  - [BananaReq](docs/BananaReq.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
- - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [Dog](docs/Dog.md)
- - [DogAllOf](docs/DogAllOf.md)
  - [DuplicatedPropChild](docs/DuplicatedPropChild.md)
- - [DuplicatedPropChildAllOf](docs/DuplicatedPropChildAllOf.md)
  - [DuplicatedPropParent](docs/DuplicatedPropParent.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
@@ -230,6 +226,19 @@ r, err := client.Service.Operation(auth, args)
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: api_key and passed in as the auth context for each request.
 
+Example
+
+```golang
+auth := context.WithValue(
+		context.Background(),
+		sw.ContextAPIKeys,
+		map[string]sw.APIKey{
+			"api_key": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
+
 ### api_key_query
 
 - **Type**: API key
@@ -237,6 +246,19 @@ Note, each API key must be added to a map of `map[string]APIKey` where the key i
 - **Location**: URL query string
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: api_key_query and passed in as the auth context for each request.
+
+Example
+
+```golang
+auth := context.WithValue(
+		context.Background(),
+		sw.ContextAPIKeys,
+		map[string]sw.APIKey{
+			"api_key_query": {Key: "API_KEY_STRING"},
+		},
+	)
+r, err := client.Service.Operation(auth, args)
+```
 
 ### http_basic_test
 

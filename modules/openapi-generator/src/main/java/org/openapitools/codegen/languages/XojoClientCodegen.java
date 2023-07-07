@@ -662,7 +662,7 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
             return schema.getExample().toString();
         }
 
-        return getPropertyDefaultValue(schema);
+        return getDefaultPropertyValue(schema);
     }
 
     @Override
@@ -671,7 +671,7 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
             return schema.getDefault().toString();
         }
 
-        return getPropertyDefaultValue(schema);
+        return getDefaultPropertyValue(schema);
     }
 
     @Override
@@ -716,7 +716,7 @@ public class XojoClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private String getPropertyDefaultValue(Schema schema) {
+    private String getDefaultPropertyValue(Schema schema) {
         if (ModelUtils.isBooleanSchema(schema)) {
             return "False";
         } else if (ModelUtils.isDateSchema(schema)) {

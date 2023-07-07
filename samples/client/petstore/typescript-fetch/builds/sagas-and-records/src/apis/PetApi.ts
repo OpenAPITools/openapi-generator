@@ -21,7 +21,7 @@ import type {
   ModelApiResponse,
   Pet,
   PetRegionsResponse,
-} from '../models';
+} from '../models/index';
 import {
     CategoryFromJSON,
     CategoryToJSON,
@@ -35,7 +35,7 @@ import {
     PetToJSON,
     PetRegionsResponseFromJSON,
     PetRegionsResponseToJSON,
-} from '../models';
+} from '../models/index';
 
 export interface AddPetRequest {
     dummyCat: Category;

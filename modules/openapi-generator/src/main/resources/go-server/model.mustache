@@ -1,10 +1,13 @@
 {{>partial_header}}
 package {{packageName}}
+
 {{#models}}{{#imports}}
 {{#-first}}import (
 {{/-first}}	"{{import}}"{{#-last}}
 )
-{{/-last}}{{/imports}}{{#model}}{{#isEnum}}{{#description}}// {{{classname}}} : {{{description}}}{{/description}}
+{{/-last}}{{/imports}}
+
+{{#model}}{{#isEnum}}{{#description}}// {{{classname}}} : {{{description}}}{{/description}}
 type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{{format}}}
 
 // List of {{{classname}}}
@@ -35,6 +38,30 @@ type {{classname}} struct {
 	{{name}} {{#isNullable}}*{{/isNullable}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
 }{{/isEnum}}
+
+// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
+func (m *{{classname}}) UnmarshalJSON(data []byte) error {
+	{{#vars}}
+	{{#defaultValue}}
+	{{^isArray}}
+	{{#isBoolean}}
+	m.{{name}} = {{{.}}}
+	{{/isBoolean}}
+	{{#isNumeric}}
+	m.{{name}} = {{{.}}}
+	{{/isNumeric}}
+	{{^isBoolean}}
+	{{^isNumeric}}
+	m.{{name}} = "{{{.}}}"
+	{{/isNumeric}}
+	{{/isBoolean}}
+	{{/isArray}}
+	{{/defaultValue}}
+	{{/vars}}
+
+	type Alias {{classname}} // To avoid infinite recursion
+    return json.Unmarshal(data, (*Alias)(m))
+}
 
 // Assert{{classname}}Required checks if the required fields are not zero-ed
 func Assert{{classname}}Required(obj {{classname}}) error {
@@ -117,6 +144,23 @@ func Assert{{classname}}Required(obj {{classname}}) error {
 			{{/items.isModel}}
 		{{/isArray}}
 	{{/isNullable}}
+{{/Vars}}
+	return nil
+}
+
+// Assert{{classname}}Constraints checks if the values respects the defined constraints
+func Assert{{classname}}Constraints(obj {{classname}}) error {
+{{#Vars}}
+{{#minimum}}
+	if {{#isNullable}}obj.{{name}} != nil && *{{/isNullable}}obj.{{name}} < {{minimum}} {
+		return &ParsingError{Err: errors.New(errMsgMinValueConstraint)}
+	}
+{{/minimum}}
+{{#maximum}}
+	if {{#isNullable}}obj.{{name}} != nil && *{{/isNullable}}obj.{{name}} > {{maximum}} {
+		return &ParsingError{Err: errors.New(errMsgMaxValueConstraint)}
+	}
+{{/maximum}}
 {{/Vars}}
 	return nil
 }{{/model}}{{/models}}

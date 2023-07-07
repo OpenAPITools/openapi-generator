@@ -102,14 +102,6 @@ CREATE TABLE IF NOT EXISTS `Cat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Table structure for table `Cat_allOf` generated from model 'CatUnderscoreallOf'
---
-
-CREATE TABLE IF NOT EXISTS `Cat_allOf` (
-  `declawed` TINYINT(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
 -- Table structure for table `Category` generated from model 'Category'
 --
 
@@ -154,14 +146,6 @@ CREATE TABLE IF NOT EXISTS `Dog` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Table structure for table `Dog_allOf` generated from model 'DogUnderscoreallOf'
---
-
-CREATE TABLE IF NOT EXISTS `Dog_allOf` (
-  `breed` TEXT DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
 -- Table structure for table `EnumArrays` generated from model 'EnumArrays'
 --
 
@@ -183,6 +167,15 @@ CREATE TABLE IF NOT EXISTS `Enum_Test` (
   `outerEnumInteger` TEXT DEFAULT NULL,
   `outerEnumDefaultValue` TEXT DEFAULT NULL,
   `outerEnumIntegerDefaultValue` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `fakeBigDecimalMap_200_response` generated from model 'fakeBigDecimalMapUnderscore200Underscoreresponse'
+--
+
+CREATE TABLE IF NOT EXISTS `fakeBigDecimalMap_200_response` (
+  `someId` DECIMAL(20, 9) DEFAULT NULL,
+  `someMap` JSON DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --

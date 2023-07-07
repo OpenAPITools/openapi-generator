@@ -829,27 +829,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 List<String> opScopes = (scopes == null) ? null : scopes.get(authMethod.name);
                 authMethod.name = camelize(sanitizeName(authMethod.name), LOWERCASE_FIRST_LETTER);
                 if (opScopes != null) {
-                    CodegenSecurity opSecurity = new CodegenSecurity();
-                    opSecurity.name = authMethod.name;
-                    opSecurity.type = authMethod.type;
-                    opSecurity.isBasic = authMethod.isBasic;
-                    opSecurity.isApiKey = authMethod.isApiKey;
-                    opSecurity.isKeyInCookie = authMethod.isKeyInCookie;
-                    opSecurity.isKeyInHeader = authMethod.isKeyInHeader;
-                    opSecurity.isKeyInQuery = authMethod.isKeyInQuery;
-                    opSecurity.flow = authMethod.flow;
-                    opSecurity.tokenUrl = authMethod.tokenUrl;
-                    List<Map<String, Object>> opAuthScopes = new ArrayList<>();
-                    for (String opScopeName : opScopes) {
-                        for (Map<String, Object> scope : authMethod.scopes) {
-                            String name = (String) scope.get("scope");
-                            if (opScopeName.equals(name)) {
-                                opAuthScopes.add(scope);
-                                break;
-                            }
-                        }
-                    }
-                    opSecurity.scopes = opAuthScopes;
+                    CodegenSecurity opSecurity = authMethod.filterByScopeNames(opScopes);
                     result.add(opSecurity);
                 }
             }
