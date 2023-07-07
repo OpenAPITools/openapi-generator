@@ -1164,7 +1164,7 @@ public class DefaultCodegenTest {
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         hs.clear();
-        hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B")));
+        hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B"), true));
         hs.add(new CodegenDiscriminator.MappedModel("C", codegen.toModelName("C")));
         Assert.assertEquals(cm.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
@@ -1174,7 +1174,7 @@ public class DefaultCodegenTest {
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         hs.clear();
-        hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B")));
+        hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B"), true));
         hs.add(new CodegenDiscriminator.MappedModel("C", codegen.toModelName("C")));
         Assert.assertEquals(cm.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
@@ -1184,7 +1184,7 @@ public class DefaultCodegenTest {
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         hs.clear();
-        hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B")));
+        hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B"), true));
         Assert.assertEquals(cm.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
     }
@@ -1265,7 +1265,7 @@ public class DefaultCodegenTest {
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
         hs.clear();
-        hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B")));
+        hs.add(new CodegenDiscriminator.MappedModel("b", codegen.toModelName("B"), true));
         Assert.assertEquals(cm.discriminator.getMappedModels(), hs);
 
         // the mapping in b is in B
@@ -1654,8 +1654,8 @@ public class DefaultCodegenTest {
         discriminator.setPropertyBaseName(prop);
         discriminator.setMapping(null);
         discriminator.setMappedModels(new HashSet<CodegenDiscriminator.MappedModel>() {{
-            add(new CodegenDiscriminator.MappedModel("daily", "DailySubObj"));
-            add(new CodegenDiscriminator.MappedModel("sub-obj", "SubObj"));
+            add(new CodegenDiscriminator.MappedModel("daily", "DailySubObj", true));
+            add(new CodegenDiscriminator.MappedModel("sub-obj", "SubObj", true));
         }});
         assertEquals(cm.discriminator, discriminator);
     }
@@ -2049,8 +2049,8 @@ public class DefaultCodegenTest {
         test.setMapping(new HashMap<>());
         test.getMapping().put("a", "#/components/schemas/Adult");
         test.getMapping().put("c", "Child");
-        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("a", "Adult"));
-        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("c", "Child"));
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("a", "Adult", true));
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("c", "Child", true));
         Assert.assertEquals(discriminator, test);
     }
 
