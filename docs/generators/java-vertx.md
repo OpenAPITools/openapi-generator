@@ -56,7 +56,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|resourceFolder|resource folder for generated resources| |src/main/resources|
 |rxInterface|When specified, API interfaces are generated with RX and methods return Single&lt;&gt; and Comparable.| |false|
 |rxVersion2|When specified in combination with rxInterface, API interfaces are generated with RxJava2.| |false|
 |scmConnection|SCM connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|

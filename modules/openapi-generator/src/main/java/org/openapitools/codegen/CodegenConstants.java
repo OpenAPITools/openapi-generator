@@ -128,10 +128,6 @@ public class CodegenConstants {
 
     public static final String SOURCE_FOLDER = "sourceFolder";
     public static final String SOURCE_FOLDER_DESC = "source folder for generated code";
-
-    public static final String RESOURCE_FOLDER = "resourceFolder";
-    public static final String RESOURCE_FOLDER_DESC = "resource folder for generated resources";
-
     public static final String IMPL_FOLDER = "implFolder";
     public static final String IMPL_FOLDER_DESC = "folder for generated implementation code";
 

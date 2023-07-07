@@ -68,7 +68,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |reactive|Make the responses use Reactor Mono as wrapper| |true|
 |requiredPropertiesInConstructor|Allow only to create models with all the required properties provided in constructor| |true|
-|resourceFolder|resource folder for generated resources| |src/main/resources|
 |scmConnection|SCM connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmDeveloperConnection|SCM developer connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmUrl|SCM URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|

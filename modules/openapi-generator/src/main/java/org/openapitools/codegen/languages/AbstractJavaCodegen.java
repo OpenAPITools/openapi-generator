@@ -113,7 +113,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String projectTestFolder = "src/test";
     // this must not be OS-specific
     protected String sourceFolder = projectFolder + "/java";
-    protected String resourceFolder = projectFolder + "/resources";
     protected String testFolder = projectTestFolder + "/java";
     protected boolean discriminatorCaseSensitive = true; // True if the discriminator value lookup should be case-sensitive.
     protected Boolean serializableModel = false;
@@ -252,7 +251,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(new CliOption(CodegenConstants.LICENSE_NAME, CodegenConstants.LICENSE_NAME_DESC).defaultValue(this.getLicenseName()));
         cliOptions.add(new CliOption(CodegenConstants.LICENSE_URL, CodegenConstants.LICENSE_URL_DESC).defaultValue(this.getLicenseUrl()));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC).defaultValue(this.getSourceFolder()));
-        cliOptions.add(new CliOption(CodegenConstants.RESOURCE_FOLDER, CodegenConstants.RESOURCE_FOLDER_DESC).defaultValue(this.getResourceFolder()));
+
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC, this.getSerializableModel()));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING_DESC, serializeBigDecimalAsString));
         cliOptions.add(CliOption.newBoolean(DISCRIMINATOR_CASE_SENSITIVE, "Whether the discriminator value lookup should be case-sensitive or not. This option only works for Java API client", discriminatorCaseSensitive));
@@ -508,11 +507,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
         additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
-
-        if (additionalProperties.containsKey(CodegenConstants.RESOURCE_FOLDER)) {
-            this.setResourceFolder((String) additionalProperties.get(CodegenConstants.RESOURCE_FOLDER));
-        }
-        additionalProperties.put(CodegenConstants.RESOURCE_FOLDER, resourceFolder);
 
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
             this.setSerializableModel(Boolean.valueOf(additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
@@ -1917,14 +1911,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
-    }
-
-    public void setResourceFolder( String resourceFolder ) {
-        this.resourceFolder = resourceFolder;
-    }
-
-    public String getResourceFolder() {
-        return resourceFolder;
     }
 
     public String getTestFolder() {
