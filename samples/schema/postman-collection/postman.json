@@ -23,19 +23,23 @@
                                     "header": [
                                         {
                                             "key": "Content-Type",
-                                            "value": "application/json"
+                                            "value": "application/json",
+                                            "disabled": false
                                         },
                                         {
                                             "key": "Accept",
-                                            "value": "application/json"
+                                            "value": "application/json",
+                                            "disabled": false
                                         },
                                         {
                                             "key": "strCode",
-                                            "value": "code_one"
+                                            "value": "code_one",
+                                            "disabled": false
                                         },
                                         {
                                             "key": "strCode2",
-                                            "value": ""
+                                            "value": "",
+                                            "disabled": true
                                         }
                                     ],
                                     "body": {
@@ -134,15 +138,18 @@
                                     "header": [
                                         {
                                             "key": "Accept",
-                                            "value": "application/json"
+                                            "value": "application/json",
+                                            "disabled": false
                                         },
                                         {
                                             "key": "strCode",
-                                            "value": "code_one"
+                                            "value": "code_one",
+                                            "disabled": false
                                         },
                                         {
                                             "key": "strCode2",
-                                            "value": ""
+                                            "value": "",
+                                            "disabled": true
                                         }
                                     ],
                                     "body": {
@@ -194,15 +201,18 @@
                                     "header": [
                                         {
                                             "key": "Accept",
-                                            "value": "application/json"
+                                            "value": "application/json",
+                                            "disabled": false
                                         },
                                         {
                                             "key": "Custom-Header",
-                                            "value": ""
+                                            "value": "",
+                                            "disabled": true
                                         },
                                         {
                                             "key": "Another-Custom-Header",
-                                            "value": "abc"
+                                            "value": "abc",
+                                            "disabled": false
                                         }
                                     ],
                                     "body": {
@@ -247,11 +257,13 @@
                                     "header": [
                                         {
                                             "key": "Content-Type",
-                                            "value": "application/json"
+                                            "value": "application/json",
+                                            "disabled": false
                                         },
                                         {
                                             "key": "Accept",
-                                            "value": "application/json"
+                                            "value": "application/json",
+                                            "disabled": false
                                         }
                                     ],
                                     "body": {
