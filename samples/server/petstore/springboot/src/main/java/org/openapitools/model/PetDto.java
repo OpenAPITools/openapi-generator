@@ -83,11 +83,6 @@ public class PetDto {
 
   private StatusEnum status;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link PetDto#PetDto(String, Set<String>)}
-   */
-  @Deprecated
   public PetDto() {
     super();
   }

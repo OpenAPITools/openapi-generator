@@ -32,6 +32,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -70,7 +74,6 @@ public class SpecialModelName {
    * @return $specialPropertyName
   **/
   @javax.annotation.Nullable
-
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
@@ -92,7 +95,6 @@ public class SpecialModelName {
    * @return specialModelName
   **/
   @javax.annotation.Nullable
-
   public String getSpecialModelName() {
     return specialModelName;
   }
@@ -204,17 +206,18 @@ public class SpecialModelName {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to SpecialModelName
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to SpecialModelName
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!SpecialModelName.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!SpecialModelName.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in SpecialModelName is not found in the empty JSON string", SpecialModelName.openapiRequiredFields.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("_special_model.name_") != null && !jsonObj.get("_special_model.name_").isJsonNull()) && !jsonObj.get("_special_model.name_").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `_special_model.name_` to be a primitive type in the JSON string but got `%s`", jsonObj.get("_special_model.name_").toString()));
       }
@@ -257,8 +260,9 @@ public class SpecialModelName {
 
            @Override
            public SpecialModelName read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
              // store additional fields in the deserialized instance
              SpecialModelName instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {

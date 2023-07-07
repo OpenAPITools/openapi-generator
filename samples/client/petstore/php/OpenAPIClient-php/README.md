@@ -74,6 +74,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123TestSpecialTags**](docs/Api/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**fooGet**](docs/Api/DefaultApi.md#fooget) | **GET** /foo | 
+*FakeApi* | [**fakeBigDecimalMap**](docs/Api/FakeApi.md#fakebigdecimalmap) | **GET** /fake/BigDecimalMap | 
 *FakeApi* | [**fakeHealthGet**](docs/Api/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeHttpSignatureTest**](docs/Api/FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/Api/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
@@ -125,16 +126,15 @@ Class | Method | HTTP request | Description
 - [ArrayTest](docs/Model/ArrayTest.md)
 - [Capitalization](docs/Model/Capitalization.md)
 - [Cat](docs/Model/Cat.md)
-- [CatAllOf](docs/Model/CatAllOf.md)
 - [Category](docs/Model/Category.md)
 - [ClassModel](docs/Model/ClassModel.md)
 - [Client](docs/Model/Client.md)
 - [DeprecatedObject](docs/Model/DeprecatedObject.md)
 - [Dog](docs/Model/Dog.md)
-- [DogAllOf](docs/Model/DogAllOf.md)
 - [EnumArrays](docs/Model/EnumArrays.md)
 - [EnumClass](docs/Model/EnumClass.md)
 - [EnumTest](docs/Model/EnumTest.md)
+- [FakeBigDecimalMap200Response](docs/Model/FakeBigDecimalMap200Response.md)
 - [File](docs/Model/File.md)
 - [FileSchemaTestClass](docs/Model/FileSchemaTestClass.md)
 - [Foo](docs/Model/Foo.md)
@@ -167,6 +167,7 @@ Class | Method | HTTP request | Description
 
 ## Authorization
 
+Authentication schemes defined for the API:
 ### petstore_auth
 
 - **Type**: `OAuth`
@@ -176,13 +177,11 @@ Class | Method | HTTP request | Description
     - **write:pets**: modify pets in your account
     - **read:pets**: read your pets
 
-
 ### api_key
 
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
-
 
 
 ### api_key_query
@@ -192,18 +191,17 @@ Class | Method | HTTP request | Description
 - **Location**: URL query string
 
 
-
 ### http_basic_test
 
 - **Type**: HTTP basic authentication
-
 
 ### bearer_test
 
 - **Type**: Bearer authentication (JWT)
 
-
 ### http_signature_test
+
+- **Type**: HTTP signature authentication
 
 ## Tests
 

@@ -1,6 +1,11 @@
 # coding: utf-8
 
 from typing import Dict, List  # noqa: F401
+import importlib
+import pkgutil
+
+from openapi_server.apis.pet_api_base import BasePetApi
+import openapi_server.impl
 
 from fastapi import (  # noqa: F401
     APIRouter,
@@ -23,6 +28,10 @@ from openapi_server.security_api import get_token_petstore_auth, get_token_api_k
 
 router = APIRouter()
 
+ns_pkg = openapi_server.impl
+for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
+    importlib.import_module(name)
+
 
 @router.post(
     "/pet",
@@ -41,7 +50,7 @@ async def add_pet(
     ),
 ) -> Pet:
     """"""
-    ...
+    return BasePetApi.subclasses[0]().add_pet(pet)
 
 
 @router.delete(
@@ -61,7 +70,7 @@ async def delete_pet(
     ),
 ) -> None:
     """"""
-    ...
+    return BasePetApi.subclasses[0]().delete_pet(petId, api_key)
 
 
 @router.get(
@@ -81,7 +90,7 @@ async def find_pets_by_status(
     ),
 ) -> List[Pet]:
     """Multiple status values can be provided with comma separated strings"""
-    ...
+    return BasePetApi.subclasses[0]().find_pets_by_status(status)
 
 
 @router.get(
@@ -101,7 +110,7 @@ async def find_pets_by_tags(
     ),
 ) -> List[Pet]:
     """Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing."""
-    ...
+    return BasePetApi.subclasses[0]().find_pets_by_tags(tags)
 
 
 @router.get(
@@ -122,7 +131,7 @@ async def get_pet_by_id(
     ),
 ) -> Pet:
     """Returns a single pet"""
-    ...
+    return BasePetApi.subclasses[0]().get_pet_by_id(petId)
 
 
 @router.put(
@@ -144,7 +153,7 @@ async def update_pet(
     ),
 ) -> Pet:
     """"""
-    ...
+    return BasePetApi.subclasses[0]().update_pet(pet)
 
 
 @router.post(
@@ -165,7 +174,7 @@ async def update_pet_with_form(
     ),
 ) -> None:
     """"""
-    ...
+    return BasePetApi.subclasses[0]().update_pet_with_form(petId, name, status)
 
 
 @router.post(
@@ -186,4 +195,4 @@ async def upload_file(
     ),
 ) -> ApiResponse:
     """"""
-    ...
+    return BasePetApi.subclasses[0]().upload_file(petId, additional_metadata, file)

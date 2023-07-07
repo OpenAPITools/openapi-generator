@@ -92,7 +92,6 @@ public class TypeHolderDefault {
   **/
   @javax.annotation.Nonnull
   @NotNull
-  @Valid
 
 
   public BigDecimal getNumberItem() {

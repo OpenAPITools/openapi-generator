@@ -123,6 +123,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         importMapping.remove("List");
         importMapping.remove("Set");
         importMapping.remove("Map");
+        importMapping.put("BigDecimal", "java.math.BigDecimal");
 
         typeMapping = new HashMap<>();
         typeMapping.put("array", "Seq");

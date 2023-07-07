@@ -41,12 +41,10 @@ src/main/java/org/openapitools/model/ArrayOfNumberOnly.java
 src/main/java/org/openapitools/model/ArrayTest.java
 src/main/java/org/openapitools/model/Capitalization.java
 src/main/java/org/openapitools/model/Cat.java
-src/main/java/org/openapitools/model/CatAllOf.java
 src/main/java/org/openapitools/model/Category.java
 src/main/java/org/openapitools/model/ClassModel.java
 src/main/java/org/openapitools/model/Client.java
 src/main/java/org/openapitools/model/Dog.java
-src/main/java/org/openapitools/model/DogAllOf.java
 src/main/java/org/openapitools/model/EnumArrays.java
 src/main/java/org/openapitools/model/EnumClass.java
 src/main/java/org/openapitools/model/EnumTest.java

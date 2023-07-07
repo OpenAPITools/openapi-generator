@@ -1,6 +1,5 @@
 package org.openapitools.api;
 
-import java.util.List;
 import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 import org.springframework.http.HttpStatus;
@@ -8,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -32,7 +33,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#createUser
      */
-    default Void createUser(User user) {
+    default void createUser(User user) {
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -45,7 +46,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
-    default Void createUsersWithArrayInput(List<User> user) {
+    default void createUsersWithArrayInput(List<User> user) {
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -58,7 +59,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
-    default Void createUsersWithListInput(List<User> user) {
+    default void createUsersWithListInput(List<User> user) {
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -72,7 +73,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#deleteUser
      */
-    default Void deleteUser(String username) {
+    default void deleteUser(String username) {
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -129,7 +130,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#logoutUser
      */
-    default Void logoutUser() {
+    default void logoutUser() {
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -144,7 +145,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
-    default Void updateUser(String username,
+    default void updateUser(String username,
         User user) {
         throw new IllegalArgumentException("Not implemented");
 

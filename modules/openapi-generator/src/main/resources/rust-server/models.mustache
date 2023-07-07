@@ -1,5 +1,7 @@
 #![allow(unused_qualifications)]
 
+use validator::Validate;
+
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
@@ -243,7 +245,7 @@ impl std::str::FromStr for {{{classname}}} {
 {{/arrayModelType}}
 {{^arrayModelType}}
 {{! general struct}}
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 {{#xmlName}}
 #[serde(rename = "{{{.}}}")]
@@ -258,6 +260,44 @@ pub struct {{{classname}}} {
     #[serde(serialize_with = "wrap_in_{{{x-item-xml-name}}}")]
 {{/x-item-xml-name}}
 {{/vendorExtensions}}
+{{#hasValidation}}
+    #[validate(
+        {{#maxLength}}
+            {{#minLength}}
+            length(min = {{minLength}}, max = {{maxLength}}),
+            {{/minLength}}
+            {{^minLength}}
+            length(max = {{maxLength}}),
+            {{/minLength}}
+        {{/maxLength}}
+        {{^maxLength}}
+            {{#minLength}}
+            length(min = {{minLength}}),
+            {{/minLength}}
+        {{/maxLength}}
+        {{#pattern}}
+          {{^isByteArray}}
+           regex = "RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}",
+          {{/isByteArray}}
+          {{#isByteArray}}
+           custom ="validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowercase}}"
+          {{/isByteArray}}
+        {{/pattern}}
+        {{#maximum}}
+            {{#minimum}}
+            range(min = {{minimum}}, max = {{maximum}}),
+            {{/minimum}}
+            {{^minimum}}
+            range(max = {{maximum}}),
+            {{/minimum}}
+        {{/maximum}}
+        {{#minimum}}
+            {{^maximum}}
+            range(min = {{minimum}}),
+            {{/maximum}}
+        {{/minimum}}
+        )]
+{{/hasValidation}}
 {{#required}}
     pub {{{name}}}: {{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
 {{/required}}
@@ -272,6 +312,31 @@ pub struct {{{classname}}} {
 
 {{/vars}}
 }
+
+{{#vars}}
+{{#hasValidation}}
+{{#pattern}}
+{{^isByteArray}}
+lazy_static::lazy_static! {
+    static ref RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new(r"{{ pattern }}").unwrap();
+}
+{{/isByteArray}}
+{{#isByteArray}}
+lazy_static::lazy_static! {
+    static ref RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new(r"{{ pattern }}").unwrap();
+}
+fn validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowercase}}(
+    b: &swagger::ByteArray
+) -> Result<(), validator::ValidationError> {
+    if !RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}.is_match(b) {
+        return Err(validator::ValidationError::new("Character not allowed"));
+    }
+    Ok(())
+}
+{{/isByteArray}}
+{{/pattern}}
+{{/hasValidation}}
+{{/vars}}
 
 impl {{{classname}}} {
     #[allow(clippy::new_without_default)]

@@ -68,7 +68,7 @@ class AdditionalPropertiesClass {
     return null;
   }
 
-  static List<AdditionalPropertiesClass>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<AdditionalPropertiesClass> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <AdditionalPropertiesClass>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -99,12 +99,10 @@ class AdditionalPropertiesClass {
   static Map<String, List<AdditionalPropertiesClass>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<AdditionalPropertiesClass>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = AdditionalPropertiesClass.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = AdditionalPropertiesClass.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

@@ -7,7 +7,7 @@ title: Building the code
 
 To build from source, you need the following installed and available in your `$PATH:`
 
-* [Java 8](https://java.oracle.com)
+* [Java 11](https://java.oracle.com)
 
 * [Apache maven 3.3.4 or greater](https://maven.apache.org/)
 

@@ -1,27 +1,40 @@
 package {{packageName}}
 
+import io.ktor.server.application.*
+import io.ktor.serialization.gson.*
+import io.ktor.http.*
+{{#featureResources}}
+import io.ktor.server.resources.*
+{{/featureResources}}
+{{#featureCORS}}
+import io.ktor.server.plugins.cors.routing.*
+{{/featureCORS}}
+{{#featureAutoHead}}
+import io.ktor.server.plugins.autohead.*
+{{/featureAutoHead}}
+{{#featureConditionalHeaders}}
+import io.ktor.server.plugins.conditionalheaders.*
+{{/featureConditionalHeaders}}
+{{#featureCompression}}
+import io.ktor.server.plugins.compression.*
+{{/featureCompression}}
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.defaultheaders.*
+{{#featureHSTS}}
+import io.ktor.server.plugins.hsts.*
+{{/featureHSTS}}
 {{#featureMetrics}}
 import com.codahale.metrics.Slf4jReporter
-{{/featureMetrics}}
-import io.ktor.application.*
-import io.ktor.features.*
-import io.ktor.gson.*
-import io.ktor.http.*
-{{#featureLocations}}
-import io.ktor.locations.*
-{{/featureLocations}}
-{{#featureMetrics}}
-import io.ktor.metrics.dropwizard.*
+import io.ktor.server.metrics.dropwizard.*
 import java.util.concurrent.TimeUnit
 {{/featureMetrics}}
-import io.ktor.routing.*
-import io.ktor.util.*
+import io.ktor.server.routing.*
 {{#hasAuthMethods}}
 import com.typesafe.config.ConfigFactory
-import io.ktor.auth.*
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
-import io.ktor.config.HoconApplicationConfig
+import io.ktor.server.config.HoconApplicationConfig
+import io.ktor.server.auth.*
 import org.openapitools.server.infrastructure.*
 {{/hasAuthMethods}}
 {{#generateApis}}{{#apiInfo}}{{#apis}}import {{apiPackage}}.{{classname}}
@@ -35,16 +48,12 @@ object HTTP {
 }
 {{/hasAuthMethods}}
 
-@KtorExperimentalAPI
-{{#featureLocations}}
-@KtorExperimentalLocationsAPI
-{{/featureLocations}}
 fun Application.main() {
     install(DefaultHeaders)
     {{#featureMetrics}}
     install(DropwizardMetrics) {
         val reporter = Slf4jReporter.forRegistry(registry)
-            .outputTo(log)
+            .outputTo(this@main.log)
             .convertRatesTo(TimeUnit.SECONDS)
             .convertDurationsTo(TimeUnit.MILLISECONDS)
             .build()
@@ -70,13 +79,13 @@ fun Application.main() {
     {{#featureHSTS}}
     install(HSTS, ApplicationHstsConfiguration()) // see https://ktor.io/docs/hsts.html
     {{/featureHSTS}}
-    {{#featureLocations}}
-    install(Locations) // see https://ktor.io/docs/features-locations.html
-    {{/featureLocations}}
+    {{#featureResources}}
+    install(Resources)
+    {{/featureResources}}
     {{#hasAuthMethods}}
     install(Authentication) {
     {{#authMethods}}
-        {{#isBasic}}
+        {{#isBasicBasic}}
         basic("{{{name}}}") {
         validate { credentials ->
             // TODO: "Apply your basic authentication functionality."
@@ -87,7 +96,7 @@ fun Application.main() {
                 null
             }
         }
-        {{/isBasic}}
+        {{/isBasicBasic}}
         {{#isApiKey}}
         // "Implement API key auth ({{{name}}}) for parameter name '{{{keyParamName}}}'."
         apiKeyAuth("{{{name}}}") {
@@ -105,7 +114,7 @@ fun Application.main() {
             {{^bodyAllowed}}
         oauth("{{name}}") {
             client = HttpClient(Apache)
-            providerLookup = { ApplicationAuthProviders["{{{name}}}"] }
+            providerLookup = { applicationAuthProvider(this@main.environment.config) }
             urlProvider = { _ ->
                 // TODO: define a callback url here.
                 "/"

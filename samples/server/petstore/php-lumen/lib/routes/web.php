@@ -80,6 +80,13 @@ $router->get('/v2/fake', 'FakeApi@testEnumParameters');
 $router->delete('/v2/fake', 'FakeApi@testGroupParameters');
 
 /**
+ * get fakeBigDecimalMap
+ * Summary: 
+ * Notes: for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+ */
+$router->get('/v2/fake/BigDecimalMap', 'FakeApi@fakeBigDecimalMap');
+
+/**
  * put testBodyWithBinary
  * Summary: 
  * Notes: For this test, the body has to be a binary file.

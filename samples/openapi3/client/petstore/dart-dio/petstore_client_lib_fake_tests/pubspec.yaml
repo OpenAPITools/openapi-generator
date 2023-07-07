@@ -10,7 +10,7 @@ environment:
 dev_dependencies:
   built_collection: 5.1.1
   built_value: 8.4.3
-  dio: 5.0.0
+  dio: 5.2.1
   http_mock_adapter: 0.4.2
   mockito: 5.2.0
   openapi:

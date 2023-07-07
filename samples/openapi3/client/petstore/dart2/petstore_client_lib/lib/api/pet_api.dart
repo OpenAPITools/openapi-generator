@@ -190,7 +190,7 @@ class PetApi {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<Pet>') as List)
         .cast<Pet>()
-        .toList();
+        .toList(growable: false);
 
     }
     return null;
@@ -253,7 +253,7 @@ class PetApi {
       final responseBody = await _decodeBodyBytes(response);
       return (await apiClient.deserializeAsync(responseBody, 'List<Pet>') as List)
         .cast<Pet>()
-        .toList();
+        .toList(growable: false);
 
     }
     return null;

@@ -147,7 +147,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("DateTime", "Posix");
         typeMapping.put("password", "String");
         typeMapping.put("ByteArray", "String");
-        typeMapping.put("file", "String");
+        typeMapping.put("file", "File");
         typeMapping.put("binary", "String");
         typeMapping.put("UUID", "Uuid");
         typeMapping.put("URI", "String");
@@ -373,18 +373,34 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                     response.isModel = !response.primitiveType;
                 }
             });
+            // an empty string is truthy so we explicitly set empty notes to null
+            // So we don't print empty notes
+            if (op.notes != null && op.notes.isEmpty())
+                op.notes = null;
         });
 
-        final boolean includeTime =
-            anyOperationResponse(ops, response -> response.isDate || response.isDateTime) ||
-            anyOperationParam(ops, param -> param.isDate || param.isDateTime);
-        final boolean includeUuid =
-            anyOperationResponse(ops, response -> response.isUuid) ||
-            anyOperationParam(ops, param -> param.isUuid);
+        final boolean includeTime = anyOperationResponse(ops, response -> response.isDate || response.isDateTime) ||
+                anyOperationParam(ops, param -> (param.isDate || param.isDateTime) || itemsIncludesType(param.items, p -> p.isDate || p.isDateTime));
+        final boolean includeUuid = anyOperationResponse(ops, response -> response.isUuid) ||
+                anyOperationParam(ops, param -> param.isUuid || itemsIncludesType(param.items, p -> p.isUuid));
+        final boolean includeFile = anyOperationResponse(ops, response -> response.isFile) ||
+            anyOperationParam(ops, param -> param.isFile || itemsIncludesType(param.items, p -> p.isFile));
+
         operations.put("includeTime", includeTime);
         operations.put("includeUuid", includeUuid);
+        operations.put("includeFile", includeFile);
 
         return operations;
+    }
+
+    private static boolean itemsIncludesType(CodegenProperty p, Predicate<CodegenProperty> condition) {
+        if (p == null)
+            return false;
+
+        if (p.items != null)
+            return itemsIncludesType(p.items, condition);
+
+        return condition.test(p);
     }
 
     static class ParameterSorter implements Comparator<CodegenParameter> {
@@ -461,7 +477,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static class RemoveWhitespaceLambda implements Mustache.Lambda {
         @Override
         public void execute(final Template.Fragment fragment, final Writer writer) throws IOException {
-            writer.write(fragment.execute().replaceAll("\\s+", ""));
+            writer.write(fragment.execute().replaceAll("\\s+", " ").trim());
         }
     }
 

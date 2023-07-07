@@ -50,17 +50,17 @@ type APIClient struct {
 
 	// API Services
 
-	AnotherFakeApi AnotherFakeApi
+	AnotherFakeAPI AnotherFakeAPI
 
-	FakeApi FakeApi
+	FakeAPI FakeAPI
 
-	FakeClassnameTags123Api FakeClassnameTags123Api
+	FakeClassnameTags123API FakeClassnameTags123API
 
-	PetApi PetApi
+	PetAPI PetAPI
 
-	StoreApi StoreApi
+	StoreAPI StoreAPI
 
-	UserApi UserApi
+	UserAPI UserAPI
 }
 
 type service struct {
@@ -79,12 +79,12 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
-	c.AnotherFakeApi = (*AnotherFakeApiService)(&c.common)
-	c.FakeApi = (*FakeApiService)(&c.common)
-	c.FakeClassnameTags123Api = (*FakeClassnameTags123ApiService)(&c.common)
-	c.PetApi = (*PetApiService)(&c.common)
-	c.StoreApi = (*StoreApiService)(&c.common)
-	c.UserApi = (*UserApiService)(&c.common)
+	c.AnotherFakeAPI = (*AnotherFakeAPIService)(&c.common)
+	c.FakeAPI = (*FakeAPIService)(&c.common)
+	c.FakeClassnameTags123API = (*FakeClassnameTags123APIService)(&c.common)
+	c.PetAPI = (*PetAPIService)(&c.common)
+	c.StoreAPI = (*StoreAPIService)(&c.common)
+	c.UserAPI = (*UserAPIService)(&c.common)
 
 	return c
 }
@@ -672,16 +672,17 @@ func formatErrorMessage(status string, v interface{}) string {
 	str := ""
 	metaValue := reflect.ValueOf(v).Elem()
 
-	field := metaValue.FieldByName("Title")
-	if field != (reflect.Value{}) {
-		str = fmt.Sprintf("%s", field.Interface())
+	if metaValue.Kind() == reflect.Struct {
+		field := metaValue.FieldByName("Title")
+		if field != (reflect.Value{}) {
+			str = fmt.Sprintf("%s", field.Interface())
+		}
+
+		field = metaValue.FieldByName("Detail")
+		if field != (reflect.Value{}) {
+			str = fmt.Sprintf("%s (%s)", str, field.Interface())
+		}
 	}
 
-	field = metaValue.FieldByName("Detail")
-	if field != (reflect.Value{}) {
-		str = fmt.Sprintf("%s (%s)", str, field.Interface())
-	}
-
-	// status title (detail)
 	return strings.TrimSpace(fmt.Sprintf("%s %s", status, str))
 }

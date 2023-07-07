@@ -22,11 +22,24 @@ import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
-import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -39,7 +52,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -58,10 +78,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     "ApiResponse"
             ));
 
+    public static final String OPEN_BRACE = "{";
+    public static final String CLOSE_BRACE = "}";
+
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
+    public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String SPRING_BOOT = "spring-boot";
+    public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
     public static final String EXCEPTION_HANDLER = "exceptionHandler";
     public static final String GRADLE_BUILD_FILE = "gradleBuildFile";
     public static final String SERVICE_INTERFACE = "serviceInterface";
@@ -69,6 +94,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
     public static final String REACTIVE = "reactive";
     public static final String INTERFACE_ONLY = "interfaceOnly";
+    public static final String USE_FEIGN_CLIENT_URL = "useFeignClientUrl";
+    public static final String USE_FEIGN_CLIENT = "useFeignClient";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String USE_TAGS = "useTags";
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
@@ -76,6 +103,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
 
     private String basePackage;
+    protected String configPackage;
     private String invokerPackage;
     private String serverPort = "8080";
     private String title = "OpenAPI Kotlin Spring";
@@ -88,6 +116,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private boolean serviceImplementation = false;
     private boolean reactive = false;
     private boolean interfaceOnly = false;
+    protected boolean useFeignClientUrl = true;
+    protected boolean useFeignClient = false;
     private boolean delegatePattern = false;
     protected boolean useTags = false;
     private boolean beanQualifiers = false;
@@ -105,7 +135,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
                         SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.OAuth2_ClientCredentials,
+                        SecurityFeature.OAuth2_Password,
+                        SecurityFeature.OAuth2_AuthorizationCode
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
@@ -128,11 +161,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         artifactId = "openapi-spring";
         basePackage = invokerPackage = "org.openapitools";
+        configPackage = "org.openapitools.configuration";
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
 
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.artifactId);
+
+        additionalProperties.put("openbrace", OPEN_BRACE);
+        additionalProperties.put("closebrace", CLOSE_BRACE);
 
         // Use lists instead of arrays
         typeMapping.put("array", "kotlin.collections.List");
@@ -142,6 +179,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         typeMapping.put("file", "org.springframework.core.io.Resource");
 
         addOption(TITLE, "server title name or client service name", title);
+        addOption(CONFIG_PACKAGE, "configuration package for generated code", this.getConfigPackage());
         addOption(BASE_PACKAGE, "base package (invokerPackage) for generated code", basePackage);
         addOption(SERVER_PORT, "configuration the port in which the sever is to run on", serverPort);
         addOption(CodegenConstants.MODEL_PACKAGE, "model package for generated code", modelPackage);
@@ -158,6 +196,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(SKIP_DEFAULT_INTERFACE, "Whether to skip generation of default implementations for interfaces", skipDefaultInterface);
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
         addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
+        addSwitch(USE_FEIGN_CLIENT_URL, "Whether to generate Feign client with url parameter.", useFeignClientUrl);
         addSwitch(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern);
         addSwitch(USE_TAGS, "Whether to use tags for creating interface and controller class names", useTags);
         addSwitch(BEAN_QUALIFIERS, "Whether to add fully-qualifier class names as bean qualifiers in @Component and " +
@@ -165,6 +204,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 " (contexts) added to single project.", beanQualifiers);
         addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
+        supportedLibraries.put(SPRING_CLOUD_LIBRARY,
+                "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
         setLibrary(SPRING_BOOT);
 
         CliOption cliOpt = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC);
@@ -243,6 +284,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 getDocumentationProvider().equals(DocumentationProvider.SOURCE);
     }
 
+    public void setConfigPackage(String configPackage) {
+        this.configPackage = configPackage;
+    }
+
+    public String getConfigPackage() {
+        return configPackage;
+    }
+
     public String getBasePackage() {
         return this.basePackage;
     }
@@ -300,6 +349,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         this.serviceInterface = serviceInterface;
     }
 
+    public void setUseFeignClientUrl(boolean useFeignClientUrl) {
+        this.useFeignClientUrl = useFeignClientUrl;
+    }
+
     public boolean getServiceImplementation() {
         return this.serviceImplementation;
     }
@@ -335,6 +388,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
+    }
+
+    public void setUseFeignClient( boolean useFeignClient ) {
+        this.useFeignClient = useFeignClient;
     }
 
     public void setSkipDefaultInterface(boolean skipDefaultInterface) {
@@ -454,6 +511,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             LOGGER.info("Set base package to invoker package ({})", basePackage);
         }
 
+        if (additionalProperties.containsKey(CONFIG_PACKAGE)) {
+            this.setConfigPackage((String) additionalProperties.get(CONFIG_PACKAGE));
+        } else {
+            additionalProperties.put(CONFIG_PACKAGE, configPackage);
+        }
+
         if (additionalProperties.containsKey(BASE_PACKAGE)) {
             this.setBasePackage((String) additionalProperties.get(BASE_PACKAGE));
         } else {
@@ -504,10 +567,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
         writePropertyBack(SKIP_DEFAULT_INTERFACE, skipDefaultInterface);
 
-        if (additionalProperties.containsKey(REACTIVE) && library.equals(SPRING_BOOT)) {
-            this.setReactive(convertPropertyToBoolean(REACTIVE));
-            // spring webflux doesn't support @ControllerAdvice
-            this.setExceptionHandler(false);
+        if (additionalProperties.containsKey(REACTIVE)) {
+            if (SPRING_CLOUD_LIBRARY.equals(library)) {
+                throw new IllegalArgumentException("Currently, reactive option doesn't supported by Spring Cloud");
+            }
+            if (library.equals(SPRING_BOOT)) {
+                this.setReactive(convertPropertyToBoolean(REACTIVE));
+                // spring webflux doesn't support @ControllerAdvice
+                this.setExceptionHandler(false);
+            }
         }
         writePropertyBack(REACTIVE, reactive);
         writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
@@ -520,6 +588,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (additionalProperties.containsKey(INTERFACE_ONLY)) {
             this.setInterfaceOnly(Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString()));
         }
+
+        if (library.equals(SPRING_CLOUD_LIBRARY)) {
+            this.setInterfaceOnly(true);
+            this.setUseFeignClient(true);
+            additionalProperties.put(USE_FEIGN_CLIENT, true);
+        }
+
+        if (additionalProperties.containsKey(USE_FEIGN_CLIENT_URL)) {
+            this.setUseFeignClientUrl(Boolean.parseBoolean(additionalProperties.get(USE_FEIGN_CLIENT_URL).toString()));
+        }
+        writePropertyBack(USE_FEIGN_CLIENT_URL, useFeignClientUrl);
 
         if (additionalProperties.containsKey(DELEGATE_PATTERN)) {
             this.setDelegatePattern(Boolean.parseBoolean(additionalProperties.get(DELEGATE_PATTERN).toString()));
@@ -539,7 +618,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             if (AnnotationLibrary.SWAGGER1.equals(getAnnotationLibrary())) {
                 throw new IllegalArgumentException(AnnotationLibrary.SWAGGER1.getPropertyName() + " is not supported with Spring Boot > 3.x");
             }
-            useJakartaEe=true;
+            useJakartaEe = true;
             additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
             applyJakartaPackage();
         }
@@ -555,11 +634,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         } else {
             apiTemplateFiles.put("api.mustache", "Controller.kt");
             apiTestTemplateFiles.put("api_test.mustache", ".kt");
-        }
-
-        if (SPRING_BOOT.equals(library)) {
-            supportingFiles.add(new SupportingFile("apiUtil.mustache",
-                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.kt"));
         }
 
         if (this.serviceInterface) {
@@ -579,13 +653,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
 
-        if (this.exceptionHandler) {
+        if (this.exceptionHandler && !library.equals(SPRING_CLOUD_LIBRARY)) {
             supportingFiles.add(new SupportingFile("exceptions.mustache",
                     sanitizeDirectory(sourceFolder + File.separator + apiPackage), "Exceptions.kt"));
         }
 
         if (library.equals(SPRING_BOOT)) {
             LOGGER.info("Setup code generator for Kotlin Spring Boot");
+
+            supportingFiles.add(new SupportingFile("apiUtil.mustache",
+                    (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.kt"));
+
             if (isUseSpringBoot3()) {
                 supportingFiles.add(new SupportingFile("pom-sb3.mustache", "", "pom.xml"));
             } else {
@@ -621,7 +699,36 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
 
-        if (!reactive) {
+        if (library.equals(SPRING_CLOUD_LIBRARY)) {
+            LOGGER.info("Setup code generator for Kotlin Spring Cloud Client");
+
+            if (isUseSpringBoot3()) {
+                supportingFiles.add(new SupportingFile("pom-sb3.mustache", "pom.xml"));
+            } else {
+                supportingFiles.add(new SupportingFile("pom.mustache", "pom.xml"));
+            }
+
+            if (this.gradleBuildFile) {
+                if (isUseSpringBoot3()) {
+                    supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "build.gradle.kts"));
+                } else {
+                    supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "build.gradle.kts"));
+                }
+                supportingFiles.add(new SupportingFile("settingsGradle.mustache", "settings.gradle"));
+            }
+
+            supportingFiles.add(new SupportingFile("apiKeyRequestInterceptor.mustache",
+                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                    "ApiKeyRequestInterceptor.kt"));
+            supportingFiles.add(new SupportingFile("clientConfiguration.mustache",
+                    (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                    "ClientConfiguration.kt"));
+            apiTemplateFiles.put("apiClient.mustache", "Client.kt");
+
+            apiTestTemplateFiles.clear();
+        }
+
+        if (!reactive && !library.equals(SPRING_CLOUD_LIBRARY)) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 supportingFiles.add(new SupportingFile("springfoxDocumentationConfig.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),

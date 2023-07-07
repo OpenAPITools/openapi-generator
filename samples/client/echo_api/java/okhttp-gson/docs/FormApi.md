@@ -7,7 +7,7 @@ All URIs are relative to *http://localhost:3000*
 | [**testFormIntegerBooleanString**](FormApi.md#testFormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s) |
 
 
-<a name="testFormIntegerBooleanString"></a>
+<a id="testFormIntegerBooleanString"></a>
 # **testFormIntegerBooleanString**
 > String testFormIntegerBooleanString(integerForm, booleanForm, stringForm)
 

@@ -50,6 +50,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public String defaultValueWithParam;
     public String baseType;
     public String containerType;
+    public String containerTypeMapped; // language-specified container type (e.g. `dict` in python for map)
+
     /**
      * The value of the 'title' attribute in the OpenAPI schema.
      */
@@ -136,6 +138,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isEmail;
     public boolean isPassword;
     public boolean isNull;
+    public boolean isVoid = false;
     /**
      * The type is a free-form object, i.e. it is a map of string to values with no declared properties.
      * A OAS free-form schema may include the 'additionalProperties' attribute, which puts a constraint
@@ -257,6 +260,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public void setIsBooleanSchemaFalse(boolean isBooleanSchemaFalse) {
         this.isBooleanSchemaFalse = isBooleanSchemaFalse;
     }
+
+    public String getOpenApiType() { return openApiType; }
 
     public String getBaseName() {
         return baseName;
@@ -388,6 +393,15 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.containerType = containerType;
     }
 
+    public String getContainerTypeMapped() {
+        return containerTypeMapped;
+    }
+
+    public void setContainerTypeMapped(String containerTypeMapped) {
+        this.containerTypeMapped = containerTypeMapped;
+    }
+
+
     public String getTitle() {
         return title;
     }
@@ -510,6 +524,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
     public boolean requiredAndNotNullable() {
         return getRequired() && !isNullable;
+    }
+
+    public boolean notRequiredOrIsNullable() {
+        return !getRequired() || isNullable;
     }
 
     public void setRequired(boolean required) {
@@ -876,6 +894,16 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
+    public boolean getIsVoid() {
+        return isVoid;
+    }
+
+    @Override
+    public void setIsVoid(boolean isVoid) {
+        this.isVoid = isVoid;
+    }
+
+    @Override
     public boolean getHasValidation() {
         return hasValidation;
     }
@@ -1017,6 +1045,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", defaultValueWithParam='").append(defaultValueWithParam).append('\'');
         sb.append(", baseType='").append(baseType).append('\'');
         sb.append(", containerType='").append(containerType).append('\'');
+        sb.append(", containerTypeMapped='").append(containerTypeMapped).append('\'');
         sb.append(", title='").append(title).append('\'');
         sb.append(", unescapedDescription='").append(unescapedDescription).append('\'');
         sb.append(", maxLength=").append(maxLength);
@@ -1096,6 +1125,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", xmlNamespace='").append(xmlNamespace).append('\'');
         sb.append(", isXmlWrapped=").append(isXmlWrapped);
         sb.append(", isNull=").append(isNull);
+        sb.append(", isVoid=").append(isVoid);
         sb.append(", getAdditionalPropertiesIsAnyType=").append(getAdditionalPropertiesIsAnyType());
         sb.append(", getHasVars=").append(getHasVars());
         sb.append(", getHasRequired=").append(getHasRequired());
@@ -1167,6 +1197,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isXmlAttribute == that.isXmlAttribute &&
                 isXmlWrapped == that.isXmlWrapped &&
                 isNull == that.isNull &&
+                isVoid == that.isVoid &&
                 hasMultipleTypes == that.getHasMultipleTypes() &&
                 hasDiscriminatorWithNonEmptyMapping == that.hasDiscriminatorWithNonEmptyMapping &&
                 isBooleanSchemaTrue == that.getIsBooleanSchemaTrue() &&
@@ -1198,6 +1229,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(defaultValueWithParam, that.defaultValueWithParam) &&
                 Objects.equals(baseType, that.baseType) &&
                 Objects.equals(containerType, that.containerType) &&
+                Objects.equals(containerTypeMapped, that.containerTypeMapped) &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(unescapedDescription, that.unescapedDescription) &&
                 Objects.equals(maxLength, that.maxLength) &&
@@ -1232,7 +1264,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
         return Objects.hash(openApiType, baseName, complexType, getter, setter, description,
                 dataType, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
-                defaultValueWithParam, baseType, containerType, title, unescapedDescription,
+                defaultValueWithParam, baseType, containerType, containerTypeMapped, title, unescapedDescription,
                 maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
                 exclusiveMinimum, exclusiveMaximum, required, deprecated,
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
@@ -1243,7 +1275,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
-                xmlNamespace, isXmlWrapped, isNull, additionalPropertiesIsAnyType, hasVars, hasRequired,
+                xmlNamespace, isXmlWrapped, isNull, isVoid, additionalPropertiesIsAnyType, hasVars, hasRequired,
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, requiredVarsMap,
                 ref, uniqueItemsBoolean, schemaIsFromAdditionalProperties, isBooleanSchemaTrue, isBooleanSchemaFalse,
                 format, dependentRequired, contains);

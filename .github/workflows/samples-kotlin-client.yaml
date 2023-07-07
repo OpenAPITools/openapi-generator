@@ -51,11 +51,14 @@ jobs:
           - samples/client/petstore/kotlin-bigdecimal-default-okhttp4
           - samples/client/petstore/kotlin-jvm-ktor-jackson
           - samples/client/petstore/kotlin-jvm-ktor-gson
-          - samples/client/petstore/kotlin-jvm-ktor-gson
+          - samples/client/petstore/kotlin-jvm-ktor-kotlinx_serialization
           - samples/client/petstore/kotlin-jvm-vertx-gson
           - samples/client/petstore/kotlin-jvm-vertx-jackson
           - samples/client/petstore/kotlin-jvm-vertx-jackson-coroutines
           - samples/client/petstore/kotlin-jvm-vertx-moshi
+          - samples/client/petstore/kotlin-jvm-spring-2-webclient
+          - samples/client/petstore/kotlin-jvm-spring-3-webclient
+          - samples/client/petstore/kotlin-spring-cloud
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3

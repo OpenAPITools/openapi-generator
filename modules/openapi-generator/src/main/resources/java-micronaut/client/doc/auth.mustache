@@ -1,13 +1,13 @@
 # Authorization methods
 {{#authMethods}}
-<a name="name"></a>
+<a id="name"></a>
 # {{name}}
 {{!
     basic auth
-}}{{#isBasic}}Authorization method is of **basic auth**.
+}}{{#isBasicBasic}}Authorization method is of **basic auth**.
 
 {{#configureAuth}}The configuration for it can be found in [application.yml](src/main/resources/application.yml) at `security.basic-auth.{{name}}`. `username` and `password` need to be filled for it to work correctly.{{/configureAuth}}{{^configureAuth}}It can be configured in the [application.yml](src/main/resources/application.yml) using Micronaut security features.{{/configureAuth}}
-{{/isBasic}}{{!
+{{/isBasicBasic}}{{!
     api key
 }}{{#isApiKey}}Authorization method is of **api key type**. The parameter `{{{keyParamName}}}` is located in `{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}{{#isKeyInCookie}}cookie{{/isKeyInCookie}}`.
 

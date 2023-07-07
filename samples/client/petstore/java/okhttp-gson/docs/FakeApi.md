@@ -21,7 +21,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
 
 
-<a name="fakeHealthGet"></a>
+<a id="fakeHealthGet"></a>
 # **fakeHealthGet**
 > HealthCheckResult fakeHealthGet()
 
@@ -77,7 +77,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | The instance started successfully |  -  |
 
-<a name="fakeOuterBooleanSerialize"></a>
+<a id="fakeOuterBooleanSerialize"></a>
 # **fakeOuterBooleanSerialize**
 > Boolean fakeOuterBooleanSerialize(body)
 
@@ -139,7 +139,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Output boolean |  -  |
 
-<a name="fakeOuterCompositeSerialize"></a>
+<a id="fakeOuterCompositeSerialize"></a>
 # **fakeOuterCompositeSerialize**
 > OuterComposite fakeOuterCompositeSerialize(outerComposite)
 
@@ -201,7 +201,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Output composite |  -  |
 
-<a name="fakeOuterNumberSerialize"></a>
+<a id="fakeOuterNumberSerialize"></a>
 # **fakeOuterNumberSerialize**
 > BigDecimal fakeOuterNumberSerialize(body)
 
@@ -247,7 +247,7 @@ public class Example {
 
 ### Return type
 
-[**BigDecimal**](BigDecimal.md)
+**BigDecimal**
 
 ### Authorization
 
@@ -263,7 +263,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Output number |  -  |
 
-<a name="fakeOuterStringSerialize"></a>
+<a id="fakeOuterStringSerialize"></a>
 # **fakeOuterStringSerialize**
 > String fakeOuterStringSerialize(body)
 
@@ -325,7 +325,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Output string |  -  |
 
-<a name="getArrayOfEnums"></a>
+<a id="getArrayOfEnums"></a>
 # **getArrayOfEnums**
 > List&lt;OuterEnum&gt; getArrayOfEnums()
 
@@ -381,7 +381,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Got named array of enums |  -  |
 
-<a name="testBodyWithFileSchema"></a>
+<a id="testBodyWithFileSchema"></a>
 # **testBodyWithFileSchema**
 > testBodyWithFileSchema(fileSchemaTestClass)
 
@@ -442,7 +442,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Success |  -  |
 
-<a name="testBodyWithQueryParams"></a>
+<a id="testBodyWithQueryParams"></a>
 # **testBodyWithQueryParams**
 > testBodyWithQueryParams(query, user)
 
@@ -503,7 +503,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Success |  -  |
 
-<a name="testClientModel"></a>
+<a id="testClientModel"></a>
 # **testClientModel**
 > Client testClientModel(client)
 
@@ -565,7 +565,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | successful operation |  -  |
 
-<a name="testEndpointParameters"></a>
+<a id="testEndpointParameters"></a>
 # **testEndpointParameters**
 > testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
 
@@ -659,7 +659,7 @@ null (empty response body)
 | **400** | Invalid username supplied |  -  |
 | **404** | User not found |  -  |
 
-<a name="testEnumParameters"></a>
+<a id="testEnumParameters"></a>
 # **testEnumParameters**
 > testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
 
@@ -735,7 +735,7 @@ No authorization required
 | **400** | Invalid request |  -  |
 | **404** | Not found |  -  |
 
-<a name="testGroupParameters"></a>
+<a id="testGroupParameters"></a>
 # **testGroupParameters**
 > testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group).stringGroup(stringGroup).booleanGroup(booleanGroup).int64Group(int64Group).execute();
 
@@ -815,7 +815,7 @@ null (empty response body)
 |-------------|-------------|------------------|
 | **400** | Something wrong |  -  |
 
-<a name="testInlineAdditionalProperties"></a>
+<a id="testInlineAdditionalProperties"></a>
 # **testInlineAdditionalProperties**
 > testInlineAdditionalProperties(requestBody)
 
@@ -876,7 +876,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | successful operation |  -  |
 
-<a name="testJsonFormData"></a>
+<a id="testJsonFormData"></a>
 # **testJsonFormData**
 > testJsonFormData(param, param2)
 
@@ -939,7 +939,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | successful operation |  -  |
 
-<a name="testQueryParameterCollectionFormat"></a>
+<a id="testQueryParameterCollectionFormat"></a>
 # **testQueryParameterCollectionFormat**
 > testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
 

@@ -537,8 +537,8 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                     }
                 }
 
-                if (hasBodyParameter(openAPI, operation) || hasFormParameter(openAPI, operation)) {
-                    String defaultContentType = hasFormParameter(openAPI, operation) ? "application/x-www-form-urlencoded" : "application/json";
+                if (hasBodyParameter(operation) || hasFormParameter(operation)) {
+                    String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
                     List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
                     String contentTypeValue = consumes.isEmpty() ? defaultContentType : consumes.get(0);
                     if (contentTypeValue.equals("*/*"))

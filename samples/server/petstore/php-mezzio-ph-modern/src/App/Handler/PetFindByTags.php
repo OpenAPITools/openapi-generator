@@ -26,7 +26,7 @@ class PetFindByTags
     #[PHA\Producer("application/xml", PHProducer\Transfer::class)]
     // TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
     #[PHA\Producer("application/json", PHProducer\Transfer::class)]
-    public function findPetsByTags(ServerRequestInterface $request): \App\DTO\Collection26
+    public function findPetsByTags(ServerRequestInterface $request): \App\DTO\Collection6
     {
         //TODO implement method
         /** @var \App\DTO\FindPetsByTagsQueryData $queryData */

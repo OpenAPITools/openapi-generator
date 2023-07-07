@@ -38,11 +38,6 @@ public class CatDto extends AnimalDto {
 
   private Boolean declawed;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link CatDto#CatDto(String)}
-   */
-  @Deprecated
   public CatDto() {
     super();
   }
@@ -74,6 +69,7 @@ public class CatDto extends AnimalDto {
     this.declawed = declawed;
   }
 
+
   public CatDto className(String className) {
     super.setClassName(className);
     return this;
@@ -83,7 +79,6 @@ public class CatDto extends AnimalDto {
     super.setColor(color);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

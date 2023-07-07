@@ -278,9 +278,6 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
                 childrenByParent.put(model.parent, model);
             }
         }
-        if (StringUtils.isNotBlank(model.parentSchema)) {
-            model.parentSchema = model.parentSchema.toLowerCase(Locale.ROOT);
-        }
     }
 
     @Override

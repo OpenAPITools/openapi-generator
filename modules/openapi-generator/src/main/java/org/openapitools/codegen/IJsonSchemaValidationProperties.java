@@ -151,6 +151,10 @@ public interface IJsonSchemaValidationProperties {
 
     void setIsNull(boolean isNull);
 
+    boolean getIsVoid();
+
+    void setIsVoid(boolean isVoid);
+
     boolean getHasValidation();
 
     void setHasValidation(boolean hasValidation);

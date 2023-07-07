@@ -1,0 +1,8 @@
+# for .net Unity
+generatorName: csharp
+outputDir: samples/client/petstore/csharp/OpenAPIClient-unityWebRequest
+inputSpec: modules/openapi-generator/src/test/resources/3_0/csharp/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
+templateDir: modules/openapi-generator/src/main/resources/csharp
+library: unityWebRequest
+additionalProperties:
+  targetFramework: netstandard2.0

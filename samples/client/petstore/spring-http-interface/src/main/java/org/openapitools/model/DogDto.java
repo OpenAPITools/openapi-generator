@@ -47,6 +47,7 @@ public class DogDto extends AnimalDto {
     this.breed = breed;
   }
 
+
   public DogDto className(String className) {
     super.setClassName(className);
     return this;
@@ -56,7 +57,6 @@ public class DogDto extends AnimalDto {
     super.setColor(color);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

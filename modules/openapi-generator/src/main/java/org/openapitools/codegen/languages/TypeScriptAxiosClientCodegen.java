@@ -23,6 +23,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -50,7 +51,9 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public TypeScriptAxiosClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .includeSecurityFeatures(SecurityFeature.BearerToken));
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
@@ -154,6 +157,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
+        this.updateOperationParameterForEnum(objs);
         OperationMap vals = objs.getOperations();
         List<CodegenOperation> operations = vals.getOperation();
         /*
@@ -164,7 +168,22 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
                 .filter(op -> op.hasConsumes)
                 .filter(op -> op.consumes.stream().anyMatch(opc -> opc.values().stream().anyMatch("multipart/form-data"::equals)))
                 .forEach(op -> op.vendorExtensions.putIfAbsent("multipartFormData", true));
+
         return objs;
+    }
+
+    private void updateOperationParameterForEnum(OperationsMap operations) {
+        // This method will add extra information as to whether or not we have enums and
+        // update their names with the operation.id prefixed.
+        // It will also set the uniqueId status if provided.
+        for (CodegenOperation op : operations.getOperations().getOperation()) {
+            for (CodegenParameter param : op.allParams) {
+                if (Boolean.TRUE.equals(param.isEnum)) {
+                    param.datatypeWithEnum = param.datatypeWithEnum
+                            .replace(param.enumName, op.operationIdCamelCase + param.enumName);
+                }
+            }
+        }
     }
 
     @Override

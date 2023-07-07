@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 {{/gson}}
 {{#moshi}}
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 {{/moshi}}
 {{#jackson}}
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -30,6 +31,11 @@ import kotlinx.serialization.*
  * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
  */
 {{#multiplatform}}@Serializable{{/multiplatform}}{{#kotlinx_serialization}}@Serializable{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}
+{{^multiplatform}}
+{{#moshi}}
+@JsonClass(generateAdapter = false)
+{{/moshi}}
+{{/multiplatform}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{classname}}(val value: {{{dataType}}}) {
 {{#allowableValues}}{{#enumVars}}
     {{^multiplatform}}
@@ -62,7 +68,7 @@ import kotlinx.serialization.*
     {{/isArray}}
 {{/enumVars}}{{/allowableValues}}
     /**
-     * Override toString() to avoid using the enum variable name as the value, and instead use
+     * Override [toString()] to avoid using the enum variable name as the value, and instead use
      * the actual value defined in the API spec file.
      *
      * This solves a problem when the variable name and its value are different, and ensures that

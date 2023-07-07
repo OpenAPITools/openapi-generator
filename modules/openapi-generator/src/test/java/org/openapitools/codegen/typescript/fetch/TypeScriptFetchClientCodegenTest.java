@@ -116,7 +116,7 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.additionalProperties().put("npmName", "@openapi/typescript-fetch-petstore");
         codegen.additionalProperties().put("snapshot", false);
         codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
-        codegen.setSupportsES6(true);
+        codegen.additionalProperties().put("supportsES6", true);
 
         codegen.processOpts();
 
@@ -131,7 +131,7 @@ public class TypeScriptFetchClientCodegenTest {
         codegen.additionalProperties().put("npmName", "@openapi/typescript-fetch-petstore");
         codegen.additionalProperties().put("snapshot", false);
         codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
-        codegen.setSupportsES6(false);
+        codegen.additionalProperties().put("supportsES6", false);
 
         codegen.processOpts();
 

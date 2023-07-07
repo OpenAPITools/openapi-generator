@@ -8,6 +8,7 @@ import org.openapitools.client.model.DataQuery;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
 
@@ -20,6 +21,83 @@ import feign.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public interface QueryApi extends ApiClient.Api {
 
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param enumRefStringQuery  (optional)
+   * @return String
+   */
+  @RequestLine("GET /query/enum_ref_string?enum_ref_string_query={enumRefStringQuery}")
+  @Headers({
+    "Accept: text/plain",
+  })
+  String testEnumRefString(@Param("enumRefStringQuery") StringEnumRef enumRefStringQuery);
+
+  /**
+   * Test query parameter(s)
+   * Similar to <code>testEnumRefString</code> but it also returns the http response headers .
+   * Test query parameter(s)
+   * @param enumRefStringQuery  (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("GET /query/enum_ref_string?enum_ref_string_query={enumRefStringQuery}")
+  @Headers({
+    "Accept: text/plain",
+  })
+  ApiResponse<String> testEnumRefStringWithHttpInfo(@Param("enumRefStringQuery") StringEnumRef enumRefStringQuery);
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * Note, this is equivalent to the other <code>testEnumRefString</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link TestEnumRefStringQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>enumRefStringQuery -  (optional)</li>
+   *   </ul>
+   * @return String
+   */
+  @RequestLine("GET /query/enum_ref_string?enum_ref_string_query={enumRefStringQuery}")
+  @Headers({
+  "Accept: text/plain",
+  })
+  String testEnumRefString(@QueryMap(encoded=true) TestEnumRefStringQueryParams queryParams);
+
+  /**
+  * Test query parameter(s)
+  * Test query parameter(s)
+  * Note, this is equivalent to the other <code>testEnumRefString</code> that receives the query parameters as a map,
+  * but this one also exposes the Http response headers
+      * @param queryParams Map of query parameters as name-value pairs
+      *   <p>The following elements may be specified in the query map:</p>
+      *   <ul>
+          *   <li>enumRefStringQuery -  (optional)</li>
+      *   </ul>
+          * @return String
+      */
+      @RequestLine("GET /query/enum_ref_string?enum_ref_string_query={enumRefStringQuery}")
+      @Headers({
+    "Accept: text/plain",
+      })
+   ApiResponse<String> testEnumRefStringWithHttpInfo(@QueryMap(encoded=true) TestEnumRefStringQueryParams queryParams);
+
+
+   /**
+   * A convenience class for generating query parameters for the
+   * <code>testEnumRefString</code> method in a fluent style.
+   */
+  public static class TestEnumRefStringQueryParams extends HashMap<String, Object> {
+    public TestEnumRefStringQueryParams enumRefStringQuery(final StringEnumRef value) {
+      put("enum_ref_string_query", EncodingUtils.encode(value));
+      return this;
+    }
+  }
 
   /**
    * Test query parameter(s)

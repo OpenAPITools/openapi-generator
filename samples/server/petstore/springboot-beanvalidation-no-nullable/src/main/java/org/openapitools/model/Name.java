@@ -30,11 +30,6 @@ public class Name {
 
   private Integer _123number;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Name#Name(Integer)}
-   */
-  @Deprecated
   public Name() {
     super();
   }

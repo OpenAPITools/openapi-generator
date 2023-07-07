@@ -73,7 +73,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         SecurityFeature.BasicAuth,
                         SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.SignatureAuth
                 ))
                 .includeGlobalFeatures(
                         GlobalFeature.ParameterizedServer
@@ -694,7 +695,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             if (modelMaps.get(subModel) == null) {
                 oneOf = "new(" + subModel + ")";// a primitive type
             } else {
-                oneOf = constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap, depth + 1).substring(1);
+                oneOf = StringUtils.removeStart(constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap, depth + 1), "*");
             }
             return goImportAlias + "." + model + "{" + typeToName(subModel) + ": " + oneOf + "}";
         } else {

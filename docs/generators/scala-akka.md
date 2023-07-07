@@ -39,6 +39,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ---------- | ------- |
 |Array|java.util.List|
 |ArrayList|java.util.ArrayList|
+|BigDecimal|java.math.BigDecimal|
 |Date|java.util.Date|
 |DateTime|org.joda.time.*|
 |File|java.io.File|
@@ -233,6 +234,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

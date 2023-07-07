@@ -1,0 +1,7 @@
+generatorName: swift-combine
+outputDir: samples/client/petstore/swift-combine/client
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/swift-combine
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  projectName: "PetstoreOpenAPI"

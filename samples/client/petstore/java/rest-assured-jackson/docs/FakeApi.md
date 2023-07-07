@@ -20,7 +20,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
 
 
-<a name="createXmlItem"></a>
+<a id="createXmlItem"></a>
 # **createXmlItem**
 > createXmlItem(xmlItem)
 
@@ -62,7 +62,7 @@ No authorization required
  - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
  - **Accept**: Not defined
 
-<a name="fakeOuterBooleanSerialize"></a>
+<a id="fakeOuterBooleanSerialize"></a>
 # **fakeOuterBooleanSerialize**
 > Boolean fakeOuterBooleanSerialize(body)
 
@@ -103,7 +103,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
-<a name="fakeOuterCompositeSerialize"></a>
+<a id="fakeOuterCompositeSerialize"></a>
 # **fakeOuterCompositeSerialize**
 > OuterComposite fakeOuterCompositeSerialize(body)
 
@@ -144,7 +144,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
-<a name="fakeOuterNumberSerialize"></a>
+<a id="fakeOuterNumberSerialize"></a>
 # **fakeOuterNumberSerialize**
 > BigDecimal fakeOuterNumberSerialize(body)
 
@@ -174,7 +174,7 @@ api.fakeOuterNumberSerialize().execute(r -> r.prettyPeek());
 
 ### Return type
 
-[**BigDecimal**](BigDecimal.md)
+**BigDecimal**
 
 ### Authorization
 
@@ -185,7 +185,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
-<a name="fakeOuterStringSerialize"></a>
+<a id="fakeOuterStringSerialize"></a>
 # **fakeOuterStringSerialize**
 > String fakeOuterStringSerialize(body)
 
@@ -226,7 +226,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
-<a name="testBodyWithFileSchema"></a>
+<a id="testBodyWithFileSchema"></a>
 # **testBodyWithFileSchema**
 > testBodyWithFileSchema(body)
 
@@ -268,7 +268,7 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a name="testBodyWithQueryParams"></a>
+<a id="testBodyWithQueryParams"></a>
 # **testBodyWithQueryParams**
 > testBodyWithQueryParams(query, body)
 
@@ -310,7 +310,7 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a name="testClientModel"></a>
+<a id="testClientModel"></a>
 # **testClientModel**
 > Client testClientModel(body)
 
@@ -352,7 +352,7 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: application/json
 
-<a name="testEndpointParameters"></a>
+<a id="testEndpointParameters"></a>
 # **testEndpointParameters**
 > testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
 
@@ -410,7 +410,7 @@ null (empty response body)
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
-<a name="testEnumParameters"></a>
+<a id="testEnumParameters"></a>
 # **testEnumParameters**
 > testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
 
@@ -458,7 +458,7 @@ No authorization required
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
-<a name="testGroupParameters"></a>
+<a id="testGroupParameters"></a>
 # **testGroupParameters**
 > testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group)
 
@@ -507,7 +507,7 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="testInlineAdditionalProperties"></a>
+<a id="testInlineAdditionalProperties"></a>
 # **testInlineAdditionalProperties**
 > testInlineAdditionalProperties(param)
 
@@ -547,7 +547,7 @@ No authorization required
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a name="testJsonFormData"></a>
+<a id="testJsonFormData"></a>
 # **testJsonFormData**
 > testJsonFormData(param, param2)
 
@@ -589,7 +589,7 @@ No authorization required
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
-<a name="testQueryParameterCollectionFormat"></a>
+<a id="testQueryParameterCollectionFormat"></a>
 # **testQueryParameterCollectionFormat**
 > testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
 

@@ -7,9 +7,12 @@ src/main/java/org/openapitools/api/BarApi.java
 src/main/java/org/openapitools/api/BarApiController.java
 src/main/java/org/openapitools/api/FooApi.java
 src/main/java/org/openapitools/api/FooApiController.java
+src/main/java/org/openapitools/configuration/EnumConverterConfiguration.java
 src/main/java/org/openapitools/configuration/HomeController.java
 src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
 src/main/java/org/openapitools/model/Addressable.java
+src/main/java/org/openapitools/model/Apple.java
+src/main/java/org/openapitools/model/Banana.java
 src/main/java/org/openapitools/model/Bar.java
 src/main/java/org/openapitools/model/BarCreate.java
 src/main/java/org/openapitools/model/BarRef.java
@@ -20,6 +23,8 @@ src/main/java/org/openapitools/model/Extensible.java
 src/main/java/org/openapitools/model/Foo.java
 src/main/java/org/openapitools/model/FooRef.java
 src/main/java/org/openapitools/model/FooRefOrValue.java
+src/main/java/org/openapitools/model/Fruit.java
+src/main/java/org/openapitools/model/FruitType.java
 src/main/java/org/openapitools/model/Pasta.java
 src/main/java/org/openapitools/model/Pizza.java
 src/main/java/org/openapitools/model/PizzaSpeziale.java
