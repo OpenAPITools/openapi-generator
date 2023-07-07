@@ -3,15 +3,17 @@ package {{configPackage}};
 {{#authMethods}}
 {{#isBasicBasic}}
 import feign.auth.BasicAuthRequestInterceptor;
+{{^hasApiKeyMethods}}
 import org.springframework.beans.factory.annotation.Value;
+{{/hasApiKeyMethods}}
 {{/isBasicBasic}}
-{{#isApiKey}}
-import org.springframework.beans.factory.annotation.Value;
-{{/isApiKey}}
-{{#-first}}
+{{/authMethods}}
+{{#hasAuthMethods}}
 import org.springframework.context.annotation.Bean;
-{{/-first}}
-{{#isOAuth}}
+{{#hasApiKeyMethods}}
+import org.springframework.beans.factory.annotation.Value;
+{{/hasApiKeyMethods}}
+{{#hasOAuthMethods}}
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
@@ -28,15 +30,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 
-{{/isOAuth}}
-{{/authMethods}}
+{{/hasOAuthMethods}}
+{{/hasAuthMethods}}
 import org.springframework.context.annotation.Configuration;
 
-{{#authMethods}}
-{{#isOAuth}}
-@ConditionalOnProperty( "spring.security.oauth2.client.registration.{{{name}}}.client-id" )
-{{/isOAuth}}
-{{/authMethods}}
+
 @Configuration
 public class ClientConfiguration {
 
@@ -67,21 +65,25 @@ public class ClientConfiguration {
 
     {{/isApiKey}}
     {{#isOAuth}}
-  private static final String CLIENT_PRINCIPAL = "oauth2FeignClient";
+  private static final String CLIENT_PRINCIPAL_{{#lambda.uppercase}}{{{flow}}}{{/lambda.uppercase}} = "oauth2FeignClient";
 
   @Bean
-  public OAuth2RequestInterceptor oAuth2RequestInterceptor(final OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager ) {
-     return new OAuth2RequestInterceptor(OAuth2AuthorizeRequest.withClientRegistrationId("{{{ name}}}")
-            .principal( new AnonymousAuthenticationToken( CLIENT_PRINCIPAL, CLIENT_PRINCIPAL, AuthorityUtils.createAuthorityList( "ROLE_ANONYMOUS" ) ) )
-            .build(), oAuth2AuthorizedClientManager );
+  @ConditionalOnProperty( "spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.client-id" )
+  public OAuth2RequestInterceptor {{{flow}}}OAuth2RequestInterceptor(final OAuth2AuthorizedClientManager {{{flow}}}AuthorizedClientManager ) {
+     return new OAuth2RequestInterceptor(OAuth2AuthorizeRequest.withClientRegistrationId("{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}")
+            .principal( new AnonymousAuthenticationToken( CLIENT_PRINCIPAL_{{#lambda.uppercase}}{{{flow}}}{{/lambda.uppercase}}, CLIENT_PRINCIPAL_{{#lambda.uppercase}}{{{flow}}}{{/lambda.uppercase}}, AuthorityUtils.createAuthorityList( "ROLE_ANONYMOUS" ) ) )
+            .build(), {{{flow}}}AuthorizedClientManager );
   }
 
   @Bean
-  public OAuth2AuthorizedClientManager authorizedClientManager(ClientRegistrationRepository clientRegistrationRepository,
+  @ConditionalOnProperty( "spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.client-id" )
+  public OAuth2AuthorizedClientManager {{{flow}}}AuthorizedClientManager(ClientRegistrationRepository clientRegistrationRepository,
         OAuth2AuthorizedClientService authorizedClientService ) {
     return new AuthorizedClientServiceOAuth2AuthorizedClientManager( clientRegistrationRepository, authorizedClientService );
   }
-
+    {{/isOAuth}}
+{{/authMethods}}
+{{#hasOAuthMethods}}
   public static class OAuth2RequestInterceptor implements RequestInterceptor {
 
     private final OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager;
@@ -110,7 +112,6 @@ public class ClientConfiguration {
       return String.format( "%s %s", accessToken.getTokenType().getValue(), accessToken.getTokenValue() );
     }
   }
+{{/hasOAuthMethods}}
 
-    {{/isOAuth}}
-{{/authMethods}}
 }
