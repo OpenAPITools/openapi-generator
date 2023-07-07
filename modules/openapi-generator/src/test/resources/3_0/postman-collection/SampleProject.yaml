@@ -52,6 +52,12 @@ paths:
           in: header
           schema:
             type: string
+        - description: Custom HTTP header with default
+          name: Another-Custom-Header
+          in: header
+          schema:
+            type: string
+            default: abc
 
       responses:
         '200':

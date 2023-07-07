@@ -35,7 +35,7 @@
                                         },
                                         {
                                             "key": "strCode2",
-                                            "value": "null"
+                                            "value": ""
                                         }
                                     ],
                                     "body": {
@@ -95,7 +95,7 @@
                                         },
                                         {
                                             "key": "strCode2",
-                                            "value": "null"
+                                            "value": ""
                                         }
                                     ],
                                     "body": {
@@ -151,7 +151,11 @@
                                         },
                                         {
                                             "key": "Custom-Header",
-                                            "value": "null"
+                                            "value": ""
+                                        },
+                                        {
+                                            "key": "Another-Custom-Header",
+                                            "value": "abc"
                                         }
                                     ],
                                     "body": {

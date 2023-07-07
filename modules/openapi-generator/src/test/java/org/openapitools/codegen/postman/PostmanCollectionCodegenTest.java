@@ -485,7 +485,10 @@ public class PostmanCollectionCodegenTest {
         TestUtils.assertFileExists(path);
         TestUtils.assertFileContains(path, "{ \"key\": \"Content-Type\", \"value\": \"application/json\"");
         TestUtils.assertFileContains(path, "{ \"key\": \"Accept\", \"value\": \"application/json\"");
-        TestUtils.assertFileContains(path, "{ \"key\": \"Custom-Header\", \"value\": \"null\"");
+        // header without default value
+        TestUtils.assertFileContains(path, "{ \"key\": \"Custom-Header\", \"value\": \"\"");
+        // header with default value
+        TestUtils.assertFileContains(path, "{ \"key\": \"Another-Custom-Header\", \"value\": \"abc\"");
     }
 
 
