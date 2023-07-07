@@ -135,7 +135,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             variables.add(new PostmanVariable()
                     .addName(parameter.paramName)
                     .addType(mapToPostmanType(parameter.dataType))
-                    .addExample(parameter.example));
+                    .addeDefaultValue(parameter.defaultValue));
         }
     }
 
@@ -152,7 +152,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             variables.entrySet().stream().forEach(serverVariableEntry -> this.variables.add(new PostmanVariable()
                     .addName(serverVariableEntry.getKey())
                     .addType("string")
-                    .addExample(serverVariableEntry.getValue().getDefault())));
+                    .addeDefaultValue(serverVariableEntry.getValue().getDefault())));
         }
 
         return super.fromServerVariables(variables);
@@ -402,7 +402,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                 variables.add(new PostmanVariable()
                         .addName(var)
                         .addType("string")
-                        .addExample(""));
+                        .addeDefaultValue(""));
             }
         }
 
@@ -799,7 +799,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
         private String name;
         private String type;
-        private String example;
+        private String defaultValue;
 
         public PostmanVariable addName(String name) {
             this.name = name;
@@ -811,8 +811,8 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             return this;
         }
 
-        public PostmanVariable addExample(String example) {
-            this.example = example;
+        public PostmanVariable addeDefaultValue(String defaultValue) {
+            this.defaultValue = defaultValue;
             return this;
         }
 
@@ -832,12 +832,12 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             this.type = type;
         }
 
-        public String getExample() {
-            return example;
+        public String getDefaultValue() {
+            return defaultValue;
         }
 
-        public void setExample(String example) {
-            this.example = example;
+        public void setDefaultValue(String defaultValue) {
+            this.defaultValue = defaultValue;
         }
 
         @Override
@@ -858,7 +858,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             return "PostmanVariable{" +
                     "name='" + name + '\'' +
                     ", type='" + type + '\'' +
-                    ", example='" + example + '\'' +
+                    ", defaultValue='" + defaultValue + '\'' +
                     '}';
         }
     }
