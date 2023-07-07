@@ -97,7 +97,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>compile</phase>
+                        <phase>install</phase>
                         <goals>
                             <!-- goal must be "invoke" -->
                             <goal>invoke</goal>
