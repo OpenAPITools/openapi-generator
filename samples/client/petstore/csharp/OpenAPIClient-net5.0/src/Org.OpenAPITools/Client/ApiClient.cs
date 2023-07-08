@@ -456,7 +456,8 @@ namespace Org.OpenAPITools.Client
                 MaxTimeout = configuration.Timeout,
                 Proxy = configuration.Proxy,
                 UserAgent = configuration.UserAgent,
-                UseDefaultCredentials = configuration.UseDefaultCredentials        
+                UseDefaultCredentials = configuration.UseDefaultCredentials,
+                RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback
             };
 
             RestClient client = new RestClient(clientOptions)

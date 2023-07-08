@@ -11,7 +11,8 @@
                                     {{#headerParams}}
                                         {
                                             "key": "{{baseName}}",
-                                            "value": "{{schema.defaultValue}}"
+                                            "value": "{{schema.defaultValue}}",
+                                            "disabled": {{#schema.defaultValue}}false{{/schema.defaultValue}}{{^schema.defaultValue}}true{{/schema.defaultValue}}
                                         }{{^-last}},{{/-last}}
                                     {{/headerParams}}
                                     ],

@@ -2220,4 +2220,13 @@ components:
             type: array
             items:
               $ref: "#/components/schemas/Tag"
+    ArrayOfArrayOfModel:
+      type: object
+      properties:
+        another_property:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: "#/components/schemas/Tag"
 

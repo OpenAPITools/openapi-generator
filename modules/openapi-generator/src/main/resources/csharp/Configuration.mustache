@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Net.Http;
+using System.Net.Security;
 {{#useRestSharp}}
 {{#hasOAuthMethods}}using {{packageName}}.Client.Auth;
 {{/hasOAuthMethods}}
@@ -627,6 +628,11 @@ namespace {{packageName}}.Client
             set { _HttpSigningConfiguration = value; }
         }
         {{/hasHttpSignatureMethods}}
+        
+        /// <summary>
+        /// Gets and Sets the RemoteCertificateValidationCallback
+        /// </summary>
+        public RemoteCertificateValidationCallback RemoteCertificateValidationCallback { get; set; }
 
         #endregion Properties
 
@@ -714,7 +720,8 @@ namespace {{packageName}}.Client
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
                 DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat,
                 ClientCertificates = second.ClientCertificates ?? first.ClientCertificates,
-                UseDefaultCredentials = second.UseDefaultCredentials
+                UseDefaultCredentials = second.UseDefaultCredentials,
+                RemoteCertificateValidationCallback = second.RemoteCertificateValidationCallback ?? first.RemoteCertificateValidationCallback,
             };
             return config;
         }

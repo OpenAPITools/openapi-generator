@@ -138,13 +138,22 @@ public class PostmanCollectionCodegenTest {
 
         files.forEach(File::deleteOnExit);
 
-        assertFileExists(Paths.get(output + "/postman.json"));
+        Path path = Paths.get(output + "/postman.json");
+        assertFileExists(path);
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(new File(output + "/postman.json"));
         // verify json has variables
         assertTrue(jsonNode.get("variable") instanceof ArrayNode);
-        assertEquals(5, ((ArrayNode) jsonNode.get("variable")).size());
+        assertEquals(6, (jsonNode.get("variable")).size());
+
+        // verify param userId (without default value)
+        TestUtils.assertFileContains(path,
+                "key\": \"userId\", \"value\": \"\", \"type\": \"number\"");
+        // verify param groupId (with default value)
+        TestUtils.assertFileContains(path,
+                "key\": \"groupId\", \"value\": \"1\", \"type\": \"number\"");
+
     }
 
     @Test
@@ -485,7 +494,11 @@ public class PostmanCollectionCodegenTest {
         TestUtils.assertFileExists(path);
         TestUtils.assertFileContains(path, "{ \"key\": \"Content-Type\", \"value\": \"application/json\"");
         TestUtils.assertFileContains(path, "{ \"key\": \"Accept\", \"value\": \"application/json\"");
-        TestUtils.assertFileContains(path, "{ \"key\": \"Custom-Header\", \"value\": \"null\"");
+        // header without default value (disabled: true)
+        TestUtils.assertFileContains(path, "{ \"key\": \"Custom-Header\", \"value\": \"\", \"disabled\": true");
+        // header with default value (disabled: false)
+        TestUtils.assertFileContains(path, "{ \"key\": \"Another-Custom-Header\", \"value\": \"abc\", \"disabled\": false");
+
     }
 
 

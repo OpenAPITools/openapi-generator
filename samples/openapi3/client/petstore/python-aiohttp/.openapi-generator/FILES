@@ -10,6 +10,7 @@ docs/AnotherFakeApi.md
 docs/AnyOfColor.md
 docs/AnyOfPig.md
 docs/ApiResponse.md
+docs/ArrayOfArrayOfModel.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
@@ -100,6 +101,7 @@ petstore_api/models/animal.py
 petstore_api/models/any_of_color.py
 petstore_api/models/any_of_pig.py
 petstore_api/models/api_response.py
+petstore_api/models/array_of_array_of_model.py
 petstore_api/models/array_of_array_of_number_only.py
 petstore_api/models/array_of_number_only.py
 petstore_api/models/array_test.py
