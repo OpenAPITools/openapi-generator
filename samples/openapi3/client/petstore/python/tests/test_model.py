@@ -492,3 +492,12 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(a.to_json(), '{"shopIdToOrgOnlineLipMap": {"somekey": [{"id": 123, "name": "tag name"}]}}')
         a2 = petstore_api.MapOfArrayOfModel.from_dict(a.to_dict())
         self.assertEqual(a.to_dict(), a2.to_dict())
+
+    def test_array_of_array_of_model(self):
+        a = petstore_api.ArrayOfArrayOfModel()
+        t = petstore_api.Tag(id=123, name="tag name")
+        a.another_property = [[t]]
+        self.assertEqual(a.to_dict(), {'another_property': [[ {'id': 123, 'name': 'tag name'} ]]})
+        self.assertEqual(a.to_json(), '{"another_property": [[{"id": 123, "name": "tag name"}]]}')
+        a2 = petstore_api.ArrayOfArrayOfModel.from_dict(a.to_dict())
+        self.assertEqual(a.to_dict(), a2.to_dict())
