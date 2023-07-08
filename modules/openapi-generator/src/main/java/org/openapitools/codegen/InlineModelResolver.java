@@ -91,6 +91,16 @@ public class InlineModelResolver {
         } else {
             // not set so default to null;
         }
+
+        if (this.inlineSchemaNameDefaults.containsKey("RESOLVE_INLINE_ENUMS")) {
+            if (Boolean.valueOf(this.inlineSchemaNameDefaults.get("RESOLVE_INLINE_ENUMS"))) {
+                this.resolveInlineEnums = true;
+            } else { // set to false
+                this.resolveInlineEnums = false;
+            }
+        } else {
+            // not set so default to null;
+        }
     }
 
     void flatten(OpenAPI openAPI) {

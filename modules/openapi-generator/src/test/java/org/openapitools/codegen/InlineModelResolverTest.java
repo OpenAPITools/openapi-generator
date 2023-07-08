@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
@@ -1131,5 +1132,23 @@ public class InlineModelResolverTest {
         Schema schema = openAPI.getComponents().getSchemas().get("SomeData_anyOf");
         assertTrue((Schema) schema.getAnyOf().get(0) instanceof StringSchema);
         assertTrue((Schema) schema.getAnyOf().get(1) instanceof IntegerSchema);
+    }
+
+    @Test
+    public void resolveOperationInlineEnum() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        Parameter parameter = openAPI.getPaths().get("/resolve_parameter_inline_enum").getGet().getParameters().get(0);
+        assertNull(((ArraySchema) parameter.getSchema()).getItems().get$ref() );
+
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
+        inlineSchemaNameDefaults.put("RESOLVE_INLINE_ENUMS", "true");
+        resolver.setInlineSchemaNameDefaults(inlineSchemaNameDefaults);
+        resolver.flatten(openAPI);
+
+        Parameter parameter2 = openAPI.getPaths().get("/resolve_parameter_inline_enum").getGet().getParameters().get(0);
+        assertEquals("#/components/schemas/resolveParameterInlineEnum_status_inline_enum_parameter_inner",
+                ((ArraySchema) parameter2.getSchema()).getItems().get$ref() );
+
     }
 }
