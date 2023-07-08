@@ -73,13 +73,30 @@
             {{/minimum}}
             {{#pattern}}
             {{^isByteArray}}
-            // {{{name}}} ({{{dataType}}}) pattern
-            Regex regex{{{name}}} = new Regex(@"{{{vendorExtensions.x-regex}}}"{{#vendorExtensions.x-modifiers}}{{#-first}}, {{/-first}}RegexOptions.{{{.}}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}});
-            if (false == regex{{{name}}}.Match(this.{{{name}}}{{#isUuid}}.ToString(){{/isUuid}}).Success)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must match a pattern of " + regex{{{name}}}, new [] { "{{{name}}}" });
+            {{#vendorExtensions.x-is-value-type}}
+            {{#isNullable}}
+            if (this.{{{name}}} != null){
+                {{#lambda.indent4}}
+                {{>ValidateRegex}}
+                {{/lambda.indent4}}
             }
 
+            {{/isNullable}}
+            {{^isNullable}}
+            {{#lambda.indent3}}
+            {{>ValidateRegex}}
+
+            {{/lambda.indent3}}
+            {{/isNullable}}
+            {{/vendorExtensions.x-is-value-type}}
+            {{^vendorExtensions.x-is-value-type}}
+            if (this.{{{name}}} != null) {
+                {{#lambda.indent4}}
+                {{>ValidateRegex}}
+                {{/lambda.indent4}}
+            }
+
+            {{/vendorExtensions.x-is-value-type}}
             {{/isByteArray}}
             {{/pattern}}
             {{/isEnum}}

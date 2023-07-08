@@ -123,12 +123,13 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            // Name (string) pattern
-            Regex regexName = new Regex(@"^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$", RegexOptions.CultureInvariant);
-            if (false == regexName.Match(this.Name).Success)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Name, must match a pattern of " + regexName, new [] { "Name" });
-            }
+            if (this.Name != null) {
+                // Name (string) pattern
+                Regex regexName = new Regex(@"^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$", RegexOptions.CultureInvariant);
+                if (!regexName.Match(this.Name).Success)
+                {
+                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Name, must match a pattern of " + regexName, new [] { "Name" });
+                }            }
 
             yield break;
         }
