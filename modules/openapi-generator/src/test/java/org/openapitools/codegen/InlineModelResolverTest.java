@@ -412,16 +412,6 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void resolveInlineRequestBodyWithTitleInChinese() {
-        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
-        new InlineModelResolver().flatten(openAPI);
-
-        RequestBody requestBodyReference = openAPI.getPaths().get("/resolve_inline_request_body_with_title_in_chinese").getPost().getRequestBody();
-        assertEquals("#/components/schemas/resolveInlineRequestBodyWithRequired_request_1",
-                requestBodyReference.getContent().get("application/json").getSchema().get$ref());
-    }
-
-    @Test
     public void nonModelRequestBody() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);

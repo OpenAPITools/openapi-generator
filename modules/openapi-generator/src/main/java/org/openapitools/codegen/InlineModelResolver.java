@@ -306,8 +306,7 @@ public class InlineModelResolver {
             if (schema.getAdditionalProperties() != null) {
                 if (schema.getAdditionalProperties() instanceof Schema) {
                     Schema inner = (Schema) schema.getAdditionalProperties();
-                    String schemaName = resolveModelName
-                            (schema.getTitle(), modelPrefix + this.inlineSchemaNameDefaults.get("mapItemSuffix"));
+                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + this.inlineSchemaNameDefaults.get("mapItemSuffix"));
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
@@ -680,7 +679,7 @@ public class InlineModelResolver {
      * @return if provided the sanitized {@code title}, else the sanitized {@code key}
      */
     private String resolveModelName(String title, String modelName) {
-        if (title == null || "".equals(sanitizeName(title).replace("_", ""))) {
+        if (title == null) {
             if (modelName == null) {
                 return uniqueName("inline_object");
             }
