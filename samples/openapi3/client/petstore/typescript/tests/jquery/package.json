@@ -5,7 +5,7 @@
     "@types/qunit": "^2.9.0",
     "@types/rewire": "^2.5.28",
     "form-data": "^2.5.1",
-    "jsdom": "^15.0.0",
+    "jsdom": "^22.1.0",
     "node-qunit-puppeteer": "^1.0.12",
     "qunit": "^2.9.2",
     "requirejs": "^2.3.6",
