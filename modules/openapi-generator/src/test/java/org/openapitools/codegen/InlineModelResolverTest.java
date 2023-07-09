@@ -1151,4 +1151,27 @@ public class InlineModelResolverTest {
                 ((ArraySchema) parameter2.getSchema()).getItems().get$ref() );
 
     }
+
+    @Test
+    public void resolveOperationInlineEnumFormParameters() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        Schema requestBody = openAPI.getPaths().get("/resolve_parameter_inline_enum_form_parameters").getPost().getRequestBody().getContent().get("application/x-www-form-urlencoded").getSchema();
+        assertNull(requestBody.get$ref());
+
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
+        inlineSchemaNameDefaults.put("RESOLVE_INLINE_ENUMS", "true");
+        resolver.setInlineSchemaNameDefaults(inlineSchemaNameDefaults);
+        resolver.flatten(openAPI);
+
+        Schema requestBody2 = openAPI.getPaths().get("/resolve_parameter_inline_enum_form_parameters").getPost().getRequestBody().getContent().get("application/x-www-form-urlencoded").getSchema();
+        assertEquals("#/components/schemas/resolve_parameter_inline_enum_form_parameters_request", requestBody2.get$ref());
+
+        Schema inlineFormParaemter = (Schema) openAPI.getComponents().getSchemas().get("resolve_parameter_inline_enum_form_parameters_request");
+        assertNotNull(inlineFormParaemter);
+        assertEquals(2, inlineFormParaemter.getProperties().size());
+        assertEquals("#/components/schemas/resolve_parameter_inline_enum_form_parameters_request_enum_form_string",
+                ((Schema) inlineFormParaemter.getProperties().get("enum_form_string")).get$ref());
+
+    }
 }
