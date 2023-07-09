@@ -415,7 +415,7 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
                 //Generate special component schema for container
                 String containerSchemaName = generateUniqueSchemaName(openAPI, "Collection");
                 Schema containerSchema = new ObjectSchema();
-                containerSchema.addProperties("inner", schema);
+                containerSchema.addProperty("inner", schema);
                 addInternalExtensionToSchema(containerSchema, VEN_FROM_CONTAINER, Boolean.TRUE);
                 openAPI.getComponents().addSchemas(containerSchemaName, containerSchema);
                 String containerDataType = getTypeDeclaration(toModelName(containerSchemaName));

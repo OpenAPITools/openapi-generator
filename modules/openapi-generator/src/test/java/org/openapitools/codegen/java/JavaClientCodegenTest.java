@@ -115,9 +115,9 @@ public class JavaClientCodegenTest {
         body3.setDescription("A list of points");
         body3.setContent(new Content().addMediaType("application/json", new MediaType().schema(new ArraySchema().items(new ObjectSchema().$ref("#/components/schemas/Point")))));
         ObjectSchema point = new ObjectSchema();
-        point.addProperties("message", new StringSchema());
-        point.addProperties("x", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
-        point.addProperties("y", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
+        point.addProperty("message", new StringSchema());
+        point.addProperty("x", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
+        point.addProperty("y", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
         CodegenParameter codegenParameter3 = codegen.fromRequestBody(body3, new HashSet<String>(), null);
         Assert.assertEquals(codegenParameter3.description, "A list of points");
         Assert.assertEquals(codegenParameter3.dataType, "List<Point>");
