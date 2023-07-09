@@ -8,4 +8,6 @@ model/Category.n4jsd
 model/Order.n4jsd
 model/Pet.n4jsd
 model/Tag.n4jsd
+model/UpdatePetWithFormRequest.n4jsd
+model/UploadFileRequest.n4jsd
 model/User.n4jsd

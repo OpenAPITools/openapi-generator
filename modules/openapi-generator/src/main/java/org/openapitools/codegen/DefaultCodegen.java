@@ -5070,13 +5070,11 @@ public class DefaultCodegen implements CodegenConfig {
             parameterModelName = getParameterDataType(parameter, parameterSchema);
             CodegenProperty prop;
             if (this instanceof RustServerCodegen) {
-                // for rust server, we need to do somethings special as it uses
+                // for rust server, we need to do something special as it uses
                 // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
                 prop = fromProperty(parameter.getName(), parameterSchema, false);
-            } else if (getUseInlineModelResolver()) {
-                prop = fromProperty(parameter.getName(), getReferencedSchemaWhenNotEnum(parameterSchema), false);
             } else {
-                prop = fromProperty(parameter.getName(), parameterSchema, false);
+                prop = fromProperty(parameter.getName(), getReferencedSchemaWhenNotEnum(parameterSchema), false);
             }
             codegenParameter.setSchema(prop);
         } else if (parameter.getContent() != null) {
@@ -5120,7 +5118,7 @@ public class DefaultCodegen implements CodegenConfig {
             return codegenParameter;
         }
 
-        if (getUseInlineModelResolver() && !(this instanceof RustServerCodegen)) {
+        if (!(this instanceof RustServerCodegen)) {
             // for rust server, we cannot run the following as it uses
             // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
             parameterSchema = getReferencedSchemaWhenNotEnum(parameterSchema);
@@ -8177,9 +8175,6 @@ public class DefaultCodegen implements CodegenConfig {
     public List<VendorExtension> getSupportedVendorExtensions() {
         return new ArrayList<>();
     }
-
-    @Override
-    public boolean getUseInlineModelResolver() { return true; }
 
     @Override
     public boolean getUseOpenAPINormalizer() { return true; }

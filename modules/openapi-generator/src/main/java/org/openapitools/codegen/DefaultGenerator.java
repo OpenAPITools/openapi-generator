@@ -266,13 +266,10 @@ public class DefaultGenerator implements Generator {
         }
 
         // resolve inline models
-        if (config.getUseInlineModelResolver()) {
-            InlineModelResolver inlineModelResolver = new InlineModelResolver();
-            inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
-            inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
-
-            inlineModelResolver.flatten(openAPI);
-        }
+        InlineModelResolver inlineModelResolver = new InlineModelResolver();
+        inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
+        inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
+        inlineModelResolver.flatten(openAPI);
 
         config.preprocessOpenAPI(openAPI);
 

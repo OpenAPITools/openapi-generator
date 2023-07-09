@@ -249,11 +249,6 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public boolean getUseInlineModelResolver() {
-        return false;
-    }
-
-    @Override
     public void setOpenAPI(OpenAPI openAPI) {
         super.setOpenAPI(openAPI);
         typeAliases.put("object", "~Object+");
