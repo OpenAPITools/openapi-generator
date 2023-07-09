@@ -540,6 +540,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 if (allOf != null) {
                     for(CodegenProperty property : allOf) {
                         property.name = patchPropertyName(model, property.baseType);
+                        patchPropertyVendorExtensinos(property);
                     }
                 }
 
@@ -549,6 +550,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     for(CodegenProperty property : anyOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
+                        patchPropertyVendorExtensinos(property);
                     }
                 }
 
@@ -558,6 +560,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     for(CodegenProperty property : oneOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
+                        patchPropertyVendorExtensinos(property);
                     }
                 }
             }
@@ -632,6 +635,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return value;
     }
 
+    private void patchPropertyVendorExtensinos(CodegenProperty property) {
+        Boolean isValueType = isValueType(property);
+        property.vendorExtensions.put("x-is-value-type", isValueType);
+        property.vendorExtensions.put("x-is-reference-type", !isValueType);
+        property.vendorExtensions.put("x-is-nullable-type", this.getNullableReferencesTypes() || isValueType);
+    }
+
     protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
         if (enumRefs.containsKey(property.dataType)) {
             // Handle any enum properties referred to by $ref.
@@ -645,17 +655,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isPrimitiveType = true;
         }
 
-        Boolean isValueType = isValueType(property);
-
-        property.vendorExtensions.put("x-is-value-type", isValueType);
-
-        if (property.isNullable && !property.isContainer && isValueType) {
-            property.vendorExtensions.put("x-nullable-value-type", true);
-        }
-
-        if (this.getNullableReferencesTypes() || isValueType) {
-            property.vendorExtensions.put("x-nullable-type", true);
-        }
+        patchPropertyVendorExtensinos(property);
 
         String tmpPropertyName = escapeReservedWord(model, property.name);
         property.name = patchPropertyName(model, property.name);

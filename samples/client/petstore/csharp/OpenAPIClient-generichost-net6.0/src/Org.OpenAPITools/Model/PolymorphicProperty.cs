@@ -77,7 +77,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets VarBool
         /// </summary>
-        public bool VarBool { get; set; }
+        public bool? VarBool { get; set; }
 
         /// <summary>
         /// Gets or Sets VarString
@@ -146,7 +146,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            bool varBool = default;
+            bool? varBool = default;
             string varString = default;
             Object varObject = default;
             List<string> list = default;
@@ -163,7 +163,7 @@ namespace Org.OpenAPITools.Model
                 if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
                 {
                     Utf8JsonReader utf8JsonReaderVarBool = utf8JsonReader;
-                    OpenAPIClientUtils.TryDeserialize<bool>(ref utf8JsonReaderVarBool, jsonSerializerOptions, out varBool);
+                    OpenAPIClientUtils.TryDeserialize<bool?>(ref utf8JsonReaderVarBool, jsonSerializerOptions, out varBool);
 
                     Utf8JsonReader utf8JsonReaderVarString = utf8JsonReader;
                     OpenAPIClientUtils.TryDeserialize<string>(ref utf8JsonReaderVarString, jsonSerializerOptions, out varString);
