@@ -187,7 +187,7 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
             Map<String, Map<String, Object>> example = entry.getValue();
             r.examples = toExamples(example.get("examples"));
         } catch (Exception e) {
-            LOGGER.error(e.toString());
+            LOGGER.debug(e.toString());
         }
         return r;
     }
