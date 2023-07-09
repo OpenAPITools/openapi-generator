@@ -74,6 +74,7 @@ The following generators are available:
 * [typescript-redux-query](generators/typescript-redux-query.md)  
 * [typescript-rxjs](generators/typescript-rxjs.md)  
 * [xojo-client](generators/xojo-client.md)  
+* [zapier](generators/zapier.md)  
 
 
 ## SERVER generators
