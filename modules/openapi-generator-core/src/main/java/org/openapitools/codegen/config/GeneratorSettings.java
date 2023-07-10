@@ -412,7 +412,6 @@ public final class GeneratorSettings implements Serializable {
         gitRepoId = builder.gitRepoId;
         releaseNote = builder.releaseNote;
         httpUserAgent = builder.httpUserAgent;
-        resourceFolder = builder.resourceFolder;
 
         Map<String, Object> additional = new HashMap<>(builder.additionalProperties);
 
@@ -581,7 +580,6 @@ public final class GeneratorSettings implements Serializable {
         private String artifactId;
         private String artifactVersion;
         private String library;
-        private String resourceFolder;
         private Map<String, String> instantiationTypes;
         private Map<String, String> typeMappings;
         private Map<String, Object> additionalProperties;
@@ -1091,10 +1089,6 @@ public final class GeneratorSettings implements Serializable {
             return instance;
         }
 
-        public Builder withResourceFolder( String resourceFolder ) {
-            this.resourceFolder = resourceFolder;
-            return this;
-        }
     }
 
     @Override
@@ -1123,7 +1117,6 @@ public final class GeneratorSettings implements Serializable {
                 ", gitRepoId='" + gitRepoId + '\'' +
                 ", releaseNote='" + releaseNote + '\'' +
                 ", httpUserAgent='" + httpUserAgent + '\'' +
-                ", resourceFolder='" + resourceFolder + '\'' +
                 '}';
     }
 

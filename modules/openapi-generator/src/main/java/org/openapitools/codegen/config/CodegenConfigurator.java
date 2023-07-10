@@ -485,7 +485,6 @@ public class CodegenConfigurator {
         if (StringUtils.isNotEmpty(resourceFolder)) {
             addAdditionalProperty(SpringCodegen.RESOURCE_FOLDER, resourceFolder);
         }
-        generatorSettingsBuilder.withResourceFolder(resourceFolder);
         return this;
     }
 
