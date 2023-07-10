@@ -11,7 +11,6 @@ import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.security.SecurityScheme
 
 @javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
-
 @Configuration
 class SpringDocConfiguration {
 
