@@ -81,11 +81,13 @@ public class InlineModelResolver {
         }
 
         if (this.inlineSchemaNameDefaults.containsKey("REFACTOR_ALLOF_INLINE_SCHEMAS")) {
-            if (Boolean.valueOf(this.inlineSchemaNameDefaults.get("REFACTOR_ALLOF_INLINE_SCHEMAS"))) {
-                this.refactorAllOfInlineSchemas = true;
-            } else { // set to false
-                this.refactorAllOfInlineSchemas = false;
-            }
+            this.refactorAllOfInlineSchemas = Boolean.valueOf(this.inlineSchemaNameDefaults.get("REFACTOR_ALLOF_INLINE_SCHEMAS"));
+        } else {
+            // not set so default to null;
+        }
+
+        if (this.inlineSchemaNameDefaults.containsKey("RESOLVE_INLINE_ENUMS")) {
+            this.resolveInlineEnums = Boolean.valueOf(this.inlineSchemaNameDefaults.get("RESOLVE_INLINE_ENUMS"));
         } else {
             // not set so default to null;
         }

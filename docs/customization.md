@@ -455,6 +455,7 @@ Note: Only arrayItemSuffix, mapItemSuffix are supported at the moment.
 There are 2 special values:
 - `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.
 - `REFACTOR_ALLOF_INLINE_SCHEMAS=true` will restore the 6.x (or below) behaviour to refactor allOf inline schemas into $ref. (v7.0.0 will skip the refactoring of these allOf inline schmeas by default)
+- `RESOLVE_INLINE_ENUMS=true` will refactor inline enum definitions into $ref
 
 ## OpenAPI Normalizer
 
