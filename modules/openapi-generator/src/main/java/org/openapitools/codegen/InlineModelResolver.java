@@ -31,12 +31,10 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class InlineModelResolver {
     private OpenAPI openAPI;
@@ -679,7 +677,7 @@ public class InlineModelResolver {
      * @return if provided the sanitized {@code title}, else the sanitized {@code key}
      */
     private String resolveModelName(String title, String modelName) {
-        if (title == null) {
+        if (title == null || "".equals(sanitizeName(title).replace("_", ""))) {
             if (modelName == null) {
                 return uniqueName("inline_object");
             }
