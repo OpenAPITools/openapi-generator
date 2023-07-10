@@ -27,7 +27,7 @@ public class ClientConfiguration {
   private static final String CLIENT_PRINCIPAL_IMPLICIT = "oauth2FeignClient";
 
   @Bean
-  @ConditionalOnProperty( "spring.security.oauth2.client.registration.petstoreAuthImplicit.client-id" )
+  @ConditionalOnProperty( prefix = "spring.security.oauth2.client.registration.petstoreAuthImplicit", name = "enabled", havingValue = "true" )
   public OAuth2RequestInterceptor implicitOAuth2RequestInterceptor(final OAuth2AuthorizedClientManager implicitAuthorizedClientManager ) {
      return new OAuth2RequestInterceptor(OAuth2AuthorizeRequest.withClientRegistrationId("petstoreAuthImplicit")
             .principal( new AnonymousAuthenticationToken( CLIENT_PRINCIPAL_IMPLICIT, CLIENT_PRINCIPAL_IMPLICIT, AuthorityUtils.createAuthorityList( "ROLE_ANONYMOUS" ) ) )
@@ -35,7 +35,7 @@ public class ClientConfiguration {
   }
 
   @Bean
-  @ConditionalOnProperty( "spring.security.oauth2.client.registration.petstoreAuthImplicit.client-id" )
+  @ConditionalOnProperty( prefix = "spring.security.oauth2.client.registration.petstoreAuthImplicit", name = "enabled", havingValue = "true" )
   public OAuth2AuthorizedClientManager implicitAuthorizedClientManager(ClientRegistrationRepository clientRegistrationRepository,
         OAuth2AuthorizedClientService authorizedClientService ) {
     return new AuthorizedClientServiceOAuth2AuthorizedClientManager( clientRegistrationRepository, authorizedClientService );

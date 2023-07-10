@@ -68,7 +68,7 @@ public class ClientConfiguration {
   private static final String CLIENT_PRINCIPAL_{{#lambda.uppercase}}{{{flow}}}{{/lambda.uppercase}} = "oauth2FeignClient";
 
   @Bean
-  @ConditionalOnProperty( "spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.client-id" )
+  @ConditionalOnProperty( prefix = "spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}", name = "enabled", havingValue = "true" )
   public OAuth2RequestInterceptor {{{flow}}}OAuth2RequestInterceptor(final OAuth2AuthorizedClientManager {{{flow}}}AuthorizedClientManager ) {
      return new OAuth2RequestInterceptor(OAuth2AuthorizeRequest.withClientRegistrationId("{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}")
             .principal( new AnonymousAuthenticationToken( CLIENT_PRINCIPAL_{{#lambda.uppercase}}{{{flow}}}{{/lambda.uppercase}}, CLIENT_PRINCIPAL_{{#lambda.uppercase}}{{{flow}}}{{/lambda.uppercase}}, AuthorityUtils.createAuthorityList( "ROLE_ANONYMOUS" ) ) )
@@ -76,7 +76,7 @@ public class ClientConfiguration {
   }
 
   @Bean
-  @ConditionalOnProperty( "spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.client-id" )
+  @ConditionalOnProperty( prefix = "spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}", name = "enabled", havingValue = "true" )
   public OAuth2AuthorizedClientManager {{{flow}}}AuthorizedClientManager(ClientRegistrationRepository clientRegistrationRepository,
         OAuth2AuthorizedClientService authorizedClientService ) {
     return new AuthorizedClientServiceOAuth2AuthorizedClientManager( clientRegistrationRepository, authorizedClientService );
