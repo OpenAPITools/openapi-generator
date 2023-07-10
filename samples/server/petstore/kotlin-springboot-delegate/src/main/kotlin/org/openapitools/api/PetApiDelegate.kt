@@ -15,7 +15,6 @@ import java.util.Optional
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
 @javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
-
 interface PetApiDelegate {
 
     fun getRequest(): Optional<NativeWebRequest> = Optional.empty()
