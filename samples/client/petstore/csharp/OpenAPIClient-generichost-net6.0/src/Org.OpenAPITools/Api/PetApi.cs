@@ -1254,16 +1254,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="status"></param>
         /// <param name="name"></param>
+        /// <param name="status"></param>
         /// <returns></returns>
-        private void ValidateUpdatePetWithForm(Option<string> status, Option<string> name)
+        private void ValidateUpdatePetWithForm(Option<string> name, Option<string> status)
         {
-            if (status.IsSet && status.Value == null)
-                throw new ArgumentNullException(nameof(status));
-
             if (name.IsSet && name.Value == null)
                 throw new ArgumentNullException(nameof(name));
+
+            if (status.IsSet && status.Value == null)
+                throw new ArgumentNullException(nameof(status));
         }
 
         /// <summary>
@@ -1352,7 +1352,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateUpdatePetWithForm(status, name);
+                ValidateUpdatePetWithForm(name, status);
 
                 FormatUpdatePetWithForm(ref petId, ref name, ref status);
 
