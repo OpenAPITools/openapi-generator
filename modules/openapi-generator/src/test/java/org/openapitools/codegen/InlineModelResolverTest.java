@@ -1044,7 +1044,7 @@ public class InlineModelResolverTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         InlineModelResolver resolver = new InlineModelResolver();
         Map<String, String> inlineSchemaOptions= new HashMap<>();
-        inlineSchemaOptions.put("arrayItemSuffix", "_something");
+        inlineSchemaOptions.put("ARRAY_ITEM_SUFFIX", "_something");
         resolver.setInlineSchemaOptions(inlineSchemaOptions);
         resolver.flatten(openAPI);
 

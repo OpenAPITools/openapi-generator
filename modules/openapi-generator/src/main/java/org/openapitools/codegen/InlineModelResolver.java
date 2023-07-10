@@ -63,8 +63,8 @@ public class InlineModelResolver {
     final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 
     public InlineModelResolver() {
-        this.inlineSchemaOptions.put("arrayItemSuffix", "_inner");
-        this.inlineSchemaOptions.put("mapItemSuffix", "_value");
+        this.inlineSchemaOptions.put("ARRAY_ITEM_SUFFIX", "_inner");
+        this.inlineSchemaOptions.put("MAP_ITEM_SUFFIX", "_value");
     }
 
     public void setInlineSchemaNameMapping(Map inlineSchemaNameMapping) {
@@ -306,7 +306,7 @@ public class InlineModelResolver {
             if (schema.getAdditionalProperties() != null) {
                 if (schema.getAdditionalProperties() instanceof Schema) {
                     Schema inner = (Schema) schema.getAdditionalProperties();
-                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + this.inlineSchemaOptions.get("mapItemSuffix"));
+                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + this.inlineSchemaOptions.get("MAP_ITEM_SUFFIX"));
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
@@ -341,7 +341,7 @@ public class InlineModelResolver {
                         " items must be defined for array schemas:\n " + schema.toString());
                 return;
             }
-            String schemaName = resolveModelName(items.getTitle(), modelPrefix + this.inlineSchemaOptions.get("arrayItemSuffix"));
+            String schemaName = resolveModelName(items.getTitle(), modelPrefix + this.inlineSchemaOptions.get("ARRAY_ITEM_SUFFIX"));
 
             // Recurse to create $refs for inner models
             gatherInlineModels(items, schemaName);
