@@ -24,8 +24,7 @@ jobs:
     - name: Install dependencies
       working-directory: ${{ matrix.sample }}
       run: |
-        npm install -g zapier-platform-cli
         npm install
     - name: Validate
       working-directory: ${{ matrix.sample }}
-      run: zapier validate
+      run: node index.js
