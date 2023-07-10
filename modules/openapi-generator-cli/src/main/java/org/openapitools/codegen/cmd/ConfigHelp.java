@@ -77,8 +77,8 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     @Option(name = {"--inline-schema-name-mappings"}, title = "inline schema name mappings", description = "displays the inline schema name mappings (none)")
     private Boolean inlineSchemaNameMappings;
 
-    @Option(name = {"--inline-schema-name-defaults"}, title = "inline schema name defaults", description = "default values used when naming inline schema name")
-    private Boolean inlineSchemaNameDefaults;
+    @Option(name = {"--inline-schema-options"}, title = "inline schema options", description = "options for handling inline schemas in inline model resolver")
+    private Boolean inlineSchemaOptions;
 
     @Option(name = {"--openapi-normalizer"}, title = "openapi normalizer rules", description = "displays the OpenAPI normalizer rules (none)")
     private Boolean openapiNormalizer;
@@ -485,15 +485,15 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             sb.append(newline);
         }
 
-        if (Boolean.TRUE.equals(inlineSchemaNameDefaults)) {
-            sb.append(newline).append("INLINE SCHEMA NAME DEFAULTS").append(newline).append(newline);
-            Map<String, String> map = config.inlineSchemaNameDefault()
+        if (Boolean.TRUE.equals(inlineSchemaOptions)) {
+            sb.append(newline).append("INLINE SCHEMA OPTIONS").append(newline).append(newline);
+            Map<String, String> map = config.inlineSchemaOption()
                     .entrySet()
                     .stream()
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
                         throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
                     }, TreeMap::new));
-            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "Inline scheme naming convention", "Defaulted to");
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "Inline scheme options", "Defaulted to");
             sb.append(newline);
         }
 
