@@ -7,7 +7,7 @@ title: Documentation for the zapier Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | zapier | pass this to the generate command after -g |
-| generator stability | STABLE | |
+| generator stability | BETA | |
 | generator type | CLIENT | |
 | generator default templating engine | mustache | |
 | helpTxt | Generates a zapier client. | |
