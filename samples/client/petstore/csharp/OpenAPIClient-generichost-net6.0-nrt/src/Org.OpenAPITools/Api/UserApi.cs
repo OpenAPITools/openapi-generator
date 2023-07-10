@@ -19,6 +19,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.IApi
@@ -29,6 +30,11 @@ namespace Org.OpenAPITools.IApi
     /// </summary>
     public interface IUserApi : IApi
     {
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        UserApiEvents Events { get; }
+
         /// <summary>
         /// Create user
         /// </summary>
@@ -221,6 +227,93 @@ namespace Org.OpenAPITools.Api
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
+    /// </summary>
+    public class UserApiEvents
+    {
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnCreateUser;
+
+        internal void ExecuteOnCreateUser(ApiResponse<object> apiResponse)
+        {
+            OnCreateUser?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnCreateUsersWithArrayInput;
+
+        internal void ExecuteOnCreateUsersWithArrayInput(ApiResponse<object> apiResponse)
+        {
+            OnCreateUsersWithArrayInput?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnCreateUsersWithListInput;
+
+        internal void ExecuteOnCreateUsersWithListInput(ApiResponse<object> apiResponse)
+        {
+            OnCreateUsersWithListInput?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnDeleteUser;
+
+        internal void ExecuteOnDeleteUser(ApiResponse<object> apiResponse)
+        {
+            OnDeleteUser?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<User>>? OnGetUserByName;
+
+        internal void ExecuteOnGetUserByName(ApiResponse<User> apiResponse)
+        {
+            OnGetUserByName?.Invoke(this, new ApiResponseEventArgs<User>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<string>>? OnLoginUser;
+
+        internal void ExecuteOnLoginUser(ApiResponse<string> apiResponse)
+        {
+            OnLoginUser?.Invoke(this, new ApiResponseEventArgs<string>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnLogoutUser;
+
+        internal void ExecuteOnLogoutUser(ApiResponse<object> apiResponse)
+        {
+            OnLogoutUser?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnUpdateUser;
+
+        internal void ExecuteOnUpdateUser(ApiResponse<object> apiResponse)
+        {
+            OnUpdateUser?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+    }
+
+    /// <summary>
+    /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
     public sealed partial class UserApi : IApi.IUserApi
     {
@@ -235,6 +328,11 @@ namespace Org.OpenAPITools.Api
         /// The HttpClient
         /// </summary>
         public HttpClient HttpClient { get; }
+
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        public UserApiEvents Events { get; }
 
         /// <summary>
         /// A token provider of type <see cref="ApiKeyProvider"/>
@@ -265,7 +363,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="UserApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public UserApi(ILogger<UserApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider,
+        public UserApi(ILogger<UserApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, UserApiEvents userApiEvents,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -275,6 +373,7 @@ namespace Org.OpenAPITools.Api
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
+            Events = userApiEvents;
             ApiKeyProvider = apiKeyProvider;
             BearerTokenProvider = bearerTokenProvider;
             BasicTokenProvider = basicTokenProvider;
@@ -406,6 +505,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterCreateUserDefaultImplementation(apiResponseLocalVar, user);
+
+                        Events.ExecuteOnCreateUser(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -543,6 +644,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterCreateUsersWithArrayInputDefaultImplementation(apiResponseLocalVar, user);
 
+                        Events.ExecuteOnCreateUsersWithArrayInput(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -679,6 +782,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterCreateUsersWithListInputDefaultImplementation(apiResponseLocalVar, user);
 
+                        Events.ExecuteOnCreateUsersWithListInput(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -802,6 +907,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterDeleteUserDefaultImplementation(apiResponseLocalVar, username);
+
+                        Events.ExecuteOnDeleteUser(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -936,6 +1043,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<User> apiResponseLocalVar = new ApiResponse<User>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetUserByNameDefaultImplementation(apiResponseLocalVar, username);
+
+                        Events.ExecuteOnGetUserByName(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1087,6 +1196,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterLoginUserDefaultImplementation(apiResponseLocalVar, username, password);
 
+                        Events.ExecuteOnLoginUser(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -1186,6 +1297,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/logout", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterLogoutUserDefaultImplementation(apiResponseLocalVar);
+
+                        Events.ExecuteOnLogoutUser(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1333,6 +1446,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterUpdateUserDefaultImplementation(apiResponseLocalVar, user, username);
+
+                        Events.ExecuteOnUpdateUser(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }

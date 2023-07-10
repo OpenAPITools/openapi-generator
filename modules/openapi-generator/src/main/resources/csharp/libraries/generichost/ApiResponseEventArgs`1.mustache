@@ -1,11 +1,11 @@
 using System;
 
-namespace Org.OpenAPITools.Client
+namespace {{packageName}}.{{clientPackage}}
 {
     /// <summary>
     /// Useful for tracking server health
     /// </summary>
-    public class ApiResponseEventArgs<T> : EventArgs
+    {{>visibility}} class ApiResponseEventArgs<T> : EventArgs
     {
         /// <summary>
         /// The ApiResponse
