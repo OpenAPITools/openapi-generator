@@ -58,7 +58,7 @@ module.exports = {
                 {
                     key: 'petId',
                     label: 'Pet id to delete',
-                    type: '',
+                    type: 'number',
                     required: true,
                 },
                 {
@@ -103,10 +103,13 @@ module.exports = {
         },
         operation: {
             inputFields: [
-                ...string.fields(),
+                {
+                    key: 'status',
+                    label: 'Status values that need to be considered for filter',
+                    type: 'string',
+                }
             ],
             outputFields: [
-                ...array.fields('', false),
             ],
             perform: async (z, bundle) => {
                 const options = {
@@ -143,10 +146,13 @@ module.exports = {
         },
         operation: {
             inputFields: [
-                ...string.fields(),
+                {
+                    key: 'tags',
+                    label: 'Tags to filter by',
+                    type: 'string',
+                }
             ],
             outputFields: [
-                ...array.fields('', false),
             ],
             perform: async (z, bundle) => {
                 const options = {
@@ -186,7 +192,7 @@ module.exports = {
                 {
                     key: 'petId',
                     label: 'ID of pet to return',
-                    type: '',
+                    type: 'number',
                     required: true,
                 },
             ],
@@ -270,7 +276,7 @@ module.exports = {
                 {
                     key: 'petId',
                     label: 'ID of pet that needs to be updated',
-                    type: '',
+                    type: 'number',
                     required: true,
                 },
                 {
@@ -323,7 +329,7 @@ module.exports = {
                 {
                     key: 'petId',
                     label: 'ID of pet to update',
-                    type: '',
+                    type: 'number',
                     required: true,
                 },
                 {
