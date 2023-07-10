@@ -3950,7 +3950,7 @@ public class DefaultCodegen implements CodegenConfig {
         Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
 
         //Referenced enum case:
-        if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+        if (referencedSchema != p && referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
             List<Object> _enum = referencedSchema.getEnum();
 
             property.isEnumRef = true;
