@@ -19,6 +19,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.IApi
@@ -29,6 +30,11 @@ namespace Org.OpenAPITools.IApi
     /// </summary>
     public interface IDefaultApi : IApi
     {
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        DefaultApiEvents Events { get; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -56,6 +62,23 @@ namespace Org.OpenAPITools.Api
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
+    /// </summary>
+    public class DefaultApiEvents
+    {
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<Fruit>>? OnRootGet;
+
+        internal void ExecuteOnRootGet(ApiResponse<Fruit> apiResponse)
+        {
+            OnRootGet?.Invoke(this, new ApiResponseEventArgs<Fruit>(apiResponse));
+        }
+    }
+
+    /// <summary>
+    /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
     public sealed partial class DefaultApi : IApi.IDefaultApi
     {
@@ -72,14 +95,20 @@ namespace Org.OpenAPITools.Api
         public HttpClient HttpClient { get; }
 
         /// <summary>
+        /// The class containing the events
+        /// </summary>
+        public DefaultApiEvents Events { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DefaultApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider)
+        public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, DefaultApiEvents defaultApiEvents)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
+            Events = defaultApiEvents;
         }
 
         /// <summary>
@@ -179,6 +208,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<Fruit> apiResponseLocalVar = new ApiResponse<Fruit>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterRootGetDefaultImplementation(apiResponseLocalVar);
+
+                        Events.ExecuteOnRootGet(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }

@@ -19,6 +19,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.IApi
@@ -29,6 +30,11 @@ namespace Org.OpenAPITools.IApi
     /// </summary>
     public interface IFakeApi : IApi
     {
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        FakeApiEvents Events { get; }
+
         /// <summary>
         /// Health check endpoint
         /// </summary>
@@ -448,6 +454,163 @@ namespace Org.OpenAPITools.Api
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
+    /// </summary>
+    public class FakeApiEvents
+    {
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<HealthCheckResult>>? OnFakeHealthGet;
+
+        internal void ExecuteOnFakeHealthGet(ApiResponse<HealthCheckResult> apiResponse)
+        {
+            OnFakeHealthGet?.Invoke(this, new ApiResponseEventArgs<HealthCheckResult>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<bool>>? OnFakeOuterBooleanSerialize;
+
+        internal void ExecuteOnFakeOuterBooleanSerialize(ApiResponse<bool> apiResponse)
+        {
+            OnFakeOuterBooleanSerialize?.Invoke(this, new ApiResponseEventArgs<bool>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<OuterComposite>>? OnFakeOuterCompositeSerialize;
+
+        internal void ExecuteOnFakeOuterCompositeSerialize(ApiResponse<OuterComposite> apiResponse)
+        {
+            OnFakeOuterCompositeSerialize?.Invoke(this, new ApiResponseEventArgs<OuterComposite>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<decimal>>? OnFakeOuterNumberSerialize;
+
+        internal void ExecuteOnFakeOuterNumberSerialize(ApiResponse<decimal> apiResponse)
+        {
+            OnFakeOuterNumberSerialize?.Invoke(this, new ApiResponseEventArgs<decimal>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<string>>? OnFakeOuterStringSerialize;
+
+        internal void ExecuteOnFakeOuterStringSerialize(ApiResponse<string> apiResponse)
+        {
+            OnFakeOuterStringSerialize?.Invoke(this, new ApiResponseEventArgs<string>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<List<OuterEnum>>>? OnGetArrayOfEnums;
+
+        internal void ExecuteOnGetArrayOfEnums(ApiResponse<List<OuterEnum>> apiResponse)
+        {
+            OnGetArrayOfEnums?.Invoke(this, new ApiResponseEventArgs<List<OuterEnum>>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnTestBodyWithFileSchema;
+
+        internal void ExecuteOnTestBodyWithFileSchema(ApiResponse<object> apiResponse)
+        {
+            OnTestBodyWithFileSchema?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnTestBodyWithQueryParams;
+
+        internal void ExecuteOnTestBodyWithQueryParams(ApiResponse<object> apiResponse)
+        {
+            OnTestBodyWithQueryParams?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<ModelClient>>? OnTestClientModel;
+
+        internal void ExecuteOnTestClientModel(ApiResponse<ModelClient> apiResponse)
+        {
+            OnTestClientModel?.Invoke(this, new ApiResponseEventArgs<ModelClient>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnTestEndpointParameters;
+
+        internal void ExecuteOnTestEndpointParameters(ApiResponse<object> apiResponse)
+        {
+            OnTestEndpointParameters?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnTestEnumParameters;
+
+        internal void ExecuteOnTestEnumParameters(ApiResponse<object> apiResponse)
+        {
+            OnTestEnumParameters?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnTestGroupParameters;
+
+        internal void ExecuteOnTestGroupParameters(ApiResponse<object> apiResponse)
+        {
+            OnTestGroupParameters?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnTestInlineAdditionalProperties;
+
+        internal void ExecuteOnTestInlineAdditionalProperties(ApiResponse<object> apiResponse)
+        {
+            OnTestInlineAdditionalProperties?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnTestJsonFormData;
+
+        internal void ExecuteOnTestJsonFormData(ApiResponse<object> apiResponse)
+        {
+            OnTestJsonFormData?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnTestQueryParameterCollectionFormat;
+
+        internal void ExecuteOnTestQueryParameterCollectionFormat(ApiResponse<object> apiResponse)
+        {
+            OnTestQueryParameterCollectionFormat?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+    }
+
+    /// <summary>
+    /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
     public sealed partial class FakeApi : IApi.IFakeApi
     {
@@ -462,6 +625,11 @@ namespace Org.OpenAPITools.Api
         /// The HttpClient
         /// </summary>
         public HttpClient HttpClient { get; }
+
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        public FakeApiEvents Events { get; }
 
         /// <summary>
         /// A token provider of type <see cref="ApiKeyProvider"/>
@@ -492,7 +660,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="FakeApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public FakeApi(ILogger<FakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider,
+        public FakeApi(ILogger<FakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, FakeApiEvents fakeApiEvents,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -502,6 +670,7 @@ namespace Org.OpenAPITools.Api
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
+            Events = fakeApiEvents;
             ApiKeyProvider = apiKeyProvider;
             BearerTokenProvider = bearerTokenProvider;
             BasicTokenProvider = basicTokenProvider;
@@ -606,6 +775,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<HealthCheckResult> apiResponseLocalVar = new ApiResponse<HealthCheckResult>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/health", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterFakeHealthGetDefaultImplementation(apiResponseLocalVar);
+
+                        Events.ExecuteOnFakeHealthGet(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -739,6 +910,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<bool> apiResponseLocalVar = new ApiResponse<bool>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/boolean", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterFakeOuterBooleanSerializeDefaultImplementation(apiResponseLocalVar, body);
+
+                        Events.ExecuteOnFakeOuterBooleanSerialize(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -886,6 +1059,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterFakeOuterCompositeSerializeDefaultImplementation(apiResponseLocalVar, outerComposite);
 
+                        Events.ExecuteOnFakeOuterCompositeSerialize(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -1018,6 +1193,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<decimal> apiResponseLocalVar = new ApiResponse<decimal>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/number", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterFakeOuterNumberSerializeDefaultImplementation(apiResponseLocalVar, body);
+
+                        Events.ExecuteOnFakeOuterNumberSerialize(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1177,6 +1354,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterFakeOuterStringSerializeDefaultImplementation(apiResponseLocalVar, requiredStringUuid, body);
 
+                        Events.ExecuteOnFakeOuterStringSerialize(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -1285,6 +1464,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<List<OuterEnum>> apiResponseLocalVar = new ApiResponse<List<OuterEnum>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/array-of-enums", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetArrayOfEnumsDefaultImplementation(apiResponseLocalVar);
+
+                        Events.ExecuteOnGetArrayOfEnums(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1421,6 +1602,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/body-with-file-schema", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterTestBodyWithFileSchemaDefaultImplementation(apiResponseLocalVar, fileSchemaTestClass);
+
+                        Events.ExecuteOnTestBodyWithFileSchema(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -1574,6 +1757,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterTestBodyWithQueryParamsDefaultImplementation(apiResponseLocalVar, user, query);
 
+                        Events.ExecuteOnTestBodyWithQueryParams(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -1718,6 +1903,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterTestClientModelDefaultImplementation(apiResponseLocalVar, modelClient);
+
+                        Events.ExecuteOnTestClientModel(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -2003,6 +2190,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterTestEndpointParametersDefaultImplementation(apiResponseLocalVar, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
 
+                        Events.ExecuteOnTestEndpointParameters(apiResponseLocalVar);
+
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
                                 tokenBaseLocalVar.BeginRateLimit();
@@ -2235,6 +2424,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterTestEnumParametersDefaultImplementation(apiResponseLocalVar, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
 
+                        Events.ExecuteOnTestEnumParameters(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -2401,6 +2592,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterTestGroupParametersDefaultImplementation(apiResponseLocalVar, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
 
+                        Events.ExecuteOnTestGroupParameters(apiResponseLocalVar);
+
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
                                 tokenBaseLocalVar.BeginRateLimit();
@@ -2540,6 +2733,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/inline-additionalProperties", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterTestInlineAdditionalPropertiesDefaultImplementation(apiResponseLocalVar, requestBody);
+
+                        Events.ExecuteOnTestInlineAdditionalProperties(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -2694,6 +2889,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/jsonFormData", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterTestJsonFormDataDefaultImplementation(apiResponseLocalVar, param, param2);
+
+                        Events.ExecuteOnTestJsonFormData(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -2907,6 +3104,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<object> apiResponseLocalVar = new ApiResponse<object>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/test-query-parameters", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterTestQueryParameterCollectionFormatDefaultImplementation(apiResponseLocalVar, pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable);
+
+                        Events.ExecuteOnTestQueryParameterCollectionFormat(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }

@@ -17,6 +17,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.IApi
@@ -27,6 +28,11 @@ namespace Org.OpenAPITools.IApi
     /// </summary>
     public interface IStoreApi : IApi
     {
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        StoreApiEvents Events { get; }
+
         /// <summary>
         /// Delete purchase order by ID
         /// </summary>
@@ -123,6 +129,53 @@ namespace Org.OpenAPITools.Api
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
+    /// </summary>
+    public class StoreApiEvents
+    {
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>> OnDeleteOrder;
+
+        internal void ExecuteOnDeleteOrder(ApiResponse<object> apiResponse)
+        {
+            OnDeleteOrder?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<Dictionary<string, int>>> OnGetInventory;
+
+        internal void ExecuteOnGetInventory(ApiResponse<Dictionary<string, int>> apiResponse)
+        {
+            OnGetInventory?.Invoke(this, new ApiResponseEventArgs<Dictionary<string, int>>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<Order>> OnGetOrderById;
+
+        internal void ExecuteOnGetOrderById(ApiResponse<Order> apiResponse)
+        {
+            OnGetOrderById?.Invoke(this, new ApiResponseEventArgs<Order>(apiResponse));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<Order>> OnPlaceOrder;
+
+        internal void ExecuteOnPlaceOrder(ApiResponse<Order> apiResponse)
+        {
+            OnPlaceOrder?.Invoke(this, new ApiResponseEventArgs<Order>(apiResponse));
+        }
+    }
+
+    /// <summary>
+    /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
     public sealed partial class StoreApi : IApi.IStoreApi
     {
@@ -137,6 +190,11 @@ namespace Org.OpenAPITools.Api
         /// The HttpClient
         /// </summary>
         public HttpClient HttpClient { get; }
+
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        public StoreApiEvents Events { get; }
 
         /// <summary>
         /// A token provider of type <see cref="ApiKeyProvider"/>
@@ -167,7 +225,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="StoreApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public StoreApi(ILogger<StoreApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider,
+        public StoreApi(ILogger<StoreApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, StoreApiEvents storeApiEvents,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -177,6 +235,7 @@ namespace Org.OpenAPITools.Api
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
+            Events = storeApiEvents;
             ApiKeyProvider = apiKeyProvider;
             BearerTokenProvider = bearerTokenProvider;
             BasicTokenProvider = basicTokenProvider;
@@ -296,6 +355,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterDeleteOrderDefaultImplementation(apiResponseLocalVar, orderId);
 
+                        Events.ExecuteOnDeleteOrder(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -411,6 +472,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<Dictionary<string, int>> apiResponseLocalVar = new ApiResponse<Dictionary<string, int>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/inventory", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetInventoryDefaultImplementation(apiResponseLocalVar);
+
+                        Events.ExecuteOnGetInventory(apiResponseLocalVar);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -535,6 +598,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<Order> apiResponseLocalVar = new ApiResponse<Order>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order/{order_id}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetOrderByIdDefaultImplementation(apiResponseLocalVar, orderId);
+
+                        Events.ExecuteOnGetOrderById(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
@@ -680,6 +745,8 @@ namespace Org.OpenAPITools.Api
                         ApiResponse<Order> apiResponseLocalVar = new ApiResponse<Order>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterPlaceOrderDefaultImplementation(apiResponseLocalVar, order);
+
+                        Events.ExecuteOnPlaceOrder(apiResponseLocalVar);
 
                         return apiResponseLocalVar;
                     }
