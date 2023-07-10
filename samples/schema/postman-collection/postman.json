@@ -38,8 +38,8 @@
                                         },
                                         {
                                             "key": "strCode2",
-                                            "value": "",
-                                            "disabled": true
+                                            "value": "null",
+                                            "disabled": false
                                         }
                                     ],
                                     "body": {
@@ -149,8 +149,8 @@
                                         },
                                         {
                                             "key": "strCode2",
-                                            "value": "",
-                                            "disabled": true
+                                            "value": "null",
+                                            "disabled": false
                                         }
                                     ],
                                     "body": {
@@ -207,8 +207,8 @@
                                         },
                                         {
                                             "key": "Custom-Header",
-                                            "value": "",
-                                            "disabled": true
+                                            "value": "null",
+                                            "disabled": false
                                         },
                                         {
                                             "key": "Another-Custom-Header",
@@ -325,17 +325,17 @@
         },
 		{
 			"key": "version",
-			"value": "v1",
+			"value": "",
 			"type": "string"
 		},
 		{
 			"key": "groupId",
-			"value": "1",
+			"value": "",
 			"type": "number"
 		},
 		{
 			"key": "port",
-			"value": "5000",
+			"value": "",
 			"type": "string"
 		},
 		{

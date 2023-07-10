@@ -36,5 +36,5 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public interface Fruit {
-    public FruitType getFruitType();
+    public String getFruitType();
 }

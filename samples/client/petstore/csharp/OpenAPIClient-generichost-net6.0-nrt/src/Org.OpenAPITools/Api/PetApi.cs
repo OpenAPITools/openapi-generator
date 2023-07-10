@@ -1429,16 +1429,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="file"></param>
         /// <param name="additionalMetadata"></param>
+        /// <param name="file"></param>
         /// <returns></returns>
-        private void ValidateUploadFile(Option<System.IO.Stream> file, Option<string> additionalMetadata)
+        private void ValidateUploadFile(Option<string> additionalMetadata, Option<System.IO.Stream> file)
         {
-            if (file.IsSet && file.Value == null)
-                throw new ArgumentNullException(nameof(file));
-
             if (additionalMetadata.IsSet && additionalMetadata.Value == null)
                 throw new ArgumentNullException(nameof(additionalMetadata));
+
+            if (file.IsSet && file.Value == null)
+                throw new ArgumentNullException(nameof(file));
         }
 
         /// <summary>
@@ -1527,7 +1527,7 @@ namespace Org.OpenAPITools.Api
 
             try
             {
-                ValidateUploadFile(file, additionalMetadata);
+                ValidateUploadFile(additionalMetadata, file);
 
                 FormatUploadFile(ref petId, ref file, ref additionalMetadata);
 

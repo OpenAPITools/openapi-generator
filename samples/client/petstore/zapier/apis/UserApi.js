@@ -52,7 +52,11 @@ module.exports = {
         },
         operation: {
             inputFields: [
-                ...User.fields(),
+                {
+                    key: 'User',
+                    label: 'List of user object',
+                    type: 'string',
+                }
             ],
             outputFields: [
             ],
@@ -91,7 +95,11 @@ module.exports = {
         },
         operation: {
             inputFields: [
-                ...User.fields(),
+                {
+                    key: 'User',
+                    label: 'List of user object',
+                    type: 'string',
+                }
             ],
             outputFields: [
             ],

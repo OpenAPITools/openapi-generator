@@ -96,7 +96,7 @@ module.exports = {
                 {
                     key: 'orderId',
                     label: 'ID of pet that needs to be fetched',
-                    type: '',
+                    type: 'number',
                     required: true,
                 },
             ],
