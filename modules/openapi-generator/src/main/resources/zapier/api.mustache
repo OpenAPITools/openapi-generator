@@ -28,7 +28,7 @@ module.exports = {
                 {
                     key: '{{baseName}}',
                     label: '{{description}}',
-                    type: '{{#isInteger}}integer{{/isInteger}}{{^isInteger}}{{#isNumeric}}number{{/isNumeric}}{{/isInteger}}{{#isString}}string{{/isString}}{{#isBoolean}}boolean{{/isBoolean}}{{#isDateTime}}datetime{{/isDateTime}}{{#isDate}}datetime{{/isDate}}{{#isFile}}file{{/isFile}}',
+                    type: '{{dataType}}',
                     {{#required}}
                     required: true,
                     {{/required}}
@@ -42,14 +42,25 @@ module.exports = {
                 },
                 {{/isPrimitiveType}}
                 {{^isPrimitiveType}}
+                {{#isArray}}
+                {
+                    key: '{{baseName}}',
+                    label: '{{description}}',
+                    type: 'string',
+                }
+                {{/isArray}}
+                {{^isArray}}
                 ...{{baseType}}.fields(),
+                {{/isArray}}
                 {{/isPrimitiveType}}
                 {{/allParams}}
             ],
             outputFields: [
                 {{#returnType}}
                 {{^returnTypeIsPrimitive}}
+                {{^isArray}}
                 ...{{returnType}}.fields('', false),
+                {{/isArray}}
                 {{/returnTypeIsPrimitive}}
                 {{/returnType}}
             ],
