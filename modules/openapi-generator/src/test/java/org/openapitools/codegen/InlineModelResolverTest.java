@@ -1040,12 +1040,12 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void testInlineSchemaNameDefault() {
+    public void testInlineSchemaOptions() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         InlineModelResolver resolver = new InlineModelResolver();
-        Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
-        inlineSchemaNameDefaults.put("arrayItemSuffix", "_something");
-        resolver.setInlineSchemaNameDefaults(inlineSchemaNameDefaults);
+        Map<String, String> inlineSchemaOptions= new HashMap<>();
+        inlineSchemaOptions.put("ARRAY_ITEM_SUFFIX", "_something");
+        resolver.setInlineSchemaOptions(inlineSchemaOptions);
         resolver.flatten(openAPI);
 
         Schema schema = openAPI.getComponents().getSchemas().get("resolveInlineArrayRequestBody_request_something");
@@ -1060,9 +1060,9 @@ public class InlineModelResolverTest {
     public void testInlineSchemaSkipReuseSetToFalse() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         InlineModelResolver resolver = new InlineModelResolver();
-        Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
-        //inlineSchemaNameDefaults.put("SKIP_SCHEMA_REUSE", "false"); // default is false
-        resolver.setInlineSchemaNameDefaults(inlineSchemaNameDefaults);
+        Map<String, String> inlineSchemaOptions = new HashMap<>();
+        //inlineSchemaOptions.put("SKIP_SCHEMA_REUSE", "false"); // default is false
+        resolver.setInlineSchemaOptions(inlineSchemaOptions);
         resolver.flatten(openAPI);
 
         Schema schema = openAPI.getComponents().getSchemas().get("meta_200_response");
@@ -1078,9 +1078,9 @@ public class InlineModelResolverTest {
     public void testInlineSchemaSkipReuseSetToTrue() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         InlineModelResolver resolver = new InlineModelResolver();
-        Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
-        inlineSchemaNameDefaults.put("SKIP_SCHEMA_REUSE", "true");
-        resolver.setInlineSchemaNameDefaults(inlineSchemaNameDefaults);
+        Map<String, String> inlineSchemaOptions = new HashMap<>();
+        inlineSchemaOptions.put("SKIP_SCHEMA_REUSE", "true");
+        resolver.setInlineSchemaOptions(inlineSchemaOptions);
         resolver.flatten(openAPI);
 
         Schema schema = openAPI.getComponents().getSchemas().get("meta_200_response");
@@ -1138,9 +1138,9 @@ public class InlineModelResolverTest {
         assertNull(((ArraySchema) parameter.getSchema()).getItems().get$ref() );
 
         InlineModelResolver resolver = new InlineModelResolver();
-        Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
-        inlineSchemaNameDefaults.put("RESOLVE_INLINE_ENUMS", "true");
-        resolver.setInlineSchemaNameDefaults(inlineSchemaNameDefaults);
+        Map<String, String> inlineSchemaOptions = new HashMap<>();
+        inlineSchemaOptions.put("RESOLVE_INLINE_ENUMS", "true");
+        resolver.setInlineSchemaOptions(inlineSchemaOptions);
         resolver.flatten(openAPI);
 
         Parameter parameter2 = openAPI.getPaths().get("/resolve_parameter_inline_enum").getGet().getParameters().get(0);
@@ -1156,9 +1156,9 @@ public class InlineModelResolverTest {
         assertNull(requestBody.get$ref());
 
         InlineModelResolver resolver = new InlineModelResolver();
-        Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
-        inlineSchemaNameDefaults.put("RESOLVE_INLINE_ENUMS", "true");
-        resolver.setInlineSchemaNameDefaults(inlineSchemaNameDefaults);
+        Map<String, String> inlineSchemaOptions = new HashMap<>();
+        inlineSchemaOptions.put("RESOLVE_INLINE_ENUMS", "true");
+        resolver.setInlineSchemaOptions(inlineSchemaOptions);
         resolver.flatten(openAPI);
 
         Schema requestBody2 = openAPI.getPaths().get("/resolve_parameter_inline_enum_form_parameters").getPost().getRequestBody().getContent().get("application/x-www-form-urlencoded").getSchema();

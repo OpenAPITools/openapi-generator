@@ -445,15 +445,14 @@ For example, to name the inline schema `meta_200_response` as `MetaObject`, use 
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i  modules/openapi-generator/src/test/resources/3_0/inline_model_resolver.yaml -o /tmp/java3/ --skip-validate-spec --inline-schema-name-mappings meta_200_response=MetaObject,arbitraryObjectRequestBodyProperty_request=ArbitraryRequest
 ```
 
-Another useful option is `inlineSchemaNameDefaults`, which allows you to customize the suffix of the auto-generated inline schema name, e.g. in CLI
+Another useful option is `inlineSchemaOptions`, which allows you to customize how inline schemas are handled or named
 ```
---inline-schema-name-defaults arrayItemSuffix=_array_item,mapItemSuffix=_map_item
+--inline-schema-options ARRAY_ITEM_SUFFIX=_array_item,MAP_ITEM_SUFFIX=_map_item,RESOLVE_INLINE_ENUMS=true
 ```
 
-Note: Only arrayItemSuffix, mapItemSuffix are supported at the moment.
-
-There are 2 special values:
-- `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.
+- `ARRAY_ITEM_SUFFIX` sets the array item suffix
+- `MAP_ITEM_SUFFIX` set the map item suffix
+- `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas during refactoring
 - `REFACTOR_ALLOF_INLINE_SCHEMAS=true` will restore the 6.x (or below) behaviour to refactor allOf inline schemas into $ref. (v7.0.0 will skip the refactoring of these allOf inline schmeas by default)
 - `RESOLVE_INLINE_ENUMS=true` will refactor inline enum definitions into $ref
 

@@ -182,11 +182,10 @@ public class Generate extends OpenApiGeneratorCommand {
     private List<String> inlineSchemaNameMappings = new ArrayList<>();
 
     @Option(
-            name = {"--inline-schema-name-defaults"},
-            title = "inline schema name defaults",
-            description = "specifies the default values used when naming inline schema as such array items in the format of arrayItemSuffix=_inner,mapItemSuffix=_value. "
-                    + " ONLY arrayItemSuffix, mapItemSuffix are supported at the moment. `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.")
-    private List<String> inlineSchemaNameDefaults = new ArrayList<>();
+            name = {"--inline-schema-optionss"},
+            title = "inline schema options",
+            description = "specifies the options for handling inline schemas in the inline model resolver.")
+    private List<String> inlineSchemaOptions = new ArrayList<>();
 
     @Option(
             name = {"--openapi-normalizer"},
@@ -467,7 +466,7 @@ public class Generate extends OpenApiGeneratorCommand {
         applyImportMappingsKvpList(importMappings, configurator);
         applySchemaMappingsKvpList(schemaMappings, configurator);
         applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
-        applyInlineSchemaNameDefaultsKvpList(inlineSchemaNameDefaults, configurator);
+        applyInlineSchemaOptionsKvpList(inlineSchemaOptions, configurator);
         applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
