@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using Org.OpenAPITools.IApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 
@@ -43,11 +43,11 @@ namespace Org.OpenAPITools.Test.Api
     /// </summary>
     public sealed class FakeApiTests : ApiTestsBase
     {
-        private readonly IApi.IFakeApi _instance;
+        private readonly IFakeApi _instance;
 
         public FakeApiTests(): base(Array.Empty<string>())
         {
-            _instance = _host.Services.GetRequiredService<IApi.IFakeApi>();
+            _instance = _host.Services.GetRequiredService<IFakeApi>();
         }
 
         /// <summary>

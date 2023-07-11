@@ -20,7 +20,7 @@ using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
-namespace Org.OpenAPITools.IApi
+namespace Org.OpenAPITools.Api
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
@@ -98,10 +98,7 @@ namespace Org.OpenAPITools.IApi
         /// <returns>Task&lt;ApiResponse&gt;List&lt;Guid&gt;&gt;&gt;</returns>
         Task<ApiResponse<List<Guid>>> HelloOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
     }
-}
 
-namespace Org.OpenAPITools.Api
-{
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// This class is registered as transient.
@@ -172,7 +169,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public sealed partial class DefaultApi : IApi.IDefaultApi
+    public sealed partial class DefaultApi : IDefaultApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
