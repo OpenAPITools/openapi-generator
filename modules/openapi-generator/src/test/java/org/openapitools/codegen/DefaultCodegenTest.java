@@ -296,7 +296,7 @@ public class DefaultCodegenTest {
         Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
         Assert.assertNull(schema.getAdditionalProperties());
 
-        Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
+        Schema addProps = ModelUtils.getAdditionalProperties(schema);
         // The petstore-with-fake-endpoints-models-for-testing.yaml does not set the
         // 'additionalProperties' keyword for this model, hence assert the value to be null.
         Assert.assertNull(addProps);
@@ -342,7 +342,7 @@ public class DefaultCodegenTest {
         // additionalProperties: true.
         // UPDATE fixed in swagger parser 2.1.14
         Assert.assertTrue((Boolean) map_with_additional_properties_sc.getAdditionalProperties());
-        addProps = ModelUtils.getAdditionalProperties(openAPI, map_with_additional_properties_sc);
+        addProps = ModelUtils.getAdditionalProperties(map_with_additional_properties_sc);
         Assert.assertEquals(addProps, new Schema());
         Assert.assertNotNull(map_with_additional_properties_cp.getAdditionalProperties());
 
@@ -355,7 +355,7 @@ public class DefaultCodegenTest {
         // additionalProperties: false.
         // UPDATE fixed in swagger parser 2.1.14
         Assert.assertFalse((Boolean) map_without_additional_properties_sc.getAdditionalProperties());
-        addProps = ModelUtils.getAdditionalProperties(openAPI, map_without_additional_properties_sc);
+        addProps = ModelUtils.getAdditionalProperties(map_without_additional_properties_sc);
         Assert.assertNull(addProps);
         Assert.assertNull(map_without_additional_properties_cp.getAdditionalProperties());
 
@@ -387,7 +387,7 @@ public class DefaultCodegenTest {
         Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
         Assert.assertNull(schema.getAdditionalProperties());
 
-        Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
+        Schema addProps = ModelUtils.getAdditionalProperties(schema);
         // The petstore-with-fake-endpoints-models-for-testing.yaml does not set the
         // 'additionalProperties' keyword for this model, hence assert the value to be null.
         Assert.assertNull(addProps);
@@ -433,7 +433,7 @@ public class DefaultCodegenTest {
         // additionalProperties: true.
         // UPDATE fixed in swagger parser 2.1.14
         Assert.assertTrue((Boolean) map_with_additional_properties_sc.getAdditionalProperties());
-        addProps = ModelUtils.getAdditionalProperties(openAPI, map_with_additional_properties_sc);
+        addProps = ModelUtils.getAdditionalProperties(map_with_additional_properties_sc);
         Assert.assertEquals(addProps, new Schema());
         Assert.assertNotNull(map_with_additional_properties_cp.getAdditionalProperties());
 
@@ -446,7 +446,7 @@ public class DefaultCodegenTest {
         // additionalProperties: false.
         // UPDATE fixed in swagger parser 2.1.14
         Assert.assertFalse((Boolean) map_without_additional_properties_sc.getAdditionalProperties());
-        addProps = ModelUtils.getAdditionalProperties(openAPI, map_without_additional_properties_sc);
+        addProps = ModelUtils.getAdditionalProperties(map_without_additional_properties_sc);
         Assert.assertEquals(addProps, null);
         Assert.assertNull(map_without_additional_properties_cp.getAdditionalProperties());
 
@@ -470,7 +470,7 @@ public class DefaultCodegenTest {
 
         // When the 'additionalProperties' keyword is not present, the schema may be
         // extended with any undeclared properties.
-        Schema addProps = ModelUtils.getAdditionalProperties(openAPI, componentSchema);
+        Schema addProps = ModelUtils.getAdditionalProperties(componentSchema);
         Assert.assertNotNull(addProps);
         Assert.assertEquals(addProps, new Schema());
         CodegenModel cm = codegen.fromModel("AdditionalPropertiesClass", componentSchema);
@@ -515,7 +515,7 @@ public class DefaultCodegenTest {
         // which means by default undeclared properties are allowed.
         Assert.assertNotNull(map_with_undeclared_properties_anytype_1_sc);
         Assert.assertNull(map_with_undeclared_properties_anytype_1_sc.getAdditionalProperties());
-        addProps = ModelUtils.getAdditionalProperties(openAPI, map_with_undeclared_properties_anytype_1_sc);
+        addProps = ModelUtils.getAdditionalProperties(map_with_undeclared_properties_anytype_1_sc);
         Assert.assertNotNull(addProps);
         Assert.assertEquals(addProps, new Schema());
         Assert.assertNotNull(map_with_undeclared_properties_anytype_1_cp.getAdditionalProperties());
@@ -525,7 +525,7 @@ public class DefaultCodegenTest {
         // which means by default undeclared properties are allowed.
         Assert.assertNotNull(map_with_undeclared_properties_anytype_2_sc);
         Assert.assertNull(map_with_undeclared_properties_anytype_2_sc.getAdditionalProperties());
-        addProps = ModelUtils.getAdditionalProperties(openAPI, map_with_undeclared_properties_anytype_2_sc);
+        addProps = ModelUtils.getAdditionalProperties(map_with_undeclared_properties_anytype_2_sc);
         Assert.assertNotNull(addProps);
         Assert.assertEquals(addProps, new Schema());
         Assert.assertNotNull(map_with_undeclared_properties_anytype_2_cp.getAdditionalProperties());
@@ -538,7 +538,7 @@ public class DefaultCodegenTest {
         // additionalProperties: true.
         Assert.assertNotNull(map_with_undeclared_properties_anytype_3_sc.getAdditionalProperties());
         Assert.assertEquals(map_with_undeclared_properties_anytype_3_sc.getAdditionalProperties(), Boolean.TRUE);
-        addProps = ModelUtils.getAdditionalProperties(openAPI, map_with_undeclared_properties_anytype_3_sc);
+        addProps = ModelUtils.getAdditionalProperties(map_with_undeclared_properties_anytype_3_sc);
         Assert.assertNotNull(addProps);
         Assert.assertEquals(addProps, new Schema());
         Assert.assertNotNull(map_with_undeclared_properties_anytype_3_cp.getAdditionalProperties());
@@ -551,7 +551,7 @@ public class DefaultCodegenTest {
         // additionalProperties: false.
         Assert.assertNotNull(empty_map_sc.getAdditionalProperties());
         Assert.assertEquals(empty_map_sc.getAdditionalProperties(), Boolean.FALSE);
-        addProps = ModelUtils.getAdditionalProperties(openAPI, empty_map_sc);
+        addProps = ModelUtils.getAdditionalProperties(empty_map_sc);
         Assert.assertNull(addProps);
         Assert.assertNull(empty_map_cp.getAdditionalProperties());
 
@@ -576,7 +576,7 @@ public class DefaultCodegenTest {
         Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
         Assert.assertNull(schema.getAdditionalProperties());
 
-        Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
+        Schema addProps = ModelUtils.getAdditionalProperties(schema);
         Assert.assertNull(addProps);
     }
 

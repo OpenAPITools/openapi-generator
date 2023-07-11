@@ -798,7 +798,7 @@ public class InlineModelResolver {
                 }
             }
             if (ModelUtils.isMapSchema(property)) {
-                Schema inner = ModelUtils.getAdditionalProperties(openAPI, property);
+                Schema inner = ModelUtils.getAdditionalProperties(property);
                 if (inner instanceof ObjectSchema) {
                     ObjectSchema op = (ObjectSchema) inner;
                     if (op.getProperties() != null && op.getProperties().size() > 0) {
