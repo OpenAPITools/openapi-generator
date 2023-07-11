@@ -200,12 +200,6 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(name = "packageName", property = "openapi.generator.maven.plugin.packageName")
     private String packageName;
 
-    /**
-     * The package to use for generated model objects/classes
-     */
-    @Parameter(name = "resourceFolder", property = "openapi.generator.maven.plugin.resourceFolder")
-    private String resourceFolder;
-
 
     /**
      * groupId in generated pom.xml
@@ -649,10 +643,6 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (isNotEmpty(packageName)) {
                 configurator.setPackageName(packageName);
-            }
-
-            if (isNotEmpty(resourceFolder)) {
-                configurator.setResourceFolder(resourceFolder);
             }
 
             if (isNotEmpty(groupId)) {

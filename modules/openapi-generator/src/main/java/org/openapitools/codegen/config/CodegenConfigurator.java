@@ -481,13 +481,6 @@ public class CodegenConfigurator {
         return this;
     }
 
-    public CodegenConfigurator setResourceFolder(String resourceFolder) {
-        if (StringUtils.isNotEmpty(resourceFolder)) {
-            addAdditionalProperty(SpringCodegen.RESOURCE_FOLDER, resourceFolder);
-        }
-        return this;
-    }
-
     public CodegenConfigurator setReleaseNote(String releaseNote) {
         if (StringUtils.isNotEmpty(releaseNote)) {
             addAdditionalProperty(CodegenConstants.RELEASE_NOTE, releaseNote);
