@@ -71,9 +71,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<ModelClient>> OnTestClassname;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs> OnErrorTestClassname;
+
         internal void ExecuteOnTestClassname(ApiResponse<ModelClient> apiResponse)
         {
             OnTestClassname?.Invoke(this, new ApiResponseEventArgs<ModelClient>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorTestClassname(Exception exception)
+        {
+            OnErrorTestClassname?.Invoke(this, new ExceptionEventArgs(exception));
         }
     }
 
@@ -189,18 +199,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient"></param>
         private void OnErrorTestClassnameDefaultImplementation(Exception exception, string pathFormat, string path, ModelClient modelClient)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorTestClassname(exception, pathFormat, path, modelClient);
+            bool suppressDefaultLog = false;
+            OnErrorTestClassname(ref suppressDefaultLog, exception, pathFormat, path, modelClient);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        partial void OnErrorTestClassname(Exception exception, string pathFormat, string path, ModelClient modelClient);
+        partial void OnErrorTestClassname(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, ModelClient modelClient);
 
         /// <summary>
         /// To test class name in snake case To test class name in snake case
@@ -304,6 +317,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorTestClassnameDefaultImplementation(e, "/fake_classname_test", uriBuilderLocalVar.Path, modelClient);
+                Events.ExecuteOnErrorTestClassname(e);
                 throw;
             }
         }

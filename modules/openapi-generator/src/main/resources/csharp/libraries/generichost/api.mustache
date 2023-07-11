@@ -81,9 +81,19 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<{{{returnType}}}{{^returnType}}object{{/returnType}}>>{{nrt?}} On{{operationId}};
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>{{nrt?}} OnError{{operationId}};
+
         internal void ExecuteOn{{operationId}}(ApiResponse<{{{returnType}}}{{^returnType}}object{{/returnType}}> apiResponse)
         {
             On{{operationId}}?.Invoke(this, new ApiResponseEventArgs<{{{returnType}}}{{^returnType}}object{{/returnType}}>(apiResponse));
+        }
+
+        internal void ExecuteOnError{{operationId}}(Exception exception)
+        {
+            OnError{{operationId}}?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         {{/operation}}
@@ -232,20 +242,22 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         private void OnError{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}Exception exception  string pathFormat  string path  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
         {
+            bool suppressDefaultLog = false;
+            OnError{{operationId}}({{#lambda.joinWithComma}}ref suppressDefaultLog  exception  pathFormat  path  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 {{>OnErrorDefaultImplementation}}
-            OnError{{operationId}}({{#lambda.joinWithComma}}exception  pathFormat  path  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        partial void OnError{{operationId}}({{#lambda.joinWithComma}}Exception exception  string pathFormat  string path  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+        partial void OnError{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  Exception exception  string pathFormat  string path  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 
         /// <summary>
         /// {{summary}} {{notes}}
@@ -549,6 +561,7 @@ namespace {{packageName}}.{{apiPackage}}
             catch(Exception e)
             {
                 OnError{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}e  "{{path}}"  uriBuilderLocalVar.Path  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+                Events.ExecuteOnError{{operationId}}(e);
                 throw;
             }
             {{/lambda.trimLineBreaks}}

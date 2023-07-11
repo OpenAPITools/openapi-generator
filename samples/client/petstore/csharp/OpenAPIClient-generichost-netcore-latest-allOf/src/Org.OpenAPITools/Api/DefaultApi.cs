@@ -73,9 +73,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<Person>>? OnList;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorList;
+
         internal void ExecuteOnList(ApiResponse<Person> apiResponse)
         {
             OnList?.Invoke(this, new ApiResponseEventArgs<Person>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorList(Exception exception)
+        {
+            OnErrorList?.Invoke(this, new ExceptionEventArgs(exception));
         }
     }
 
@@ -156,18 +166,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="personId"></param>
         private void OnErrorListDefaultImplementation(Exception exception, string pathFormat, string path, string personId)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorList(exception, pathFormat, path, personId);
+            bool suppressDefaultLog = false;
+            OnErrorList(ref suppressDefaultLog, exception, pathFormat, path, personId);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="personId"></param>
-        partial void OnErrorList(Exception exception, string pathFormat, string path, string personId);
+        partial void OnErrorList(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string personId);
 
         /// <summary>
         ///  
@@ -244,6 +257,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorListDefaultImplementation(e, "/person/display/{personId}", uriBuilderLocalVar.Path, personId);
+                Events.ExecuteOnErrorList(e);
                 throw;
             }
         }
