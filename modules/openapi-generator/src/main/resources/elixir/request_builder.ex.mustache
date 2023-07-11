@@ -94,7 +94,7 @@ defmodule {{moduleName}}.RequestBuilder do
       Tesla.Multipart.add_field(
         multipart,
         key,
-        Poison.encode!(value),
+        Jason.encode!(value),
         headers: [{:"Content-Type", "application/json"}]
       )
     end)
@@ -185,5 +185,5 @@ defmodule {{moduleName}}.RequestBuilder do
 
   defp decode(%Tesla.Env{} = env, false), do: {:ok, env}
 
-  defp decode(%Tesla.Env{body: body}, struct), do: Poison.decode(body, as: struct)
+  defp decode(%Tesla.Env{body: body}, struct), do: Jason.decode(body, as: struct)
 end

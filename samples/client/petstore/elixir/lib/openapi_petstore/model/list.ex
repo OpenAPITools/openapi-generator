@@ -3,10 +3,10 @@
 
 defmodule OpenapiPetstore.Model.List do
   @moduledoc """
-  
+
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     :"123-list"
   ]
@@ -16,9 +16,8 @@ defmodule OpenapiPetstore.Model.List do
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.List do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.List do
   def decode(value, _options) do
     value
   end
 end
-

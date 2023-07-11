@@ -3,10 +3,10 @@
 
 defmodule OpenapiPetstore.Model.Capitalization do
   @moduledoc """
-  
+
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     :smallCamel,
     :CapitalCamel,
@@ -26,9 +26,8 @@ defmodule OpenapiPetstore.Model.Capitalization do
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.Capitalization do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.Capitalization do
   def decode(value, _options) do
     value
   end
 end
-

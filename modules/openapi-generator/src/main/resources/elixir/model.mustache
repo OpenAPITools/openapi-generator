@@ -4,7 +4,7 @@
   {{&description}}
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     {{#vars}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}},
     {{/-last}}{{/vars}}
@@ -16,7 +16,7 @@
   }
 end
 
-defimpl Poison.Decoder, for: {{&moduleName}}.Model.{{&classname}} do
+defimpl Jason.Decoder, for: {{&moduleName}}.Model.{{&classname}} do
 {{#hasComplexVars}}
   import {{&moduleName}}.Deserializer
   def decode(value, options) do

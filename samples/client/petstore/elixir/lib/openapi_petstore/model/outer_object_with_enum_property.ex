@@ -3,10 +3,10 @@
 
 defmodule OpenapiPetstore.Model.OuterObjectWithEnumProperty do
   @moduledoc """
-  
+
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     :value
   ]
@@ -16,11 +16,10 @@ defmodule OpenapiPetstore.Model.OuterObjectWithEnumProperty do
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.OuterObjectWithEnumProperty do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.OuterObjectWithEnumProperty do
   import OpenapiPetstore.Deserializer
   def decode(value, options) do
     value
     |> deserialize(:value, :struct, OpenapiPetstore.Model.OuterEnumInteger, options)
   end
 end
-

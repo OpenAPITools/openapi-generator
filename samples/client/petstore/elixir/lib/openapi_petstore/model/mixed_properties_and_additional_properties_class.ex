@@ -3,10 +3,10 @@
 
 defmodule OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   @moduledoc """
-  
+
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     :uuid,
     :dateTime,
@@ -20,11 +20,10 @@ defmodule OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   import OpenapiPetstore.Deserializer
   def decode(value, options) do
     value
     |> deserialize(:map, :map, OpenapiPetstore.Model.Animal, options)
   end
 end
-

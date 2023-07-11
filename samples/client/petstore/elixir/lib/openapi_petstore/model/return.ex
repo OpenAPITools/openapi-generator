@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.Return do
   Model for testing reserved words
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     :return
   ]
@@ -16,9 +16,8 @@ defmodule OpenapiPetstore.Model.Return do
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.Return do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.Return do
   def decode(value, _options) do
     value
   end
 end
-

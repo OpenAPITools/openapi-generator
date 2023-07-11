@@ -3,10 +3,10 @@
 
 defmodule OpenapiPetstore.Model.AdditionalPropertiesClass do
   @moduledoc """
-  
+
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     :map_property,
     :map_of_map_property
@@ -18,9 +18,8 @@ defmodule OpenapiPetstore.Model.AdditionalPropertiesClass do
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.AdditionalPropertiesClass do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.AdditionalPropertiesClass do
   def decode(value, _options) do
     value
   end
 end
-

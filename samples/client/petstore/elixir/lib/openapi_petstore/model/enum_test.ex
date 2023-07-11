@@ -3,10 +3,10 @@
 
 defmodule OpenapiPetstore.Model.EnumTest do
   @moduledoc """
-  
+
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     :enum_string,
     :enum_string_required,
@@ -30,7 +30,7 @@ defmodule OpenapiPetstore.Model.EnumTest do
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.EnumTest do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.EnumTest do
   import OpenapiPetstore.Deserializer
   def decode(value, options) do
     value
@@ -40,4 +40,3 @@ defimpl Poison.Decoder, for: OpenapiPetstore.Model.EnumTest do
     |> deserialize(:outerEnumIntegerDefaultValue, :struct, OpenapiPetstore.Model.OuterEnumIntegerDefaultValue, options)
   end
 end
-

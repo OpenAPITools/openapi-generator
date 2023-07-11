@@ -3,10 +3,10 @@
 
 defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
   @moduledoc """
-  
+
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     :username,
     :SingleRefType
@@ -18,11 +18,10 @@ defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.AllOfWithSingleRef do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.AllOfWithSingleRef do
   import OpenapiPetstore.Deserializer
   def decode(value, options) do
     value
     |> deserialize(:SingleRefType, :struct, OpenapiPetstore.Model.SingleRefType, options)
   end
 end
-

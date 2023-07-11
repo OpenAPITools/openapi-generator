@@ -96,7 +96,7 @@ defmodule OpenapiPetstore.RequestBuilder do
       Tesla.Multipart.add_field(
         multipart,
         key,
-        Poison.encode!(value),
+        Jason.encode!(value),
         headers: [{:"Content-Type", "application/json"}]
       )
     end)

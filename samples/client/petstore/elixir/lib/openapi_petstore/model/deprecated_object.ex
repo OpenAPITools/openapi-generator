@@ -3,10 +3,10 @@
 
 defmodule OpenapiPetstore.Model.DeprecatedObject do
   @moduledoc """
-  
+
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     :name
   ]
@@ -16,9 +16,8 @@ defmodule OpenapiPetstore.Model.DeprecatedObject do
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.DeprecatedObject do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.DeprecatedObject do
   def decode(value, _options) do
     value
   end
 end
-

@@ -3,22 +3,21 @@
 
 defmodule OpenapiPetstore.Model.EnumClass do
   @moduledoc """
-  
+
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
-    
+
   ]
 
   @type t :: %__MODULE__{
-    
+
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.EnumClass do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.EnumClass do
   def decode(value, _options) do
     value
   end
 end
-

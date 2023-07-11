@@ -59,8 +59,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
     String supportedElixirVersion = "1.10";
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
-            "{:tesla, \"~> 1.4\"}",
-            "{:poison, \"~> 3.0\"}",
+            "{:tesla, \"~> 1.7\"}",
+            "{:jason, \"~> 1.4\"}",
             "{:ex_doc, \"~> 0.28\", only: :dev, runtime: false}"
     );
 
@@ -662,7 +662,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
         }
 
         public String decodedStruct() {
-            // Let Poison decode the entire response into a generic blob
+            // Let Jason decode the entire response into a generic blob
             if (isMap) {
                 return "%{}";
             }

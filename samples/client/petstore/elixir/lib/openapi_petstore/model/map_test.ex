@@ -3,10 +3,10 @@
 
 defmodule OpenapiPetstore.Model.MapTest do
   @moduledoc """
-  
+
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     :map_map_of_string,
     :map_of_enum_string,
@@ -22,9 +22,8 @@ defmodule OpenapiPetstore.Model.MapTest do
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.MapTest do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.MapTest do
   def decode(value, _options) do
     value
   end
 end
-

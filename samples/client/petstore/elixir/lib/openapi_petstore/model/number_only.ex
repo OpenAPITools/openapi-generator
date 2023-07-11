@@ -3,10 +3,10 @@
 
 defmodule OpenapiPetstore.Model.NumberOnly do
   @moduledoc """
-  
+
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     :JustNumber
   ]
@@ -16,9 +16,8 @@ defmodule OpenapiPetstore.Model.NumberOnly do
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.NumberOnly do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.NumberOnly do
   def decode(value, _options) do
     value
   end
 end
-

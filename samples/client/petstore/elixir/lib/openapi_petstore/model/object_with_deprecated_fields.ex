@@ -3,10 +3,10 @@
 
 defmodule OpenapiPetstore.Model.ObjectWithDeprecatedFields do
   @moduledoc """
-  
+
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     :uuid,
     :id,
@@ -22,11 +22,10 @@ defmodule OpenapiPetstore.Model.ObjectWithDeprecatedFields do
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.ObjectWithDeprecatedFields do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.ObjectWithDeprecatedFields do
   import OpenapiPetstore.Deserializer
   def decode(value, options) do
     value
     |> deserialize(:deprecatedRef, :struct, OpenapiPetstore.Model.DeprecatedObject, options)
   end
 end
-

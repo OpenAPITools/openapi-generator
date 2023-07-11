@@ -3,10 +3,10 @@
 
 defmodule OpenapiPetstore.Model.FooGetDefaultResponse do
   @moduledoc """
-  
+
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     :string
   ]
@@ -16,11 +16,10 @@ defmodule OpenapiPetstore.Model.FooGetDefaultResponse do
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.FooGetDefaultResponse do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.FooGetDefaultResponse do
   import OpenapiPetstore.Deserializer
   def decode(value, options) do
     value
     |> deserialize(:string, :struct, OpenapiPetstore.Model.Foo, options)
   end
 end
-

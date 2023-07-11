@@ -3,10 +3,10 @@
 
 defmodule OpenapiPetstore.Model.ReadOnlyFirst do
   @moduledoc """
-  
+
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     :bar,
     :baz
@@ -18,9 +18,8 @@ defmodule OpenapiPetstore.Model.ReadOnlyFirst do
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.ReadOnlyFirst do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.ReadOnlyFirst do
   def decode(value, _options) do
     value
   end
 end
-

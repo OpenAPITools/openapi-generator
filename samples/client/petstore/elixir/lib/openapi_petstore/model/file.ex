@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.File do
   Must be named `File` for test.
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     :sourceURI
   ]
@@ -16,9 +16,8 @@ defmodule OpenapiPetstore.Model.File do
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.File do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.File do
   def decode(value, _options) do
     value
   end
 end
-
