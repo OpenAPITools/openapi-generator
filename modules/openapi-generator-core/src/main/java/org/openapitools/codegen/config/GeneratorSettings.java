@@ -1073,7 +1073,6 @@ public final class GeneratorSettings implements Serializable {
             LOGGER.debug("GeneratorSettings#build: {}", instance);
             return instance;
         }
-
     }
 
     @Override

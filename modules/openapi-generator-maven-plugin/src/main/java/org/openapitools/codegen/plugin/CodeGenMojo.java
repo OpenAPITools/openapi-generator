@@ -200,7 +200,6 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(name = "packageName", property = "openapi.generator.maven.plugin.packageName")
     private String packageName;
 
-
     /**
      * groupId in generated pom.xml
      */
@@ -578,7 +577,6 @@ public class CodeGenMojo extends AbstractMojo {
             if (isNotEmpty(gitHost)) {
                 configurator.setGitHost(gitHost);
             }
-
 
             if (isNotEmpty(gitUserId)) {
                 configurator.setGitUserId(gitUserId);
