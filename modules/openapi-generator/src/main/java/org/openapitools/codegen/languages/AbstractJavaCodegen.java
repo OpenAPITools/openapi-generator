@@ -1221,7 +1221,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (content.size() > 1) {
             // @see ModelUtils.getSchemaFromContent()
-            LOGGER.warn("Multiple MediaTypes found, using only the first one");
+            LOGGER.debug("Multiple MediaTypes found, using only the first one");
         }
 
         MediaType mediaType = content.values().iterator().next();

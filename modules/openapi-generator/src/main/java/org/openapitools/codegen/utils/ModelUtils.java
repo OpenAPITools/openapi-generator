@@ -1005,7 +1005,7 @@ public class ModelUtils {
         if (content.size() > 1) {
             // Other content types are currently ignored by codegen. If you see this warning,
             // reorder the OAS spec to put the desired content type first.
-            once(LOGGER).warn("Multiple schemas found in the OAS 'content' section, returning only the first one ({})",
+            once(LOGGER).debug("Multiple schemas found in the OAS 'content' section, returning only the first one ({})",
                     entry.getKey());
         }
         return entry.getValue().getSchema();

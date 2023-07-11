@@ -1041,7 +1041,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
         if (content.size() > 1) {
             // @see ModelUtils.getSchemaFromContent()
-            once(LOGGER).warn("Multiple MediaTypes found, using only the first one");
+            once(LOGGER).debug("Multiple MediaTypes found, using only the first one");
         }
 
         MediaType mediaType = content.values().iterator().next();

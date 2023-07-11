@@ -2067,7 +2067,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (content.size() > 1) {
             // @see ModelUtils.getSchemaFromContent()
-            once(LOGGER).warn("Multiple MediaTypes found, using only the first one");
+            once(LOGGER).debug("Multiple MediaTypes found, using only the first one");
         }
 
         MediaType mediaType = content.values().iterator().next();
@@ -2302,7 +2302,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (names.size() == 1) {
             return names.get(0);
         } else {
-            LOGGER.warn("allOf with multiple schemas defined. Using only the first one: {}", names.get(0));
+            LOGGER.debug("allOf with multiple schemas defined. Using only the first one: {}", names.get(0));
             return names.get(0);
         }
     }
