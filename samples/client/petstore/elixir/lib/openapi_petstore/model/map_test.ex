@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.MapTest do
   @moduledoc """
-
+  
   """
 
   @derive [Jason.Encoder]
@@ -27,3 +27,4 @@ defimpl Jason.Decoder, for: OpenapiPetstore.Model.MapTest do
     value
   end
 end
+

@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.ArrayTest do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive [Jason.Encoder]
   defstruct [
     :array_of_string,
     :array_array_of_integer,
@@ -20,7 +20,7 @@ defmodule OpenapiPetstore.Model.ArrayTest do
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.ArrayTest do
+defimpl Jason.Decoder, for: OpenapiPetstore.Model.ArrayTest do
   def decode(value, _options) do
     value
   end

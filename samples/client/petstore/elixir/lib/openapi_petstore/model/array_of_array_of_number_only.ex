@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.ArrayOfArrayOfNumberOnly do
   @moduledoc """
-
+  
   """
 
   @derive [Jason.Encoder]
@@ -21,3 +21,4 @@ defimpl Jason.Decoder, for: OpenapiPetstore.Model.ArrayOfArrayOfNumberOnly do
     value
   end
 end
+

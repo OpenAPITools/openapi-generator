@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.ObjectWithDeprecatedFields do
   @moduledoc """
-
+  
   """
 
   @derive [Jason.Encoder]
@@ -29,3 +29,4 @@ defimpl Jason.Decoder, for: OpenapiPetstore.Model.ObjectWithDeprecatedFields do
     |> deserialize(:deprecatedRef, :struct, OpenapiPetstore.Model.DeprecatedObject, options)
   end
 end
+

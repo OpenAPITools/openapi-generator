@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.Pet do
   @moduledoc """
-
+  
   """
 
   @derive [Jason.Encoder]
@@ -34,3 +34,4 @@ defimpl Jason.Decoder, for: OpenapiPetstore.Model.Pet do
     |> deserialize(:tags, :list, OpenapiPetstore.Model.Tag, options)
   end
 end
+

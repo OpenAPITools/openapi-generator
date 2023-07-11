@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.EnumTest do
   @moduledoc """
-
+  
   """
 
   @derive [Jason.Encoder]
@@ -40,3 +40,4 @@ defimpl Jason.Decoder, for: OpenapiPetstore.Model.EnumTest do
     |> deserialize(:outerEnumIntegerDefaultValue, :struct, OpenapiPetstore.Model.OuterEnumIntegerDefaultValue, options)
   end
 end
+

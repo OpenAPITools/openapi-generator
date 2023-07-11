@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.List do
   @moduledoc """
-
+  
   """
 
   @derive [Jason.Encoder]
@@ -21,3 +21,4 @@ defimpl Jason.Decoder, for: OpenapiPetstore.Model.List do
     value
   end
 end
+

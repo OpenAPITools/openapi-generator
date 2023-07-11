@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.NullableClass do
   @moduledoc """
-
+  
   """
 
   @derive [Jason.Encoder]
@@ -45,3 +45,4 @@ defimpl Jason.Decoder, for: OpenapiPetstore.Model.NullableClass do
     |> deserialize(:date_prop, :date, nil, options)
   end
 end
+

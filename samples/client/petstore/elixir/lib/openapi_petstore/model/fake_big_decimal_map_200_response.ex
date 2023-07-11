@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.FakeBigDecimalMap200Response do
   @moduledoc """
-
+  
   """
 
   @derive [Jason.Encoder]
@@ -23,3 +23,4 @@ defimpl Jason.Decoder, for: OpenapiPetstore.Model.FakeBigDecimalMap200Response d
     value
   end
 end
+

@@ -23,3 +23,4 @@ defimpl Jason.Decoder, for: OpenapiPetstore.Model.Model200Response do
     value
   end
 end
+

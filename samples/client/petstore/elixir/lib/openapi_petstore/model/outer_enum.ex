@@ -3,16 +3,16 @@
 
 defmodule OpenapiPetstore.Model.OuterEnum do
   @moduledoc """
-
+  
   """
 
   @derive [Jason.Encoder]
   defstruct [
-
+    
   ]
 
   @type t :: %__MODULE__{
-
+    
   }
 end
 
@@ -21,3 +21,4 @@ defimpl Jason.Decoder, for: OpenapiPetstore.Model.OuterEnum do
     value
   end
 end
+

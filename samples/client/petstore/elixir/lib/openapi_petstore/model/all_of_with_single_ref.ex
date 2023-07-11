@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
   @moduledoc """
-
+  
   """
 
   @derive [Jason.Encoder]
@@ -25,3 +25,4 @@ defimpl Jason.Decoder, for: OpenapiPetstore.Model.AllOfWithSingleRef do
     |> deserialize(:SingleRefType, :struct, OpenapiPetstore.Model.SingleRefType, options)
   end
 end
+

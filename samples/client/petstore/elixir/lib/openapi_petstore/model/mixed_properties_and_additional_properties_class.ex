@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   @moduledoc """
-
+  
   """
 
   @derive [Jason.Encoder]
@@ -27,3 +27,4 @@ defimpl Jason.Decoder, for: OpenapiPetstore.Model.MixedPropertiesAndAdditionalPr
     |> deserialize(:map, :map, OpenapiPetstore.Model.Animal, options)
   end
 end
+

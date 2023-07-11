@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.FormatTest do
   @moduledoc """
-
+  
   """
 
   @derive [Jason.Encoder]
@@ -53,3 +53,4 @@ defimpl Jason.Decoder, for: OpenapiPetstore.Model.FormatTest do
     |> deserialize(:date, :date, nil, options)
   end
 end
+

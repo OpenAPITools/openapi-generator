@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.FooGetDefaultResponse do
   @moduledoc """
-
+  
   """
 
   @derive [Jason.Encoder]
@@ -23,3 +23,4 @@ defimpl Jason.Decoder, for: OpenapiPetstore.Model.FooGetDefaultResponse do
     |> deserialize(:string, :struct, OpenapiPetstore.Model.Foo, options)
   end
 end
+

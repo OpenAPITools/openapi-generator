@@ -3,7 +3,7 @@
 
 defmodule OpenapiPetstore.Model.FileSchemaTestClass do
   @moduledoc """
-
+  
   """
 
   @derive [Jason.Encoder]
@@ -26,3 +26,4 @@ defimpl Jason.Decoder, for: OpenapiPetstore.Model.FileSchemaTestClass do
     |> deserialize(:files, :list, OpenapiPetstore.Model.File, options)
   end
 end
+

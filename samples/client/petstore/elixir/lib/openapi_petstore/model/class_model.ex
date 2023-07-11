@@ -21,3 +21,4 @@ defimpl Jason.Decoder, for: OpenapiPetstore.Model.ClassModel do
     value
   end
 end
+
