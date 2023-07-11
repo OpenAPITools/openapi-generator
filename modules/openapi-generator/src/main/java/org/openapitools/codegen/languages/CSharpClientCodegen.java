@@ -1026,6 +1026,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("DateTimeJsonConverter.mustache", clientPackageDir, "DateTimeJsonConverter.cs"));
         supportingFiles.add(new SupportingFile("DateTimeNullableJsonConverter.mustache", clientPackageDir, "DateTimeNullableJsonConverter.cs"));
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs`1.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
+        supportingFiles.add(new SupportingFile("ExceptionEventArgs.mustache", clientPackageDir, "ExceptionEventArgs.cs"));
         supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
         supportingFiles.add(new SupportingFile("CookieContainer.mustache", clientPackageDir, "CookieContainer.cs"));
         supportingFiles.add(new SupportingFile("Option.mustache", clientPackageDir, "Option.cs"));

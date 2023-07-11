@@ -140,9 +140,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<object>>? OnDeleteOrder;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorDeleteOrder;
+
         internal void ExecuteOnDeleteOrder(ApiResponse<object> apiResponse)
         {
             OnDeleteOrder?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorDeleteOrder(Exception exception)
+        {
+            OnErrorDeleteOrder?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -150,9 +160,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<Dictionary<string, int>>>? OnGetInventory;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorGetInventory;
+
         internal void ExecuteOnGetInventory(ApiResponse<Dictionary<string, int>> apiResponse)
         {
             OnGetInventory?.Invoke(this, new ApiResponseEventArgs<Dictionary<string, int>>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorGetInventory(Exception exception)
+        {
+            OnErrorGetInventory?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -160,9 +180,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<Order>>? OnGetOrderById;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorGetOrderById;
+
         internal void ExecuteOnGetOrderById(ApiResponse<Order> apiResponse)
         {
             OnGetOrderById?.Invoke(this, new ApiResponseEventArgs<Order>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorGetOrderById(Exception exception)
+        {
+            OnErrorGetOrderById?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -170,9 +200,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<Order>>? OnPlaceOrder;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorPlaceOrder;
+
         internal void ExecuteOnPlaceOrder(ApiResponse<Order> apiResponse)
         {
             OnPlaceOrder?.Invoke(this, new ApiResponseEventArgs<Order>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorPlaceOrder(Exception exception)
+        {
+            OnErrorPlaceOrder?.Invoke(this, new ExceptionEventArgs(exception));
         }
     }
 
@@ -288,18 +328,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId"></param>
         private void OnErrorDeleteOrderDefaultImplementation(Exception exception, string pathFormat, string path, string orderId)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorDeleteOrder(exception, pathFormat, path, orderId);
+            bool suppressDefaultLog = false;
+            OnErrorDeleteOrder(ref suppressDefaultLog, exception, pathFormat, path, orderId);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="orderId"></param>
-        partial void OnErrorDeleteOrder(Exception exception, string pathFormat, string path, string orderId);
+        partial void OnErrorDeleteOrder(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string orderId);
 
         /// <summary>
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -367,6 +410,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorDeleteOrderDefaultImplementation(e, "/store/order/{order_id}", uriBuilderLocalVar.Path, orderId);
+                Events.ExecuteOnErrorDeleteOrder(e);
                 throw;
             }
         }
@@ -398,17 +442,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="path"></param>
         private void OnErrorGetInventoryDefaultImplementation(Exception exception, string pathFormat, string path)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorGetInventory(exception, pathFormat, path);
+            bool suppressDefaultLog = false;
+            OnErrorGetInventory(ref suppressDefaultLog, exception, pathFormat, path);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        partial void OnErrorGetInventory(Exception exception, string pathFormat, string path);
+        partial void OnErrorGetInventory(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
 
         /// <summary>
         /// Returns pet inventories by status Returns a map of status codes to quantities
@@ -490,6 +537,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorGetInventoryDefaultImplementation(e, "/store/inventory", uriBuilderLocalVar.Path);
+                Events.ExecuteOnErrorGetInventory(e);
                 throw;
             }
         }
@@ -526,18 +574,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId"></param>
         private void OnErrorGetOrderByIdDefaultImplementation(Exception exception, string pathFormat, string path, long orderId)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorGetOrderById(exception, pathFormat, path, orderId);
+            bool suppressDefaultLog = false;
+            OnErrorGetOrderById(ref suppressDefaultLog, exception, pathFormat, path, orderId);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="orderId"></param>
-        partial void OnErrorGetOrderById(Exception exception, string pathFormat, string path, long orderId);
+        partial void OnErrorGetOrderById(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, long orderId);
 
         /// <summary>
         /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
@@ -613,6 +664,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorGetOrderByIdDefaultImplementation(e, "/store/order/{order_id}", uriBuilderLocalVar.Path, orderId);
+                Events.ExecuteOnErrorGetOrderById(e);
                 throw;
             }
         }
@@ -660,18 +712,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="order"></param>
         private void OnErrorPlaceOrderDefaultImplementation(Exception exception, string pathFormat, string path, Order order)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorPlaceOrder(exception, pathFormat, path, order);
+            bool suppressDefaultLog = false;
+            OnErrorPlaceOrder(ref suppressDefaultLog, exception, pathFormat, path, order);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="order"></param>
-        partial void OnErrorPlaceOrder(Exception exception, string pathFormat, string path, Order order);
+        partial void OnErrorPlaceOrder(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Order order);
 
         /// <summary>
         /// Place an order for a pet 
@@ -761,6 +816,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorPlaceOrderDefaultImplementation(e, "/store/order", uriBuilderLocalVar.Path, order);
+                Events.ExecuteOnErrorPlaceOrder(e);
                 throw;
             }
         }

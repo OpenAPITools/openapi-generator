@@ -271,9 +271,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<object>>? OnAddPet;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorAddPet;
+
         internal void ExecuteOnAddPet(ApiResponse<object> apiResponse)
         {
             OnAddPet?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorAddPet(Exception exception)
+        {
+            OnErrorAddPet?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -281,9 +291,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<object>>? OnDeletePet;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorDeletePet;
+
         internal void ExecuteOnDeletePet(ApiResponse<object> apiResponse)
         {
             OnDeletePet?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorDeletePet(Exception exception)
+        {
+            OnErrorDeletePet?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -291,9 +311,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<List<Pet>>>? OnFindPetsByStatus;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorFindPetsByStatus;
+
         internal void ExecuteOnFindPetsByStatus(ApiResponse<List<Pet>> apiResponse)
         {
             OnFindPetsByStatus?.Invoke(this, new ApiResponseEventArgs<List<Pet>>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorFindPetsByStatus(Exception exception)
+        {
+            OnErrorFindPetsByStatus?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -301,9 +331,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<List<Pet>>>? OnFindPetsByTags;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorFindPetsByTags;
+
         internal void ExecuteOnFindPetsByTags(ApiResponse<List<Pet>> apiResponse)
         {
             OnFindPetsByTags?.Invoke(this, new ApiResponseEventArgs<List<Pet>>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorFindPetsByTags(Exception exception)
+        {
+            OnErrorFindPetsByTags?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -311,9 +351,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<Pet>>? OnGetPetById;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorGetPetById;
+
         internal void ExecuteOnGetPetById(ApiResponse<Pet> apiResponse)
         {
             OnGetPetById?.Invoke(this, new ApiResponseEventArgs<Pet>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorGetPetById(Exception exception)
+        {
+            OnErrorGetPetById?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -321,9 +371,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<object>>? OnUpdatePet;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorUpdatePet;
+
         internal void ExecuteOnUpdatePet(ApiResponse<object> apiResponse)
         {
             OnUpdatePet?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorUpdatePet(Exception exception)
+        {
+            OnErrorUpdatePet?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -331,9 +391,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<object>>? OnUpdatePetWithForm;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorUpdatePetWithForm;
+
         internal void ExecuteOnUpdatePetWithForm(ApiResponse<object> apiResponse)
         {
             OnUpdatePetWithForm?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorUpdatePetWithForm(Exception exception)
+        {
+            OnErrorUpdatePetWithForm?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -341,9 +411,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<ApiResponse>>? OnUploadFile;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorUploadFile;
+
         internal void ExecuteOnUploadFile(ApiResponse<ApiResponse> apiResponse)
         {
             OnUploadFile?.Invoke(this, new ApiResponseEventArgs<ApiResponse>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorUploadFile(Exception exception)
+        {
+            OnErrorUploadFile?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -351,9 +431,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<ApiResponse>>? OnUploadFileWithRequiredFile;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorUploadFileWithRequiredFile;
+
         internal void ExecuteOnUploadFileWithRequiredFile(ApiResponse<ApiResponse> apiResponse)
         {
             OnUploadFileWithRequiredFile?.Invoke(this, new ApiResponseEventArgs<ApiResponse>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorUploadFileWithRequiredFile(Exception exception)
+        {
+            OnErrorUploadFileWithRequiredFile?.Invoke(this, new ExceptionEventArgs(exception));
         }
     }
 
@@ -469,18 +559,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet"></param>
         private void OnErrorAddPetDefaultImplementation(Exception exception, string pathFormat, string path, Pet pet)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorAddPet(exception, pathFormat, path, pet);
+            bool suppressDefaultLog = false;
+            OnErrorAddPet(ref suppressDefaultLog, exception, pathFormat, path, pet);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="pet"></param>
-        partial void OnErrorAddPet(Exception exception, string pathFormat, string path, Pet pet);
+        partial void OnErrorAddPet(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Pet pet);
 
         /// <summary>
         /// Add a new pet to the store 
@@ -587,6 +680,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorAddPetDefaultImplementation(e, "/pet", uriBuilderLocalVar.Path, pet);
+                Events.ExecuteOnErrorAddPet(e);
                 throw;
             }
         }
@@ -637,19 +731,22 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiKey"></param>
         private void OnErrorDeletePetDefaultImplementation(Exception exception, string pathFormat, string path, long petId, Option<string> apiKey)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorDeletePet(exception, pathFormat, path, petId, apiKey);
+            bool suppressDefaultLog = false;
+            OnErrorDeletePet(ref suppressDefaultLog, exception, pathFormat, path, petId, apiKey);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="petId"></param>
         /// <param name="apiKey"></param>
-        partial void OnErrorDeletePet(Exception exception, string pathFormat, string path, long petId, Option<string> apiKey);
+        partial void OnErrorDeletePet(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, long petId, Option<string> apiKey);
 
         /// <summary>
         /// Deletes a pet 
@@ -734,6 +831,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorDeletePetDefaultImplementation(e, "/pet/{petId}", uriBuilderLocalVar.Path, petId, apiKey);
+                Events.ExecuteOnErrorDeletePet(e);
                 throw;
             }
         }
@@ -781,18 +879,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="status"></param>
         private void OnErrorFindPetsByStatusDefaultImplementation(Exception exception, string pathFormat, string path, List<string> status)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorFindPetsByStatus(exception, pathFormat, path, status);
+            bool suppressDefaultLog = false;
+            OnErrorFindPetsByStatus(ref suppressDefaultLog, exception, pathFormat, path, status);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="status"></param>
-        partial void OnErrorFindPetsByStatus(Exception exception, string pathFormat, string path, List<string> status);
+        partial void OnErrorFindPetsByStatus(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, List<string> status);
 
         /// <summary>
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
@@ -901,6 +1002,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorFindPetsByStatusDefaultImplementation(e, "/pet/findByStatus", uriBuilderLocalVar.Path, status);
+                Events.ExecuteOnErrorFindPetsByStatus(e);
                 throw;
             }
         }
@@ -948,18 +1050,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="tags"></param>
         private void OnErrorFindPetsByTagsDefaultImplementation(Exception exception, string pathFormat, string path, List<string> tags)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorFindPetsByTags(exception, pathFormat, path, tags);
+            bool suppressDefaultLog = false;
+            OnErrorFindPetsByTags(ref suppressDefaultLog, exception, pathFormat, path, tags);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="tags"></param>
-        partial void OnErrorFindPetsByTags(Exception exception, string pathFormat, string path, List<string> tags);
+        partial void OnErrorFindPetsByTags(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, List<string> tags);
 
         /// <summary>
         /// Finds Pets by tags Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -1068,6 +1173,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorFindPetsByTagsDefaultImplementation(e, "/pet/findByTags", uriBuilderLocalVar.Path, tags);
+                Events.ExecuteOnErrorFindPetsByTags(e);
                 throw;
             }
         }
@@ -1104,18 +1210,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId"></param>
         private void OnErrorGetPetByIdDefaultImplementation(Exception exception, string pathFormat, string path, long petId)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorGetPetById(exception, pathFormat, path, petId);
+            bool suppressDefaultLog = false;
+            OnErrorGetPetById(ref suppressDefaultLog, exception, pathFormat, path, petId);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="petId"></param>
-        partial void OnErrorGetPetById(Exception exception, string pathFormat, string path, long petId);
+        partial void OnErrorGetPetById(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, long petId);
 
         /// <summary>
         /// Find pet by ID Returns a single pet
@@ -1203,6 +1312,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorGetPetByIdDefaultImplementation(e, "/pet/{petId}", uriBuilderLocalVar.Path, petId);
+                Events.ExecuteOnErrorGetPetById(e);
                 throw;
             }
         }
@@ -1250,18 +1360,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet"></param>
         private void OnErrorUpdatePetDefaultImplementation(Exception exception, string pathFormat, string path, Pet pet)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorUpdatePet(exception, pathFormat, path, pet);
+            bool suppressDefaultLog = false;
+            OnErrorUpdatePet(ref suppressDefaultLog, exception, pathFormat, path, pet);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="pet"></param>
-        partial void OnErrorUpdatePet(Exception exception, string pathFormat, string path, Pet pet);
+        partial void OnErrorUpdatePet(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Pet pet);
 
         /// <summary>
         /// Update an existing pet 
@@ -1368,6 +1481,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorUpdatePetDefaultImplementation(e, "/pet", uriBuilderLocalVar.Path, pet);
+                Events.ExecuteOnErrorUpdatePet(e);
                 throw;
             }
         }
@@ -1425,20 +1539,23 @@ namespace Org.OpenAPITools.Api
         /// <param name="status"></param>
         private void OnErrorUpdatePetWithFormDefaultImplementation(Exception exception, string pathFormat, string path, long petId, Option<string> name, Option<string> status)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorUpdatePetWithForm(exception, pathFormat, path, petId, name, status);
+            bool suppressDefaultLog = false;
+            OnErrorUpdatePetWithForm(ref suppressDefaultLog, exception, pathFormat, path, petId, name, status);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="petId"></param>
         /// <param name="name"></param>
         /// <param name="status"></param>
-        partial void OnErrorUpdatePetWithForm(Exception exception, string pathFormat, string path, long petId, Option<string> name, Option<string> status);
+        partial void OnErrorUpdatePetWithForm(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, long petId, Option<string> name, Option<string> status);
 
         /// <summary>
         /// Updates a pet in the store with form data 
@@ -1543,6 +1660,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorUpdatePetWithFormDefaultImplementation(e, "/pet/{petId}", uriBuilderLocalVar.Path, petId, name, status);
+                Events.ExecuteOnErrorUpdatePetWithForm(e);
                 throw;
             }
         }
@@ -1600,20 +1718,23 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata"></param>
         private void OnErrorUploadFileDefaultImplementation(Exception exception, string pathFormat, string path, long petId, Option<System.IO.Stream> file, Option<string> additionalMetadata)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorUploadFile(exception, pathFormat, path, petId, file, additionalMetadata);
+            bool suppressDefaultLog = false;
+            OnErrorUploadFile(ref suppressDefaultLog, exception, pathFormat, path, petId, file, additionalMetadata);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="petId"></param>
         /// <param name="file"></param>
         /// <param name="additionalMetadata"></param>
-        partial void OnErrorUploadFile(Exception exception, string pathFormat, string path, long petId, Option<System.IO.Stream> file, Option<string> additionalMetadata);
+        partial void OnErrorUploadFile(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, long petId, Option<System.IO.Stream> file, Option<string> additionalMetadata);
 
         /// <summary>
         /// uploads an image 
@@ -1727,6 +1848,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorUploadFileDefaultImplementation(e, "/pet/{petId}/uploadImage", uriBuilderLocalVar.Path, petId, file, additionalMetadata);
+                Events.ExecuteOnErrorUploadFile(e);
                 throw;
             }
         }
@@ -1784,20 +1906,23 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata"></param>
         private void OnErrorUploadFileWithRequiredFileDefaultImplementation(Exception exception, string pathFormat, string path, System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorUploadFileWithRequiredFile(exception, pathFormat, path, requiredFile, petId, additionalMetadata);
+            bool suppressDefaultLog = false;
+            OnErrorUploadFileWithRequiredFile(ref suppressDefaultLog, exception, pathFormat, path, requiredFile, petId, additionalMetadata);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="requiredFile"></param>
         /// <param name="petId"></param>
         /// <param name="additionalMetadata"></param>
-        partial void OnErrorUploadFileWithRequiredFile(Exception exception, string pathFormat, string path, System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata);
+        partial void OnErrorUploadFileWithRequiredFile(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata);
 
         /// <summary>
         /// uploads an image (required) 
@@ -1911,6 +2036,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorUploadFileWithRequiredFileDefaultImplementation(e, "/fake/{petId}/uploadImageWithRequiredFile", uriBuilderLocalVar.Path, requiredFile, petId, additionalMetadata);
+                Events.ExecuteOnErrorUploadFileWithRequiredFile(e);
                 throw;
             }
         }

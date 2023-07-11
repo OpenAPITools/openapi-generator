@@ -73,9 +73,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<ModelClient>>? OnCall123TestSpecialTags;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorCall123TestSpecialTags;
+
         internal void ExecuteOnCall123TestSpecialTags(ApiResponse<ModelClient> apiResponse)
         {
             OnCall123TestSpecialTags?.Invoke(this, new ApiResponseEventArgs<ModelClient>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorCall123TestSpecialTags(Exception exception)
+        {
+            OnErrorCall123TestSpecialTags?.Invoke(this, new ExceptionEventArgs(exception));
         }
     }
 
@@ -191,18 +201,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient"></param>
         private void OnErrorCall123TestSpecialTagsDefaultImplementation(Exception exception, string pathFormat, string path, ModelClient modelClient)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorCall123TestSpecialTags(exception, pathFormat, path, modelClient);
+            bool suppressDefaultLog = false;
+            OnErrorCall123TestSpecialTags(ref suppressDefaultLog, exception, pathFormat, path, modelClient);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        partial void OnErrorCall123TestSpecialTags(Exception exception, string pathFormat, string path, ModelClient modelClient);
+        partial void OnErrorCall123TestSpecialTags(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, ModelClient modelClient);
 
         /// <summary>
         /// To test special tags To test special tags and operation ID starting with number
@@ -291,6 +304,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorCall123TestSpecialTagsDefaultImplementation(e, "/another-fake/dummy", uriBuilderLocalVar.Path, modelClient);
+                Events.ExecuteOnErrorCall123TestSpecialTags(e);
                 throw;
             }
         }

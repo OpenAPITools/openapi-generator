@@ -71,9 +71,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<Fruit>>? OnRootGet;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorRootGet;
+
         internal void ExecuteOnRootGet(ApiResponse<Fruit> apiResponse)
         {
             OnRootGet?.Invoke(this, new ApiResponseEventArgs<Fruit>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorRootGet(Exception exception)
+        {
+            OnErrorRootGet?.Invoke(this, new ExceptionEventArgs(exception));
         }
     }
 
@@ -138,17 +148,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="path"></param>
         private void OnErrorRootGetDefaultImplementation(Exception exception, string pathFormat, string path)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorRootGet(exception, pathFormat, path);
+            bool suppressDefaultLog = false;
+            OnErrorRootGet(ref suppressDefaultLog, exception, pathFormat, path);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        partial void OnErrorRootGet(Exception exception, string pathFormat, string path);
+        partial void OnErrorRootGet(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
 
         /// <summary>
         ///  
@@ -218,6 +231,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorRootGetDefaultImplementation(e, "/", uriBuilderLocalVar.Path);
+                Events.ExecuteOnErrorRootGet(e);
                 throw;
             }
         }

@@ -463,9 +463,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<HealthCheckResult>>? OnFakeHealthGet;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorFakeHealthGet;
+
         internal void ExecuteOnFakeHealthGet(ApiResponse<HealthCheckResult> apiResponse)
         {
             OnFakeHealthGet?.Invoke(this, new ApiResponseEventArgs<HealthCheckResult>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorFakeHealthGet(Exception exception)
+        {
+            OnErrorFakeHealthGet?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -473,9 +483,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<bool>>? OnFakeOuterBooleanSerialize;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorFakeOuterBooleanSerialize;
+
         internal void ExecuteOnFakeOuterBooleanSerialize(ApiResponse<bool> apiResponse)
         {
             OnFakeOuterBooleanSerialize?.Invoke(this, new ApiResponseEventArgs<bool>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorFakeOuterBooleanSerialize(Exception exception)
+        {
+            OnErrorFakeOuterBooleanSerialize?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -483,9 +503,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<OuterComposite>>? OnFakeOuterCompositeSerialize;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorFakeOuterCompositeSerialize;
+
         internal void ExecuteOnFakeOuterCompositeSerialize(ApiResponse<OuterComposite> apiResponse)
         {
             OnFakeOuterCompositeSerialize?.Invoke(this, new ApiResponseEventArgs<OuterComposite>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorFakeOuterCompositeSerialize(Exception exception)
+        {
+            OnErrorFakeOuterCompositeSerialize?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -493,9 +523,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<decimal>>? OnFakeOuterNumberSerialize;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorFakeOuterNumberSerialize;
+
         internal void ExecuteOnFakeOuterNumberSerialize(ApiResponse<decimal> apiResponse)
         {
             OnFakeOuterNumberSerialize?.Invoke(this, new ApiResponseEventArgs<decimal>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorFakeOuterNumberSerialize(Exception exception)
+        {
+            OnErrorFakeOuterNumberSerialize?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -503,9 +543,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<string>>? OnFakeOuterStringSerialize;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorFakeOuterStringSerialize;
+
         internal void ExecuteOnFakeOuterStringSerialize(ApiResponse<string> apiResponse)
         {
             OnFakeOuterStringSerialize?.Invoke(this, new ApiResponseEventArgs<string>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorFakeOuterStringSerialize(Exception exception)
+        {
+            OnErrorFakeOuterStringSerialize?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -513,9 +563,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<List<OuterEnum>>>? OnGetArrayOfEnums;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorGetArrayOfEnums;
+
         internal void ExecuteOnGetArrayOfEnums(ApiResponse<List<OuterEnum>> apiResponse)
         {
             OnGetArrayOfEnums?.Invoke(this, new ApiResponseEventArgs<List<OuterEnum>>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorGetArrayOfEnums(Exception exception)
+        {
+            OnErrorGetArrayOfEnums?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -523,9 +583,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<object>>? OnTestBodyWithFileSchema;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorTestBodyWithFileSchema;
+
         internal void ExecuteOnTestBodyWithFileSchema(ApiResponse<object> apiResponse)
         {
             OnTestBodyWithFileSchema?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorTestBodyWithFileSchema(Exception exception)
+        {
+            OnErrorTestBodyWithFileSchema?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -533,9 +603,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<object>>? OnTestBodyWithQueryParams;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorTestBodyWithQueryParams;
+
         internal void ExecuteOnTestBodyWithQueryParams(ApiResponse<object> apiResponse)
         {
             OnTestBodyWithQueryParams?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorTestBodyWithQueryParams(Exception exception)
+        {
+            OnErrorTestBodyWithQueryParams?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -543,9 +623,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<ModelClient>>? OnTestClientModel;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorTestClientModel;
+
         internal void ExecuteOnTestClientModel(ApiResponse<ModelClient> apiResponse)
         {
             OnTestClientModel?.Invoke(this, new ApiResponseEventArgs<ModelClient>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorTestClientModel(Exception exception)
+        {
+            OnErrorTestClientModel?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -553,9 +643,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<object>>? OnTestEndpointParameters;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorTestEndpointParameters;
+
         internal void ExecuteOnTestEndpointParameters(ApiResponse<object> apiResponse)
         {
             OnTestEndpointParameters?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorTestEndpointParameters(Exception exception)
+        {
+            OnErrorTestEndpointParameters?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -563,9 +663,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<object>>? OnTestEnumParameters;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorTestEnumParameters;
+
         internal void ExecuteOnTestEnumParameters(ApiResponse<object> apiResponse)
         {
             OnTestEnumParameters?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorTestEnumParameters(Exception exception)
+        {
+            OnErrorTestEnumParameters?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -573,9 +683,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<object>>? OnTestGroupParameters;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorTestGroupParameters;
+
         internal void ExecuteOnTestGroupParameters(ApiResponse<object> apiResponse)
         {
             OnTestGroupParameters?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorTestGroupParameters(Exception exception)
+        {
+            OnErrorTestGroupParameters?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -583,9 +703,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<object>>? OnTestInlineAdditionalProperties;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorTestInlineAdditionalProperties;
+
         internal void ExecuteOnTestInlineAdditionalProperties(ApiResponse<object> apiResponse)
         {
             OnTestInlineAdditionalProperties?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorTestInlineAdditionalProperties(Exception exception)
+        {
+            OnErrorTestInlineAdditionalProperties?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -593,9 +723,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<object>>? OnTestJsonFormData;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorTestJsonFormData;
+
         internal void ExecuteOnTestJsonFormData(ApiResponse<object> apiResponse)
         {
             OnTestJsonFormData?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorTestJsonFormData(Exception exception)
+        {
+            OnErrorTestJsonFormData?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -603,9 +743,19 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ApiResponseEventArgs<object>>? OnTestQueryParameterCollectionFormat;
 
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorTestQueryParameterCollectionFormat;
+
         internal void ExecuteOnTestQueryParameterCollectionFormat(ApiResponse<object> apiResponse)
         {
             OnTestQueryParameterCollectionFormat?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorTestQueryParameterCollectionFormat(Exception exception)
+        {
+            OnErrorTestQueryParameterCollectionFormat?.Invoke(this, new ExceptionEventArgs(exception));
         }
     }
 
@@ -705,17 +855,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="path"></param>
         private void OnErrorFakeHealthGetDefaultImplementation(Exception exception, string pathFormat, string path)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorFakeHealthGet(exception, pathFormat, path);
+            bool suppressDefaultLog = false;
+            OnErrorFakeHealthGet(ref suppressDefaultLog, exception, pathFormat, path);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        partial void OnErrorFakeHealthGet(Exception exception, string pathFormat, string path);
+        partial void OnErrorFakeHealthGet(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
 
         /// <summary>
         /// Health check endpoint 
@@ -785,6 +938,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorFakeHealthGetDefaultImplementation(e, "/fake/health", uriBuilderLocalVar.Path);
+                Events.ExecuteOnErrorFakeHealthGet(e);
                 throw;
             }
         }
@@ -821,18 +975,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="body"></param>
         private void OnErrorFakeOuterBooleanSerializeDefaultImplementation(Exception exception, string pathFormat, string path, Option<bool> body)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorFakeOuterBooleanSerialize(exception, pathFormat, path, body);
+            bool suppressDefaultLog = false;
+            OnErrorFakeOuterBooleanSerialize(ref suppressDefaultLog, exception, pathFormat, path, body);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="body"></param>
-        partial void OnErrorFakeOuterBooleanSerialize(Exception exception, string pathFormat, string path, Option<bool> body);
+        partial void OnErrorFakeOuterBooleanSerialize(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Option<bool> body);
 
         /// <summary>
         ///  Test serialization of outer boolean types
@@ -920,6 +1077,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorFakeOuterBooleanSerializeDefaultImplementation(e, "/fake/outer/boolean", uriBuilderLocalVar.Path, body);
+                Events.ExecuteOnErrorFakeOuterBooleanSerialize(e);
                 throw;
             }
         }
@@ -967,18 +1125,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="outerComposite"></param>
         private void OnErrorFakeOuterCompositeSerializeDefaultImplementation(Exception exception, string pathFormat, string path, Option<OuterComposite> outerComposite)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorFakeOuterCompositeSerialize(exception, pathFormat, path, outerComposite);
+            bool suppressDefaultLog = false;
+            OnErrorFakeOuterCompositeSerialize(ref suppressDefaultLog, exception, pathFormat, path, outerComposite);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="outerComposite"></param>
-        partial void OnErrorFakeOuterCompositeSerialize(Exception exception, string pathFormat, string path, Option<OuterComposite> outerComposite);
+        partial void OnErrorFakeOuterCompositeSerialize(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Option<OuterComposite> outerComposite);
 
         /// <summary>
         ///  Test serialization of object with outer number type
@@ -1068,6 +1229,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorFakeOuterCompositeSerializeDefaultImplementation(e, "/fake/outer/composite", uriBuilderLocalVar.Path, outerComposite);
+                Events.ExecuteOnErrorFakeOuterCompositeSerialize(e);
                 throw;
             }
         }
@@ -1104,18 +1266,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="body"></param>
         private void OnErrorFakeOuterNumberSerializeDefaultImplementation(Exception exception, string pathFormat, string path, Option<decimal> body)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorFakeOuterNumberSerialize(exception, pathFormat, path, body);
+            bool suppressDefaultLog = false;
+            OnErrorFakeOuterNumberSerialize(ref suppressDefaultLog, exception, pathFormat, path, body);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="body"></param>
-        partial void OnErrorFakeOuterNumberSerialize(Exception exception, string pathFormat, string path, Option<decimal> body);
+        partial void OnErrorFakeOuterNumberSerialize(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Option<decimal> body);
 
         /// <summary>
         ///  Test serialization of outer number types
@@ -1203,6 +1368,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorFakeOuterNumberSerializeDefaultImplementation(e, "/fake/outer/number", uriBuilderLocalVar.Path, body);
+                Events.ExecuteOnErrorFakeOuterNumberSerialize(e);
                 throw;
             }
         }
@@ -1253,19 +1419,22 @@ namespace Org.OpenAPITools.Api
         /// <param name="body"></param>
         private void OnErrorFakeOuterStringSerializeDefaultImplementation(Exception exception, string pathFormat, string path, Guid requiredStringUuid, Option<string> body)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorFakeOuterStringSerialize(exception, pathFormat, path, requiredStringUuid, body);
+            bool suppressDefaultLog = false;
+            OnErrorFakeOuterStringSerialize(ref suppressDefaultLog, exception, pathFormat, path, requiredStringUuid, body);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="requiredStringUuid"></param>
         /// <param name="body"></param>
-        partial void OnErrorFakeOuterStringSerialize(Exception exception, string pathFormat, string path, Guid requiredStringUuid, Option<string> body);
+        partial void OnErrorFakeOuterStringSerialize(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Guid requiredStringUuid, Option<string> body);
 
         /// <summary>
         ///  Test serialization of outer string types
@@ -1363,6 +1532,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorFakeOuterStringSerializeDefaultImplementation(e, "/fake/outer/string", uriBuilderLocalVar.Path, requiredStringUuid, body);
+                Events.ExecuteOnErrorFakeOuterStringSerialize(e);
                 throw;
             }
         }
@@ -1394,17 +1564,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="path"></param>
         private void OnErrorGetArrayOfEnumsDefaultImplementation(Exception exception, string pathFormat, string path)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorGetArrayOfEnums(exception, pathFormat, path);
+            bool suppressDefaultLog = false;
+            OnErrorGetArrayOfEnums(ref suppressDefaultLog, exception, pathFormat, path);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        partial void OnErrorGetArrayOfEnums(Exception exception, string pathFormat, string path);
+        partial void OnErrorGetArrayOfEnums(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
 
         /// <summary>
         /// Array of Enums 
@@ -1474,6 +1647,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorGetArrayOfEnumsDefaultImplementation(e, "/fake/array-of-enums", uriBuilderLocalVar.Path);
+                Events.ExecuteOnErrorGetArrayOfEnums(e);
                 throw;
             }
         }
@@ -1521,18 +1695,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="fileSchemaTestClass"></param>
         private void OnErrorTestBodyWithFileSchemaDefaultImplementation(Exception exception, string pathFormat, string path, FileSchemaTestClass fileSchemaTestClass)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorTestBodyWithFileSchema(exception, pathFormat, path, fileSchemaTestClass);
+            bool suppressDefaultLog = false;
+            OnErrorTestBodyWithFileSchema(ref suppressDefaultLog, exception, pathFormat, path, fileSchemaTestClass);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="fileSchemaTestClass"></param>
-        partial void OnErrorTestBodyWithFileSchema(Exception exception, string pathFormat, string path, FileSchemaTestClass fileSchemaTestClass);
+        partial void OnErrorTestBodyWithFileSchema(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, FileSchemaTestClass fileSchemaTestClass);
 
         /// <summary>
         ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
@@ -1612,6 +1789,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorTestBodyWithFileSchemaDefaultImplementation(e, "/fake/body-with-file-schema", uriBuilderLocalVar.Path, fileSchemaTestClass);
+                Events.ExecuteOnErrorTestBodyWithFileSchema(e);
                 throw;
             }
         }
@@ -1666,19 +1844,22 @@ namespace Org.OpenAPITools.Api
         /// <param name="query"></param>
         private void OnErrorTestBodyWithQueryParamsDefaultImplementation(Exception exception, string pathFormat, string path, User user, string query)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorTestBodyWithQueryParams(exception, pathFormat, path, user, query);
+            bool suppressDefaultLog = false;
+            OnErrorTestBodyWithQueryParams(ref suppressDefaultLog, exception, pathFormat, path, user, query);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="user"></param>
         /// <param name="query"></param>
-        partial void OnErrorTestBodyWithQueryParams(Exception exception, string pathFormat, string path, User user, string query);
+        partial void OnErrorTestBodyWithQueryParams(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, User user, string query);
 
         /// <summary>
         ///  
@@ -1766,6 +1947,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorTestBodyWithQueryParamsDefaultImplementation(e, "/fake/body-with-query-params", uriBuilderLocalVar.Path, user, query);
+                Events.ExecuteOnErrorTestBodyWithQueryParams(e);
                 throw;
             }
         }
@@ -1813,18 +1995,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient"></param>
         private void OnErrorTestClientModelDefaultImplementation(Exception exception, string pathFormat, string path, ModelClient modelClient)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorTestClientModel(exception, pathFormat, path, modelClient);
+            bool suppressDefaultLog = false;
+            OnErrorTestClientModel(ref suppressDefaultLog, exception, pathFormat, path, modelClient);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        partial void OnErrorTestClientModel(Exception exception, string pathFormat, string path, ModelClient modelClient);
+        partial void OnErrorTestClientModel(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, ModelClient modelClient);
 
         /// <summary>
         /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
@@ -1913,6 +2098,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorTestClientModelDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, modelClient);
+                Events.ExecuteOnErrorTestClientModel(e);
                 throw;
             }
         }
@@ -2019,13 +2205,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="dateTime"></param>
         private void OnErrorTestEndpointParametersDefaultImplementation(Exception exception, string pathFormat, string path, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorTestEndpointParameters(exception, pathFormat, path, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+            bool suppressDefaultLog = false;
+            OnErrorTestEndpointParameters(ref suppressDefaultLog, exception, pathFormat, path, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
@@ -2043,7 +2232,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        partial void OnErrorTestEndpointParameters(Exception exception, string pathFormat, string path, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime);
+        partial void OnErrorTestEndpointParameters(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -2203,6 +2392,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorTestEndpointParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
+                Events.ExecuteOnErrorTestEndpointParameters(e);
                 throw;
             }
         }
@@ -2291,13 +2481,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormString"></param>
         private void OnErrorTestEnumParametersDefaultImplementation(Exception exception, string pathFormat, string path, Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<string> enumQueryString, Option<string> enumFormString)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorTestEnumParameters(exception, pathFormat, path, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+            bool suppressDefaultLog = false;
+            OnErrorTestEnumParameters(ref suppressDefaultLog, exception, pathFormat, path, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
@@ -2309,7 +2502,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumHeaderString"></param>
         /// <param name="enumQueryString"></param>
         /// <param name="enumFormString"></param>
-        partial void OnErrorTestEnumParameters(Exception exception, string pathFormat, string path, Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<string> enumQueryString, Option<string> enumFormString);
+        partial void OnErrorTestEnumParameters(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Option<List<string>> enumHeaderStringArray, Option<List<string>> enumQueryStringArray, Option<double> enumQueryDouble, Option<int> enumQueryInteger, Option<List<string>> enumFormStringArray, Option<string> enumHeaderString, Option<string> enumQueryString, Option<string> enumFormString);
 
         /// <summary>
         /// To test enum parameters To test enum parameters
@@ -2433,6 +2626,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorTestEnumParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, enumHeaderStringArray, enumQueryStringArray, enumQueryDouble, enumQueryInteger, enumFormStringArray, enumHeaderString, enumQueryString, enumFormString);
+                Events.ExecuteOnErrorTestEnumParameters(e);
                 throw;
             }
         }
@@ -2484,13 +2678,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group"></param>
         private void OnErrorTestGroupParametersDefaultImplementation(Exception exception, string pathFormat, string path, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup, Option<int> stringGroup, Option<long> int64Group)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorTestGroupParameters(exception, pathFormat, path, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+            bool suppressDefaultLog = false;
+            OnErrorTestGroupParameters(ref suppressDefaultLog, exception, pathFormat, path, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
@@ -2500,7 +2697,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup"></param>
         /// <param name="stringGroup"></param>
         /// <param name="int64Group"></param>
-        partial void OnErrorTestGroupParameters(Exception exception, string pathFormat, string path, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup, Option<int> stringGroup, Option<long> int64Group);
+        partial void OnErrorTestGroupParameters(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, bool requiredBooleanGroup, int requiredStringGroup, long requiredInt64Group, Option<bool> booleanGroup, Option<int> stringGroup, Option<long> int64Group);
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
@@ -2605,6 +2802,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorTestGroupParametersDefaultImplementation(e, "/fake", uriBuilderLocalVar.Path, requiredBooleanGroup, requiredStringGroup, requiredInt64Group, booleanGroup, stringGroup, int64Group);
+                Events.ExecuteOnErrorTestGroupParameters(e);
                 throw;
             }
         }
@@ -2652,18 +2850,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="requestBody"></param>
         private void OnErrorTestInlineAdditionalPropertiesDefaultImplementation(Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorTestInlineAdditionalProperties(exception, pathFormat, path, requestBody);
+            bool suppressDefaultLog = false;
+            OnErrorTestInlineAdditionalProperties(ref suppressDefaultLog, exception, pathFormat, path, requestBody);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="requestBody"></param>
-        partial void OnErrorTestInlineAdditionalProperties(Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody);
+        partial void OnErrorTestInlineAdditionalProperties(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody);
 
         /// <summary>
         /// test inline additionalProperties 
@@ -2743,6 +2944,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorTestInlineAdditionalPropertiesDefaultImplementation(e, "/fake/inline-additionalProperties", uriBuilderLocalVar.Path, requestBody);
+                Events.ExecuteOnErrorTestInlineAdditionalProperties(e);
                 throw;
             }
         }
@@ -2797,19 +2999,22 @@ namespace Org.OpenAPITools.Api
         /// <param name="param2"></param>
         private void OnErrorTestJsonFormDataDefaultImplementation(Exception exception, string pathFormat, string path, string param, string param2)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorTestJsonFormData(exception, pathFormat, path, param, param2);
+            bool suppressDefaultLog = false;
+            OnErrorTestJsonFormData(ref suppressDefaultLog, exception, pathFormat, path, param, param2);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="param"></param>
         /// <param name="param2"></param>
-        partial void OnErrorTestJsonFormData(Exception exception, string pathFormat, string path, string param, string param2);
+        partial void OnErrorTestJsonFormData(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string param, string param2);
 
         /// <summary>
         /// test json serialization of form data 
@@ -2899,6 +3104,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorTestJsonFormDataDefaultImplementation(e, "/fake/jsonFormData", uriBuilderLocalVar.Path, param, param2);
+                Events.ExecuteOnErrorTestJsonFormData(e);
                 throw;
             }
         }
@@ -2994,13 +3200,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="notRequiredNullable"></param>
         private void OnErrorTestQueryParameterCollectionFormatDefaultImplementation(Exception exception, string pathFormat, string path, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string? requiredNullable, Option<string> notRequiredNotNullable, Option<string?> notRequiredNullable)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorTestQueryParameterCollectionFormat(exception, pathFormat, path, pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable);
+            bool suppressDefaultLog = false;
+            OnErrorTestQueryParameterCollectionFormat(ref suppressDefaultLog, exception, pathFormat, path, pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
@@ -3013,7 +3222,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredNullable"></param>
         /// <param name="notRequiredNotNullable"></param>
         /// <param name="notRequiredNullable"></param>
-        partial void OnErrorTestQueryParameterCollectionFormat(Exception exception, string pathFormat, string path, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string? requiredNullable, Option<string> notRequiredNotNullable, Option<string?> notRequiredNullable);
+        partial void OnErrorTestQueryParameterCollectionFormat(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string? requiredNullable, Option<string> notRequiredNotNullable, Option<string?> notRequiredNullable);
 
         /// <summary>
         ///  To test the collection format in query parameters
@@ -3114,6 +3323,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorTestQueryParameterCollectionFormatDefaultImplementation(e, "/fake/test-query-parameters", uriBuilderLocalVar.Path, pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable);
+                Events.ExecuteOnErrorTestQueryParameterCollectionFormat(e);
                 throw;
             }
         }
