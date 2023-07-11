@@ -18,7 +18,7 @@ using {{packageName}}.{{apiPackage}};
 using {{packageName}}.{{modelPackage}};
 {{/hasImport}}
 
-namespace {{packageName}}.{{interfacePrefix}}{{apiPackage}}
+namespace {{packageName}}.{{apiPackage}}
 {
     {{#operations}}
     /// <summary>
@@ -64,10 +64,7 @@ namespace {{packageName}}.{{interfacePrefix}}{{apiPackage}}
         {{/-last}}
         {{/operation}}
     }
-}
 
-namespace {{packageName}}.{{apiPackage}}
-{
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// This class is registered as transient.
@@ -103,7 +100,7 @@ namespace {{packageName}}.{{apiPackage}}
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    {{>visibility}} sealed partial class {{classname}} : {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
+    {{>visibility}} sealed partial class {{classname}} : {{interfacePrefix}}{{classname}}
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 

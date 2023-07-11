@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.IApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Extensions;
 using Xunit;
 
@@ -122,25 +122,25 @@ namespace Org.OpenAPITools.Test.Api
         [Fact]
         public void ConfigureApiWithAClientTest()
         {
-            var anotherFakeApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IApi.IAnotherFakeApi>();
+            var anotherFakeApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IAnotherFakeApi>();
             Assert.True(anotherFakeApi.HttpClient.BaseAddress != null);
             
-            var defaultApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IApi.IDefaultApi>();
+            var defaultApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IDefaultApi>();
             Assert.True(defaultApi.HttpClient.BaseAddress != null);
             
-            var fakeApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IApi.IFakeApi>();
+            var fakeApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IFakeApi>();
             Assert.True(fakeApi.HttpClient.BaseAddress != null);
             
-            var fakeClassnameTags123Api = _hostUsingConfigureWithAClient.Services.GetRequiredService<IApi.IFakeClassnameTags123Api>();
+            var fakeClassnameTags123Api = _hostUsingConfigureWithAClient.Services.GetRequiredService<IFakeClassnameTags123Api>();
             Assert.True(fakeClassnameTags123Api.HttpClient.BaseAddress != null);
             
-            var petApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IApi.IPetApi>();
+            var petApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IPetApi>();
             Assert.True(petApi.HttpClient.BaseAddress != null);
             
-            var storeApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IApi.IStoreApi>();
+            var storeApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IStoreApi>();
             Assert.True(storeApi.HttpClient.BaseAddress != null);
             
-            var userApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IApi.IUserApi>();
+            var userApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IUserApi>();
             Assert.True(userApi.HttpClient.BaseAddress != null);
         }
 
@@ -150,25 +150,25 @@ namespace Org.OpenAPITools.Test.Api
         [Fact]
         public void ConfigureApiWithoutAClientTest()
         {
-            var anotherFakeApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IApi.IAnotherFakeApi>();
+            var anotherFakeApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IAnotherFakeApi>();
             Assert.True(anotherFakeApi.HttpClient.BaseAddress != null);
             
-            var defaultApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IApi.IDefaultApi>();
+            var defaultApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IDefaultApi>();
             Assert.True(defaultApi.HttpClient.BaseAddress != null);
             
-            var fakeApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IApi.IFakeApi>();
+            var fakeApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IFakeApi>();
             Assert.True(fakeApi.HttpClient.BaseAddress != null);
             
-            var fakeClassnameTags123Api = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IApi.IFakeClassnameTags123Api>();
+            var fakeClassnameTags123Api = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IFakeClassnameTags123Api>();
             Assert.True(fakeClassnameTags123Api.HttpClient.BaseAddress != null);
             
-            var petApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IApi.IPetApi>();
+            var petApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IPetApi>();
             Assert.True(petApi.HttpClient.BaseAddress != null);
             
-            var storeApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IApi.IStoreApi>();
+            var storeApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IStoreApi>();
             Assert.True(storeApi.HttpClient.BaseAddress != null);
             
-            var userApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IApi.IUserApi>();
+            var userApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IUserApi>();
             Assert.True(userApi.HttpClient.BaseAddress != null);
         }
 
@@ -178,25 +178,25 @@ namespace Org.OpenAPITools.Test.Api
         [Fact]
         public void AddApiWithAClientTest()
         {
-            var anotherFakeApi = _hostUsingAddWithAClient.Services.GetRequiredService<IApi.IAnotherFakeApi>();
+            var anotherFakeApi = _hostUsingAddWithAClient.Services.GetRequiredService<IAnotherFakeApi>();
             Assert.True(anotherFakeApi.HttpClient.BaseAddress != null);
             
-            var defaultApi = _hostUsingAddWithAClient.Services.GetRequiredService<IApi.IDefaultApi>();
+            var defaultApi = _hostUsingAddWithAClient.Services.GetRequiredService<IDefaultApi>();
             Assert.True(defaultApi.HttpClient.BaseAddress != null);
             
-            var fakeApi = _hostUsingAddWithAClient.Services.GetRequiredService<IApi.IFakeApi>();
+            var fakeApi = _hostUsingAddWithAClient.Services.GetRequiredService<IFakeApi>();
             Assert.True(fakeApi.HttpClient.BaseAddress != null);
             
-            var fakeClassnameTags123Api = _hostUsingAddWithAClient.Services.GetRequiredService<IApi.IFakeClassnameTags123Api>();
+            var fakeClassnameTags123Api = _hostUsingAddWithAClient.Services.GetRequiredService<IFakeClassnameTags123Api>();
             Assert.True(fakeClassnameTags123Api.HttpClient.BaseAddress != null);
             
-            var petApi = _hostUsingAddWithAClient.Services.GetRequiredService<IApi.IPetApi>();
+            var petApi = _hostUsingAddWithAClient.Services.GetRequiredService<IPetApi>();
             Assert.True(petApi.HttpClient.BaseAddress != null);
             
-            var storeApi = _hostUsingAddWithAClient.Services.GetRequiredService<IApi.IStoreApi>();
+            var storeApi = _hostUsingAddWithAClient.Services.GetRequiredService<IStoreApi>();
             Assert.True(storeApi.HttpClient.BaseAddress != null);
             
-            var userApi = _hostUsingAddWithAClient.Services.GetRequiredService<IApi.IUserApi>();
+            var userApi = _hostUsingAddWithAClient.Services.GetRequiredService<IUserApi>();
             Assert.True(userApi.HttpClient.BaseAddress != null);
         }
 
@@ -206,25 +206,25 @@ namespace Org.OpenAPITools.Test.Api
         [Fact]
         public void AddApiWithoutAClientTest()
         {
-            var anotherFakeApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IApi.IAnotherFakeApi>();
+            var anotherFakeApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IAnotherFakeApi>();
             Assert.True(anotherFakeApi.HttpClient.BaseAddress != null);
             
-            var defaultApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IApi.IDefaultApi>();
+            var defaultApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IDefaultApi>();
             Assert.True(defaultApi.HttpClient.BaseAddress != null);
             
-            var fakeApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IApi.IFakeApi>();
+            var fakeApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IFakeApi>();
             Assert.True(fakeApi.HttpClient.BaseAddress != null);
             
-            var fakeClassnameTags123Api = _hostUsingAddWithoutAClient.Services.GetRequiredService<IApi.IFakeClassnameTags123Api>();
+            var fakeClassnameTags123Api = _hostUsingAddWithoutAClient.Services.GetRequiredService<IFakeClassnameTags123Api>();
             Assert.True(fakeClassnameTags123Api.HttpClient.BaseAddress != null);
             
-            var petApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IApi.IPetApi>();
+            var petApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IPetApi>();
             Assert.True(petApi.HttpClient.BaseAddress != null);
             
-            var storeApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IApi.IStoreApi>();
+            var storeApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IStoreApi>();
             Assert.True(storeApi.HttpClient.BaseAddress != null);
             
-            var userApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IApi.IUserApi>();
+            var userApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IUserApi>();
             Assert.True(userApi.HttpClient.BaseAddress != null);
         }
     }

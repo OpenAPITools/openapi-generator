@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using {{packageName}}.{{interfacePrefix}}{{apiPackage}};{{#hasImport}}
+using {{packageName}}.{{apiPackage}};{{#hasImport}}
 using {{packageName}}.{{modelPackage}};{{/hasImport}}
 
 
@@ -18,11 +18,11 @@ namespace {{packageName}}.Test.{{apiPackage}}
     /// </summary>
     public sealed class {{classname}}Tests : ApiTestsBase
     {
-        private readonly {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}} _instance;
+        private readonly {{interfacePrefix}}{{classname}} _instance;
 
         public {{classname}}Tests(): base(Array.Empty<string>())
         {
-            _instance = _host.Services.GetRequiredService<{{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}>();
+            _instance = _host.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
         }
         {{#operations}}
         {{#operation}}
