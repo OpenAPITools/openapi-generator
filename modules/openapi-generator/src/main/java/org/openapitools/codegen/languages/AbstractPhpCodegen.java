@@ -155,6 +155,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         cliOptions.add(new CliOption(CodegenConstants.LICENSE_NAME, CodegenConstants.LICENSE_NAME_DESC));
         cliOptions.add(new CliOption(CodegenConstants.DEVELOPER_ORGANIZATION, CodegenConstants.DEVELOPER_ORGANIZATION_DESC));
         cliOptions.add(new CliOption(CodegenConstants.DEVELOPER_ORGANIZATION_URL, CodegenConstants.DEVELOPER_ORGANIZATION_URL_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.COMPOSER_PACKAGE_NAME, CodegenConstants.COMPOSER_PACKAGE_NAME_DESC));
     }
 
     @Override
@@ -415,6 +416,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         return toModelName(type);
+    }
+
+    public String getInvokerPackage() {
+        return invokerPackage;
     }
 
     public void setInvokerPackage(String invokerPackage) {
