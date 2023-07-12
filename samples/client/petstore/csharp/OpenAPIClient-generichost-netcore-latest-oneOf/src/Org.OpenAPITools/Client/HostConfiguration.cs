@@ -17,7 +17,6 @@ using System.Text.Json.Serialization;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Org.OpenAPITools.Api;
-using Org.OpenAPITools.IApi;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Client
@@ -47,6 +46,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new FruitJsonConverter());
             _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
             _services.AddSingleton<IApiFactory, ApiFactory>();
+            _services.AddSingleton<DefaultApiEvents>();
             _services.AddTransient<IDefaultApi, DefaultApi>();
         }
 

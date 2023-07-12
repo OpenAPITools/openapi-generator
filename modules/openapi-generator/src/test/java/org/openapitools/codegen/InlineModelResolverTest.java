@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
@@ -46,14 +47,14 @@ public class InlineModelResolverTest {
         openapi.getComponents().addSchemas("User", new ObjectSchema()
                 .name("user")
                 .description("a common user")
-                .addProperties("name", new StringSchema())
-                .addProperties("address", new ObjectSchema()
+                .addProperty("name", new StringSchema())
+                .addProperty("address", new ObjectSchema()
                         .description("description")
                         .readOnly(false)
                         .description("description")
                         .name("name")
-                        .addProperties("street", new StringSchema())
-                        .addProperties("city", new StringSchema())));
+                        .addProperty("street", new StringSchema())
+                        .addProperty("city", new StringSchema())));
 
         assertNotNull((openapi.getComponents().getSchemas().get("User")).getProperties().get("address"));
 
@@ -79,14 +80,14 @@ public class InlineModelResolverTest {
         openapi.getComponents().addSchemas("User", new ObjectSchema()
                 .name("user")
                 .description("a common user")
-                .addProperties("name", new StringSchema())
-                .addProperties("address", new ObjectSchema()
+                .addProperty("name", new StringSchema())
+                .addProperty("address", new ObjectSchema()
                         .title("UserAddressTitle")
                         .readOnly(false)
                         .description("description")
                         .name("name")
-                        .addProperties("street", new StringSchema())
-                        .addProperties("city", new StringSchema())));
+                        .addProperty("street", new StringSchema())
+                        .addProperty("city", new StringSchema())));
 
         new InlineModelResolver().flatten(openapi);
 
@@ -108,14 +109,14 @@ public class InlineModelResolverTest {
         openapi.getComponents().addSchemas("User", new ObjectSchema()
                 .name("user")
                 .description("a common user")
-                .addProperties("name", new StringSchema())
-                .addProperties("address", new ObjectSchema()
+                .addProperty("name", new StringSchema())
+                .addProperty("address", new ObjectSchema()
                         .title("User Address Title")
                         .readOnly(false)
                         .description("description")
                         .name("name")
-                        .addProperties("street", new StringSchema())
-                        .addProperties("city", new StringSchema())));
+                        .addProperty("street", new StringSchema())
+                        .addProperty("city", new StringSchema())));
 
         new InlineModelResolver().flatten(openapi);
 
@@ -137,27 +138,27 @@ public class InlineModelResolverTest {
         openapi.getComponents().addSchemas("User", new ObjectSchema()
                 .name("user")
                 .description("a common user")
-                .addProperties("name", new StringSchema())
-                .addProperties("address", new ObjectSchema()
+                .addProperty("name", new StringSchema())
+                .addProperty("address", new ObjectSchema()
                         .title("UserAddressTitle")
                         .readOnly(false)
                         .description("description")
                         .name("name")
-                        .addProperties("street", new StringSchema())
-                        .addProperties("city", new StringSchema())));
+                        .addProperty("street", new StringSchema())
+                        .addProperty("city", new StringSchema())));
 
         openapi.getComponents().addSchemas("AnotherUser", new ObjectSchema()
                 .name("user")
                 .description("a common user")
-                .addProperties("name", new StringSchema())
-                .addProperties("lastName", new StringSchema())
-                .addProperties("address", new ObjectSchema()
+                .addProperty("name", new StringSchema())
+                .addProperty("lastName", new StringSchema())
+                .addProperty("address", new ObjectSchema()
                         .title("UserAddressTitle")
                         .readOnly(false)
                         .description("description")
                         .name("name")
-                        .addProperties("street", new StringSchema())
-                        .addProperties("city", new StringSchema())));
+                        .addProperty("street", new StringSchema())
+                        .addProperty("city", new StringSchema())));
 
         new InlineModelResolver().flatten(openapi);
 
@@ -181,28 +182,28 @@ public class InlineModelResolverTest {
         openapi.getComponents().addSchemas("User", new ObjectSchema()
                 .name("user")
                 .description("a common user")
-                .addProperties("name", new StringSchema())
-                .addProperties("address", new ObjectSchema()
+                .addProperty("name", new StringSchema())
+                .addProperty("address", new ObjectSchema()
                         .title("UserAddressTitle")
                         .readOnly(false)
                         .description("description")
                         .name("name")
-                        .addProperties("street", new StringSchema())
-                        .addProperties("city", new StringSchema())));
+                        .addProperty("street", new StringSchema())
+                        .addProperty("city", new StringSchema())));
 
         openapi.getComponents().addSchemas("AnotherUser", new ObjectSchema()
                 .name("AnotherUser")
                 .description("a common user")
-                .addProperties("name", new StringSchema())
-                .addProperties("lastName", new StringSchema())
-                .addProperties("address", new ObjectSchema()
+                .addProperty("name", new StringSchema())
+                .addProperty("lastName", new StringSchema())
+                .addProperty("address", new ObjectSchema()
                         .title("UserAddressTitle")
                         .readOnly(false)
                         .description("description")
                         .name("name")
-                        .addProperties("street", new StringSchema())
-                        .addProperties("city", new StringSchema())
-                        .addProperties("apartment", new StringSchema())));
+                        .addProperty("street", new StringSchema())
+                        .addProperty("city", new StringSchema())
+                        .addProperty("apartment", new StringSchema())));
 
         new InlineModelResolver().flatten(openapi);
 
@@ -238,14 +239,14 @@ public class InlineModelResolverTest {
                                 .description("it works!")
                                 .content(new Content().addMediaType("application/json",
                                         new MediaType().schema(new ObjectSchema().title("inline_response_200")
-                                                .addProperties("name", new StringSchema()).extensions(propExt))))))))
+                                                .addProperty("name", new StringSchema()).extensions(propExt))))))))
                 .path("/foo/baz", new PathItem()
                         .get(new Operation().responses(new ApiResponses().addApiResponse("200", new ApiResponse()
                                 .description("it works!")
                                 .extensions(responseExt)
                                 .content(new Content().addMediaType("application/json",
                                         new MediaType().schema(new ObjectSchema()
-                                                .addProperties("name", new StringSchema()).extensions(propExt))))))));
+                                                .addProperty("name", new StringSchema()).extensions(propExt))))))));
 
         new InlineModelResolver().flatten(openapi);
 
@@ -297,14 +298,14 @@ public class InlineModelResolverTest {
                                 .description("it works!")
                                 .content(new Content().addMediaType("application/json",
                                         new MediaType().schema(new ObjectSchema().title("GetBarResponse")
-                                                .addProperties("name", new StringSchema()).extensions(propExt))))))))
+                                                .addProperty("name", new StringSchema()).extensions(propExt))))))))
                 .path("/foo/baz", new PathItem()
                         .get(new Operation().responses(new ApiResponses().addApiResponse("200", new ApiResponse()
                                 .description("it works!")
                                 .extensions(responseExt)
                                 .content(new Content().addMediaType("application/json",
                                         new MediaType().schema(new ObjectSchema()
-                                                .addProperties("name", new StringSchema()).extensions(propExt))))))));
+                                                .addProperty("name", new StringSchema()).extensions(propExt))))))));
 
         new InlineModelResolver().flatten(openapi);
 
@@ -408,6 +409,16 @@ public class InlineModelResolverTest {
 
         RequestBody requestBodyReference = openAPI.getPaths().get("/resolve_inline_request_body_with_title").getPost().getRequestBody();
         assertEquals("#/components/schemas/resolve_inline_request_body_with_title",
+                requestBodyReference.getContent().get("application/json").getSchema().get$ref());
+    }
+
+    @Test
+    public void resolveInlineRequestBodyWithTitleInChinese() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        new InlineModelResolver().flatten(openAPI);
+
+        RequestBody requestBodyReference = openAPI.getPaths().get("/resolve_inline_request_body_with_title_in_chinese").getPost().getRequestBody();
+        assertEquals("#/components/schemas/resolveInlineRequestBodyWithRequired_request_1",
                 requestBodyReference.getContent().get("application/json").getSchema().get$ref());
     }
 
@@ -553,9 +564,9 @@ public class InlineModelResolverTest {
                         "application/json",
                         new MediaType().schema(
                                 new MapSchema().additionalProperties(
-                                        new ObjectSchema().addProperties(
+                                        new ObjectSchema().addProperty(
                                                 "resolve_inline_map_schema_in_response_property",
-                                                new ObjectSchema().addProperties(
+                                                new ObjectSchema().addProperty(
                                                         "resolve_inline_map_schema_in_response_property_string",
                                                         new StringSchema().example("example")
                                                 )
@@ -969,10 +980,8 @@ public class InlineModelResolverTest {
                 .getContent()
                 .get("application/json")
                 .getSchema();
-        //.getProperties()
-        //.get("nullable_request_body_property");
+
         Schema nullableRequestBodySchema = ModelUtils.getReferencedSchema(openAPI, nullableRequestBodyReference);
-        //assertEquals(nullableRequestBodySchema, "");
         Schema nullableSchema = ModelUtils.getReferencedSchema(openAPI,
                 ((Schema) nullableRequestBodySchema.getProperties().get("nullable_request_body_property")));
         assertTrue(nullableSchema.getNullable());
@@ -994,11 +1003,6 @@ public class InlineModelResolverTest {
                 .getRequestBody();
         assertNotNull(callbackRequestBodyReference.getContent().get("application/json").getSchema().get$ref());
         assertEquals("#/components/schemas/webhookNotify_request", callbackRequestBodyReference.getContent().get("application/json").getSchema().get$ref());
-
-        /*RequestBody resolvedCallbackRequestBody = openAPI
-                .getComponents()
-                .getSchemas()
-                .get(ModelUtils.getSimpleRef(callbackRequestBodyReference.getContent().get("application/json").getSchema().get$ref()));*/
 
         Schema callbackRequestSchemaReference = callbackRequestBodyReference
                 .getContent()
@@ -1036,12 +1040,12 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void testInlineSchemaNameDefault() {
+    public void testInlineSchemaOptions() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         InlineModelResolver resolver = new InlineModelResolver();
-        Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
-        inlineSchemaNameDefaults.put("arrayItemSuffix", "_something");
-        resolver.setInlineSchemaNameDefaults(inlineSchemaNameDefaults);
+        Map<String, String> inlineSchemaOptions= new HashMap<>();
+        inlineSchemaOptions.put("ARRAY_ITEM_SUFFIX", "_something");
+        resolver.setInlineSchemaOptions(inlineSchemaOptions);
         resolver.flatten(openAPI);
 
         Schema schema = openAPI.getComponents().getSchemas().get("resolveInlineArrayRequestBody_request_something");
@@ -1056,9 +1060,9 @@ public class InlineModelResolverTest {
     public void testInlineSchemaSkipReuseSetToFalse() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         InlineModelResolver resolver = new InlineModelResolver();
-        Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
-        //inlineSchemaNameDefaults.put("SKIP_SCHEMA_REUSE", "false"); // default is false
-        resolver.setInlineSchemaNameDefaults(inlineSchemaNameDefaults);
+        Map<String, String> inlineSchemaOptions = new HashMap<>();
+        //inlineSchemaOptions.put("SKIP_SCHEMA_REUSE", "false"); // default is false
+        resolver.setInlineSchemaOptions(inlineSchemaOptions);
         resolver.flatten(openAPI);
 
         Schema schema = openAPI.getComponents().getSchemas().get("meta_200_response");
@@ -1074,9 +1078,9 @@ public class InlineModelResolverTest {
     public void testInlineSchemaSkipReuseSetToTrue() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         InlineModelResolver resolver = new InlineModelResolver();
-        Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
-        inlineSchemaNameDefaults.put("SKIP_SCHEMA_REUSE", "true");
-        resolver.setInlineSchemaNameDefaults(inlineSchemaNameDefaults);
+        Map<String, String> inlineSchemaOptions = new HashMap<>();
+        inlineSchemaOptions.put("SKIP_SCHEMA_REUSE", "true");
+        resolver.setInlineSchemaOptions(inlineSchemaOptions);
         resolver.flatten(openAPI);
 
         Schema schema = openAPI.getComponents().getSchemas().get("meta_200_response");
@@ -1096,16 +1100,10 @@ public class InlineModelResolverTest {
         RequestBody requestBodyReference = openAPI.getPaths().get("/resolve_inline_request_body_allof").getPost().getRequestBody();
         assertEquals("#/components/schemas/resolveInlineRequestBodyAllOf_request",
                 requestBodyReference.getContent().get("application/json").getSchema().get$ref());
-        //assertEquals("#/components/schemas/resolveInlineRequestBodyAllOf_request", requestBodyReference.get$ref());
 
         ComposedSchema allOfModel = (ComposedSchema) openAPI.getComponents().getSchemas().get("resolveInlineRequestBodyAllOf_request");
         assertEquals(null, allOfModel.getAllOf().get(0).get$ref());
         assertEquals(2, allOfModel.getAllOf().get(0).getProperties().size());
-
-        //Schema allOfModel = ModelUtils.getReferencedSchema(openAPI, requestBodyReference.get$ref());
-
-        //RequestBody referencedRequestBody = ModelUtils.getReferencedRequestBody(openAPI, requestBodyReference);
-        //assertTrue(referencedRequestBody.getRequired());
     }
 
     @Test
@@ -1131,5 +1129,46 @@ public class InlineModelResolverTest {
         Schema schema = openAPI.getComponents().getSchemas().get("SomeData_anyOf");
         assertTrue((Schema) schema.getAnyOf().get(0) instanceof StringSchema);
         assertTrue((Schema) schema.getAnyOf().get(1) instanceof IntegerSchema);
+    }
+
+    @Test
+    public void resolveOperationInlineEnum() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        Parameter parameter = openAPI.getPaths().get("/resolve_parameter_inline_enum").getGet().getParameters().get(0);
+        assertNull(((ArraySchema) parameter.getSchema()).getItems().get$ref() );
+
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> inlineSchemaOptions = new HashMap<>();
+        inlineSchemaOptions.put("RESOLVE_INLINE_ENUMS", "true");
+        resolver.setInlineSchemaOptions(inlineSchemaOptions);
+        resolver.flatten(openAPI);
+
+        Parameter parameter2 = openAPI.getPaths().get("/resolve_parameter_inline_enum").getGet().getParameters().get(0);
+        assertEquals("#/components/schemas/resolveParameterInlineEnum_status_inline_enum_parameter_inner",
+                ((ArraySchema) parameter2.getSchema()).getItems().get$ref() );
+
+    }
+
+    @Test
+    public void resolveOperationInlineEnumFormParameters() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        Schema requestBody = openAPI.getPaths().get("/resolve_parameter_inline_enum_form_parameters").getPost().getRequestBody().getContent().get("application/x-www-form-urlencoded").getSchema();
+        assertNull(requestBody.get$ref());
+
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> inlineSchemaOptions = new HashMap<>();
+        inlineSchemaOptions.put("RESOLVE_INLINE_ENUMS", "true");
+        resolver.setInlineSchemaOptions(inlineSchemaOptions);
+        resolver.flatten(openAPI);
+
+        Schema requestBody2 = openAPI.getPaths().get("/resolve_parameter_inline_enum_form_parameters").getPost().getRequestBody().getContent().get("application/x-www-form-urlencoded").getSchema();
+        assertEquals("#/components/schemas/resolve_parameter_inline_enum_form_parameters_request", requestBody2.get$ref());
+
+        Schema inlineFormParaemter = (Schema) openAPI.getComponents().getSchemas().get("resolve_parameter_inline_enum_form_parameters_request");
+        assertNotNull(inlineFormParaemter);
+        assertEquals(2, inlineFormParaemter.getProperties().size());
+        assertEquals("#/components/schemas/resolve_parameter_inline_enum_form_parameters_request_enum_form_string",
+                ((Schema) inlineFormParaemter.getProperties().get("enum_form_string")).get$ref());
+
     }
 }

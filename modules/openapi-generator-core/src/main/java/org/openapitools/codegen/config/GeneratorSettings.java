@@ -52,7 +52,7 @@ public final class GeneratorSettings implements Serializable {
     private final Map<String, String> importMappings;
     private final Map<String, String> schemaMappings;
     private final Map<String, String> inlineSchemaNameMappings;
-    private final Map<String, String> inlineSchemaNameDefaults;
+    private final Map<String, String> inlineSchemaOptions;
     private final Map<String, String> openapiNormalizer;
     private final Set<String> languageSpecificPrimitives;
     private final Map<String, String> reservedWordsMappings;
@@ -257,12 +257,12 @@ public final class GeneratorSettings implements Serializable {
     }
 
     /**
-     * Gets inline schema name defaults between an inline schema naming convention and the default values.
+     * Gets inline schema options
      *
-     * @return the inline schema name defaults
+     * @return the inline schema options
      */
-    public Map<String, String> getInlineSchemaNameDefaults() {
-        return inlineSchemaNameDefaults;
+    public Map<String, String> getInlineSchemaOptions() {
+        return inlineSchemaOptions;
     }
 
     /**
@@ -391,7 +391,7 @@ public final class GeneratorSettings implements Serializable {
         importMappings = Collections.unmodifiableMap(builder.importMappings);
         schemaMappings = Collections.unmodifiableMap(builder.schemaMappings);
         inlineSchemaNameMappings = Collections.unmodifiableMap(builder.inlineSchemaNameMappings);
-        inlineSchemaNameDefaults = Collections.unmodifiableMap(builder.inlineSchemaNameDefaults);
+        inlineSchemaOptions = Collections.unmodifiableMap(builder.inlineSchemaOptions);
         openapiNormalizer = Collections.unmodifiableMap(builder.openapiNormalizer);
         languageSpecificPrimitives = Collections.unmodifiableSet(builder.languageSpecificPrimitives);
         reservedWordsMappings = Collections.unmodifiableMap(builder.reservedWordsMappings);
@@ -465,7 +465,7 @@ public final class GeneratorSettings implements Serializable {
         importMappings = Collections.unmodifiableMap(new HashMap<>(0));
         schemaMappings = Collections.unmodifiableMap(new HashMap<>(0));
         inlineSchemaNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
-        inlineSchemaNameDefaults = Collections.unmodifiableMap(new HashMap<>(0));
+        inlineSchemaOptions = Collections.unmodifiableMap(new HashMap<>(0));
         openapiNormalizer = Collections.unmodifiableMap(new HashMap<>(0));
         languageSpecificPrimitives = Collections.unmodifiableSet(new HashSet<>(0));
         reservedWordsMappings = Collections.unmodifiableMap(new HashMap<>(0));
@@ -524,8 +524,8 @@ public final class GeneratorSettings implements Serializable {
         if (copy.getInlineSchemaNameMappings() != null) {
             builder.inlineSchemaNameMappings.putAll(copy.getInlineSchemaNameMappings());
         }
-        if (copy.getInlineSchemaNameDefaults() != null) {
-            builder.inlineSchemaNameDefaults.putAll(copy.getInlineSchemaNameDefaults());
+        if (copy.getInlineSchemaOptions() != null) {
+            builder.inlineSchemaOptions.putAll(copy.getInlineSchemaOptions());
         }
         if (copy.getOpenAPINormalizer() != null) {
             builder.openapiNormalizer.putAll(copy.getOpenAPINormalizer());
@@ -571,7 +571,7 @@ public final class GeneratorSettings implements Serializable {
         private Map<String, String> importMappings;
         private Map<String, String> schemaMappings;
         private Map<String, String> inlineSchemaNameMappings;
-        private Map<String, String> inlineSchemaNameDefaults;
+        private Map<String, String> inlineSchemaOptions;
         private Map<String, String> openapiNormalizer;
         private Set<String> languageSpecificPrimitives;
         private Map<String, String> reservedWordsMappings;
@@ -592,7 +592,7 @@ public final class GeneratorSettings implements Serializable {
             importMappings = new HashMap<>();
             schemaMappings = new HashMap<>();
             inlineSchemaNameMappings = new HashMap<>();
-            inlineSchemaNameDefaults = new HashMap<>();
+            inlineSchemaOptions = new HashMap<>();
             openapiNormalizer = new HashMap<>();
             languageSpecificPrimitives = new HashSet<>();
             reservedWordsMappings = new HashMap<>();
@@ -863,28 +863,28 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
-         * Sets the {@code inlineSchemaNameDefaults} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code inlineSchemaOptions} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param inlineSchemaNameDefaults the {@code inlineSchemaNameDefaults} to set
+         * @param inlineSchemaOptions the {@code inlineSchemaOptions} to set
          * @return a reference to this Builder
          */
-        public Builder withInlineSchemaNameDefaults(Map<String, String> inlineSchemaNameDefaults) {
-            this.inlineSchemaNameDefaults = inlineSchemaNameDefaults;
+        public Builder withInlineSchemaOptions(Map<String, String> inlineSchemaOptions) {
+            this.inlineSchemaOptions = inlineSchemaOptions;
             return this;
         }
 
         /**
-         * Sets a single {@code inlineSchemaNameDefaults} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets a single {@code inlineSchemaOptions} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param key   Default naming convention
+         * @param key   Inline schema option
          * @param value The value
          * @return a reference to this Builder
          */
-        public Builder withInlineSchemaNameDefault(String key, String value) {
-            if (this.inlineSchemaNameDefaults == null) {
-                this.inlineSchemaNameDefaults = new HashMap<>();
+        public Builder withInlineSchemaOption(String key, String value) {
+            if (this.inlineSchemaOptions == null) {
+                this.inlineSchemaOptions = new HashMap<>();
             }
-            this.inlineSchemaNameDefaults.put(key, value);
+            this.inlineSchemaOptions.put(key, value);
             return this;
         }
 
@@ -1127,7 +1127,7 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getImportMappings(), that.getImportMappings()) &&
                 Objects.equals(getSchemaMappings(), that.getSchemaMappings()) &&
                 Objects.equals(getInlineSchemaNameMappings(), that.getInlineSchemaNameMappings()) &&
-                Objects.equals(getInlineSchemaNameDefaults(), that.getInlineSchemaNameDefaults()) &&
+                Objects.equals(getInlineSchemaOptions(), that.getInlineSchemaOptions()) &&
                 Objects.equals(getOpenAPINormalizer(), that.getOpenAPINormalizer()) &&
                 Objects.equals(getLanguageSpecificPrimitives(), that.getLanguageSpecificPrimitives()) &&
                 Objects.equals(getReservedWordsMappings(), that.getReservedWordsMappings()) &&
@@ -1159,7 +1159,7 @@ public final class GeneratorSettings implements Serializable {
                 getImportMappings(),
                 getSchemaMappings(),
                 getInlineSchemaNameMappings(),
-                getInlineSchemaNameDefaults(),
+                getInlineSchemaOptions(),
                 getOpenAPINormalizer(),
                 getLanguageSpecificPrimitives(),
                 getReservedWordsMappings(),

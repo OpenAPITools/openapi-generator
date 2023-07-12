@@ -1,20 +1,33 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.openapitools.codegen.languages;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.core.util.Json;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.escape;
 
 public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -36,6 +49,10 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public ZapierClientCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
 
         outputFolder = "generated-code" + File.separator + "zapier";
         modelTemplateFiles.put("model.mustache", ".js");
@@ -147,7 +164,9 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return null; }
+    public GeneratorLanguage generatorLanguage() {
+        return null;
+    }
 
     @Override
     public String escapeUnsafeCharacters(String input) {
@@ -168,7 +187,7 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
             Map<String, Map<String, Object>> example = entry.getValue();
             r.examples = toExamples(example.get("examples"));
         } catch (Exception e) {
-            LOGGER.error(e.toString());
+            LOGGER.debug(e.toString());
         }
         return r;
     }
@@ -185,14 +204,15 @@ public class ZapierClientCodegen extends DefaultCodegen implements CodegenConfig
             @SuppressWarnings("unchecked")
             Map<String, Object> map = (Map<String, Object>) entry.getValue();
             String example = "";
-            try{
+            try {
                 example = Json.mapper().writeValueAsString(map.getOrDefault("value", map));
-            } catch(Exception ignored) {}
+            } catch (Exception ignored) {
+            }
 
             kv.put("example", example);
             output.add(kv);
         }
-        
+
         return output;
     }
 

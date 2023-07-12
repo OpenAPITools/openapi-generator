@@ -13,11 +13,12 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using {{packageName}}.{{clientPackage}};
+using {{packageName}}.{{apiPackage}};
 {{#hasImport}}
 using {{packageName}}.{{modelPackage}};
 {{/hasImport}}
 
-namespace {{packageName}}.{{interfacePrefix}}{{apiPackage}}
+namespace {{packageName}}.{{apiPackage}}
 {
     {{#operations}}
     /// <summary>
@@ -26,6 +27,11 @@ namespace {{packageName}}.{{interfacePrefix}}{{apiPackage}}
     /// </summary>
     {{>visibility}} interface {{interfacePrefix}}{{classname}} : IApi
     {
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        {{classname}}Events Events { get; }
+
         {{#operation}}
         /// <summary>
         /// {{summary}}
@@ -58,14 +64,43 @@ namespace {{packageName}}.{{interfacePrefix}}{{apiPackage}}
         {{/-last}}
         {{/operation}}
     }
-}
 
-namespace {{packageName}}.{{apiPackage}}
-{
+    /// <summary>
+    /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
+    /// </summary>
+    {{>visibility}} class {{classname}}Events
+    {
+        {{#lambda.trimTrailingWhiteSpace}}
+        {{#operation}}
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<{{{returnType}}}{{^returnType}}object{{/returnType}}>>{{nrt?}} On{{operationId}};
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>{{nrt?}} OnError{{operationId}};
+
+        internal void ExecuteOn{{operationId}}(ApiResponse<{{{returnType}}}{{^returnType}}object{{/returnType}}> apiResponse)
+        {
+            On{{operationId}}?.Invoke(this, new ApiResponseEventArgs<{{{returnType}}}{{^returnType}}object{{/returnType}}>(apiResponse));
+        }
+
+        internal void ExecuteOnError{{operationId}}(Exception exception)
+        {
+            OnError{{operationId}}?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        {{/operation}}
+        {{/lambda.trimTrailingWhiteSpace}}
+    }
+
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    {{>visibility}} sealed partial class {{classname}} : {{interfacePrefix}}{{apiPackage}}.{{interfacePrefix}}{{classname}}
+    {{>visibility}} sealed partial class {{classname}} : {{interfacePrefix}}{{classname}}
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
@@ -77,7 +112,12 @@ namespace {{packageName}}.{{apiPackage}}
         /// <summary>
         /// The HttpClient
         /// </summary>
-        public HttpClient HttpClient { get; }{{#hasApiKeyMethods}}
+        public HttpClient HttpClient { get; }
+
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        public {{classname}}Events Events { get; }{{#hasApiKeyMethods}}
 
         /// <summary>
         /// A token provider of type <see cref="ApiKeyProvider"/>
@@ -108,7 +148,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <returns></returns>
-        public {{classname}}(ILogger<{{classname}}> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider{{#hasApiKeyMethods}},
+        public {{classname}}(ILogger<{{classname}}> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, {{classname}}Events {{#lambda.camelcase_param}}{{classname}}Events{{/lambda.camelcase_param}}{{#hasApiKeyMethods}},
             TokenProvider<ApiKeyToken> apiKeyProvider{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}},
             TokenProvider<BearerToken> bearerTokenProvider{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}},
             TokenProvider<BasicToken> basicTokenProvider{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}},
@@ -117,7 +157,8 @@ namespace {{packageName}}.{{apiPackage}}
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
-            HttpClient = httpClient;{{#hasApiKeyMethods}}
+            HttpClient = httpClient;
+            Events = {{#lambda.camelcase_param}}{{classname}}Events{{/lambda.camelcase_param}};{{#hasApiKeyMethods}}
             ApiKeyProvider = apiKeyProvider;{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
             BearerTokenProvider = bearerTokenProvider;{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
             BasicTokenProvider = basicTokenProvider;{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
@@ -198,20 +239,22 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         private void OnError{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}Exception exception  string pathFormat  string path  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
         {
+            bool suppressDefaultLog = false;
+            OnError{{operationId}}({{#lambda.joinWithComma}}ref suppressDefaultLog  exception  pathFormat  path  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 {{>OnErrorDefaultImplementation}}
-            OnError{{operationId}}({{#lambda.joinWithComma}}exception  pathFormat  path  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        partial void OnError{{operationId}}({{#lambda.joinWithComma}}Exception exception  string pathFormat  string path  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+        partial void OnError{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  Exception exception  string pathFormat  string path  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 
         /// <summary>
         /// {{summary}} {{notes}}
@@ -496,9 +539,11 @@ namespace {{packageName}}.{{apiPackage}}
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
 
-                        ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{path}}", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<{{{returnType}}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{path}}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+
+                        Events.ExecuteOn{{operationId}}(apiResponseLocalVar);
 
                         {{#authMethods}}
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
@@ -513,6 +558,7 @@ namespace {{packageName}}.{{apiPackage}}
             catch(Exception e)
             {
                 OnError{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}e  "{{path}}"  uriBuilderLocalVar.Path  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+                Events.ExecuteOnError{{operationId}}(e);
                 throw;
             }
             {{/lambda.trimLineBreaks}}

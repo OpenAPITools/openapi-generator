@@ -171,9 +171,9 @@ public class TypeScriptNodeClientCodegenTest {
     public void postProcessOperationsWithModelsTestWithModelNameSuffix() {
         final OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema rootSchema = new ObjectSchema()
-            .addProperties("child", new Schema().$ref("Child"));
+            .addProperty("child", new Schema().$ref("Child"));
         final Schema childSchema = new ObjectSchema()
-            .addProperties("key", new StringSchema());
+            .addProperty("key", new StringSchema());
 
         openAPI.getComponents()
             .addSchemas("Root", rootSchema)
@@ -201,9 +201,9 @@ public class TypeScriptNodeClientCodegenTest {
     public void postProcessOperationsWithModelsTestWithModelNamePrefix() {
         final OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema rootSchema = new ObjectSchema()
-            .addProperties("child", new Schema().$ref("Child"));
+            .addProperty("child", new Schema().$ref("Child"));
         final Schema childSchema = new ObjectSchema()
-            .addProperties("key", new StringSchema());
+            .addProperty("key", new StringSchema());
 
         openAPI.getComponents()
             .addSchemas("Root", rootSchema)

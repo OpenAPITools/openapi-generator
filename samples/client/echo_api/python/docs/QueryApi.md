@@ -231,6 +231,7 @@ Test query parameter(s)
 import time
 import os
 import openapi_client
+from openapi_client.models.pet import Pet
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -245,7 +246,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.QueryApi(api_client)
-    query_object = {'key': openapi_client.Pet()} # Pet |  (optional)
+    query_object = openapi_client.Pet() # Pet |  (optional)
 
     try:
         # Test query parameter(s)
@@ -361,6 +362,7 @@ Test query parameter(s)
 import time
 import os
 import openapi_client
+from openapi_client.models.test_query_style_form_explode_true_array_string_query_object_parameter import TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -375,7 +377,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.QueryApi(api_client)
-    query_object = {'key': openapi_client.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter()} # TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter |  (optional)
+    query_object = openapi_client.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() # TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter |  (optional)
 
     try:
         # Test query parameter(s)
@@ -426,6 +428,7 @@ Test query parameter(s)
 import time
 import os
 import openapi_client
+from openapi_client.models.pet import Pet
 from openapi_client.rest import ApiException
 from pprint import pprint
 
@@ -440,7 +443,7 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.QueryApi(api_client)
-    query_object = {'key': openapi_client.Pet()} # Pet |  (optional)
+    query_object = openapi_client.Pet() # Pet |  (optional)
 
     try:
         # Test query parameter(s)

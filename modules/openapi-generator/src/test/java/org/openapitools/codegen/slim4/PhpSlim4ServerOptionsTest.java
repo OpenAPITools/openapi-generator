@@ -20,6 +20,7 @@ package org.openapitools.codegen.slim4;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PhpSlim4ServerCodegen;
+import org.openapitools.codegen.options.PhpLumenServerOptionsProvider;
 import org.openapitools.codegen.options.PhpSlim4ServerOptionsProvider;
 
 import static org.mockito.Mockito.mock;
@@ -50,6 +51,10 @@ public class PhpSlim4ServerOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(PhpSlim4ServerOptionsProvider.SORT_PARAMS_VALUE));
         verify(clientCodegen).setPsr7Implementation(PhpSlim4ServerOptionsProvider.PSR7_IMPLEMENTATION_VALUE);
         verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(PhpSlim4ServerOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen).setLicenseName(PhpSlim4ServerOptionsProvider.LICENSE_VALUE);
+        verify(clientCodegen).setDeveloperOrganizationUrl(PhpSlim4ServerOptionsProvider.DEVELOPER_ORGANIZATION_URL_VALUE);
+        verify(clientCodegen).setArtifactUrl(PhpLumenServerOptionsProvider.ARTIFACTURL_VALUE);
+        verify(clientCodegen).setDeveloperOrganization(PhpSlim4ServerOptionsProvider.DEVELOPER_ORGANIZATION_VALUE);
     }
 }
 
