@@ -7,6 +7,8 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Network Gui Test)
 
+add_compile_options(-Wall -Werror)
+
 add_subdirectory(client)
 
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Test)
