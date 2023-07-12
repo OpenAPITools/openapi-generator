@@ -49,10 +49,10 @@ void PFXCategory::fromJson(QString jsonString) {
 
 void PFXCategory::fromJsonObject(QJsonObject json) {
 
-    m_id_isValid = ::test_namespace::fromJsonValue(id, json[QString("id")]);
+    m_id_isValid = ::test_namespace::fromJsonValue(m_id, json[QString("id")]);
     m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
 
-    m_name_isValid = ::test_namespace::fromJsonValue(name, json[QString("name")]);
+    m_name_isValid = ::test_namespace::fromJsonValue(m_name, json[QString("name")]);
     m_name_isSet = !json[QString("name")].isNull() && m_name_isValid;
 }
 
@@ -66,20 +66,20 @@ QString PFXCategory::asJson() const {
 QJsonObject PFXCategory::asJsonObject() const {
     QJsonObject obj;
     if (m_id_isSet) {
-        obj.insert(QString("id"), ::test_namespace::toJsonValue(id));
+        obj.insert(QString("id"), ::test_namespace::toJsonValue(m_id));
     }
     if (m_name_isSet) {
-        obj.insert(QString("name"), ::test_namespace::toJsonValue(name));
+        obj.insert(QString("name"), ::test_namespace::toJsonValue(m_name));
     }
     return obj;
 }
 
 qint64 PFXCategory::getId() const {
-    return id;
+    return m_id;
 }
 void PFXCategory::setId(const qint64 &id) {
-    this->id = id;
-    this->m_id_isSet = true;
+    m_id = id;
+    m_id_isSet = true;
 }
 
 bool PFXCategory::is_id_Set() const{
@@ -91,11 +91,11 @@ bool PFXCategory::is_id_Valid() const{
 }
 
 QString PFXCategory::getName() const {
-    return name;
+    return m_name;
 }
 void PFXCategory::setName(const QString &name) {
-    this->name = name;
-    this->m_name_isSet = true;
+    m_name = name;
+    m_name_isSet = true;
 }
 
 bool PFXCategory::is_name_Set() const{

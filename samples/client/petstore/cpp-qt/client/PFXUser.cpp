@@ -67,28 +67,28 @@ void PFXUser::fromJson(QString jsonString) {
 
 void PFXUser::fromJsonObject(QJsonObject json) {
 
-    m_id_isValid = ::test_namespace::fromJsonValue(id, json[QString("id")]);
+    m_id_isValid = ::test_namespace::fromJsonValue(m_id, json[QString("id")]);
     m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
 
-    m_username_isValid = ::test_namespace::fromJsonValue(username, json[QString("username")]);
+    m_username_isValid = ::test_namespace::fromJsonValue(m_username, json[QString("username")]);
     m_username_isSet = !json[QString("username")].isNull() && m_username_isValid;
 
-    m_first_name_isValid = ::test_namespace::fromJsonValue(first_name, json[QString("firstName")]);
+    m_first_name_isValid = ::test_namespace::fromJsonValue(m_first_name, json[QString("firstName")]);
     m_first_name_isSet = !json[QString("firstName")].isNull() && m_first_name_isValid;
 
-    m_last_name_isValid = ::test_namespace::fromJsonValue(last_name, json[QString("lastName")]);
+    m_last_name_isValid = ::test_namespace::fromJsonValue(m_last_name, json[QString("lastName")]);
     m_last_name_isSet = !json[QString("lastName")].isNull() && m_last_name_isValid;
 
-    m_email_isValid = ::test_namespace::fromJsonValue(email, json[QString("email")]);
+    m_email_isValid = ::test_namespace::fromJsonValue(m_email, json[QString("email")]);
     m_email_isSet = !json[QString("email")].isNull() && m_email_isValid;
 
-    m_password_isValid = ::test_namespace::fromJsonValue(password, json[QString("password")]);
+    m_password_isValid = ::test_namespace::fromJsonValue(m_password, json[QString("password")]);
     m_password_isSet = !json[QString("password")].isNull() && m_password_isValid;
 
-    m_phone_isValid = ::test_namespace::fromJsonValue(phone, json[QString("phone")]);
+    m_phone_isValid = ::test_namespace::fromJsonValue(m_phone, json[QString("phone")]);
     m_phone_isSet = !json[QString("phone")].isNull() && m_phone_isValid;
 
-    m_user_status_isValid = ::test_namespace::fromJsonValue(user_status, json[QString("userStatus")]);
+    m_user_status_isValid = ::test_namespace::fromJsonValue(m_user_status, json[QString("userStatus")]);
     m_user_status_isSet = !json[QString("userStatus")].isNull() && m_user_status_isValid;
 }
 
@@ -102,38 +102,38 @@ QString PFXUser::asJson() const {
 QJsonObject PFXUser::asJsonObject() const {
     QJsonObject obj;
     if (m_id_isSet) {
-        obj.insert(QString("id"), ::test_namespace::toJsonValue(id));
+        obj.insert(QString("id"), ::test_namespace::toJsonValue(m_id));
     }
     if (m_username_isSet) {
-        obj.insert(QString("username"), ::test_namespace::toJsonValue(username));
+        obj.insert(QString("username"), ::test_namespace::toJsonValue(m_username));
     }
     if (m_first_name_isSet) {
-        obj.insert(QString("firstName"), ::test_namespace::toJsonValue(first_name));
+        obj.insert(QString("firstName"), ::test_namespace::toJsonValue(m_first_name));
     }
     if (m_last_name_isSet) {
-        obj.insert(QString("lastName"), ::test_namespace::toJsonValue(last_name));
+        obj.insert(QString("lastName"), ::test_namespace::toJsonValue(m_last_name));
     }
     if (m_email_isSet) {
-        obj.insert(QString("email"), ::test_namespace::toJsonValue(email));
+        obj.insert(QString("email"), ::test_namespace::toJsonValue(m_email));
     }
     if (m_password_isSet) {
-        obj.insert(QString("password"), ::test_namespace::toJsonValue(password));
+        obj.insert(QString("password"), ::test_namespace::toJsonValue(m_password));
     }
     if (m_phone_isSet) {
-        obj.insert(QString("phone"), ::test_namespace::toJsonValue(phone));
+        obj.insert(QString("phone"), ::test_namespace::toJsonValue(m_phone));
     }
     if (m_user_status_isSet) {
-        obj.insert(QString("userStatus"), ::test_namespace::toJsonValue(user_status));
+        obj.insert(QString("userStatus"), ::test_namespace::toJsonValue(m_user_status));
     }
     return obj;
 }
 
 qint64 PFXUser::getId() const {
-    return id;
+    return m_id;
 }
 void PFXUser::setId(const qint64 &id) {
-    this->id = id;
-    this->m_id_isSet = true;
+    m_id = id;
+    m_id_isSet = true;
 }
 
 bool PFXUser::is_id_Set() const{
@@ -145,11 +145,11 @@ bool PFXUser::is_id_Valid() const{
 }
 
 QString PFXUser::getUsername() const {
-    return username;
+    return m_username;
 }
 void PFXUser::setUsername(const QString &username) {
-    this->username = username;
-    this->m_username_isSet = true;
+    m_username = username;
+    m_username_isSet = true;
 }
 
 bool PFXUser::is_username_Set() const{
@@ -161,11 +161,11 @@ bool PFXUser::is_username_Valid() const{
 }
 
 QString PFXUser::getFirstName() const {
-    return first_name;
+    return m_first_name;
 }
 void PFXUser::setFirstName(const QString &first_name) {
-    this->first_name = first_name;
-    this->m_first_name_isSet = true;
+    m_first_name = first_name;
+    m_first_name_isSet = true;
 }
 
 bool PFXUser::is_first_name_Set() const{
@@ -177,11 +177,11 @@ bool PFXUser::is_first_name_Valid() const{
 }
 
 QString PFXUser::getLastName() const {
-    return last_name;
+    return m_last_name;
 }
 void PFXUser::setLastName(const QString &last_name) {
-    this->last_name = last_name;
-    this->m_last_name_isSet = true;
+    m_last_name = last_name;
+    m_last_name_isSet = true;
 }
 
 bool PFXUser::is_last_name_Set() const{
@@ -193,11 +193,11 @@ bool PFXUser::is_last_name_Valid() const{
 }
 
 QString PFXUser::getEmail() const {
-    return email;
+    return m_email;
 }
 void PFXUser::setEmail(const QString &email) {
-    this->email = email;
-    this->m_email_isSet = true;
+    m_email = email;
+    m_email_isSet = true;
 }
 
 bool PFXUser::is_email_Set() const{
@@ -209,11 +209,11 @@ bool PFXUser::is_email_Valid() const{
 }
 
 QString PFXUser::getPassword() const {
-    return password;
+    return m_password;
 }
 void PFXUser::setPassword(const QString &password) {
-    this->password = password;
-    this->m_password_isSet = true;
+    m_password = password;
+    m_password_isSet = true;
 }
 
 bool PFXUser::is_password_Set() const{
@@ -225,11 +225,11 @@ bool PFXUser::is_password_Valid() const{
 }
 
 QString PFXUser::getPhone() const {
-    return phone;
+    return m_phone;
 }
 void PFXUser::setPhone(const QString &phone) {
-    this->phone = phone;
-    this->m_phone_isSet = true;
+    m_phone = phone;
+    m_phone_isSet = true;
 }
 
 bool PFXUser::is_phone_Set() const{
@@ -241,11 +241,11 @@ bool PFXUser::is_phone_Valid() const{
 }
 
 qint32 PFXUser::getUserStatus() const {
-    return user_status;
+    return m_user_status;
 }
 void PFXUser::setUserStatus(const qint32 &user_status) {
-    this->user_status = user_status;
-    this->m_user_status_isSet = true;
+    m_user_status = user_status;
+    m_user_status_isSet = true;
 }
 
 bool PFXUser::is_user_status_Set() const{

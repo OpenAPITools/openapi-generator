@@ -7,7 +7,9 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Network Gui Test)
 
-if(NOT MSVC)
+if(MSVC)
+  add_compile_options(/W4 /WX)
+else()
   add_compile_options(-Wall -Wextra -Werror)
 endif()
 

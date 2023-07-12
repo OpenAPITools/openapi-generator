@@ -49,10 +49,10 @@ void PFXTestAnyType::fromJson(QString jsonString) {
 
 void PFXTestAnyType::fromJsonObject(QJsonObject json) {
 
-    m_code_isValid = ::test_namespace::fromJsonValue(code, json[QString("code")]);
+    m_code_isValid = ::test_namespace::fromJsonValue(m_code, json[QString("code")]);
     m_code_isSet = !json[QString("code")].isNull() && m_code_isValid;
 
-    m_message_isValid = ::test_namespace::fromJsonValue(message, json[QString("message")]);
+    m_message_isValid = ::test_namespace::fromJsonValue(m_message, json[QString("message")]);
     m_message_isSet = !json[QString("message")].isNull() && m_message_isValid;
 }
 
@@ -66,20 +66,20 @@ QString PFXTestAnyType::asJson() const {
 QJsonObject PFXTestAnyType::asJsonObject() const {
     QJsonObject obj;
     if (m_code_isSet) {
-        obj.insert(QString("code"), ::test_namespace::toJsonValue(code));
+        obj.insert(QString("code"), ::test_namespace::toJsonValue(m_code));
     }
     if (m_message_isSet) {
-        obj.insert(QString("message"), ::test_namespace::toJsonValue(message));
+        obj.insert(QString("message"), ::test_namespace::toJsonValue(m_message));
     }
     return obj;
 }
 
 QJsonValue PFXTestAnyType::getCode() const {
-    return code;
+    return m_code;
 }
 void PFXTestAnyType::setCode(const QJsonValue &code) {
-    this->code = code;
-    this->m_code_isSet = true;
+    m_code = code;
+    m_code_isSet = true;
 }
 
 bool PFXTestAnyType::is_code_Set() const{
@@ -91,11 +91,11 @@ bool PFXTestAnyType::is_code_Valid() const{
 }
 
 QString PFXTestAnyType::getMessage() const {
-    return message;
+    return m_message;
 }
 void PFXTestAnyType::setMessage(const QString &message) {
-    this->message = message;
-    this->m_message_isSet = true;
+    m_message = message;
+    m_message_isSet = true;
 }
 
 bool PFXTestAnyType::is_message_Set() const{
