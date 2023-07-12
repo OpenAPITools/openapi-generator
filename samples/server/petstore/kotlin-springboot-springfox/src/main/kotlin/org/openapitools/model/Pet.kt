@@ -28,10 +28,10 @@ import io.swagger.annotations.ApiModelProperty
 data class Pet(
 
     @ApiModelProperty(example = "doggie", required = true, value = "")
-    @get:JsonProperty("name", required = true) val name: kotlin.String,
+@get:JsonProperty("name", required = true) val name: kotlin.String,
 
     @ApiModelProperty(example = "null", required = true, value = "")
-    @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
+@get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @ApiModelProperty(example = "null", value = "")
     @get:JsonProperty("id") val id: kotlin.Long? = null,
