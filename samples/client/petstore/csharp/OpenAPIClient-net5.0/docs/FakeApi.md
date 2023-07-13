@@ -844,7 +844,7 @@ namespace Example
             var int32 = 56;  // int? | None (optional) 
             var int64 = 789L;  // long? | None (optional) 
             var varFloat = 3.4F;  // float? | None (optional) 
-            var varString = "string_example";  // string? | None (optional) 
+            var varString = "varString_example";  // string? | None (optional) 
             var binary = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream? | None (optional) 
             var date = DateTime.Parse("2013-10-20");  // DateTime? | None (optional) 
             var dateTime = DateTime.Parse(""2010-02-01T10:20:10.111110+01:00"");  // DateTime? | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")

@@ -863,8 +863,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     private void patchParameter(CodegenParameter parameter, List<ModelMap> allModels) {
-        parameter.paramName = escapeReservedWord(parameter.paramName);
-
         patchVendorExtensionNullableValueType(parameter);
 
         if (this.getNullableReferencesTypes() || (parameter.vendorExtensions.get("x-nullable-value-type") != null)) {
@@ -1014,7 +1012,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // pet_id => petId
         name = camelize(name, LOWERCASE_FIRST_LETTER);
 
-        return name;
+        return escapeReservedWord(name);
     }
 
     public String escapeReservedWord(CodegenModel model, String name) {
