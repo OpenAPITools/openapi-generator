@@ -5,3 +5,5 @@ templateDir: modules/openapi-generator/src/main/resources/julia-server
 additionalProperties:
   hideGenerationTimestamp: "true"
   packageName: PetStoreServer
+  exportOperations: "true"
+  exportModels: "true"
