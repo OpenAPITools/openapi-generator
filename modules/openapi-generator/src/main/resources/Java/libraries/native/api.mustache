@@ -445,7 +445,13 @@ public class {{classname}} {
     {{#formParams}}
     {{#isArray}}
     for (int i=0; i < {{paramName}}.size(); i++) {
+        {{#isFile}}
+        multiPartBuilder.addBinaryBody("{{{baseName}}}", {{paramName}}.get(i));
+        hasFiles = true;
+        {{/isFile}}
+        {{^isFile}}
         multiPartBuilder.addTextBody("{{{baseName}}}", {{paramName}}.get(i).toString());
+        {{/isFile}}
     }
     {{/isArray}}
     {{^isArray}}
