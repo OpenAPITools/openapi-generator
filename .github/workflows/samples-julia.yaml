@@ -3,12 +3,12 @@ name: Samples Julia
 on:
   push:
     paths:
-      - 'samples/client/petstore/julia'
-      - 'samples/server/petstore/julia'
+      - 'samples/client/petstore/julia/**'
+      - 'samples/server/petstore/julia/**'
   pull_request:
     paths:
-      - 'samples/client/petstore/julia'
-      - 'samples/server/petstore/julia'
+      - 'samples/client/petstore/julia/**'
+      - 'samples/server/petstore/julia/**'
 
 jobs:
   tests-julia:
