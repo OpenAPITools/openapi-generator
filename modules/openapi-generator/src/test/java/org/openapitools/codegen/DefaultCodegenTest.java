@@ -4716,7 +4716,7 @@ public class DefaultCodegenTest {
         Assert.assertEquals(inlineEnumSchemaProperty.getName(), "enumType");
         Assert.assertTrue(inlineEnumSchemaProperty.isEnum);
         Assert.assertTrue(inlineEnumSchemaProperty.isInnerEnum);
-        Assert.assertTrue(inlineEnumSchemaProperty.isEnumRef);
+        Assert.assertFalse(inlineEnumSchemaProperty.isEnumRef);
         Assert.assertTrue(inlineEnumSchemaProperty.getIsEnumOrRef());
         Assert.assertTrue(inlineEnumSchemaProperty.isString);
         Assert.assertFalse(inlineEnumSchemaProperty.isContainer);
