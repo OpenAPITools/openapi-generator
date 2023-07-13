@@ -765,19 +765,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
                     }
 
-
-                    // check if the payload is json and set x-is-json accordingly
-                    if (operation.consumes != null) {
-                        for (Map<String, String> consume : operation.consumes) {
-                            if (consume.containsKey("mediaType")) {
-                                if (isJsonMimeType(consume.get("mediaType"))) {
-                                    operation.vendorExtensions.put("x-is-json", true);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
                     if (operation.examples != null) {
                         for (Map<String, String> example : operation.examples) {
                             for (Map.Entry<String, String> entry : example.entrySet()) {
@@ -863,8 +850,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     private void patchParameter(CodegenParameter parameter, List<ModelMap> allModels) {
-        parameter.paramName = escapeReservedWord(parameter.paramName);
-
         patchVendorExtensionNullableValueType(parameter);
 
         if (this.getNullableReferencesTypes() || (parameter.vendorExtensions.get("x-nullable-value-type") != null)) {
@@ -1014,7 +999,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // pet_id => petId
         name = camelize(name, LOWERCASE_FIRST_LETTER);
 
-        return name;
+        return escapeReservedWord(name);
     }
 
     public String escapeReservedWord(CodegenModel model, String name) {
