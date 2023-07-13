@@ -1,0 +1,18 @@
+package {{configPackage}};
+
+{{#authMethods}}
+    {{#isOAuth}}
+import org.springframework.context.annotation.PropertySource;
+    {{/isOAuth}}
+{{/authMethods}}
+import org.springframework.context.annotation.Configuration;
+
+{{#hasAuthMethods}}
+    {{#hasOAuthMethods}}
+@PropertySource( "classpath:/oauth2-client.properties" )
+    {{/hasOAuthMethods}}
+{{/hasAuthMethods}}
+@Configuration
+public class ClientPropertiesConfiguration {
+
+}
