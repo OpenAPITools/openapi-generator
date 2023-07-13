@@ -4772,4 +4772,10 @@ public class DefaultCodegenTest {
         CodegenMediaType mt = content.get("application/json");
         assertNotNull(mt.getExample());
     }
+
+    @Test void testIsXML() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        Assert.assertTrue(codegen.isXmlMimeType("application/xml"));
+        Assert.assertTrue(codegen.isXmlMimeType("application/rss+xml"));
+    }
 }
