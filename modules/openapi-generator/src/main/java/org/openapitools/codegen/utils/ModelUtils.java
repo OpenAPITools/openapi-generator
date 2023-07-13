@@ -741,11 +741,10 @@ public class ModelUtils {
      *       description: This is NOT a free-form object.
      *         The value can be any type except the 'null' value.
      *
-     * @param openAPI the object that encapsulates the OAS document.
      * @param schema  potentially containing a '$ref'
      * @return true if it's a free-form object
      */
-    public static boolean isFreeFormObject(OpenAPI openAPI, Schema schema) {
+    public static boolean isFreeFormObject(Schema schema) {
         if (schema == null) {
             // TODO: Is this message necessary? A null schema is not a free-form object, so the result is correct.
             once(LOGGER).error("Schema cannot be null in isFreeFormObject check");
@@ -765,7 +764,7 @@ public class ModelUtils {
         if ("object".equals(schema.getType())) {
             // no properties
             if ((schema.getProperties() == null || schema.getProperties().isEmpty())) {
-                Schema addlProps = getAdditionalProperties(openAPI, schema);
+                Schema addlProps = ModelUtils.getAdditionalProperties(schema);
 
                 if (schema.getExtensions() != null && schema.getExtensions().containsKey(freeFormExplicit)) {
                     // User has hard-coded vendor extension to handle free-form evaluation.
@@ -1006,7 +1005,7 @@ public class ModelUtils {
         if (content.size() > 1) {
             // Other content types are currently ignored by codegen. If you see this warning,
             // reorder the OAS spec to put the desired content type first.
-            once(LOGGER).warn("Multiple schemas found in the OAS 'content' section, returning only the first one ({})",
+            once(LOGGER).debug("Multiple schemas found in the OAS 'content' section, returning only the first one ({})",
                     entry.getKey());
         }
         return entry.getValue().getSchema();
@@ -1194,12 +1193,11 @@ public class ModelUtils {
      * any additional properties are allowed. This is equivalent to setting additionalProperties
      * to the boolean value True or setting additionalProperties: {}
      *
-     * @param openAPI the object that encapsulates the OAS document.
      * @param schema  the input schema that may or may not have the additionalProperties keyword.
      * @return the Schema of the additionalProperties. The null value is returned if no additional
      * properties are allowed.
      */
-    public static Schema getAdditionalProperties(OpenAPI openAPI, Schema schema) {
+    public static Schema getAdditionalProperties(Schema schema) {
         Object addProps = schema.getAdditionalProperties();
         if (addProps instanceof Schema) {
             return (Schema) addProps;

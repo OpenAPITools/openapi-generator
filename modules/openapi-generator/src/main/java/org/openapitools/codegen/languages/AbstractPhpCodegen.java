@@ -364,7 +364,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             }
             return getTypeDeclaration(inner) + "[]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             if (inner == null) {
                 LOGGER.warn("{}(map property) does not have a proper inner type defined. Default to string", p.getName());
                 inner = new StringSchema().description("TODO default missing map inner type to string");

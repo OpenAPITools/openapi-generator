@@ -294,7 +294,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
-            Schema<?> inner = getAdditionalProperties(target);
+            Schema<?> inner = ModelUtils.getAdditionalProperties(target);
             if (inner == null) {
                 LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", p.getName());
                 inner = new StringSchema().description("TODO default missing map inner type to string");
@@ -424,7 +424,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            return getSchemaType(getAdditionalProperties(p));
+            return getSchemaType(ModelUtils.getAdditionalProperties(p));
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());

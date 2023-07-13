@@ -488,7 +488,7 @@ public class DefaultGenerator implements Generator {
 
                 Schema schema = schemas.get(name);
 
-                if (ModelUtils.isFreeFormObject(this.openAPI, schema)) { // check to see if it's a free-form object
+                if (ModelUtils.isFreeFormObject(schema)) { // check to see if it's a free-form object
                     // there are 3 free form use cases
                     // 1. free form with no validation that is not allOf included in any composed schemas
                     // 2. free form with validation

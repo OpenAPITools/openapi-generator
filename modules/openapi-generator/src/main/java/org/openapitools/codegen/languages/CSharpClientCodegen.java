@@ -1496,7 +1496,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     public String toInstantiationType(Schema schema) {
         if (ModelUtils.isMapSchema(schema)) {
-            Schema additionalProperties = getAdditionalProperties(schema);
+            Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
             String inner = getSchemaType(additionalProperties);
             if (ModelUtils.isMapSchema(additionalProperties)) {
                 inner = toInstantiationType(additionalProperties);
@@ -1657,7 +1657,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             addAdditionPropertiesToCodeGenModel(m, schema);
         } else {
             m.setIsMap(false);
-            if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+            if (ModelUtils.isFreeFormObject(schema)) {
                 // non-composed object type with no properties + additionalProperties
                 // additionalProperties must be null, ObjectSchema, or empty Schema
                 addAdditionPropertiesToCodeGenModel(m, schema);
