@@ -229,7 +229,7 @@ public class TypeScriptAngularClientCodegenTest {
             .name(modelName)
             .description("an inline model with name previously prefixed with underscore")
             .addRequiredItem("self")
-            .addProperties("self", new StringSchema());
+            .addProperty("self", new StringSchema());
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("test", schema);
         codegen.setOpenAPI(openAPI);

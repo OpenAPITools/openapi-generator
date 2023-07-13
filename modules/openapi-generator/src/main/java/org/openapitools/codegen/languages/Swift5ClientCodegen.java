@@ -389,7 +389,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel,
                                                        Schema schema) {
 
-        final Schema additionalProperties = getAdditionalProperties(schema);
+        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
 
         if (additionalProperties != null) {
             Schema inner = null;
@@ -397,7 +397,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 ArraySchema ap = (ArraySchema) schema;
                 inner = ap.getItems();
             } else if (ModelUtils.isMapSchema(schema)) {
-                inner = getAdditionalProperties(schema);
+                inner = ModelUtils.getAdditionalProperties(schema);
             }
 
             codegenModel.additionalPropertiesType = inner != null ? getTypeDeclaration(inner) : getSchemaType(additionalProperties);
@@ -680,7 +680,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             Schema inner = ap.getItems();
             return ModelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">" : "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "[String: " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -796,7 +796,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            return getSchemaType(getAdditionalProperties(p));
+            return getSchemaType(ModelUtils.getAdditionalProperties(p));
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());

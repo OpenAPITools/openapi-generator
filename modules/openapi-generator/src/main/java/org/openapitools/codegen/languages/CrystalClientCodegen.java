@@ -575,7 +575,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        final Schema additionalProperties = getAdditionalProperties(schema);
+        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
 
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
@@ -812,7 +812,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
             Schema inner = ((ArraySchema) schema).getItems();
             return getSchemaType(schema) + "(" + getTypeDeclaration(inner) + ")";
         } else if (ModelUtils.isMapSchema(schema)) {
-            Schema inner = getAdditionalProperties(schema);
+            Schema inner = ModelUtils.getAdditionalProperties(schema);
             return getSchemaType(schema) + "(String, " + getTypeDeclaration(inner) + ")";
         }
 

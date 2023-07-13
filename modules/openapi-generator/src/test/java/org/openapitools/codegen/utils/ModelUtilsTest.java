@@ -133,7 +133,7 @@ public class ModelUtilsTest {
         Schema commandSchema = ModelUtils.getSchema(openAPI, "Command");
 
         Assert.assertTrue(ModelUtils.isModel(commandSchema));
-        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, commandSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(commandSchema));
     }
 
     @Test
@@ -238,23 +238,23 @@ public class ModelUtilsTest {
         OpenAPI openAPI = new OpenAPI().openapi("3.0.0");
         // Create initial "empty" object schema.
         ObjectSchema objSchema = new ObjectSchema();
-        Assert.assertTrue(ModelUtils.isFreeFormObject(openAPI, objSchema));
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
 
         // Set additionalProperties to an empty ObjectSchema.
         objSchema.setAdditionalProperties(new ObjectSchema());
-        Assert.assertTrue(ModelUtils.isFreeFormObject(openAPI, objSchema));
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
 
         // Add a single property to the schema (no longer a free-form object).
         Map<String, Schema> props = new HashMap<>();
         props.put("prop1", new StringSchema());
         objSchema.setProperties(props);
-        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, objSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(objSchema));
 
         // Test a non-object schema
-        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, new StringSchema()));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(new StringSchema()));
 
         // Test a null schema
-        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, null));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(null));
     }
 
     @Test

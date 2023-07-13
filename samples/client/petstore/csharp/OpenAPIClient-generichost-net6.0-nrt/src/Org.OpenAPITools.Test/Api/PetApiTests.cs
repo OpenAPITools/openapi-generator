@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using Org.OpenAPITools.IApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 
@@ -43,11 +43,11 @@ namespace Org.OpenAPITools.Test.Api
     /// </summary>
     public sealed class PetApiTests : ApiTestsBase
     {
-        private readonly IApi.IPetApi _instance;
+        private readonly IPetApi _instance;
 
         public PetApiTests(): base(Array.Empty<string>())
         {
-            _instance = _host.Services.GetRequiredService<IApi.IPetApi>();
+            _instance = _host.Services.GetRequiredService<IPetApi>();
         }
 
         /// <summary>

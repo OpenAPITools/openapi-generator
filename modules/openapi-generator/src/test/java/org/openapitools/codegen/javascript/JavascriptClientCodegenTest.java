@@ -64,7 +64,7 @@ public class JavascriptClientCodegenTest {
 
     @Test(description = "test defaultValueWithParam for model's properties")
     public void bodyParameterTest() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         final JavascriptClientCodegen codegen = new JavascriptClientCodegen();
         final Schema pet = openAPI.getComponents().getSchemas().get("Pet");
         codegen.setOpenAPI(openAPI);
@@ -98,7 +98,7 @@ public class JavascriptClientCodegenTest {
 
     @Test(description = "test isDefault in the response")
     public void testResponseIsDefault() throws Exception {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 

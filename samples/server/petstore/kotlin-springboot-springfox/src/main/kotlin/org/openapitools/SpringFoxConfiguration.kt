@@ -16,7 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 import javax.servlet.ServletContext
 
 
-@jakarta.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
+@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
 @Configuration
 @EnableSwagger2
 class SpringFoxConfiguration {
