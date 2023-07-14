@@ -2265,6 +2265,42 @@ components:
         $ref: '#/components/schemas/Scalar'
       minItems: 1
       type: array
+    NewPet:
+      properties:
+        id:
+          format: int64
+          type: integer
+          x-is-unique: true
+        category:
+          $ref: '#/components/schemas/NewPet_category'
+        name:
+          example: doggie
+          type: string
+        photoUrls:
+          items:
+            type: string
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+        tags:
+          items:
+            $ref: '#/components/schemas/NewPet_tags_inner'
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
+      type: object
     _foo_get_default_response:
       example:
         string:
@@ -2420,6 +2456,12 @@ components:
           color:
             type: string
         type: object
+    NewPet_category:
+      allOf:
+      - $ref: '#/components/schemas/Category'
+    NewPet_tags_inner:
+      allOf:
+      - $ref: '#/components/schemas/Tag'
   securitySchemes:
     petstore_auth:
       flows:
