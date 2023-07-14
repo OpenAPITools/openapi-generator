@@ -58,8 +58,8 @@ docs/ModelList.md
 docs/ModelReturn.md
 docs/Name.md
 docs/NewPet.md
-docs/NewPetCategory.md
-docs/NewPetTagsInner.md
+docs/NewPetCategoryInlineAllof.md
+docs/NewPetCategoryInlineAllofAllOfCategoryTag.md
 docs/NullableClass.md
 docs/NullableShape.md
 docs/NumberOnly.md
@@ -184,8 +184,8 @@ src/main/java/org/openapitools/client/model/ModelList.java
 src/main/java/org/openapitools/client/model/ModelReturn.java
 src/main/java/org/openapitools/client/model/Name.java
 src/main/java/org/openapitools/client/model/NewPet.java
-src/main/java/org/openapitools/client/model/NewPetCategory.java
-src/main/java/org/openapitools/client/model/NewPetTagsInner.java
+src/main/java/org/openapitools/client/model/NewPetCategoryInlineAllof.java
+src/main/java/org/openapitools/client/model/NewPetCategoryInlineAllofAllOfCategoryTag.java
 src/main/java/org/openapitools/client/model/NullableClass.java
 src/main/java/org/openapitools/client/model/NullableShape.java
 src/main/java/org/openapitools/client/model/NumberOnly.java
@@ -218,6 +218,3 @@ src/main/java/org/openapitools/client/model/Value.java
 src/main/java/org/openapitools/client/model/Variable.java
 src/main/java/org/openapitools/client/model/Whale.java
 src/main/java/org/openapitools/client/model/Zebra.java
-src/test/java/org/openapitools/client/model/NewPetCategoryTest.java
-src/test/java/org/openapitools/client/model/NewPetTagsInnerTest.java
-src/test/java/org/openapitools/client/model/NewPetTest.java
