@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.Return do
   Model for testing reserved words
   """
 
-  @derive [Jason.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :return
   ]
@@ -14,10 +14,8 @@ defmodule OpenapiPetstore.Model.Return do
   @type t :: %__MODULE__{
     :return => integer() | nil
   }
-end
 
-defimpl Jason.Decoder, for: OpenapiPetstore.Model.Return do
-  def decode(value, _options) do
+  def decode(value) do
     value
   end
 end

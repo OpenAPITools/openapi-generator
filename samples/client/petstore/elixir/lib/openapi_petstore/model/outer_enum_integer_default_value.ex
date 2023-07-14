@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.OuterEnumIntegerDefaultValue do
   
   """
 
-  @derive [Jason.Encoder]
+  @derive Jason.Encoder
   defstruct [
     
   ]
@@ -14,10 +14,8 @@ defmodule OpenapiPetstore.Model.OuterEnumIntegerDefaultValue do
   @type t :: %__MODULE__{
     
   }
-end
 
-defimpl Jason.Decoder, for: OpenapiPetstore.Model.OuterEnumIntegerDefaultValue do
-  def decode(value, _options) do
+  def decode(value) do
     value
   end
 end

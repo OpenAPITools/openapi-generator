@@ -8,19 +8,19 @@ defmodule OpenapiPetstore.Connection do
   Additional middleware can be set in the compile-time or runtime configuration:
 
       config :tesla, OpenapiPetstore.Connection,
-        base_url: "http://petstore.swagger.io:80/v2",
+        base_url: "https://petstore.swagger.io:443/v2",
         adapter: Tesla.Adapter.Hackney
 
   The default base URL can also be set as:
 
       config :openapi_petstore,
-        :base_url, "http://petstore.swagger.io:80/v2"
+        :base_url, "https://petstore.swagger.io:443/v2"
   """
 
   @default_base_url Application.compile_env(
                       :openapi_petstore,
                       :base_url,
-                      "http://petstore.swagger.io:80/v2"
+                      "https://petstore.swagger.io:443/v2"
                     )
 
   @default_scopes [

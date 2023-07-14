@@ -31,9 +31,9 @@ paths:
                     $ref: '#/components/schemas/Foo'
   /pet:
     servers:
-    - url: 'http://petstore.swagger.io/v2'
-    - url: 'http://path-server-test.petstore.local/v2'
-    - url: 'http://{server}.swagger.io:{port}/v2'
+    - url: 'https://petstore.swagger.io/v2'
+    - url: 'https://path-server-test.petstore.local/v2'
+    - url: 'https://{server}.swagger.io:{port}/v2'
       description: test server with variables
       variables:
         server:
@@ -45,9 +45,8 @@ paths:
           default: 'petstore'
         port:
           enum:
-            - 80
-            - 8080
-          default: 80
+            - 443
+          default: 443
     post:
       tags:
         - pet
@@ -1232,7 +1231,7 @@ paths:
         200:
           description: The instance started successfully
 servers:
-  - url: 'http://{server}.swagger.io:{port}/v2'
+  - url: 'https://{server}.swagger.io:{port}/v2'
     description: petstore server
     variables:
       server:
@@ -1243,9 +1242,8 @@ servers:
         default: 'petstore'
       port:
         enum:
-          - 80
-          - 8080
-        default: 80
+          - 443
+        default: 443
   - url: https://localhost:8080/{version}
     description: The local server
     variables:
@@ -1562,6 +1560,8 @@ components:
         byte:
           type: string
           format: byte
+          description: Base64-encoded characters
+          example: U3dhZ2dlciByb2Nrcw==
         binary:
           type: string
           format: binary

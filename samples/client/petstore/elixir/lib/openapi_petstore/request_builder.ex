@@ -187,5 +187,7 @@ defmodule OpenapiPetstore.RequestBuilder do
 
   defp decode(%Tesla.Env{} = env, false), do: {:ok, env}
 
-  defp decode(%Tesla.Env{body: body}, struct), do: Jason.decode(body, as: struct)
+  defp decode(%Tesla.Env{body: body}, module) do
+    OpenapiPetstore.Deserializer.jason_decode(body, module)
+  end
 end

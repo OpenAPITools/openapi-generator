@@ -33,7 +33,7 @@ defmodule OpenapiPetstore.Api.Fake do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.FakeBigDecimalMap200Response{}}
+      {200, OpenapiPetstore.Model.FakeBigDecimalMap200Response}
     ])
   end
 
@@ -61,7 +61,7 @@ defmodule OpenapiPetstore.Api.Fake do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.HealthCheckResult{}}
+      {200, OpenapiPetstore.Model.HealthCheckResult}
     ])
   end
 
@@ -169,7 +169,7 @@ defmodule OpenapiPetstore.Api.Fake do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.OuterComposite{}}
+      {200, OpenapiPetstore.Model.OuterComposite}
     ])
   end
 
@@ -269,7 +269,7 @@ defmodule OpenapiPetstore.Api.Fake do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.OuterObjectWithEnumProperty{}}
+      {200, OpenapiPetstore.Model.OuterObjectWithEnumProperty}
     ])
   end
 
@@ -391,7 +391,7 @@ defmodule OpenapiPetstore.Api.Fake do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.Client{}}
+      {200, OpenapiPetstore.Model.Client}
     ])
   end
 

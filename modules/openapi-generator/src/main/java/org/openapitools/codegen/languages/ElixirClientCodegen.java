@@ -194,7 +194,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
                         "AnyType",
                         "Tuple",
                         "PID",
-                        "DateTime",
                         "map()", // This is a workaround, since the DefaultCodeGen uses our elixir TypeSpec datetype to evaluate the primitive
                         "any()"
                 )
@@ -210,7 +209,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
         typeMapping.put("string", "String");
         typeMapping.put("byte", "Integer");
         typeMapping.put("boolean", "Boolean");
-        typeMapping.put("Date", "DateTime");
+        typeMapping.put("Date", "Date");
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("file", "String");
         typeMapping.put("map", "Map");
@@ -666,24 +665,19 @@ public class ElixirClientCodegen extends DefaultCodegen {
             if (isMap) {
                 return "%{}";
             }
+
             // Primitive return type, don't even try to decode
             if (baseType == null || (containerType == null && primitiveType)) {
                 return "false";
             } else if (isArray && languageSpecificPrimitives().contains(baseType)) {
                 return "[]";
             }
+
             StringBuilder sb = new StringBuilder();
-            if (isArray) {
-                sb.append("[");
-            }
-            sb.append("%");
             sb.append(moduleName);
             sb.append(".Model.");
             sb.append(baseType);
-            sb.append("{}");
-            if (isArray) {
-                sb.append("]");
-            }
+
             return sb.toString();
         }
 
