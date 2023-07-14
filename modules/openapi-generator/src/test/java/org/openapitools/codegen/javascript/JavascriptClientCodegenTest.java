@@ -25,6 +25,8 @@ import org.openapitools.codegen.languages.JavascriptClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Map;
+
 public class JavascriptClientCodegenTest {
 
     @Test
@@ -125,6 +127,46 @@ public class JavascriptClientCodegenTest {
         CodegenParameter codegenParameter = operation.allParams.get(0);
 
         Assert.assertEquals(codegenParameter.collectionFormat, "passthrough");
+    }
+
+    @Test(description = "test isJson, isXml")
+    public void testIsJsonIsXmlInConsumes() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation textOperation = openAPI.getPaths().get("/pet").getPost();
+        CodegenOperation coText = codegen.fromOperation("/user", "post", textOperation, null);
+
+        for (Map<String, String> consume: coText.consumes) {
+            if ("application/json".equals(consume.get("mediaType"))) {
+                Assert.assertEquals(consume.get("isJson"), "true");
+            }
+
+            if ("application/xml".equals(consume.get("mediaType"))) {
+                Assert.assertEquals(consume.get("isXml"), "true");
+            }
+        }
+    }
+
+    @Test(description = "test isJson, isXml")
+    public void testIsJsonIsXmlInProduces() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation textOperation = openAPI.getPaths().get("/pet/{petId}").getGet();
+        CodegenOperation coText = codegen.fromOperation("/user", "get", textOperation, null);
+
+        for (Map<String, String> consume: coText.produces) {
+            if ("application/json".equals(consume.get("mediaType"))) {
+                Assert.assertEquals(consume.get("isJson"), "true");
+            }
+
+            if ("application/xml".equals(consume.get("mediaType"))) {
+                Assert.assertEquals(consume.get("isXml"), "true");
+            }
+        }
     }
 
 }

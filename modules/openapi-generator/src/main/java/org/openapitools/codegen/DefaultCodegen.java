@@ -201,6 +201,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected int removeOperationIdPrefixCount = 1;
     protected boolean skipOperationExample;
 
+    protected final static Pattern XML_MIME_PATTERN = Pattern.compile("(?i)application\\/(.*)[+]?xml(;.*)?");
     protected final static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");
     protected final static Pattern JSON_VENDOR_MIME_PATTERN = Pattern.compile("(?i)application\\/vnd.(.*)+json(;.*)?");
     private static final Pattern COMMON_PREFIX_ENUM_NAME = Pattern.compile("[a-zA-Z0-9]+\\z");
@@ -6716,6 +6717,11 @@ public class DefaultCodegen implements CodegenConfig {
                 continue;
             } else {
                 mediaType.put("mediaType", escapeQuotationMark(key));
+                if (isJsonMimeType(key)) {
+                    mediaType.put("isJson", "true");
+                } else if (isXmlMimeType(key)) {
+                    mediaType.put("isXml", "true");
+                }
             }
             mediaTypeList.add(mediaType);
         }
@@ -6786,6 +6792,11 @@ public class DefaultCodegen implements CodegenConfig {
             if (!existingMediaTypes.contains(encodedKey)) {
                 Map<String, String> mediaType = new HashMap<>();
                 mediaType.put("mediaType", encodedKey);
+                if (isJsonMimeType(encodedKey)) {
+                    mediaType.put("isJson", "true");
+                } else if (isXmlMimeType(encodedKey)) {
+                    mediaType.put("isXml", "true");
+                }
                 codegenOperation.produces.add(mediaType);
                 codegenOperation.hasProduces = Boolean.TRUE;
             }
@@ -8011,8 +8022,12 @@ public class DefaultCodegen implements CodegenConfig {
      * @param mime MIME string
      * @return true if the input matches the JSON MIME
      */
-    protected static boolean isJsonMimeType(String mime) {
+    public static boolean isJsonMimeType(String mime) {
         return mime != null && (JSON_MIME_PATTERN.matcher(mime).matches());
+    }
+
+    public static boolean isXmlMimeType(String mime) {
+        return mime != null && (XML_MIME_PATTERN.matcher(mime).matches());
     }
 
     /**
