@@ -30,6 +30,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -232,6 +233,9 @@ public class InlineModelResolver {
                 if (m.equals(c)) {
                     return isModelNeeded(m.getAllOf().get(0), visitedSchemas);
                 }
+            } else if (isSingleAllOf && StringUtils.isNotEmpty(m.getAllOf().get(0).get$ref())) {
+                // single allOf and it's a ref
+                return isModelNeeded(m.getAllOf().get(0), visitedSchemas);
             }
 
             if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {

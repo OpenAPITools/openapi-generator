@@ -2268,3 +2268,61 @@ components:
       minItems: 1
       items:
         $ref: '#/components/schemas/Scalar'
+    NewPet:
+      type: object
+      required:
+        - name
+        - photoUrls
+      properties:
+        id:
+          type: integer
+          format: int64
+          x-is-unique: true
+        category_inline_allof:
+          allOf:
+            - type: object
+              required:
+                - name
+              properties:
+                id:
+                  type: integer
+                  format: int64
+                name:
+                  type: string
+                  default: default-name
+                category_tag:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+                    name:
+                      type: string
+        category_allOf_ref:
+          allOf:
+            - $ref: '#/components/schemas/Category'
+        name:
+          type: string
+          example: doggie
+        photoUrls:
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+          items:
+            type: string
+        tags:
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+          items:
+            allOf:
+              - $ref: '#/components/schemas/Tag'
+        status:
+          type: string
+          description: pet status in the store
+          enum:
+            - available
+            - pending
+            - sold

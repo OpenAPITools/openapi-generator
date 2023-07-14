@@ -57,6 +57,9 @@ docs/ModelFile.md
 docs/ModelList.md
 docs/ModelReturn.md
 docs/Name.md
+docs/NewPet.md
+docs/NewPetCategoryInlineAllof.md
+docs/NewPetCategoryInlineAllofAllOfCategoryTag.md
 docs/NullableClass.md
 docs/NullableShape.md
 docs/NumberOnly.md
@@ -180,6 +183,9 @@ src/main/java/org/openapitools/client/model/ModelFile.java
 src/main/java/org/openapitools/client/model/ModelList.java
 src/main/java/org/openapitools/client/model/ModelReturn.java
 src/main/java/org/openapitools/client/model/Name.java
+src/main/java/org/openapitools/client/model/NewPet.java
+src/main/java/org/openapitools/client/model/NewPetCategoryInlineAllof.java
+src/main/java/org/openapitools/client/model/NewPetCategoryInlineAllofAllOfCategoryTag.java
 src/main/java/org/openapitools/client/model/NullableClass.java
 src/main/java/org/openapitools/client/model/NullableShape.java
 src/main/java/org/openapitools/client/model/NumberOnly.java
