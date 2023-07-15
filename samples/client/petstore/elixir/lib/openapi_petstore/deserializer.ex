@@ -12,12 +12,12 @@ defmodule OpenapiPetstore.Deserializer do
   @spec deserialize(struct(), :atom, :atom, struct(), keyword()) :: struct()
   def deserialize(model, field, :list, mod, options) do
     model
-    |> Map.update!(field, &(Poison.Decode.decode(&1, Keyword.merge(options, [as: [struct(mod)]]))))
+    |> Map.update!(field, &struct(mod,(Jason.decode!(&1, Keyword.merge(options, keys: :atoms!)))))
   end
 
   def deserialize(model, field, :struct, mod, options) do
     model
-    |> Map.update!(field, &(Poison.Decode.decode(&1, Keyword.merge(options, [as: struct(mod)]))))
+    |> Map.update!(field, &struct(mod,(Jason.decode!(&1, Keyword.merge(options, keys: :atoms!)))))
   end
 
   def deserialize(model, field, :map, mod, options) do
@@ -28,7 +28,7 @@ defmodule OpenapiPetstore.Deserializer do
       existing_value ->
         Map.new(existing_value, fn
           {key, val} ->
-            {key, Poison.Decode.decode(val, Keyword.merge(options, as: struct(mod)))}
+            {key, struct(mod, Jason.decode!(val, Keyword.merge(options, keys: :atoms!)))}
         end)
     end
 

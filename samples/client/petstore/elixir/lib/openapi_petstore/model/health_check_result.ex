@@ -6,19 +6,13 @@ defmodule OpenapiPetstore.Model.HealthCheckResult do
   Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
-    :NullableMessage
+    :nullable_message
   ]
 
   @type t :: %__MODULE__{
-    :NullableMessage => String.t | nil
+    :nullable_message => String.t | nil
   }
-end
-
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.HealthCheckResult do
-  def decode(value, _options) do
-    value
-  end
 end
 

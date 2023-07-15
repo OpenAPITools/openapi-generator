@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.OuterEnumIntegerDefaultValue do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     
   ]
@@ -14,11 +14,5 @@ defmodule OpenapiPetstore.Model.OuterEnumIntegerDefaultValue do
   @type t :: %__MODULE__{
     
   }
-end
-
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.OuterEnumIntegerDefaultValue do
-  def decode(value, _options) do
-    value
-  end
 end
 

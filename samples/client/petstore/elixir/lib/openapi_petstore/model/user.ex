@@ -6,33 +6,27 @@ defmodule OpenapiPetstore.Model.User do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :id,
     :username,
-    :firstName,
-    :lastName,
+    :first_name,
+    :last_name,
     :email,
     :password,
     :phone,
-    :userStatus
+    :user_status
   ]
 
   @type t :: %__MODULE__{
     :id => integer() | nil,
     :username => String.t | nil,
-    :firstName => String.t | nil,
-    :lastName => String.t | nil,
+    :first_name => String.t | nil,
+    :last_name => String.t | nil,
     :email => String.t | nil,
     :password => String.t | nil,
     :phone => String.t | nil,
-    :userStatus => integer() | nil
+    :user_status => integer() | nil
   }
-end
-
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.User do
-  def decode(value, _options) do
-    value
-  end
 end
 

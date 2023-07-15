@@ -6,23 +6,17 @@ defmodule OpenapiPetstore.Model.Dog do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
-    :className,
+    :class_name,
     :color,
     :breed
   ]
 
   @type t :: %__MODULE__{
-    :className => String.t,
+    :class_name => String.t,
     :color => String.t | nil,
     :breed => String.t | nil
   }
-end
-
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.Dog do
-  def decode(value, _options) do
-    value
-  end
 end
 

@@ -6,19 +6,13 @@ defmodule OpenapiPetstore.Model.SpecialModelName do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
-    :"$special[property.name]"
+    :dollar_special_left_square_bracket_property_period_name_right_square_bracket
   ]
 
   @type t :: %__MODULE__{
-    :"$special[property.name]" => integer() | nil
+    :dollar_special_left_square_bracket_property_period_name_right_square_bracket => integer() | nil
   }
-end
-
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.SpecialModelName do
-  def decode(value, _options) do
-    value
-  end
 end
 

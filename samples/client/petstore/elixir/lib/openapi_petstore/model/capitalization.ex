@@ -6,29 +6,23 @@ defmodule OpenapiPetstore.Model.Capitalization do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
-    :smallCamel,
-    :CapitalCamel,
-    :small_Snake,
-    :Capital_Snake,
-    :SCA_ETH_Flow_Points,
-    :ATT_NAME
+    :small_camel,
+    :capital_camel,
+    :small_snake,
+    :capital_snake,
+    :sca_eth_flow_points,
+    :att_name
   ]
 
   @type t :: %__MODULE__{
-    :smallCamel => String.t | nil,
-    :CapitalCamel => String.t | nil,
-    :small_Snake => String.t | nil,
-    :Capital_Snake => String.t | nil,
-    :SCA_ETH_Flow_Points => String.t | nil,
-    :ATT_NAME => String.t | nil
+    :small_camel => String.t | nil,
+    :capital_camel => String.t | nil,
+    :small_snake => String.t | nil,
+    :capital_snake => String.t | nil,
+    :sca_eth_flow_points => String.t | nil,
+    :att_name => String.t | nil
   }
-end
-
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.Capitalization do
-  def decode(value, _options) do
-    value
-  end
 end
 

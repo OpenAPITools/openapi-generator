@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.EnumArrays do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :just_symbol,
     :array_enum
@@ -16,11 +16,5 @@ defmodule OpenapiPetstore.Model.EnumArrays do
     :just_symbol => String.t | nil,
     :array_enum => [String.t] | nil
   }
-end
-
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.EnumArrays do
-  def decode(value, _options) do
-    value
-  end
 end
 

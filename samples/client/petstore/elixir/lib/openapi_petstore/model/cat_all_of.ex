@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.CatAllOf do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :declawed
   ]
@@ -14,11 +14,5 @@ defmodule OpenapiPetstore.Model.CatAllOf do
   @type t :: %__MODULE__{
     :declawed => boolean() | nil
   }
-end
-
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.CatAllOf do
-  def decode(value, _options) do
-    value
-  end
 end
 

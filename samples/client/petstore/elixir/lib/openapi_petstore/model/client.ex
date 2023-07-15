@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.Client do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :client
   ]
@@ -14,11 +14,5 @@ defmodule OpenapiPetstore.Model.Client do
   @type t :: %__MODULE__{
     :client => String.t | nil
   }
-end
-
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.Client do
-  def decode(value, _options) do
-    value
-  end
 end
 
