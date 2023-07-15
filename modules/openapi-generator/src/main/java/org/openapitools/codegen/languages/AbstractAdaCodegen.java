@@ -702,6 +702,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             op.notes = op.notes.trim();
         }
         op.vendorExtensions.put("x-has-notes", op.notes != null && op.notes.length() > 0);
+        final String prefix = modelPackage() + ".Models";
 
         // Set the file parameter type for both allParams and formParams.
         for (CodegenParameter p : op.allParams) {
@@ -726,7 +727,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 p.vendorExtensions.put(X_ADA_TYPE_NAME, dataType);
             }
             String pkgName = useType(dataType);
-            if (pkgName != null) {
+            if (pkgName != null && !pkgName.startsWith(prefix)) {
                 adaImportSet.add(pkgName);
             }
             p.vendorExtensions.put("x-is-imported-type", pkgName != null);
@@ -891,14 +892,16 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 if (pkgImport != null) {
                     adaImportSet.add(pkgImport);
                 }
+                Boolean required = p.getRequired();
                 if (!p.vendorExtensions.containsKey(X_ADA_SERIALIZE_OP)) {
-                    if (p.isLong && "int64".equals(p.dataFormat)) {
+                    if (p.isLong && !required) {
+                        p.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
+                    } else if (p.isLong && "int64".equals(p.dataFormat)) {
                         p.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Long_Entity");
                     } else {
                         p.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
                     }
                 }
-                Boolean required = p.getRequired();
 
                 // Convert optional members to use the Nullable_<T> type.
                 if (!Boolean.TRUE.equals(required) && nullableTypeMapping.containsKey(p.dataType)) {

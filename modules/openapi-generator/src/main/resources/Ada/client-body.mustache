@@ -36,7 +36,7 @@ package body {{package}}.Clients is
       Client.Set_Accept (Media_List_{{vendorExtensions.x-produces-media-index}});
 {{/vendorExtensions.x-produces-media-index}}
       {{#hasBodyParam}}
-      Client.Initialize (Req, {{#hasConsumes}}Media_List_{{vendorExtensions.x-consumes-media-index}}{{/hasConsumes}});{{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
+      Client.Initialize (Req{{#hasConsumes}}, Media_List_{{vendorExtensions.x-consumes-media-index}}{{/hasConsumes}});{{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
       {{package}}.Models.Serialize (Req.Stream, "", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}{{#isFile}}
       --  TODO: Serialize (Req.Stream, "{{basename}}", {{paramName}});{{/isFile}}{{^isFile}}{{^isLong}}
       Req.Stream.Write_Entity ("{{baseName}}", {{paramName}});{{/isLong}}{{#isLong}}
