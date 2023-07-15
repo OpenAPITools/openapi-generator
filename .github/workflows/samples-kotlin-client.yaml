@@ -51,7 +51,7 @@ jobs:
           - samples/client/petstore/kotlin-bigdecimal-default-okhttp4
           - samples/client/petstore/kotlin-jvm-ktor-jackson
           - samples/client/petstore/kotlin-jvm-ktor-gson
-          - samples/client/petstore/kotlin-jvm-ktor-gson
+          - samples/client/petstore/kotlin-jvm-ktor-kotlinx_serialization
           - samples/client/petstore/kotlin-jvm-vertx-gson
           - samples/client/petstore/kotlin-jvm-vertx-jackson
           - samples/client/petstore/kotlin-jvm-vertx-jackson-coroutines

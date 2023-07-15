@@ -127,11 +127,17 @@ import okhttp3.MediaType.Companion.toMediaType
         authNames: Array<String>
     ) : this(baseUrl, okHttpClientBuilder{{^kotlinx_serialization}}, serializerBuilder{{/kotlinx_serialization}}) {
         authNames.forEach { authName ->
-            val auth = when (authName) {
-                {{#authMethods}}"{{name}}" -> {{#isBasic}}{{#isBasicBasic}}HttpBasicAuth(){{/isBasicBasic}}{{^isBasicBasic}}{{#isBasicBearer}}HttpBearerAuth("{{scheme}}"){{/isBasicBearer}}{{^isBasicBearer}}throw RuntimeException("auth name $authName does not have a supported http scheme type"){{/isBasicBearer}}{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}"){{/isOAuth}}{{/authMethods}}
+            val auth = when (authName) { {{#authMethods}}
+                {{#isBasicBasic}}"{{name}}" -> HttpBasicAuth()
+                {{/isBasicBasic}}{{#isBasicBearer}}"{{name}}" -> HttpBearerAuth("{{scheme}}")
+                {{/isBasicBearer}}{{#isApiKey}}"{{name}}" -> ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}")
+                {{/isApiKey}}{{#isOAuth}}"{{name}}" -> OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}")
+                {{/isOAuth}}{{^isBasicBasic}}{{^isBasicBearer}}{{^isApiKey}}{{^isOAuth}}"{{name}}" -> null{{/isOAuth}}{{/isApiKey}}{{/isBasicBearer}}{{/isBasicBasic}}{{/authMethods}}
                 else -> throw RuntimeException("auth name $authName not found in available auth names")
             }
-            addAuthorization(authName, auth)
+            if (auth != null) {
+                addAuthorization(authName, auth)
+            }
         }
     }
 

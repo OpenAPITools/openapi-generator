@@ -59,6 +59,7 @@ public class Pasta extends Entity {
     this.vendor = vendor;
   }
 
+
   public Pasta href(String href) {
     super.setHref(href);
     return this;
@@ -83,7 +84,6 @@ public class Pasta extends Entity {
     super.setAtType(atType);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

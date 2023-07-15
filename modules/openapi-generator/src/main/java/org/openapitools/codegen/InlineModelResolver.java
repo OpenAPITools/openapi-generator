@@ -30,23 +30,23 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class InlineModelResolver {
     private OpenAPI openAPI;
     private Map<String, Schema> addedModels = new HashMap<>();
     private Map<String, String> generatedSignature = new HashMap<>();
     private Map<String, String> inlineSchemaNameMapping = new HashMap<>();
-    private Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
+    private Map<String, String> inlineSchemaOptions = new HashMap<>();
     private Set<String> inlineSchemaNameMappingValues = new HashSet<>();
     public boolean resolveInlineEnums = false;
     public boolean skipSchemaReuse = false; // skip reusing inline schema if set to true
+    public Boolean refactorAllOfInlineSchemas = null; // refactor allOf inline schemas into $ref
 
     // structure mapper sorts properties alphabetically on write to ensure models are
     // serialized consistently for lookup of existing models
@@ -64,8 +64,8 @@ public class InlineModelResolver {
     final Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 
     public InlineModelResolver() {
-        this.inlineSchemaNameDefaults.put("arrayItemSuffix", "_inner");
-        this.inlineSchemaNameDefaults.put("mapItemSuffix", "_value");
+        this.inlineSchemaOptions.put("ARRAY_ITEM_SUFFIX", "_inner");
+        this.inlineSchemaOptions.put("MAP_ITEM_SUFFIX", "_value");
     }
 
     public void setInlineSchemaNameMapping(Map inlineSchemaNameMapping) {
@@ -73,12 +73,24 @@ public class InlineModelResolver {
         this.inlineSchemaNameMappingValues = new HashSet<>(inlineSchemaNameMapping.values());
     }
 
-    public void setInlineSchemaNameDefaults(Map inlineSchemaNameDefaults) {
-        this.inlineSchemaNameDefaults.putAll(inlineSchemaNameDefaults);
+    public void setInlineSchemaOptions(Map inlineSchemaOptions) {
+        this.inlineSchemaOptions.putAll(inlineSchemaOptions);
 
         if ("true".equalsIgnoreCase(
-                this.inlineSchemaNameDefaults.getOrDefault("SKIP_SCHEMA_REUSE", "false"))) {
+                this.inlineSchemaOptions.getOrDefault("SKIP_SCHEMA_REUSE", "false"))) {
             this.skipSchemaReuse = true;
+        }
+
+        if (this.inlineSchemaOptions.containsKey("REFACTOR_ALLOF_INLINE_SCHEMAS")) {
+            this.refactorAllOfInlineSchemas = Boolean.valueOf(this.inlineSchemaOptions.get("REFACTOR_ALLOF_INLINE_SCHEMAS"));
+        } else {
+            // not set so default to null;
+        }
+
+        if (this.inlineSchemaOptions.containsKey("RESOLVE_INLINE_ENUMS")) {
+            this.resolveInlineEnums = Boolean.valueOf(this.inlineSchemaOptions.get("RESOLVE_INLINE_ENUMS"));
+        } else {
+            // not set so default to null;
         }
     }
 
@@ -221,6 +233,9 @@ public class InlineModelResolver {
                 if (m.equals(c)) {
                     return isModelNeeded(m.getAllOf().get(0), visitedSchemas);
                 }
+            } else if (isSingleAllOf && StringUtils.isNotEmpty(m.getAllOf().get(0).get$ref())) {
+                // single allOf and it's a ref
+                return isModelNeeded(m.getAllOf().get(0), visitedSchemas);
             }
 
             if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
@@ -233,6 +248,7 @@ public class InlineModelResolver {
                 // allOf items are all non-model (e.g. type: string) only
                 return false;
             }
+
             if (m.getAnyOf() != null && !m.getAnyOf().isEmpty()) {
                 return true;
             }
@@ -294,7 +310,7 @@ public class InlineModelResolver {
             if (schema.getAdditionalProperties() != null) {
                 if (schema.getAdditionalProperties() instanceof Schema) {
                     Schema inner = (Schema) schema.getAdditionalProperties();
-                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + this.inlineSchemaNameDefaults.get("mapItemSuffix"));
+                    String schemaName = resolveModelName(schema.getTitle(), modelPrefix + this.inlineSchemaOptions.get("MAP_ITEM_SUFFIX"));
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
@@ -329,7 +345,7 @@ public class InlineModelResolver {
                         " items must be defined for array schemas:\n " + schema.toString());
                 return;
             }
-            String schemaName = resolveModelName(items.getTitle(), modelPrefix + this.inlineSchemaNameDefaults.get("arrayItemSuffix"));
+            String schemaName = resolveModelName(items.getTitle(), modelPrefix + this.inlineSchemaOptions.get("ARRAY_ITEM_SUFFIX"));
 
             // Recurse to create $refs for inner models
             gatherInlineModels(items, schemaName);
@@ -351,9 +367,14 @@ public class InlineModelResolver {
                     // Recurse to create $refs for inner models
                     gatherInlineModels(inner, schemaName);
                     if (isModelNeeded(inner)) {
-                        Schema refSchema = this.makeSchemaInComponents(schemaName, inner);
-                        newAllOf.add(refSchema); // replace with ref
-                        atLeastOneModel = true;
+                        if (Boolean.TRUE.equals(this.refactorAllOfInlineSchemas)) {
+                            Schema refSchema = this.makeSchemaInComponents(schemaName, inner);
+                            newAllOf.add(refSchema); // replace with ref
+                            atLeastOneModel = true;
+                        } else { // do not refactor allOf inline schemas
+                            newAllOf.add(inner);
+                            atLeastOneModel = true;
+                        }
                     } else {
                         newAllOf.add(inner);
                     }
@@ -554,8 +575,9 @@ public class InlineModelResolver {
      *
      * @param key      a unique name ofr the composed schema.
      * @param children the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
+     * @param skipAllOfInlineSchemas true if allOf inline schemas need to be skipped.
      */
-    private void flattenComposedChildren(String key, List<Schema> children) {
+    private void flattenComposedChildren(String key, List<Schema> children, boolean skipAllOfInlineSchemas) {
         if (children == null || children.isEmpty()) {
             return;
         }
@@ -581,15 +603,19 @@ public class InlineModelResolver {
                 // Recurse to create $refs for inner models
                 gatherInlineModels(innerModel, innerModelName);
                 String existing = matchGenerated(innerModel);
-                if (existing == null) {
-                    innerModelName = addSchemas(innerModelName, innerModel);
-                    Schema schema = new Schema().$ref(innerModelName);
-                    schema.setRequired(component.getRequired());
-                    listIterator.set(schema);
+                if (!skipAllOfInlineSchemas) {
+                    if (existing == null) {
+                        innerModelName = addSchemas(innerModelName, innerModel);
+                        Schema schema = new Schema().$ref(innerModelName);
+                        schema.setRequired(component.getRequired());
+                        listIterator.set(schema);
+                    } else {
+                        Schema schema = new Schema().$ref(existing);
+                        schema.setRequired(component.getRequired());
+                        listIterator.set(schema);
+                    }
                 } else {
-                    Schema schema = new Schema().$ref(existing);
-                    schema.setRequired(component.getRequired());
-                    listIterator.set(schema);
+                    LOGGER.debug("Inline allOf schema {} not refactored into a separate model using $ref.", innerModelName);
                 }
             }
         }
@@ -614,9 +640,9 @@ public class InlineModelResolver {
             } else if (ModelUtils.isComposedSchema(model)) {
                 ComposedSchema m = (ComposedSchema) model;
                 // inline child schemas
-                flattenComposedChildren(modelName + "_allOf", m.getAllOf());
-                flattenComposedChildren(modelName + "_anyOf", m.getAnyOf());
-                flattenComposedChildren(modelName + "_oneOf", m.getOneOf());
+                flattenComposedChildren(modelName + "_allOf", m.getAllOf(), !Boolean.TRUE.equals(this.refactorAllOfInlineSchemas));
+                flattenComposedChildren(modelName + "_anyOf", m.getAnyOf(), false);
+                flattenComposedChildren(modelName + "_oneOf", m.getOneOf(), false);
             } else {
                 gatherInlineModels(model, modelName);
             }
@@ -657,7 +683,7 @@ public class InlineModelResolver {
      * @return if provided the sanitized {@code title}, else the sanitized {@code key}
      */
     private String resolveModelName(String title, String modelName) {
-        if (title == null) {
+        if (title == null || "".equals(sanitizeName(title).replace("_", ""))) {
             if (modelName == null) {
                 return uniqueName("inline_object");
             }
@@ -776,7 +802,7 @@ public class InlineModelResolver {
                 }
             }
             if (ModelUtils.isMapSchema(property)) {
-                Schema inner = ModelUtils.getAdditionalProperties(openAPI, property);
+                Schema inner = ModelUtils.getAdditionalProperties(property);
                 if (inner instanceof ObjectSchema) {
                     ObjectSchema op = (ObjectSchema) inner;
                     if (op.getProperties() != null && op.getProperties().size() > 0) {

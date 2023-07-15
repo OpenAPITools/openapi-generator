@@ -317,7 +317,6 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <swagger-annotations-version>1.6.6</swagger-annotations-version>
         <feign-version>10.11</feign-version>
         <feign-form-version>3.8.0</feign-form-version>
         <jackson-version>2.13.4</jackson-version>

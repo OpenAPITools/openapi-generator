@@ -102,6 +102,7 @@ public class BigCatDto extends CatDto {
     this.kind = kind;
   }
 
+
   public BigCatDto declawed(Boolean declawed) {
     super.setDeclawed(declawed);
     return this;
@@ -116,7 +117,6 @@ public class BigCatDto extends CatDto {
     super.setColor(color);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

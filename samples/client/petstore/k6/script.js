@@ -547,6 +547,19 @@ export default function() {
         }
     });
 
+    group("/fake/BigDecimalMap", () => {
+
+        // Request No. 1: fakeBigDecimalMap
+        {
+            let url = BASE_URL + `/fake/BigDecimalMap`;
+            let request = http.get(url);
+
+            check(request, {
+                "successful operation": (r) => r.status === 200
+            });
+        }
+    });
+
     group("/fake/health", () => {
 
         // Request No. 1: 

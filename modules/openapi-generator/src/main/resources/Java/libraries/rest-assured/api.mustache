@@ -24,6 +24,13 @@ import io.restassured.response.Response;
 {{#swagger1AnnotationLibrary}}
 import io.swagger.annotations.*;
 {{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.enums.*;
+import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.responses.*;
+import io.swagger.v3.oas.annotations.security.*;
+{{/swagger2AnnotationLibrary}}
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -37,6 +44,9 @@ import static io.restassured.http.Method.*;
 {{#swagger1AnnotationLibrary}}
 @Api(value = "{{{baseName}}}")
 {{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+@Tag(name = "{{{baseName}}}")
+{{/swagger2AnnotationLibrary}}
 public class {{classname}} {
 
     private Supplier<RequestSpecBuilder> reqSpecSupplier;
@@ -78,6 +88,14 @@ public class {{classname}} {
     @ApiResponses(value = { {{#responses}}
             @ApiResponse(code = {{{code}}}, message = "{{{message}}}") {{^-last}},{{/-last}}{{/responses}} })
 {{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+    @Operation(summary = "{{{summary}}}",
+            description = "{{{notes}}}",
+            operationId = "{{{operationId}}}",
+            tags = { {{#tags}}{{#name}}"{{{.}}}"{{/name}}{{^-last}}, {{/-last}}{{/tags}} })
+    @ApiResponses(value = { {{#responses}}
+            @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}") {{^-last}},{{/-last}}{{/responses}} })
+{{/swagger2AnnotationLibrary}}
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}

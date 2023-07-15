@@ -40,6 +40,7 @@ import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
+import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ApiInfoMap;
@@ -268,7 +269,8 @@ public class DefaultGenerator implements Generator {
         if (config.getUseInlineModelResolver()) {
             InlineModelResolver inlineModelResolver = new InlineModelResolver();
             inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
-            inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
+            inlineModelResolver.setInlineSchemaOptions(config.inlineSchemaOption());
+
             inlineModelResolver.flatten(openAPI);
         }
 
@@ -467,7 +469,7 @@ public class DefaultGenerator implements Generator {
                         // HACK: Because this returns early, could lead to some invalid model reporting.
                         String filename = config.modelFilename(templateName, name);
                         Path path = java.nio.file.Paths.get(filename);
-                        this.templateProcessor.skip(path,"Skipped prior to model processing due to schema mapping." );
+                        this.templateProcessor.skip(path, "Skipped prior to model processing due to schema mapping.");
                     }
                     continue;
                 }
@@ -486,7 +488,7 @@ public class DefaultGenerator implements Generator {
 
                 Schema schema = schemas.get(name);
 
-                if (ModelUtils.isFreeFormObject(this.openAPI, schema)) { // check to see if it's a free-form object
+                if (ModelUtils.isFreeFormObject(schema)) { // check to see if it's a free-form object
                     // there are 3 free form use cases
                     // 1. free form with no validation that is not allOf included in any composed schemas
                     // 2. free form with validation

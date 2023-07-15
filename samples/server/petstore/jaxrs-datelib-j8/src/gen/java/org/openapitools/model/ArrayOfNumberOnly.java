@@ -76,7 +76,7 @@ public class ArrayOfNumberOnly  implements Serializable {
       return false;
     }
     ArrayOfNumberOnly arrayOfNumberOnly = (ArrayOfNumberOnly) o;
-    return Objects.equals(this.arrayNumber, arrayOfNumberOnly.arrayNumber);
+    return Objects.equals(arrayNumber, arrayOfNumberOnly.arrayNumber);
   }
 
   @Override

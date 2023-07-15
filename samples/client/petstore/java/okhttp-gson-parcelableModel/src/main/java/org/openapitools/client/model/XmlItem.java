@@ -986,30 +986,30 @@ public class XmlItem implements Parcelable {
 
   XmlItem(Parcel in) {
     attributeString = (String)in.readValue(null);
-    attributeNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
+    attributeNumber = (BigDecimal)in.readValue(null);
     attributeInteger = (Integer)in.readValue(null);
     attributeBoolean = (Boolean)in.readValue(null);
     wrappedArray = (List<Integer>)in.readValue(null);
     nameString = (String)in.readValue(null);
-    nameNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
+    nameNumber = (BigDecimal)in.readValue(null);
     nameInteger = (Integer)in.readValue(null);
     nameBoolean = (Boolean)in.readValue(null);
     nameArray = (List<Integer>)in.readValue(null);
     nameWrappedArray = (List<Integer>)in.readValue(null);
     prefixString = (String)in.readValue(null);
-    prefixNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
+    prefixNumber = (BigDecimal)in.readValue(null);
     prefixInteger = (Integer)in.readValue(null);
     prefixBoolean = (Boolean)in.readValue(null);
     prefixArray = (List<Integer>)in.readValue(null);
     prefixWrappedArray = (List<Integer>)in.readValue(null);
     namespaceString = (String)in.readValue(null);
-    namespaceNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
+    namespaceNumber = (BigDecimal)in.readValue(null);
     namespaceInteger = (Integer)in.readValue(null);
     namespaceBoolean = (Boolean)in.readValue(null);
     namespaceArray = (List<Integer>)in.readValue(null);
     namespaceWrappedArray = (List<Integer>)in.readValue(null);
     prefixNsString = (String)in.readValue(null);
-    prefixNsNumber = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
+    prefixNsNumber = (BigDecimal)in.readValue(null);
     prefixNsInteger = (Integer)in.readValue(null);
     prefixNsBoolean = (Boolean)in.readValue(null);
     prefixNsArray = (List<Integer>)in.readValue(null);
@@ -1070,25 +1070,26 @@ public class XmlItem implements Parcelable {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to XmlItem
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to XmlItem
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!XmlItem.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!XmlItem.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in XmlItem is not found in the empty JSON string", XmlItem.openapiRequiredFields.toString()));
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
         if (!XmlItem.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `XmlItem` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `XmlItem` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("attribute_string") != null && !jsonObj.get("attribute_string").isJsonNull()) && !jsonObj.get("attribute_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `attribute_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("attribute_string").toString()));
       }
@@ -1162,9 +1163,9 @@ public class XmlItem implements Parcelable {
 
            @Override
            public XmlItem read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
-             return thisAdapter.fromJsonTree(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             return thisAdapter.fromJsonTree(jsonElement);
            }
 
        }.nullSafe();

@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import java.io.File;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +83,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String COLLECTION_TYPE = "collectionType";
 
     public static final String MOSHI_CODE_GEN = "moshiCodeGen";
+
+    public static final String NULLABLE_RETURN_TYPE = "nullableReturnType";
 
     public static final String SUPPORT_ANDROID_API_LEVEL_25_AND_BELLOW = "supportAndroidApiLevel25AndBelow";
 
@@ -152,13 +155,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .excludeWireFormatFeatures(WireFormatFeature.XML, WireFormatFeature.PROTOBUF)
-                .excludeSecurityFeatures(
-                        SecurityFeature.OpenIDConnect,
-                        SecurityFeature.OAuth2_Password,
-                        SecurityFeature.OAuth2_AuthorizationCode,
-                        SecurityFeature.OAuth2_ClientCredentials,
-                        SecurityFeature.OAuth2_Implicit
-                )
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.OAuth2_AuthorizationCode,//retrofit only
+                        SecurityFeature.OAuth2_Implicit))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
@@ -244,6 +246,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(IDEA, "Add IntellJ Idea plugin and mark Kotlin main and test folders as source folders."));
 
         cliOptions.add(CliOption.newBoolean(MOSHI_CODE_GEN, "Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info."));
+
+        cliOptions.add(CliOption.newBoolean(NULLABLE_RETURN_TYPE, "Nullable return type"));
 
         cliOptions.add(CliOption.newBoolean(GENERATE_ROOM_MODELS, "Generate Android Room database models in addition to API models (JVM Volley library only)", false));
 

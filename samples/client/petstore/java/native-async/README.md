@@ -110,6 +110,8 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**call123testSpecialTagsWithHttpInfo**](docs/AnotherFakeApi.md#call123testSpecialTagsWithHttpInfo) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooGet) | **GET** /foo | 
 *DefaultApi* | [**fooGetWithHttpInfo**](docs/DefaultApi.md#fooGetWithHttpInfo) | **GET** /foo | 
+*FakeApi* | [**fakeBigDecimalMap**](docs/FakeApi.md#fakeBigDecimalMap) | **GET** /fake/BigDecimalMap | 
+*FakeApi* | [**fakeBigDecimalMapWithHttpInfo**](docs/FakeApi.md#fakeBigDecimalMapWithHttpInfo) | **GET** /fake/BigDecimalMap | 
 *FakeApi* | [**fakeHealthGet**](docs/FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeHealthGetWithHttpInfo**](docs/FakeApi.md#fakeHealthGetWithHttpInfo) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
@@ -200,22 +202,20 @@ Class | Method | HTTP request | Description
  - [BasquePig](docs/BasquePig.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
- - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [ChildCat](docs/ChildCat.md)
- - [ChildCatAllOf](docs/ChildCatAllOf.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
  - [DanishPig](docs/DanishPig.md)
  - [DeprecatedObject](docs/DeprecatedObject.md)
  - [Dog](docs/Dog.md)
- - [DogAllOf](docs/DogAllOf.md)
  - [Drawing](docs/Drawing.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
  - [EquilateralTriangle](docs/EquilateralTriangle.md)
+ - [FakeBigDecimalMap200Response](docs/FakeBigDecimalMap200Response.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
  - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)

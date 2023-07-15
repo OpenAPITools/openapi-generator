@@ -38,7 +38,7 @@ final Pet pet = ; // Pet | Pet object that needs to be added to the store
 
 try {
     api.addPet(pet);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling PetApi->addPet: $e\n');
 }
 ```
@@ -83,7 +83,7 @@ final String apiKey = apiKey_example; // String |
 
 try {
     api.deletePet(petId, apiKey);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling PetApi->deletePet: $e\n');
 }
 ```
@@ -129,7 +129,7 @@ final BuiltList<String> status = ; // BuiltList<String> | Status values that nee
 try {
     final response = api.findPetsByStatus(status);
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling PetApi->findPetsByStatus: $e\n');
 }
 ```
@@ -174,7 +174,7 @@ final BuiltSet<String> tags = ; // BuiltSet<String> | Tags to filter by
 try {
     final response = api.findPetsByTags(tags);
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling PetApi->findPetsByTags: $e\n');
 }
 ```
@@ -221,7 +221,7 @@ final int petId = 789; // int | ID of pet to return
 try {
     final response = api.getPetById(petId);
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling PetApi->getPetById: $e\n');
 }
 ```
@@ -265,7 +265,7 @@ final Pet pet = ; // Pet | Pet object that needs to be added to the store
 
 try {
     api.updatePet(pet);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling PetApi->updatePet: $e\n');
 }
 ```
@@ -311,7 +311,7 @@ final String status = status_example; // String | Updated status of the pet
 
 try {
     api.updatePetWithForm(petId, name, status);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling PetApi->updatePetWithForm: $e\n');
 }
 ```
@@ -360,7 +360,7 @@ final MultipartFile file = BINARY_DATA_HERE; // MultipartFile | file to upload
 try {
     final response = api.uploadFile(petId, additionalMetadata, file);
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling PetApi->uploadFile: $e\n');
 }
 ```
@@ -409,7 +409,7 @@ final String additionalMetadata = additionalMetadata_example; // String | Additi
 try {
     final response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling PetApi->uploadFileWithRequiredFile: $e\n');
 }
 ```

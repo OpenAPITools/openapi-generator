@@ -688,7 +688,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/retrofit2rx</module>
+                <module>samples/client/petstore/java/retrofit2rx2</module>
             </modules>
         </profile>
         <profile>
@@ -728,7 +728,7 @@
             </modules>
         </profile>
         <profile>
-            <id>scala-httpclient</id>
+            <id>scala-sttp</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -736,7 +736,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/scala-httpclient</module>
+                <module>samples/client/petstore/scala-sttp</module>
             </modules>
         </profile>
         <profile>
@@ -772,7 +772,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java-helidon-client</module>
+                <module>samples/client/petstore/java-helidon-client/mp</module>
             </modules>
         </profile>
         <profile>
@@ -784,7 +784,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/java-helidon-server</module>
+                <module>samples/server/petstore/java-helidon-server/mp</module>
             </modules>
         </profile>
         <profile>
@@ -1231,6 +1231,7 @@
                 <module>samples/client/petstore/typescript-angular-v13-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v14-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v15-provided-in-root</module>
+                <module>samples/client/petstore/typescript-angular-v16-provided-in-root</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/default</module>
                 <module>samples/openapi3/client/petstore/typescript/tests/default</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/jquery</module>
@@ -1282,6 +1283,7 @@
                 <!-- test java-related projects -->
                 <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-sttp</module>
+                <module>samples/client/petstore/scala-sttp4</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
                 <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
@@ -1489,7 +1491,7 @@
         <maven-site-plugin.version>4.0.0-M8</maven-site-plugin.version>
         <maven-surefire-plugin.version>3.0.0</maven-surefire-plugin.version>
         <mockito.version>4.10.0</mockito.version>
-        <openrewrite.version>7.22.0</openrewrite.version>
+        <openrewrite.version>7.39.1</openrewrite.version>
         <pmd-plugin.version>3.12.0</pmd-plugin.version>
         <reflections.version>0.10.2</reflections.version>
         <rxgen.version>1.4</rxgen.version>

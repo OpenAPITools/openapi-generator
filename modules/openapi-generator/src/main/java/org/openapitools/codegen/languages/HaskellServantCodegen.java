@@ -382,7 +382,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "(Map.Map String " + getTypeDeclaration(inner) + ")";
         }
         return fixModelChars(super.getTypeDeclaration(p));
@@ -417,7 +417,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            Schema additionalProperties2 = getAdditionalProperties(p);
+            Schema additionalProperties2 = ModelUtils.getAdditionalProperties(p);
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Property {}\n\tIn Property: {}", additionalProperties2, p);

@@ -610,7 +610,19 @@ components:
       x-parent: true
     DataQuery:
       allOf:
-      - $ref: '#/components/schemas/DataQuery_allOf'
+      - properties:
+          suffix:
+            description: test suffix
+            type: string
+          text:
+            description: Some text containing white spaces
+            example: Some text
+            type: string
+          date:
+            description: A date
+            format: date-time
+            type: string
+        type: object
       - $ref: '#/components/schemas/Query'
     NumberPropertiesOnly:
       properties:
@@ -645,19 +657,4 @@ components:
       allOf:
       - $ref: '#/components/schemas/Bird'
       - $ref: '#/components/schemas/Category'
-    DataQuery_allOf:
-      properties:
-        suffix:
-          description: test suffix
-          type: string
-        text:
-          description: Some text containing white spaces
-          example: Some text
-          type: string
-        date:
-          description: A date
-          format: date-time
-          type: string
-      type: object
-      example: null
 

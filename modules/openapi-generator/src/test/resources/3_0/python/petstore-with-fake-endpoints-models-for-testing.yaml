@@ -2212,3 +2212,21 @@ components:
           type: string
           nullable: true
           pattern: "^[A-Z].*"
+    MapOfArrayOfModel:
+      type: object
+      properties:
+        shopIdToOrgOnlineLipMap:
+          additionalProperties:
+            type: array
+            items:
+              $ref: "#/components/schemas/Tag"
+    ArrayOfArrayOfModel:
+      type: object
+      properties:
+        another_property:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: "#/components/schemas/Tag"
+

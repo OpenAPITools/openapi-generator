@@ -84,7 +84,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
     public ScalaSttpClientCodegen() {
         super();
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
+                .stability(Stability.STABLE)
                 .build();
 
         modifyFeatureSet(features -> features
@@ -192,7 +192,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String getHelp() {
-        return "Generates a Scala client library (beta) based on Sttp.";
+        return "Generates a Scala client library based on Sttp.";
     }
 
     @Override
@@ -423,7 +423,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         } else if (ModelUtils.isIntegerSchema(p)) {
             return null;
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(getAdditionalProperties(p));
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "Map[String, " + inner + "].empty ";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;

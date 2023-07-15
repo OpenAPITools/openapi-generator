@@ -346,7 +346,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -390,10 +390,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                         if (operation.getTags() != null && operation.getTags().size() > 0) {
                             tag = operation.getTags().get(0);
                         }
-                        String operationId = operation.getOperationId();
-                        if (operationId == null) {
-                            operationId = getOrGenerateOperationId(operation, pathname, method.toString());
-                        }
+                        String operationId = getOrGenerateOperationId(operation, pathname, method.toString());
                         operation.setOperationId(toOperationId(operationId));
                         if (operation.getExtensions() == null || operation.getExtensions().get("x-openapi-router-controller") == null) {
                             operation.addExtension(

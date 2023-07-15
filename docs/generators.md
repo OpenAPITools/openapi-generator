@@ -18,7 +18,7 @@ The following generators are available:
 * [cpp-tizen](generators/cpp-tizen.md)  
 * [cpp-ue4 (beta)](generators/cpp-ue4.md)  
 * [crystal (beta)](generators/crystal.md)  
-* [csharp-netcore](generators/csharp-netcore.md)  
+* [csharp](generators/csharp.md)  
 * [dart](generators/dart.md)  
 * [dart-dio](generators/dart-dio.md)  
 * [eiffel](generators/eiffel.md)  
@@ -57,8 +57,10 @@ The following generators are available:
 * [rust](generators/rust.md)  
 * [scala-akka](generators/scala-akka.md)  
 * [scala-gatling](generators/scala-gatling.md)  
-* [scala-sttp (beta)](generators/scala-sttp.md)  
+* [scala-sttp](generators/scala-sttp.md)  
+* [scala-sttp4 (beta)](generators/scala-sttp4.md)  
 * [scalaz](generators/scalaz.md)  
+* [swift-combine](generators/swift-combine.md)  
 * [swift5](generators/swift5.md)  
 * [typescript (experimental)](generators/typescript.md)  
 * [typescript-angular](generators/typescript-angular.md)  
@@ -72,6 +74,7 @@ The following generators are available:
 * [typescript-redux-query](generators/typescript-redux-query.md)  
 * [typescript-rxjs](generators/typescript-rxjs.md)  
 * [xojo-client](generators/xojo-client.md)  
+* [zapier (beta)](generators/zapier.md)  
 
 
 ## SERVER generators
@@ -81,7 +84,7 @@ The following generators are available:
 * [cpp-qt-qhttpengine-server](generators/cpp-qt-qhttpengine-server.md)  
 * [cpp-restbed-server](generators/cpp-restbed-server.md)  
 * [cpp-restbed-server-deprecated](generators/cpp-restbed-server-deprecated.md)  
-* [csharp-netcore-functions](generators/csharp-netcore-functions.md)  
+* [csharp-functions](generators/csharp-functions.md)  
 * [erlang-server](generators/erlang-server.md)  
 * [fsharp-functions (beta)](generators/fsharp-functions.md)  
 * [fsharp-giraffe-server (beta)](generators/fsharp-giraffe-server.md)  

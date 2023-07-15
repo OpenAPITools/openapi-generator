@@ -131,7 +131,6 @@ public class AdditionalPropertiesClass {
    * @return mapNumber
   **/
   @javax.annotation.Nullable
-  @Valid
 
 
   public Map<String, BigDecimal> getMapNumber() {

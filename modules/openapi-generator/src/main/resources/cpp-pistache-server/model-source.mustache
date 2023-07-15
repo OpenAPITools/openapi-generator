@@ -60,7 +60,11 @@ bool {{classname}}::validate(std::stringstream& msg, const std::string& pathPref
         const std::string currentValuePath = _pathPrefix + ".{{nameInCamelCase}}";
         {{> model-validation-body }}
     }
-    {{/hasValidation}}{{/isArray}}{{/vars}}{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}
+    {{/hasValidation}}{{#required}}{{#isModel}}
+    if (!m_{{name}}.validate()) {
+        msg << _pathPrefix << ": {{name}} is invalid;";
+        success = false;
+    }{{/isModel}}{{/required}}{{/isArray}}{{/vars}}{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}
     if (!m_value.validate(msg))
     {
         success = false;
@@ -97,11 +101,11 @@ void to_json(nlohmann::json& j, const {{classname}}& o)
         {{#enumVars}}
         {{#-first}}
         case {{classname}}::e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED:
-            j = "INVALID_VALUE_OPENAPI_GENERATED";
+            j = {{#isInteger}}0{{/isInteger}}{{^isInteger}}"INVALID_VALUE_OPENAPI_GENERATED"{{/isInteger}};
             break;
         {{/-first}}
         case {{classname}}::e{{classname}}::{{name}}:
-            j = "{{value}}";
+            j = {{#isInteger}}{{value}}{{/isInteger}}{{^isInteger}}"{{value}}"{{/isInteger}};
             break;
         {{/enumVars}}
     }{{/allowableValues}}{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}to_json(j, o.m_value);{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
@@ -117,9 +121,9 @@ void from_json(const nlohmann::json& j, {{classname}}& o)
     } {{/required}}
     {{/vars}}
     {{#isEnum}}{{#allowableValues}}
-    auto s = j.get<std::string>();
+    auto s = j.get<{{#isInteger}}{{dataType}}{{/isInteger}}{{^isInteger}}std::string{{/isInteger}}>();
     {{#enumVars}}
-    {{#-first}}if{{/-first}}{{^-first}}else if{{/-first}} (s == "{{value}}") {
+    {{#-first}}if{{/-first}}{{^-first}}else if{{/-first}} (s == {{#isInteger}}{{value}}{{/isInteger}}{{^isInteger}}"{{value}}"{{/isInteger}}) {
      o.setValue({{classname}}::e{{classname}}::{{name}});
     } {{#-last}} else {
      std::stringstream ss;

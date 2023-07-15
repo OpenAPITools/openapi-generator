@@ -123,6 +123,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>File</li>
 <li>Float</li>
 <li>Integer</li>
+<li>List</li>
 <li>Long</li>
 <li>Map</li>
 <li>Object</li>

@@ -30,7 +30,7 @@ class DataQuery(Query):
     suffix: Optional[StrictStr] = Field(None, description="test suffix")
     text: Optional[StrictStr] = Field(None, description="Some text containing white spaces")
     var_date: Optional[datetime] = Field(None, alias="date", description="A date")
-    __properties = ["suffix", "text", "date", "id", "outcomes"]
+    __properties = ["id", "outcomes", "suffix", "text", "date"]
 
     class Config:
         """Pydantic configuration"""
@@ -68,11 +68,11 @@ class DataQuery(Query):
             return DataQuery.parse_obj(obj)
 
         _obj = DataQuery.parse_obj({
+            "id": obj.get("id"),
+            "outcomes": obj.get("outcomes"),
             "suffix": obj.get("suffix"),
             "text": obj.get("text"),
-            "var_date": obj.get("date"),
-            "id": obj.get("id"),
-            "outcomes": obj.get("outcomes")
+            "var_date": obj.get("date")
         })
         return _obj
 

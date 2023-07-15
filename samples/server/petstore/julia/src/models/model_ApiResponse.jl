@@ -2,7 +2,8 @@
 # Do not modify this file directly. Modify the OpenAPI specification instead.
 
 
-@doc raw"""Describes the result of uploading an image resource
+@doc raw"""ApiResponse
+Describes the result of uploading an image resource
 
     ApiResponse(;
         code=nothing,

@@ -1067,6 +1067,34 @@ paths:
             type: array
             items:
               type: string
+        - name: requiredNotNullable
+          in: query
+          required: true
+          explode: true
+          schema:
+            type: string
+            nullable: false
+        - name: requiredNullable
+          in: query
+          required: true
+          explode: true
+          schema:
+            type: string
+            nullable: true
+        - name: notRequiredNotNullable
+          in: query
+          required: false
+          explode: true
+          schema:
+            type: string
+            nullable: false
+        - name: notRequiredNullable
+          in: query
+          required: false
+          explode: true
+          schema:
+            type: string
+            nullable: true
       responses:
         "200":
           description: Success

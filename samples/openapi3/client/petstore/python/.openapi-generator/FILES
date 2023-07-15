@@ -10,13 +10,13 @@ docs/AnotherFakeApi.md
 docs/AnyOfColor.md
 docs/AnyOfPig.md
 docs/ApiResponse.md
+docs/ArrayOfArrayOfModel.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
 docs/BasquePig.md
 docs/Capitalization.md
 docs/Cat.md
-docs/CatAllOf.md
 docs/Category.md
 docs/CircularReferenceModel.md
 docs/ClassModel.md
@@ -26,7 +26,6 @@ docs/DanishPig.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
 docs/Dog.md
-docs/DogAllOf.md
 docs/DummyModel.md
 docs/EnumArrays.md
 docs/EnumClass.md
@@ -46,6 +45,7 @@ docs/HealthCheckResult.md
 docs/InnerDictWithProperty.md
 docs/IntOrString.md
 docs/List.md
+docs/MapOfArrayOfModel.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
@@ -101,13 +101,13 @@ petstore_api/models/animal.py
 petstore_api/models/any_of_color.py
 petstore_api/models/any_of_pig.py
 petstore_api/models/api_response.py
+petstore_api/models/array_of_array_of_model.py
 petstore_api/models/array_of_array_of_number_only.py
 petstore_api/models/array_of_number_only.py
 petstore_api/models/array_test.py
 petstore_api/models/basque_pig.py
 petstore_api/models/capitalization.py
 petstore_api/models/cat.py
-petstore_api/models/cat_all_of.py
 petstore_api/models/category.py
 petstore_api/models/circular_reference_model.py
 petstore_api/models/class_model.py
@@ -116,7 +116,6 @@ petstore_api/models/color.py
 petstore_api/models/danish_pig.py
 petstore_api/models/deprecated_object.py
 petstore_api/models/dog.py
-petstore_api/models/dog_all_of.py
 petstore_api/models/dummy_model.py
 petstore_api/models/enum_arrays.py
 petstore_api/models/enum_class.py
@@ -134,6 +133,7 @@ petstore_api/models/health_check_result.py
 petstore_api/models/inner_dict_with_property.py
 petstore_api/models/int_or_string.py
 petstore_api/models/list.py
+petstore_api/models/map_of_array_of_model.py
 petstore_api/models/map_test.py
 petstore_api/models/mixed_properties_and_additional_properties_class.py
 petstore_api/models/model200_response.py
@@ -165,6 +165,7 @@ petstore_api/models/special_name.py
 petstore_api/models/tag.py
 petstore_api/models/user.py
 petstore_api/models/with_nested_one_of.py
+petstore_api/py.typed
 petstore_api/rest.py
 petstore_api/signing.py
 pyproject.toml

@@ -45,14 +45,14 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.7.0
+        uses: s4u/setup-maven-action@v1.8.0
         with:
           java-version: ${{ matrix.java }}
           maven-version: 3.8.8
 
       - name: Build with Maven
         shell: bash
-        run: mvn clean -nsu -B --quiet -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress install --file pom.xml
+        run: ./mvnw clean -nsu -B --quiet -Dorg.slf4j.simpleLogger.defaultLogLevel=error --no-transfer-progress install --file pom.xml
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
 
@@ -87,7 +87,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.7.0
+        uses: s4u/setup-maven-action@v1.8.0
         with:
           java-version: 11
           maven-version: 3.8.8
@@ -101,7 +101,7 @@ jobs:
           git config --global core.fileMode false
           git config --global core.safecrlf false
           git config --global core.autocrlf true
-          mvn clean package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+          ./mvnw clean package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
           # test with java (jersey2) client generation only as ensure-up-to-date script is run in another job instead
           ./bin/generate-samples.sh ./bin/configs/java-jersey2-8.yaml
           # test debugSupportingFiles

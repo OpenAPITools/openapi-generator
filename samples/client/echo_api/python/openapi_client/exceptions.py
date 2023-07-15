@@ -127,6 +127,10 @@ class ApiException(OpenApiException):
 
         return error_message
 
+class BadRequestException(ApiException):
+
+    def __init__(self, status=None, reason=None, http_resp=None):
+        super(BadRequestException, self).__init__(status, reason, http_resp)
 
 class NotFoundException(ApiException):
 

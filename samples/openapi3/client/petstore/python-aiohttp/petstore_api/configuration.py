@@ -186,9 +186,6 @@ conf = petstore_api.Configuration(
         self.signing_info = signing_info
         """The HTTP signing configuration
         """
-        self.access_token = None
-        """access token for OAuth/Bearer
-        """
         self.logger = {}
         """Logging Settings
         """

@@ -172,8 +172,12 @@ public class CodegenConstants {
     public static final String PACKAGE_COMPANY_DESC = "Specifies an AssemblyCompany for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
     public static final String PACKAGE_AUTHORS = "packageAuthors";
     public static final String PACKAGE_AUTHORS_DESC = "Specifies Authors property in the .NET Core project file.";
+    public static final String PACKAGE_AUTHORS_URL = "packageAuthorsUrl";
+    public static final String PACKAGE_AUTHORS_URL_DESC = "Specifies Authors URL property in the PHP composer.json file.";
     public static final String PACKAGE_COPYRIGHT = "packageCopyright";
     public static final String PACKAGE_COPYRIGHT_DESC = "Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
+    public static final String COMPOSER_PACKAGE_NAME = "composerPackageName";
+    public static final String COMPOSER_PACKAGE_NAME_DESC = "The name to use in the composer package name field. e.g. `vendor/project` (must be lowercase and consist of words separated by `-`, `.` or `_`).";
 
     public static final String POD_VERSION = "podVersion";
 

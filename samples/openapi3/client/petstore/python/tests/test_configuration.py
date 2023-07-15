@@ -54,5 +54,9 @@ class TestConfiguration(unittest.TestCase):
         p2 = petstore_api.PetApi()
         self.assertEqual(id(p1.api_client.configuration), id(p2.api_client.configuration))
 
+    def testAccessTokenWhenConstructingConfiguration(self):
+        c1 = petstore_api.Configuration(access_token="12345")
+        self.assertEqual(c1.access_token, "12345")
+
 if __name__ == '__main__':
     unittest.main()

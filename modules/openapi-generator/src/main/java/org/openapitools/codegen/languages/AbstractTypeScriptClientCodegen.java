@@ -256,8 +256,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.noneOf(
-                        SecurityFeature.class
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.OAuth2_Implicit
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
@@ -622,7 +624,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             inner = mp1.getItems();
             return this.getSchemaType(p) + "<" + this.getParameterDataType(parameter, inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            inner = getAdditionalProperties(p);
+            inner = ModelUtils.getAdditionalProperties(p);
             return "{ [key: string]: " + this.getParameterDataType(parameter, inner) + "; }";
         } else if (ModelUtils.isStringSchema(p)) {
             // Handle string enums

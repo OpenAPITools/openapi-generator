@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**fakeBigDecimalMap**](FakeApi.md#fakeBigDecimalMap) | **GET** /fake/BigDecimalMap |  |
 | [**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint |
 | [**fakeHttpSignatureTest**](FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication |
 | [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean |  |
@@ -22,6 +23,38 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data |
 | [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
 
+
+
+## fakeBigDecimalMap
+
+> FakeBigDecimalMap200Response fakeBigDecimalMap()
+
+
+
+for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**FakeBigDecimalMap200Response**](FakeBigDecimalMap200Response.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: */*
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 
 
 ## fakeHealthGet

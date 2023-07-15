@@ -65,14 +65,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     private static final String VALIDATION_ARTIFACT_PREFIX_KEY = "x-helidon-validationArtifactPrefix";
     private static final String VALIDATION_ARTIFACT_PREFIX_JAVAX = "";
     private static final String VALIDATION_ARTIFACT_PREFIX_JAKARTA = MICROPROFILE_ROOT_PACKAGE_JAKARTA + ".";
-
-    private static final Map<String, String> EXAMPLE_RETURN_VALUES = new HashMap<String, String>() {
-        {
-            put("set", "Set");
-            put("array", "List");
-            put("map", "Map");
-        }
-    };
+    private static final Map<String, String> EXAMPLE_RETURN_VALUES = new HashMap<String, String>();
 
     // for generated doc
     static final String MICROPROFILE_ROOT_PACKAGE_DEFAULT =
@@ -98,6 +91,11 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
     public JavaHelidonCommonCodegen() {
         super();
+
+        EXAMPLE_RETURN_VALUES.put("set", "Set");
+        EXAMPLE_RETURN_VALUES.put("array", "List");
+        EXAMPLE_RETURN_VALUES.put("map", "Map");
+
         cliOptions.add(new CliOption(HELIDON_VERSION, HELIDON_VERSION_DESC)
                 .defaultValue(DEFAULT_HELIDON_VERSION));
         cliOptions.add(new CliOption(MICROPROFILE_ROOT_PACKAGE, MICROPROFILE_ROOT_PACKAGE_DESC)

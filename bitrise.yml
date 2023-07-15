@@ -27,7 +27,16 @@ workflows:
             set -e
 
             ./samples/client/petstore/swift5/swift5_test_all.sh
+    - script@1.2.0:
+        title: Run swift-combine tests
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+
+            set -e
+
+            ./samples/client/petstore/swift-combine/swift-combine_test_all.sh
 
 meta:
   bitrise.io:
-    stack: osx-xcode-14.2.x
+    stack: osx-xcode-14.3.x-ventura

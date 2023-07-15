@@ -58,9 +58,11 @@ import kotlin.collections.Map
 {{#swagger1AnnotationLibrary}}
 @Api(value = "{{{baseName}}}", description = "The {{{baseName}}} API")
 {{/swagger1AnnotationLibrary}}
+{{^useFeignClient}}
 {{=<% %>=}}
 @RequestMapping("\${api.base-path:<%contextPath%>}")
 <%={{ }}=%>
+{{/useFeignClient}}
 {{#operations}}
 interface {{classname}} {
 {{#isDelegate}}

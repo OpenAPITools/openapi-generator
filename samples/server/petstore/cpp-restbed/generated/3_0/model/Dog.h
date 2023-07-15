@@ -27,7 +27,6 @@
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
 #include "Animal.h"
-#include "Dog_allOf.h"
 #include "helpers.h"
 
 namespace org {
@@ -38,7 +37,7 @@ namespace model {
 /// <summary>
 /// 
 /// </summary>
-class  Dog : public Animal, public Dog_allOf
+class  Dog : public Animal
 {
 public:
     Dog() = default;

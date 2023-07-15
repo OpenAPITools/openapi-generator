@@ -95,6 +95,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String REACTIVE = "reactive";
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String USE_FEIGN_CLIENT_URL = "useFeignClientUrl";
+    public static final String USE_FEIGN_CLIENT = "useFeignClient";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String USE_TAGS = "useTags";
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
@@ -116,6 +117,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private boolean reactive = false;
     private boolean interfaceOnly = false;
     protected boolean useFeignClientUrl = true;
+    protected boolean useFeignClient = false;
     private boolean delegatePattern = false;
     protected boolean useTags = false;
     private boolean beanQualifiers = false;
@@ -133,7 +135,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
                         SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.OAuth2_ClientCredentials,
+                        SecurityFeature.OAuth2_Password,
+                        SecurityFeature.OAuth2_AuthorizationCode
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
@@ -385,6 +390,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         this.useBeanValidation = useBeanValidation;
     }
 
+    public void setUseFeignClient(boolean useFeignClient) {
+        this.useFeignClient = useFeignClient;
+    }
+
     public void setSkipDefaultInterface(boolean skipDefaultInterface) {
         this.skipDefaultInterface = skipDefaultInterface;
     }
@@ -582,6 +591,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         if (library.equals(SPRING_CLOUD_LIBRARY)) {
             this.setInterfaceOnly(true);
+            this.setUseFeignClient(true);
+            additionalProperties.put(USE_FEIGN_CLIENT, true);
         }
 
         if (additionalProperties.containsKey(USE_FEIGN_CLIENT_URL)) {

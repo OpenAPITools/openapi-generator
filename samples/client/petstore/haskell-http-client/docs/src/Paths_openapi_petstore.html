@@ -1,22 +1,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE CPP #-}</span><span>
 </span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE NoRebindableSyntax #-}</span><span>
 </span><span id="line-3"></span><span class="hs-pragma">{-# OPTIONS_GHC -fno-warn-missing-import-lists #-}</span><span>
-</span><span id="line-4"></span><span class="hs-pragma">{-# OPTIONS_GHC -Wno-missing-safe-haskell-mode #-}</span><span>
+</span><span id="line-4"></span><span class="hs-pragma">{-# OPTIONS_GHC -w #-}</span><span>
 </span><span id="line-5"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Paths_openapi_petstore</span><span> </span><span class="hs-special">(</span><span>
 </span><span id="line-6"></span><span>    </span><span class="annot"><a href="Paths_openapi_petstore.html#version"><span class="hs-identifier">version</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-7"></span><span>    </span><span class="annot"><a href="Paths_openapi_petstore.html#getBinDir"><span class="hs-identifier">getBinDir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#getLibDir"><span class="hs-identifier">getLibDir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#getDynLibDir"><span class="hs-identifier">getDynLibDir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#getDataDir"><span class="hs-identifier">getDataDir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#getLibexecDir"><span class="hs-identifier">getLibexecDir</span></a></span><span class="hs-special">,</span><span>
 </span><span id="line-8"></span><span>    </span><span class="annot"><a href="Paths_openapi_petstore.html#getDataFileName"><span class="hs-identifier">getDataFileName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#getSysconfDir"><span class="hs-identifier">getSysconfDir</span></a></span><span>
 </span><span id="line-9"></span><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
 </span><span id="line-10"></span><span>
-</span><span id="line-11"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Control.Exception</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Exception</span></span><span>
-</span><span id="line-12"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Version</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Version</span></span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
-</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">System.Environment</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">getEnv</span></span><span class="hs-special">)</span><span>
-</span><span id="line-14"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span class="hs-cpp">
+</span><span id="line-11"></span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Control.Exception</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Exception</span></span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.List</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">List</span></span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Version</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Version</span></span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-15"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">System.Environment</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">getEnv</span></span><span class="hs-special">)</span><span>
+</span><span id="line-16"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span class="hs-cpp">
+
 
 #if defined(VERSION_base)
 </span><span class="hs-cpp">
 #if MIN_VERSION_base(4,0,0)
-</span><span id="local-6989586621679167509"><span class="annot"><a href="Paths_openapi_petstore.html#catchIO"><span class="hs-identifier hs-type">catchIO</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679167509"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Exception.IOException</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679167509"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679167509"><span class="hs-identifier hs-type">a</span></a></span></span><span class="hs-cpp">
+</span><span id="local-6989586621679171130"><span class="annot"><a href="Paths_openapi_petstore.html#catchIO"><span class="hs-identifier hs-type">catchIO</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679171130"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Exception.IOException</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679171130"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679171130"><span class="hs-identifier hs-type">a</span></a></span></span><span class="hs-cpp">
 #else
 </span><span class="hs-identifier">catchIO</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">IO</span><span> </span><span class="hs-identifier">a</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-identifier">Exception.Exception</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">IO</span><span> </span><span class="hs-identifier">a</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">IO</span><span> </span><span class="hs-identifier">a</span><span class="hs-cpp">
 #endif
@@ -28,113 +31,172 @@
 </span><a href="Paths_openapi_petstore.html#catchIO"><span class="hs-identifier hs-var hs-var">catchIO</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO a -&gt; (IOException -&gt; IO a) -&gt; IO a
 forall e a. Exception e =&gt; IO a -&gt; (e -&gt; IO a) -&gt; IO a
 </span><span class="hs-identifier hs-var">Exception.catch</span></span><span>
-</span><span id="line-28"></span><span>
-</span><span id="line-29"></span><span class="annot"><a href="Paths_openapi_petstore.html#version"><span class="hs-identifier hs-type">version</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Version</span></span><span>
-</span><span id="line-30"></span><span id="version"><span class="annot"><span class="annottext">version :: Version
+</span><span id="line-31"></span><span>
+</span><span id="line-32"></span><span class="annot"><a href="Paths_openapi_petstore.html#version"><span class="hs-identifier hs-type">version</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Version</span></span><span>
+</span><span id="line-33"></span><span id="version"><span class="annot"><span class="annottext">version :: Version
 </span><a href="Paths_openapi_petstore.html#version"><span class="hs-identifier hs-var hs-var">version</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Int] -&gt; [String] -&gt; Version
 </span><span class="hs-identifier hs-var">Version</span></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">0</span></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">1</span></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">0</span></span><span class="hs-special">,</span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">0</span></span><span class="hs-special">]</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
-</span><span id="line-31"></span><span class="annot"><a href="Paths_openapi_petstore.html#bindir"><span class="hs-identifier hs-type">bindir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#libdir"><span class="hs-identifier hs-type">libdir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#dynlibdir"><span class="hs-identifier hs-type">dynlibdir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#datadir"><span class="hs-identifier hs-type">datadir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#libexecdir"><span class="hs-identifier hs-type">libexecdir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#sysconfdir"><span class="hs-identifier hs-type">sysconfdir</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
-</span><span id="line-32"></span><span>
-</span><span id="line-33"></span><span id="bindir"><span class="annot"><span class="annottext">bindir :: String
-</span><a href="Paths_openapi_petstore.html#bindir"><span class="hs-identifier hs-var hs-var">bindir</span></a></span></span><span>     </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;/home/jon/fs/git/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work/install/x86_64-linux-tinfo6/2f9e8e6d6a0225b440573e2ade8cf024ba1ae60293b2eb0dca9acdb6bef1c3d4/9.0.2/bin&quot;</span></span><span>
-</span><span id="line-34"></span><span id="libdir"><span class="annot"><span class="annottext">libdir :: String
-</span><a href="Paths_openapi_petstore.html#libdir"><span class="hs-identifier hs-var hs-var">libdir</span></a></span></span><span>     </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;/home/jon/fs/git/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work/install/x86_64-linux-tinfo6/2f9e8e6d6a0225b440573e2ade8cf024ba1ae60293b2eb0dca9acdb6bef1c3d4/9.0.2/lib/x86_64-linux-ghc-9.0.2/openapi-petstore-0.1.0.0-LfIoi9irso0DTsv4QrcEur&quot;</span></span><span>
-</span><span id="line-35"></span><span id="dynlibdir"><span class="annot"><span class="annottext">dynlibdir :: String
-</span><a href="Paths_openapi_petstore.html#dynlibdir"><span class="hs-identifier hs-var hs-var">dynlibdir</span></a></span></span><span>  </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;/home/jon/fs/git/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work/install/x86_64-linux-tinfo6/2f9e8e6d6a0225b440573e2ade8cf024ba1ae60293b2eb0dca9acdb6bef1c3d4/9.0.2/lib/x86_64-linux-ghc-9.0.2&quot;</span></span><span>
-</span><span id="line-36"></span><span id="datadir"><span class="annot"><span class="annottext">datadir :: String
-</span><a href="Paths_openapi_petstore.html#datadir"><span class="hs-identifier hs-var hs-var">datadir</span></a></span></span><span>    </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;/home/jon/fs/git/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work/install/x86_64-linux-tinfo6/2f9e8e6d6a0225b440573e2ade8cf024ba1ae60293b2eb0dca9acdb6bef1c3d4/9.0.2/share/x86_64-linux-ghc-9.0.2/openapi-petstore-0.1.0.0&quot;</span></span><span>
-</span><span id="line-37"></span><span id="libexecdir"><span class="annot"><span class="annottext">libexecdir :: String
-</span><a href="Paths_openapi_petstore.html#libexecdir"><span class="hs-identifier hs-var hs-var">libexecdir</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;/home/jon/fs/git/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work/install/x86_64-linux-tinfo6/2f9e8e6d6a0225b440573e2ade8cf024ba1ae60293b2eb0dca9acdb6bef1c3d4/9.0.2/libexec/x86_64-linux-ghc-9.0.2/openapi-petstore-0.1.0.0&quot;</span></span><span>
-</span><span id="line-38"></span><span id="sysconfdir"><span class="annot"><span class="annottext">sysconfdir :: String
-</span><a href="Paths_openapi_petstore.html#sysconfdir"><span class="hs-identifier hs-var hs-var">sysconfdir</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;/home/jon/fs/git/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work/install/x86_64-linux-tinfo6/2f9e8e6d6a0225b440573e2ade8cf024ba1ae60293b2eb0dca9acdb6bef1c3d4/9.0.2/etc&quot;</span></span><span>
+</span><span id="line-34"></span><span>
+</span><span id="line-35"></span><span class="annot"><a href="Paths_openapi_petstore.html#getDataFileName"><span class="hs-identifier hs-type">getDataFileName</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
+</span><span id="line-36"></span><span id="getDataFileName"><span class="annot"><span class="annottext">getDataFileName :: String -&gt; IO String
+</span><a href="Paths_openapi_petstore.html#getDataFileName"><span class="hs-identifier hs-var hs-var">getDataFileName</span></a></span></span><span> </span><span id="local-6989586621679171171"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679171171"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-37"></span><span>  </span><span id="local-6989586621679171172"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679171172"><span class="hs-identifier hs-var">dir</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO String
+</span><a href="Paths_openapi_petstore.html#getDataDir"><span class="hs-identifier hs-var">getDataDir</span></a></span><span>
+</span><span id="line-38"></span><span>  </span><span class="annot"><span class="annottext">String -&gt; IO String
+forall a. a -&gt; IO a
+forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
+</span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679171172"><span class="hs-identifier hs-var">dir</span></a></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+</span><a href="Paths_openapi_petstore.html#joinFileName"><span class="hs-operator hs-var">`joinFileName`</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679171171"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-39"></span><span>
 </span><span id="line-40"></span><span class="annot"><a href="Paths_openapi_petstore.html#getBinDir"><span class="hs-identifier hs-type">getBinDir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#getLibDir"><span class="hs-identifier hs-type">getLibDir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#getDynLibDir"><span class="hs-identifier hs-type">getDynLibDir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#getDataDir"><span class="hs-identifier hs-type">getDataDir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#getLibexecDir"><span class="hs-identifier hs-type">getLibexecDir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#getSysconfDir"><span class="hs-identifier hs-type">getSysconfDir</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
-</span><span id="line-41"></span><span id="getBinDir"><span class="annot"><span class="annottext">getBinDir :: IO String
-</span><a href="Paths_openapi_petstore.html#getBinDir"><span class="hs-identifier hs-var hs-var">getBinDir</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO String -&gt; (IOException -&gt; IO String) -&gt; IO String
+</span><span id="line-41"></span><span>
+</span><span id="line-42"></span><span>
+</span><span id="line-43"></span><span>
+</span><span id="line-44"></span><span class="annot"><a href="Paths_openapi_petstore.html#bindir"><span class="hs-identifier hs-type">bindir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#libdir"><span class="hs-identifier hs-type">libdir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#dynlibdir"><span class="hs-identifier hs-type">dynlibdir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#datadir"><span class="hs-identifier hs-type">datadir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#libexecdir"><span class="hs-identifier hs-type">libexecdir</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Paths_openapi_petstore.html#sysconfdir"><span class="hs-identifier hs-type">sysconfdir</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
+</span><span id="line-45"></span><span id="bindir"><span class="annot"><span class="annottext">bindir :: String
+</span><a href="Paths_openapi_petstore.html#bindir"><span class="hs-identifier hs-var hs-var">bindir</span></a></span></span><span>     </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;/home/jon/fs/git/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work/install/x86_64-linux-tinfo6/86de22758d19d22e98fea9acfb600194ce9ad9a3ce19a581161d1bf31c4ac035/9.4.5/bin&quot;</span></span><span>
+</span><span id="line-46"></span><span id="libdir"><span class="annot"><span class="annottext">libdir :: String
+</span><a href="Paths_openapi_petstore.html#libdir"><span class="hs-identifier hs-var hs-var">libdir</span></a></span></span><span>     </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;/home/jon/fs/git/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work/install/x86_64-linux-tinfo6/86de22758d19d22e98fea9acfb600194ce9ad9a3ce19a581161d1bf31c4ac035/9.4.5/lib/x86_64-linux-ghc-9.4.5/openapi-petstore-0.1.0.0-CXAPG0SOw20QY3Hna0VsF&quot;</span></span><span>
+</span><span id="line-47"></span><span id="dynlibdir"><span class="annot"><span class="annottext">dynlibdir :: String
+</span><a href="Paths_openapi_petstore.html#dynlibdir"><span class="hs-identifier hs-var hs-var">dynlibdir</span></a></span></span><span>  </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;/home/jon/fs/git/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work/install/x86_64-linux-tinfo6/86de22758d19d22e98fea9acfb600194ce9ad9a3ce19a581161d1bf31c4ac035/9.4.5/lib/x86_64-linux-ghc-9.4.5&quot;</span></span><span>
+</span><span id="line-48"></span><span id="datadir"><span class="annot"><span class="annottext">datadir :: String
+</span><a href="Paths_openapi_petstore.html#datadir"><span class="hs-identifier hs-var hs-var">datadir</span></a></span></span><span>    </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;/home/jon/fs/git/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work/install/x86_64-linux-tinfo6/86de22758d19d22e98fea9acfb600194ce9ad9a3ce19a581161d1bf31c4ac035/9.4.5/share/x86_64-linux-ghc-9.4.5/openapi-petstore-0.1.0.0&quot;</span></span><span>
+</span><span id="line-49"></span><span id="libexecdir"><span class="annot"><span class="annottext">libexecdir :: String
+</span><a href="Paths_openapi_petstore.html#libexecdir"><span class="hs-identifier hs-var hs-var">libexecdir</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;/home/jon/fs/git/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work/install/x86_64-linux-tinfo6/86de22758d19d22e98fea9acfb600194ce9ad9a3ce19a581161d1bf31c4ac035/9.4.5/libexec/x86_64-linux-ghc-9.4.5/openapi-petstore-0.1.0.0&quot;</span></span><span>
+</span><span id="line-50"></span><span id="sysconfdir"><span class="annot"><span class="annottext">sysconfdir :: String
+</span><a href="Paths_openapi_petstore.html#sysconfdir"><span class="hs-identifier hs-var hs-var">sysconfdir</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;/home/jon/fs/git/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work/install/x86_64-linux-tinfo6/86de22758d19d22e98fea9acfb600194ce9ad9a3ce19a581161d1bf31c4ac035/9.4.5/etc&quot;</span></span><span>
+</span><span id="line-51"></span><span>
+</span><span id="line-52"></span><span id="getBinDir"><span class="annot"><span class="annottext">getBinDir :: IO String
+</span><a href="Paths_openapi_petstore.html#getBinDir"><span class="hs-identifier hs-var hs-var">getBinDir</span></a></span></span><span>     </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO String -&gt; (IOException -&gt; IO String) -&gt; IO String
 forall a. IO a -&gt; (IOException -&gt; IO a) -&gt; IO a
 </span><a href="Paths_openapi_petstore.html#catchIO"><span class="hs-identifier hs-var">catchIO</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; IO String
 </span><span class="hs-identifier hs-var">getEnv</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;openapi_petstore_bindir&quot;</span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span class="annot"><span class="annottext">IOException
+</span><span class="hs-string">&quot;openapi_petstore_bindir&quot;</span></span><span class="hs-special">)</span><span>     </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span class="annot"><span class="annottext">IOException
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">String -&gt; IO String
+forall a. a -&gt; IO a
 forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><a href="Paths_openapi_petstore.html#bindir"><span class="hs-identifier hs-var">bindir</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-42"></span><span id="getLibDir"><span class="annot"><span class="annottext">getLibDir :: IO String
-</span><a href="Paths_openapi_petstore.html#getLibDir"><span class="hs-identifier hs-var hs-var">getLibDir</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO String -&gt; (IOException -&gt; IO String) -&gt; IO String
+</span><span id="line-53"></span><span id="getLibDir"><span class="annot"><span class="annottext">getLibDir :: IO String
+</span><a href="Paths_openapi_petstore.html#getLibDir"><span class="hs-identifier hs-var hs-var">getLibDir</span></a></span></span><span>     </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO String -&gt; (IOException -&gt; IO String) -&gt; IO String
 forall a. IO a -&gt; (IOException -&gt; IO a) -&gt; IO a
 </span><a href="Paths_openapi_petstore.html#catchIO"><span class="hs-identifier hs-var">catchIO</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; IO String
 </span><span class="hs-identifier hs-var">getEnv</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;openapi_petstore_libdir&quot;</span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span class="annot"><span class="annottext">IOException
+</span><span class="hs-string">&quot;openapi_petstore_libdir&quot;</span></span><span class="hs-special">)</span><span>     </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span class="annot"><span class="annottext">IOException
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">String -&gt; IO String
+forall a. a -&gt; IO a
 forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><a href="Paths_openapi_petstore.html#libdir"><span class="hs-identifier hs-var">libdir</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-43"></span><span id="getDynLibDir"><span class="annot"><span class="annottext">getDynLibDir :: IO String
-</span><a href="Paths_openapi_petstore.html#getDynLibDir"><span class="hs-identifier hs-var hs-var">getDynLibDir</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO String -&gt; (IOException -&gt; IO String) -&gt; IO String
+</span><span id="line-54"></span><span id="getDynLibDir"><span class="annot"><span class="annottext">getDynLibDir :: IO String
+</span><a href="Paths_openapi_petstore.html#getDynLibDir"><span class="hs-identifier hs-var hs-var">getDynLibDir</span></a></span></span><span>  </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO String -&gt; (IOException -&gt; IO String) -&gt; IO String
 forall a. IO a -&gt; (IOException -&gt; IO a) -&gt; IO a
 </span><a href="Paths_openapi_petstore.html#catchIO"><span class="hs-identifier hs-var">catchIO</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; IO String
 </span><span class="hs-identifier hs-var">getEnv</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;openapi_petstore_dynlibdir&quot;</span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span class="annot"><span class="annottext">IOException
+</span><span class="hs-string">&quot;openapi_petstore_dynlibdir&quot;</span></span><span class="hs-special">)</span><span>  </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span class="annot"><span class="annottext">IOException
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">String -&gt; IO String
+forall a. a -&gt; IO a
 forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><a href="Paths_openapi_petstore.html#dynlibdir"><span class="hs-identifier hs-var">dynlibdir</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-44"></span><span id="getDataDir"><span class="annot"><span class="annottext">getDataDir :: IO String
-</span><a href="Paths_openapi_petstore.html#getDataDir"><span class="hs-identifier hs-var hs-var">getDataDir</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO String -&gt; (IOException -&gt; IO String) -&gt; IO String
+</span><span id="line-55"></span><span id="getDataDir"><span class="annot"><span class="annottext">getDataDir :: IO String
+</span><a href="Paths_openapi_petstore.html#getDataDir"><span class="hs-identifier hs-var hs-var">getDataDir</span></a></span></span><span>    </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO String -&gt; (IOException -&gt; IO String) -&gt; IO String
 forall a. IO a -&gt; (IOException -&gt; IO a) -&gt; IO a
 </span><a href="Paths_openapi_petstore.html#catchIO"><span class="hs-identifier hs-var">catchIO</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; IO String
 </span><span class="hs-identifier hs-var">getEnv</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;openapi_petstore_datadir&quot;</span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span class="annot"><span class="annottext">IOException
+</span><span class="hs-string">&quot;openapi_petstore_datadir&quot;</span></span><span class="hs-special">)</span><span>    </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span class="annot"><span class="annottext">IOException
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">String -&gt; IO String
+forall a. a -&gt; IO a
 forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><a href="Paths_openapi_petstore.html#datadir"><span class="hs-identifier hs-var">datadir</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-45"></span><span id="getLibexecDir"><span class="annot"><span class="annottext">getLibexecDir :: IO String
+</span><span id="line-56"></span><span id="getLibexecDir"><span class="annot"><span class="annottext">getLibexecDir :: IO String
 </span><a href="Paths_openapi_petstore.html#getLibexecDir"><span class="hs-identifier hs-var hs-var">getLibexecDir</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO String -&gt; (IOException -&gt; IO String) -&gt; IO String
 forall a. IO a -&gt; (IOException -&gt; IO a) -&gt; IO a
 </span><a href="Paths_openapi_petstore.html#catchIO"><span class="hs-identifier hs-var">catchIO</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; IO String
 </span><span class="hs-identifier hs-var">getEnv</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;openapi_petstore_libexecdir&quot;</span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span class="annot"><span class="annottext">IOException
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">String -&gt; IO String
+forall a. a -&gt; IO a
 forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><a href="Paths_openapi_petstore.html#libexecdir"><span class="hs-identifier hs-var">libexecdir</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-46"></span><span id="getSysconfDir"><span class="annot"><span class="annottext">getSysconfDir :: IO String
+</span><span id="line-57"></span><span id="getSysconfDir"><span class="annot"><span class="annottext">getSysconfDir :: IO String
 </span><a href="Paths_openapi_petstore.html#getSysconfDir"><span class="hs-identifier hs-var hs-var">getSysconfDir</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IO String -&gt; (IOException -&gt; IO String) -&gt; IO String
 forall a. IO a -&gt; (IOException -&gt; IO a) -&gt; IO a
 </span><a href="Paths_openapi_petstore.html#catchIO"><span class="hs-identifier hs-var">catchIO</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; IO String
 </span><span class="hs-identifier hs-var">getEnv</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;openapi_petstore_sysconfdir&quot;</span></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span class="annot"><span class="annottext">IOException
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">String -&gt; IO String
+forall a. a -&gt; IO a
 forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
 </span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><a href="Paths_openapi_petstore.html#sysconfdir"><span class="hs-identifier hs-var">sysconfdir</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-47"></span><span>
-</span><span id="line-48"></span><span class="annot"><a href="Paths_openapi_petstore.html#getDataFileName"><span class="hs-identifier hs-type">getDataFileName</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
-</span><span id="line-49"></span><span id="getDataFileName"><span class="annot"><span class="annottext">getDataFileName :: String -&gt; IO String
-</span><a href="Paths_openapi_petstore.html#getDataFileName"><span class="hs-identifier hs-var hs-var">getDataFileName</span></a></span></span><span> </span><span id="local-6989586621679167468"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679167468"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-50"></span><span>  </span><span id="local-6989586621679167467"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679167467"><span class="hs-identifier hs-var">dir</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">IO String
-</span><a href="Paths_openapi_petstore.html#getDataDir"><span class="hs-identifier hs-var">getDataDir</span></a></span><span>
-</span><span id="line-51"></span><span>  </span><span class="annot"><span class="annottext">String -&gt; IO String
-forall (m :: * -&gt; *) a. Monad m =&gt; a -&gt; m a
-</span><span class="hs-identifier hs-var">return</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679167467"><span class="hs-identifier hs-var">dir</span></a></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+</span><span id="line-58"></span><span>
+</span><span id="line-59"></span><span>
+</span><span id="line-60"></span><span>
+</span><span id="line-61"></span><span>
+</span><span id="line-62"></span><span class="annot"><a href="Paths_openapi_petstore.html#joinFileName"><span class="hs-identifier hs-type">joinFileName</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
+</span><span id="line-63"></span><span id="joinFileName"><span class="annot"><span class="annottext">joinFileName :: String -&gt; String -&gt; String
+</span><a href="Paths_openapi_petstore.html#joinFileName"><span class="hs-identifier hs-var hs-var">joinFileName</span></a></span></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;&quot;</span></span><span>  </span><span id="local-6989586621679171180"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679171180"><span class="hs-identifier hs-var">fname</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679171180"><span class="hs-identifier hs-var">fname</span></a></span><span>
+</span><span id="line-64"></span><span class="annot"><a href="Paths_openapi_petstore.html#joinFileName"><span class="hs-identifier hs-var">joinFileName</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;.&quot;</span></span><span> </span><span id="local-6989586621679171181"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679171181"><span class="hs-identifier hs-var">fname</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679171181"><span class="hs-identifier hs-var">fname</span></a></span><span>
+</span><span id="line-65"></span><span class="annot"><a href="Paths_openapi_petstore.html#joinFileName"><span class="hs-identifier hs-var">joinFileName</span></a></span><span> </span><span id="local-6989586621679171182"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679171182"><span class="hs-identifier hs-var">dir</span></a></span></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;&quot;</span></span><span>    </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679171182"><span class="hs-identifier hs-var">dir</span></a></span><span>
+</span><span id="line-66"></span><span class="annot"><a href="Paths_openapi_petstore.html#joinFileName"><span class="hs-identifier hs-var">joinFileName</span></a></span><span> </span><span id="local-6989586621679171183"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679171183"><span class="hs-identifier hs-var">dir</span></a></span></span><span> </span><span id="local-6989586621679171184"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679171184"><span class="hs-identifier hs-var">fname</span></a></span></span><span>
+</span><span id="line-67"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Char -&gt; Bool
+</span><a href="Paths_openapi_petstore.html#isPathSeparator"><span class="hs-identifier hs-var">isPathSeparator</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Char
+forall a. HasCallStack =&gt; [a] -&gt; a
+</span><span class="hs-identifier hs-var">List.last</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679171183"><span class="hs-identifier hs-var">dir</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679171183"><span class="hs-identifier hs-var">dir</span></a></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
 forall a. [a] -&gt; [a] -&gt; [a]
 </span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;/&quot;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+</span><a href="#local-6989586621679171184"><span class="hs-identifier hs-var">fname</span></a></span><span>
+</span><span id="line-68"></span><span>  </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">otherwise</span></span><span>                       </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679171183"><span class="hs-identifier hs-var">dir</span></a></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
 forall a. [a] -&gt; [a] -&gt; [a]
-</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679167468"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-52"></span></pre></body></html>
+</span><span class="hs-operator hs-var">++</span></span><span> </span><span class="annot"><span class="annottext">Char
+</span><a href="Paths_openapi_petstore.html#pathSeparator"><span class="hs-identifier hs-var">pathSeparator</span></a></span><span> </span><span class="annot"><span class="annottext">Char -&gt; String -&gt; String
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679171184"><span class="hs-identifier hs-var">fname</span></a></span><span>
+</span><span id="line-69"></span><span>
+</span><span id="line-70"></span><span class="annot"><a href="Paths_openapi_petstore.html#pathSeparator"><span class="hs-identifier hs-type">pathSeparator</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Char</span></span><span>
+</span><span id="line-71"></span><span id="pathSeparator"><span class="annot"><span class="annottext">pathSeparator :: Char
+</span><a href="Paths_openapi_petstore.html#pathSeparator"><span class="hs-identifier hs-var hs-var">pathSeparator</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Char
+</span><span class="hs-char">'/'</span></span><span>
+</span><span id="line-72"></span><span>
+</span><span id="line-73"></span><span class="annot"><a href="Paths_openapi_petstore.html#isPathSeparator"><span class="hs-identifier hs-type">isPathSeparator</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Char</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>
+</span><span id="line-74"></span><span id="isPathSeparator"><span class="annot"><span class="annottext">isPathSeparator :: Char -&gt; Bool
+</span><a href="Paths_openapi_petstore.html#isPathSeparator"><span class="hs-identifier hs-var hs-var">isPathSeparator</span></a></span></span><span> </span><span id="local-6989586621679171188"><span class="annot"><span class="annottext">Char
+</span><a href="#local-6989586621679171188"><span class="hs-identifier hs-var">c</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Char
+</span><a href="#local-6989586621679171188"><span class="hs-identifier hs-var">c</span></a></span><span> </span><span class="annot"><span class="annottext">Char -&gt; Char -&gt; Bool
+forall a. Eq a =&gt; a -&gt; a -&gt; Bool
+</span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Char
+</span><span class="hs-char">'/'</span></span><span>
+</span><span id="line-75"></span></pre></body></html>

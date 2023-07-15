@@ -21,7 +21,7 @@ import ssl
 from urllib.parse import urlencode, quote_plus
 import urllib3
 
-from petstore_api.exceptions import ApiException, UnauthorizedException, ForbiddenException, NotFoundException, ServiceException, ApiValueError
+from petstore_api.exceptions import ApiException, UnauthorizedException, ForbiddenException, NotFoundException, ServiceException, ApiValueError, BadRequestException
 
 
 logger = logging.getLogger(__name__)
@@ -218,6 +218,9 @@ class RESTClientObject(object):
             logger.debug("response body: %s", r.data)
 
         if not 200 <= r.status <= 299:
+            if r.status == 400:
+                raise BadRequestException(http_resp=r)
+
             if r.status == 401:
                 raise UnauthorizedException(http_resp=r)
 

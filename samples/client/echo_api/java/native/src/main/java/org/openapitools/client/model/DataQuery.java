@@ -219,6 +219,20 @@ public class DataQuery extends Query {
 
     StringJoiner joiner = new StringJoiner("&");
 
+    // add `id` to the URL query string
+    if (getId() != null) {
+      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+    }
+
+    // add `outcomes` to the URL query string
+    if (getOutcomes() != null) {
+      for (int i = 0; i < getOutcomes().size(); i++) {
+        joiner.add(String.format("%soutcomes%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            URLEncoder.encode(String.valueOf(getOutcomes().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      }
+    }
+
     // add `suffix` to the URL query string
     if (getSuffix() != null) {
       joiner.add(String.format("%ssuffix%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSuffix()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
@@ -232,20 +246,6 @@ public class DataQuery extends Query {
     // add `date` to the URL query string
     if (getDate() != null) {
       joiner.add(String.format("%sdate%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `id` to the URL query string
-    if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
-    // add `outcomes` to the URL query string
-    if (getOutcomes() != null) {
-      for (int i = 0; i < getOutcomes().size(); i++) {
-        joiner.add(String.format("%soutcomes%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(String.valueOf(getOutcomes().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-      }
     }
 
     return joiner.toString();
