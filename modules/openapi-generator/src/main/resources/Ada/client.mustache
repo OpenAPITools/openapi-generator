@@ -12,6 +12,7 @@
 with {{package}}.Clients;
 with {{package}}.Models;
 with {{openApiPackageName}};
+with {{openApiPackageName}}.Credentials.OAuth;
 with Util.Http.Clients.{{httpClientPackageName}};
 with Ada.Text_IO;
 with Ada.Command_Line;
@@ -41,9 +42,11 @@ begin
    declare
       Command : constant String := Ada.Command_Line.Argument (Arg);
       Item    : constant String := Ada.Command_Line.Argument (Arg + 1);
+      Cred    : aliased {{openApiPackageName}}.Credentials.OAuth.OAuth2_Credential_Type;
       C       : {{package}}.Clients.Client_Type;
    begin
       C.Set_Server (Server);
+      C.Set_Credentials (Cred'Unchecked_Access);
       Arg := Arg + 2;
 
    exception

@@ -44,6 +44,7 @@ package body {{package}}.Models is
       Into.End_Entity (Name);
 {{/isEnum}}
    end Serialize;
+{{^vendorExtensions.x-ada-no-vector}}
 
    procedure Serialize (Into  : in out {{openApiPackageName}}.Streams.Output_Stream'Class;
                         Name  : in String;
@@ -55,6 +56,7 @@ package body {{package}}.Models is
       end loop;
       Into.End_Array (Name);
    end Serialize;
+{{/vendorExtensions.x-ada-no-vector}}
 
    procedure Deserialize (From  : in {{openApiPackageName}}.Value_Type;
                           Name  : in String;
@@ -66,6 +68,7 @@ package body {{package}}.Models is
       Deserialize (Object, "{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}
       {{openApiPackageName}}.Streams.Deserialize (Object, "{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-model-type}}{{/vars}}{{/isEnum}}
    end Deserialize;
+{{^vendorExtensions.x-ada-no-vector}}
 
    procedure Deserialize (From  : in {{openApiPackageName}}.Value_Type;
                           Name  : in String;
@@ -80,6 +83,7 @@ package body {{package}}.Models is
          Value.Append (Item);
       end loop;
    end Deserialize;
+{{/vendorExtensions.x-ada-no-vector}}
 {{/isArray}}{{/model}}
 {{/orderedModels}}
 

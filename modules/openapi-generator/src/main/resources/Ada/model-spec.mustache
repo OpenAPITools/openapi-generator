@@ -26,31 +26,27 @@ package {{package}}.Models is
      end record;
 {{/hasVars}}{{^hasVars}}
    type {{classname}} is new {{dataType}};
-{{/hasVars}}
-{{/vendorExtensions.x-is-imported-type}}
-{{/isEnum}}
-{{^vendorExtensions.x-is-imported-type}}
+{{/hasVars}}{{/vendorExtensions.x-is-imported-type}}{{/isEnum}}
+{{^vendorExtensions.x-is-imported-type}}{{^vendorExtensions.x-ada-no-vector}}
    package {{classname}}_Vectors is
       new Ada.Containers.Vectors (Index_Type   => Positive,
-                                  Element_Type => {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{classname}}{{/vendorExtensions.x-ada-type-name}});
-{{/vendorExtensions.x-is-imported-type}}
+                                  Element_Type => {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{classname}}{{/vendorExtensions.x-ada-type-name}});{{/vendorExtensions.x-ada-no-vector}}{{/vendorExtensions.x-is-imported-type}}
 
    procedure Serialize (Into  : in out {{openApiPackageName}}.Streams.Output_Stream'Class;
                         Name  : in String;
                         Value : in {{vendorExtensions.x-ada-type-name}});
-
+{{^vendorExtensions.x-ada-no-vector}}
    procedure Serialize (Into  : in out {{openApiPackageName}}.Streams.Output_Stream'Class;
                         Name  : in String;
                         Value : in {{#vendorExtensions.x-ada-vector-type-name}}{{.}}{{/vendorExtensions.x-ada-vector-type-name}}{{^vendorExtensions.x-ada-vector-type-name}}{{classname}}_Vectors.Vector{{/vendorExtensions.x-ada-vector-type-name}});
-
+{{/vendorExtensions.x-ada-no-vector}}
    procedure Deserialize (From  : in {{openApiPackageName}}.Value_Type;
                           Name  : in String;
                           Value : out {{vendorExtensions.x-ada-type-name}});
-
+{{^vendorExtensions.x-ada-no-vector}}
    procedure Deserialize (From  : in {{openApiPackageName}}.Value_Type;
                           Name  : in String;
-                          Value : in out {{#vendorExtensions.x-ada-vector-type-name}}{{.}}{{/vendorExtensions.x-ada-vector-type-name}}{{^vendorExtensions.x-ada-vector-type-name}}{{classname}}_Vectors.Vector{{/vendorExtensions.x-ada-vector-type-name}});
-
+                          Value : in out {{#vendorExtensions.x-ada-vector-type-name}}{{.}}{{/vendorExtensions.x-ada-vector-type-name}}{{^vendorExtensions.x-ada-vector-type-name}}{{classname}}_Vectors.Vector{{/vendorExtensions.x-ada-vector-type-name}});{{/vendorExtensions.x-ada-no-vector}}
 {{/isArray}}{{#isArray}}
    subtype {{classname}} is {{arrayModelType}}_Type_Vectors.Vector;
 {{/isArray}}{{/model}}

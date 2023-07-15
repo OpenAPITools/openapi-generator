@@ -76,8 +76,10 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     // In that case, we don't generate the Ada type but use its external definition.  Only the
     // Serialize/Deserialize are generated in the model.  If there is an inconsistency, this will
     // be detected at compilation time.
+    // "x-ada-no-vector" instructs to not instantiate the Vectors package for the given model type.
     private static final String X_ADA_TYPE_NAME = "x-ada-type-name";
     private static final String X_ADA_VECTOR_TYPE_NAME = "x-ada-vector-type-name";
+    private static final String X_ADA_NO_VECTOR = "x-ada-no-vector";
 
     protected String packageName = "defaultPackage";
     protected String projectName = "defaultProject";
@@ -873,6 +875,11 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                     }
                     isModel = true;
                 }
+                Boolean noVector = Boolean.FALSE;
+                if (p.vendorExtensions.get(X_ADA_NO_VECTOR) instanceof Boolean) {
+                    noVector = (Boolean) p.vendorExtensions.get(X_ADA_NO_VECTOR);
+                }
+                p.vendorExtensions.put(X_ADA_NO_VECTOR, noVector);
                 p.vendorExtensions.put("x-is-model-type", isModel);
                 p.vendorExtensions.put("x-is-stream-type", isStreamType);
                 String pkgImport = useType(dataType);
