@@ -168,7 +168,8 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Adult adult, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WritePropertyName("children");
-            JsonSerializer.Serialize(writer, adult.Children, jsonSerializerOptions);            writer.WriteString("firstName", adult.FirstName);
+            JsonSerializer.Serialize(writer, adult.Children, jsonSerializerOptions);
+            writer.WriteString("firstName", adult.FirstName);
             writer.WriteString("lastName", adult.LastName);
             writer.WriteString("$_type", adult.Type);
         }

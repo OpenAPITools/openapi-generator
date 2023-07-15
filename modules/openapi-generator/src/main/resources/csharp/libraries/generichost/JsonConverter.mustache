@@ -38,7 +38,7 @@
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             {{#allVars}}
-            {{#isInnerEnum}}{{^isMap}}{{classname}}.{{/isMap}}{{/isInnerEnum}}{{#nrt}}{{#lambda.optional}}{{{datatypeWithEnum}}}{{/lambda.optional}}{{/nrt}}{{^nrt}}{{{datatypeWithEnum}}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = default;
+            {{#isInnerEnum}}{{^isMap}}{{classname}}.{{/isMap}}{{/isInnerEnum}}{{{datatypeWithEnum}}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = default;
             {{#-last}}
 
             {{/-last}}
@@ -503,6 +503,16 @@
             {{^isDate}}
             {{^isDateTime}}
             writer.WritePropertyName("{{baseName}}");
-            JsonSerializer.Serialize(writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}, jsonSerializerOptions);{{/isDateTime}}{{/isDate}}{{/isNumeric}}{{/isBoolean}}{{/isString}}{{/isEnum}}{{/isUuid}}{{/allVars}}{{/lambda.trimLineBreaks}}{{/lambda.trimTrailingWhiteSpace}}
+            JsonSerializer.Serialize(writer, {{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}, jsonSerializerOptions);
+            {{/isDateTime}}
+            {{/isDate}}
+            {{/isNumeric}}
+            {{/isBoolean}}
+            {{/isString}}
+            {{/isEnum}}
+            {{/isUuid}}
+            {{/allVars}}
+            {{/lambda.trimLineBreaks}}
+            {{/lambda.trimTrailingWhiteSpace}}
         }
     }

@@ -2265,6 +2265,46 @@ components:
         $ref: '#/components/schemas/Scalar'
       minItems: 1
       type: array
+    NewPet:
+      properties:
+        id:
+          format: int64
+          type: integer
+          x-is-unique: true
+        category_inline_allof:
+          $ref: '#/components/schemas/NewPet_category_inline_allof'
+        category_allOf_ref:
+          allOf:
+          - $ref: '#/components/schemas/Category'
+        name:
+          example: doggie
+          type: string
+        photoUrls:
+          items:
+            type: string
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+        tags:
+          items:
+            allOf:
+            - $ref: '#/components/schemas/Tag'
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
+      type: object
     _foo_get_default_response:
       example:
         string:
@@ -2419,6 +2459,28 @@ components:
       - properties:
           color:
             type: string
+        type: object
+    NewPet_category_inline_allof_allOf_category_tag:
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+      type: object
+    NewPet_category_inline_allof:
+      allOf:
+      - properties:
+          id:
+            format: int64
+            type: integer
+          name:
+            default: default-name
+            type: string
+          category_tag:
+            $ref: '#/components/schemas/NewPet_category_inline_allof_allOf_category_tag'
+        required:
+        - name
         type: object
   securitySchemes:
     petstore_auth:

@@ -23,7 +23,7 @@
     <PackageReference Include="CompareNETObjects" Version="4.61.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="7.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="7.0.8" />
   </ItemGroup>
 
 </Project>

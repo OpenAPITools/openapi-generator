@@ -329,10 +329,12 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Pet pet, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WritePropertyName("category");
-            JsonSerializer.Serialize(writer, pet.Category, jsonSerializerOptions);            writer.WriteNumber("id", pet.Id);
+            JsonSerializer.Serialize(writer, pet.Category, jsonSerializerOptions);
+            writer.WriteNumber("id", pet.Id);
             writer.WriteString("name", pet.Name);
             writer.WritePropertyName("photoUrls");
             JsonSerializer.Serialize(writer, pet.PhotoUrls, jsonSerializerOptions);
+
             var statusRawValue = Pet.StatusEnumToJsonValue(pet.Status);
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);

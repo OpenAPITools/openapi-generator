@@ -213,8 +213,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, ObjectWithDeprecatedFields objectWithDeprecatedFields, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WritePropertyName("bars");
-            JsonSerializer.Serialize(writer, objectWithDeprecatedFields.Bars, jsonSerializerOptions);            writer.WritePropertyName("deprecatedRef");
-            JsonSerializer.Serialize(writer, objectWithDeprecatedFields.DeprecatedRef, jsonSerializerOptions);            writer.WriteNumber("id", objectWithDeprecatedFields.Id);
+            JsonSerializer.Serialize(writer, objectWithDeprecatedFields.Bars, jsonSerializerOptions);
+            writer.WritePropertyName("deprecatedRef");
+            JsonSerializer.Serialize(writer, objectWithDeprecatedFields.DeprecatedRef, jsonSerializerOptions);
+            writer.WriteNumber("id", objectWithDeprecatedFields.Id);
             writer.WriteString("uuid", objectWithDeprecatedFields.Uuid);
         }
     }

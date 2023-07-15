@@ -175,7 +175,8 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, FileSchemaTestClass fileSchemaTestClass, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WritePropertyName("file");
-            JsonSerializer.Serialize(writer, fileSchemaTestClass.File, jsonSerializerOptions);            writer.WritePropertyName("files");
+            JsonSerializer.Serialize(writer, fileSchemaTestClass.File, jsonSerializerOptions);
+            writer.WritePropertyName("files");
             JsonSerializer.Serialize(writer, fileSchemaTestClass.Files, jsonSerializerOptions);
         }
     }

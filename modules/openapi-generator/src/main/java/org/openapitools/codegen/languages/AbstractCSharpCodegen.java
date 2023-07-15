@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -415,7 +416,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("joinWithComma", new JoinWithCommaLambda())
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
                 .put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda())
-                .put("first", new FirstLambda());
+                .put("first", new FirstLambda())
+                .put("indent3", new IndentedLambda(12, " "))
+                .put("indent4", new IndentedLambda(16, " "));
     }
 
     @Override
@@ -537,6 +540,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 if (allOf != null) {
                     for(CodegenProperty property : allOf) {
                         property.name = patchPropertyName(model, property.baseType);
+                        patchPropertyVendorExtensinos(property);
                     }
                 }
 
@@ -546,6 +550,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     for(CodegenProperty property : anyOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
+                        patchPropertyVendorExtensinos(property);
                     }
                 }
 
@@ -555,6 +560,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     for(CodegenProperty property : oneOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
+                        patchPropertyVendorExtensinos(property);
                     }
                 }
             }
@@ -629,6 +635,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return value;
     }
 
+    private void patchPropertyVendorExtensinos(CodegenProperty property) {
+        Boolean isValueType = isValueType(property);
+        property.vendorExtensions.put("x-is-value-type", isValueType);
+        property.vendorExtensions.put("x-is-reference-type", !isValueType);
+        property.vendorExtensions.put("x-is-nullable-type", this.getNullableReferencesTypes() || isValueType);
+    }
+
     protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
         if (enumRefs.containsKey(property.dataType)) {
             // Handle any enum properties referred to by $ref.
@@ -642,17 +655,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isPrimitiveType = true;
         }
 
-        Boolean isValueType = isValueType(property);
-
-        property.vendorExtensions.put("x-is-value-type", isValueType);
-
-        if (property.isNullable && !property.isContainer && isValueType) {
-            property.vendorExtensions.put("x-nullable-value-type", true);
-        }
-
-        if (this.getNullableReferencesTypes() || isValueType) {
-            property.vendorExtensions.put("x-nullable-type", true);
-        }
+        patchPropertyVendorExtensinos(property);
 
         String tmpPropertyName = escapeReservedWord(model, property.name);
         property.name = patchPropertyName(model, property.name);
@@ -762,19 +765,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
                     }
 
-
-                    // check if the payload is json and set x-is-json accordingly
-                    if (operation.consumes != null) {
-                        for (Map<String, String> consume : operation.consumes) {
-                            if (consume.containsKey("mediaType")) {
-                                if (isJsonMimeType(consume.get("mediaType"))) {
-                                    operation.vendorExtensions.put("x-is-json", true);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
                     if (operation.examples != null) {
                         for (Map<String, String> example : operation.examples) {
                             for (Map.Entry<String, String> entry : example.entrySet()) {
@@ -835,6 +825,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
                     }
 
+                    List<CodegenParameter> referenceTypes = operation.allParams.stream().filter(p -> p.vendorExtensions.get("x-is-value-type") == null && !p.isNullable).collect(Collectors.toList());
+                    operation.vendorExtensions.put("x-not-nullable-reference-types", referenceTypes);
+                    operation.vendorExtensions.put("x-has-not-nullable-reference-types", referenceTypes.size() > 0);
                     processOperation(operation);
                 }
             }
@@ -857,8 +850,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     private void patchParameter(CodegenParameter parameter, List<ModelMap> allModels) {
-        parameter.paramName = escapeReservedWord(parameter.paramName);
-
         patchVendorExtensionNullableValueType(parameter);
 
         if (this.getNullableReferencesTypes() || (parameter.vendorExtensions.get("x-nullable-value-type") != null)) {
@@ -1008,7 +999,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // pet_id => petId
         name = camelize(name, LOWERCASE_FIRST_LETTER);
 
-        return name;
+        return escapeReservedWord(name);
     }
 
     public String escapeReservedWord(CodegenModel model, String name) {
@@ -1162,7 +1153,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return getArrayTypeDeclaration((ArraySchema) p);
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);

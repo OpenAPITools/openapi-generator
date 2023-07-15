@@ -390,7 +390,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         this.useBeanValidation = useBeanValidation;
     }
 
-    public void setUseFeignClient( boolean useFeignClient ) {
+    public void setUseFeignClient(boolean useFeignClient) {
         this.useFeignClient = useFeignClient;
     }
 

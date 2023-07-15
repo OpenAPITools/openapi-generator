@@ -277,9 +277,12 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, MapTest mapTest, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WritePropertyName("direct_map");
-            JsonSerializer.Serialize(writer, mapTest.DirectMap, jsonSerializerOptions);            writer.WritePropertyName("indirect_map");
-            JsonSerializer.Serialize(writer, mapTest.IndirectMap, jsonSerializerOptions);            writer.WritePropertyName("map_map_of_string");
-            JsonSerializer.Serialize(writer, mapTest.MapMapOfString, jsonSerializerOptions);            writer.WritePropertyName("map_of_enum_string");
+            JsonSerializer.Serialize(writer, mapTest.DirectMap, jsonSerializerOptions);
+            writer.WritePropertyName("indirect_map");
+            JsonSerializer.Serialize(writer, mapTest.IndirectMap, jsonSerializerOptions);
+            writer.WritePropertyName("map_map_of_string");
+            JsonSerializer.Serialize(writer, mapTest.MapMapOfString, jsonSerializerOptions);
+            writer.WritePropertyName("map_of_enum_string");
             JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, jsonSerializerOptions);
         }
     }

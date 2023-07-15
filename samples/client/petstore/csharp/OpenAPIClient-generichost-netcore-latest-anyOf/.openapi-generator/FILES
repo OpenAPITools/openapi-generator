@@ -22,8 +22,10 @@ src/Org.OpenAPITools/Client/ClientUtils.cs
 src/Org.OpenAPITools/Client/CookieContainer.cs
 src/Org.OpenAPITools/Client/DateTimeJsonConverter.cs
 src/Org.OpenAPITools/Client/DateTimeNullableJsonConverter.cs
+src/Org.OpenAPITools/Client/ExceptionEventArgs.cs
 src/Org.OpenAPITools/Client/HostConfiguration.cs
 src/Org.OpenAPITools/Client/JsonSerializerOptionsProvider.cs
+src/Org.OpenAPITools/Client/Option.cs
 src/Org.OpenAPITools/Client/RateLimitProvider`1.cs
 src/Org.OpenAPITools/Client/TokenBase.cs
 src/Org.OpenAPITools/Client/TokenContainer`1.cs

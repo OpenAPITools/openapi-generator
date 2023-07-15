@@ -27,7 +27,7 @@ public interface PathHandlerInterface {
      * <ul>
      * </ul>
      *
-     * <p><b>Consumes</b>: [{mediaType=application/json}, {mediaType=application/xml}]</p>
+     * <p><b>Consumes</b>: [{isJson=true, mediaType=application/json}, {isXml=true, mediaType=application/xml}]</p>
      * <p><b>Payload</b>: {@link Pet} (<i>required: true</i>)</p>
      *
      *
@@ -94,7 +94,7 @@ public interface PathHandlerInterface {
      * </li>
      * </ul>
      *
-     * <p><b>Produces</b>: [{mediaType=application/xml}, {mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link java.util.List List} of {@link Pet}</p>
      *
      * <p><b>Responses</b>:</p>
@@ -126,7 +126,7 @@ public interface PathHandlerInterface {
      * </li>
      * </ul>
      *
-     * <p><b>Produces</b>: [{mediaType=application/xml}, {mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link java.util.List List} of {@link Pet}</p>
      *
      * <p><b>Responses</b>:</p>
@@ -159,7 +159,7 @@ public interface PathHandlerInterface {
      * </li>
      * </ul>
      *
-     * <p><b>Produces</b>: [{mediaType=application/xml}, {mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link Pet}</p>
      *
      * <p><b>Responses</b>:</p>
@@ -181,7 +181,7 @@ public interface PathHandlerInterface {
      * <ul>
      * </ul>
      *
-     * <p><b>Consumes</b>: [{mediaType=application/json}, {mediaType=application/xml}]</p>
+     * <p><b>Consumes</b>: [{isJson=true, mediaType=application/json}, {isXml=true, mediaType=application/xml}]</p>
      * <p><b>Payload</b>: {@link Pet} (<i>required: true</i>)</p>
      *
      *
@@ -280,7 +280,7 @@ public interface PathHandlerInterface {
      *
      * <p><b>Consumes</b>: [{mediaType=multipart/form-data}]</p>
      *
-     * <p><b>Produces</b>: [{mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link ModelApiResponse}</p>
      *
      * <p><b>Responses</b>:</p>
@@ -328,7 +328,7 @@ public interface PathHandlerInterface {
      *
      * <p><b>Endpoint</b>: {@link Methods#GET GET} "/v2/store/inventory" (<i>privileged: true</i>)</p>
      *
-     * <p><b>Produces</b>: [{mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link java.util.Map Map} of {@link Integer}</p>
      *
      * <p><b>Responses</b>:</p>
@@ -359,7 +359,7 @@ public interface PathHandlerInterface {
      * </li>
      * </ul>
      *
-     * <p><b>Produces</b>: [{mediaType=application/xml}, {mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link Order}</p>
      *
      * <p><b>Responses</b>:</p>
@@ -381,7 +381,7 @@ public interface PathHandlerInterface {
      * <ul>
      * </ul>
      *
-     * <p><b>Produces</b>: [{mediaType=application/xml}, {mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link Order}</p>
      *
      * <p><b>Responses</b>:</p>
@@ -497,7 +497,7 @@ public interface PathHandlerInterface {
      * </li>
      * </ul>
      *
-     * <p><b>Produces</b>: [{mediaType=application/xml}, {mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link User}</p>
      *
      * <p><b>Responses</b>:</p>
@@ -544,7 +544,7 @@ public interface PathHandlerInterface {
   "format" : "date-time"
 }', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=false, isModel=false, isContainer=false, isString=false, isNumeric=false, isInteger=false, isShort=false, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=true, isUuid=false, isUri=false, isEmail=false, isPassword=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isInnerEnum=false, isEnumRef=false, isAnyType=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, isNew=false, isOverridden=null, _enum=null, allowableValues=null, items=null, additionalProperties=null, vars=[], requiredVars=[], mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='XExpiresAfter', nameInSnakeCase='X_EXPIRES_AFTER', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, uniqueItemsBoolean=null, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false, isNull=false, isVoid=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false, requiredVarsMap=null, ref=null, schemaIsFromAdditionalProperties=false, isBooleanSchemaTrue=false, isBooleanSchemaFalse=false, format=date-time, dependentRequired=null, contains=null}]</p>
      *
-     * <p><b>Produces</b>: [{mediaType=application/xml}, {mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link String}</p>
      *
      * <p><b>Responses</b>:</p>

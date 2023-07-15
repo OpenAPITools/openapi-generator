@@ -138,6 +138,7 @@ Class | Method | HTTP request | Description
  - [AnyOfColor](docs/AnyOfColor.md)
  - [AnyOfPig](docs/AnyOfPig.md)
  - [ApiResponse](docs/ApiResponse.md)
+ - [ArrayOfArrayOfModel](docs/ArrayOfArrayOfModel.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
