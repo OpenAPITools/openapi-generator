@@ -50,7 +50,7 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
-    private final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
 
     public static final String HTTP_SUPPORT_OPTION = "httpSupport";
     public static final String OPENAPI_PACKAGE_NAME_OPTION = "openApiName";
@@ -214,6 +214,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         typeMapping = new HashMap<>();
         typeMapping.put("integer", "Integer");
         typeMapping.put("boolean", "Boolean");
+        typeMapping.put("float", "Float");
         typeMapping.put("binary", bytesType);
         typeMapping.put("ByteArray", bytesType);
 
@@ -513,7 +514,12 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return getTypeDeclaration(inner) + "_Vectors.Vector";
+            String itemType = getTypeDeclaration(inner);
+            if (itemType.startsWith("OpenAPI.")) {
+                return itemType + "_Vector";
+            } else {
+                return itemType + "_Vectors.Vector";
+            }
         }
         if (ModelUtils.isMapSchema(p)) {
             Schema<?> inner = getAdditionalProperties(p);
@@ -784,6 +790,40 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         }
     }
 
+    /**
+     * Helper class to sort the model according to their dependencies and names.
+     */
+    static class ModelDepend implements Comparable<ModelDepend> {
+        final List<String> depend;
+        final ModelMap model;
+        final String name;
+
+        ModelDepend(ModelMap model, List<String> depend, String name) {
+            this.model = model;
+            this.depend = depend;
+            this.name = name;
+        }
+
+        public int compareTo(ModelDepend second) {
+
+            if (depend != null && depend.contains(second.name)) {
+                LOGGER.debug("Compare " + name + " with " + second.name + "=1");
+                return 1;
+            }
+            if (second.depend != null && second.depend.contains(name)) {
+                LOGGER.debug("Compare " + name + " with " + second.name + "=-1");
+                return -1;
+            }
+            if ((depend == null ? 0 : depend.size()) != (second.depend == null ? 0 : second.depend.size())) {
+                LOGGER.debug("Compare " + name + " with " + second.name + "=D"
+                    + (depend.size() - second.depend.size()));
+                return depend.size() - second.depend.size();
+            }
+            LOGGER.debug("Compare " + name + " with " + second.name + "=<name>");
+            return name.compareTo(second.name);
+        }
+    }
+
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
 
@@ -815,10 +855,11 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 if (p.isContainer) {
                     item = p.items;
                 }
-                if (item != null && !item.isString && !item.isPrimitiveType && !item.isContainer && !item.isInteger) {
+                boolean isStreamType = isStreamType(p);
+                if (!isStreamType && item != null && !item.isString && !item.isPrimitiveType && !item.isContainer && !item.isInteger) {
                     if (dataType == null) {
                         dataType = item.dataType;
-                        if (dataType.startsWith(modelPackage + ".Models.")) {
+                        if (dataType.startsWith(modelPackage + ".Models.") || item.isFreeFormObject) {
                             p.vendorExtensions.put(X_ADA_TYPE_NAME, dataType);
                         } else {
                             p.vendorExtensions.put(X_ADA_TYPE_NAME, modelPackage + ".Models." + dataType);
@@ -833,7 +874,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                     isModel = true;
                 }
                 p.vendorExtensions.put("x-is-model-type", isModel);
-                p.vendorExtensions.put("x-is-stream-type", isStreamType(p));
+                p.vendorExtensions.put("x-is-stream-type", isStreamType);
                 String pkgImport = useType(dataType);
                 p.vendorExtensions.put("x-is-imported-type", pkgImport != null);
                 if (pkgImport != null) {
@@ -848,6 +889,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 } else {
                     p.vendorExtensions.put("x-is-required", true);
                 }
+                p.vendorExtensions.put("x-is-nullable", p.isNullable);
             }
             String name = (String) m.vendorExtensions.get(X_ADA_TYPE_NAME);
             if (name == null) {
@@ -869,50 +911,31 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         objs.setImports(imports);
 
         // Sort models using dependencies:
-        //   List revisedOrderedModels <- ()
-        //   if you have N model, do N passes. In each pass look for an independent model
-        //   cycle over orderedModels
-        //     if I find a model that has no dependencies, or all of its dependencies are in revisedOrderedModels, consider it the independentModel
-        //   put the independentModel at the end of revisedOrderedModels, and remove it from orderedModels
-        //
-        List<ModelMap> revisedOrderedModels = new ArrayList<>();
-        List<String> collectedModelNames = new ArrayList<>();
-        int sizeOrderedModels = orderedModels.size();
-        for (int i = 0; i < sizeOrderedModels; i++) {
-            ModelMap independentModel = null;
-            String independentModelName = null;
-            for (ModelMap model : orderedModels) {
-                // let us work with fully qualified names only
-                String modelName = modelPackage + ".Models." + model.getModel().classname;
-                boolean dependent = false;
-                List<String> depends = modelDepends.get(modelName);
-                if (depends != null) {
-                    for (String dependency : depends) {
-                        if (!collectedModelNames.contains(dependency)) {
-                            dependent = true;
-                            break;
-                        }
-                    }
-                }
-                if (!dependent) {
-                    // this model was independent
-                    independentModel = model;
-                    independentModelName = modelName;
-                }
-            }
-            if (null != independentModel) {
-                // I have find an independentModel. Add it to revisedOrderedModels, and remove from orderedModels
-                revisedOrderedModels.add(independentModel);
-                collectedModelNames.add(independentModelName);
-                orderedModels.remove(independentModel);
-            }
+        TreeSet<ModelDepend> sorted = new TreeSet<>();
+        for (ModelMap model : orderedModels) {
+            String modelName = modelPackage + ".Models." + model.getModel().classname;
+            sorted.add(new ModelDepend(model, modelDepends.get(modelName), modelName));
         }
-        // bookkeeping:
-        // if I still have elements in orderedModels:
-        //   if it's NOT last time I postProcessModels(), it means there are some dependencies that were not considered yet. That's not a problem
-        //   if it's last iteration, there are circular dependencies.
-        //  In any case, I add models still in orderedModels to revisedOrderedModels
-        revisedOrderedModels.addAll(orderedModels);
+
+        // The comparison method in ModelDepend does not provide a total order
+        // we have to adjust the sorted list to make sure the dependent models are
+        // written last.
+        ArrayList<ModelDepend> models = new ArrayList<>();
+        for (ModelDepend item : sorted) {
+            int pos = models.size();
+            for (int i = 0; i < models.size(); i++) {
+                ModelDepend second = models.get(i);
+                if (second.depend != null && second.depend.contains(item.name)) {
+                    pos = i;
+                    break;
+                }
+            }
+            models.add(pos, item);
+        }
+        List<ModelMap> revisedOrderedModels = new ArrayList<>();
+        for (ModelDepend model : models) {
+            revisedOrderedModels.add(model.model);
+        }
         orderedModels = revisedOrderedModels;
 
         return postProcessModelsEnum(objs);

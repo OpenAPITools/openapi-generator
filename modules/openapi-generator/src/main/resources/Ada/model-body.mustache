@@ -6,9 +6,7 @@ package body {{package}}.Models is
 
    use {{openApiPackageName}}.Streams;
 
-{{#orderedModels}}
-{{#model}}{{^isArray}}
-{{#isEnum}}
+{{#orderedModels}}{{#model}}{{^isArray}}{{#isEnum}}
    function To_{{classname}} (Value : in String) return {{vendorExtensions.x-ada-type-name}} is
    begin{{#allowableValues}}{{#enumVars}}
       if Value = {{value}} then
@@ -26,18 +24,22 @@ package body {{package}}.Models is
       end case;
    end To_String;
 {{/isEnum}}
-
    procedure Serialize (Into  : in out {{openApiPackageName}}.Streams.Output_Stream'Class;
                         Name  : in String;
                         Value : in {{vendorExtensions.x-ada-type-name}}) is
-   begin
-{{#isEnum}}
-      Into.Write_Entity (Name, To_String (Value));
-{{/isEnum}}{{^isEnum}}
-      Into.Start_Entity (Name);{{#vars}}{{#vendorExtensions.x-is-stream-type}}{{^isLong}}
-      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/isLong}}{{#isLong}}{{#vendorExtensions.x-is-required}}
-      Into.Write_Long_Entity ("{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-required}}{{^vendorExtensions.x-is-required}}
-      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-required}}{{/isLong}}{{/vendorExtensions.x-is-stream-type}}{{^vendorExtensions.x-is-stream-type}}
+   begin{{#isEnum}}
+      Into.Write_Entity (Name, To_String (Value));{{/isEnum}}{{^isEnum}}
+      Into.Start_Entity (Name);{{#vars}}{{#vendorExtensions.x-is-stream-type}}{{^isLong}}{{#vendorExtensions.x-is-required}}
+      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-required}}{{^vendorExtensions.x-is-required}}{{#vendorExtensions.x-is-nullable}}
+      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-nullable}}{{^vendorExtensions.x-is-nullable}}
+      if not {{#isFreeFormObject}}{{openApiPackageName}}.Is_Null (Value.{{name}}){{/isFreeFormObject}}{{^isFreeFormObject}}Value.{{name}}.Is_Null{{/isFreeFormObject}} then
+         Into.Write_Entity ("{{baseName}}", Value.{{name}});
+      end if;{{/vendorExtensions.x-is-nullable}}{{/vendorExtensions.x-is-required}}{{/isLong}}{{#isLong}}{{#vendorExtensions.x-is-required}}
+      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-required}}{{^vendorExtensions.x-is-required}}{{#vendorExtensions.x-is-nullable}}
+      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-nullable}}{{^vendorExtensions.x-is-nullable}}
+      if not Value.{{name}}.Is_Null then
+         Into.Write_Entity ("{{baseName}}", Value.{{name}});
+      end if;{{/vendorExtensions.x-is-nullable}}{{/vendorExtensions.x-is-required}}{{/isLong}}{{/vendorExtensions.x-is-stream-type}}{{^vendorExtensions.x-is-stream-type}}
       Serialize (Into, "{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-stream-type}}{{/vars}}
       Into.End_Entity (Name);
 {{/isEnum}}
@@ -78,7 +80,6 @@ package body {{package}}.Models is
          Value.Append (Item);
       end loop;
    end Deserialize;
-
 {{/isArray}}{{/model}}
 {{/orderedModels}}
 

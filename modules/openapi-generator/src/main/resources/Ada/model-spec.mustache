@@ -10,21 +10,18 @@ package {{package}}.Models is
 {{#title}}   --  ------------------------------
    --  {{title}}{{#description}}
    --  {{#lambdaAdaComment}}{{description}}{{/lambdaAdaComment}}{{/description}}
-   --  ------------------------------{{/title}}
-{{#isEnum}}
-{{^vendorExtensions.x-is-imported-type}}
+   --  ------------------------------{{/title}}{{#isEnum}}{{^vendorExtensions.x-is-imported-type}}
    type {{classname}} is ({{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}});
 {{/vendorExtensions.x-is-imported-type}}
 
    function To_{{classname}} (Value : in String) return {{vendorExtensions.x-ada-type-name}};
 
    function To_String (Value : in {{classname}}) return String;
-{{/isEnum}}{{^isEnum}}
-{{^vendorExtensions.x-is-imported-type}}{{#hasVars}}
+{{/isEnum}}{{^isEnum}}{{^vendorExtensions.x-is-imported-type}}{{#hasVars}}
    type {{classname}} is
      record
        {{#vars}}
-       {{name}} : {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}};
+       {{name}} : {{#isArray}}{{#vendorExtensions.x-ada-vector-type-name}}{{.}}{{/vendorExtensions.x-ada-vector-type-name}}{{^vendorExtensions.x-ada-vector-type-name}}{{dataType}}{{/vendorExtensions.x-ada-vector-type-name}};{{/isArray}}{{^isArray}}{{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}};{{/isArray}}
        {{/vars}}
      end record;
 {{/hasVars}}{{^hasVars}}
@@ -32,7 +29,6 @@ package {{package}}.Models is
 {{/hasVars}}
 {{/vendorExtensions.x-is-imported-type}}
 {{/isEnum}}
-
 {{^vendorExtensions.x-is-imported-type}}
    package {{classname}}_Vectors is
       new Ada.Containers.Vectors (Index_Type   => Positive,
