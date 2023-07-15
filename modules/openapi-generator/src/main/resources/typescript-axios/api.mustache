@@ -25,7 +25,12 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
 {{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{^isEnum}}{{^oneOf}}{{>modelGeneric}}{{/oneOf}}{{/isEnum}}{{/model}}
 {{/models}}
 {{#apiInfo}}{{#apis}}
+{{^functionalApisOnly}}
 {{>apiInner}}
+{{/functionalApisOnly}}
+{{#functionalApisOnly}}
+{{>apiInnerFunctional}}
+{{/functionalApisOnly}}
 {{/apis}}{{/apiInfo}}
 {{/withSeparateModelsAndApi}}{{#withSeparateModelsAndApi}}
 {{#apiInfo}}{{#apis}}{{#operations}}export * from './{{tsApiPackage}}/{{classFilename}}';

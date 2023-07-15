@@ -30,12 +30,16 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TreeSet;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
+    public static final String FUNCTIONAL_APIS_ONLY = "functionalApisOnly";
     public static final String SEPARATE_MODELS_AND_API = "withSeparateModelsAndApi";
     public static final String WITHOUT_PREFIX_ENUMS = "withoutPrefixEnums";
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
@@ -66,6 +70,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url of your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(FUNCTIONAL_APIS_ONLY, "Setting this property to true will generate functions for apis instead of classes that can be tree-shaken easily.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(SEPARATE_MODELS_AND_API, "Put the model and api in separate folders and in separate classes. This requires in addition a value for 'apiPackage' and 'modelPackage'", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         this.cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -101,9 +106,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         if (slashCount == 0) {
             sb.append("./");
         } else {
-            for (int i = 0; i < slashCount; ++i) {
-                sb.append("../");
-            }
+            sb.append("../".repeat(slashCount));
         }
         return sb.toString();
     }
@@ -131,16 +134,17 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("npmignore", "", ".npmignore"));
 
-        if (additionalProperties.containsKey(SEPARATE_MODELS_AND_API)) {
-            boolean separateModelsAndApi = Boolean.parseBoolean(additionalProperties.get(SEPARATE_MODELS_AND_API).toString());
-            if (separateModelsAndApi) {
-                if (StringUtils.isAnyBlank(modelPackage, apiPackage)) {
-                    throw new RuntimeException("apiPackage and modelPackage must be defined");
-                }
-                modelTemplateFiles.put("model.mustache", ".ts");
-                apiTemplateFiles.put("apiInner.mustache", ".ts");
-                supportingFiles.add(new SupportingFile("modelIndex.mustache", tsModelPackage, "index.ts"));
+        if (additionalProperties.containsKey(SEPARATE_MODELS_AND_API) && Boolean.parseBoolean(additionalProperties.get(SEPARATE_MODELS_AND_API).toString())) {
+            if (StringUtils.isAnyBlank(modelPackage, apiPackage)) {
+                throw new RuntimeException("apiPackage and modelPackage must be defined");
             }
+            modelTemplateFiles.put("model.mustache", ".ts");
+            if (additionalProperties.containsKey(FUNCTIONAL_APIS_ONLY) && Boolean.parseBoolean(additionalProperties.get(FUNCTIONAL_APIS_ONLY).toString())) {
+                apiTemplateFiles.put("apiInnerFunctional.mustache", ".ts");
+            } else {
+                apiTemplateFiles.put("apiInner.mustache", ".ts");
+            }
+            supportingFiles.add(new SupportingFile("modelIndex.mustache", tsModelPackage, "index.ts"));
         }
 
         if (additionalProperties.containsKey(STRING_ENUMS)) {
@@ -230,7 +234,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             cm.classFilename = cm.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
 
             //processed enum names
-            if(!withoutPrefixEnums) {
+            if (!withoutPrefixEnums) {
                 cm.imports = new TreeSet<>(cm.imports);
                 // name enum with model name, e.g. StatusEnum => PetStatusEnum
                 for (CodegenProperty var : cm.vars) {

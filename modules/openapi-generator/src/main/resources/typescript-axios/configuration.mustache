@@ -2,6 +2,8 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
+{{#functionalApisOnly}}import globalAxios, { AxiosInstance } from 'axios';{{/functionalApisOnly}}
+
 export interface ConfigurationParameters {
     apiKey?: string | Promise<string> | ((name: string) => string) | ((name: string) => Promise<string>);
     username?: string;
@@ -10,6 +12,7 @@ export interface ConfigurationParameters {
     basePath?: string;
     baseOptions?: any;
     formDataCtor?: new () => any;
+    {{#functionalApisOnly}}axios?: AxiosInstance;{{/functionalApisOnly}}
 }
 
 export class Configuration {
@@ -62,6 +65,7 @@ export class Configuration {
      * @type {new () => FormData}
      */
     formDataCtor?: new () => any;
+    {{#functionalApisOnly}}axios?: AxiosInstance;{{/functionalApisOnly}}
 
     constructor(param: ConfigurationParameters = {}) {
         this.apiKey = param.apiKey;
@@ -71,6 +75,7 @@ export class Configuration {
         this.basePath = param.basePath;
         this.baseOptions = param.baseOptions;
         this.formDataCtor = param.formDataCtor;
+        {{#functionalApisOnly}}this.axios = param.axios || globalAxios;{{/functionalApisOnly}}
     }
 
     /**
