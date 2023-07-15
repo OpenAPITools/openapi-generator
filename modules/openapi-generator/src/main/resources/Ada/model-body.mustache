@@ -30,15 +30,15 @@ package body {{package}}.Models is
    begin{{#isEnum}}
       Into.Write_Entity (Name, To_String (Value));{{/isEnum}}{{^isEnum}}
       Into.Start_Entity (Name);{{#vars}}{{#vendorExtensions.x-is-stream-type}}{{^isLong}}{{#vendorExtensions.x-is-required}}
-      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-required}}{{^vendorExtensions.x-is-required}}{{#vendorExtensions.x-is-nullable}}
-      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-nullable}}{{^vendorExtensions.x-is-nullable}}
+      Into.{{vendorExtensions.x-ada-serialize-op}} ("{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-required}}{{^vendorExtensions.x-is-required}}{{#vendorExtensions.x-is-nullable}}
+      Into.{{vendorExtensions.x-ada-serialize-op}} ("{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-nullable}}{{^vendorExtensions.x-is-nullable}}
       if not {{#isFreeFormObject}}{{openApiPackageName}}.Is_Null (Value.{{name}}){{/isFreeFormObject}}{{^isFreeFormObject}}Value.{{name}}.Is_Null{{/isFreeFormObject}} then
-         Into.Write_Entity ("{{baseName}}", Value.{{name}});
+         Into.{{vendorExtensions.x-ada-serialize-op}} ("{{baseName}}", Value.{{name}});
       end if;{{/vendorExtensions.x-is-nullable}}{{/vendorExtensions.x-is-required}}{{/isLong}}{{#isLong}}{{#vendorExtensions.x-is-required}}
-      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-required}}{{^vendorExtensions.x-is-required}}{{#vendorExtensions.x-is-nullable}}
-      Into.Write_Entity ("{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-nullable}}{{^vendorExtensions.x-is-nullable}}
+      Into.{{vendorExtensions.x-ada-serialize-op}} ("{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-required}}{{^vendorExtensions.x-is-required}}{{#vendorExtensions.x-is-nullable}}
+      Into.{{vendorExtensions.x-ada-serialize-op}} ("{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-nullable}}{{^vendorExtensions.x-is-nullable}}
       if not Value.{{name}}.Is_Null then
-         Into.Write_Entity ("{{baseName}}", Value.{{name}});
+         Into.{{vendorExtensions.x-ada-serialize-op}} ("{{baseName}}", Value.{{name}});
       end if;{{/vendorExtensions.x-is-nullable}}{{/vendorExtensions.x-is-required}}{{/isLong}}{{/vendorExtensions.x-is-stream-type}}{{^vendorExtensions.x-is-stream-type}}
       Serialize (Into, "{{baseName}}", Value.{{name}});{{/vendorExtensions.x-is-stream-type}}{{/vars}}
       Into.End_Entity (Name);

@@ -77,9 +77,11 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     // Serialize/Deserialize are generated in the model.  If there is an inconsistency, this will
     // be detected at compilation time.
     // "x-ada-no-vector" instructs to not instantiate the Vectors package for the given model type.
+    // "x-ada-serialize-op" allows to control the name of the serialize operation for the field.
     private static final String X_ADA_TYPE_NAME = "x-ada-type-name";
     private static final String X_ADA_VECTOR_TYPE_NAME = "x-ada-vector-type-name";
     private static final String X_ADA_NO_VECTOR = "x-ada-no-vector";
+    private static final String X_ADA_SERIALIZE_OP = "x-ada-serialize-op";
 
     protected String packageName = "defaultPackage";
     protected String projectName = "defaultProject";
@@ -216,7 +218,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         typeMapping = new HashMap<>();
         typeMapping.put("integer", "Integer");
         typeMapping.put("boolean", "Boolean");
-        typeMapping.put("float", "Float");
+
         typeMapping.put("binary", bytesType);
         typeMapping.put("ByteArray", bytesType);
 
@@ -232,7 +234,6 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         mediaVariables = new ArrayList<>();
         adaImports = new ArrayList<>();
         super.importMapping = new HashMap<>();
-        importMapping.put("File", "OpenAPI.File");
 
         // CLI options
         addOption(CodegenConstants.PROJECT_NAME, "GNAT project name",
@@ -280,6 +281,9 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("URI", openApiPackageName + ".UString");
         typeMapping.put("file", openApiPackageName + ".Blob_Ref");
         typeMapping.put("binary", openApiPackageName + ".Blob_Ref");
+        typeMapping.put("float", openApiPackageName + ".Number");
+        typeMapping.put("double", openApiPackageName + ".Number");
+        importMapping.put("File", openApiPackageName + ".File");
 
         // Mapping to convert an Ada required type to an optional type (nullable).
         nullableTypeMapping.put(openApiPackageName + ".Date", openApiPackageName + ".Nullable_Date");
@@ -886,6 +890,13 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 p.vendorExtensions.put("x-is-imported-type", pkgImport != null);
                 if (pkgImport != null) {
                     adaImportSet.add(pkgImport);
+                }
+                if (!p.vendorExtensions.containsKey(X_ADA_SERIALIZE_OP)) {
+                    if (p.isLong && "int64".equals(p.dataFormat)) {
+                        p.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Long_Entity");
+                    } else {
+                        p.vendorExtensions.put(X_ADA_SERIALIZE_OP, "Write_Entity");
+                    }
                 }
                 Boolean required = p.getRequired();
 
