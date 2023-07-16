@@ -120,7 +120,7 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
         additionalProperties.put("isServer", false);
         additionalProperties.put("httpClientPackageName", httpClientPackageName);
         additionalProperties.put("openApiPackageName", openApiPackageName);
-        additionalProperties.put("openApiGprName", openApiPackageName.toLowerCase());
+        additionalProperties.put("openApiGprName", openApiPackageName.toLowerCase(Locale.ROOT));
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
 
         String[] names = this.modelPackage.split("\\.");
