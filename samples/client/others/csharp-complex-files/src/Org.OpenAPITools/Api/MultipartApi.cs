@@ -480,6 +480,12 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public Org.OpenAPITools.Client.ApiResponse<Object> MultipartMixedWithHttpInfo(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0)
         {
+            // verify the required parameter 'status' is set
+            if (status == null)
+            {
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'status' when calling MultipartApi->MultipartMixed");
+            }
+
             // verify the required parameter 'file' is set
             if (file == null)
             {
@@ -508,7 +514,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
+            localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.Serialize(status)); // form parameter
             if (marker != null)
             {
                 localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.ParameterToString(marker)); // form parameter
@@ -566,6 +572,12 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'status' is set
+            if (status == null)
+            {
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'status' when calling MultipartApi->MultipartMixed");
+            }
+
             // verify the required parameter 'file' is set
             if (file == null)
             {
