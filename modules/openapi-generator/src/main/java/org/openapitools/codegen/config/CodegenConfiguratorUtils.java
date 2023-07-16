@@ -120,6 +120,19 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
+    public static void applyNameMappingsKvpList(List<String> nameMappings, CodegenConfigurator configurator) {
+        for (String propString : nameMappings) {
+            applyNameMappingsKvp(propString, configurator);
+        }
+    }
+
+    public static void applyNameMappingsKvp(String nameMappings, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(nameMappings);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addNameMapping(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
     public static void applyOpenAPINormalizerKvpList(List<String> openapiNormalizer, CodegenConfigurator configurator) {
         for (String propString : openapiNormalizer) {
             applyOpenAPINormalizerKvp(propString, configurator);

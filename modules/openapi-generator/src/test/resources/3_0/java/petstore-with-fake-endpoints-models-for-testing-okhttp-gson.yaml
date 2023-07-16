@@ -2326,3 +2326,12 @@ components:
             - available
             - pending
             - sold
+    PropertyNameCollision:
+      type: object
+      properties:
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string

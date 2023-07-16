@@ -273,6 +273,13 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val inlineSchemaOptions = project.objects.mapProperty<String, String>()
 
     /**
+     * Specifies mappings between the property, parameter name and the new name
+     */
+    @Optional
+    @Input
+    val nameMappings = project.objects.mapProperty<String, String>()
+
+    /**
      * Specifies mappings (rules) in OpenAPI normalizer
      */
     @Optional
@@ -804,6 +811,12 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
             if (inlineSchemaOptions.isPresent) {
                 inlineSchemaOptions.get().forEach { entry ->
                     configurator.addInlineSchemaOption(entry.key, entry.value)
+                }
+            }
+
+            if (nameMappings.isPresent) {
+                nameMappings.get().forEach { entry ->
+                    configurator.addNameMapping(entry.key, entry.value)
                 }
             }
 

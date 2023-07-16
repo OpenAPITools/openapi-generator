@@ -333,6 +333,12 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> inlineSchemaOptions;
 
     /**
+     * A map of property, parameter  names and the new names
+     */
+    @Parameter(name = "nameMappings", property = "openapi.generator.maven.plugin.nameMappings")
+    private List<String> nameMappings;
+
+    /**
      * A set of rules for OpenAPI normalizer
      */
     @Parameter(name = "openapiNormalizer", property = "openapi.generator.maven.plugin.openapiNormalizer")

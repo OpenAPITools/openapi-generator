@@ -147,6 +147,8 @@ public interface CodegenConfig {
 
     Map<String, String> inlineSchemaOption();
 
+    Map<String, String> nameMapping();
+
     Map<String, String> openapiNormalizer();
 
     Map<String, String> apiTemplateFiles();
