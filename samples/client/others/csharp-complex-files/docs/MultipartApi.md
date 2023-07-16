@@ -118,7 +118,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost";
             var apiInstance = new MultipartApi(config);
-            var status = (MultipartMixedStatus) "ALLOWED";  // MultipartMixedStatus | 
+            var status = new MultipartMixedStatus(); // MultipartMixedStatus | 
             var file = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | a file
             var marker = new MultipartMixedRequestMarker(); // MultipartMixedRequestMarker |  (optional) 
             var statusArray = new List<MultipartMixedStatus>(); // List<MultipartMixedStatus> |  (optional) 
@@ -158,7 +158,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **status** | **MultipartMixedStatus** |  |  |
+| **status** | [**MultipartMixedStatus**](MultipartMixedStatus.md) |  |  |
 | **file** | **System.IO.Stream****System.IO.Stream** | a file |  |
 | **marker** | [**MultipartMixedRequestMarker**](MultipartMixedRequestMarker.md) |  | [optional]  |
 | **statusArray** | [**List&lt;MultipartMixedStatus&gt;**](MultipartMixedStatus.md) |  | [optional]  |
