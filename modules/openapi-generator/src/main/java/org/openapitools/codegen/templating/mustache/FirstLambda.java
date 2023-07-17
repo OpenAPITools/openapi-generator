@@ -37,13 +37,19 @@ import java.util.Arrays;
  * </pre>
  */
 public class FirstLambda implements Mustache.Lambda {
-    public FirstLambda() {
+    private final String delimiter;
 
+    public FirstLambda(String delimiter) {
+        this.delimiter = delimiter;
     }
 
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-        String[] parts = fragment.execute().trim().split("  ");
+
+        String a = fragment.execute();
+
+
+        String[] parts = fragment.execute().split(this.delimiter);
 
         writer.write(Arrays.stream(parts).findFirst().orElse(""));
     }

@@ -320,6 +320,9 @@ public class CodegenConstants {
     public static final String VALIDATABLE = "validatable";
     public static final String VALIDATABLE_DESC = "Generates self-validatable models.";
 
+    public static final String EQUATABLE = "equatable";
+    public static final String EQUATABLE_DESC = "Overrides Equals and GetHashCode methods.";
+
     public static final String IGNORE_FILE_OVERRIDE = "ignoreFileOverride";
     public static final String IGNORE_FILE_OVERRIDE_DESC = "Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.";
 

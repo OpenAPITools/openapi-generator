@@ -416,7 +416,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("joinWithComma", new JoinWithCommaLambda())
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
                 .put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda())
-                .put("first", new FirstLambda())
+                .put("first", new FirstLambda("  "))
+                .put("firstDot", new FirstLambda("\\."))
                 .put("indent3", new IndentedLambda(12, " "))
                 .put("indent4", new IndentedLambda(16, " "));
     }
