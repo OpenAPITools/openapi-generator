@@ -2305,6 +2305,15 @@ components:
       - name
       - photoUrls
       type: object
+    PropertyNameCollision:
+      properties:
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string
+      type: object
     _foo_get_default_response:
       example:
         string:

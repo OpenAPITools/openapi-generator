@@ -728,4 +728,16 @@ public class JSONTest {
         ad = ad.withoutDefault(null);
         ad.addWithoutDefaultItem("hello world");
     }
+
+    /**
+     * Test property names collision.
+     */
+    @Test
+    public void testPropertyNamesCollision() throws Exception {
+        PropertyNameCollision p = new PropertyNameCollision();
+        p.setUnderscoreType("test1");
+        p.setType("test2");
+        p.setTypeWithUnderscore("test3");
+        assertEquals(json.getGson().toJson(p), "{\"_type\":\"test1\",\"type\":\"test2\",\"type_\":\"test3\"}");
+    }
 }

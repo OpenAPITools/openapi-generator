@@ -182,10 +182,18 @@ public class Generate extends OpenApiGeneratorCommand {
     private List<String> inlineSchemaNameMappings = new ArrayList<>();
 
     @Option(
-            name = {"--inline-schema-optionss"},
+            name = {"--inline-schema-options"},
             title = "inline schema options",
-            description = "specifies the options for handling inline schemas in the inline model resolver.")
+            description = "specifies the options for handling inline schemas in the inline model resolver."
+                    + " Please refer to https://github.com/OpenAPITools/openapi-generator/blob/master/docs/customization.md for a list of options.")
     private List<String> inlineSchemaOptions = new ArrayList<>();
+
+    @Option(
+            name = {"--name-mappings"},
+            title = "property, parameter name mappings",
+            description = "specifies mappings between the property, parameter name and the new name in the format of param_name=paramName,prop_name=PropName."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> nameMappings = new ArrayList<>();
 
     @Option(
             name = {"--openapi-normalizer"},
@@ -467,6 +475,7 @@ public class Generate extends OpenApiGeneratorCommand {
         applySchemaMappingsKvpList(schemaMappings, configurator);
         applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
         applyInlineSchemaOptionsKvpList(inlineSchemaOptions, configurator);
+        applyNameMappingsKvpList(nameMappings, configurator);
         applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
