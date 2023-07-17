@@ -182,9 +182,10 @@ public class Generate extends OpenApiGeneratorCommand {
     private List<String> inlineSchemaNameMappings = new ArrayList<>();
 
     @Option(
-            name = {"--inline-schema-optionss"},
+            name = {"--inline-schema-options"},
             title = "inline schema options",
-            description = "specifies the options for handling inline schemas in the inline model resolver.")
+            description = "specifies the options for handling inline schemas in the inline model resolver."
+                    + " Please refer to https://github.com/OpenAPITools/openapi-generator/blob/master/docs/customization.md for a list of options.")
     private List<String> inlineSchemaOptions = new ArrayList<>();
 
     @Option(
