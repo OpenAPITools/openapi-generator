@@ -16,7 +16,7 @@
     {{/mappedModels}}
     {{/discriminator}}
     {{/useUnityWebRequest}}
-    {{>visibility}} partial class {{classname}} : {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
+    {{>visibility}} partial class {{classname}}{{#lambda.firstDot}}{{#parent}} : .{{/parent}}{{#validatable}} : .{{/validatable}}{{#equatable}} : .{{/equatable}}{{/lambda.firstDot}}{{#lambda.joinWithComma}}{{#parent}}{{{.}}}  {{/parent}}{{#equatable}}IEquatable<{{classname}}>  {{/equatable}}{{#validatable}}IValidatableObject  {{/validatable}}{{/lambda.joinWithComma}}
     {
         {{#vars}}
         {{#items.isEnum}}
@@ -327,6 +327,7 @@
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
+        {{#equatable}}
 
         /// <summary>
         /// Returns true if objects are equal
@@ -415,6 +416,7 @@
                 return hashCode;
             }
         }
+        {{/equatable}}
 
 {{#validatable}}
 {{>validatable}}

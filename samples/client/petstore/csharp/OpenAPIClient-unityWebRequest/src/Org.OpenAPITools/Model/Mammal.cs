@@ -279,7 +279,6 @@ namespace Org.OpenAPITools.Model
                 return hashCode;
             }
         }
-
     }
 
     /// <summary>
