@@ -416,7 +416,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("joinWithComma", new JoinWithCommaLambda())
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
                 .put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda())
-                .put("first", new FirstLambda())
+                .put("first", new FirstLambda("  "))
+                .put("firstDot", new FirstLambda("\\."))
                 .put("indent3", new IndentedLambda(12, " "))
                 .put("indent4", new IndentedLambda(16, " "));
     }
@@ -765,19 +766,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
                     }
 
-
-                    // check if the payload is json and set x-is-json accordingly
-                    if (operation.consumes != null) {
-                        for (Map<String, String> consume : operation.consumes) {
-                            if (consume.containsKey("mediaType")) {
-                                if (isJsonMimeType(consume.get("mediaType"))) {
-                                    operation.vendorExtensions.put("x-is-json", true);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
                     if (operation.examples != null) {
                         for (Map<String, String> example : operation.examples) {
                             for (Map.Entry<String, String> entry : example.entrySet()) {
@@ -790,52 +778,59 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
                     }
 
-                    for (ModelMap modelHashMap : allModels) {
-                        CodegenModel codegenModel = modelHashMap.getModel();
+                    for (CodegenParameter parameter : operation.allParams) {
+                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        patchParameter(model, parameter);
+                    }
 
-                        for (CodegenParameter parameter : operation.allParams) {
-                            patchParameter(parameter, allModels);
-                        }
+                    for (CodegenParameter parameter : operation.bodyParams) {
+                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        patchParameter(model, parameter);
+                    }
 
-                        for (CodegenParameter parameter : operation.bodyParams) {
-                            patchParameter(parameter, allModels);
-                        }
+                    for (CodegenParameter parameter : operation.cookieParams) {
+                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        patchParameter(model, parameter);
+                    }
 
-                        for (CodegenParameter parameter : operation.cookieParams) {
-                            patchParameter(parameter, allModels);
-                        }
+                    for (CodegenParameter parameter : operation.formParams) {
+                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        patchParameter(model, parameter);
+                    }
 
-                        for (CodegenParameter parameter : operation.formParams) {
-                            patchParameter(parameter, allModels);
-                        }
+                    for (CodegenParameter parameter : operation.headerParams) {
+                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        patchParameter(model, parameter);
+                    }
 
-                        for (CodegenParameter parameter : operation.headerParams) {
-                            patchParameter(parameter, allModels);
-                        }
+                    for (CodegenParameter parameter : operation.implicitHeadersParams) {
+                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        patchParameter(model, parameter);
+                    }
 
-                        for (CodegenParameter parameter : operation.implicitHeadersParams) {
-                            patchParameter(parameter, allModels);
-                        }
+                    for (CodegenParameter parameter : operation.optionalParams) {
+                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        patchParameter(model, parameter);
+                    }
 
-                        for (CodegenParameter parameter : operation.optionalParams) {
-                            patchParameter(parameter, allModels);
-                        }
+                    for (CodegenParameter parameter : operation.pathParams) {
+                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        patchParameter(model, parameter);
+                    }
 
-                        for (CodegenParameter parameter : operation.pathParams) {
-                            patchParameter(parameter, allModels);
-                        }
+                    for (CodegenParameter parameter : operation.queryParams) {
+                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        patchParameter(model, parameter);
+                    }
 
-                        for (CodegenParameter parameter : operation.queryParams) {
-                            patchParameter(parameter, allModels);
-                        }
+                    for (CodegenParameter parameter : operation.notNullableParams) {
+                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        patchParameter(model, parameter);
+                    }
 
-                        for (CodegenParameter parameter : operation.notNullableParams) {
-                            patchParameter(parameter, allModels);
-                        }
-
-                        for (CodegenParameter parameter : operation.requiredParams) {
-                            patchParameter(parameter, allModels);
-                        }
+                    for (CodegenParameter parameter : operation.requiredParams) {
+                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        patchParameter(model, parameter);
                     }
 
                     List<CodegenParameter> referenceTypes = operation.allParams.stream().filter(p -> p.vendorExtensions.get("x-is-value-type") == null && !p.isNullable).collect(Collectors.toList());
@@ -855,6 +850,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
     }
 
+    /** Returns the model related to the given parameter */
+    private CodegenModel getModelFromParameter(List<ModelMap> allModels, CodegenParameter parameter) {
+        return parameter.isModel
+            ? allModels.stream().map(m -> m.getModel()).filter(m -> m.getClassname().equals(parameter.dataType)).findFirst().orElse(null)
+            : null;
+    }
+
     /** This is the same as patchVendorExtensionNullableValueType except it uses the deprecated getNullableTypes property */
     protected void patchVendorExtensionNullableValueTypeLegacy(CodegenParameter parameter) {
         if (parameter.isNullable && !parameter.isContainer && (this.getNullableTypes().contains(parameter.dataType) || parameter.isEnum)) {
@@ -862,23 +864,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
     }
 
-    private void patchParameter(CodegenParameter parameter, List<ModelMap> allModels) {
-        parameter.paramName = escapeReservedWord(parameter.paramName);
-
+    private void patchParameter(CodegenModel model, CodegenParameter parameter) {
         patchVendorExtensionNullableValueType(parameter);
 
         if (this.getNullableReferencesTypes() || (parameter.vendorExtensions.get("x-nullable-value-type") != null)) {
             parameter.vendorExtensions.put("x-nullable-type", true);
-        }
-
-
-        CodegenModel model = null;
-        for (ModelMap modelHashMap : allModels) {
-            CodegenModel codegenModel = modelHashMap.getModel();
-            if (codegenModel.getClassname().equals(parameter.dataType)) {
-                model = codegenModel;
-                break;
-            }
         }
 
         if (!isSupportNullable()) {
@@ -1014,7 +1004,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // pet_id => petId
         name = camelize(name, LOWERCASE_FIRST_LETTER);
 
-        return name;
+        return escapeReservedWord(name);
     }
 
     public String escapeReservedWord(CodegenModel model, String name) {
@@ -1168,7 +1158,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return getArrayTypeDeclaration((ArraySchema) p);
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);

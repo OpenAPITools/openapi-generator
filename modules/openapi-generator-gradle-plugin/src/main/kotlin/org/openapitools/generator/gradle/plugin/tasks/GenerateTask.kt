@@ -266,11 +266,18 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val inlineSchemaNameMappings = project.objects.mapProperty<String, String>()
 
     /**
-     * Specifies default values for inline schema naming convention
+     * Specifies options for inline schemas
      */
     @Optional
     @Input
-    val inlineSchemaNameDefaults = project.objects.mapProperty<String, String>()
+    val inlineSchemaOptions = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between the property, parameter name and the new name
+     */
+    @Optional
+    @Input
+    val nameMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies mappings (rules) in OpenAPI normalizer
@@ -801,9 +808,15 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
                 }
             }
 
-            if (inlineSchemaNameDefaults.isPresent) {
-                inlineSchemaNameDefaults.get().forEach { entry ->
-                    configurator.addInlineSchemaNameDefault(entry.key, entry.value)
+            if (inlineSchemaOptions.isPresent) {
+                inlineSchemaOptions.get().forEach { entry ->
+                    configurator.addInlineSchemaOption(entry.key, entry.value)
+                }
+            }
+
+            if (nameMappings.isPresent) {
+                nameMappings.get().forEach { entry ->
+                    configurator.addNameMapping(entry.key, entry.value)
                 }
             }
 

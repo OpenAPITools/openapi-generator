@@ -163,7 +163,9 @@ public class DefaultCodegen implements CodegenConfig {
     // a map to store the mapping between inline schema and the name provided by the user
     protected Map<String, String> inlineSchemaNameMapping = new HashMap<>();
     // a map to store the inline schema naming conventions
-    protected Map<String, String> inlineSchemaNameDefault = new HashMap<>();
+    protected Map<String, String> inlineSchemaOption = new HashMap<>();
+    // a map to store the mapping between property, parameter name and the name provided by the user
+    protected Map<String, String> nameMapping = new HashMap<>();
     // a map to store the rules in OpenAPI Normalizer
     protected Map<String, String> openapiNormalizer = new HashMap<>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
@@ -201,6 +203,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected int removeOperationIdPrefixCount = 1;
     protected boolean skipOperationExample;
 
+    protected final static Pattern XML_MIME_PATTERN = Pattern.compile("(?i)application\\/(.*)[+]?xml(;.*)?");
     protected final static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");
     protected final static Pattern JSON_VENDOR_MIME_PATTERN = Pattern.compile("(?i)application\\/vnd.(.*)+json(;.*)?");
     private static final Pattern COMMON_PREFIX_ENUM_NAME = Pattern.compile("[a-zA-Z0-9]+\\z");
@@ -1037,7 +1040,7 @@ public class DefaultCodegen implements CodegenConfig {
                         addOneOfInterfaceModel((ComposedSchema) items, nOneOf);
                     }
                 } else if (ModelUtils.isMapSchema(s)) {
-                    Schema addProps = getAdditionalProperties(s);
+                    Schema addProps = ModelUtils.getAdditionalProperties(s);
                     if (addProps != null && ModelUtils.isComposedSchema(addProps)) {
                         addOneOfNameExtension((ComposedSchema) addProps, nOneOf);
                         addOneOfInterfaceModel((ComposedSchema) addProps, nOneOf);
@@ -1194,8 +1197,13 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public Map<String, String> inlineSchemaNameDefault() {
-        return inlineSchemaNameDefault;
+    public Map<String, String> inlineSchemaOption() {
+        return inlineSchemaOption;
+    }
+
+    @Override
+    public Map<String, String> nameMapping() {
+        return nameMapping;
     }
 
     @Override
@@ -1951,7 +1959,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public String toInstantiationType(Schema schema) {
         if (ModelUtils.isMapSchema(schema)) {
-            Schema additionalProperties = getAdditionalProperties(schema);
+            Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
             String inner = getSchemaType(additionalProperties);
             return instantiationTypes.get("map") + "<String, " + inner + ">";
         } else if (ModelUtils.isArraySchema(schema)) {
@@ -2067,7 +2075,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (content.size() > 1) {
             // @see ModelUtils.getSchemaFromContent()
-            once(LOGGER).warn("Multiple MediaTypes found, using only the first one");
+            once(LOGGER).debug("Multiple MediaTypes found, using only the first one");
         }
 
         MediaType mediaType = content.values().iterator().next();
@@ -2274,7 +2282,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected Schema<?> getSchemaAdditionalProperties(Schema schema) {
-        Schema<?> inner = getAdditionalProperties(schema);
+        Schema<?> inner = ModelUtils.getAdditionalProperties(schema);
         if (inner == null) {
             LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", schema.getName());
             inner = new StringSchema().description("TODO default missing map inner type to string");
@@ -2302,7 +2310,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (names.size() == 1) {
             return names.get(0);
         } else {
-            LOGGER.warn("allOf with multiple schemas defined. Using only the first one: {}", names.get(0));
+            LOGGER.debug("allOf with multiple schemas defined. Using only the first one: {}", names.get(0));
             return names.get(0);
         }
     }
@@ -2452,7 +2460,7 @@ public class DefaultCodegen implements CodegenConfig {
                 return schema.getFormat();
             }
             return "string";
-        } else if (isFreeFormObject(schema)) {
+        } else if (ModelUtils.isFreeFormObject(schema)) {
             // Note: the value of a free-form object cannot be an arbitrary type. Per OAS specification,
             // it must be a map of string to values.
             return "object";
@@ -2854,7 +2862,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isMapSchema(schema)) {
             // an object or anyType composed schema that has additionalProperties set
             addAdditionPropertiesToCodeGenModel(m, schema);
-        } else if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+        } else if (ModelUtils.isFreeFormObject(schema)) {
             // non-composed object type with no properties + additionalProperties
             // additionalProperties must be null, ObjectSchema, or empty Schema
             addAdditionPropertiesToCodeGenModel(m, schema);
@@ -3685,7 +3693,7 @@ public class DefaultCodegen implements CodegenConfig {
         property.maxItems = p.getMaxProperties();
 
         // handle inner property
-        Schema innerSchema = unaliasSchema(getAdditionalProperties(p));
+        Schema innerSchema = unaliasSchema(ModelUtils.getAdditionalProperties(p));
         if (innerSchema == null) {
             LOGGER.error("Undefined map inner type for `{}`. Default to String.", p.getName());
             innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
@@ -3696,7 +3704,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updatePropertyForObject(CodegenProperty property, Schema p) {
-        if (isFreeFormObject(p)) {
+        if (ModelUtils.isFreeFormObject(p)) {
             // non-composed object type with no properties + additionalProperties
             // additionalProperties must be null, ObjectSchema, or empty Schema
             property.isFreeFormObject = true;
@@ -3950,7 +3958,7 @@ public class DefaultCodegen implements CodegenConfig {
         Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
 
         //Referenced enum case:
-        if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+        if (referencedSchema != p && referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
             List<Object> _enum = referencedSchema.getEnum();
 
             property.isEnumRef = true;
@@ -4055,7 +4063,7 @@ public class DefaultCodegen implements CodegenConfig {
                 !ModelUtils.isComposedSchema(p) &&
                 p.getAdditionalProperties() == null && p.getNot() == null && p.getEnum() == null);
 
-        if (!ModelUtils.isArraySchema(p) && !ModelUtils.isMapSchema(p) && !isFreeFormObject(p) && !isAnyTypeWithNothingElseSet) {
+        if (!ModelUtils.isArraySchema(p) && !ModelUtils.isMapSchema(p) && !ModelUtils.isFreeFormObject(p) && !isAnyTypeWithNothingElseSet) {
             /* schemas that are not Array, not ModelUtils.isMapSchema, not isFreeFormObject, not AnyType with nothing else set
              * so primitive schemas int, str, number, referenced schemas, AnyType schemas with properties, enums, or composition
              */
@@ -4322,7 +4330,7 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenProperty innerProperty = fromProperty("response", getSchemaItems(as), false);
                 op.returnBaseType = innerProperty.baseType;
             } else if (ModelUtils.isMapSchema(responseSchema)) {
-                CodegenProperty innerProperty = fromProperty("response", getAdditionalProperties(responseSchema), false);
+                CodegenProperty innerProperty = fromProperty("response", ModelUtils.getAdditionalProperties(responseSchema), false);
                 op.returnBaseType = innerProperty.baseType;
             } else {
                 if (cm.complexType != null) {
@@ -4873,7 +4881,7 @@ public class DefaultCodegen implements CodegenConfig {
                 r.isDouble = Boolean.TRUE;
             }
         } else if (ModelUtils.isTypeObjectSchema(responseSchema)) {
-            if (ModelUtils.isFreeFormObject(openAPI, responseSchema)) {
+            if (ModelUtils.isFreeFormObject(responseSchema)) {
                 r.isFreeFormObject = true;
             } else {
                 r.isModel = true;
@@ -4984,7 +4992,7 @@ public class DefaultCodegen implements CodegenConfig {
 
 
     private void updateParameterForMap(CodegenParameter codegenParameter, Schema parameterSchema, Set<String> imports) {
-        CodegenProperty codegenProperty = fromProperty("inner", getAdditionalProperties(parameterSchema), false);
+        CodegenProperty codegenProperty = fromProperty("inner", ModelUtils.getAdditionalProperties(parameterSchema), false);
         codegenParameter.items = codegenProperty;
         codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
         codegenParameter.baseType = codegenProperty.dataType;
@@ -5176,7 +5184,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isMapSchema(parameterSchema)) { // for map parameter
                 updateParameterForMap(codegenParameter, parameterSchema, imports);
             }
-            if (ModelUtils.isFreeFormObject(openAPI, parameterSchema)) {
+            if (ModelUtils.isFreeFormObject(parameterSchema)) {
                 codegenParameter.isFreeFormObject = true;
             }
             addVarsRequiredVarsAdditionalProps(parameterSchema, codegenParameter);
@@ -6716,6 +6724,11 @@ public class DefaultCodegen implements CodegenConfig {
                 continue;
             } else {
                 mediaType.put("mediaType", escapeQuotationMark(key));
+                if (isJsonMimeType(key)) {
+                    mediaType.put("isJson", "true");
+                } else if (isXmlMimeType(key)) {
+                    mediaType.put("isXml", "true");
+                }
             }
             mediaTypeList.add(mediaType);
         }
@@ -6786,6 +6799,11 @@ public class DefaultCodegen implements CodegenConfig {
             if (!existingMediaTypes.contains(encodedKey)) {
                 Map<String, String> mediaType = new HashMap<>();
                 mediaType.put("mediaType", encodedKey);
+                if (isJsonMimeType(encodedKey)) {
+                    mediaType.put("isJson", "true");
+                } else if (isXmlMimeType(encodedKey)) {
+                    mediaType.put("isXml", "true");
+                }
                 codegenOperation.produces.add(mediaType);
                 codegenOperation.hasProduces = Boolean.TRUE;
             }
@@ -6975,7 +6993,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         } else if (ModelUtils.isTypeObjectSchema(ps)) {
-            if (ModelUtils.isFreeFormObject(openAPI, ps)) {
+            if (ModelUtils.isFreeFormObject(ps)) {
                 codegenParameter.isFreeFormObject = true;
             }
         } else if (ModelUtils.isNullType(ps)) {
@@ -7145,7 +7163,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
             this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
         } else {
-            Schema inner = getAdditionalProperties(schema);
+            Schema inner = ModelUtils.getAdditionalProperties(schema);
             if (inner == null) {
                 LOGGER.error("No inner type supplied for map parameter `{}`. Default to type:string", schema.getName());
                 inner = new StringSchema().description("//TODO automatically added by openapi-generator");
@@ -7212,7 +7230,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isMapSchema(schema)) {
             // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
             updateRequestBodyForMap(codegenParameter, schema, name, imports, bodyParameterName);
-        } else if (isFreeFormObject(schema)) {
+        } else if (ModelUtils.isFreeFormObject(schema)) {
             // non-composed object type with no properties + additionalProperties
             // additionalProperties must be null, ObjectSchema, or empty Schema
             codegenParameter.isFreeFormObject = true;
@@ -7985,7 +8003,7 @@ public class DefaultCodegen implements CodegenConfig {
             return false;
         }
 
-        if (isFreeFormObject(schema)) {
+        if (ModelUtils.isFreeFormObject(schema)) {
             // make sure it's not free form object
             return false;
         }
@@ -8002,60 +8020,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Check to see if the schema is a free form object.
-     *
-     * A free form object is an object (i.e. 'type: object' in a OAS document) that:
-     * 1) Does not define properties, and
-     * 2) Is not a composed schema (no anyOf, oneOf, allOf), and
-     * 3) additionalproperties is not defined, or additionalproperties: true, or additionalproperties: {}.
-     *
-     * Examples:
-     *
-     * components:
-     *   schemas:
-     *     arbitraryObject:
-     *       type: object
-     *       description: This is a free-form object.
-     *         The value must be a map of strings to values. The value cannot be 'null'.
-     *         It cannot be array, string, integer, number.
-     *     arbitraryNullableObject:
-     *       type: object
-     *       description: This is a free-form object.
-     *         The value must be a map of strings to values. The value can be 'null',
-     *         It cannot be array, string, integer, number.
-     *       nullable: true
-     *     arbitraryTypeValue:
-     *       description: This is NOT a free-form object.
-     *         The value can be any type except the 'null' value.
-     *
-     * @param schema potentially containing a '$ref'
-     * @return true if it's a free-form object
-     */
-    protected boolean isFreeFormObject(Schema schema) {
-        // TODO remove this method and replace all usages with ModelUtils.isFreeFormObject
-        return ModelUtils.isFreeFormObject(this.openAPI, schema);
-    }
-
-    /**
-     * Returns the additionalProperties Schema for the specified input schema.
-     * <p>
-     * The additionalProperties keyword is used to control the handling of additional, undeclared
-     * properties, that is, properties whose names are not listed in the properties keyword.
-     * The additionalProperties keyword may be either a boolean or an object.
-     * If additionalProperties is a boolean and set to false, no additional properties are allowed.
-     * By default when the additionalProperties keyword is not specified in the input schema,
-     * any additional properties are allowed. This is equivalent to setting additionalProperties
-     * to the boolean value True or setting additionalProperties: {}
-     *
-     * @param schema the input schema that may or may not have the additionalProperties keyword.
-     * @return the Schema of the additionalProperties. The null value is returned if no additional
-     * properties are allowed.
-     */
-    protected Schema getAdditionalProperties(Schema schema) {
-        return ModelUtils.getAdditionalProperties(openAPI, schema);
-    }
-
-    /**
      * Check if the given MIME is a JSON MIME.
      * JSON MIME examples:
      * application/json
@@ -8065,8 +8029,12 @@ public class DefaultCodegen implements CodegenConfig {
      * @param mime MIME string
      * @return true if the input matches the JSON MIME
      */
-    protected static boolean isJsonMimeType(String mime) {
+    public static boolean isJsonMimeType(String mime) {
         return mime != null && (JSON_MIME_PATTERN.matcher(mime).matches());
+    }
+
+    public static boolean isXmlMimeType(String mime) {
+        return mime != null && (XML_MIME_PATTERN.matcher(mime).matches());
     }
 
     /**

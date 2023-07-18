@@ -51,6 +51,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     protected String invokerPackage = "php";
     protected String packageName = "php-base";
     protected String artifactVersion = null;
+    protected String artifactUrl = "https://openapi-generator.tech";
+    protected String licenseName = "unlicense";
+    protected String developerOrganization = "OpenAPI";
+    protected String developerOrganizationUrl = "https://openapi-generator.tech";
     protected String srcBasePath = "lib";
     protected String testBasePath = "test";
     protected String docsBasePath = "docs";
@@ -147,6 +151,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         cliOptions.add(new CliOption(PACKAGE_NAME, "The main package name for classes. e.g. GeneratedPetstore"));
         cliOptions.add(new CliOption(SRC_BASE_PATH, "The directory to serve as source root."));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "The version to use in the composer package version field. e.g. 1.2.3"));
+        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_URL, CodegenConstants.ARTIFACT_URL_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.LICENSE_NAME, CodegenConstants.LICENSE_NAME_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.DEVELOPER_ORGANIZATION, CodegenConstants.DEVELOPER_ORGANIZATION_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.DEVELOPER_ORGANIZATION_URL, CodegenConstants.DEVELOPER_ORGANIZATION_URL_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.COMPOSER_PACKAGE_NAME, CodegenConstants.COMPOSER_PACKAGE_NAME_DESC));
     }
 
     @Override
@@ -192,10 +201,39 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
 
+        // {{artifactVersion}}
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
             this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
         } else {
             additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
+        }
+
+        // {{artifactUrl}}
+        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_URL)) {
+            this.setArtifactUrl((String) additionalProperties.get(CodegenConstants.ARTIFACT_URL));
+        } else {
+            additionalProperties.put(CodegenConstants.ARTIFACT_URL, artifactUrl);
+        }
+
+        // {{licenseName}}
+        if (additionalProperties.containsKey(CodegenConstants.LICENSE_NAME)) {
+            this.setLicenseName((String) additionalProperties.get(CodegenConstants.LICENSE_NAME));
+        } else {
+            additionalProperties.put(CodegenConstants.LICENSE_NAME, licenseName);
+        }
+
+        // {{developerOrganization}}
+        if (additionalProperties.containsKey(CodegenConstants.DEVELOPER_ORGANIZATION)) {
+            this.setDeveloperOrganization((String) additionalProperties.get(CodegenConstants.DEVELOPER_ORGANIZATION));
+        } else {
+            additionalProperties.put(CodegenConstants.DEVELOPER_ORGANIZATION, developerOrganization);
+        }
+
+        // {{developerOrganizationUrl}}
+        if (additionalProperties.containsKey(CodegenConstants.DEVELOPER_ORGANIZATION_URL)) {
+            this.setDeveloperOrganizationUrl((String) additionalProperties.get(CodegenConstants.DEVELOPER_ORGANIZATION_URL));
+        } else {
+            additionalProperties.put(CodegenConstants.DEVELOPER_ORGANIZATION_URL, developerOrganizationUrl);
         }
 
         if (additionalProperties.containsKey(VARIABLE_NAMING_CONVENTION)) {
@@ -257,9 +295,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // Trim prefix file separators from package path
         String packagePath = StringUtils.removeStart(
-            // Replace period, backslash, forward slash with file separator in package name
-            modifiedPackageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
-            File.separator
+                // Replace period, backslash, forward slash with file separator in package name
+                modifiedPackageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+                File.separator
         );
 
         // Trim trailing file separators from the overall path
@@ -326,7 +364,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             }
             return getTypeDeclaration(inner) + "[]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             if (inner == null) {
                 LOGGER.warn("{}(map property) does not have a proper inner type defined. Default to string", p.getName());
                 inner = new StringSchema().description("TODO default missing map inner type to string");
@@ -390,6 +428,22 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     public void setArtifactVersion(String artifactVersion) {
         this.artifactVersion = artifactVersion;
+    }
+
+    public void setArtifactUrl(String artifactUrl) {
+        this.artifactUrl = artifactUrl;
+    }
+
+    public void setLicenseName(String licenseName) {
+        this.licenseName = licenseName;
+    }
+
+    public void setDeveloperOrganization(String developerOrganization) {
+        this.developerOrganization = developerOrganization;
+    }
+
+    public void setDeveloperOrganizationUrl(String developerOrganizationUrl) {
+        this.developerOrganizationUrl = developerOrganizationUrl;
     }
 
     public void setPackageName(String packageName) {
@@ -560,6 +614,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     /**
      * Return the default value of the property
+     *
      * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
@@ -677,7 +732,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             return "EMPTY";
         }
 
-        if(name.trim().length() == 0) {
+        if (name.trim().length() == 0) {
             return "SPACE_" + name.length();
         }
 
@@ -757,7 +812,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         // If the string contains only "trim-able" characters, don't trim it
-        if(input.trim().length() == 0) {
+        if (input.trim().length() == 0) {
             return input;
         }
 
@@ -827,9 +882,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public String getComposerPackageName() {
         String packageName = this.getGitUserId() + "/" + this.getGitRepoId();
         if (
-            packageName.contentEquals("/")
-            || packageName.contentEquals("null/null")
-            || !Pattern.matches("^[a-z0-9]([_.-]?[a-z0-9]+)*/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*$", packageName)
+                packageName.contentEquals("/")
+                        || packageName.contentEquals("null/null")
+                        || !Pattern.matches("^[a-z0-9]([_.-]?[a-z0-9]+)*/[a-z0-9](([_.]?|-{0,2})[a-z0-9]+)*$", packageName)
         ) {
             return "";
         }
@@ -843,5 +898,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PHP; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.PHP;
+    }
 }

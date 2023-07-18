@@ -67,9 +67,9 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     protected Boolean exportModels;
     protected Boolean exportOperations;
 
-    protected static final DateTimeFormatter OFFSET_DATE_TIME_FORMAT = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-    protected static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
-    protected static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
+    protected final DateTimeFormatter OFFSET_DATE_TIME_FORMAT = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+    protected final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
+    protected final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
 
     public AbstractJuliaCodegen() {
         super();
@@ -328,10 +328,10 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
             Schema inner = ap.getItems();
             return getSchemaType(schema) + "{" + getTypeDeclaration(inner) + "}";
         } else if (ModelUtils.isSet(schema)) {
-            Schema inner = getAdditionalProperties(schema);
+            Schema inner = ModelUtils.getAdditionalProperties(schema);
             return getSchemaType(schema) + "{" + getTypeDeclaration(inner) + "}";
         } else if (ModelUtils.isMapSchema(schema)) {
-            Schema inner = getAdditionalProperties(schema);
+            Schema inner = ModelUtils.getAdditionalProperties(schema);
             return getSchemaType(schema) + "{String, " + getTypeDeclaration(inner) + "}";
         }
         return super.getTypeDeclaration(schema);

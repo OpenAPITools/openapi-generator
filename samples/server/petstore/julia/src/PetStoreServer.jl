@@ -112,4 +112,12 @@ function register(router::HTTP.Router, impl; path_prefix::String="", optional_mi
     return router
 end
 
+# export models
+export ApiResponse
+export Category
+export Order
+export Pet
+export Tag
+export User
+
 end # module PetStoreServer

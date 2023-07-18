@@ -10,7 +10,7 @@
     {{/vendorExtensions.x-com-visible}}
     [JsonConverter(typeof({{classname}}JsonConverter))]
     [DataContract(Name = "{{{name}}}")]
-    {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
+    {{>visibility}} partial class {{classname}} : {{#lambda.joinWithComma}}AbstractOpenAPISchema  {{#parent}}{{{.}}}  {{/parent}}{{#equatable}}IEquatable<{{classname}}>  {{/equatable}}{{#validatable}}IValidatableObject  {{/validatable}}{{/lambda.joinWithComma}}
     {
         {{#isNullable}}
         /// <summary>
@@ -183,6 +183,7 @@
             return new{{classname}};
         }
 
+        {{#equatable}}
         /// <summary>
         /// Returns true if objects are equal
         /// </summary>
@@ -230,8 +231,9 @@
                 return hashCode;
             }
         }
-
+        {{/equatable}}
         {{#validatable}}
+
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>

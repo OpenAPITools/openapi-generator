@@ -17,9 +17,10 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
-namespace Org.OpenAPITools.IApi
+namespace Org.OpenAPITools.Api
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
@@ -27,6 +28,11 @@ namespace Org.OpenAPITools.IApi
     /// </summary>
     public interface IAnotherFakeApi : IApi
     {
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        AnotherFakeApiEvents Events { get; }
+
         /// <summary>
         /// To test special tags
         /// </summary>
@@ -50,14 +56,38 @@ namespace Org.OpenAPITools.IApi
         /// <returns>Task&lt;ApiResponse&gt;ModelClient&gt;&gt;</returns>
         Task<ApiResponse<ModelClient>> Call123TestSpecialTagsOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
     }
-}
 
-namespace Org.OpenAPITools.Api
-{
+    /// <summary>
+    /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
+    /// </summary>
+    public class AnotherFakeApiEvents
+    {
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<ModelClient>> OnCall123TestSpecialTags;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs> OnErrorCall123TestSpecialTags;
+
+        internal void ExecuteOnCall123TestSpecialTags(ApiResponse<ModelClient> apiResponse)
+        {
+            OnCall123TestSpecialTags?.Invoke(this, new ApiResponseEventArgs<ModelClient>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorCall123TestSpecialTags(Exception exception)
+        {
+            OnErrorCall123TestSpecialTags?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+    }
+
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public sealed partial class AnotherFakeApi : IApi.IAnotherFakeApi
+    public sealed partial class AnotherFakeApi : IAnotherFakeApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
@@ -70,6 +100,11 @@ namespace Org.OpenAPITools.Api
         /// The HttpClient
         /// </summary>
         public HttpClient HttpClient { get; }
+
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        public AnotherFakeApiEvents Events { get; }
 
         /// <summary>
         /// A token provider of type <see cref="ApiKeyProvider"/>
@@ -100,7 +135,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="AnotherFakeApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public AnotherFakeApi(ILogger<AnotherFakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider,
+        public AnotherFakeApi(ILogger<AnotherFakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, AnotherFakeApiEvents anotherFakeApiEvents,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -110,6 +145,7 @@ namespace Org.OpenAPITools.Api
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
+            Events = anotherFakeApiEvents;
             ApiKeyProvider = apiKeyProvider;
             BearerTokenProvider = bearerTokenProvider;
             BasicTokenProvider = basicTokenProvider;
@@ -160,18 +196,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient"></param>
         private void OnErrorCall123TestSpecialTagsDefaultImplementation(Exception exception, string pathFormat, string path, ModelClient modelClient)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorCall123TestSpecialTags(exception, pathFormat, path, modelClient);
+            bool suppressDefaultLog = false;
+            OnErrorCall123TestSpecialTags(ref suppressDefaultLog, exception, pathFormat, path, modelClient);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        partial void OnErrorCall123TestSpecialTags(Exception exception, string pathFormat, string path, ModelClient modelClient);
+        partial void OnErrorCall123TestSpecialTags(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, ModelClient modelClient);
 
         /// <summary>
         /// To test special tags To test special tags and operation ID starting with number
@@ -250,6 +289,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterCall123TestSpecialTagsDefaultImplementation(apiResponseLocalVar, modelClient);
 
+                        Events.ExecuteOnCall123TestSpecialTags(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -257,6 +298,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorCall123TestSpecialTagsDefaultImplementation(e, "/another-fake/dummy", uriBuilderLocalVar.Path, modelClient);
+                Events.ExecuteOnErrorCall123TestSpecialTags(e);
                 throw;
             }
         }

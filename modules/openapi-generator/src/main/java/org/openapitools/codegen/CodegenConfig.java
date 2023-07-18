@@ -145,7 +145,9 @@ public interface CodegenConfig {
 
     Map<String, String> inlineSchemaNameMapping();
 
-    Map<String, String> inlineSchemaNameDefault();
+    Map<String, String> inlineSchemaOption();
+
+    Map<String, String> nameMapping();
 
     Map<String, String> openapiNormalizer();
 

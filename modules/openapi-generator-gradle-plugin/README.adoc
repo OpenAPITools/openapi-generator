@@ -244,10 +244,10 @@ apply plugin: 'org.openapi.generator'
 |None
 |specifies mappings between the inline schema name and the new name in the format of inline_object_2=Cat,inline_object_5=Bird.
 
-|inlineSchemaNameDefaults
+|inlineSchemaOptions
 |Map(String,String)
 |None
-|specifies the default values used when naming inline schema as such array items in the format of arrayItemSuffix=_inner,mapItemSuffix=_value. ONLY arrayItemSuffix, mapItemSuffix are supported at the moment. `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.
+|specifies the options used when handling inline schema in inline model resolver
 
 |additionalProperties
 |Map(String,Any)
