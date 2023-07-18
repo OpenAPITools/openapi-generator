@@ -68,6 +68,7 @@ docs/ParentWithOptionalDict.md
 docs/Pet.md
 docs/PetApi.md
 docs/Pig.md
+docs/PropertyNameCollision.md
 docs/ReadOnlyFirst.md
 docs/SecondRef.md
 docs/SelfReferenceModel.md
@@ -155,6 +156,7 @@ petstore_api/models/parent.py
 petstore_api/models/parent_with_optional_dict.py
 petstore_api/models/pet.py
 petstore_api/models/pig.py
+petstore_api/models/property_name_collision.py
 petstore_api/models/read_only_first.py
 petstore_api/models/second_ref.py
 petstore_api/models/self_reference_model.py

@@ -2229,4 +2229,12 @@ components:
             type: array
             items:
               $ref: "#/components/schemas/Tag"
-
+    PropertyNameCollision:
+      properties:
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string
+      type: object
