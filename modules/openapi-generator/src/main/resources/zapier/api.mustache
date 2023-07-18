@@ -15,9 +15,9 @@ module.exports = {
 {{#operation}}
     {{operationId}}: {
         key: '{{operationId}}',
-        noun: '{{summary}}',
+        noun: '{{#tags}}{{name}}{{/tags}}',
         display: {
-            label: '{{operationId}}',
+            label: '{{summary}}',
             description: '{{#notes}}{{.}}{{/notes}}',
             hidden: false,
         },
