@@ -106,7 +106,7 @@ defmodule OpenapiPetstore.Deserializer do
 
     model
     |> Map.keys()
-    |> Enum.reject(&(&1 == :__struct__))
+    |> List.delete(:__struct__)
     |> Enum.reduce(model, fn field, acc ->
       Map.replace(acc, field, Map.get(map, Atom.to_string(field)))
     end)
