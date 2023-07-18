@@ -5,7 +5,7 @@ const utils = require('../utils/utils');
 module.exports = {
     createUser: {
         key: 'createUser',
-        noun: 'User',
+        noun: 'Create user',
         display: {
             label: 'createUser',
             description: 'This can only be done by the logged in user.',
@@ -44,7 +44,7 @@ module.exports = {
     },
     createUsersWithArrayInput: {
         key: 'createUsersWithArrayInput',
-        noun: 'User',
+        noun: 'Creates list of users with given input array',
         display: {
             label: 'createUsersWithArrayInput',
             description: '',
@@ -87,7 +87,7 @@ module.exports = {
     },
     createUsersWithListInput: {
         key: 'createUsersWithListInput',
-        noun: 'User',
+        noun: 'Creates list of users with given input array',
         display: {
             label: 'createUsersWithListInput',
             description: '',
@@ -130,7 +130,7 @@ module.exports = {
     },
     deleteUser: {
         key: 'deleteUser',
-        noun: 'User',
+        noun: 'Delete user',
         display: {
             label: 'deleteUser',
             description: 'This can only be done by the logged in user.',
@@ -173,7 +173,7 @@ module.exports = {
     },
     getUserByName: {
         key: 'getUserByName',
-        noun: 'User',
+        noun: 'Get user by user name',
         display: {
             label: 'getUserByName',
             description: '',
@@ -217,7 +217,7 @@ module.exports = {
     },
     loginUser: {
         key: 'loginUser',
-        noun: 'User',
+        noun: 'Logs user into the system',
         display: {
             label: 'loginUser',
             description: '',
@@ -268,7 +268,7 @@ module.exports = {
     },
     logoutUser: {
         key: 'logoutUser',
-        noun: 'User',
+        noun: 'Logs out current logged in user session',
         display: {
             label: 'logoutUser',
             description: '',
@@ -305,7 +305,7 @@ module.exports = {
     },
     updateUser: {
         key: 'updateUser',
-        noun: 'User',
+        noun: 'Updated user',
         display: {
             label: 'updateUser',
             description: 'This can only be done by the logged in user.',

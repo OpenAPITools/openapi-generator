@@ -7,7 +7,7 @@ const FormData = require('form-data');
 module.exports = {
     addPet: {
         key: 'addPet',
-        noun: 'Pet',
+        noun: 'Add a new pet to the store',
         display: {
             label: 'addPet',
             description: '',
@@ -47,7 +47,7 @@ module.exports = {
     },
     deletePet: {
         key: 'deletePet',
-        noun: 'Pet',
+        noun: 'Deletes a pet',
         display: {
             label: 'deletePet',
             description: '',
@@ -95,7 +95,7 @@ module.exports = {
     },
     findPetsByStatus: {
         key: 'findPetsByStatus',
-        noun: 'Pet',
+        noun: 'Finds Pets by status',
         display: {
             label: 'findPetsByStatus',
             description: 'Multiple status values can be provided with comma separated strings',
@@ -138,7 +138,7 @@ module.exports = {
     },
     findPetsByTags: {
         key: 'findPetsByTags',
-        noun: 'Pet',
+        noun: 'Finds Pets by tags',
         display: {
             label: 'findPetsByTags',
             description: 'Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.',
@@ -181,7 +181,7 @@ module.exports = {
     },
     getPetById: {
         key: 'getPetById',
-        noun: 'Pet',
+        noun: 'Find pet by ID',
         display: {
             label: 'getPetById',
             description: 'Returns a single pet',
@@ -225,7 +225,7 @@ module.exports = {
     },
     updatePet: {
         key: 'updatePet',
-        noun: 'Pet',
+        noun: 'Update an existing pet',
         display: {
             label: 'updatePet',
             description: '',
@@ -265,7 +265,7 @@ module.exports = {
     },
     updatePetWithForm: {
         key: 'updatePetWithForm',
-        noun: 'Pet',
+        noun: 'Updates a pet in the store with form data',
         display: {
             label: 'updatePetWithForm',
             description: '',
@@ -318,7 +318,7 @@ module.exports = {
     },
     uploadFile: {
         key: 'uploadFile',
-        noun: 'Pet',
+        noun: 'uploads an image',
         display: {
             label: 'uploadFile',
             description: '',
