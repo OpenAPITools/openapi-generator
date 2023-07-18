@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Client
     internal class CustomJsonCodec : IRestSerializer, ISerializer, IDeserializer
     {
         private readonly IReadableConfiguration _configuration;
-        private static readonly string _contentType = "application/json";
+        private static ContentType _contentType => RestSharp.ContentType.Json;
         private readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
         {
             // OpenAPI generated types generally hide default constructors.
@@ -151,13 +151,13 @@ namespace Org.OpenAPITools.Client
         public ISerializer Serializer => this;
         public IDeserializer Deserializer => this;
 
-        public string[] AcceptedContentTypes => RestSharp.Serializers.ContentType.JsonAccept;
+        public string[] AcceptedContentTypes => RestSharp.ContentType.JsonAccept;
 
         public SupportsContentType SupportsContentType => contentType =>
-            contentType.EndsWith("json", StringComparison.InvariantCultureIgnoreCase) ||
-            contentType.EndsWith("javascript", StringComparison.InvariantCultureIgnoreCase);
+            contentType.Value.EndsWith("json", StringComparison.InvariantCultureIgnoreCase) ||
+            contentType.Value.EndsWith("javascript", StringComparison.InvariantCultureIgnoreCase);
 
-        public string ContentType
+        public ContentType ContentType
         {
             get { return _contentType; }
             set { throw new InvalidOperationException("Not allowed to set content type."); }
@@ -459,8 +459,8 @@ namespace Org.OpenAPITools.Client
                 RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback
             };
 
-            RestClient client = new RestClient(clientOptions)
-                .UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration));
+            RestClient client = new RestClient(clientOptions,
+                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration)));
 
             if (!string.IsNullOrEmpty(configuration.OAuthTokenUrl) &&
                 !string.IsNullOrEmpty(configuration.OAuthClientId) &&
@@ -483,9 +483,8 @@ namespace Org.OpenAPITools.Client
             {
                 var policy = RetryConfiguration.RetryPolicy;
                 var policyResult = policy.ExecuteAndCapture(() => client.Execute(req));
-                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
+                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>(req)
                 {
-                    Request = req,
                     ErrorException = policyResult.FinalException
                 };
             }
@@ -569,8 +568,8 @@ namespace Org.OpenAPITools.Client
                 UseDefaultCredentials = configuration.UseDefaultCredentials
             };
 
-            RestClient client = new RestClient(clientOptions)
-                .UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration));
+            RestClient client = new RestClient(clientOptions,
+                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration)));
 
             if (!string.IsNullOrEmpty(configuration.OAuthTokenUrl) &&
                 !string.IsNullOrEmpty(configuration.OAuthClientId) &&
@@ -593,9 +592,8 @@ namespace Org.OpenAPITools.Client
             {
                 var policy = RetryConfiguration.AsyncRetryPolicy;
                 var policyResult = await policy.ExecuteAndCaptureAsync((ct) => client.ExecuteAsync(req, ct), cancellationToken).ConfigureAwait(false);
-                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
+                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>(req)
                 {
-                    Request = req,
                     ErrorException = policyResult.FinalException
                 };
             }
