@@ -6,25 +6,17 @@ defmodule OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :uuid,
-    :dateTime,
+    :date_time,
     :map
   ]
 
   @type t :: %__MODULE__{
     :uuid => String.t | nil,
-    :dateTime => DateTime.t | nil,
+    :date_time => DateTime.t | nil,
     :map => %{optional(String.t) => OpenapiPetstore.Model.Animal.t} | nil
   }
-end
-
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
-  import OpenapiPetstore.Deserializer
-  def decode(value, options) do
-    value
-    |> deserialize(:map, :map, OpenapiPetstore.Model.Animal, options)
-  end
 end
 

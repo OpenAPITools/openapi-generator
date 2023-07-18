@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.ReadOnlyFirst do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :bar,
     :baz
@@ -16,11 +16,5 @@ defmodule OpenapiPetstore.Model.ReadOnlyFirst do
     :bar => String.t | nil,
     :baz => String.t | nil
   }
-end
-
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.ReadOnlyFirst do
-  def decode(value, _options) do
-    value
-  end
 end
 

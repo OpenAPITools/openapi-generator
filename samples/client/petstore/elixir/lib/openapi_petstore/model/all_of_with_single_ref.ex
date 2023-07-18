@@ -6,23 +6,15 @@ defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :username,
-    :SingleRefType
+    :single_ref_type
   ]
 
   @type t :: %__MODULE__{
     :username => String.t | nil,
-    :SingleRefType => OpenapiPetstore.Model.SingleRefType.t | nil
+    :single_ref_type => OpenapiPetstore.Model.SingleRefType.t | nil
   }
-end
-
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.AllOfWithSingleRef do
-  import OpenapiPetstore.Deserializer
-  def decode(value, options) do
-    value
-    |> deserialize(:SingleRefType, :struct, OpenapiPetstore.Model.SingleRefType, options)
-  end
 end
 

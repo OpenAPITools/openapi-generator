@@ -6,21 +6,15 @@ defmodule OpenapiPetstore.Model.FakeBigDecimalMap200Response do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
-    :someId,
-    :someMap
+    :some_id,
+    :some_map
   ]
 
   @type t :: %__MODULE__{
-    :someId => float() | nil,
-    :someMap => %{optional(String.t) => float()} | nil
+    :some_id => float() | nil,
+    :some_map => %{optional(String.t) => float()} | nil
   }
-end
-
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.FakeBigDecimalMap200Response do
-  def decode(value, _options) do
-    value
-  end
 end
 

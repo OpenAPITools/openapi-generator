@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.Category do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :id,
     :name
@@ -16,11 +16,5 @@ defmodule OpenapiPetstore.Model.Category do
     :id => integer() | nil,
     :name => String.t
   }
-end
-
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.Category do
-  def decode(value, _options) do
-    value
-  end
 end
 

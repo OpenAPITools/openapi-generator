@@ -6,12 +6,12 @@ defmodule OpenapiPetstore.Model.Pet do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :id,
     :category,
     :name,
-    :photoUrls,
+    :photo_urls,
     :tags,
     :status
   ]
@@ -20,18 +20,9 @@ defmodule OpenapiPetstore.Model.Pet do
     :id => integer() | nil,
     :category => OpenapiPetstore.Model.Category.t | nil,
     :name => String.t,
-    :photoUrls => [String.t],
+    :photo_urls => [String.t],
     :tags => [OpenapiPetstore.Model.Tag.t] | nil,
     :status => String.t | nil
   }
-end
-
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.Pet do
-  import OpenapiPetstore.Deserializer
-  def decode(value, options) do
-    value
-    |> deserialize(:category, :struct, OpenapiPetstore.Model.Category, options)
-    |> deserialize(:tags, :list, OpenapiPetstore.Model.Tag, options)
-  end
 end
 

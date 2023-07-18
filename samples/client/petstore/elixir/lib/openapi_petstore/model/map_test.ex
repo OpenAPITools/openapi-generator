@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.MapTest do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :map_map_of_string,
     :map_of_enum_string,
@@ -20,11 +20,5 @@ defmodule OpenapiPetstore.Model.MapTest do
     :direct_map => %{optional(String.t) => boolean()} | nil,
     :indirect_map => %{optional(String.t) => boolean()} | nil
   }
-end
-
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.MapTest do
-  def decode(value, _options) do
-    value
-  end
 end
 

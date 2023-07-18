@@ -96,7 +96,7 @@ defmodule OpenapiPetstore.RequestBuilder do
       Tesla.Multipart.add_field(
         multipart,
         key,
-        Poison.encode!(value),
+        Jason.encode(value),
         headers: [{:"Content-Type", "application/json"}]
       )
     end)
@@ -187,5 +187,5 @@ defmodule OpenapiPetstore.RequestBuilder do
 
   defp decode(%Tesla.Env{} = env, false), do: {:ok, env}
 
-  defp decode(%Tesla.Env{body: body}, struct), do: Poison.decode(body, as: struct)
+  defp decode(%Tesla.Env{body: body}, struct), do: struct(struct, Jason.decode!(body, keys: :atoms!))
 end
