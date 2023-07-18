@@ -5,9 +5,9 @@ const utils = require('../utils/utils');
 module.exports = {
     createUser: {
         key: 'createUser',
-        noun: 'User',
+        noun: 'user',
         display: {
-            label: 'createUser',
+            label: 'Create user',
             description: 'This can only be done by the logged in user.',
             hidden: false,
         },
@@ -44,9 +44,9 @@ module.exports = {
     },
     createUsersWithArrayInput: {
         key: 'createUsersWithArrayInput',
-        noun: 'User',
+        noun: 'user',
         display: {
-            label: 'createUsersWithArrayInput',
+            label: 'Creates list of users with given input array',
             description: '',
             hidden: false,
         },
@@ -87,9 +87,9 @@ module.exports = {
     },
     createUsersWithListInput: {
         key: 'createUsersWithListInput',
-        noun: 'User',
+        noun: 'user',
         display: {
-            label: 'createUsersWithListInput',
+            label: 'Creates list of users with given input array',
             description: '',
             hidden: false,
         },
@@ -130,9 +130,9 @@ module.exports = {
     },
     deleteUser: {
         key: 'deleteUser',
-        noun: 'User',
+        noun: 'user',
         display: {
-            label: 'deleteUser',
+            label: 'Delete user',
             description: 'This can only be done by the logged in user.',
             hidden: false,
         },
@@ -173,9 +173,9 @@ module.exports = {
     },
     getUserByName: {
         key: 'getUserByName',
-        noun: 'User',
+        noun: 'user',
         display: {
-            label: 'getUserByName',
+            label: 'Get user by user name',
             description: '',
             hidden: false,
         },
@@ -217,9 +217,9 @@ module.exports = {
     },
     loginUser: {
         key: 'loginUser',
-        noun: 'User',
+        noun: 'user',
         display: {
-            label: 'loginUser',
+            label: 'Logs user into the system',
             description: '',
             hidden: false,
         },
@@ -268,9 +268,9 @@ module.exports = {
     },
     logoutUser: {
         key: 'logoutUser',
-        noun: 'User',
+        noun: 'user',
         display: {
-            label: 'logoutUser',
+            label: 'Logs out current logged in user session',
             description: '',
             hidden: false,
         },
@@ -305,9 +305,9 @@ module.exports = {
     },
     updateUser: {
         key: 'updateUser',
-        noun: 'User',
+        noun: 'user',
         display: {
-            label: 'updateUser',
+            label: 'Updated user',
             description: 'This can only be done by the logged in user.',
             hidden: false,
         },

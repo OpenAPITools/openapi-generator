@@ -5,9 +5,9 @@ const utils = require('../utils/utils');
 module.exports = {
     deleteOrder: {
         key: 'deleteOrder',
-        noun: 'Store',
+        noun: 'store',
         display: {
-            label: 'deleteOrder',
+            label: 'Delete purchase order by ID',
             description: 'For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors',
             hidden: false,
         },
@@ -48,9 +48,9 @@ module.exports = {
     },
     getInventory: {
         key: 'getInventory',
-        noun: 'Store',
+        noun: 'store',
         display: {
-            label: 'getInventory',
+            label: 'Returns pet inventories by status',
             description: 'Returns a map of status codes to quantities',
             hidden: false,
         },
@@ -85,9 +85,9 @@ module.exports = {
     },
     getOrderById: {
         key: 'getOrderById',
-        noun: 'Store',
+        noun: 'store',
         display: {
-            label: 'getOrderById',
+            label: 'Find purchase order by ID',
             description: 'For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions',
             hidden: false,
         },
@@ -129,9 +129,9 @@ module.exports = {
     },
     placeOrder: {
         key: 'placeOrder',
-        noun: 'Store',
+        noun: 'store',
         display: {
-            label: 'placeOrder',
+            label: 'Place an order for a pet',
             description: '',
             hidden: false,
         },
