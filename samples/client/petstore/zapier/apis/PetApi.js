@@ -7,9 +7,9 @@ const FormData = require('form-data');
 module.exports = {
     addPet: {
         key: 'addPet',
-        noun: 'Pet',
+        noun: 'pet',
         display: {
-            label: 'addPet',
+            label: 'Add a new pet to the store',
             description: '',
             hidden: false,
         },
@@ -47,9 +47,9 @@ module.exports = {
     },
     deletePet: {
         key: 'deletePet',
-        noun: 'Pet',
+        noun: 'pet',
         display: {
-            label: 'deletePet',
+            label: 'Deletes a pet',
             description: '',
             hidden: false,
         },
@@ -95,9 +95,9 @@ module.exports = {
     },
     findPetsByStatus: {
         key: 'findPetsByStatus',
-        noun: 'Pet',
+        noun: 'pet',
         display: {
-            label: 'findPetsByStatus',
+            label: 'Finds Pets by status',
             description: 'Multiple status values can be provided with comma separated strings',
             hidden: false,
         },
@@ -138,9 +138,9 @@ module.exports = {
     },
     findPetsByTags: {
         key: 'findPetsByTags',
-        noun: 'Pet',
+        noun: 'pet',
         display: {
-            label: 'findPetsByTags',
+            label: 'Finds Pets by tags',
             description: 'Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.',
             hidden: false,
         },
@@ -181,9 +181,9 @@ module.exports = {
     },
     getPetById: {
         key: 'getPetById',
-        noun: 'Pet',
+        noun: 'pet',
         display: {
-            label: 'getPetById',
+            label: 'Find pet by ID',
             description: 'Returns a single pet',
             hidden: false,
         },
@@ -225,9 +225,9 @@ module.exports = {
     },
     updatePet: {
         key: 'updatePet',
-        noun: 'Pet',
+        noun: 'pet',
         display: {
-            label: 'updatePet',
+            label: 'Update an existing pet',
             description: '',
             hidden: false,
         },
@@ -265,9 +265,9 @@ module.exports = {
     },
     updatePetWithForm: {
         key: 'updatePetWithForm',
-        noun: 'Pet',
+        noun: 'pet',
         display: {
-            label: 'updatePetWithForm',
+            label: 'Updates a pet in the store with form data',
             description: '',
             hidden: false,
         },
@@ -318,9 +318,9 @@ module.exports = {
     },
     uploadFile: {
         key: 'uploadFile',
-        noun: 'Pet',
+        noun: 'pet',
         display: {
-            label: 'uploadFile',
+            label: 'uploads an image',
             description: '',
             hidden: false,
         },
