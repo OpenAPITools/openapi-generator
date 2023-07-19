@@ -17,7 +17,7 @@ defmodule PetTest do
       :tags => [%Tag{:id => petId, :name => "test elixir tag"}]
     }
 
-    {:ok, response} = PetApi.add_pet(Connection.new(), pet)
+    {:ok, %Tesla.Env{} = response} = PetApi.add_pet(Connection.new(), pet)
     assert response.status == 200
 
     {:ok, pet} = PetApi.get_pet_by_id(Connection.new(), petId)

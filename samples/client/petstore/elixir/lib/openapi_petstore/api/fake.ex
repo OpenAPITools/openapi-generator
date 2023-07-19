@@ -117,7 +117,7 @@ defmodule OpenapiPetstore.Api.Fake do
   - `{:ok, boolean()}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec fake_outer_boolean_serialize(Tesla.Env.client, keyword()) :: {:ok, Boolean.t} | {:error, Tesla.Env.t}
+  @spec fake_outer_boolean_serialize(Tesla.Env.client, keyword()) :: {:ok, boolean()} | {:error, Tesla.Env.t}
   def fake_outer_boolean_serialize(connection, opts \\ []) do
     optional_params = %{
       :body => :body
@@ -187,7 +187,7 @@ defmodule OpenapiPetstore.Api.Fake do
   - `{:ok, float()}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec fake_outer_number_serialize(Tesla.Env.client, keyword()) :: {:ok, Float.t} | {:error, Tesla.Env.t}
+  @spec fake_outer_number_serialize(Tesla.Env.client, keyword()) :: {:ok, float()} | {:error, Tesla.Env.t}
   def fake_outer_number_serialize(connection, opts \\ []) do
     optional_params = %{
       :body => :body

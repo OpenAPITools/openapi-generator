@@ -6,25 +6,24 @@ defmodule {{moduleName}}.Deserializer do
 
   @jason_decode_opts [keys: :strings]
 
+  def jason_decode(json) do
+    Jason.decode(json, @jason_decode_opts)
+  end
+
   def jason_decode(json, module) do
     json
-    |> Jason.decode(@jason_decode_opts)
+    |> jason_decode()
     |> case do
       {:ok, decoded} -> {:ok, to_struct(decoded, module)}
       {:error, _} = error -> error
     end
   end
 
-  def jason_decode!(json, module) do
-    json
-    |> Jason.decode!(@jason_decode_opts)
-    |> to_struct(module)
-  end
-
   @doc """
   Update the provided model with a deserialization of a nested value
   """
-  @spec deserialize(struct(), :atom, :atom, :atom) :: struct()
+  @spec deserialize(struct(), atom(), :date | :datetime | :list | :map | :struct, module()) ::
+          struct()
   def deserialize(model, field, :list, module) do
     model
     |> Map.update!(field, fn

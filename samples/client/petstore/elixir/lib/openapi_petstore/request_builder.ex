@@ -148,8 +148,8 @@ defmodule OpenapiPetstore.RequestBuilder do
     Map.put_new(request, :body, "")
   end
 
-  @type status_code :: 100..599
-  @type response_mapping :: [{status_code, struct() | false}]
+  @type status_code :: :default | 100..599
+  @type response_mapping :: [{status_code, false | %{} | module()}]
 
   @doc """
   Evaluate the response from a Tesla request.
@@ -186,6 +186,10 @@ defmodule OpenapiPetstore.RequestBuilder do
   defp resolve_mapping(env, [], struct), do: decode(env, struct)
 
   defp decode(%Tesla.Env{} = env, false), do: {:ok, env}
+
+  defp decode(%Tesla.Env{body: body}, %{}) do
+    OpenapiPetstore.Deserializer.jason_decode(body)
+  end
 
   defp decode(%Tesla.Env{body: body}, module) do
     OpenapiPetstore.Deserializer.jason_decode(body, module)

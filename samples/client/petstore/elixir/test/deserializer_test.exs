@@ -46,22 +46,4 @@ defmodule DeserializerTest do
     assert Deserializer.jason_decode(~s/{: 1}/, Pet) ==
              {:error, %Jason.DecodeError{data: "{: 1}", position: 1, token: nil}}
   end
-
-  test "jason_decode!/2" do
-    assert Deserializer.jason_decode!(@valid_json, Pet) == %Pet{
-             id: 14,
-             category: %Category{id: 75, name: "sea dragons"},
-             name: "Nagga",
-             photoUrls: ["https://example.com/nagga1.jpg", "https://example.com/nagga2.jpg"],
-             tags: [%Tag{id: 99, name: "dragon"}, %Tag{id: 23, name: "sea"}],
-             status: "foo"
-           }
-  end
-
-  test "jason_decode!/2 with invalid JSON" do
-    assert_raise Jason.DecodeError, fn ->
-      Deserializer.jason_decode!(~s/{: 1}/, Pet) ==
-        {:error, ~s/unexpected byte at position 1: 0x3A (":")/}
-    end
-  end
 end

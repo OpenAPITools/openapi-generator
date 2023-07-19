@@ -18,7 +18,7 @@ defmodule OpenapiPetstore.Model.ObjectWithDeprecatedFields do
     :uuid => String.t | nil,
     :id => float() | nil,
     :deprecatedRef => OpenapiPetstore.Model.DeprecatedObject.t | nil,
-    :bars => [OpenapiPetstore.Model.String.t] | nil
+    :bars => [String.t] | nil
   }
 
   alias OpenapiPetstore.Deserializer
