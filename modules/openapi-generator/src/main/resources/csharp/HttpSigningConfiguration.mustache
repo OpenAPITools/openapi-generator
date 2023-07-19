@@ -286,7 +286,6 @@ namespace {{packageName}}.Client
 
         private byte[] GetStringHash(HashAlgorithmName hashAlgorithmName, string stringToBeHashed)
         {
-            var hashAlgorithm = System.Security.Cryptography.HashAlgorithm.Create(hashName);
             HashAlgorithm{{nrt?}} hashAlgorithm = null;
 
             if (hashAlgorithmName == HashAlgorithmName.SHA1)

@@ -294,7 +294,6 @@ namespace Org.OpenAPITools.Client
 
         private byte[] GetStringHash(HashAlgorithmName hashAlgorithmName, string stringToBeHashed)
         {
-            var hashAlgorithm = System.Security.Cryptography.HashAlgorithm.Create(hashName);
             HashAlgorithm? hashAlgorithm = null;
 
             if (hashAlgorithmName == HashAlgorithmName.SHA1)
