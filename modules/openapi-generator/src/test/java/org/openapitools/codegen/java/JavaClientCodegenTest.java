@@ -877,7 +877,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp4.required);
         Assert.assertTrue(cp4.isPrimitiveType);
         Assert.assertTrue(cp4.isContainer);
-        Assert.assertFalse(cp4.isMap);
+        Assert.assertTrue(cp4.isMap);
         Assert.assertTrue(cp4.isFreeFormObject);
         Assert.assertFalse(cp4.isAnyType);
         Assert.assertFalse(cp4.isModel);
@@ -889,7 +889,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp5.required);
         Assert.assertTrue(cp5.isPrimitiveType);
         Assert.assertTrue(cp5.isContainer);
-        Assert.assertFalse(cp5.isMap);
+        Assert.assertTrue(cp5.isMap);
         Assert.assertTrue(cp5.isFreeFormObject);
         Assert.assertFalse(cp5.isAnyType);
         Assert.assertFalse(cp5.isModel);
@@ -901,7 +901,7 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp6.required);
         Assert.assertTrue(cp6.isPrimitiveType);
         Assert.assertTrue(cp6.isContainer);
-        Assert.assertFalse(cp6.isMap);
+        Assert.assertTrue(cp6.isMap);
         Assert.assertTrue(cp6.isFreeFormObject);
         Assert.assertFalse(cp6.isAnyType);
 
