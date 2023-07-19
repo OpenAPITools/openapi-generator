@@ -95,6 +95,7 @@ internal suspend inline fun <reified T> request(
         install(HttpTimeout) {
             this.requestTimeoutMillis = requestTimeoutMillis
         }
+        expectSuccess = true
     }
 
     authProviders.forEach {
