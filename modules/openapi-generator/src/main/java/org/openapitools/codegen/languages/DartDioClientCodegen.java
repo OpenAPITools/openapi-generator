@@ -19,9 +19,11 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.Sets;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Discriminator;
 import io.swagger.v3.oas.models.media.Schema;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -84,12 +86,12 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                         ClientModificationFeature.Authorizations,
                         ClientModificationFeature.UserAgent
                 ).includeSchemaSupportFeatures(
-                    SchemaSupportFeature.Polymorphism,
-                    SchemaSupportFeature.Union,
-                    SchemaSupportFeature.Composite,
-                    SchemaSupportFeature.allOf,
-                    SchemaSupportFeature.oneOf,
-                    SchemaSupportFeature.anyOf
+                        SchemaSupportFeature.Polymorphism,
+                        SchemaSupportFeature.Union,
+                        SchemaSupportFeature.Composite,
+                        SchemaSupportFeature.allOf,
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.anyOf
                 )
         );
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
@@ -175,8 +177,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         if (!additionalProperties.containsKey(FINAL_PROPERTIES)) {
             additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(FINAL_PROPERTIES_DEFAULT_VALUE));
             LOGGER.debug("finalProperties not set, using default {}", FINAL_PROPERTIES_DEFAULT_VALUE);
-        }
-        else {
+        } else {
             additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(additionalProperties.get(FINAL_PROPERTIES).toString()));
         }
 
@@ -448,9 +449,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             cm.vendorExtensions.put(kIsPure, isPure);
             if (!isParent && (cm.oneOf == null || cm.oneOf.isEmpty())) {
                 //discriminator has no meaning here
-                if (cm.discriminator!=null) {
+                if (cm.discriminator != null) {
                     cm.vendorExtensions.put(kParentDiscriminator, cm.discriminator);
-                    cm.discriminator=null;
+                    cm.discriminator = null;
                 }
 
             }
@@ -553,8 +554,8 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
         CodegenDiscriminator sub = super.createDiscriminator(schemaName, schema);
         Discriminator originalDiscriminator = schema.getDiscriminator();
-        if (originalDiscriminator!=null) {
-            Map<String,String> originalMapping = originalDiscriminator.getMapping();
+        if (originalDiscriminator != null) {
+            Map<String, String> originalMapping = originalDiscriminator.getMapping();
             if (originalMapping != null && !originalMapping.isEmpty()) {
                 //we already have a discriminator mapping, remove everything else
                 for (MappedModel currentMappings : new HashSet<>(sub.getMappedModels())) {
@@ -568,6 +569,75 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             }
         }
         return sub;
+    }
+
+    private boolean isParentRecursive(CodegenModel codegenModel, String classname) {
+        if ((codegenModel.parent == classname) || (codegenModel.getAllParents() != null && codegenModel.getAllParents().contains(classname)) || (codegenModel.interfaces != null && codegenModel.interfaces.contains(classname)) || (codegenModel.parentModel != null && isParentRecursive(codegenModel.parentModel, classname))) {
+            return true;
+        }
+        return false;
+    }
+
+    //  filter out all the models, which are not submodels of this model
+    private void filterMappedModels(CodegenModel cm) {
+        if (cm.discriminator != null && cm.discriminator.getMappedModels() != null) {
+            final CodegenDiscriminator discriminator = cm.getDiscriminator();
+            final String classname = cm.getClassname();
+            final Set<MappedModel> filteredModels = new HashSet<MappedModel>();
+            final Set<MappedModel> removedModels = new HashSet<MappedModel>();
+            for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
+                final CodegenModel mappedCodegenModel = mappedModel.getModel();
+                //  filter out all the models, which are not submodels of this model
+                if (isParentRecursive(mappedCodegenModel, classname)) {
+                    filteredModels.add(mappedModel);
+                } else {
+                    removedModels.add(mappedModel);
+                }
+            }
+            cm.discriminator.setMappedModels(filteredModels);
+
+            Set<String> filteredImports = new HashSet<>();
+            for (String mImport : cm.getImports()) {
+                boolean found = false;
+                if (cm.parent != null) {
+                    String parentString = rewriteImport(cm.getParent(), true);
+                    found = parentString.equals(mImport);
+                }
+                if (!found) {
+                    for (MappedModel mappedModel : filteredModels) {
+                        String mappedModelImport = rewriteImport(mappedModel.getModelName(), true);
+                        if (mappedModelImport.equals(mImport)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if (!found) {
+                    for (CodegenProperty codegenProperty : cm.getAllVars()) {
+                        String codeGenImport = rewriteImport(codegenProperty.getDataType(), true);
+                        if (codeGenImport.equals(mImport)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                if (!found) {
+                    boolean removeIt = false;
+                    for (MappedModel removedModel : removedModels) {
+                        String removedImport = rewriteImport(removedModel.getModelName(), true);
+                        if (removedImport.equals(mImport)) {
+                            removeIt = true;
+                            break;
+                        }
+                    }
+                    found = !removeIt;
+                }
+                if (found) {
+                    filteredImports.add(mImport);
+                }
+            }
+            cm.setImports(filteredImports);
+        }
     }
 
     @Override
@@ -584,6 +654,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 CodegenModel cm = mo.getModel();
                 cm.imports = rewriteImports(cm.imports, true);
                 cm.vendorExtensions.put("x-has-vars", !cm.vars.isEmpty());
+
+                //  filter out all the models, which are not submodels of this model
+                filterMappedModels(cm);
             }
         }
 
@@ -717,32 +790,39 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     private Set<String> rewriteImports(Set<String> originalImports, boolean isModel) {
         Set<String> resultImports = Sets.newHashSet();
         for (String modelImport : originalImports) {
-            if (modelImport.startsWith("BuiltList", 0)) {
-                modelImport = "BuiltList";
-            } else if (modelImport.startsWith("BuiltSet", 0)) {
-                modelImport = "BuiltSet";
-            } else if (modelImport.startsWith("BuiltMap", 0)) {
-                modelImport = "BuiltMap";
-            }
-
-            if (imports.containsKey(modelImport)) {
-                String i = imports.get(modelImport);
-                if (Objects.equals(i, DIO_IMPORT) && !isModel) {
-                    // Don't add imports to operations that are already imported
-                    continue;
-                }
-                resultImports.add(i);
-            } else if (importMapping().containsKey(modelImport)) {
-                resultImports.add(importMapping().get(modelImport));
-            } else if (modelImport.startsWith("dart:")) { // import dart:* directly
-                resultImports.add(modelImport);
-            } else if (modelImport.startsWith("package:")) { // e.g. package:openapi/src/model/child.dart
-                resultImports.add(modelImport);
-            } else {
-                resultImports.add("package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/" + underscore(modelImport) + ".dart");
+            final String rewriteString = rewriteImport(modelImport, isModel);
+            if (rewriteString != null) {
+                resultImports.add(rewriteString);
             }
         }
         return resultImports;
+    }
+
+    private String rewriteImport(String modelImport, boolean isModel) {
+        if (modelImport.startsWith("BuiltList", 0)) {
+            modelImport = "BuiltList";
+        } else if (modelImport.startsWith("BuiltSet", 0)) {
+            modelImport = "BuiltSet";
+        } else if (modelImport.startsWith("BuiltMap", 0)) {
+            modelImport = "BuiltMap";
+        }
+
+        if (imports.containsKey(modelImport)) {
+            String i = imports.get(modelImport);
+            if (Objects.equals(i, DIO_IMPORT) && !isModel) {
+                // Don't add imports to operations that are already imported
+                return null;
+            }
+            return i;
+        } else if (importMapping().containsKey(modelImport)) {
+            return importMapping().get(modelImport);
+        } else if (modelImport.startsWith("dart:")) { // import dart:* directly
+            return modelImport;
+        } else if (modelImport.startsWith("package:")) { // e.g. package:openapi/src/model/child.dart
+            return modelImport;
+        } else {
+            return "package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/" + underscore(modelImport) + ".dart";
+        }
     }
 
     static class BuiltValueSerializer {
