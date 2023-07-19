@@ -189,6 +189,10 @@ public interface IJsonSchemaValidationProperties {
 
     void setIsAnyType(boolean isAnyType);
 
+    boolean getIsFreeFormObject();
+
+    void setIsFreeFormObject(boolean isFreeFormObject);
+
     String getRef();
 
     void setRef(String ref);
@@ -279,6 +283,8 @@ public interface IJsonSchemaValidationProperties {
             setIsNull(true);
         } else if (ModelUtils.isAnyType(p)) {
             setIsAnyType(true);
+        } else if (ModelUtils.isFreeFormObject(p)) {
+            setIsFreeFormObject(true);
         } else if (ModelUtils.isTypeObjectSchema(p)) {
             setIsMap(true);
         }
