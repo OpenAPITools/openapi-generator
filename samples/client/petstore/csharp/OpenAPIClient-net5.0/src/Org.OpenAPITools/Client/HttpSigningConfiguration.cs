@@ -349,6 +349,9 @@ namespace Org.OpenAPITools.Client
         /// <returns>ECDSA signature</returns>
         private string GetECDSASignature(byte[] dataToSign)
         {
+            if (!File.Exists(KeyFilePath))
+                throw new Exception("key file path does not exist.");
+
             var keyStr = KeyString;
             const string ecKeyHeader = "-----BEGIN EC PRIVATE KEY-----";
             const string ecKeyFooter = "-----END EC PRIVATE KEY-----";
@@ -356,7 +359,6 @@ namespace Org.OpenAPITools.Client
             var keyBytes = System.Convert.FromBase64String(ecKeyBase64String);
             var ecdsa = ECDsa.Create();
 
-#if (NETCOREAPP3_0 || NETCOREAPP3_1 || NET5_0)
             var byteCount = 0;
             if (KeyPassPhrase != null)
             {
@@ -376,17 +378,13 @@ namespace Org.OpenAPITools.Client
                 }
             }
             else
-            {
                 ecdsa.ImportPkcs8PrivateKey(keyBytes, out byteCount);
-            }
+
             var signedBytes = ecdsa.SignHash(dataToSign);
             var derBytes = ConvertToECDSAANS1Format(signedBytes);
             var signedString = System.Convert.ToBase64String(derBytes);
 
             return signedString;
-#else
-            throw new Exception("ECDSA signing is supported only on NETCOREAPP3_0 and above");
-#endif
         }
 
         private byte[] ConvertToECDSAANS1Format(byte[] signedBytes)
