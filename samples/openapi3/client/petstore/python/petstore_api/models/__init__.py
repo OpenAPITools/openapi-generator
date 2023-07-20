@@ -74,6 +74,7 @@ from petstore_api.models.parent import Parent
 from petstore_api.models.parent_with_optional_dict import ParentWithOptionalDict
 from petstore_api.models.pet import Pet
 from petstore_api.models.pig import Pig
+from petstore_api.models.property_name_collision import PropertyNameCollision
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.second_ref import SecondRef
 from petstore_api.models.self_reference_model import SelfReferenceModel
