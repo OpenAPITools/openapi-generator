@@ -200,11 +200,11 @@ module XAuthIDAlias
 
     # Returns base URL for specified operation based on server settings
     def base_url(operation = nil)
-      index = server_operation_index.fetch(operation, server_index)
       if operation_server_settings.key?(operation) then
+        index = server_operation_index.fetch(operation, server_index)
         server_url(index, server_operation_variables.fetch(operation, server_variables), operation_server_settings[operation])
       else
-        index.zero? ? "#{scheme}://#{[host, base_path].join('/').gsub(/\/+/, '/')}".sub(/\/+\z/, '') : server_url(index, server_variables, nil)
+        server_index.zero? ? "#{scheme}://#{[host, base_path].join('/').gsub(/\/+/, '/')}".sub(/\/+\z/, '') : server_url(server_index, server_variables, nil)
       end
     end
 
