@@ -146,9 +146,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("sourceURI", file.SourceURI);
-
+            WriteProperties(ref writer, file, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="File" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="file"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, File file, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("sourceURI", file.SourceURI);
         }
     }
 }

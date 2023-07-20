@@ -5,3 +5,5 @@ templateDir: modules/openapi-generator/src/main/resources/julia-client
 additionalProperties:
   hideGenerationTimestamp: "true"
   packageName: PetStoreClient
+  exportOperations: "true"
+  exportModels: "true"

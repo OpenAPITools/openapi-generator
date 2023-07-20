@@ -145,9 +145,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("kind", apple.Kind);
-
+            WriteProperties(ref writer, apple, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Apple" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="apple"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("kind", apple.Kind);
         }
     }
 }

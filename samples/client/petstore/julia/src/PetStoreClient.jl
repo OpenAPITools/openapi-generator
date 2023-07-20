@@ -15,4 +15,17 @@ include("apis/api_PetApi.jl")
 include("apis/api_StoreApi.jl")
 include("apis/api_UserApi.jl")
 
+# export models
+export ApiResponse
+export Category
+export Order
+export Pet
+export Tag
+export User
+
+# export operations
+export PetApi
+export StoreApi
+export UserApi
+
 end # module PetStoreClient

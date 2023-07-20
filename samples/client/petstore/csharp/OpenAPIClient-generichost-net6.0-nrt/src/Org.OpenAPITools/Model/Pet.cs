@@ -315,6 +315,19 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, pet, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Pet" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="pet"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Pet pet, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WritePropertyName("category");
             JsonSerializer.Serialize(writer, pet.Category, jsonSerializerOptions);
             writer.WriteNumber("id", pet.Id);
@@ -330,8 +343,6 @@ namespace Org.OpenAPITools.Model
 
             writer.WritePropertyName("tags");
             JsonSerializer.Serialize(writer, pet.Tags, jsonSerializerOptions);
-
-            writer.WriteEndObject();
         }
     }
 }

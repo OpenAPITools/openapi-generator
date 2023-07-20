@@ -395,11 +395,34 @@ or
 --import-mappings Pet=my.models.MyPet --import-mappings Order=my.models.MyOrder
 ```
 
+## Name Mapping
+
+One can map the name of the property/parameter to something else. Consider the following schema:
+```
+    PropertyNameCollision:
+      properties:
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string
+      type: object
+```
+`_type`, `type`, `type_` will result in property name collision in the Java client generator for example. We can resolve the issue using `nameMappings` by mapping `_type` to `underscoreType`, `type_` to `typeWithUnderscore`.
+
+Here is an example to use `nameMappings` in CLI:
+```sh
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-okhttp-gson.yaml  -o /tmp/java2/ --name-mappings _type=underscoreType, type_=typeWithUnderscore
+```
+
+(Not all generators support this feature yet. Please open an issue (ticket) to let us know which generators you would like to have this feature enabled and we'll prioritize accordingly.)
+
 ## Schema Mapping
 
 One can map the schema to something else (e.g. external objects/models outside of the package) using the `schemaMappings` option, e.g. in CLI
 ```sh
-java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/type-alias.yaml -o /tmp/java2/ --schema-mapping TypeAlias=foo.bar.TypeAlias
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/type-alias.yaml -o /tmp/java2/ --schema-mappings TypeAlias=foo.bar.TypeAlias
 ```
 Another example (in conjunction with --type-mappings):
 ```sh
@@ -445,16 +468,16 @@ For example, to name the inline schema `meta_200_response` as `MetaObject`, use 
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i  modules/openapi-generator/src/test/resources/3_0/inline_model_resolver.yaml -o /tmp/java3/ --skip-validate-spec --inline-schema-name-mappings meta_200_response=MetaObject,arbitraryObjectRequestBodyProperty_request=ArbitraryRequest
 ```
 
-Another useful option is `inlineSchemaNameDefaults`, which allows you to customize the suffix of the auto-generated inline schema name, e.g. in CLI
+Another useful option is `inlineSchemaOptions`, which allows you to customize how inline schemas are handled or named
 ```
---inline-schema-name-defaults arrayItemSuffix=_array_item,mapItemSuffix=_map_item
+--inline-schema-options ARRAY_ITEM_SUFFIX=_array_item,MAP_ITEM_SUFFIX=_map_item,RESOLVE_INLINE_ENUMS=true
 ```
 
-Note: Only arrayItemSuffix, mapItemSuffix are supported at the moment.
-
-There are 2 special values:
-- `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.
+- `ARRAY_ITEM_SUFFIX` sets the array item suffix
+- `MAP_ITEM_SUFFIX` set the map item suffix
+- `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas during refactoring
 - `REFACTOR_ALLOF_INLINE_SCHEMAS=true` will restore the 6.x (or below) behaviour to refactor allOf inline schemas into $ref. (v7.0.0 will skip the refactoring of these allOf inline schmeas by default)
+- `RESOLVE_INLINE_ENUMS=true` will refactor inline enum definitions into $ref
 
 ## OpenAPI Normalizer
 

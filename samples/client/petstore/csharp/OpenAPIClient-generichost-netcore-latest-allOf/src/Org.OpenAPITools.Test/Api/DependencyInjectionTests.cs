@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.IApi;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Extensions;
 using Xunit;
 
@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact]
         public void ConfigureApiWithAClientTest()
         {
-            var defaultApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IApi.IDefaultApi>();
+            var defaultApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IDefaultApi>();
             Assert.True(defaultApi.HttpClient.BaseAddress != null);
         }
 
@@ -76,7 +76,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact]
         public void ConfigureApiWithoutAClientTest()
         {
-            var defaultApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IApi.IDefaultApi>();
+            var defaultApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IDefaultApi>();
             Assert.True(defaultApi.HttpClient.BaseAddress != null);
         }
 
@@ -86,7 +86,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact]
         public void AddApiWithAClientTest()
         {
-            var defaultApi = _hostUsingAddWithAClient.Services.GetRequiredService<IApi.IDefaultApi>();
+            var defaultApi = _hostUsingAddWithAClient.Services.GetRequiredService<IDefaultApi>();
             Assert.True(defaultApi.HttpClient.BaseAddress != null);
         }
 
@@ -96,7 +96,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact]
         public void AddApiWithoutAClientTest()
         {
-            var defaultApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IApi.IDefaultApi>();
+            var defaultApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IDefaultApi>();
             Assert.True(defaultApi.HttpClient.BaseAddress != null);
         }
     }

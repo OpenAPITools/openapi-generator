@@ -884,7 +884,7 @@ namespace Example
             var int32 = 56;  // int? | None (optional) 
             var int64 = 789L;  // long? | None (optional) 
             var varFloat = 3.4F;  // float? | None (optional) 
-            var varString = "string_example";  // string | None (optional) 
+            var varString = "varString_example";  // string | None (optional) 
             var binary = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // FileParameter | None (optional) 
             var date = DateTime.Parse("2013-10-20");  // DateTime? | None (optional) 
             var dateTime = DateTime.Parse(""2010-02-01T10:20:10.111110+01:00"");  // DateTime? | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")
@@ -1357,7 +1357,7 @@ No authorization required
 
 <a id="testqueryparametercollectionformat"></a>
 # **TestQueryParameterCollectionFormat**
-> void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
+> void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, string notRequiredNotNullable = null, string notRequiredNullable = null)
 
 
 
@@ -1389,10 +1389,14 @@ namespace Example
             var http = new List<string>(); // List<string> | 
             var url = new List<string>(); // List<string> | 
             var context = new List<string>(); // List<string> | 
+            var requiredNotNullable = "requiredNotNullable_example";  // string | 
+            var requiredNullable = "requiredNullable_example";  // string | 
+            var notRequiredNotNullable = "notRequiredNotNullable_example";  // string |  (optional) 
+            var notRequiredNullable = "notRequiredNullable_example";  // string |  (optional) 
 
             try
             {
-                apiInstance.TestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+                apiInstance.TestQueryParameterCollectionFormat(pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable);
             }
             catch (ApiException  e)
             {
@@ -1411,7 +1415,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    apiInstance.TestQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context);
+    apiInstance.TestQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable);
 }
 catch (ApiException e)
 {
@@ -1430,6 +1434,10 @@ catch (ApiException e)
 | **http** | [**List&lt;string&gt;**](string.md) |  |  |
 | **url** | [**List&lt;string&gt;**](string.md) |  |  |
 | **context** | [**List&lt;string&gt;**](string.md) |  |  |
+| **requiredNotNullable** | **string** |  |  |
+| **requiredNullable** | **string** |  |  |
+| **notRequiredNotNullable** | **string** |  | [optional]  |
+| **notRequiredNullable** | **string** |  | [optional]  |
 
 ### Return type
 

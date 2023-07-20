@@ -115,9 +115,9 @@ public class JavaClientCodegenTest {
         body3.setDescription("A list of points");
         body3.setContent(new Content().addMediaType("application/json", new MediaType().schema(new ArraySchema().items(new ObjectSchema().$ref("#/components/schemas/Point")))));
         ObjectSchema point = new ObjectSchema();
-        point.addProperties("message", new StringSchema());
-        point.addProperties("x", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
-        point.addProperties("y", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
+        point.addProperty("message", new StringSchema());
+        point.addProperty("x", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
+        point.addProperty("y", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
         CodegenParameter codegenParameter3 = codegen.fromRequestBody(body3, new HashSet<String>(), null);
         Assert.assertEquals(codegenParameter3.description, "A list of points");
         Assert.assertEquals(codegenParameter3.dataType, "List<Point>");
@@ -872,7 +872,7 @@ public class JavaClientCodegenTest {
         // map
         // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp4 = cm2.vars.get(3);
-        Assert.assertEquals(cp4.baseName, "map_any_value");
+        Assert.assertEquals(cp4.baseName, "map_free_form_object");
         Assert.assertEquals(cp4.dataType, "Map<String, Object>");
         Assert.assertFalse(cp4.required);
         Assert.assertTrue(cp4.isPrimitiveType);
@@ -880,6 +880,7 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp4.isMap);
         Assert.assertTrue(cp4.isFreeFormObject);
         Assert.assertFalse(cp4.isAnyType);
+        Assert.assertFalse(cp4.isModel);
 
         // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp5 = cm2.vars.get(4);
@@ -891,6 +892,7 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp5.isMap);
         Assert.assertTrue(cp5.isFreeFormObject);
         Assert.assertFalse(cp5.isAnyType);
+        Assert.assertFalse(cp5.isModel);
 
         // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp6 = cm2.vars.get(5);
@@ -2252,4 +2254,27 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileContains(petApi, "@Component");
     }
 
+    @Test
+    public void testLogicToAvoidStackOverflow() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.GENERATE_CLIENT_AS_BEAN, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue_12929.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // shouldn't throw stackoverflow exception
+    }
 }

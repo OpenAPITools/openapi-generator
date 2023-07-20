@@ -226,14 +226,25 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, capitalization, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Capitalization" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="capitalization"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Capitalization capitalization, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("ATT_NAME", capitalization.ATT_NAME);
             writer.WriteString("CapitalCamel", capitalization.CapitalCamel);
             writer.WriteString("Capital_Snake", capitalization.CapitalSnake);
             writer.WriteString("SCA_ETH_Flow_Points", capitalization.SCAETHFlowPoints);
             writer.WriteString("smallCamel", capitalization.SmallCamel);
             writer.WriteString("small_Snake", capitalization.SmallSnake);
-
-            writer.WriteEndObject();
         }
     }
 }

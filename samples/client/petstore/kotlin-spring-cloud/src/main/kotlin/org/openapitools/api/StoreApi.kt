@@ -29,7 +29,6 @@ import kotlin.collections.List
 import kotlin.collections.Map
 
 @Validated
-@RequestMapping("\${api.base-path:/v2}")
 interface StoreApi {
 
 

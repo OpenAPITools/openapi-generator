@@ -74,6 +74,7 @@ The following generators are available:
 * [typescript-redux-query](generators/typescript-redux-query.md)  
 * [typescript-rxjs](generators/typescript-rxjs.md)  
 * [xojo-client](generators/xojo-client.md)  
+* [zapier (beta)](generators/zapier.md)  
 
 
 ## SERVER generators
@@ -118,7 +119,6 @@ The following generators are available:
 * [php-laravel](generators/php-laravel.md)  
 * [php-lumen](generators/php-lumen.md)  
 * [php-mezzio-ph](generators/php-mezzio-ph.md)  
-* [php-slim-deprecated (deprecated)](generators/php-slim-deprecated.md)  
 * [php-slim4](generators/php-slim4.md)  
 * [php-symfony](generators/php-symfony.md)  
 * [python-aiohttp](generators/python-aiohttp.md)  

@@ -880,7 +880,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
             return getArrayTypeDeclaration((ArraySchema) p);
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);

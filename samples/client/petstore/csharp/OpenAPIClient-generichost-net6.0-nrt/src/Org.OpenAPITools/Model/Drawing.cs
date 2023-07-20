@@ -97,6 +97,16 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
+            return this.BaseValidate(validationContext);
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        {
             yield break;
         }
     }
@@ -185,6 +195,19 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, drawing, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Drawing" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="drawing"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Drawing drawing, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WritePropertyName("mainShape");
             JsonSerializer.Serialize(writer, drawing.MainShape, jsonSerializerOptions);
             writer.WritePropertyName("shapes");
@@ -193,8 +216,6 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, drawing.NullableShape, jsonSerializerOptions);
             writer.WritePropertyName("shapeOrNull");
             JsonSerializer.Serialize(writer, drawing.ShapeOrNull, jsonSerializerOptions);
-
-            writer.WriteEndObject();
         }
     }
 }

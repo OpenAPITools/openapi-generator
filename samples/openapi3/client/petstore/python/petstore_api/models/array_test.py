@@ -57,12 +57,14 @@ class ArrayTest(BaseModel):
                             "additional_properties"
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of each item in array_array_of_model (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in array_array_of_model (list of list)
         _items = []
         if self.array_array_of_model:
             for _item in self.array_array_of_model:
                 if _item:
-                    _items.append(_item.to_dict())
+                    _items.append(
+                         [_inner_item.to_dict() for _inner_item in _item if _inner_item is not None]
+                    )
             _dict['array_array_of_model'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
@@ -83,7 +85,10 @@ class ArrayTest(BaseModel):
         _obj = ArrayTest.parse_obj({
             "array_of_string": obj.get("array_of_string"),
             "array_array_of_integer": obj.get("array_array_of_integer"),
-            "array_array_of_model": [List[ReadOnlyFirst].from_dict(_item) for _item in obj.get("array_array_of_model")] if obj.get("array_array_of_model") is not None else None
+            "array_array_of_model": [
+                    [ReadOnlyFirst.from_dict(_inner_item) for _inner_item in _item]
+                    for _item in obj.get("array_array_of_model")
+                ] if obj.get("array_array_of_model") is not None else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

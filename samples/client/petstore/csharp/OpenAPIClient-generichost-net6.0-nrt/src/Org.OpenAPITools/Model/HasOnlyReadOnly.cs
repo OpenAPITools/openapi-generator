@@ -198,10 +198,21 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, hasOnlyReadOnly, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="HasOnlyReadOnly" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="hasOnlyReadOnly"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, HasOnlyReadOnly hasOnlyReadOnly, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("bar", hasOnlyReadOnly.Bar);
             writer.WriteString("foo", hasOnlyReadOnly.Foo);
-
-            writer.WriteEndObject();
         }
     }
 }

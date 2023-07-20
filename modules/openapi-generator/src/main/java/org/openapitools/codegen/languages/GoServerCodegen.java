@@ -457,29 +457,4 @@ public class GoServerCodegen extends AbstractGoCodegen {
         this.outputAsLibrary = outputAsLibrary;
     }
 
-    @Override
-    protected void updateModelForObject(CodegenModel m, Schema schema) {
-        /**
-         * we have a custom version of this function so we only set isMap to true if
-         * ModelUtils.isMapSchema
-         * In other generators, isMap is true for all type object schemas
-         */
-        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
-            // passing null to allProperties and allRequired as there's no parent
-            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
-        }
-        if (ModelUtils.isMapSchema(schema)) {
-            // an object or anyType composed schema that has additionalProperties set
-            addAdditionPropertiesToCodeGenModel(m, schema);
-        } else {
-            m.setIsMap(false);
-            if (ModelUtils.isFreeFormObject(openAPI, schema)) {
-                // non-composed object type with no properties + additionalProperties
-                // additionalProperties must be null, ObjectSchema, or empty Schema
-                addAdditionPropertiesToCodeGenModel(m, schema);
-            }
-        }
-        // process 'additionalProperties'
-        setAddProps(schema, m);
-    }
 }

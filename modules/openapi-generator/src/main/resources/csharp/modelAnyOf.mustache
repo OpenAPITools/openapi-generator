@@ -10,7 +10,7 @@
     {{/vendorExtensions.x-com-visible}}
     [JsonConverter(typeof({{classname}}JsonConverter))]
     [DataContract(Name = "{{{name}}}")]
-    {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
+    {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#lambda.joinWithComma}}{{#parent}}{{{.}}}  {{/parent}}{{#equatable}}IEquatable<{{classname}}>  {{/equatable}}{{#validatable}}IValidatableObject  {{/validatable}}{{/lambda.joinWithComma}}
     {
         {{#isNullable}}
         /// <summary>
@@ -137,6 +137,7 @@
             // no match found, throw an exception
             throw new InvalidDataException("The JSON string `" + jsonString + "` cannot be deserialized into any schema defined.");
         }
+        {{#equatable}}
 
         /// <summary>
         /// Returns true if objects are equal
@@ -185,6 +186,7 @@
                 return hashCode;
             }
         }
+        {{/equatable}}
 
         {{#validatable}}
         /// <summary>

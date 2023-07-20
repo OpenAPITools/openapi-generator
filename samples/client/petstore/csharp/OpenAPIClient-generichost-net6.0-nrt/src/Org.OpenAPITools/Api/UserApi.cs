@@ -19,9 +19,10 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
-namespace Org.OpenAPITools.IApi
+namespace Org.OpenAPITools.Api
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
@@ -29,6 +30,11 @@ namespace Org.OpenAPITools.IApi
     /// </summary>
     public interface IUserApi : IApi
     {
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        UserApiEvents Events { get; }
+
         /// <summary>
         /// Create user
         /// </summary>
@@ -215,14 +221,178 @@ namespace Org.OpenAPITools.IApi
         /// <returns>Task&lt;ApiResponse&gt;object&gt;?&gt;</returns>
         Task<ApiResponse<object>?> UpdateUserOrDefaultAsync(User user, string username, System.Threading.CancellationToken cancellationToken = default);
     }
-}
 
-namespace Org.OpenAPITools.Api
-{
+    /// <summary>
+    /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
+    /// </summary>
+    public class UserApiEvents
+    {
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnCreateUser;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorCreateUser;
+
+        internal void ExecuteOnCreateUser(ApiResponse<object> apiResponse)
+        {
+            OnCreateUser?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorCreateUser(Exception exception)
+        {
+            OnErrorCreateUser?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnCreateUsersWithArrayInput;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorCreateUsersWithArrayInput;
+
+        internal void ExecuteOnCreateUsersWithArrayInput(ApiResponse<object> apiResponse)
+        {
+            OnCreateUsersWithArrayInput?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorCreateUsersWithArrayInput(Exception exception)
+        {
+            OnErrorCreateUsersWithArrayInput?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnCreateUsersWithListInput;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorCreateUsersWithListInput;
+
+        internal void ExecuteOnCreateUsersWithListInput(ApiResponse<object> apiResponse)
+        {
+            OnCreateUsersWithListInput?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorCreateUsersWithListInput(Exception exception)
+        {
+            OnErrorCreateUsersWithListInput?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnDeleteUser;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorDeleteUser;
+
+        internal void ExecuteOnDeleteUser(ApiResponse<object> apiResponse)
+        {
+            OnDeleteUser?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorDeleteUser(Exception exception)
+        {
+            OnErrorDeleteUser?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<User>>? OnGetUserByName;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorGetUserByName;
+
+        internal void ExecuteOnGetUserByName(ApiResponse<User> apiResponse)
+        {
+            OnGetUserByName?.Invoke(this, new ApiResponseEventArgs<User>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorGetUserByName(Exception exception)
+        {
+            OnErrorGetUserByName?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<string>>? OnLoginUser;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorLoginUser;
+
+        internal void ExecuteOnLoginUser(ApiResponse<string> apiResponse)
+        {
+            OnLoginUser?.Invoke(this, new ApiResponseEventArgs<string>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorLoginUser(Exception exception)
+        {
+            OnErrorLoginUser?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnLogoutUser;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorLogoutUser;
+
+        internal void ExecuteOnLogoutUser(ApiResponse<object> apiResponse)
+        {
+            OnLogoutUser?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorLogoutUser(Exception exception)
+        {
+            OnErrorLogoutUser?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>>? OnUpdateUser;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorUpdateUser;
+
+        internal void ExecuteOnUpdateUser(ApiResponse<object> apiResponse)
+        {
+            OnUpdateUser?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorUpdateUser(Exception exception)
+        {
+            OnErrorUpdateUser?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+    }
+
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public sealed partial class UserApi : IApi.IUserApi
+    public sealed partial class UserApi : IUserApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
@@ -235,6 +405,11 @@ namespace Org.OpenAPITools.Api
         /// The HttpClient
         /// </summary>
         public HttpClient HttpClient { get; }
+
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        public UserApiEvents Events { get; }
 
         /// <summary>
         /// A token provider of type <see cref="ApiKeyProvider"/>
@@ -265,7 +440,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="UserApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public UserApi(ILogger<UserApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider,
+        public UserApi(ILogger<UserApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, UserApiEvents userApiEvents,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -275,6 +450,7 @@ namespace Org.OpenAPITools.Api
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
+            Events = userApiEvents;
             ApiKeyProvider = apiKeyProvider;
             BearerTokenProvider = bearerTokenProvider;
             BasicTokenProvider = basicTokenProvider;
@@ -291,14 +467,8 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         private void ValidateCreateUser(User user)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -331,18 +501,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="user"></param>
         private void OnErrorCreateUserDefaultImplementation(Exception exception, string pathFormat, string path, User user)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorCreateUser(exception, pathFormat, path, user);
+            bool suppressDefaultLog = false;
+            OnErrorCreateUser(ref suppressDefaultLog, exception, pathFormat, path, user);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="user"></param>
-        partial void OnErrorCreateUser(Exception exception, string pathFormat, string path, User user);
+        partial void OnErrorCreateUser(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, User user);
 
         /// <summary>
         /// Create user This can only be done by the logged in user.
@@ -398,7 +571,7 @@ namespace Org.OpenAPITools.Api
 
                     string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentTypeLocalVar != null)
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Post;
@@ -413,6 +586,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterCreateUserDefaultImplementation(apiResponseLocalVar, user);
 
+                        Events.ExecuteOnCreateUser(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -420,6 +595,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorCreateUserDefaultImplementation(e, "/user", uriBuilderLocalVar.Path, user);
+                Events.ExecuteOnErrorCreateUser(e);
                 throw;
             }
         }
@@ -433,14 +609,8 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         private void ValidateCreateUsersWithArrayInput(List<User> user)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -473,18 +643,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="user"></param>
         private void OnErrorCreateUsersWithArrayInputDefaultImplementation(Exception exception, string pathFormat, string path, List<User> user)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorCreateUsersWithArrayInput(exception, pathFormat, path, user);
+            bool suppressDefaultLog = false;
+            OnErrorCreateUsersWithArrayInput(ref suppressDefaultLog, exception, pathFormat, path, user);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="user"></param>
-        partial void OnErrorCreateUsersWithArrayInput(Exception exception, string pathFormat, string path, List<User> user);
+        partial void OnErrorCreateUsersWithArrayInput(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, List<User> user);
 
         /// <summary>
         /// Creates list of users with given input array 
@@ -540,7 +713,7 @@ namespace Org.OpenAPITools.Api
 
                     string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentTypeLocalVar != null)
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Post;
@@ -555,6 +728,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterCreateUsersWithArrayInputDefaultImplementation(apiResponseLocalVar, user);
 
+                        Events.ExecuteOnCreateUsersWithArrayInput(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -562,6 +737,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorCreateUsersWithArrayInputDefaultImplementation(e, "/user/createWithArray", uriBuilderLocalVar.Path, user);
+                Events.ExecuteOnErrorCreateUsersWithArrayInput(e);
                 throw;
             }
         }
@@ -575,14 +751,8 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         private void ValidateCreateUsersWithListInput(List<User> user)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -615,18 +785,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="user"></param>
         private void OnErrorCreateUsersWithListInputDefaultImplementation(Exception exception, string pathFormat, string path, List<User> user)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorCreateUsersWithListInput(exception, pathFormat, path, user);
+            bool suppressDefaultLog = false;
+            OnErrorCreateUsersWithListInput(ref suppressDefaultLog, exception, pathFormat, path, user);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="user"></param>
-        partial void OnErrorCreateUsersWithListInput(Exception exception, string pathFormat, string path, List<User> user);
+        partial void OnErrorCreateUsersWithListInput(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, List<User> user);
 
         /// <summary>
         /// Creates list of users with given input array 
@@ -682,7 +855,7 @@ namespace Org.OpenAPITools.Api
 
                     string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentTypeLocalVar != null)
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Post;
@@ -697,6 +870,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterCreateUsersWithListInputDefaultImplementation(apiResponseLocalVar, user);
 
+                        Events.ExecuteOnCreateUsersWithListInput(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -704,6 +879,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorCreateUsersWithListInputDefaultImplementation(e, "/user/createWithList", uriBuilderLocalVar.Path, user);
+                Events.ExecuteOnErrorCreateUsersWithListInput(e);
                 throw;
             }
         }
@@ -717,14 +893,8 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         private void ValidateDeleteUser(string username)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (username == null)
                 throw new ArgumentNullException(nameof(username));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -757,18 +927,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="username"></param>
         private void OnErrorDeleteUserDefaultImplementation(Exception exception, string pathFormat, string path, string username)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorDeleteUser(exception, pathFormat, path, username);
+            bool suppressDefaultLog = false;
+            OnErrorDeleteUser(ref suppressDefaultLog, exception, pathFormat, path, username);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="username"></param>
-        partial void OnErrorDeleteUser(Exception exception, string pathFormat, string path, string username);
+        partial void OnErrorDeleteUser(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string username);
 
         /// <summary>
         /// Delete user This can only be done by the logged in user.
@@ -827,6 +1000,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterDeleteUserDefaultImplementation(apiResponseLocalVar, username);
 
+                        Events.ExecuteOnDeleteUser(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -834,6 +1009,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorDeleteUserDefaultImplementation(e, "/user/{username}", uriBuilderLocalVar.Path, username);
+                Events.ExecuteOnErrorDeleteUser(e);
                 throw;
             }
         }
@@ -847,14 +1023,8 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         private void ValidateGetUserByName(string username)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (username == null)
                 throw new ArgumentNullException(nameof(username));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -887,18 +1057,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="username"></param>
         private void OnErrorGetUserByNameDefaultImplementation(Exception exception, string pathFormat, string path, string username)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorGetUserByName(exception, pathFormat, path, username);
+            bool suppressDefaultLog = false;
+            OnErrorGetUserByName(ref suppressDefaultLog, exception, pathFormat, path, username);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="username"></param>
-        partial void OnErrorGetUserByName(Exception exception, string pathFormat, string path, string username);
+        partial void OnErrorGetUserByName(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string username);
 
         /// <summary>
         /// Get user by user name 
@@ -967,6 +1140,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterGetUserByNameDefaultImplementation(apiResponseLocalVar, username);
 
+                        Events.ExecuteOnGetUserByName(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -974,6 +1149,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorGetUserByNameDefaultImplementation(e, "/user/{username}", uriBuilderLocalVar.Path, username);
+                Events.ExecuteOnErrorGetUserByName(e);
                 throw;
             }
         }
@@ -988,17 +1164,11 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         private void ValidateLoginUser(string username, string password)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (username == null)
                 throw new ArgumentNullException(nameof(username));
 
             if (password == null)
                 throw new ArgumentNullException(nameof(password));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1034,19 +1204,22 @@ namespace Org.OpenAPITools.Api
         /// <param name="password"></param>
         private void OnErrorLoginUserDefaultImplementation(Exception exception, string pathFormat, string path, string username, string password)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorLoginUser(exception, pathFormat, path, username, password);
+            bool suppressDefaultLog = false;
+            OnErrorLoginUser(ref suppressDefaultLog, exception, pathFormat, path, username, password);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        partial void OnErrorLoginUser(Exception exception, string pathFormat, string path, string username, string password);
+        partial void OnErrorLoginUser(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string username, string password);
 
         /// <summary>
         /// Logs user into the system 
@@ -1123,6 +1296,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterLoginUserDefaultImplementation(apiResponseLocalVar, username, password);
 
+                        Events.ExecuteOnLoginUser(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -1130,6 +1305,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorLoginUserDefaultImplementation(e, "/user/login", uriBuilderLocalVar.Path, username, password);
+                Events.ExecuteOnErrorLoginUser(e);
                 throw;
             }
         }
@@ -1161,17 +1337,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="path"></param>
         private void OnErrorLogoutUserDefaultImplementation(Exception exception, string pathFormat, string path)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorLogoutUser(exception, pathFormat, path);
+            bool suppressDefaultLog = false;
+            OnErrorLogoutUser(ref suppressDefaultLog, exception, pathFormat, path);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        partial void OnErrorLogoutUser(Exception exception, string pathFormat, string path);
+        partial void OnErrorLogoutUser(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
 
         /// <summary>
         /// Logs out current logged in user session 
@@ -1223,6 +1402,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterLogoutUserDefaultImplementation(apiResponseLocalVar);
 
+                        Events.ExecuteOnLogoutUser(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -1230,6 +1411,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorLogoutUserDefaultImplementation(e, "/user/logout", uriBuilderLocalVar.Path);
+                Events.ExecuteOnErrorLogoutUser(e);
                 throw;
             }
         }
@@ -1244,17 +1426,11 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         private void ValidateUpdateUser(User user, string username)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
 
             if (username == null)
                 throw new ArgumentNullException(nameof(username));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -1290,19 +1466,22 @@ namespace Org.OpenAPITools.Api
         /// <param name="username"></param>
         private void OnErrorUpdateUserDefaultImplementation(Exception exception, string pathFormat, string path, User user, string username)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorUpdateUser(exception, pathFormat, path, user, username);
+            bool suppressDefaultLog = false;
+            OnErrorUpdateUser(ref suppressDefaultLog, exception, pathFormat, path, user, username);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="user"></param>
         /// <param name="username"></param>
-        partial void OnErrorUpdateUser(Exception exception, string pathFormat, string path, User user, string username);
+        partial void OnErrorUpdateUser(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, User user, string username);
 
         /// <summary>
         /// Updated user This can only be done by the logged in user.
@@ -1361,7 +1540,7 @@ namespace Org.OpenAPITools.Api
 
                     string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentTypeLocalVar != null)
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Put;
@@ -1376,6 +1555,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterUpdateUserDefaultImplementation(apiResponseLocalVar, user, username);
 
+                        Events.ExecuteOnUpdateUser(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -1383,6 +1564,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorUpdateUserDefaultImplementation(e, "/user/{username}", uriBuilderLocalVar.Path, user, username);
+                Events.ExecuteOnErrorUpdateUser(e);
                 throw;
             }
         }

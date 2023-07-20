@@ -187,11 +187,22 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, person, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Person" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="person"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("firstName", person.FirstName);
             writer.WriteString("lastName", person.LastName);
             writer.WriteString("$_type", person.Type);
-
-            writer.WriteEndObject();
         }
     }
 }

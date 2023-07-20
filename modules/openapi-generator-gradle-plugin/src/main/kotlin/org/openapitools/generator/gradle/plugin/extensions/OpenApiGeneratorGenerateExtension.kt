@@ -163,9 +163,14 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val inlineSchemaNameMappings = project.objects.mapProperty<String, String>()
 
     /**
-     * Specifies default values for inline schema naming convention
+     * Specifies options for inline schemas
      */
-    val inlineSchemaNameDefaults = project.objects.mapProperty<String, String>()
+    val inlineSchemaOptions = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between a property, parameter name and the new name
+     */
+    val nameMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies mappings (rules) in OpenAPI normalizer

@@ -198,6 +198,19 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, childCat, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="ChildCat" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="childCat"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, ChildCat childCat, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("name", childCat.Name);
 
             var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetType);
@@ -205,8 +218,6 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("pet_type", petTypeRawValue);
             else
                 writer.WriteNull("pet_type");
-
-            writer.WriteEndObject();
         }
     }
 }

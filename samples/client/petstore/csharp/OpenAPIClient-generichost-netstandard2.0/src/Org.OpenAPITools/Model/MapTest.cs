@@ -261,6 +261,19 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, mapTest, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="MapTest" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="mapTest"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, MapTest mapTest, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WritePropertyName("direct_map");
             JsonSerializer.Serialize(writer, mapTest.DirectMap, jsonSerializerOptions);
             writer.WritePropertyName("indirect_map");
@@ -269,8 +282,6 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, mapTest.MapMapOfString, jsonSerializerOptions);
             writer.WritePropertyName("map_of_enum_string");
             JsonSerializer.Serialize(writer, mapTest.MapOfEnumString, jsonSerializerOptions);
-
-            writer.WriteEndObject();
         }
     }
 }

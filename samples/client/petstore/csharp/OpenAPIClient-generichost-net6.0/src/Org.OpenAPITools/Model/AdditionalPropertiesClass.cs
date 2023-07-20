@@ -261,6 +261,19 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, additionalPropertiesClass, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="AdditionalPropertiesClass" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="additionalPropertiesClass"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, AdditionalPropertiesClass additionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WritePropertyName("empty_map");
             JsonSerializer.Serialize(writer, additionalPropertiesClass.EmptyMap, jsonSerializerOptions);
             writer.WritePropertyName("map_of_map_property");
@@ -277,8 +290,6 @@ namespace Org.OpenAPITools.Model
             JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesString, jsonSerializerOptions);
             writer.WritePropertyName("anytype_1");
             JsonSerializer.Serialize(writer, additionalPropertiesClass.Anytype1, jsonSerializerOptions);
-
-            writer.WriteEndObject();
         }
     }
 }

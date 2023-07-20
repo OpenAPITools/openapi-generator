@@ -93,7 +93,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NET_6_0,
             FrameworkStrategy.NET_7_0
     );
-    private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
+    private static FrameworkStrategy latestFramework = frameworkStrategies.get(frameworkStrategies.size() - 1);
     protected final Map<String, String> frameworks;
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Client";
@@ -102,8 +102,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected String modelDocPath = "docs" + File.separator;
 
     // Defines TargetFrameworkVersion in csproj files
-    protected String targetFramework = defaultFramework.name;
-    protected String testTargetFramework = defaultFramework.testTargetFramework;
+    protected String targetFramework = latestFramework.name;
+    protected String testTargetFramework = latestFramework.testTargetFramework;
 
     // Defines nuget identifiers for target framework
     protected String targetFrameworkNuget = targetFramework;
@@ -114,6 +114,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsFileParameters = Boolean.TRUE;
 
     protected boolean validatable = Boolean.TRUE;
+    protected boolean equatable = Boolean.TRUE;
     protected Map<Character, String> regexModifiers;
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
@@ -318,6 +319,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
                 this.caseInsensitiveResponseHeaders);
 
+        addSwitch(CodegenConstants.EQUATABLE,
+                CodegenConstants.EQUATABLE_DESC,
+                this.equatable);
+
         regexModifiers = new HashMap<>();
         regexModifiers.put('i', "IgnoreCase");
         regexModifiers.put('m', "Multiline");
@@ -344,44 +349,20 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     protected Set<String> getNullableTypes() {
         return GENERICHOST.equals(getLibrary())
-            ? super.getNullableTypes()
-            : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
+                ? super.getNullableTypes()
+                : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
     }
 
     @Override
     protected Set<String> getValueTypes() {
         return GENERICHOST.equals(getLibrary())
-            ? super.getValueTypes()
-            : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
+                ? super.getValueTypes()
+                : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
     }
 
     @Override
     protected void setTypeMapping() {
-        typeMapping = new HashMap<>();
-        // mapped non-nullable type without ?
-        typeMapping = new HashMap<String, String>();
-        typeMapping.put("string", "string");
-        typeMapping.put("binary", "byte[]");
-        typeMapping.put("ByteArray", "byte[]");
-        typeMapping.put("boolean", "bool");
-        typeMapping.put("integer", "int");
-        typeMapping.put("long", "long");
-        typeMapping.put("UnsignedInteger", "uint");
-        typeMapping.put("UnsignedLong", "ulong");
-        typeMapping.put("float", "float");
-        typeMapping.put("double", "double");
-        typeMapping.put("number", "decimal");
-        typeMapping.put("decimal", "decimal");
-        typeMapping.put("DateTime", "DateTime");
-        typeMapping.put("date", "DateTime");
-        typeMapping.put("file", "System.IO.Stream");
-        typeMapping.put("array", "List");
-        typeMapping.put("list", "List");
-        typeMapping.put("map", "Dictionary");
-        typeMapping.put("object", "Object");
-        typeMapping.put("UUID", "Guid");
-        typeMapping.put("URI", "string");
-        typeMapping.put("AnyType", "Object");
+        super.setTypeMapping();
 
         if (HTTPCLIENT.equals(getLibrary())) {
             typeMapping.put("file", "FileParameter");
@@ -776,7 +757,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient, and generichost are supported.");
         }
 
-        String inputFramework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
+        String inputFramework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, latestFramework.name);
         String[] frameworks;
         List<FrameworkStrategy> strategies = new ArrayList<>();
 
@@ -844,6 +825,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         syncBooleanProperty(additionalProperties, "netStandard", this::setNetStandard, this.netStandard);
 
+        syncBooleanProperty(additionalProperties, CodegenConstants.EQUATABLE, this::setEquatable, this.equatable);
         syncBooleanProperty(additionalProperties, CodegenConstants.VALIDATABLE, this::setValidatable, this.validatable);
         syncBooleanProperty(additionalProperties, CodegenConstants.SUPPORTS_ASYNC, this::setSupportsAsync, this.supportsAsync);
         syncBooleanProperty(additionalProperties, SUPPORTS_RETRY, this::setSupportsRetry, this.supportsRetry);
@@ -1049,9 +1031,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ApiFactory.mustache", clientPackageDir, "ApiFactory.cs"));
         supportingFiles.add(new SupportingFile("DateTimeJsonConverter.mustache", clientPackageDir, "DateTimeJsonConverter.cs"));
         supportingFiles.add(new SupportingFile("DateTimeNullableJsonConverter.mustache", clientPackageDir, "DateTimeNullableJsonConverter.cs"));
-        supportingFiles.add(new SupportingFile("ApiResponseEventArgs.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
+        supportingFiles.add(new SupportingFile("ApiResponseEventArgs`1.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
+        supportingFiles.add(new SupportingFile("ExceptionEventArgs.mustache", clientPackageDir, "ExceptionEventArgs.cs"));
         supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
         supportingFiles.add(new SupportingFile("CookieContainer.mustache", clientPackageDir, "CookieContainer.cs"));
+        supportingFiles.add(new SupportingFile("Option.mustache", clientPackageDir, "Option.cs"));
 
         supportingFiles.add(new SupportingFile("IApi.mustache", sourceFolder + File.separator + packageName + File.separator + apiPackage(), getInterfacePrefix() + "Api.cs"));
 
@@ -1203,6 +1187,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setValidatable(boolean validatable) {
         this.validatable = validatable;
+    }
+
+    public void setEquatable(boolean equatable) {
+        this.equatable = equatable;
     }
 
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
@@ -1518,7 +1506,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     public String toInstantiationType(Schema schema) {
         if (ModelUtils.isMapSchema(schema)) {
-            Schema additionalProperties = getAdditionalProperties(schema);
+            Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
             String inner = getSchemaType(additionalProperties);
             if (ModelUtils.isMapSchema(additionalProperties)) {
                 inner = toInstantiationType(additionalProperties);
@@ -1545,6 +1533,15 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             if (model.parentModel != null && model.parentModel.allVars.stream().anyMatch(v -> v.baseName.equals(property.baseName))) {
                 property.isInherited = true;
             }
+        }
+    }
+
+    @Override
+    protected void patchVendorExtensionNullableValueType(CodegenParameter parameter) {
+        if (getLibrary().equals(GENERICHOST)) {
+            super.patchVendorExtensionNullableValueType(parameter);
+        } else {
+            super.patchVendorExtensionNullableValueTypeLegacy(parameter);
         }
     }
 
@@ -1603,7 +1600,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 ? null
                 : model.discriminator.getPropertyName();
 
-        for(CodegenProperty oneOfProperty : composedProperties) {
+        for (CodegenProperty oneOfProperty : composedProperties) {
             String ref = oneOfProperty.getRef();
             if (ref != null) {
                 for (Map.Entry<String, ModelsMap> composedEntry : objs.entrySet()) {
@@ -1638,8 +1635,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean isValueType(CodegenProperty var) {
         // this is temporary until x-csharp-value-type is removed
         return this.getLibrary().equals("generichost")
-            ? super.isValueType(var)
-            : this.getValueTypes().contains(var.dataType) || var.isEnum;
+                ? super.isValueType(var)
+                : this.getValueTypes().contains(var.dataType) || var.isEnum;
     }
 
     @Override
@@ -1670,7 +1667,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             addAdditionPropertiesToCodeGenModel(m, schema);
         } else {
             m.setIsMap(false);
-            if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+            if (ModelUtils.isFreeFormObject(schema)) {
                 // non-composed object type with no properties + additionalProperties
                 // additionalProperties must be null, ObjectSchema, or empty Schema
                 addAdditionPropertiesToCodeGenModel(m, schema);

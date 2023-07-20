@@ -159,10 +159,21 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, simpleQuadrilateral, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="SimpleQuadrilateral" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="simpleQuadrilateral"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, SimpleQuadrilateral simpleQuadrilateral, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("quadrilateralType", simpleQuadrilateral.QuadrilateralType);
             writer.WriteString("shapeType", simpleQuadrilateral.ShapeType);
-
-            writer.WriteEndObject();
         }
     }
 }

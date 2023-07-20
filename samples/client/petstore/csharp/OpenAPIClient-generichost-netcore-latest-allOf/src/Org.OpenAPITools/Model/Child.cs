@@ -171,13 +171,24 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, child, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Child" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="child"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Child child, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteNumber("age", child.Age);
             writer.WriteString("firstName", child.FirstName);
             writer.WriteString("lastName", child.LastName);
             writer.WriteString("$_type", child.Type);
             writer.WriteBoolean("boosterSeat", child.BoosterSeat);
-
-            writer.WriteEndObject();
         }
     }
 }

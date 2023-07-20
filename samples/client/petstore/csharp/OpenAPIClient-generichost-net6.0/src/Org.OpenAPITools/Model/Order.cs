@@ -319,6 +319,19 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, order, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Order" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="order"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Order order, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteNumber("id", order.Id);
             writer.WriteNumber("petId", order.PetId);
             writer.WriteNumber("quantity", order.Quantity);
@@ -331,8 +344,6 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNull("status");
 
             writer.WriteBoolean("complete", order.Complete);
-
-            writer.WriteEndObject();
         }
     }
 }

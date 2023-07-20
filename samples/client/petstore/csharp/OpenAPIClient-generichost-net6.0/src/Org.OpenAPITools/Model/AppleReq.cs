@@ -153,10 +153,21 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, appleReq, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="AppleReq" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="appleReq"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, AppleReq appleReq, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("cultivar", appleReq.Cultivar);
             writer.WriteBoolean("mealy", appleReq.Mealy);
-
-            writer.WriteEndObject();
         }
     }
 }

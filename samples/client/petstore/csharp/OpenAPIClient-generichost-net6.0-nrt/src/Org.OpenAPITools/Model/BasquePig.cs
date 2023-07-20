@@ -145,9 +145,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("className", basquePig.ClassName);
-
+            WriteProperties(ref writer, basquePig, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="BasquePig" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="basquePig"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, BasquePig basquePig, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("className", basquePig.ClassName);
         }
     }
 }

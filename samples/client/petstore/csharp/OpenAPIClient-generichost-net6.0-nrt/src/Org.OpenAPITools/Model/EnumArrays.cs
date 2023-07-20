@@ -297,6 +297,19 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, enumArrays, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="EnumArrays" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="enumArrays"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, EnumArrays enumArrays, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WritePropertyName("array_enum");
             JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
 
@@ -305,8 +318,6 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("just_symbol", justSymbolRawValue);
             else
                 writer.WriteNull("just_symbol");
-
-            writer.WriteEndObject();
         }
     }
 }

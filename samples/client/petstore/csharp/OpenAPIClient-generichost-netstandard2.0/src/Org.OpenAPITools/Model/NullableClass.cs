@@ -167,6 +167,16 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
+            return this.BaseValidate(validationContext);
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        {
             yield break;
         }
     }
@@ -304,6 +314,19 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, nullableClass, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="NullableClass" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="nullableClass"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, NullableClass nullableClass, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WritePropertyName("array_items_nullable");
             JsonSerializer.Serialize(writer, nullableClass.ArrayItemsNullable, jsonSerializerOptions);
             writer.WritePropertyName("object_items_nullable");
@@ -343,8 +366,6 @@ namespace Org.OpenAPITools.Model
             writer.WritePropertyName("object_nullable_prop");
             JsonSerializer.Serialize(writer, nullableClass.ObjectNullableProp, jsonSerializerOptions);
             writer.WriteString("string_prop", nullableClass.StringProp);
-
-            writer.WriteEndObject();
         }
     }
 }

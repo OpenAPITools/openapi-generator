@@ -214,13 +214,25 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, zeroBasedEnumClass, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="ZeroBasedEnumClass" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="zeroBasedEnumClass"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, ZeroBasedEnumClass zeroBasedEnumClass, JsonSerializerOptions jsonSerializerOptions)
+        {
+
             var zeroBasedEnumRawValue = ZeroBasedEnumClass.ZeroBasedEnumEnumToJsonValue(zeroBasedEnumClass.ZeroBasedEnum);
             if (zeroBasedEnumRawValue != null)
                 writer.WriteString("ZeroBasedEnum", zeroBasedEnumRawValue);
             else
                 writer.WriteNull("ZeroBasedEnum");
-
-            writer.WriteEndObject();
         }
     }
 }

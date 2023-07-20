@@ -42,10 +42,9 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type <see cref="ZeroBasedEnum"/>
+    /// Converts <see cref="ZeroBasedEnum"/> to and from the JSON value
     /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
-    public class ZeroBasedEnumConverter : JsonConverter<ZeroBasedEnum>
+    public static class ZeroBasedEnumValueConverter
     {
         /// <summary>
         /// Parses a given value to <see cref="ZeroBasedEnum"/>
@@ -95,7 +94,14 @@ namespace Org.OpenAPITools.Model
 
             throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
+    }
 
+    /// <summary>
+    /// A Json converter for type <see cref="ZeroBasedEnum"/>
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    public class ZeroBasedEnumJsonConverter : JsonConverter<ZeroBasedEnum>
+    {
         /// <summary>
         /// Returns a  from the Json object
         /// </summary>
@@ -109,7 +115,7 @@ namespace Org.OpenAPITools.Model
 
             ZeroBasedEnum? result = rawValue == null
                 ? null
-                : ZeroBasedEnumConverter.FromStringOrDefault(rawValue);
+                : ZeroBasedEnumValueConverter.FromStringOrDefault(rawValue);
 
             if (result != null)
                 return result.Value;
@@ -132,7 +138,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="ZeroBasedEnum"/>
     /// </summary>
-    public class ZeroBasedEnumNullableConverter : JsonConverter<ZeroBasedEnum?>
+    public class ZeroBasedEnumNullableJsonConverter : JsonConverter<ZeroBasedEnum?>
     {
         /// <summary>
         /// Returns a ZeroBasedEnum from the Json object
@@ -147,7 +153,7 @@ namespace Org.OpenAPITools.Model
 
             ZeroBasedEnum? result = rawValue == null
                 ? null
-                : ZeroBasedEnumConverter.FromStringOrDefault(rawValue);
+                : ZeroBasedEnumValueConverter.FromStringOrDefault(rawValue);
 
             if (result != null)
                 return result.Value;

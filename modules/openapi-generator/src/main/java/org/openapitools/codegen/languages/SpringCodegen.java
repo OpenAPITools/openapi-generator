@@ -77,6 +77,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures, SwaggerUIFeatures {
     private final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
 
+
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
     public static final String CONFIG_PACKAGE = "configPackage";
@@ -89,6 +90,9 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String VIRTUAL_SERVICE = "virtualService";
     public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
     public static final String GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS = "generatedConstructorWithRequiredArgs";
+
+    public static final String RESOURCE_FOLDER = "resourceFolder";
+    public static final String RESOURCE_FOLDER_DESC = "resource folder for generated resources";
 
     public static final String ASYNC = "async";
     public static final String REACTIVE = "reactive";
@@ -131,6 +135,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected String title = "OpenAPI Spring";
     protected String configPackage = "org.openapitools.configuration";
     protected String basePackage = "org.openapitools";
+    protected String resourceFolder = projectFolder + "/resources";
+
     protected boolean interfaceOnly = false;
     protected boolean useFeignClientUrl = true;
     protected boolean delegatePattern = false;
@@ -256,6 +262,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS,
             "Whether to generate constructors with required args for models",
             generatedConstructorWithRequiredArgs));
+        cliOptions.add(new CliOption(RESOURCE_FOLDER, RESOURCE_FOLDER_DESC).defaultValue(this.getResourceFolder()));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
@@ -531,6 +538,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         writePropertyBack(USE_SPRING_BOOT3, isUseSpringBoot3());
 
+        if (additionalProperties.containsKey(RESOURCE_FOLDER)) {
+            this.setResourceFolder((String) additionalProperties.get(RESOURCE_FOLDER));
+        }
+        additionalProperties.put(RESOURCE_FOLDER, resourceFolder);
+
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
@@ -575,9 +587,18 @@ public class SpringCodegen extends AbstractJavaCodegen
                         "RFC3339DateFormat.java"));
             }
             if (SPRING_CLOUD_LIBRARY.equals(library)) {
+
                 supportingFiles.add(new SupportingFile("apiKeyRequestInterceptor.mustache",
-                        (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                        "ApiKeyRequestInterceptor.java"));
+                      (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                      "ApiKeyRequestInterceptor.java"));
+
+                supportingFiles.add(new SupportingFile("oauth2ClientProperties.mustache",
+                      resourceFolder, "oauth2-client.properties"));
+
+                supportingFiles.add(new SupportingFile("clientPropertiesConfiguration.mustache",
+                      (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                      "ClientPropertiesConfiguration.java"));
+
                 supportingFiles.add(new SupportingFile("clientConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "ClientConfiguration.java"));
@@ -724,10 +745,13 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .anyMatch(it -> it.getEnum() != null && !it.getEnum().isEmpty());
     }
 
+    private boolean supportLibraryUseTags(){
+        return SPRING_BOOT.equals(library) || SPRING_CLOUD_LIBRARY.equals(library);
+    }
+
     @Override
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co,
-            Map<String, List<CodegenOperation>> operations) {
-        if ((SPRING_BOOT.equals(library) && !useTags)) {
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        if (supportLibraryUseTags() && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
@@ -745,9 +769,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             final List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
             opList.add(co);
             co.baseName = basePath;
-        } else {
-            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+            return;
         }
+        super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+
     }
 
     @Override
@@ -958,7 +983,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             return "DefaultApi";
         }
         name = sanitizeName(name);
-        return camelize(name) + "Api";
+        return camelize(name) + apiNameSuffix;
     }
 
     @Override
@@ -1343,6 +1368,14 @@ public class SpringCodegen extends AbstractJavaCodegen
             return dataType;
         }
         return dataType.replace( "<", "<@Valid " );
+    }
+
+    public void setResourceFolder( String resourceFolder ) {
+        this.resourceFolder = resourceFolder;
+    }
+
+    public String getResourceFolder() {
+        return resourceFolder;
     }
 
 

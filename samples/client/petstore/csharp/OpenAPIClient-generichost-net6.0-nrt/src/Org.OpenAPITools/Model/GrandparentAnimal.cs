@@ -155,9 +155,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("pet_type", grandparentAnimal.PetType);
-
+            WriteProperties(ref writer, grandparentAnimal, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="GrandparentAnimal" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="grandparentAnimal"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, GrandparentAnimal grandparentAnimal, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("pet_type", grandparentAnimal.PetType);
         }
     }
 }

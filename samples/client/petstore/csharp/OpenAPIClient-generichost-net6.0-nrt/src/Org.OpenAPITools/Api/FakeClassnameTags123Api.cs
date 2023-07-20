@@ -19,9 +19,10 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
-namespace Org.OpenAPITools.IApi
+namespace Org.OpenAPITools.Api
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
@@ -29,6 +30,11 @@ namespace Org.OpenAPITools.IApi
     /// </summary>
     public interface IFakeClassnameTags123Api : IApi
     {
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        FakeClassnameTags123ApiEvents Events { get; }
+
         /// <summary>
         /// To test class name in snake case
         /// </summary>
@@ -52,14 +58,38 @@ namespace Org.OpenAPITools.IApi
         /// <returns>Task&lt;ApiResponse&gt;ModelClient&gt;?&gt;</returns>
         Task<ApiResponse<ModelClient>?> TestClassnameOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
     }
-}
 
-namespace Org.OpenAPITools.Api
-{
+    /// <summary>
+    /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
+    /// </summary>
+    public class FakeClassnameTags123ApiEvents
+    {
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<ModelClient>>? OnTestClassname;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorTestClassname;
+
+        internal void ExecuteOnTestClassname(ApiResponse<ModelClient> apiResponse)
+        {
+            OnTestClassname?.Invoke(this, new ApiResponseEventArgs<ModelClient>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorTestClassname(Exception exception)
+        {
+            OnErrorTestClassname?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+    }
+
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public sealed partial class FakeClassnameTags123Api : IApi.IFakeClassnameTags123Api
+    public sealed partial class FakeClassnameTags123Api : IFakeClassnameTags123Api
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
@@ -72,6 +102,11 @@ namespace Org.OpenAPITools.Api
         /// The HttpClient
         /// </summary>
         public HttpClient HttpClient { get; }
+
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        public FakeClassnameTags123ApiEvents Events { get; }
 
         /// <summary>
         /// A token provider of type <see cref="ApiKeyProvider"/>
@@ -102,7 +137,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="FakeClassnameTags123Api"/> class.
         /// </summary>
         /// <returns></returns>
-        public FakeClassnameTags123Api(ILogger<FakeClassnameTags123Api> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider,
+        public FakeClassnameTags123Api(ILogger<FakeClassnameTags123Api> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, FakeClassnameTags123ApiEvents fakeClassnameTags123ApiEvents,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -112,6 +147,7 @@ namespace Org.OpenAPITools.Api
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
+            Events = fakeClassnameTags123ApiEvents;
             ApiKeyProvider = apiKeyProvider;
             BearerTokenProvider = bearerTokenProvider;
             BasicTokenProvider = basicTokenProvider;
@@ -128,14 +164,8 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         private void ValidateTestClassname(ModelClient modelClient)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (modelClient == null)
                 throw new ArgumentNullException(nameof(modelClient));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -168,18 +198,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient"></param>
         private void OnErrorTestClassnameDefaultImplementation(Exception exception, string pathFormat, string path, ModelClient modelClient)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorTestClassname(exception, pathFormat, path, modelClient);
+            bool suppressDefaultLog = false;
+            OnErrorTestClassname(ref suppressDefaultLog, exception, pathFormat, path, modelClient);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        partial void OnErrorTestClassname(Exception exception, string pathFormat, string path, ModelClient modelClient);
+        partial void OnErrorTestClassname(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, ModelClient modelClient);
 
         /// <summary>
         /// To test class name in snake case To test class name in snake case
@@ -246,7 +279,7 @@ namespace Org.OpenAPITools.Api
 
                     string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentTypeLocalVar != null)
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
                     string[] acceptLocalVars = new string[] {
@@ -270,6 +303,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterTestClassnameDefaultImplementation(apiResponseLocalVar, modelClient);
 
+                        Events.ExecuteOnTestClassname(apiResponseLocalVar);
+
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
                                 tokenBaseLocalVar.BeginRateLimit();
@@ -281,6 +316,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorTestClassnameDefaultImplementation(e, "/fake_classname_test", uriBuilderLocalVar.Path, modelClient);
+                Events.ExecuteOnErrorTestClassname(e);
                 throw;
             }
         }

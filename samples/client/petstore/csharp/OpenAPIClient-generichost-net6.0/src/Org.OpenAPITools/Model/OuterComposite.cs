@@ -177,11 +177,22 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, outerComposite, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="OuterComposite" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="outerComposite"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, OuterComposite outerComposite, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteBoolean("my_boolean", outerComposite.MyBoolean);
             writer.WriteNumber("my_number", outerComposite.MyNumber);
             writer.WriteString("my_string", outerComposite.MyString);
-
-            writer.WriteEndObject();
         }
     }
 }

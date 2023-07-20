@@ -101,15 +101,15 @@ public class GmFruit extends AbstractOpenApiSchema {
                 @Override
                 public GmFruit read(JsonReader in) throws IOException {
                     Object deserialized = null;
-                    JsonObject jsonObject = elementAdapter.read(in).getAsJsonObject();
+                    JsonElement jsonElement = elementAdapter.read(in);
 
                     // deserialize Apple
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        Apple.validateJsonObject(jsonObject);
+                        Apple.validateJsonElement(jsonElement);
                         log.log(Level.FINER, "Input data matches schema 'Apple'");
                         GmFruit ret = new GmFruit();
-                        ret.setActualInstance(adapterApple.fromJsonTree(jsonObject));
+                        ret.setActualInstance(adapterApple.fromJsonTree(jsonElement));
                         return ret;
                     } catch (Exception e) {
                         // deserialization failed, continue
@@ -119,10 +119,10 @@ public class GmFruit extends AbstractOpenApiSchema {
                     // deserialize Banana
                     try {
                         // validate the JSON object to see if any exception is thrown
-                        Banana.validateJsonObject(jsonObject);
+                        Banana.validateJsonElement(jsonElement);
                         log.log(Level.FINER, "Input data matches schema 'Banana'");
                         GmFruit ret = new GmFruit();
-                        ret.setActualInstance(adapterBanana.fromJsonTree(jsonObject));
+                        ret.setActualInstance(adapterBanana.fromJsonTree(jsonElement));
                         return ret;
                     } catch (Exception e) {
                         // deserialization failed, continue
@@ -130,7 +130,7 @@ public class GmFruit extends AbstractOpenApiSchema {
                     }
 
 
-                    throw new IOException(String.format("Failed deserialization for GmFruit: no class matched. JSON: %s", jsonObject.toString()));
+                    throw new IOException(String.format("Failed deserialization for GmFruit: no class matched. JSON: %s", jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -221,17 +221,17 @@ public class GmFruit extends AbstractOpenApiSchema {
 
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to GmFruit
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to GmFruit
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
     // validate anyOf schemas one by one
     int validCount = 0;
     // validate the json string with Apple
     try {
-      Apple.validateJsonObject(jsonObj);
+      Apple.validateJsonElement(jsonElement);
       return; // return earlier as at least one schema is valid with respect to the Json object
       //validCount++;
     } catch (Exception e) {
@@ -239,14 +239,14 @@ public class GmFruit extends AbstractOpenApiSchema {
     }
     // validate the json string with Banana
     try {
-      Banana.validateJsonObject(jsonObj);
+      Banana.validateJsonElement(jsonElement);
       return; // return earlier as at least one schema is valid with respect to the Json object
       //validCount++;
     } catch (Exception e) {
       // continue to the next one
     }
     if (validCount == 0) {
-      throw new IOException(String.format("The JSON string is invalid for GmFruit with anyOf schemas: Apple, Banana. JSON: %s", jsonObj.toString()));
+      throw new IOException(String.format("The JSON string is invalid for GmFruit with anyOf schemas: Apple, Banana. JSON: %s", jsonElement.toString()));
     }
   }
 

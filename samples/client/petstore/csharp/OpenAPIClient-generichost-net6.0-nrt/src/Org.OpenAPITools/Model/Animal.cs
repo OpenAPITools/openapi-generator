@@ -171,10 +171,21 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, animal, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Animal" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="animal"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Animal animal, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("className", animal.ClassName);
             writer.WriteString("color", animal.Color);
-
-            writer.WriteEndObject();
         }
     }
 }

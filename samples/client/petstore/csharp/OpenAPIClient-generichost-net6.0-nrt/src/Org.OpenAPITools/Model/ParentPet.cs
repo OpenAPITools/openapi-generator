@@ -121,9 +121,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("pet_type", parentPet.PetType);
-
+            WriteProperties(ref writer, parentPet, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="ParentPet" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="parentPet"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, ParentPet parentPet, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("pet_type", parentPet.PetType);
         }
     }
 }

@@ -17,9 +17,10 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
-namespace Org.OpenAPITools.IApi
+namespace Org.OpenAPITools.Api
 {
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
@@ -27,6 +28,11 @@ namespace Org.OpenAPITools.IApi
     /// </summary>
     public interface IDefaultApi : IApi
     {
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        DefaultApiEvents Events { get; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -92,14 +98,78 @@ namespace Org.OpenAPITools.IApi
         /// <returns>Task&lt;ApiResponse&gt;List&lt;Guid&gt;&gt;&gt;</returns>
         Task<ApiResponse<List<Guid>>> HelloOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
     }
-}
 
-namespace Org.OpenAPITools.Api
-{
+    /// <summary>
+    /// Represents a collection of functions to interact with the API endpoints
+    /// This class is registered as transient.
+    /// </summary>
+    public class DefaultApiEvents
+    {
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<FooGetDefaultResponse>> OnFooGet;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs> OnErrorFooGet;
+
+        internal void ExecuteOnFooGet(ApiResponse<FooGetDefaultResponse> apiResponse)
+        {
+            OnFooGet?.Invoke(this, new ApiResponseEventArgs<FooGetDefaultResponse>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorFooGet(Exception exception)
+        {
+            OnErrorFooGet?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<object>> OnGetCountry;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs> OnErrorGetCountry;
+
+        internal void ExecuteOnGetCountry(ApiResponse<object> apiResponse)
+        {
+            OnGetCountry?.Invoke(this, new ApiResponseEventArgs<object>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorGetCountry(Exception exception)
+        {
+            OnErrorGetCountry?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs<List<Guid>>> OnHello;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs> OnErrorHello;
+
+        internal void ExecuteOnHello(ApiResponse<List<Guid>> apiResponse)
+        {
+            OnHello?.Invoke(this, new ApiResponseEventArgs<List<Guid>>(apiResponse));
+        }
+
+        internal void ExecuteOnErrorHello(Exception exception)
+        {
+            OnErrorHello?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+    }
+
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-    public sealed partial class DefaultApi : IApi.IDefaultApi
+    public sealed partial class DefaultApi : IDefaultApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
 
@@ -112,6 +182,11 @@ namespace Org.OpenAPITools.Api
         /// The HttpClient
         /// </summary>
         public HttpClient HttpClient { get; }
+
+        /// <summary>
+        /// The class containing the events
+        /// </summary>
+        public DefaultApiEvents Events { get; }
 
         /// <summary>
         /// A token provider of type <see cref="ApiKeyProvider"/>
@@ -142,7 +217,7 @@ namespace Org.OpenAPITools.Api
         /// Initializes a new instance of the <see cref="DefaultApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider,
+        public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, DefaultApiEvents defaultApiEvents,
             TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
@@ -152,6 +227,7 @@ namespace Org.OpenAPITools.Api
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
+            Events = defaultApiEvents;
             ApiKeyProvider = apiKeyProvider;
             BearerTokenProvider = bearerTokenProvider;
             BasicTokenProvider = basicTokenProvider;
@@ -186,17 +262,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="path"></param>
         private void OnErrorFooGetDefaultImplementation(Exception exception, string pathFormat, string path)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorFooGet(exception, pathFormat, path);
+            bool suppressDefaultLog = false;
+            OnErrorFooGet(ref suppressDefaultLog, exception, pathFormat, path);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        partial void OnErrorFooGet(Exception exception, string pathFormat, string path);
+        partial void OnErrorFooGet(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
 
         /// <summary>
         ///  
@@ -257,6 +336,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterFooGetDefaultImplementation(apiResponseLocalVar);
 
+                        Events.ExecuteOnFooGet(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -264,6 +345,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorFooGetDefaultImplementation(e, "/foo", uriBuilderLocalVar.Path);
+                Events.ExecuteOnErrorFooGet(e);
                 throw;
             }
         }
@@ -277,14 +359,8 @@ namespace Org.OpenAPITools.Api
         /// <returns></returns>
         private void ValidateGetCountry(string country)
         {
-            #pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
-
             if (country == null)
                 throw new ArgumentNullException(nameof(country));
-
-            #pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
-            #pragma warning restore CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
         }
 
         /// <summary>
@@ -317,18 +393,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="country"></param>
         private void OnErrorGetCountryDefaultImplementation(Exception exception, string pathFormat, string path, string country)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorGetCountry(exception, pathFormat, path, country);
+            bool suppressDefaultLog = false;
+            OnErrorGetCountry(ref suppressDefaultLog, exception, pathFormat, path, country);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="country"></param>
-        partial void OnErrorGetCountry(Exception exception, string pathFormat, string path, string country);
+        partial void OnErrorGetCountry(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, string country);
 
         /// <summary>
         ///  
@@ -390,7 +469,7 @@ namespace Org.OpenAPITools.Api
 
                     string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
-                    if (contentTypeLocalVar != null)
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Post;
@@ -405,6 +484,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterGetCountryDefaultImplementation(apiResponseLocalVar, country);
 
+                        Events.ExecuteOnGetCountry(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -412,6 +493,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorGetCountryDefaultImplementation(e, "/country", uriBuilderLocalVar.Path, country);
+                Events.ExecuteOnErrorGetCountry(e);
                 throw;
             }
         }
@@ -443,17 +525,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="path"></param>
         private void OnErrorHelloDefaultImplementation(Exception exception, string pathFormat, string path)
         {
-            Logger.LogError(exception, "An error occurred while sending the request to the server.");
-            OnErrorHello(exception, pathFormat, path);
+            bool suppressDefaultLog = false;
+            OnErrorHello(ref suppressDefaultLog, exception, pathFormat, path);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
         /// A partial method that gives developers a way to provide customized exception handling
         /// </summary>
+        /// <param name="suppressDefaultLog"></param>
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        partial void OnErrorHello(Exception exception, string pathFormat, string path);
+        partial void OnErrorHello(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path);
 
         /// <summary>
         /// Hello Hello
@@ -514,6 +599,8 @@ namespace Org.OpenAPITools.Api
 
                         AfterHelloDefaultImplementation(apiResponseLocalVar);
 
+                        Events.ExecuteOnHello(apiResponseLocalVar);
+
                         return apiResponseLocalVar;
                     }
                 }
@@ -521,6 +608,7 @@ namespace Org.OpenAPITools.Api
             catch(Exception e)
             {
                 OnErrorHelloDefaultImplementation(e, "/hello", uriBuilderLocalVar.Path);
+                Events.ExecuteOnErrorHello(e);
                 throw;
             }
         }

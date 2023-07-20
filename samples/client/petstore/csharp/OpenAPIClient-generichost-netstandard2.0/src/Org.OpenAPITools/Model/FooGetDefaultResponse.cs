@@ -144,10 +144,21 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, fooGetDefaultResponse, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="FooGetDefaultResponse" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="fooGetDefaultResponse"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, FooGetDefaultResponse fooGetDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WritePropertyName("string");
             JsonSerializer.Serialize(writer, fooGetDefaultResponse.VarString, jsonSerializerOptions);
-
-            writer.WriteEndObject();
         }
     }
 }

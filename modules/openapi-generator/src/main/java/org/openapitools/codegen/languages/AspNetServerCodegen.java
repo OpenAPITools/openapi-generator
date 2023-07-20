@@ -613,6 +613,11 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         }
     }
 
+    @Override
+    protected void patchVendorExtensionNullableValueType(CodegenParameter parameter) {
+        super.patchVendorExtensionNullableValueTypeLegacy(parameter);
+    }
+
     private void setCliOption(CliOption cliOption) throws IllegalArgumentException {
         if (additionalProperties.containsKey(cliOption.getOpt())) {
             // TODO Hack - not sure why the empty strings become boolean.

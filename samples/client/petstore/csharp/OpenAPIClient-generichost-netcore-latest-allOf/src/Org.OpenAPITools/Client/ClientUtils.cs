@@ -19,6 +19,9 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using KellermanSoftware.CompareNetObjects;
 using Org.OpenAPITools.Model;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Org.OpenAPITools.Test")]
 
 namespace Org.OpenAPITools.Client
 {
@@ -132,7 +135,7 @@ namespace Org.OpenAPITools.Client
                     : "false";
             if (obj is ICollection collection)
             {
-                List<string?> entries = new List<string?>();
+                List<string?> entries = new();
                 foreach (var entry in collection)
                     entries.Add(ParameterToString(entry));
                 return string.Join(",", entries);

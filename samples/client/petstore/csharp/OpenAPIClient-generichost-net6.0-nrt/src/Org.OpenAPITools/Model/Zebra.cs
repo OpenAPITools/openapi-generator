@@ -166,6 +166,16 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
+            return this.BaseValidate(validationContext);
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        {
             yield break;
         }
     }
@@ -245,6 +255,19 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, zebra, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Zebra" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="zebra"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("className", zebra.ClassName);
 
             var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type);
@@ -252,8 +275,6 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("type", typeRawValue);
             else
                 writer.WriteNull("type");
-
-            writer.WriteEndObject();
         }
     }
 }

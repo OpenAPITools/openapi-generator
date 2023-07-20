@@ -140,9 +140,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("NullableMessage", healthCheckResult.NullableMessage);
-
+            WriteProperties(ref writer, healthCheckResult, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="HealthCheckResult" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="healthCheckResult"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, HealthCheckResult healthCheckResult, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("NullableMessage", healthCheckResult.NullableMessage);
         }
     }
 }

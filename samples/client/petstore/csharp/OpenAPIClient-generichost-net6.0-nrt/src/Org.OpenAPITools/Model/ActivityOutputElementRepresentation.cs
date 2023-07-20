@@ -162,11 +162,22 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, activityOutputElementRepresentation, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="ActivityOutputElementRepresentation" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="activityOutputElementRepresentation"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, ActivityOutputElementRepresentation activityOutputElementRepresentation, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("prop1", activityOutputElementRepresentation.Prop1);
             writer.WritePropertyName("prop2");
             JsonSerializer.Serialize(writer, activityOutputElementRepresentation.Prop2, jsonSerializerOptions);
-
-            writer.WriteEndObject();
         }
     }
 }

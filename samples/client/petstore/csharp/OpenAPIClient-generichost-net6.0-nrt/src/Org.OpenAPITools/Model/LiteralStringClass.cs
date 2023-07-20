@@ -161,10 +161,21 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, literalStringClass, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="LiteralStringClass" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="literalStringClass"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, LiteralStringClass literalStringClass, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("escapedLiteralString", literalStringClass.EscapedLiteralString);
             writer.WriteString("unescapedLiteralString", literalStringClass.UnescapedLiteralString);
-
-            writer.WriteEndObject();
         }
     }
 }

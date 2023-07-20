@@ -1944,7 +1944,7 @@ func (a *FakeAPIService) TestQueryParameterCollectionFormatExecute(r ApiTestQuer
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "context", s.Index(i), "multi")
+				parameterAddToHeaderOrQuery(localVarQueryParams, "context", s.Index(i).Interface(), "multi")
 			}
 		} else {
 			parameterAddToHeaderOrQuery(localVarQueryParams, "context", t, "multi")

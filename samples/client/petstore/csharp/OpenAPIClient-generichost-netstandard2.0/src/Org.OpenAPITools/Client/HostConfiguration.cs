@@ -15,7 +15,6 @@ using System.Text.Json.Serialization;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Org.OpenAPITools.Api;
-using Org.OpenAPITools.IApi;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Client
@@ -65,8 +64,8 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new DogJsonConverter());
             _jsonOptions.Converters.Add(new DrawingJsonConverter());
             _jsonOptions.Converters.Add(new EnumArraysJsonConverter());
-            _jsonOptions.Converters.Add(new EnumClassConverter());
-            _jsonOptions.Converters.Add(new EnumClassNullableConverter());
+            _jsonOptions.Converters.Add(new EnumClassJsonConverter());
+            _jsonOptions.Converters.Add(new EnumClassNullableJsonConverter());
             _jsonOptions.Converters.Add(new EnumTestJsonConverter());
             _jsonOptions.Converters.Add(new EquilateralTriangleJsonConverter());
             _jsonOptions.Converters.Add(new FileJsonConverter());
@@ -97,14 +96,14 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new OneOfStringJsonConverter());
             _jsonOptions.Converters.Add(new OrderJsonConverter());
             _jsonOptions.Converters.Add(new OuterCompositeJsonConverter());
-            _jsonOptions.Converters.Add(new OuterEnumConverter());
-            _jsonOptions.Converters.Add(new OuterEnumNullableConverter());
-            _jsonOptions.Converters.Add(new OuterEnumDefaultValueConverter());
-            _jsonOptions.Converters.Add(new OuterEnumDefaultValueNullableConverter());
-            _jsonOptions.Converters.Add(new OuterEnumIntegerConverter());
-            _jsonOptions.Converters.Add(new OuterEnumIntegerNullableConverter());
-            _jsonOptions.Converters.Add(new OuterEnumIntegerDefaultValueConverter());
-            _jsonOptions.Converters.Add(new OuterEnumIntegerDefaultValueNullableConverter());
+            _jsonOptions.Converters.Add(new OuterEnumJsonConverter());
+            _jsonOptions.Converters.Add(new OuterEnumNullableJsonConverter());
+            _jsonOptions.Converters.Add(new OuterEnumDefaultValueJsonConverter());
+            _jsonOptions.Converters.Add(new OuterEnumDefaultValueNullableJsonConverter());
+            _jsonOptions.Converters.Add(new OuterEnumIntegerJsonConverter());
+            _jsonOptions.Converters.Add(new OuterEnumIntegerNullableJsonConverter());
+            _jsonOptions.Converters.Add(new OuterEnumIntegerDefaultValueJsonConverter());
+            _jsonOptions.Converters.Add(new OuterEnumIntegerDefaultValueNullableJsonConverter());
             _jsonOptions.Converters.Add(new ParentPetJsonConverter());
             _jsonOptions.Converters.Add(new PetJsonConverter());
             _jsonOptions.Converters.Add(new PigJsonConverter());
@@ -127,17 +126,24 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new UserJsonConverter());
             _jsonOptions.Converters.Add(new WhaleJsonConverter());
             _jsonOptions.Converters.Add(new ZebraJsonConverter());
-            _jsonOptions.Converters.Add(new ZeroBasedEnumConverter());
-            _jsonOptions.Converters.Add(new ZeroBasedEnumNullableConverter());
+            _jsonOptions.Converters.Add(new ZeroBasedEnumJsonConverter());
+            _jsonOptions.Converters.Add(new ZeroBasedEnumNullableJsonConverter());
             _jsonOptions.Converters.Add(new ZeroBasedEnumClassJsonConverter());
             _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
             _services.AddSingleton<IApiFactory, ApiFactory>();
+            _services.AddSingleton<AnotherFakeApiEvents>();
             _services.AddTransient<IAnotherFakeApi, AnotherFakeApi>();
+            _services.AddSingleton<DefaultApiEvents>();
             _services.AddTransient<IDefaultApi, DefaultApi>();
+            _services.AddSingleton<FakeApiEvents>();
             _services.AddTransient<IFakeApi, FakeApi>();
+            _services.AddSingleton<FakeClassnameTags123ApiEvents>();
             _services.AddTransient<IFakeClassnameTags123Api, FakeClassnameTags123Api>();
+            _services.AddSingleton<PetApiEvents>();
             _services.AddTransient<IPetApi, PetApi>();
+            _services.AddSingleton<StoreApiEvents>();
             _services.AddTransient<IStoreApi, StoreApi>();
+            _services.AddSingleton<UserApiEvents>();
             _services.AddTransient<IUserApi, UserApi>();
         }
 

@@ -123,7 +123,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 {{^isDateTime}}
                 {{#isDate}}
                 localVarQueryParameter['{{baseName}}'] = ({{paramName}} as any instanceof Date) ?
-                    ({{paramName}} as any).toISOString().substr(0,10) :
+                    ({{paramName}} as any).toISOString().substring(0,10) :
                     {{paramName}};
                 {{/isDate}}
                 {{^isDate}}
@@ -154,8 +154,8 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 {{/isString}}
                 {{^isString}}
                 {{! isString is falsy also for $ref that defines a string or enum type}}
-                localVarHeaderParameter['{{baseName}}'] = typeof {{paramName}} === 'string' 
-                    ? {{paramName}} 
+                localVarHeaderParameter['{{baseName}}'] = typeof {{paramName}} === 'string'
+                    ? {{paramName}}
                     : JSON.stringify({{paramName}});
                 {{/isString}}
             }
@@ -178,8 +178,9 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             {{^isArray}}
             if ({{paramName}} !== undefined) { {{^multipartFormData}}
                 localVarFormParams.set('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}{{#multipartFormData}}{{#isPrimitiveType}}
-                localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/isPrimitiveType}}{{^isPrimitiveType}}
-                localVarFormParams.append('{{baseName}}', new Blob([JSON.stringify({{paramName}})], { type: "application/json", }));{{/isPrimitiveType}}{{/multipartFormData}}
+                localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isEnumRef}}
+                localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/isEnumRef}}{{^isEnumRef}}
+                localVarFormParams.append('{{baseName}}', new Blob([JSON.stringify({{paramName}})], { type: "application/json", }));{{/isEnumRef}}{{/isPrimitiveType}}{{/multipartFormData}}
             }{{/isArray}}
     {{/formParams}}{{/vendorExtensions}}
     {{#vendorExtensions}}{{#hasFormParams}}{{^multipartFormData}}

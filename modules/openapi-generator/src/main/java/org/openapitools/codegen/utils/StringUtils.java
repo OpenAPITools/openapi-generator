@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
 import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
 
 public class StringUtils {
-
     /**
      * Set the cache size (entry count) of the sanitizedNameCache, camelizedWordsCache and underscoreWordsCache.
      */
@@ -139,7 +138,7 @@ public class StringUtils {
             // Replace all slashes with dots (package separator)
             Matcher m = camelizeSlashPattern.matcher(word);
             while (m.find()) {
-                word = m.replaceFirst("." + m.group(1)/*.toUpperCase()*/);
+                word = m.replaceFirst("." + m.group(1).replace("\\", "\\\\")/*.toUpperCase()*/);
                 m = camelizeSlashPattern.matcher(word);
             }
 

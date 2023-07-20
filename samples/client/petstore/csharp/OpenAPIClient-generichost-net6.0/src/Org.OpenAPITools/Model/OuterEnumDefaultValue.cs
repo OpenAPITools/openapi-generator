@@ -45,10 +45,9 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type <see cref="OuterEnumDefaultValue"/>
+    /// Converts <see cref="OuterEnumDefaultValue"/> to and from the JSON value
     /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
-    public class OuterEnumDefaultValueConverter : JsonConverter<OuterEnumDefaultValue>
+    public static class OuterEnumDefaultValueValueConverter
     {
         /// <summary>
         /// Parses a given value to <see cref="OuterEnumDefaultValue"/>
@@ -107,7 +106,14 @@ namespace Org.OpenAPITools.Model
 
             throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
+    }
 
+    /// <summary>
+    /// A Json converter for type <see cref="OuterEnumDefaultValue"/>
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    public class OuterEnumDefaultValueJsonConverter : JsonConverter<OuterEnumDefaultValue>
+    {
         /// <summary>
         /// Returns a  from the Json object
         /// </summary>
@@ -121,7 +127,7 @@ namespace Org.OpenAPITools.Model
 
             OuterEnumDefaultValue? result = rawValue == null
                 ? null
-                : OuterEnumDefaultValueConverter.FromStringOrDefault(rawValue);
+                : OuterEnumDefaultValueValueConverter.FromStringOrDefault(rawValue);
 
             if (result != null)
                 return result.Value;
@@ -144,7 +150,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="OuterEnumDefaultValue"/>
     /// </summary>
-    public class OuterEnumDefaultValueNullableConverter : JsonConverter<OuterEnumDefaultValue?>
+    public class OuterEnumDefaultValueNullableJsonConverter : JsonConverter<OuterEnumDefaultValue?>
     {
         /// <summary>
         /// Returns a OuterEnumDefaultValue from the Json object
@@ -159,7 +165,7 @@ namespace Org.OpenAPITools.Model
 
             OuterEnumDefaultValue? result = rawValue == null
                 ? null
-                : OuterEnumDefaultValueConverter.FromStringOrDefault(rawValue);
+                : OuterEnumDefaultValueValueConverter.FromStringOrDefault(rawValue);
 
             if (result != null)
                 return result.Value;

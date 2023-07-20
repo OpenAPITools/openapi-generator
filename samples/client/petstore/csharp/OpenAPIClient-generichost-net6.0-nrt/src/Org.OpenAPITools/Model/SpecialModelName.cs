@@ -162,10 +162,21 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, specialModelName, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="SpecialModelName" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="specialModelName"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, SpecialModelName specialModelName, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName);
             writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyName);
-
-            writer.WriteEndObject();
         }
     }
 }

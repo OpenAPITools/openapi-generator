@@ -951,6 +951,11 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
         return name;
     }
 
+    @Override
+    protected void patchVendorExtensionNullableValueType(CodegenParameter parameter) {
+        super.patchVendorExtensionNullableValueTypeLegacy(parameter);
+    }
+
     private CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
         // This generator uses inline classes to define enums, which breaks when
         // dealing with models that have subTypes. To clean this up, we will analyze
@@ -1112,7 +1117,7 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
     @Override
     public String toInstantiationType(Schema schema) {
         if (ModelUtils.isMapSchema(schema)) {
-            Schema additionalProperties = getAdditionalProperties(schema);
+            Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
             String inner = getSchemaType(additionalProperties);
             if (ModelUtils.isMapSchema(additionalProperties)) {
                 inner = toInstantiationType(additionalProperties);
@@ -1179,7 +1184,7 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
             addAdditionPropertiesToCodeGenModel(m, schema);
         } else {
             m.setIsMap(false);
-            if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+            if (ModelUtils.isFreeFormObject(schema)) {
                 // non-composed object type with no properties + additionalProperties
                 // additionalProperties must be null, ObjectSchema, or empty Schema
                 addAdditionPropertiesToCodeGenModel(m, schema);

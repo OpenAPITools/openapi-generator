@@ -47,10 +47,9 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type <see cref="OuterEnumInteger"/>
+    /// Converts <see cref="OuterEnumInteger"/> to and from the JSON value
     /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
-    public class OuterEnumIntegerConverter : JsonConverter<OuterEnumInteger>
+    public static class OuterEnumIntegerValueConverter
     {
         /// <summary>
         /// Parses a given value to <see cref="OuterEnumInteger"/>
@@ -100,7 +99,14 @@ namespace Org.OpenAPITools.Model
         {
             return (int) value;
         }
+    }
 
+    /// <summary>
+    /// A Json converter for type <see cref="OuterEnumInteger"/>
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    public class OuterEnumIntegerJsonConverter : JsonConverter<OuterEnumInteger>
+    {
         /// <summary>
         /// Returns a  from the Json object
         /// </summary>
@@ -114,7 +120,7 @@ namespace Org.OpenAPITools.Model
 
             OuterEnumInteger? result = rawValue == null
                 ? null
-                : OuterEnumIntegerConverter.FromStringOrDefault(rawValue);
+                : OuterEnumIntegerValueConverter.FromStringOrDefault(rawValue);
 
             if (result != null)
                 return result.Value;
@@ -137,7 +143,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="OuterEnumInteger"/>
     /// </summary>
-    public class OuterEnumIntegerNullableConverter : JsonConverter<OuterEnumInteger?>
+    public class OuterEnumIntegerNullableJsonConverter : JsonConverter<OuterEnumInteger?>
     {
         /// <summary>
         /// Returns a OuterEnumInteger from the Json object
@@ -152,7 +158,7 @@ namespace Org.OpenAPITools.Model
 
             OuterEnumInteger? result = rawValue == null
                 ? null
-                : OuterEnumIntegerConverter.FromStringOrDefault(rawValue);
+                : OuterEnumIntegerValueConverter.FromStringOrDefault(rawValue);
 
             if (result != null)
                 return result.Value;

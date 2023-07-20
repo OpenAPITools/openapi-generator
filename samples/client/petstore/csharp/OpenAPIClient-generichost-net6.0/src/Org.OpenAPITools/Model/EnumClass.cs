@@ -45,10 +45,9 @@ namespace Org.OpenAPITools.Model
     }
 
     /// <summary>
-    /// A Json converter for type <see cref="EnumClass"/>
+    /// Converts <see cref="EnumClass"/> to and from the JSON value
     /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
-    public class EnumClassConverter : JsonConverter<EnumClass>
+    public static class EnumClassValueConverter
     {
         /// <summary>
         /// Parses a given value to <see cref="EnumClass"/>
@@ -107,7 +106,14 @@ namespace Org.OpenAPITools.Model
 
             throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
+    }
 
+    /// <summary>
+    /// A Json converter for type <see cref="EnumClass"/>
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    public class EnumClassJsonConverter : JsonConverter<EnumClass>
+    {
         /// <summary>
         /// Returns a  from the Json object
         /// </summary>
@@ -121,7 +127,7 @@ namespace Org.OpenAPITools.Model
 
             EnumClass? result = rawValue == null
                 ? null
-                : EnumClassConverter.FromStringOrDefault(rawValue);
+                : EnumClassValueConverter.FromStringOrDefault(rawValue);
 
             if (result != null)
                 return result.Value;
@@ -144,7 +150,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// A Json converter for type <see cref="EnumClass"/>
     /// </summary>
-    public class EnumClassNullableConverter : JsonConverter<EnumClass?>
+    public class EnumClassNullableJsonConverter : JsonConverter<EnumClass?>
     {
         /// <summary>
         /// Returns a EnumClass from the Json object
@@ -159,7 +165,7 @@ namespace Org.OpenAPITools.Model
 
             EnumClass? result = rawValue == null
                 ? null
-                : EnumClassConverter.FromStringOrDefault(rawValue);
+                : EnumClassValueConverter.FromStringOrDefault(rawValue);
 
             if (result != null)
                 return result.Value;

@@ -152,9 +152,20 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyProperty.ToString(DateOnlyPropertyFormat));
-
+            WriteProperties(ref writer, dateOnlyClass, jsonSerializerOptions);
             writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="DateOnlyClass" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="dateOnlyClass"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, DateOnlyClass dateOnlyClass, JsonSerializerOptions jsonSerializerOptions)
+        {
+            writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyProperty.ToString(DateOnlyPropertyFormat));
         }
     }
 }

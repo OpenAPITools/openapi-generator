@@ -144,11 +144,22 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            WriteProperties(ref writer, cat, jsonSerializerOptions);
+            writer.WriteEndObject();
+        }
+
+        /// <summary>
+        /// Serializes the properties of <see cref="Cat" />
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="cat"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void WriteProperties(ref Utf8JsonWriter writer, Cat cat, JsonSerializerOptions jsonSerializerOptions)
+        {
             writer.WriteString("className", cat.ClassName);
             writer.WriteBoolean("declawed", cat.Declawed);
             writer.WriteString("color", cat.Color);
-
-            writer.WriteEndObject();
         }
     }
 }

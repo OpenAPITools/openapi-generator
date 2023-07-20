@@ -2,7 +2,8 @@
 # Do not modify this file directly. Modify the OpenAPI specification instead.
 
 
-@doc raw"""A User who is purchasing from the pet store
+@doc raw"""User
+A User who is purchasing from the pet store
 
     User(;
         id=nothing,
