@@ -4,7 +4,7 @@ defmodule StoreTest do
   alias OpenapiPetstore.Api.Store, as: StoreApi
 
   setup do
-    %{connection: Connection.new(base_url: "https://petstore.swagger.io/v2")}
+    %{connection: Connection.new()}
   end
 
   test "fetch inventory", %{connection: connection} do

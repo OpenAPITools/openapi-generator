@@ -7,7 +7,7 @@ defmodule PetTest do
   alias OpenapiPetstore.Model.Tag
 
   setup do
-    %{connection: Connection.new(base_url: "https://petstore.swagger.io/v2")}
+    %{connection: Connection.new()}
   end
 
   test "add and delete a pet", %{connection: connection} do
