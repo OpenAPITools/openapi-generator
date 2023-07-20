@@ -16,6 +16,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
  * Home redirection to OpenAPI api documentation
  */
 @Controller
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class HomeController {
 
     static final String API_DOCS_PATH = "/v2/api-docs";

@@ -24,6 +24,7 @@ import okio.ForwardingSink;
 import okio.Okio;
 import okio.Sink;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ProgressRequestBody extends RequestBody {
 
     private final RequestBody requestBody;

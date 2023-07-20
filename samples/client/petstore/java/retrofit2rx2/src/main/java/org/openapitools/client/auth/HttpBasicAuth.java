@@ -8,6 +8,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.Credentials;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class HttpBasicAuth implements Interceptor {
 
     private String username;

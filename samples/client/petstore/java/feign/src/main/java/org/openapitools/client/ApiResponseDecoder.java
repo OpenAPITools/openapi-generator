@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.openapitools.client.model.ApiResponse;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiResponseDecoder extends JacksonDecoder {
 
     public ApiResponseDecoder(ObjectMapper mapper) {

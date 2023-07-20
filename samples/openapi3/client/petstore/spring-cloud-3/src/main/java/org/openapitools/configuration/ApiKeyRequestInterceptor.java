@@ -5,6 +5,7 @@ import feign.RequestTemplate;
 import feign.Util;
 
 
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ApiKeyRequestInterceptor implements RequestInterceptor {
   private final String location;
   private final String name;

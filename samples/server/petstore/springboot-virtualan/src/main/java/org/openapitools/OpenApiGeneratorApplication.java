@@ -16,6 +16,7 @@ import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGe
     basePackages = {"org.openapitools", "org.openapitools.virtualan.api" , "org.openapitools.configuration"},
     nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class OpenApiGeneratorApplication {
 
     public static void main(String[] args) {

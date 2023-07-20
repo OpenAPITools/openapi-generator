@@ -16,6 +16,7 @@ import {{javaxPackage}}.servlet.http.HttpServletResponse;
 import java.io.IOException;
 {{/reactive}}
 
+{{>generatedAnnotation}}
 public class ApiUtil {
 {{^reactive}}
     public static void setExampleResponse(NativeWebRequest req, String contentType, String example) {

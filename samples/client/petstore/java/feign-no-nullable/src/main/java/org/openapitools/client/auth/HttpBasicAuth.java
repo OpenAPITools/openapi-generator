@@ -7,6 +7,7 @@ import feign.auth.BasicAuthRequestInterceptor;
 /**
  * An interceptor that adds the request header needed to use HTTP basic authentication.
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class HttpBasicAuth implements RequestInterceptor {
 
     private String username;

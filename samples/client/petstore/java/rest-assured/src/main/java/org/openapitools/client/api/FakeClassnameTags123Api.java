@@ -34,6 +34,7 @@ import java.util.function.Supplier;
 import org.openapitools.client.JSON;
 import static io.restassured.http.Method.*;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeClassnameTags123Api {
 
     private Supplier<RequestSpecBuilder> reqSpecSupplier;

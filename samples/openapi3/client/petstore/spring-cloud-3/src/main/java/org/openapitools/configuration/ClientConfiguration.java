@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ClientConfiguration {
 
   private static final String CLIENT_PRINCIPAL_IMPLICIT = "oauth2FeignClient";

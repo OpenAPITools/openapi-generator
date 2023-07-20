@@ -9,6 +9,7 @@ import java.util.List;
 /**
 * Utilities to support Swagger encoding formats in Feign.
 */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public final class EncodingUtils {
 
   /**

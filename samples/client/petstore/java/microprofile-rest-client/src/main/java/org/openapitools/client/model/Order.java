@@ -29,6 +29,7 @@ import javax.json.bind.annotation.JsonbProperty;
   * An order for a pets from the pet store
  **/
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Order  {
   
   @JsonbProperty("id")

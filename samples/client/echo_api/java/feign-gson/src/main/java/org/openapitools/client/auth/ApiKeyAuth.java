@@ -3,6 +3,7 @@ package org.openapitools.client.auth;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiKeyAuth implements RequestInterceptor {
     private final String location;
     private final String paramName;

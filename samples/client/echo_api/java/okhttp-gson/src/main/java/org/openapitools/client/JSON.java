@@ -46,6 +46,7 @@ import java.util.HashMap;
  * NOTE: in the future, this class may be converted to static, which may break
  *       backward-compatibility
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class JSON {
     private static Gson gson;
     private static boolean isLenientOnJson = false;

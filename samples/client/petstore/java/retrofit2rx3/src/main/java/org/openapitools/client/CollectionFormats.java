@@ -3,6 +3,7 @@ package org.openapitools.client;
 import java.util.Arrays;
 import java.util.List;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class CollectionFormats {
 
     public static class CSVParams {

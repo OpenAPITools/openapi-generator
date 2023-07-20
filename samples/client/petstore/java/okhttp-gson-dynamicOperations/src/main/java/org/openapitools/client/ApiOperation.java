@@ -14,6 +14,7 @@ package org.openapitools.client;
 
 import io.swagger.v3.oas.models.Operation;
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiOperation {
     private final String path;
     private final String method;

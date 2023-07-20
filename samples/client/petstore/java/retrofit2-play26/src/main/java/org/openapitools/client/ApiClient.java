@@ -30,6 +30,7 @@ import org.openapitools.client.auth.Authentication;
 /**
  * API client
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient {
 
     /** Underlying HTTP-client */

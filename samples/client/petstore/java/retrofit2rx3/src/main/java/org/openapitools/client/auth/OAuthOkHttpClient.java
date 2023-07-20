@@ -21,6 +21,7 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class OAuthOkHttpClient implements HttpClient {
 
     private OkHttpClient client;
