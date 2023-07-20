@@ -872,7 +872,7 @@ public class JavaClientCodegenTest {
         // map
         // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp4 = cm2.vars.get(3);
-        Assert.assertEquals(cp4.baseName, "map_any_value");
+        Assert.assertEquals(cp4.baseName, "map_free_form_object");
         Assert.assertEquals(cp4.dataType, "Map<String, Object>");
         Assert.assertFalse(cp4.required);
         Assert.assertTrue(cp4.isPrimitiveType);
@@ -880,6 +880,7 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp4.isMap);
         Assert.assertTrue(cp4.isFreeFormObject);
         Assert.assertFalse(cp4.isAnyType);
+        Assert.assertFalse(cp4.isModel);
 
         // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp5 = cm2.vars.get(4);
@@ -891,6 +892,7 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp5.isMap);
         Assert.assertTrue(cp5.isFreeFormObject);
         Assert.assertFalse(cp5.isAnyType);
+        Assert.assertFalse(cp5.isModel);
 
         // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp6 = cm2.vars.get(5);
