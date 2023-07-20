@@ -152,7 +152,7 @@ module DynamicServers
       @scheme = 'http'
       @host = 'petstore.swagger.io'
       @base_path = '/v2'
-      @server_index = 0
+      @server_index = nil
       @server_operation_index = {}
       @server_variables = {}
       @server_operation_variables = {}
@@ -202,9 +202,9 @@ module DynamicServers
     def base_url(operation = nil)
       if operation_server_settings.key?(operation) then
         index = server_operation_index.fetch(operation, server_index)
-        server_url(index, server_operation_variables.fetch(operation, server_variables), operation_server_settings[operation])
+        server_url(index.nil? ? 0 : index, server_operation_variables.fetch(operation, server_variables), operation_server_settings[operation])
       else
-        server_index.zero? ? "#{scheme}://#{[host, base_path].join('/').gsub(/\/+/, '/')}".sub(/\/+\z/, '') : server_url(server_index, server_variables, nil)
+        server_index.nil? ? "#{scheme}://#{[host, base_path].join('/').gsub(/\/+/, '/')}".sub(/\/+\z/, '') : server_url(server_index, server_variables, nil)
       end
     end
 
