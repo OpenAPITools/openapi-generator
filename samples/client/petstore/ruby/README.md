@@ -147,6 +147,8 @@ Class | Method | HTTP request | Description
  - [Petstore::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [Petstore::HealthCheckResult](docs/HealthCheckResult.md)
  - [Petstore::List](docs/List.md)
+ - [Petstore::Mammal](docs/Mammal.md)
+ - [Petstore::MammalWithoutDiscriminator](docs/MammalWithoutDiscriminator.md)
  - [Petstore::MapTest](docs/MapTest.md)
  - [Petstore::MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Petstore::Model200Response](docs/Model200Response.md)
@@ -168,6 +170,8 @@ Class | Method | HTTP request | Description
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
  - [Petstore::Tag](docs/Tag.md)
  - [Petstore::User](docs/User.md)
+ - [Petstore::Whale](docs/Whale.md)
+ - [Petstore::Zebra](docs/Zebra.md)
 
 
 ## Documentation for Authorization
