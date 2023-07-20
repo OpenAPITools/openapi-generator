@@ -95,7 +95,7 @@ defmodule OpenapiPetstore.Api.Store do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.Order{}},
+      {200, OpenapiPetstore.Model.Order},
       {400, false},
       {404, false}
     ])
@@ -128,7 +128,7 @@ defmodule OpenapiPetstore.Api.Store do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.Order{}},
+      {200, OpenapiPetstore.Model.Order},
       {400, false}
     ])
   end

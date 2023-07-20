@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.FileSchemaTestClass do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :file,
     :files
@@ -16,14 +16,13 @@ defmodule OpenapiPetstore.Model.FileSchemaTestClass do
     :file => OpenapiPetstore.Model.File.t | nil,
     :files => [OpenapiPetstore.Model.File.t] | nil
   }
-end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.FileSchemaTestClass do
-  import OpenapiPetstore.Deserializer
-  def decode(value, options) do
+  alias OpenapiPetstore.Deserializer
+
+  def decode(value) do
     value
-    |> deserialize(:file, :struct, OpenapiPetstore.Model.File, options)
-    |> deserialize(:files, :list, OpenapiPetstore.Model.File, options)
+     |> Deserializer.deserialize(:file, :struct, OpenapiPetstore.Model.File)
+     |> Deserializer.deserialize(:files, :list, OpenapiPetstore.Model.File)
   end
 end
 
