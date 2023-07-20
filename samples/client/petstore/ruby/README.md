@@ -148,6 +148,7 @@ Class | Method | HTTP request | Description
  - [Petstore::HealthCheckResult](docs/HealthCheckResult.md)
  - [Petstore::List](docs/List.md)
  - [Petstore::Mammal](docs/Mammal.md)
+ - [Petstore::MammalWithoutDiscriminator](docs/MammalWithoutDiscriminator.md)
  - [Petstore::MapTest](docs/MapTest.md)
  - [Petstore::MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Petstore::Model200Response](docs/Model200Response.md)
