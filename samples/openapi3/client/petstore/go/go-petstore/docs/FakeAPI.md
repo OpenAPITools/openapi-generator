@@ -932,8 +932,8 @@ import (
 )
 
 func main() {
-    testPet := map[string][]openapiclient.Pet{"key": map[string]interface{}{ ... }} // Pet |  (optional)
-    inputOptions := map[string][]openapiclient.Category{"key": map[string]interface{}{ ... }} // Category |  (optional)
+    testPet := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet |  (optional)
+    inputOptions := *openapiclient.NewCategory("Name_example") // Category |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)

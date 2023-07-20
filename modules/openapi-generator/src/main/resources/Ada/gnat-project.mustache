@@ -10,9 +10,9 @@ with "utilada_sys";
 with "utilada_xml";
 with "utilada_http";
 with "security";
-with "swagger";{{#isServer}}
+with "{{openApiGprName}}";{{#isServer}}
 with "servletada";
-with "swagger_server";{{/isServer}}
+with "{{openApiGprName}}_server";{{/isServer}}
 project {{{projectName}}} is
 
     Mains := ("{{{packageName}}}-{{{mainName}}}.adb");

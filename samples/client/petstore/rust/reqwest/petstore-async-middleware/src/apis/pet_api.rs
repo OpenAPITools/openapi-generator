@@ -15,14 +15,14 @@ use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
 /// struct for passing parameters to the method [`add_pet`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct AddPetParams {
     /// Pet object that needs to be added to the store
     pub pet: crate::models::Pet
 }
 
 /// struct for passing parameters to the method [`delete_pet`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct DeletePetParams {
     /// Pet id to delete
     pub pet_id: i64,
@@ -30,35 +30,35 @@ pub struct DeletePetParams {
 }
 
 /// struct for passing parameters to the method [`find_pets_by_status`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct FindPetsByStatusParams {
     /// Status values that need to be considered for filter
     pub status: Vec<String>
 }
 
 /// struct for passing parameters to the method [`find_pets_by_tags`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct FindPetsByTagsParams {
     /// Tags to filter by
     pub tags: Vec<String>
 }
 
 /// struct for passing parameters to the method [`get_pet_by_id`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct GetPetByIdParams {
     /// ID of pet to return
     pub pet_id: i64
 }
 
 /// struct for passing parameters to the method [`update_pet`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct UpdatePetParams {
     /// Pet object that needs to be added to the store
     pub pet: crate::models::Pet
 }
 
 /// struct for passing parameters to the method [`update_pet_with_form`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct UpdatePetWithFormParams {
     /// ID of pet that needs to be updated
     pub pet_id: i64,
@@ -69,7 +69,7 @@ pub struct UpdatePetWithFormParams {
 }
 
 /// struct for passing parameters to the method [`upload_file`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct UploadFileParams {
     /// ID of pet to update
     pub pet_id: i64,

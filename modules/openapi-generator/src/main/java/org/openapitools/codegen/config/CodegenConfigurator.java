@@ -70,7 +70,8 @@ public class CodegenConfigurator {
     private Map<String, String> importMappings = new HashMap<>();
     private Map<String, String> schemaMappings = new HashMap<>();
     private Map<String, String> inlineSchemaNameMappings = new HashMap<>();
-    private Map<String, String> inlineSchemaNameDefaults = new HashMap<>();
+    private Map<String, String> inlineSchemaOptions = new HashMap<>();
+    private Map<String, String> nameMappings = new HashMap<>();
     private Map<String, String> openapiNormalizer = new HashMap<>();
     private Set<String> languageSpecificPrimitives = new HashSet<>();
     private Map<String, String> reservedWordsMappings = new HashMap<>();
@@ -121,8 +122,11 @@ public class CodegenConfigurator {
             if(generatorSettings.getInlineSchemaNameMappings() != null) {
                 configurator.inlineSchemaNameMappings.putAll(generatorSettings.getInlineSchemaNameMappings());
             }
-            if(generatorSettings.getInlineSchemaNameDefaults() != null) {
-                configurator.inlineSchemaNameDefaults.putAll(generatorSettings.getInlineSchemaNameDefaults());
+            if(generatorSettings.getInlineSchemaOptions() != null) {
+                configurator.inlineSchemaOptions.putAll(generatorSettings.getInlineSchemaOptions());
+            }
+            if(generatorSettings.getNameMappings() != null) {
+                configurator.nameMappings.putAll(generatorSettings.getNameMappings());
             }
             if(generatorSettings.getOpenAPINormalizer() != null) {
                 configurator.openapiNormalizer.putAll(generatorSettings.getOpenAPINormalizer());
@@ -208,9 +212,15 @@ public class CodegenConfigurator {
         return this;
     }
 
-    public CodegenConfigurator addInlineSchemaNameDefault(String key, String value) {
-        this.inlineSchemaNameDefaults.put(key, value);
-        generatorSettingsBuilder.withInlineSchemaNameDefault(key, value);
+    public CodegenConfigurator addInlineSchemaOption(String key, String value) {
+        this.inlineSchemaOptions.put(key, value);
+        generatorSettingsBuilder.withInlineSchemaOption(key, value);
+        return this;
+    }
+
+    public CodegenConfigurator addNameMapping(String key, String value) {
+        this.nameMappings.put(key, value);
+        generatorSettingsBuilder.withNameMapping(key, value);
         return this;
     }
 
@@ -386,9 +396,15 @@ public class CodegenConfigurator {
         return this;
     }
 
-    public CodegenConfigurator setInlineSchemaNameDefaults(Map<String, String> inlineSchemaNameDefaults) {
-        this.inlineSchemaNameDefaults = inlineSchemaNameDefaults;
-        generatorSettingsBuilder.withInlineSchemaNameDefaults(inlineSchemaNameDefaults);
+    public CodegenConfigurator setInlineSchemaOptions(Map<String, String> inlineSchemaOptions) {
+        this.inlineSchemaOptions = inlineSchemaOptions;
+        generatorSettingsBuilder.withInlineSchemaOptions(inlineSchemaOptions);
+        return this;
+    }
+
+    public CodegenConfigurator setNameMappings(Map<String, String> nameMappings) {
+        this.nameMappings = nameMappings;
+        generatorSettingsBuilder.withNameMappings(nameMappings);
         return this;
     }
 
@@ -676,7 +692,8 @@ public class CodegenConfigurator {
         config.importMapping().putAll(generatorSettings.getImportMappings());
         config.schemaMapping().putAll(generatorSettings.getSchemaMappings());
         config.inlineSchemaNameMapping().putAll(generatorSettings.getInlineSchemaNameMappings());
-        config.inlineSchemaNameDefault().putAll(generatorSettings.getInlineSchemaNameDefaults());
+        config.inlineSchemaOption().putAll(generatorSettings.getInlineSchemaOptions());
+        config.nameMapping().putAll(generatorSettings.getNameMappings());
         config.openapiNormalizer().putAll(generatorSettings.getOpenAPINormalizer());
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.reservedWordsMappings().putAll(generatorSettings.getReservedWordsMappings());

@@ -189,6 +189,10 @@ public interface IJsonSchemaValidationProperties {
 
     void setIsAnyType(boolean isAnyType);
 
+    boolean getIsFreeFormObject();
+
+    void setIsFreeFormObject(boolean isFreeFormObject);
+
     String getRef();
 
     void setRef(String ref);
@@ -223,14 +227,12 @@ public interface IJsonSchemaValidationProperties {
      * Syncs all the schema's type properties into the IJsonSchemaValidationProperties instance
      * for now this only supports types without format information
      * TODO: in the future move the format handling in here too
+     *
      * @param p the schema which contains the type info
      */
     default void setTypeProperties(Schema p) {
-        if (ModelUtils.isTypeObjectSchema(p)) {
-            setIsMap(true);
-            if (ModelUtils.isModelWithPropertiesOnly(p)) {
-                setIsModel(true);
-            }
+        if (ModelUtils.isModelWithPropertiesOnly(p)) {
+            setIsModel(true);
         } else if (ModelUtils.isArraySchema(p)) {
             setIsArray(true);
         } else if (ModelUtils.isFileSchema(p) && !ModelUtils.isStringSchema(p)) {
@@ -252,7 +254,7 @@ public interface IJsonSchemaValidationProperties {
             } else if (ModelUtils.isEmailSchema(p)) {
                 ;
             } else if (ModelUtils.isPasswordSchema(p)) {
-              ;
+                ;
             } else if (ModelUtils.isDateSchema(p)) {
                 ;
             } else if (ModelUtils.isDateTimeSchema(p)) {
@@ -282,9 +284,12 @@ public interface IJsonSchemaValidationProperties {
             setIsNull(true);
         } else if (ModelUtils.isAnyType(p)) {
             setIsAnyType(true);
-            if (ModelUtils.isModelWithPropertiesOnly(p)) {
-                setIsModel(true);
-            }
+        } else if (ModelUtils.isFreeFormObject(p)) {
+            setIsFreeFormObject(true);
+            // TODO: remove below later after updating generators to properly use isFreeFormObject
+            setIsMap(true);
+        } else if (ModelUtils.isTypeObjectSchema(p)) {
+            setIsMap(true);
         }
     }
 
@@ -293,21 +298,21 @@ public interface IJsonSchemaValidationProperties {
      */
     default String getBaseType() {
         return null;
-    };
+    }
 
     /**
      * @return complex type that can contain type parameters - like {@code List<Items>} for Java
      */
     default String getComplexType() {
         return getBaseType();
-    };
+    }
 
     /**
      * Recursively collect all necessary imports to include so that the type may be resolved.
      *
      * @param importContainerType whether or not to include the container types in the returned imports.
-     * @param importBaseType whether or not to include the base types in the returned imports.
-     * @param featureSet the generator feature set, used to determine if composed schemas should be added
+     * @param importBaseType      whether or not to include the base types in the returned imports.
+     * @param featureSet          the generator feature set, used to determine if composed schemas should be added
      * @return all of the imports
      */
     default Set<String> getImports(boolean importContainerType, boolean importBaseType, FeatureSet featureSet) {

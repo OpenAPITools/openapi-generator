@@ -6,7 +6,6 @@ on:
       - 'samples/server/petstore/aspnetcore-6.0/**'
       - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
       - 'samples/server/petstore/aspnetcore-6.0-useSwashBuckle/**'
-      - 'samples/server/petstore/aspnetcore-6.0-useNewtonsoft/**'
   pull_request:
     paths:
       - 'samples/server/petstore/aspnetcore-6.0/**'

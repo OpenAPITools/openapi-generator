@@ -186,7 +186,6 @@ public class XmlItem {
    * @return attributeNumber
   **/
   @javax.annotation.Nullable
-  @Valid
 
 
   public BigDecimal getAttributeNumber() {
@@ -310,7 +309,6 @@ public class XmlItem {
    * @return nameNumber
   **/
   @javax.annotation.Nullable
-  @Valid
 
 
   public BigDecimal getNameNumber() {
@@ -465,7 +463,6 @@ public class XmlItem {
    * @return prefixNumber
   **/
   @javax.annotation.Nullable
-  @Valid
 
 
   public BigDecimal getPrefixNumber() {
@@ -620,7 +617,6 @@ public class XmlItem {
    * @return namespaceNumber
   **/
   @javax.annotation.Nullable
-  @Valid
 
 
   public BigDecimal getNamespaceNumber() {
@@ -775,7 +771,6 @@ public class XmlItem {
    * @return prefixNsNumber
   **/
   @javax.annotation.Nullable
-  @Valid
 
 
   public BigDecimal getPrefixNsNumber() {

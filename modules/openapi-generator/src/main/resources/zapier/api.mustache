@@ -1,0 +1,117 @@
+const samples = require('../samples/{{classFilename}}');
+{{#imports}}{{{import}}}
+{{/imports}}
+const utils = require('../utils/utils');
+{{#operations}}
+{{#operation}}
+{{#isMultipart}}
+const FormData = require('form-data');
+{{/isMultipart}}
+{{/operation}}
+{{/operations}}
+{{#operations}}
+
+module.exports = {
+{{#operation}}
+    {{operationId}}: {
+        key: '{{operationId}}',
+        noun: '{{#tags}}{{name}}{{/tags}}',
+        display: {
+            label: '{{summary}}',
+            description: '{{#notes}}{{.}}{{/notes}}',
+            hidden: false,
+        },
+        operation: {
+            inputFields: [
+                {{#allParams}}
+                {{#isPrimitiveType}}
+                {
+                    key: '{{baseName}}',
+                    label: '{{description}}',
+                    type: '{{dataType}}',
+                    {{#required}}
+                    required: true,
+                    {{/required}}
+                    {{#isEnum}}
+                    choices: [
+                        {{#_enum}}
+                        '{{.}}',
+                        {{/_enum}}
+                    ],
+                    {{/isEnum}}
+                },
+                {{/isPrimitiveType}}
+                {{^isPrimitiveType}}
+                {{#isArray}}
+                {
+                    key: '{{baseName}}',
+                    label: '{{description}}',
+                    type: 'string',
+                }
+                {{/isArray}}
+                {{^isArray}}
+                ...{{baseType}}.fields(),
+                {{/isArray}}
+                {{/isPrimitiveType}}
+                {{/allParams}}
+            ],
+            outputFields: [
+                {{#returnType}}
+                {{^returnTypeIsPrimitive}}
+                {{^isArray}}
+                ...{{returnType}}.fields('', false),
+                {{/isArray}}
+                {{/returnTypeIsPrimitive}}
+                {{/returnType}}
+            ],
+            perform: async (z, bundle) => {
+                {{#isMultipart}}
+                const formData = new FormData()
+                {{#allParams}}
+                {{#isFormParam}}
+                {{^isFile}}
+                formData.append('{{baseName}}', bundle.inputData?.['{{baseName}}'])
+                {{/isFile}}
+                {{#isFile}}
+                const filename = bundle.inputData?.['filename'] || bundle.inputData?.['{{baseName}}'].split('/').slice(-1)[0]
+                formData.append('{{baseName}}', (await (await z.request({url: bundle.inputData?.['{{baseName}}'], method: 'GET', raw: true})).buffer()), { filename: filename })
+                {{/isFile}}
+                {{/isFormParam}}
+                {{/allParams}}
+                {{/isMultipart}}
+                const options = {
+                    url: utils.replacePathParameters('{{basePath}}{{path}}'),
+                    method: '{{httpMethod}}',
+                    removeMissingValuesFrom: { params: true, body: true },
+                    headers: {
+                        'Authorization': 'Bearer {{=<% %>=}}{{bundle.authData.access_token}}<%={{ }}=%>',
+                        {{^isMultipart}}'Content-Type': '{{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}',{{/isMultipart}}
+                        'Accept': '{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}',
+                    },
+                    params: {
+                    {{#allParams}}
+                    {{#isQueryParam}}
+                        '{{baseName}}': bundle.inputData?.['{{baseName}}'],
+                    {{/isQueryParam}}
+                    {{/allParams}}
+                    },
+                    body: {{#isMultipart}}formData,{{/isMultipart}}{{^isMultipart}}{
+                    {{#allParams}}
+                    {{#isBodyParam}}
+                        {{#isPrimitiveType}}'{{baseName}}': bundle.inputData?.['{{baseName}}']{{/isPrimitiveType}}{{^isPrimitiveType}}...{{baseName}}.mapping(bundle){{/isPrimitiveType}},
+                    {{/isBodyParam}}
+                    {{/allParams}}
+                    },{{/isMultipart}}
+                }
+                return z.request(options).then((response) => {
+                    response.throwForStatus();
+                    const results = response.json;
+                    return {{#returnType}}{{#returnTypeIsPrimitive}}{ data: results }{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}results{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}results{{/returnType}};
+                })
+            },
+            sample: {{#returnType}}{{^returnTypeIsPrimitive}}{{#responses}}{{#is2xx}}{{#baseType}}samples['{{baseType}}Sample']{{/baseType}}{{/is2xx}}{{/responses}}{{/returnTypeIsPrimitive}}{{#returnTypeIsPrimitive}}{ data: {} }{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}{ data: {} }{{/returnType}}
+        }
+    },
+{{/operation}}
+}
+{{/operations}}

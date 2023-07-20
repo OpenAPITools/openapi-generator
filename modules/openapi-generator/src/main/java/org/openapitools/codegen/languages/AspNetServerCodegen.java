@@ -338,7 +338,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
-        super.updateCodegenParameterEnum(parameter, model);
+        super.updateCodegenParameterEnumLegacy(parameter, model);
 
         if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
             parameter.dataType = parameter.dataType + "?";
@@ -590,6 +590,15 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         return escapeText(pattern);
     }
 
+    @Override
+    protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
+        super.patchProperty(enumRefs, model, property);
+
+        if (!property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
+            property.vendorExtensions.put("x-csharp-value-type", true);
+        }
+    }
+
     @SuppressWarnings("rawtypes")
     @Override
     public String getNullableType(Schema p, String type) {
@@ -602,6 +611,11 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         } else {
             return null;
         }
+    }
+
+    @Override
+    protected void patchVendorExtensionNullableValueType(CodegenParameter parameter) {
+        super.patchVendorExtensionNullableValueTypeLegacy(parameter);
     }
 
     private void setCliOption(CliOption cliOption) throws IllegalArgumentException {

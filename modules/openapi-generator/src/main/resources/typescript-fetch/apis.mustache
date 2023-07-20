@@ -128,7 +128,7 @@ export class {{classname}} extends runtime.BaseAPI {
             {{/isDateTimeType}}
             {{^isDateTimeType}}
             {{#isDateType}}
-            queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString().substr(0,10);
+            queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString().substring(0,10);
             {{/isDateType}}
             {{^isDateType}}
             queryParameters['{{baseName}}'] = requestParameters.{{paramName}};

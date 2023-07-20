@@ -24,14 +24,14 @@ class Pet
     public string|null $name = null;
 
     #[DTA\Data(field: "photoUrls")]
-    #[DTA\Strategy("Object", ["type" => \App\DTO\Collection32::class])]
-    #[DTA\Validator("TypeCompliant", ["type" => \App\DTO\Collection32::class])]
-    public \App\DTO\Collection32|null $photo_urls = null;
+    #[DTA\Strategy("Object", ["type" => \App\DTO\Collection::class])]
+    #[DTA\Validator("TypeCompliant", ["type" => \App\DTO\Collection::class])]
+    public \App\DTO\Collection|null $photo_urls = null;
 
     #[DTA\Data(field: "tags", nullable: true)]
-    #[DTA\Strategy("Object", ["type" => \App\DTO\Collection33::class])]
-    #[DTA\Validator("TypeCompliant", ["type" => \App\DTO\Collection33::class])]
-    public \App\DTO\Collection33|null $tags = null;
+    #[DTA\Strategy("Object", ["type" => \App\DTO\Collection1::class])]
+    #[DTA\Validator("TypeCompliant", ["type" => \App\DTO\Collection1::class])]
+    public \App\DTO\Collection1|null $tags = null;
 
     /**
      * pet status in the store

@@ -108,7 +108,7 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("function.mustache", ".cs");
 
-        embeddedTemplateDir = templateDir = "csharp-netcore-functions";
+        embeddedTemplateDir = templateDir = "csharp-functions";
 
         // contextually reserved words
         // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
@@ -287,8 +287,17 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
+    protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
+        super.patchProperty(enumRefs, model, property);
+
+        if (!property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
+            property.vendorExtensions.put("x-csharp-value-type", true);
+        }
+    }
+
+    @Override
     protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
-        super.updateCodegenParameterEnum(parameter, model);
+        super.updateCodegenParameterEnumLegacy(parameter, model);
 
         if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
             parameter.dataType = parameter.dataType + "?";
@@ -302,7 +311,7 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String getName() {
-        return "csharp-netcore-functions";
+        return "csharp-functions";
     }
 
     @Override
@@ -508,6 +517,11 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         } else {
             return null;
         }
+    }
+
+    @Override
+    protected void patchVendorExtensionNullableValueType(CodegenParameter parameter) {
+        super.patchVendorExtensionNullableValueTypeLegacy(parameter);
     }
 
     private void setCliOption(CliOption cliOption) throws IllegalArgumentException {
