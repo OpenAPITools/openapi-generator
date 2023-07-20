@@ -1,3 +1,0 @@
-Status code: 501 NOT_IMPLEMENTED
-Reason: Not implemented
-Response headers: [Connection:"close"]

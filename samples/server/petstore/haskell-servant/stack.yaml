@@ -1,8 +1,0 @@
-resolver: lts-19.2
-extra-deps: []
-packages:
-- '.'
-nix:
-  enable: false
-  packages:
-    - zlib

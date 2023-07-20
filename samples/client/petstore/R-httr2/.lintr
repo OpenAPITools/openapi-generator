@@ -1,7 +1,0 @@
-linters: linters_with_defaults(
-   line_length_linter(160),
-   object_name_linter = NULL,
-   cyclocomp_linter = NULL
- )
-exclusions: list(
- )
