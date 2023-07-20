@@ -6,7 +6,11 @@ defmodule PetTest do
   alias OpenapiPetstore.Model.Category
   alias OpenapiPetstore.Model.Tag
 
-  test "add and delete a pet" do
+  setup do
+    %{connection: Connection.new(base_url: "https://petstore.swagger.io/v2")}
+  end
+
+  test "add and delete a pet", %{connection: connection} do
     petId = 10007
 
     pet = %Pet{
@@ -17,23 +21,23 @@ defmodule PetTest do
       :tags => [%Tag{:id => petId, :name => "test elixir tag"}]
     }
 
-    {:ok, %Tesla.Env{} = response} = PetApi.add_pet(Connection.new(), pet)
+    {:ok, %Tesla.Env{} = response} = PetApi.add_pet(connection, pet)
     assert response.status == 200
 
-    {:ok, pet} = PetApi.get_pet_by_id(Connection.new(), petId)
+    {:ok, pet} = PetApi.get_pet_by_id(connection, petId)
     assert pet.id == petId
     assert pet.name == "elixir client test"
     assert pet.photoUrls == ["http://test_elixir_unit_test.com"]
     assert pet.category == %Category{id: petId, name: "test elixir category"}
     assert pet.tags == [%Tag{:id => petId, :name => "test elixir tag"}]
 
-    {:ok, response} = PetApi.delete_pet(Connection.new(), petId)
+    {:ok, response} = PetApi.delete_pet(connection, petId)
     assert response.status == 200
-    {:ok, response} = PetApi.get_pet_by_id(Connection.new(), petId)
+    {:ok, response} = PetApi.get_pet_by_id(connection, petId)
     assert response.status == 404
   end
 
-  test "update a pet" do
+  test "update a pet", %{connection: connection} do
     petId = 10007
 
     pet = %Pet{
@@ -43,20 +47,20 @@ defmodule PetTest do
       :photoUrls => ["http://test_elixir_unit_test.com"]
     }
 
-    {:ok, response} = PetApi.update_pet(Connection.new(), pet)
+    {:ok, response} = PetApi.update_pet(connection, pet)
     assert response.status == 200
 
-    {:ok, pet} = PetApi.get_pet_by_id(Connection.new(), petId)
+    {:ok, pet} = PetApi.get_pet_by_id(connection, petId)
     assert pet.id == petId
     assert pet.name == "elixir client updatePet"
     assert pet.status == "pending"
   end
 
-  test "find pet by status" do
-    {:ok, listPets} = PetApi.find_pets_by_status(Connection.new(), "available")
+  test "find pet by status", %{connection: connection} do
+    {:ok, listPets} = PetApi.find_pets_by_status(connection, "available")
     assert List.first(listPets) != nil
 
-    {:ok, listPets} = PetApi.find_pets_by_status(Connection.new(), "unknown_and_incorrect_status")
+    {:ok, listPets} = PetApi.find_pets_by_status(connection, "unknown_and_incorrect_status")
     assert List.first(listPets) == nil
   end
 end
