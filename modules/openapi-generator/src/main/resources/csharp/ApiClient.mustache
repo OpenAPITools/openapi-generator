@@ -37,7 +37,6 @@ namespace {{packageName}}.Client
     internal class CustomJsonCodec : IRestSerializer, ISerializer, IDeserializer
     {
         private readonly IReadableConfiguration _configuration;
-        private static ContentType _contentType => RestSharp.ContentType.Json;
         private readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
         {
             // OpenAPI generated types generally hide default constructors.
@@ -156,11 +155,7 @@ namespace {{packageName}}.Client
             contentType.Value.EndsWith("json", StringComparison.InvariantCultureIgnoreCase) ||
             contentType.Value.EndsWith("javascript", StringComparison.InvariantCultureIgnoreCase);
 
-        public ContentType ContentType
-        {
-            get { return _contentType; }
-            set { throw new InvalidOperationException("Not allowed to set content type."); }
-        }
+        public ContentType ContentType { get; set; } = RestSharp.ContentType.Json;
 
         public DataFormat DataFormat => DataFormat.Json;
     }
