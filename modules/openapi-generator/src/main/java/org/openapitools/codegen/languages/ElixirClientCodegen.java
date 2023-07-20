@@ -574,10 +574,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
             return "String.t";
         } else if (ModelUtils.isBooleanSchema(p)) {
             return "boolean()";
-        } else if (ModelUtils.isStringSchema(p)) {
-            return "String.t";
-        } else if (ModelUtils.isFileSchema(p)) {
-            return "String.t";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
             switch (super.getTypeDeclaration(p)) {
                 case "String":
@@ -585,6 +581,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 default:
                     return this.moduleName + ".Model." + super.getTypeDeclaration(p) + ".t";
             }
+        } else if (ModelUtils.isFileSchema(p)) {
+            return "String.t";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return "String.t";
         } else if (p.getType() == null) {
             return "any()";
         }
