@@ -2596,6 +2596,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         String camelizedName = camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
+        camelizedName = camelizedName.replace("Inner", ""); // removes 'Inner' from the model
+
         schemaKeyToModelNameCache.put(name, camelizedName);
         return camelizedName;
     }
