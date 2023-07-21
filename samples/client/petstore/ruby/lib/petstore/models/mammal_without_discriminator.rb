@@ -90,7 +90,7 @@ module Petstore
               # raise if data contains keys that are not known to the model
               raise unless (data.keys - const.acceptable_attributes).empty?
               model = const.build_from_hash(data)
-              return model if model && model.valid?
+              return model if model
             end
           end
         end
