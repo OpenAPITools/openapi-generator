@@ -1961,6 +1961,10 @@ components:
       enum:
         - admin
         - user
+    mammal_anyof:
+      anyOf:
+        - $ref: '#/components/schemas/whale'
+        - $ref: '#/components/schemas/zebra'
     mammal_without_discriminator:
       oneOf:
         - $ref: '#/components/schemas/whale'
