@@ -192,6 +192,7 @@ Class | Method | HTTP request | Description
  - [ParentWithOptionalDict](docs/ParentWithOptionalDict.md)
  - [Pet](docs/Pet.md)
  - [Pig](docs/Pig.md)
+ - [PropertyNameCollision](docs/PropertyNameCollision.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SecondRef](docs/SecondRef.md)
  - [SelfReferenceModel](docs/SelfReferenceModel.md)

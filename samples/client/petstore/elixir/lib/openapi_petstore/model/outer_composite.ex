@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.OuterComposite do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :my_number,
     :my_string,
@@ -18,10 +18,8 @@ defmodule OpenapiPetstore.Model.OuterComposite do
     :my_string => String.t | nil,
     :my_boolean => boolean() | nil
   }
-end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.OuterComposite do
-  def decode(value, _options) do
+  def decode(value) do
     value
   end
 end

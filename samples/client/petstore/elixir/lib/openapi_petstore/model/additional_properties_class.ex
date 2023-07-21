@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.AdditionalPropertiesClass do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :map_property,
     :map_of_map_property
@@ -16,10 +16,8 @@ defmodule OpenapiPetstore.Model.AdditionalPropertiesClass do
     :map_property => %{optional(String.t) => String.t} | nil,
     :map_of_map_property => %{optional(String.t) => %{optional(String.t) => String.t}} | nil
   }
-end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.AdditionalPropertiesClass do
-  def decode(value, _options) do
+  def decode(value) do
     value
   end
 end

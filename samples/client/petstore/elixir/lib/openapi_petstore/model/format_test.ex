@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.FormatTest do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :integer,
     :int32,
@@ -44,13 +44,13 @@ defmodule OpenapiPetstore.Model.FormatTest do
     :pattern_with_digits => String.t | nil,
     :pattern_with_digits_and_delimiter => String.t | nil
   }
-end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.FormatTest do
-  import OpenapiPetstore.Deserializer
-  def decode(value, options) do
+  alias OpenapiPetstore.Deserializer
+
+  def decode(value) do
     value
-    |> deserialize(:date, :date, nil, options)
+     |> Deserializer.deserialize(:date, :date, nil)
+     |> Deserializer.deserialize(:dateTime, :datetime, nil)
   end
 end
 

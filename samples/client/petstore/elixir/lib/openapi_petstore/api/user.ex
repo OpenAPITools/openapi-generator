@@ -159,7 +159,7 @@ defmodule OpenapiPetstore.Api.User do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.User{}},
+      {200, OpenapiPetstore.Model.User},
       {400, false},
       {404, false}
     ])

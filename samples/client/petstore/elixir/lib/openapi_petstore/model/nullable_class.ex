@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.NullableClass do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :integer_prop,
     :number_prop,
@@ -36,13 +36,13 @@ defmodule OpenapiPetstore.Model.NullableClass do
     :object_and_items_nullable_prop => %{optional(String.t) => map()} | nil,
     :object_items_nullable => %{optional(String.t) => map()} | nil
   }
-end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.NullableClass do
-  import OpenapiPetstore.Deserializer
-  def decode(value, options) do
+  alias OpenapiPetstore.Deserializer
+
+  def decode(value) do
     value
-    |> deserialize(:date_prop, :date, nil, options)
+     |> Deserializer.deserialize(:date_prop, :date, nil)
+     |> Deserializer.deserialize(:datetime_prop, :datetime, nil)
   end
 end
 

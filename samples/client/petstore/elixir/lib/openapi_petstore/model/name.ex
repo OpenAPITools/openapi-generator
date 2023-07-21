@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.Name do
   Model for testing model name same as property name
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :name,
     :snake_case,
@@ -20,10 +20,8 @@ defmodule OpenapiPetstore.Model.Name do
     :property => String.t | nil,
     :"123Number" => integer() | nil
   }
-end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.Name do
-  def decode(value, _options) do
+  def decode(value) do
     value
   end
 end

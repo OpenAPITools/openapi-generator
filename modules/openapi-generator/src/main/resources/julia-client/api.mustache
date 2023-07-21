@@ -22,7 +22,7 @@ const _returntypes_{{operationId}}_{{classname}} = Dict{Regex,Type}(
     {{/responses}}
 )
 
-function _oacinternal_{{operationId}}(_api::{{classname}}{{#allParams}}{{#required}}, {{paramName}}::{{dataType}}{{/required}}{{/allParams}};{{#allParams}}{{^required}} {{paramName}}=nothing,{{/required}}{{/allParams}} _mediaType=nothing)
+function _oacinternal_{{operationId}}(_api::{{classname}}{{#allParams}}{{#required}}, {{paramName}}::{{#dataType}}{{#isBinary}}Vector{UInt8}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}{{/dataType}}{{/required}}{{/allParams}};{{#allParams}}{{^required}} {{paramName}}=nothing,{{/required}}{{/allParams}} _mediaType=nothing)
 {{#allParams}}
 {{#hasValidation}}
 {{#maxLength}}
@@ -61,7 +61,7 @@ function _oacinternal_{{operationId}}(_api::{{classname}}{{#allParams}}{{#requir
     OpenAPI.Clients.set_param(_ctx.form, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{paramName}}{{#isListContainer}}; collection_format="{{collectionFormat}}"{{/isListContainer}})  # type {{dataType}}
 {{/isFile}}
 {{#isFile}}
-    OpenAPI.Clients.set_param(_ctx.file, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{paramName}})  # type {{dataType}}
+    OpenAPI.Clients.set_param(_ctx.file, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{paramName}})  # type {{#dataType}}{{#isBinary}}Vector{UInt8}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}{{/dataType}}
 {{/isFile}}
 {{/formParams}}
     OpenAPI.Clients.set_header_accept(_ctx, [{{#produces}}"{{{mediaType}}}", {{/produces}}])
