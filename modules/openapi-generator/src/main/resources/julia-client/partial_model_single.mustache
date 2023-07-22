@@ -3,7 +3,7 @@
 
     {{classname}}(;
 {{#allVars}}
-        {{{name}}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}nothing{{/defaultValue}},
+        {{{name}}}={{#defaultValue}}{{#isString}}{{{defaultValue}}}{{/isString}}{{^isString}}{{{defaultValue}}}{{/isString}}{{/defaultValue}}{{^defaultValue}}nothing{{/defaultValue}},
 {{/allVars}}
     )
 
