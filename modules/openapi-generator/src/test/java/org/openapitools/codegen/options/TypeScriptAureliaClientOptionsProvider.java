@@ -39,6 +39,7 @@ public class TypeScriptAureliaClientOptionsProvider implements OptionsProvider {
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
+    public static final String ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_VALUE = "false";
 
     @Override
     public String getLanguage() {
@@ -56,6 +57,7 @@ public class TypeScriptAureliaClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.PARAM_NAMING, PARAM_NAMING_VALUE)
                 .put(CodegenConstants.SUPPORTS_ES6, String.valueOf(SUPPORTS_ES6_VALUE))
                 .put(AbstractTypeScriptClientCodegen.NULL_SAFE_ADDITIONAL_PROPS, String.valueOf(NULL_SAFE_ADDITIONAL_PROPS_VALUE))
+                .put(AbstractTypeScriptClientCodegen.ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR, ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_VALUE)
                 .put(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX)
                 .put(TypeScriptAureliaClientCodegen.NPM_NAME, NPM_NAME)
                 .put(TypeScriptAureliaClientCodegen.NPM_VERSION, NPM_VERSION)
