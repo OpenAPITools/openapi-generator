@@ -149,6 +149,8 @@ public interface CodegenConfig {
 
     Map<String, String> nameMapping();
 
+    Map<String, String> parameterNameMapping();
+
     Map<String, String> openapiNormalizer();
 
     Map<String, String> apiTemplateFiles();
