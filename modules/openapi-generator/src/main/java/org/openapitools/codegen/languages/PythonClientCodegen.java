@@ -180,6 +180,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 .defaultValue("%Y-%m-%dT%H:%M:%S%z"));
         cliOptions.add(new CliOption(DATE_FORMAT, "date format for query parameters")
                 .defaultValue("%Y-%m-%d"));
+        cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "asyncio-based client");
