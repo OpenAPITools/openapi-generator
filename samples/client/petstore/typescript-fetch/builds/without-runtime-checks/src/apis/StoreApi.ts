@@ -48,12 +48,16 @@ export class StoreApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
+
+
+
+        const request: runtime.RequestOpts = {
             path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -79,12 +83,16 @@ export class StoreApi extends runtime.BaseAPI {
             headerParameters["api_key"] = this.configuration.apiKey("api_key"); // api_key authentication
         }
 
-        const response = await this.request({
+
+
+
+        const request: runtime.RequestOpts = {
             path: `/store/inventory`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -111,12 +119,16 @@ export class StoreApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
+
+
+
+        const request: runtime.RequestOpts = {
             path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response);
     }
@@ -144,13 +156,18 @@ export class StoreApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
+
+
+        const body: any = requestParameters.body;
+
+        const request: runtime.RequestOpts = {
             path: `/store/order`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.body,
-        }, initOverrides);
+            body: body,
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response);
     }

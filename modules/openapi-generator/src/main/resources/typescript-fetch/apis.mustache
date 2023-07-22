@@ -258,40 +258,73 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isArray}}
         {{/formParams}}
         {{/hasFormParams}}
-        const response = await this.request({
+
+
+        {{#hasBodyParam}}
+        {{#bodyParam}}
+        {{#isContainer}}
+        {{^withoutRuntimeChecks}}
+        const body: any = requestParameters.{{paramName}}{{#isArray}}{{#items}}{{^isPrimitiveType}}.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isArray}};
+        {{/withoutRuntimeChecks}}
+        {{#withoutRuntimeChecks}}
+        const body: any = requestParameters.{{paramName}};
+        {{/withoutRuntimeChecks}}
+        {{/isContainer}}
+        {{^isContainer}}
+        {{^isPrimitiveType}}
+        {{^withoutRuntimeChecks}}
+        const body: any = {{dataType}}ToJSON(requestParameters.{{paramName}});
+        {{/withoutRuntimeChecks}}
+        {{#withoutRuntimeChecks}}
+        const body: any = requestParameters.{{paramName}};
+        {{/withoutRuntimeChecks}}
+        {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+        const body: any = requestParameters.{{paramName}} as any;
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{/bodyParam}}
+        {{/hasBodyParam}}
+        {{#hasFormParams}}
+        const body: any = formParams;
+        {{/hasFormParams}}
+
+        const request: runtime.RequestOpts = {
             path: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
             method: '{{httpMethod}}',
             headers: headerParameters,
             query: queryParameters,
             {{#hasBodyParam}}
-            {{#bodyParam}}
-            {{#isContainer}}
-            {{^withoutRuntimeChecks}}
-            body: requestParameters.{{paramName}}{{#isArray}}{{#items}}{{^isPrimitiveType}}.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isArray}},
-            {{/withoutRuntimeChecks}}
-            {{#withoutRuntimeChecks}}
-            body: requestParameters.{{paramName}},
-            {{/withoutRuntimeChecks}}
-            {{/isContainer}}
-            {{^isContainer}}
-            {{^isPrimitiveType}}
-            {{^withoutRuntimeChecks}}
-            body: {{dataType}}ToJSON(requestParameters.{{paramName}}),
-            {{/withoutRuntimeChecks}}
-            {{#withoutRuntimeChecks}}
-            body: requestParameters.{{paramName}},
-            {{/withoutRuntimeChecks}}
-            {{/isPrimitiveType}}
-            {{#isPrimitiveType}}
-            body: requestParameters.{{paramName}} as any,
-            {{/isPrimitiveType}}
-            {{/isContainer}}
-            {{/bodyParam}}
+            body: body,
             {{/hasBodyParam}}
             {{#hasFormParams}}
-            body: formParams,
+            body: body,
             {{/hasFormParams}}
-        }, initOverrides);
+        }
+        {{#withAWSV4Signature}}
+        if (this.configuration && this.configuration.awsV4SignerParameters) {
+            const SignUrl = this.configuration.basePath + request.path;
+            {{#bodyParam}}
+            {{#hasBodyParam}}
+            {{^withoutRuntimeChecks}}
+            const SignBody = JSON.stringify(request.body);
+            {{/withoutRuntimeChecks}}
+            {{#withoutRuntimeChecks}}
+            const SignBody = request.body;
+            {{/withoutRuntimeChecks}}
+            {{/hasBodyParam}}
+            {{/bodyParam}}
+            {{^bodyParam}}
+            const SignBody = null;
+            {{/bodyParam}}
+            const signer = new runtime.AwsV4Signer(this.configuration.awsV4SignerParameters);
+            const signResult = await signer.sign('{{httpMethod}}', SignUrl, headerParameters, SignBody);
+            //request.url = signResult.url;
+            //request.method = signResult.method;
+            request.headers = signResult.headers;
+        }
+        {{/withAWSV4Signature}}
+        const response = await this.request(request, initOverrides);
 
         {{#returnType}}
         {{#isResponseFile}}

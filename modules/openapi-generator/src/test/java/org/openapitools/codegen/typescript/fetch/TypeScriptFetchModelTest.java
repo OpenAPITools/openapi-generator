@@ -471,13 +471,13 @@ public class TypeScriptFetchModelTest {
         Assert.assertEquals(schemaBefore.keySet(), Sets.newHashSet("club", "owner"));
     }
 
-    @Test(description = "Don't generate new schemas for nullable references")
-    public void testNestedNullableSchemas() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf-nullable.yaml");
+    @Test(description = "Don't add AWSv4 signature support by default")
+    public void testWithoutAWSV4SignatureAdditionalProps() {
+        final Schema model = new Schema()
+                .additionalProperties(new StringSchema());
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.additionalProperties().put("withAWSV4Signature", false);
         codegen.processOpts();
-        codegen.setOpenAPI(openAPI);
-        final Map<String, Schema> schemaBefore = openAPI.getComponents().getSchemas();
-        Assert.assertEquals(schemaBefore.keySet(), Sets.newHashSet("club", "owner"));
+        Assert.assertEquals(codegen.getTypeDeclaration(model), "{ [key: string]: string; }");
     }
 }

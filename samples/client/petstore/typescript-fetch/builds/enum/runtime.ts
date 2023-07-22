@@ -13,6 +13,7 @@
  */
 
 
+
 export const BASE_PATH = "http://localhost:3000".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
@@ -27,6 +28,7 @@ export interface ConfigurationParameters {
     headers?: HTTPHeaders; //header params we want to use on every request
     credentials?: RequestCredentials; //value for the credentials param we want to use on each request
 }
+
 
 export class Configuration {
     constructor(private configuration: ConfigurationParameters = {}) {}

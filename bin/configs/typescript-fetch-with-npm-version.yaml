@@ -6,4 +6,3 @@ additionalProperties:
   npmVersion: 1.0.0
   npmName: '@openapitools/typescript-fetch-petstore'
   npmRepository: https://skimdb.npmjs.com/registry
-  snapshot: false

@@ -23,6 +23,9 @@
   },
 {{/packageAsSourceOnlyLibrary}}
   "devDependencies": {
+{{#withAWSV4Signature}}
+    "aws4fetch": "^1.0.13"
+{{/withAWSV4Signature}}
 {{#sagasAndRecords}}
     "immutable": "^4.0.0-rc.12",
     "normalizr": "^3.6.1",

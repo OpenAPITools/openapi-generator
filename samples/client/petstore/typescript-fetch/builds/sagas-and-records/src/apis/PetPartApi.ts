@@ -55,12 +55,16 @@ export class PetPartApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
+
+
+
+        const request: runtime.RequestOpts = {
             path: `/fake_petParts/{fake_petPart-id}/part-type`.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters.fakePetPartId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetPetPartTypeResponseFromJSON(jsonValue));
     }
@@ -117,12 +121,16 @@ export class PetPartApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
+
+
+
+        const request: runtime.RequestOpts = {
             path: `/fake_petParts/{fake_petPart-id}/matching-parts`.replace(`{${"fake_petPart-id"}}`, encodeURIComponent(String(requestParameters.fakePetPartId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetMatchingPartsResponseFromJSON(jsonValue));
     }

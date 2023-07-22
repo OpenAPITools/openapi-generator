@@ -50,13 +50,18 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
             queryParameters["api_key_query"] = this.configuration.apiKey("api_key_query"); // api_key_query authentication
         }
 
-        const response = await this.request({
+
+
+        const body: any = ClientToJSON(requestParameters.client);
+
+        const request: runtime.RequestOpts = {
             path: `/fake_classname_test`,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: ClientToJSON(requestParameters.client),
-        }, initOverrides);
+            body: body,
+        }
+        const response = await this.request(request, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClientFromJSON(jsonValue));
     }

@@ -41,6 +41,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |stringEnums|Generate string enums instead of objects for enum values.| |false|
 |supportsES6|Generate code that conforms to ES6.| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |true|
+|withAWSV4Signature|whether to include AWS v4 signature support| |false|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
 |withoutRuntimeChecks|Setting this property to true will remove any runtime checks on the request and response payloads. Payloads will be casted to their expected types.| |false|
 

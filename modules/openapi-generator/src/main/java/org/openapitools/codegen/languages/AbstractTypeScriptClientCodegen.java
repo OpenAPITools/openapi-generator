@@ -245,6 +245,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected HashSet<String> languageGenericTypes;
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
+    protected Boolean withAWSV4Signature = false;
 
     protected String enumSuffix = "Enum";
 
@@ -403,6 +404,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         if (additionalProperties.containsKey(NPM_NAME)) {
             this.setNpmName(additionalProperties.get(NPM_NAME).toString());
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT)) {
+            this.setWithAWSV4Signature(Boolean.valueOf(additionalProperties.get(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT).toString()));
         }
     }
 
@@ -1011,6 +1016,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     public void setNpmVersion(String npmVersion) {
         this.npmVersion = npmVersion;
+    }
+
+    public Boolean getWithAWSV4Signature() {
+        return this.withAWSV4Signature;
+    }
+
+    public void setWithAWSV4Signature(Boolean withAWSV4Signature) {
+        this.withAWSV4Signature = withAWSV4Signature;
     }
 
     private void setDiscriminatorValue(CodegenModel model, String baseName, String value) {
