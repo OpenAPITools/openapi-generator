@@ -1359,7 +1359,7 @@ public class JavaClientCodegenTest {
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java"),
-                "public static String urlEncode(String s) { return URLEncoder.encode(s, UTF_8).replaceAll(\"\\\\+\", \"%2B\"); }");
+                "public static String urlEncode(String s) { return URLEncoder.encode(s, UTF_8).replaceAll(\"\\\\+\", \"%20\"); }");
     }
 
     /**
