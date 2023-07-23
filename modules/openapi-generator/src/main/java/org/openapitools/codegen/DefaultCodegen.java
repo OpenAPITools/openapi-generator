@@ -240,7 +240,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected String httpUserAgent;
     protected Boolean hideGenerationTimestamp = true;
     // How to encode special characters like $
-    // They are translated to words like "Dollar" and prefixed with '
+    // They are translated to words like "Dollar"
     // Then translated back during JSON encoding and decoding
     protected Map<String, String> specialCharReplacements = new LinkedHashMap<>();
     // When a model is an alias for a simple type
