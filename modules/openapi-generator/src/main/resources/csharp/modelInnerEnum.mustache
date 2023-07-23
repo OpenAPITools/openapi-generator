@@ -77,7 +77,7 @@
         public static {{>EnumValueDataType}} {{datatypeWithEnum}}ToJsonValue({{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} value)
         {
             {{^isString}}
-            return (int) value;
+            return ({{>EnumValueDataType}}) value;
             {{/isString}}
             {{#isString}}
             {{#allowableValues}}
