@@ -3,12 +3,12 @@ name: Samples Rust
 on:
   push:
     paths:
-      - "samples/client/other/rust/**"
+      - "samples/client/others/rust/**"
       - "samples/server/petstore/rust-server/**"
       - "samples/client/petstore/rust-server/**"
   pull_request:
     paths:
-      - "samples/client/other/rust/**"
+      - "samples/client/others/rust/**"
       - "samples/client/petstore/rust/**"
       - "samples/server/petstore/rust-server/**"
 
@@ -21,7 +21,7 @@ jobs:
       matrix:
         sample:
           # these folders contain sub-projects of rust clients, servers
-          - samples/client/other/rust/
+          - samples/client/others/rust/
           - samples/client/petstore/rust/
           - samples/server/petstore/rust-server/
     steps:
