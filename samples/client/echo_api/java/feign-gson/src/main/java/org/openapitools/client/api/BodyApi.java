@@ -73,6 +73,35 @@ public interface BodyApi extends ApiClient.Api {
 
 
   /**
+   * Test array of binary in multipart mime
+   * Test array of binary in multipart mime
+   * @param files  (required)
+   * @return String
+   */
+  @RequestLine("POST /body/application/octetstream/array_of_binary")
+  @Headers({
+    "Content-Type: multipart/form-data",
+    "Accept: text/plain",
+  })
+  String testBodyMultipartFormdataArrayOfBinary(@Param("files") List<File> files);
+
+  /**
+   * Test array of binary in multipart mime
+   * Similar to <code>testBodyMultipartFormdataArrayOfBinary</code> but it also returns the http response headers .
+   * Test array of binary in multipart mime
+   * @param files  (required)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("POST /body/application/octetstream/array_of_binary")
+  @Headers({
+    "Content-Type: multipart/form-data",
+    "Accept: text/plain",
+  })
+  ApiResponse<String> testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(@Param("files") List<File> files);
+
+
+
+  /**
    * Test free form object
    * Test free form object
    * @param body Free form object (optional)
