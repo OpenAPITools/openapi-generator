@@ -164,8 +164,10 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> inlineSchemaNameMapping = new HashMap<>();
     // a map to store the inline schema naming conventions
     protected Map<String, String> inlineSchemaOption = new HashMap<>();
-    // a map to store the mapping between property, parameter name and the name provided by the user
+    // a map to store the mapping between property name and the name provided by the user
     protected Map<String, String> nameMapping = new HashMap<>();
+    // a map to store the mapping between parameter name and the name provided by the user
+    protected Map<String, String> parameterNameMapping = new HashMap<>();
     // a map to store the rules in OpenAPI Normalizer
     protected Map<String, String> openapiNormalizer = new HashMap<>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
@@ -1204,6 +1206,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, String> nameMapping() {
         return nameMapping;
+    }
+
+    @Override
+    public Map<String, String> parameterNameMapping() {
+        return parameterNameMapping;
     }
 
     @Override
