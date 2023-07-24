@@ -2,8 +2,17 @@ generatorName: go
 outputDir: samples/openapi3/client/petstore/go/go-petstore
 inputSpec: modules/openapi-generator/src/test/resources/3_0/go/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
 templateDir: modules/openapi-generator/src/main/resources/go
+nameMappings:
+  _type: UnderscoreType
+  type_: TypeWithUnderscore
+  http_debug_operation: HTTPDebugOperation
+parameterNameMappings:
+  _type: underscoreType
+  type_: typeWithUnderscore
+  http_debug_operation: httpDebugOperation
 additionalProperties:
   enumClassPrefix: "true"
   packageName: petstore
   disallowAdditionalPropertiesIfNotPresent: false
   generateInterfaces: true
+

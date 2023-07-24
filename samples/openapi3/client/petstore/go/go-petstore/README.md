@@ -85,6 +85,7 @@ Class | Method | HTTP request | Description
 *FakeAPI* | [**FakeOuterCompositeSerialize**](docs/FakeAPI.md#fakeoutercompositeserialize) | **Post** /fake/outer/composite | 
 *FakeAPI* | [**FakeOuterNumberSerialize**](docs/FakeAPI.md#fakeouternumberserialize) | **Post** /fake/outer/number | 
 *FakeAPI* | [**FakeOuterStringSerialize**](docs/FakeAPI.md#fakeouterstringserialize) | **Post** /fake/outer/string | 
+*FakeAPI* | [**GetParameterNameMapping**](docs/FakeAPI.md#getparameternamemapping) | **Get** /fake/parameter-name-mapping | parameter name mapping test
 *FakeAPI* | [**TestBodyWithFileSchema**](docs/FakeAPI.md#testbodywithfileschema) | **Put** /fake/body-with-file-schema | 
 *FakeAPI* | [**TestBodyWithQueryParams**](docs/FakeAPI.md#testbodywithqueryparams) | **Put** /fake/body-with-query-params | 
 *FakeAPI* | [**TestClientModel**](docs/FakeAPI.md#testclientmodel) | **Patch** /fake | To test \&quot;client\&quot; model
@@ -175,6 +176,7 @@ Class | Method | HTTP request | Description
  - [OuterEnumInteger](docs/OuterEnumInteger.md)
  - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [Pet](docs/Pet.md)
+ - [PropertyNameMapping](docs/PropertyNameMapping.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [ReadOnlyWithDefault](docs/ReadOnlyWithDefault.md)
  - [Return](docs/Return.md)
