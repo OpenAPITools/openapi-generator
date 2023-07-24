@@ -3,7 +3,7 @@
 
 
 @doc raw"""
-Encapsulates generated server code for PetStoreServer
+Encapsulates generated server code for OpenAPIGenPetStoreServer
 
 The following server methods must be implemented:
 
@@ -68,7 +68,7 @@ The following server methods must be implemented:
     - *invocation:* PUT /user/{username}
     - *signature:* update_user(req::HTTP.Request, username::String, user::User;) -> Nothing
 """
-module PetStoreServer
+module OpenAPIGenPetStoreServer
 
 using HTTP
 using URIs
@@ -120,4 +120,4 @@ export Pet
 export Tag
 export User
 
-end # module PetStoreServer
+end # module OpenAPIGenPetStoreServer
