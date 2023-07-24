@@ -375,7 +375,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return "[]" + typDecl;
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "[string]" +  getTypeDeclaration(unaliasSchema(inner));
+            return getSchemaType(p) + "[string]" + getTypeDeclaration(unaliasSchema(inner));
         }
 
         //return super.getTypeDeclaration(p);
@@ -652,7 +652,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
 
             List<CodegenProperty> codegenProperties = new ArrayList<>();
-            if(model.getComposedSchemas() == null || (model.getComposedSchemas() != null && model.getComposedSchemas().getAllOf() != null)) {
+            if (model.getComposedSchemas() == null || (model.getComposedSchemas() != null && model.getComposedSchemas().getAllOf() != null)) {
                 // If the model is an allOf or does not have any composed schemas, then we can use the model's properties.
                 codegenProperties.addAll(model.vars);
             } else {
