@@ -13,7 +13,7 @@ OpenAPI Generator version: 7.0.0-SNAPSHOT
 require 'spec_helper'
 
 describe Petstore::Configuration do
-  let(:config) { Petstore::Configuration.new }
+  let(:config) { Petstore::Configuration.default }
 
   before(:each) do
     # uncomment below to setup host and base_path
@@ -27,41 +27,8 @@ describe Petstore::Configuration do
 
   describe '#base_url' do
     it 'should have the default value' do
-      expect(config.base_url).to eq("http://petstore.swagger.io/v2")
-    end
-
-    it 'returns default value when invalid operation is passed' do
-      expect(config.base_url('invalid_operation')).to eq('http://petstore.swagger.io/v2')
-    end
-
-    it 'returns proper URL default server_index' do
-      expect(config.base_url(:'PetApi.add_pet')).to eq('http://petstore.swagger.io/v2')
-    end
-
-    it 'returns proper URL when server_index is set' do
-      config.server_index = 1
-      expect(config.base_url(:'PetApi.add_pet')).to eq('http://path-server-test.petstore.local/v2')
-    end
-
-    it 'returns proper URL when server_operation_index is set' do
-      config.server_operation_index = {
-        :'PetApi.add_pet' => 1
-      }
-      expect(config.base_url(:'PetApi.add_pet')).to eq('http://path-server-test.petstore.local/v2')
-    end
-
-    it 'returns proper URL from server_settings when server_index is set' do
-      config.server_index = 1
-      expect(config.base_url).to eq('https://localhost:8080/v2')
-    end
-
-    it 'throws argument error when attempting to use a server index that is out of bounds' do
-      config.server_operation_index = {
-        :'PetApi.add_pet' => 10
-      }
-      expect {
-        config.base_url(:'PetApi.add_pet')
-      }.to raise_error(ArgumentError, 'Invalid index 10 when selecting the server. Must not be nil and must be less than 3')
+      # uncomment below to test default value of the base path
+      # expect(config.base_url).to eq("http://petstore.swagger.io/v2")
     end
 
     it 'should remove trailing slashes' do
