@@ -39,7 +39,6 @@ commands: # a reusable command with parameters
           command: 'sudo docker info >/dev/null 2>&1 || sudo service docker start; '
       - run:
           command: |
-            sudo tee -a /etc/hosts \<<< "127.0.0.1       petstore.swagger.io"
             sudo tee -a /etc/hosts \<<< "127.0.0.1       path1.test.openapi-generator.tech"
             sudo tee -a /etc/hosts \<<< "127.0.0.1       path2.test.openapi-generator.tech"
             sudo tee -a /etc/hosts \<<< "127.0.0.111     path3.test.openapi-generator.tech"
@@ -49,6 +48,7 @@ commands: # a reusable command with parameters
             sudo tee -a /etc/hosts \<<< "127.0.0.1       server1.test.openapi-generator.tech"
             sudo tee -a /etc/hosts \<<< "127.0.0.1       server2.test.openapi-generator.tech"
             sudo tee -a /etc/hosts \<<< "127.0.0.111     server3.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       petstore.swagger.io"
             cat /etc/hosts
       #    - run: docker pull openapitools/openapi-petstore
       #    - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 80:8080 openapitools/openapi-petstore
