@@ -50,7 +50,7 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
 
     public static final String HTTP_SUPPORT_OPTION = "httpSupport";
     public static final String OPENAPI_PACKAGE_NAME_OPTION = "openApiName";
@@ -716,7 +716,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
             String dataType;
             if (p.vendorExtensions.containsKey(X_ADA_TYPE_NAME)) {
-                dataType = (String)p.vendorExtensions.get(X_ADA_TYPE_NAME);
+                dataType = (String) p.vendorExtensions.get(X_ADA_TYPE_NAME);
             } else {
                 CodegenProperty schema = p.getSchema();
                 if (schema != null) {
@@ -823,7 +823,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             }
             if ((depend == null ? 0 : depend.size()) != (second.depend == null ? 0 : second.depend.size())) {
                 LOGGER.debug("Compare " + name + " with " + second.name + "=D"
-                    + (depend.size() - second.depend.size()));
+                        + (depend.size() - second.depend.size()));
                 return depend.size() - second.depend.size();
             }
             LOGGER.debug("Compare " + name + " with " + second.name + "=<name>");
@@ -855,10 +855,10 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 String dataType = null;
                 String arrayDataType = null;
                 if (p.vendorExtensions.containsKey(X_ADA_TYPE_NAME)) {
-                    dataType = (String)p.vendorExtensions.get(X_ADA_TYPE_NAME);
+                    dataType = (String) p.vendorExtensions.get(X_ADA_TYPE_NAME);
                     LOGGER.info("Data type {} mapped to {}", p.dataType, dataType);
                 }
-                arrayDataType = (String)p.vendorExtensions.get(X_ADA_VECTOR_TYPE_NAME);
+                arrayDataType = (String) p.vendorExtensions.get(X_ADA_VECTOR_TYPE_NAME);
                 if (p.isContainer) {
                     item = p.items;
                 }
@@ -1010,7 +1010,9 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ADA; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.ADA;
+    }
 
     /**
      * Collect the scopes to generate a unique identifier for each of them.
