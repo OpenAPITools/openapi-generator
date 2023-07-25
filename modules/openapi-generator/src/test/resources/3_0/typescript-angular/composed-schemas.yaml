@@ -8,7 +8,21 @@ info:
     name: MIT
 servers:
   - url: http://api.example.xyz/v1
-paths: {}
+paths:
+  /pet/mapped:
+    get:
+      tags:
+        - pet
+      operationId: getPets
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PetWithMappedDiscriminator'
 
 components:
   schemas:

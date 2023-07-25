@@ -1,5 +1,5 @@
 generatorName: typescript-angular
-outputDir: samples/client/petstore/typescript-angular-models-tagged-unions/builds/default
+outputDir: samples/client/others/typescript-angular/builds/composed-schemas-tagged-unions
 inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-angular/composed-schemas.yaml
 templateDir: modules/openapi-generator/src/main/resources/typescript-angular
 additionalProperties:
@@ -7,5 +7,3 @@ additionalProperties:
   modelSuffix: Model
   enumSuffix: Enum
   taggedUnions: true
-globalProperties:
-  models: ""
