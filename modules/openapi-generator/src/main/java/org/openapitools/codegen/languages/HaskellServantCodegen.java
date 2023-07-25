@@ -326,7 +326,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             String c = (String) replacementChar;
             Map<String, Object> o = new HashMap<>();
             o.put("char", c);
-            o.put("replacement", "'" + specialCharReplacements.get(c));
+            o.put("replacement", specialCharReplacements.get(c));
             replacements.add(o);
         }
         additionalProperties.put("specialCharReplacements", replacements);

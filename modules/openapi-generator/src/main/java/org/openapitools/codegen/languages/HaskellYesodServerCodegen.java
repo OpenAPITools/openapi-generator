@@ -286,7 +286,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
             String c = (String) replacementChar;
             Map<String, Object> o = new HashMap<>();
             o.put("char", c);
-            o.put("replacement", "'" + specialCharReplacements.get(c));
+            o.put("replacement", specialCharReplacements.get(c));
             replacements.add(o);
         }
         additionalProperties.put("specialCharReplacements", replacements);
