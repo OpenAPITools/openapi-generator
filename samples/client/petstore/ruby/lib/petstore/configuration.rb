@@ -389,7 +389,7 @@ module Petstore
           description: "No description provided",
           },
           {
-          url: "http://path-server-test.petstore.local/v2",
+          url: "http://path-server-test.petstore.local/",
           description: "No description provided",
           },
           {
@@ -436,7 +436,7 @@ module Petstore
           description: "No description provided",
           },
           {
-          url: "http://path-server-test.petstore.local/v2",
+          url: "http://path-server-test.petstore.local/",
           description: "No description provided",
           },
           {
@@ -530,7 +530,7 @@ module Petstore
           description: "No description provided",
           },
           {
-          url: "http://path-server-test.petstore.local/v2",
+          url: "http://path-server-test.petstore.local/",
           description: "No description provided",
           },
           {
