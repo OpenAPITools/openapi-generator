@@ -212,7 +212,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("set", "LinkedHashSet");
         instantiationTypes.put("map", "HashMap");
-        typeMapping.put("date", "Date");
         typeMapping.put("file", "File");
         typeMapping.put("AnyType", "Object");
 
@@ -229,10 +228,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("List", "java.util.*");
         importMapping.put("Set", "java.util.*");
         importMapping.put("LinkedHashSet", "java.util.LinkedHashSet");
-        importMapping.put("DateTime", "org.joda.time.*");
-        importMapping.put("LocalDateTime", "org.joda.time.*");
-        importMapping.put("LocalDate", "org.joda.time.*");
-        importMapping.put("LocalTime", "org.joda.time.*");
 
         importMapping.put("List", "java.util.List");
         importMapping.put("Set", "java.util.Set");
@@ -650,6 +645,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else if (dateLibrary.equals("legacy")) {
             additionalProperties.put("legacyDates", "true");
         }
+        typeMapping.putIfAbsent("date", "Date");
+        importMapping.putIfAbsent("LocalDate", "org.joda.time.*");
+        importMapping.putIfAbsent("DateTime", "org.joda.time.*");
+        importMapping.putIfAbsent("LocalTime", "org.joda.time.*");
+        importMapping.putIfAbsent("LocalDateTime", "org.joda.time.*");
 
         if (additionalProperties.containsKey(TEST_OUTPUT)) {
             setOutputTestFolder(additionalProperties.get(TEST_OUTPUT).toString());
