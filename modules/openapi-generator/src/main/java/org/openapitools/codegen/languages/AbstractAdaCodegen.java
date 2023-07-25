@@ -814,19 +814,19 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         public int compareTo(ModelDepend second) {
 
             if (depend != null && depend.contains(second.name)) {
-                LOGGER.debug("Compare " + name + " with " + second.name + "=1");
+                //LOGGER.debug("Compare " + name + " with " + second.name + "=1");
                 return 1;
             }
             if (second.depend != null && second.depend.contains(name)) {
-                LOGGER.debug("Compare " + name + " with " + second.name + "=-1");
+                //LOGGER.debug("Compare " + name + " with " + second.name + "=-1");
                 return -1;
             }
             if ((depend == null ? 0 : depend.size()) != (second.depend == null ? 0 : second.depend.size())) {
-                LOGGER.debug("Compare " + name + " with " + second.name + "=D"
-                        + (depend.size() - second.depend.size()));
+                //LOGGER.debug("Compare " + name + " with " + second.name + "=D"
+                //        + (depend.size() - second.depend.size()));
                 return depend.size() - second.depend.size();
             }
-            LOGGER.debug("Compare " + name + " with " + second.name + "=<name>");
+            //LOGGER.debug("Compare " + name + " with " + second.name + "=<name>");
             return name.compareTo(second.name);
         }
     }
