@@ -9,7 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-// import { PetWithMappedDiscriminatorModel } from './petWithMappedDiscriminator';
+import { PetWithMappedDiscriminatorModel } from './petWithMappedDiscriminator';
 
 
 export interface CatMappedModel extends PetWithMappedDiscriminatorModel { 
