@@ -1227,6 +1227,7 @@
                 <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
                 <!-- comment out due to error `npm run build`
                 <module>samples/client/petstore/typescript-jquery/npm</module>-->
+                <module>samples/client/others/typescript-angular</module>
                 <module>samples/client/petstore/typescript-angular-v12-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v13-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v14-provided-in-root</module>
