@@ -648,6 +648,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Klarna](https://www.klarna.com/)
 - [Kronsoft Development](https://www.kronsoft.ro/home/)
 - [Kubernetes](https://kubernetes.io)
+- [Landeshauptstadt München - it@M](https://muenchen.digital/it-at-m/)
 - [Linode](https://www.linode.com/)
 - [Logicdrop](https://www.logicdrop.com)
 - [Lumeris](https://www.lumeris.com)
