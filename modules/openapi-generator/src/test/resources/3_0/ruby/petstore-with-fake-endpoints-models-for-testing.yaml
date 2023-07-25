@@ -189,7 +189,7 @@ paths:
   '/pet/{petId}':
     servers:
     - url: 'http://petstore.swagger.io/v2'
-    - url: 'http://path-server-test.petstore.local/'
+    - url: 'http://path-server-test.petstore.local/v2'
     - url: 'http://{server}.swagger.io:{port}/v2'
       description: test server with variables
       variables:
