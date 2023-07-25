@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>FooGetDefaultResponse</returns>
-        FooGetDefaultResponse FooGet(int operationIndex = 0);
+        Org.OpenAPITools.Model.FooGetDefaultResponse FooGet(int operationIndex = 0);
 
         /// <summary>
         /// 
@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of FooGetDefaultResponse</returns>
-        ApiResponse<FooGetDefaultResponse> FooGetWithHttpInfo(int operationIndex = 0);
+        ApiResponse<Org.OpenAPITools.Model.FooGetDefaultResponse> FooGetWithHttpInfo(int operationIndex = 0);
         /// <summary>
         /// 
         /// </summary>
@@ -105,7 +105,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of FooGetDefaultResponse</returns>
-        System.Threading.Tasks.Task<FooGetDefaultResponse> FooGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Org.OpenAPITools.Model.FooGetDefaultResponse> FooGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -117,7 +117,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (FooGetDefaultResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<FooGetDefaultResponse>> FooGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Org.OpenAPITools.Model.FooGetDefaultResponse>> FooGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -292,9 +292,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>FooGetDefaultResponse</returns>
-        public FooGetDefaultResponse FooGet(int operationIndex = 0)
+        public Org.OpenAPITools.Model.FooGetDefaultResponse FooGet(int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<FooGetDefaultResponse> localVarResponse = FooGetWithHttpInfo();
+            Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.FooGetDefaultResponse> localVarResponse = FooGetWithHttpInfo();
             return localVarResponse.Data;
         }
 
@@ -304,7 +304,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of FooGetDefaultResponse</returns>
-        public Org.OpenAPITools.Client.ApiResponse<FooGetDefaultResponse> FooGetWithHttpInfo(int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.FooGetDefaultResponse> FooGetWithHttpInfo(int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -334,7 +334,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<FooGetDefaultResponse>("/foo", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<Org.OpenAPITools.Model.FooGetDefaultResponse>("/foo", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("FooGet", localVarResponse);
@@ -354,9 +354,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of FooGetDefaultResponse</returns>
-        public async System.Threading.Tasks.Task<FooGetDefaultResponse> FooGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Model.FooGetDefaultResponse> FooGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<FooGetDefaultResponse> localVarResponse = await FooGetWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.FooGetDefaultResponse> localVarResponse = await FooGetWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -367,7 +367,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (FooGetDefaultResponse)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<FooGetDefaultResponse>> FooGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.FooGetDefaultResponse>> FooGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -398,7 +398,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<FooGetDefaultResponse>("/foo", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<Org.OpenAPITools.Model.FooGetDefaultResponse>("/foo", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

@@ -844,6 +844,21 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return objs;
     }
 
+    /** 
+     * Set the returnType as well as the fully qualified returnType
+     * This enables us to handle model names that collide with other namespaces
+     * */
+    @Override
+    protected void setOperationReturnType(CodegenOperation operation, CodegenProperty property) {
+        operation.returnType = property.dataType;
+
+        String fullyQualifiedReturnType = property.complexType != null && operation.returnBaseType != null
+                ? property.dataType.replace(operation.returnBaseType, this.packageName + "." + this.modelPackage + "." + operation.returnBaseType)
+                : property.dataType;
+
+        operation.vendorExtensions.put("x-fully-qualified-return-type", fullyQualifiedReturnType);
+    }
+
     protected void patchVendorExtensionNullableValueType(CodegenParameter parameter) {
         if (parameter.isNullable && !parameter.isContainer && (this.getValueTypes().contains(parameter.dataType) || parameter.isEnum)) {
             parameter.vendorExtensions.put("x-nullable-value-type", true);

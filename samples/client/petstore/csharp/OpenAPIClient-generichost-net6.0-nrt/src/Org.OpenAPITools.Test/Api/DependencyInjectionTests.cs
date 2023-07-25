@@ -128,6 +128,9 @@ namespace Org.OpenAPITools.Test.Api
             var defaultApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IDefaultApi>();
             Assert.True(defaultApi.HttpClient.BaseAddress != null);
             
+            var environmentApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IEnvironmentApi>();
+            Assert.True(environmentApi.HttpClient.BaseAddress != null);
+            
             var fakeApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IFakeApi>();
             Assert.True(fakeApi.HttpClient.BaseAddress != null);
             
@@ -155,6 +158,9 @@ namespace Org.OpenAPITools.Test.Api
             
             var defaultApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IDefaultApi>();
             Assert.True(defaultApi.HttpClient.BaseAddress != null);
+            
+            var environmentApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IEnvironmentApi>();
+            Assert.True(environmentApi.HttpClient.BaseAddress != null);
             
             var fakeApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IFakeApi>();
             Assert.True(fakeApi.HttpClient.BaseAddress != null);
@@ -184,6 +190,9 @@ namespace Org.OpenAPITools.Test.Api
             var defaultApi = _hostUsingAddWithAClient.Services.GetRequiredService<IDefaultApi>();
             Assert.True(defaultApi.HttpClient.BaseAddress != null);
             
+            var environmentApi = _hostUsingAddWithAClient.Services.GetRequiredService<IEnvironmentApi>();
+            Assert.True(environmentApi.HttpClient.BaseAddress != null);
+            
             var fakeApi = _hostUsingAddWithAClient.Services.GetRequiredService<IFakeApi>();
             Assert.True(fakeApi.HttpClient.BaseAddress != null);
             
@@ -211,6 +220,9 @@ namespace Org.OpenAPITools.Test.Api
             
             var defaultApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IDefaultApi>();
             Assert.True(defaultApi.HttpClient.BaseAddress != null);
+            
+            var environmentApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IEnvironmentApi>();
+            Assert.True(environmentApi.HttpClient.BaseAddress != null);
             
             var fakeApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IFakeApi>();
             Assert.True(fakeApi.HttpClient.BaseAddress != null);

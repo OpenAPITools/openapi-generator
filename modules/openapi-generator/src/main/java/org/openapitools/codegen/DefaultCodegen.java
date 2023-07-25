@@ -4353,7 +4353,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             op.defaultResponse = toDefaultValue(responseSchema);
-            op.returnType = cm.dataType;
+            setOperationReturnType(op, cm);
             op.returnFormat = cm.dataFormat;
             op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);
 
@@ -4387,6 +4387,10 @@ public class DefaultCodegen implements CodegenConfig {
             op.returnProperty = cm;
         }
         addHeaders(methodResponse, op.responseHeaders);
+    }
+
+    protected void setOperationReturnType(CodegenOperation operation, CodegenProperty property) {
+        operation.returnType = property.dataType;
     }
 
     /**

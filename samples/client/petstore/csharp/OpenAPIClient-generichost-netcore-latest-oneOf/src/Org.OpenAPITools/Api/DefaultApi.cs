@@ -19,7 +19,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
@@ -44,7 +43,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Fruit&gt;&gt;</returns>
-        Task<ApiResponse<Fruit>> RootGetAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.Fruit>> RootGetAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -54,7 +53,7 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;Fruit&gt;?&gt;</returns>
-        Task<ApiResponse<Fruit>?> RootGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.Fruit>?> RootGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -66,16 +65,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<Fruit>>? OnRootGet;
+        public event EventHandler<ApiResponseEventArgs<Org.OpenAPITools.Model.Fruit>>? OnRootGet;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorRootGet;
 
-        internal void ExecuteOnRootGet(ApiResponse<Fruit> apiResponse)
+        internal void ExecuteOnRootGet(ApiResponse<Org.OpenAPITools.Model.Fruit> apiResponse)
         {
-            OnRootGet?.Invoke(this, new ApiResponseEventArgs<Fruit>(apiResponse));
+            OnRootGet?.Invoke(this, new ApiResponseEventArgs<Org.OpenAPITools.Model.Fruit>(apiResponse));
         }
 
         internal void ExecuteOnErrorRootGet(Exception exception)
@@ -122,7 +121,7 @@ namespace Org.OpenAPITools.Api
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        private void AfterRootGetDefaultImplementation(ApiResponse<Fruit> apiResponseLocalVar)
+        private void AfterRootGetDefaultImplementation(ApiResponse<Org.OpenAPITools.Model.Fruit> apiResponseLocalVar)
         {
             bool suppressDefaultLog = false;
             AfterRootGet(ref suppressDefaultLog, apiResponseLocalVar);
@@ -135,7 +134,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterRootGet(ref bool suppressDefaultLog, ApiResponse<Fruit> apiResponseLocalVar);
+        partial void AfterRootGet(ref bool suppressDefaultLog, ApiResponse<Org.OpenAPITools.Model.Fruit> apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -165,7 +164,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Fruit"/></returns>
-        public async Task<ApiResponse<Fruit>?> RootGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.Fruit>?> RootGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -183,7 +182,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Fruit"/></returns>
-        public async Task<ApiResponse<Fruit>> RootGetAsync(System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.Fruit>> RootGetAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -215,7 +214,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<Fruit> apiResponseLocalVar = new ApiResponse<Fruit>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<Org.OpenAPITools.Model.Fruit> apiResponseLocalVar = new ApiResponse<Org.OpenAPITools.Model.Fruit>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterRootGetDefaultImplementation(apiResponseLocalVar);
 

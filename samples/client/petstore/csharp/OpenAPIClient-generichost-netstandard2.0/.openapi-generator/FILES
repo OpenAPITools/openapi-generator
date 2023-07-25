@@ -5,6 +5,7 @@ api/openapi.yaml
 appveyor.yml
 docs/apis/AnotherFakeApi.md
 docs/apis/DefaultApi.md
+docs/apis/EnvironmentApi.md
 docs/apis/FakeApi.md
 docs/apis/FakeClassnameTags123Api.md
 docs/apis/PetApi.md
@@ -37,6 +38,7 @@ docs/models/Drawing.md
 docs/models/EnumArrays.md
 docs/models/EnumClass.md
 docs/models/EnumTest.md
+docs/models/Environment.md
 docs/models/EquilateralTriangle.md
 docs/models/File.md
 docs/models/FileSchemaTestClass.md
@@ -101,6 +103,7 @@ src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
 src/Org.OpenAPITools.Test/README.md
 src/Org.OpenAPITools/Api/AnotherFakeApi.cs
 src/Org.OpenAPITools/Api/DefaultApi.cs
+src/Org.OpenAPITools/Api/EnvironmentApi.cs
 src/Org.OpenAPITools/Api/FakeApi.cs
 src/Org.OpenAPITools/Api/FakeClassnameTags123Api.cs
 src/Org.OpenAPITools/Api/IApi.cs
@@ -159,6 +162,7 @@ src/Org.OpenAPITools/Model/Drawing.cs
 src/Org.OpenAPITools/Model/EnumArrays.cs
 src/Org.OpenAPITools/Model/EnumClass.cs
 src/Org.OpenAPITools/Model/EnumTest.cs
+src/Org.OpenAPITools/Model/Environment.cs
 src/Org.OpenAPITools/Model/EquilateralTriangle.cs
 src/Org.OpenAPITools/Model/File.cs
 src/Org.OpenAPITools/Model/FileSchemaTestClass.cs

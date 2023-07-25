@@ -17,7 +17,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
@@ -42,7 +41,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;FooGetDefaultResponse&gt;&gt;</returns>
-        Task<ApiResponse<FooGetDefaultResponse>> FooGetAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.FooGetDefaultResponse>> FooGetAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -52,7 +51,7 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;FooGetDefaultResponse&gt;&gt;</returns>
-        Task<ApiResponse<FooGetDefaultResponse>> FooGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.FooGetDefaultResponse>> FooGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -108,16 +107,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<FooGetDefaultResponse>> OnFooGet;
+        public event EventHandler<ApiResponseEventArgs<Org.OpenAPITools.Model.FooGetDefaultResponse>> OnFooGet;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorFooGet;
 
-        internal void ExecuteOnFooGet(ApiResponse<FooGetDefaultResponse> apiResponse)
+        internal void ExecuteOnFooGet(ApiResponse<Org.OpenAPITools.Model.FooGetDefaultResponse> apiResponse)
         {
-            OnFooGet?.Invoke(this, new ApiResponseEventArgs<FooGetDefaultResponse>(apiResponse));
+            OnFooGet?.Invoke(this, new ApiResponseEventArgs<Org.OpenAPITools.Model.FooGetDefaultResponse>(apiResponse));
         }
 
         internal void ExecuteOnErrorFooGet(Exception exception)
@@ -239,7 +238,7 @@ namespace Org.OpenAPITools.Api
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        private void AfterFooGetDefaultImplementation(ApiResponse<FooGetDefaultResponse> apiResponseLocalVar)
+        private void AfterFooGetDefaultImplementation(ApiResponse<Org.OpenAPITools.Model.FooGetDefaultResponse> apiResponseLocalVar)
         {
             bool suppressDefaultLog = false;
             AfterFooGet(ref suppressDefaultLog, apiResponseLocalVar);
@@ -252,7 +251,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterFooGet(ref bool suppressDefaultLog, ApiResponse<FooGetDefaultResponse> apiResponseLocalVar);
+        partial void AfterFooGet(ref bool suppressDefaultLog, ApiResponse<Org.OpenAPITools.Model.FooGetDefaultResponse> apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -282,7 +281,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="FooGetDefaultResponse"/></returns>
-        public async Task<ApiResponse<FooGetDefaultResponse>> FooGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.FooGetDefaultResponse>> FooGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -300,7 +299,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="FooGetDefaultResponse"/></returns>
-        public async Task<ApiResponse<FooGetDefaultResponse>> FooGetAsync(System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.FooGetDefaultResponse>> FooGetAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -331,7 +330,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<FooGetDefaultResponse> apiResponseLocalVar = new ApiResponse<FooGetDefaultResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/foo", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<Org.OpenAPITools.Model.FooGetDefaultResponse> apiResponseLocalVar = new ApiResponse<Org.OpenAPITools.Model.FooGetDefaultResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/foo", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterFooGetDefaultImplementation(apiResponseLocalVar);
 

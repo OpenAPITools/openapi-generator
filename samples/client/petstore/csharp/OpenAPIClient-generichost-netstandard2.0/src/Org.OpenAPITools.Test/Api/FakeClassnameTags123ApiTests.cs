@@ -56,10 +56,10 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task TestClassnameAsyncTest()
         {
-            ModelClient modelClient = default;
+            Org.OpenAPITools.Model.ModelClient modelClient = default;
             var response = await _instance.TestClassnameAsync(modelClient);
             var model = response.AsModel();
-            Assert.IsType<ModelClient>(model);
+            Assert.IsType<Org.OpenAPITools.Model.ModelClient>(model);
         }
     }
 }

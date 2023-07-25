@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task CreateUserAsyncTest()
         {
-            User user = default!;
+            Org.OpenAPITools.Model.User user = default!;
             await _instance.CreateUserAsync(user);
         }
 
@@ -99,7 +99,7 @@ namespace Org.OpenAPITools.Test.Api
             string username = default!;
             var response = await _instance.GetUserByNameAsync(username);
             var model = response.AsModel();
-            Assert.IsType<User>(model);
+            Assert.IsType<Org.OpenAPITools.Model.User>(model);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task UpdateUserAsyncTest()
         {
-            User user = default!;
+            Org.OpenAPITools.Model.User user = default!;
             string username = default!;
             await _instance.UpdateUserAsync(user, username);
         }

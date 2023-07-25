@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Test.Api
             long orderId = default;
             var response = await _instance.GetOrderByIdAsync(orderId);
             var model = response.AsModel();
-            Assert.IsType<Order>(model);
+            Assert.IsType<Org.OpenAPITools.Model.Order>(model);
         }
 
         /// <summary>
@@ -89,10 +89,10 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task PlaceOrderAsyncTest()
         {
-            Order order = default;
+            Org.OpenAPITools.Model.Order order = default;
             var response = await _instance.PlaceOrderAsync(order);
             var model = response.AsModel();
-            Assert.IsType<Order>(model);
+            Assert.IsType<Org.OpenAPITools.Model.Order>(model);
         }
     }
 }

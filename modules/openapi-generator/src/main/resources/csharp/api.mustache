@@ -38,7 +38,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        {{{returnType}}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0);
+        {{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{>ParameterNamespace}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{>ParameterNamespace}}{{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0);
 
         /// <summary>
         /// {{summary}}
@@ -53,7 +53,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0);
+        ApiResponse<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{>ParameterNamespace}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{>ParameterNamespace}}{{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0);
         {{/operation}}
         #endregion Synchronous Operations
     }
@@ -82,7 +82,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        {{#returnType}}System.Threading.Tasks.Task<{{{.}}}>{{/returnType}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        {{#vendorExtensions.x-fully-qualified-return-type}}System.Threading.Tasks.Task<{{{.}}}>{{/vendorExtensions.x-fully-qualified-return-type}}{{^returnType}}System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async({{#allParams}}{{>ParameterNamespace}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{>ParameterNamespace}}{{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// {{summary}}
@@ -100,7 +100,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        System.Threading.Tasks.Task<ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{>ParameterNamespace}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{>ParameterNamespace}}{{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         {{/operation}}
         #endregion Asynchronous Operations
     }
@@ -244,10 +244,10 @@ namespace {{packageName}}.{{apiPackage}}
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        public {{{returnType}}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0)
+        public {{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{>ParameterNamespace}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{>ParameterNamespace}}{{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0)
         {
-            {{#returnType}}{{packageName}}.Client.ApiResponse<{{{returnType}}}> localVarResponse = {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
-            return localVarResponse.Data;{{/returnType}}{{^returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{/returnType}}
+            {{#vendorExtensions.x-fully-qualified-return-type}}{{packageName}}.Client.ApiResponse<{{{vendorExtensions.x-fully-qualified-return-type}}}> localVarResponse = {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+            return localVarResponse.Data;{{/vendorExtensions.x-fully-qualified-return-type}}{{^returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});{{/returnType}}
         }
 
         /// <summary>
@@ -260,7 +260,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        public {{packageName}}.Client.ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0)
+        public {{packageName}}.Client.ApiResponse<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{>ParameterNamespace}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{>ParameterNamespace}}{{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0)
         {
             {{#allParams}}
             {{#required}}
@@ -485,7 +485,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{/authMethods}}
 
             // make the HTTP request
-            var localVarResponse = this.Client.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}}<{{{returnType}}}{{^returnType}}Object{{/returnType}}>("{{{path}}}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}}<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}Object{{/returnType}}>("{{{path}}}", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("{{operationId}}", localVarResponse);
@@ -512,10 +512,10 @@ namespace {{packageName}}.{{apiPackage}}
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        {{#returnType}}public async System.Threading.Tasks.Task<{{{.}}}>{{/returnType}}{{^returnType}}public async System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {{#vendorExtensions.x-fully-qualified-return-type}}public async System.Threading.Tasks.Task<{{{.}}}>{{/vendorExtensions.x-fully-qualified-return-type}}{{^returnType}}public async System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async({{#allParams}}{{>ParameterNamespace}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{>ParameterNamespace}}{{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            {{#returnType}}{{packageName}}.Client.ApiResponse<{{{returnType}}}> localVarResponse = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}operationIndex, cancellationToken).ConfigureAwait(false);
-            return localVarResponse.Data;{{/returnType}}{{^returnType}}await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}operationIndex, cancellationToken).ConfigureAwait(false);{{/returnType}}
+            {{#vendorExtensions.x-fully-qualified-return-type}}{{packageName}}.Client.ApiResponse<{{{vendorExtensions.x-fully-qualified-return-type}}}> localVarResponse = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}operationIndex, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;{{/vendorExtensions.x-fully-qualified-return-type}}{{^returnType}}await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}operationIndex, cancellationToken).ConfigureAwait(false);{{/returnType}}
         }
 
         /// <summary>
@@ -531,7 +531,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        public async System.Threading.Tasks.Task<{{packageName}}.Client.ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<{{packageName}}.Client.ApiResponse<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{>ParameterNamespace}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{>ParameterNamespace}}{{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             {{#allParams}}
             {{#required}}
@@ -736,7 +736,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{/authMethods}}
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}}Async<{{{returnType}}}{{^returnType}}Object{{/returnType}}>("{{{path}}}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}}Async<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}Object{{/returnType}}>("{{{path}}}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

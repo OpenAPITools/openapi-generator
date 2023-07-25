@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task AddPetAsyncTest()
         {
-            Pet pet = default!;
+            Org.OpenAPITools.Model.Pet pet = default!;
             await _instance.AddPetAsync(pet);
         }
 
@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Test.Api
             List<string> status = default!;
             var response = await _instance.FindPetsByStatusAsync(status);
             var model = response.AsModel();
-            Assert.IsType<List<Pet>>(model);
+            Assert.IsType<List<Org.OpenAPITools.Model.Pet>>(model);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Org.OpenAPITools.Test.Api
             List<string> tags = default!;
             var response = await _instance.FindPetsByTagsAsync(tags);
             var model = response.AsModel();
-            Assert.IsType<List<Pet>>(model);
+            Assert.IsType<List<Org.OpenAPITools.Model.Pet>>(model);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Org.OpenAPITools.Test.Api
             long petId = default!;
             var response = await _instance.GetPetByIdAsync(petId);
             var model = response.AsModel();
-            Assert.IsType<Pet>(model);
+            Assert.IsType<Org.OpenAPITools.Model.Pet>(model);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task UpdatePetAsyncTest()
         {
-            Pet pet = default!;
+            Org.OpenAPITools.Model.Pet pet = default!;
             await _instance.UpdatePetAsync(pet);
         }
 
@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Test.Api
             Client.Option<string> additionalMetadata = default!;
             var response = await _instance.UploadFileAsync(petId, file, additionalMetadata);
             var model = response.AsModel();
-            Assert.IsType<ApiResponse>(model);
+            Assert.IsType<Org.OpenAPITools.Model.ApiResponse>(model);
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace Org.OpenAPITools.Test.Api
             Client.Option<string> additionalMetadata = default!;
             var response = await _instance.UploadFileWithRequiredFileAsync(requiredFile, petId, additionalMetadata);
             var model = response.AsModel();
-            Assert.IsType<ApiResponse>(model);
+            Assert.IsType<Org.OpenAPITools.Model.ApiResponse>(model);
         }
     }
 }

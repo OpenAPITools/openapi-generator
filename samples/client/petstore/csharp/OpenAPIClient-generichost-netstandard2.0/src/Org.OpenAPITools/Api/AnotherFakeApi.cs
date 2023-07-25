@@ -17,7 +17,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
@@ -43,7 +42,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;ModelClient&gt;&gt;</returns>
-        Task<ApiResponse<ModelClient>> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.ModelClient>> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test special tags
@@ -54,7 +53,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;ModelClient&gt;&gt;</returns>
-        Task<ApiResponse<ModelClient>> Call123TestSpecialTagsOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.ModelClient>> Call123TestSpecialTagsOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -66,16 +65,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<ModelClient>> OnCall123TestSpecialTags;
+        public event EventHandler<ApiResponseEventArgs<Org.OpenAPITools.Model.ModelClient>> OnCall123TestSpecialTags;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorCall123TestSpecialTags;
 
-        internal void ExecuteOnCall123TestSpecialTags(ApiResponse<ModelClient> apiResponse)
+        internal void ExecuteOnCall123TestSpecialTags(ApiResponse<Org.OpenAPITools.Model.ModelClient> apiResponse)
         {
-            OnCall123TestSpecialTags?.Invoke(this, new ApiResponseEventArgs<ModelClient>(apiResponse));
+            OnCall123TestSpecialTags?.Invoke(this, new ApiResponseEventArgs<Org.OpenAPITools.Model.ModelClient>(apiResponse));
         }
 
         internal void ExecuteOnErrorCall123TestSpecialTags(Exception exception)
@@ -153,14 +152,14 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
-        partial void FormatCall123TestSpecialTags(ModelClient modelClient);
+        partial void FormatCall123TestSpecialTags(Org.OpenAPITools.Model.ModelClient modelClient);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="modelClient"></param>
         /// <returns></returns>
-        private void ValidateCall123TestSpecialTags(ModelClient modelClient)
+        private void ValidateCall123TestSpecialTags(Org.OpenAPITools.Model.ModelClient modelClient)
         {
             if (modelClient == null)
                 throw new ArgumentNullException(nameof(modelClient));
@@ -171,7 +170,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        private void AfterCall123TestSpecialTagsDefaultImplementation(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient)
+        private void AfterCall123TestSpecialTagsDefaultImplementation(ApiResponse<Org.OpenAPITools.Model.ModelClient> apiResponseLocalVar, Org.OpenAPITools.Model.ModelClient modelClient)
         {
             bool suppressDefaultLog = false;
             AfterCall123TestSpecialTags(ref suppressDefaultLog, apiResponseLocalVar, modelClient);
@@ -185,7 +184,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        partial void AfterCall123TestSpecialTags(ref bool suppressDefaultLog, ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient);
+        partial void AfterCall123TestSpecialTags(ref bool suppressDefaultLog, ApiResponse<Org.OpenAPITools.Model.ModelClient> apiResponseLocalVar, Org.OpenAPITools.Model.ModelClient modelClient);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -194,7 +193,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        private void OnErrorCall123TestSpecialTagsDefaultImplementation(Exception exception, string pathFormat, string path, ModelClient modelClient)
+        private void OnErrorCall123TestSpecialTagsDefaultImplementation(Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.ModelClient modelClient)
         {
             bool suppressDefaultLog = false;
             OnErrorCall123TestSpecialTags(ref suppressDefaultLog, exception, pathFormat, path, modelClient);
@@ -210,7 +209,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        partial void OnErrorCall123TestSpecialTags(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, ModelClient modelClient);
+        partial void OnErrorCall123TestSpecialTags(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.ModelClient modelClient);
 
         /// <summary>
         /// To test special tags To test special tags and operation ID starting with number
@@ -218,7 +217,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
-        public async Task<ApiResponse<ModelClient>> Call123TestSpecialTagsOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.ModelClient>> Call123TestSpecialTagsOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -237,7 +236,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
-        public async Task<ApiResponse<ModelClient>> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.ModelClient>> Call123TestSpecialTagsAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -285,7 +284,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/another-fake/dummy", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<Org.OpenAPITools.Model.ModelClient> apiResponseLocalVar = new ApiResponse<Org.OpenAPITools.Model.ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/another-fake/dummy", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterCall123TestSpecialTagsDefaultImplementation(apiResponseLocalVar, modelClient);
 

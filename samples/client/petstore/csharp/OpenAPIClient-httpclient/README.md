@@ -132,6 +132,11 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**FooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
 *DefaultApi* | [**GetCountry**](docs/DefaultApi.md#getcountry) | **POST** /country | 
 *DefaultApi* | [**Hello**](docs/DefaultApi.md#hello) | **GET** /hello | Hello
+*EnvironmentApi* | [**ApiV1EnvironmentsGet**](docs/EnvironmentApi.md#apiv1environmentsget) | **GET** /api/v1/environments | 
+*EnvironmentApi* | [**ApiV1EnvironmentsIdDelete**](docs/EnvironmentApi.md#apiv1environmentsiddelete) | **DELETE** /api/v1/environments/{id} | 
+*EnvironmentApi* | [**ApiV1EnvironmentsIdGet**](docs/EnvironmentApi.md#apiv1environmentsidget) | **GET** /api/v1/environments/{id} | 
+*EnvironmentApi* | [**ApiV1EnvironmentsIdPut**](docs/EnvironmentApi.md#apiv1environmentsidput) | **PUT** /api/v1/environments/{id} | 
+*EnvironmentApi* | [**ApiV1EnvironmentsPost**](docs/EnvironmentApi.md#apiv1environmentspost) | **POST** /api/v1/environments | 
 *FakeApi* | [**FakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
@@ -201,6 +206,7 @@ Class | Method | HTTP request | Description
  - [Model.EnumArrays](docs/EnumArrays.md)
  - [Model.EnumClass](docs/EnumClass.md)
  - [Model.EnumTest](docs/EnumTest.md)
+ - [Model.Environment](docs/Environment.md)
  - [Model.EquilateralTriangle](docs/EquilateralTriangle.md)
  - [Model.File](docs/File.md)
  - [Model.FileSchemaTestClass](docs/FileSchemaTestClass.md)

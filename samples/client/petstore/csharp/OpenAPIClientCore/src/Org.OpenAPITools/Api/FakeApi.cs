@@ -33,7 +33,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>HealthCheckResult</returns>
-        HealthCheckResult FakeHealthGet(int operationIndex = 0);
+        Org.OpenAPITools.Model.HealthCheckResult FakeHealthGet(int operationIndex = 0);
 
         /// <summary>
         /// Health check endpoint
@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of HealthCheckResult</returns>
-        ApiResponse<HealthCheckResult> FakeHealthGetWithHttpInfo(int operationIndex = 0);
+        ApiResponse<Org.OpenAPITools.Model.HealthCheckResult> FakeHealthGetWithHttpInfo(int operationIndex = 0);
         /// <summary>
         /// 
         /// </summary>
@@ -78,7 +78,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>OuterComposite</returns>
-        OuterComposite FakeOuterCompositeSerialize(OuterComposite? outerComposite = default(OuterComposite?), int operationIndex = 0);
+        Org.OpenAPITools.Model.OuterComposite FakeOuterCompositeSerialize(Org.OpenAPITools.Model.OuterComposite? outerComposite = default(Org.OpenAPITools.Model.OuterComposite?), int operationIndex = 0);
 
         /// <summary>
         /// 
@@ -90,7 +90,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of OuterComposite</returns>
-        ApiResponse<OuterComposite> FakeOuterCompositeSerializeWithHttpInfo(OuterComposite? outerComposite = default(OuterComposite?), int operationIndex = 0);
+        ApiResponse<Org.OpenAPITools.Model.OuterComposite> FakeOuterCompositeSerializeWithHttpInfo(Org.OpenAPITools.Model.OuterComposite? outerComposite = default(Org.OpenAPITools.Model.OuterComposite?), int operationIndex = 0);
         /// <summary>
         /// 
         /// </summary>
@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>List&lt;OuterEnum&gt;</returns>
-        List<OuterEnum> GetArrayOfEnums(int operationIndex = 0);
+        List<Org.OpenAPITools.Model.OuterEnum> GetArrayOfEnums(int operationIndex = 0);
 
         /// <summary>
         /// Array of Enums
@@ -156,7 +156,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of List&lt;OuterEnum&gt;</returns>
-        ApiResponse<List<OuterEnum>> GetArrayOfEnumsWithHttpInfo(int operationIndex = 0);
+        ApiResponse<List<Org.OpenAPITools.Model.OuterEnum>> GetArrayOfEnumsWithHttpInfo(int operationIndex = 0);
         /// <summary>
         /// 
         /// </summary>
@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void TestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, int operationIndex = 0);
+        void TestBodyWithFileSchema(Org.OpenAPITools.Model.FileSchemaTestClass fileSchemaTestClass, int operationIndex = 0);
 
         /// <summary>
         /// 
@@ -179,7 +179,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass, int operationIndex = 0);
+        ApiResponse<Object> TestBodyWithFileSchemaWithHttpInfo(Org.OpenAPITools.Model.FileSchemaTestClass fileSchemaTestClass, int operationIndex = 0);
         /// <summary>
         /// 
         /// </summary>
@@ -188,7 +188,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void TestBodyWithQueryParams(string query, User user, int operationIndex = 0);
+        void TestBodyWithQueryParams(string query, Org.OpenAPITools.Model.User user, int operationIndex = 0);
 
         /// <summary>
         /// 
@@ -201,7 +201,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestBodyWithQueryParamsWithHttpInfo(string query, User user, int operationIndex = 0);
+        ApiResponse<Object> TestBodyWithQueryParamsWithHttpInfo(string query, Org.OpenAPITools.Model.User user, int operationIndex = 0);
         /// <summary>
         /// To test \&quot;client\&quot; model
         /// </summary>
@@ -212,7 +212,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ModelClient</returns>
-        ModelClient TestClientModel(ModelClient modelClient, int operationIndex = 0);
+        Org.OpenAPITools.Model.ModelClient TestClientModel(Org.OpenAPITools.Model.ModelClient modelClient, int operationIndex = 0);
 
         /// <summary>
         /// To test \&quot;client\&quot; model
@@ -224,7 +224,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        ApiResponse<ModelClient> TestClientModelWithHttpInfo(ModelClient modelClient, int operationIndex = 0);
+        ApiResponse<Org.OpenAPITools.Model.ModelClient> TestClientModelWithHttpInfo(Org.OpenAPITools.Model.ModelClient modelClient, int operationIndex = 0);
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
@@ -444,7 +444,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of HealthCheckResult</returns>
-        System.Threading.Tasks.Task<HealthCheckResult> FakeHealthGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Org.OpenAPITools.Model.HealthCheckResult> FakeHealthGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Health check endpoint
@@ -456,7 +456,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (HealthCheckResult)</returns>
-        System.Threading.Tasks.Task<ApiResponse<HealthCheckResult>> FakeHealthGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Org.OpenAPITools.Model.HealthCheckResult>> FakeHealthGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -493,7 +493,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of OuterComposite</returns>
-        System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite? outerComposite = default(OuterComposite?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Org.OpenAPITools.Model.OuterComposite> FakeOuterCompositeSerializeAsync(Org.OpenAPITools.Model.OuterComposite? outerComposite = default(Org.OpenAPITools.Model.OuterComposite?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -506,7 +506,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (OuterComposite)</returns>
-        System.Threading.Tasks.Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(OuterComposite? outerComposite = default(OuterComposite?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Org.OpenAPITools.Model.OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(Org.OpenAPITools.Model.OuterComposite? outerComposite = default(Org.OpenAPITools.Model.OuterComposite?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -569,7 +569,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;OuterEnum&gt;</returns>
-        System.Threading.Tasks.Task<List<OuterEnum>> GetArrayOfEnumsAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<List<Org.OpenAPITools.Model.OuterEnum>> GetArrayOfEnumsAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Array of Enums
@@ -581,7 +581,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;OuterEnum&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<List<Org.OpenAPITools.Model.OuterEnum>>> GetArrayOfEnumsWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -593,7 +593,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestBodyWithFileSchemaAsync(FileSchemaTestClass fileSchemaTestClass, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestBodyWithFileSchemaAsync(Org.OpenAPITools.Model.FileSchemaTestClass fileSchemaTestClass, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -606,7 +606,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithFileSchemaWithHttpInfoAsync(FileSchemaTestClass fileSchemaTestClass, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithFileSchemaWithHttpInfoAsync(Org.OpenAPITools.Model.FileSchemaTestClass fileSchemaTestClass, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -619,7 +619,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestBodyWithQueryParamsAsync(string query, User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestBodyWithQueryParamsAsync(string query, Org.OpenAPITools.Model.User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -633,7 +633,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithQueryParamsWithHttpInfoAsync(string query, User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithQueryParamsWithHttpInfoAsync(string query, Org.OpenAPITools.Model.User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// To test \&quot;client\&quot; model
         /// </summary>
@@ -645,7 +645,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ModelClient</returns>
-        System.Threading.Tasks.Task<ModelClient> TestClientModelAsync(ModelClient modelClient, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Org.OpenAPITools.Model.ModelClient> TestClientModelAsync(Org.OpenAPITools.Model.ModelClient modelClient, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// To test \&quot;client\&quot; model
@@ -658,7 +658,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClientModelWithHttpInfoAsync(ModelClient modelClient, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Org.OpenAPITools.Model.ModelClient>> TestClientModelWithHttpInfoAsync(Org.OpenAPITools.Model.ModelClient modelClient, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
@@ -1003,9 +1003,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>HealthCheckResult</returns>
-        public HealthCheckResult FakeHealthGet(int operationIndex = 0)
+        public Org.OpenAPITools.Model.HealthCheckResult FakeHealthGet(int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<HealthCheckResult> localVarResponse = FakeHealthGetWithHttpInfo();
+            Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.HealthCheckResult> localVarResponse = FakeHealthGetWithHttpInfo();
             return localVarResponse.Data;
         }
 
@@ -1015,7 +1015,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of HealthCheckResult</returns>
-        public Org.OpenAPITools.Client.ApiResponse<HealthCheckResult> FakeHealthGetWithHttpInfo(int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.HealthCheckResult> FakeHealthGetWithHttpInfo(int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1045,7 +1045,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<HealthCheckResult>("/fake/health", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<Org.OpenAPITools.Model.HealthCheckResult>("/fake/health", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("FakeHealthGet", localVarResponse);
@@ -1065,9 +1065,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of HealthCheckResult</returns>
-        public async System.Threading.Tasks.Task<HealthCheckResult> FakeHealthGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Model.HealthCheckResult> FakeHealthGetAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<HealthCheckResult> localVarResponse = await FakeHealthGetWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.HealthCheckResult> localVarResponse = await FakeHealthGetWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1078,7 +1078,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (HealthCheckResult)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<HealthCheckResult>> FakeHealthGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.HealthCheckResult>> FakeHealthGetWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1109,7 +1109,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<HealthCheckResult>("/fake/health", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<Org.OpenAPITools.Model.HealthCheckResult>("/fake/health", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1264,9 +1264,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>OuterComposite</returns>
-        public OuterComposite FakeOuterCompositeSerialize(OuterComposite? outerComposite = default(OuterComposite?), int operationIndex = 0)
+        public Org.OpenAPITools.Model.OuterComposite FakeOuterCompositeSerialize(Org.OpenAPITools.Model.OuterComposite? outerComposite = default(Org.OpenAPITools.Model.OuterComposite?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = FakeOuterCompositeSerializeWithHttpInfo(outerComposite);
+            Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.OuterComposite> localVarResponse = FakeOuterCompositeSerializeWithHttpInfo(outerComposite);
             return localVarResponse.Data;
         }
 
@@ -1277,7 +1277,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of OuterComposite</returns>
-        public Org.OpenAPITools.Client.ApiResponse<OuterComposite> FakeOuterCompositeSerializeWithHttpInfo(OuterComposite? outerComposite = default(OuterComposite?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.OuterComposite> FakeOuterCompositeSerializeWithHttpInfo(Org.OpenAPITools.Model.OuterComposite? outerComposite = default(Org.OpenAPITools.Model.OuterComposite?), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1309,7 +1309,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<OuterComposite>("/fake/outer/composite", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<Org.OpenAPITools.Model.OuterComposite>("/fake/outer/composite", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("FakeOuterCompositeSerialize", localVarResponse);
@@ -1330,9 +1330,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of OuterComposite</returns>
-        public async System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite? outerComposite = default(OuterComposite?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Model.OuterComposite> FakeOuterCompositeSerializeAsync(Org.OpenAPITools.Model.OuterComposite? outerComposite = default(Org.OpenAPITools.Model.OuterComposite?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = await FakeOuterCompositeSerializeWithHttpInfoAsync(outerComposite, operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.OuterComposite> localVarResponse = await FakeOuterCompositeSerializeWithHttpInfoAsync(outerComposite, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1344,7 +1344,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (OuterComposite)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(OuterComposite? outerComposite = default(OuterComposite?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(Org.OpenAPITools.Model.OuterComposite? outerComposite = default(Org.OpenAPITools.Model.OuterComposite?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1377,7 +1377,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<OuterComposite>("/fake/outer/composite", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Org.OpenAPITools.Model.OuterComposite>("/fake/outer/composite", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1671,9 +1671,9 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>List&lt;OuterEnum&gt;</returns>
-        public List<OuterEnum> GetArrayOfEnums(int operationIndex = 0)
+        public List<Org.OpenAPITools.Model.OuterEnum> GetArrayOfEnums(int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>> localVarResponse = GetArrayOfEnumsWithHttpInfo();
+            Org.OpenAPITools.Client.ApiResponse<List<Org.OpenAPITools.Model.OuterEnum>> localVarResponse = GetArrayOfEnumsWithHttpInfo();
             return localVarResponse.Data;
         }
 
@@ -1683,7 +1683,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of List&lt;OuterEnum&gt;</returns>
-        public Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>> GetArrayOfEnumsWithHttpInfo(int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<List<Org.OpenAPITools.Model.OuterEnum>> GetArrayOfEnumsWithHttpInfo(int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1713,7 +1713,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<List<OuterEnum>>("/fake/array-of-enums", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<List<Org.OpenAPITools.Model.OuterEnum>>("/fake/array-of-enums", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetArrayOfEnums", localVarResponse);
@@ -1733,9 +1733,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;OuterEnum&gt;</returns>
-        public async System.Threading.Tasks.Task<List<OuterEnum>> GetArrayOfEnumsAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<List<Org.OpenAPITools.Model.OuterEnum>> GetArrayOfEnumsAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>> localVarResponse = await GetArrayOfEnumsWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<List<Org.OpenAPITools.Model.OuterEnum>> localVarResponse = await GetArrayOfEnumsWithHttpInfoAsync(operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1746,7 +1746,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;OuterEnum&gt;)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>>> GetArrayOfEnumsWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<Org.OpenAPITools.Model.OuterEnum>>> GetArrayOfEnumsWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1777,7 +1777,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<List<OuterEnum>>("/fake/array-of-enums", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<List<Org.OpenAPITools.Model.OuterEnum>>("/fake/array-of-enums", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1798,7 +1798,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void TestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, int operationIndex = 0)
+        public void TestBodyWithFileSchema(Org.OpenAPITools.Model.FileSchemaTestClass fileSchemaTestClass, int operationIndex = 0)
         {
             TestBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass);
         }
@@ -1810,7 +1810,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="fileSchemaTestClass"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass, int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestBodyWithFileSchemaWithHttpInfo(Org.OpenAPITools.Model.FileSchemaTestClass fileSchemaTestClass, int operationIndex = 0)
         {
             // verify the required parameter 'fileSchemaTestClass' is set
             if (fileSchemaTestClass == null)
@@ -1868,7 +1868,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestBodyWithFileSchemaAsync(FileSchemaTestClass fileSchemaTestClass, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestBodyWithFileSchemaAsync(Org.OpenAPITools.Model.FileSchemaTestClass fileSchemaTestClass, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await TestBodyWithFileSchemaWithHttpInfoAsync(fileSchemaTestClass, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -1881,7 +1881,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestBodyWithFileSchemaWithHttpInfoAsync(FileSchemaTestClass fileSchemaTestClass, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestBodyWithFileSchemaWithHttpInfoAsync(Org.OpenAPITools.Model.FileSchemaTestClass fileSchemaTestClass, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'fileSchemaTestClass' is set
             if (fileSchemaTestClass == null)
@@ -1941,7 +1941,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void TestBodyWithQueryParams(string query, User user, int operationIndex = 0)
+        public void TestBodyWithQueryParams(string query, Org.OpenAPITools.Model.User user, int operationIndex = 0)
         {
             TestBodyWithQueryParamsWithHttpInfo(query, user);
         }
@@ -1954,7 +1954,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user"></param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestBodyWithQueryParamsWithHttpInfo(string query, User user, int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestBodyWithQueryParamsWithHttpInfo(string query, Org.OpenAPITools.Model.User user, int operationIndex = 0)
         {
             // verify the required parameter 'query' is set
             if (query == null)
@@ -2020,7 +2020,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestBodyWithQueryParamsAsync(string query, User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestBodyWithQueryParamsAsync(string query, Org.OpenAPITools.Model.User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await TestBodyWithQueryParamsWithHttpInfoAsync(query, user, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -2034,7 +2034,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestBodyWithQueryParamsWithHttpInfoAsync(string query, User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestBodyWithQueryParamsWithHttpInfoAsync(string query, Org.OpenAPITools.Model.User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'query' is set
             if (query == null)
@@ -2100,9 +2100,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ModelClient</returns>
-        public ModelClient TestClientModel(ModelClient modelClient, int operationIndex = 0)
+        public Org.OpenAPITools.Model.ModelClient TestClientModel(Org.OpenAPITools.Model.ModelClient modelClient, int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = TestClientModelWithHttpInfo(modelClient);
+            Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.ModelClient> localVarResponse = TestClientModelWithHttpInfo(modelClient);
             return localVarResponse.Data;
         }
 
@@ -2113,7 +2113,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        public Org.OpenAPITools.Client.ApiResponse<ModelClient> TestClientModelWithHttpInfo(ModelClient modelClient, int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.ModelClient> TestClientModelWithHttpInfo(Org.OpenAPITools.Model.ModelClient modelClient, int operationIndex = 0)
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
@@ -2151,7 +2151,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Patch<ModelClient>("/fake", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Patch<Org.OpenAPITools.Model.ModelClient>("/fake", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestClientModel", localVarResponse);
@@ -2172,9 +2172,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ModelClient</returns>
-        public async System.Threading.Tasks.Task<ModelClient> TestClientModelAsync(ModelClient modelClient, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Model.ModelClient> TestClientModelAsync(Org.OpenAPITools.Model.ModelClient modelClient, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await TestClientModelWithHttpInfoAsync(modelClient, operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.ModelClient> localVarResponse = await TestClientModelWithHttpInfoAsync(modelClient, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -2186,7 +2186,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> TestClientModelWithHttpInfoAsync(ModelClient modelClient, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.ModelClient>> TestClientModelWithHttpInfoAsync(Org.OpenAPITools.Model.ModelClient modelClient, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
@@ -2225,7 +2225,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<ModelClient>("/fake", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<Org.OpenAPITools.Model.ModelClient>("/fake", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

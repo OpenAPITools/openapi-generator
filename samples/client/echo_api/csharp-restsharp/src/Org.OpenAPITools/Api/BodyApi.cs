@@ -104,7 +104,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>Pet</returns>
-        Pet TestEchoBodyPet(Pet? pet = default(Pet?), int operationIndex = 0);
+        Org.OpenAPITools.Model.Pet TestEchoBodyPet(Org.OpenAPITools.Model.Pet? pet = default(Org.OpenAPITools.Model.Pet?), int operationIndex = 0);
 
         /// <summary>
         /// Test body parameter(s)
@@ -116,7 +116,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Pet</returns>
-        ApiResponse<Pet> TestEchoBodyPetWithHttpInfo(Pet? pet = default(Pet?), int operationIndex = 0);
+        ApiResponse<Org.OpenAPITools.Model.Pet> TestEchoBodyPetWithHttpInfo(Org.OpenAPITools.Model.Pet? pet = default(Org.OpenAPITools.Model.Pet?), int operationIndex = 0);
         /// <summary>
         /// Test empty response body
         /// </summary>
@@ -127,7 +127,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string TestEchoBodyPetResponseString(Pet? pet = default(Pet?), int operationIndex = 0);
+        string TestEchoBodyPetResponseString(Org.OpenAPITools.Model.Pet? pet = default(Org.OpenAPITools.Model.Pet?), int operationIndex = 0);
 
         /// <summary>
         /// Test empty response body
@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> TestEchoBodyPetResponseStringWithHttpInfo(Pet? pet = default(Pet?), int operationIndex = 0);
+        ApiResponse<string> TestEchoBodyPetResponseStringWithHttpInfo(Org.OpenAPITools.Model.Pet? pet = default(Org.OpenAPITools.Model.Pet?), int operationIndex = 0);
         /// <summary>
         /// Test empty json (request body)
         /// </summary>
@@ -150,7 +150,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="tag">Tag object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string TestEchoBodyTagResponseString(Tag? tag = default(Tag?), int operationIndex = 0);
+        string TestEchoBodyTagResponseString(Org.OpenAPITools.Model.Tag? tag = default(Org.OpenAPITools.Model.Tag?), int operationIndex = 0);
 
         /// <summary>
         /// Test empty json (request body)
@@ -162,7 +162,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="tag">Tag object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> TestEchoBodyTagResponseStringWithHttpInfo(Tag? tag = default(Tag?), int operationIndex = 0);
+        ApiResponse<string> TestEchoBodyTagResponseStringWithHttpInfo(Org.OpenAPITools.Model.Tag? tag = default(Org.OpenAPITools.Model.Tag?), int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -256,7 +256,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Pet</returns>
-        System.Threading.Tasks.Task<Pet> TestEchoBodyPetAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Org.OpenAPITools.Model.Pet> TestEchoBodyPetAsync(Org.OpenAPITools.Model.Pet? pet = default(Org.OpenAPITools.Model.Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test body parameter(s)
@@ -269,7 +269,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Pet)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Pet>> TestEchoBodyPetWithHttpInfoAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Org.OpenAPITools.Model.Pet>> TestEchoBodyPetWithHttpInfoAsync(Org.OpenAPITools.Model.Pet? pet = default(Org.OpenAPITools.Model.Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Test empty response body
         /// </summary>
@@ -281,7 +281,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestEchoBodyPetResponseStringAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestEchoBodyPetResponseStringAsync(Org.OpenAPITools.Model.Pet? pet = default(Org.OpenAPITools.Model.Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test empty response body
@@ -294,7 +294,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestEchoBodyPetResponseStringWithHttpInfoAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestEchoBodyPetResponseStringWithHttpInfoAsync(Org.OpenAPITools.Model.Pet? pet = default(Org.OpenAPITools.Model.Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Test empty json (request body)
         /// </summary>
@@ -306,7 +306,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestEchoBodyTagResponseStringAsync(Tag? tag = default(Tag?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestEchoBodyTagResponseStringAsync(Org.OpenAPITools.Model.Tag? tag = default(Org.OpenAPITools.Model.Tag?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test empty json (request body)
@@ -319,7 +319,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestEchoBodyTagResponseStringWithHttpInfoAsync(Tag? tag = default(Tag?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestEchoBodyTagResponseStringWithHttpInfoAsync(Org.OpenAPITools.Model.Tag? tag = default(Org.OpenAPITools.Model.Tag?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -841,9 +841,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>Pet</returns>
-        public Pet TestEchoBodyPet(Pet? pet = default(Pet?), int operationIndex = 0)
+        public Org.OpenAPITools.Model.Pet TestEchoBodyPet(Org.OpenAPITools.Model.Pet? pet = default(Org.OpenAPITools.Model.Pet?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = TestEchoBodyPetWithHttpInfo(pet);
+            Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.Pet> localVarResponse = TestEchoBodyPetWithHttpInfo(pet);
             return localVarResponse.Data;
         }
 
@@ -854,7 +854,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Pet</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Pet> TestEchoBodyPetWithHttpInfo(Pet? pet = default(Pet?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.Pet> TestEchoBodyPetWithHttpInfo(Org.OpenAPITools.Model.Pet? pet = default(Org.OpenAPITools.Model.Pet?), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -886,7 +886,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<Pet>("/echo/body/Pet", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<Org.OpenAPITools.Model.Pet>("/echo/body/Pet", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestEchoBodyPet", localVarResponse);
@@ -907,9 +907,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Pet</returns>
-        public async System.Threading.Tasks.Task<Pet> TestEchoBodyPetAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Model.Pet> TestEchoBodyPetAsync(Org.OpenAPITools.Model.Pet? pet = default(Org.OpenAPITools.Model.Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = await TestEchoBodyPetWithHttpInfoAsync(pet, operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.Pet> localVarResponse = await TestEchoBodyPetWithHttpInfoAsync(pet, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -921,7 +921,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Pet)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Pet>> TestEchoBodyPetWithHttpInfoAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.Pet>> TestEchoBodyPetWithHttpInfoAsync(Org.OpenAPITools.Model.Pet? pet = default(Org.OpenAPITools.Model.Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -954,7 +954,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Pet>("/echo/body/Pet", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Org.OpenAPITools.Model.Pet>("/echo/body/Pet", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -975,7 +975,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string TestEchoBodyPetResponseString(Pet? pet = default(Pet?), int operationIndex = 0)
+        public string TestEchoBodyPetResponseString(Org.OpenAPITools.Model.Pet? pet = default(Org.OpenAPITools.Model.Pet?), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestEchoBodyPetResponseStringWithHttpInfo(pet);
             return localVarResponse.Data;
@@ -988,7 +988,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pet">Pet object that needs to be added to the store (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestEchoBodyPetResponseStringWithHttpInfo(Pet? pet = default(Pet?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> TestEchoBodyPetResponseStringWithHttpInfo(Org.OpenAPITools.Model.Pet? pet = default(Org.OpenAPITools.Model.Pet?), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1041,7 +1041,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestEchoBodyPetResponseStringAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestEchoBodyPetResponseStringAsync(Org.OpenAPITools.Model.Pet? pet = default(Org.OpenAPITools.Model.Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestEchoBodyPetResponseStringWithHttpInfoAsync(pet, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1055,7 +1055,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestEchoBodyPetResponseStringWithHttpInfoAsync(Pet? pet = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestEchoBodyPetResponseStringWithHttpInfoAsync(Org.OpenAPITools.Model.Pet? pet = default(Org.OpenAPITools.Model.Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1109,7 +1109,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="tag">Tag object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string TestEchoBodyTagResponseString(Tag? tag = default(Tag?), int operationIndex = 0)
+        public string TestEchoBodyTagResponseString(Org.OpenAPITools.Model.Tag? tag = default(Org.OpenAPITools.Model.Tag?), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestEchoBodyTagResponseStringWithHttpInfo(tag);
             return localVarResponse.Data;
@@ -1122,7 +1122,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="tag">Tag object (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestEchoBodyTagResponseStringWithHttpInfo(Tag? tag = default(Tag?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> TestEchoBodyTagResponseStringWithHttpInfo(Org.OpenAPITools.Model.Tag? tag = default(Org.OpenAPITools.Model.Tag?), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1175,7 +1175,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestEchoBodyTagResponseStringAsync(Tag? tag = default(Tag?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestEchoBodyTagResponseStringAsync(Org.OpenAPITools.Model.Tag? tag = default(Org.OpenAPITools.Model.Tag?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestEchoBodyTagResponseStringWithHttpInfoAsync(tag, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1189,7 +1189,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestEchoBodyTagResponseStringWithHttpInfoAsync(Tag? tag = default(Tag?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestEchoBodyTagResponseStringWithHttpInfoAsync(Org.OpenAPITools.Model.Tag? tag = default(Org.OpenAPITools.Model.Tag?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();

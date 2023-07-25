@@ -17,7 +17,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
@@ -135,7 +134,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;User&gt;&gt;</returns>
-        Task<ApiResponse<User>> GetUserByNameAsync(string username, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.User>> GetUserByNameAsync(string username, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get user by user name
@@ -146,7 +145,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;User&gt;&gt;</returns>
-        Task<ApiResponse<User>> GetUserByNameOrDefaultAsync(string username, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.User>> GetUserByNameOrDefaultAsync(string username, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Logs user into the system
@@ -309,16 +308,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<User>> OnGetUserByName;
+        public event EventHandler<ApiResponseEventArgs<Org.OpenAPITools.Model.User>> OnGetUserByName;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorGetUserByName;
 
-        internal void ExecuteOnGetUserByName(ApiResponse<User> apiResponse)
+        internal void ExecuteOnGetUserByName(ApiResponse<Org.OpenAPITools.Model.User> apiResponse)
         {
-            OnGetUserByName?.Invoke(this, new ApiResponseEventArgs<User>(apiResponse));
+            OnGetUserByName?.Invoke(this, new ApiResponseEventArgs<Org.OpenAPITools.Model.User>(apiResponse));
         }
 
         internal void ExecuteOnErrorGetUserByName(Exception exception)
@@ -456,14 +455,14 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
-        partial void FormatCreateUser(User user);
+        partial void FormatCreateUser(Org.OpenAPITools.Model.User user);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        private void ValidateCreateUser(User user)
+        private void ValidateCreateUser(Org.OpenAPITools.Model.User user)
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
@@ -474,7 +473,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
-        private void AfterCreateUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar, User user)
+        private void AfterCreateUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Org.OpenAPITools.Model.User user)
         {
             bool suppressDefaultLog = false;
             AfterCreateUser(ref suppressDefaultLog, apiResponseLocalVar, user);
@@ -488,7 +487,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
-        partial void AfterCreateUser(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, User user);
+        partial void AfterCreateUser(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, Org.OpenAPITools.Model.User user);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -497,7 +496,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="user"></param>
-        private void OnErrorCreateUserDefaultImplementation(Exception exception, string pathFormat, string path, User user)
+        private void OnErrorCreateUserDefaultImplementation(Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.User user)
         {
             bool suppressDefaultLog = false;
             OnErrorCreateUser(ref suppressDefaultLog, exception, pathFormat, path, user);
@@ -513,7 +512,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="user"></param>
-        partial void OnErrorCreateUser(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, User user);
+        partial void OnErrorCreateUser(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.User user);
 
         /// <summary>
         /// Create user This can only be done by the logged in user.
@@ -1029,7 +1028,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="username"></param>
-        private void AfterGetUserByNameDefaultImplementation(ApiResponse<User> apiResponseLocalVar, string username)
+        private void AfterGetUserByNameDefaultImplementation(ApiResponse<Org.OpenAPITools.Model.User> apiResponseLocalVar, string username)
         {
             bool suppressDefaultLog = false;
             AfterGetUserByName(ref suppressDefaultLog, apiResponseLocalVar, username);
@@ -1043,7 +1042,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="username"></param>
-        partial void AfterGetUserByName(ref bool suppressDefaultLog, ApiResponse<User> apiResponseLocalVar, string username);
+        partial void AfterGetUserByName(ref bool suppressDefaultLog, ApiResponse<Org.OpenAPITools.Model.User> apiResponseLocalVar, string username);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1076,7 +1075,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="User"/></returns>
-        public async Task<ApiResponse<User>> GetUserByNameOrDefaultAsync(string username, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.User>> GetUserByNameOrDefaultAsync(string username, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1095,7 +1094,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="User"/></returns>
-        public async Task<ApiResponse<User>> GetUserByNameAsync(string username, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.User>> GetUserByNameAsync(string username, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1132,7 +1131,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<User> apiResponseLocalVar = new ApiResponse<User>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<Org.OpenAPITools.Model.User> apiResponseLocalVar = new ApiResponse<Org.OpenAPITools.Model.User>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/user/{username}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetUserByNameDefaultImplementation(apiResponseLocalVar, username);
 
@@ -1410,7 +1409,7 @@ namespace Org.OpenAPITools.Api
             }
         }
 
-        partial void FormatUpdateUser(User user, ref string username);
+        partial void FormatUpdateUser(Org.OpenAPITools.Model.User user, ref string username);
 
         /// <summary>
         /// Validates the request parameters
@@ -1418,7 +1417,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user"></param>
         /// <param name="username"></param>
         /// <returns></returns>
-        private void ValidateUpdateUser(User user, string username)
+        private void ValidateUpdateUser(Org.OpenAPITools.Model.User user, string username)
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
@@ -1433,7 +1432,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
         /// <param name="username"></param>
-        private void AfterUpdateUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar, User user, string username)
+        private void AfterUpdateUserDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Org.OpenAPITools.Model.User user, string username)
         {
             bool suppressDefaultLog = false;
             AfterUpdateUser(ref suppressDefaultLog, apiResponseLocalVar, user, username);
@@ -1448,7 +1447,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
         /// <param name="username"></param>
-        partial void AfterUpdateUser(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, User user, string username);
+        partial void AfterUpdateUser(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, Org.OpenAPITools.Model.User user, string username);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1458,7 +1457,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="path"></param>
         /// <param name="user"></param>
         /// <param name="username"></param>
-        private void OnErrorUpdateUserDefaultImplementation(Exception exception, string pathFormat, string path, User user, string username)
+        private void OnErrorUpdateUserDefaultImplementation(Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.User user, string username)
         {
             bool suppressDefaultLog = false;
             OnErrorUpdateUser(ref suppressDefaultLog, exception, pathFormat, path, user, username);
@@ -1475,7 +1474,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="path"></param>
         /// <param name="user"></param>
         /// <param name="username"></param>
-        partial void OnErrorUpdateUser(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, User user, string username);
+        partial void OnErrorUpdateUser(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.User user, string username);
 
         /// <summary>
         /// Updated user This can only be done by the logged in user.

@@ -41,6 +41,123 @@ tags:
 - description: Operations about user
   name: user
 paths:
+  /api/v1/environments:
+    get:
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Environment'
+                type: array
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Environment'
+                type: array
+            text/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Environment'
+                type: array
+          description: Success
+      tags:
+      - Environment
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Environment'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+          description: Success
+      tags:
+      - Environment
+  /api/v1/environments/{id}:
+    delete:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Success
+      tags:
+      - Environment
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Environment'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+          description: Success
+      tags:
+      - Environment
+    put:
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+      responses:
+        "200":
+          description: Success
+      tags:
+      - Environment
   /hello:
     get:
       description: Hello
@@ -1181,6 +1298,19 @@ components:
       description: Pet object that needs to be added to the store
       required: true
   schemas:
+    Environment:
+      additionalProperties: false
+      example:
+        name: name
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        id:
+          format: uuid
+          type: string
+        name:
+          nullable: true
+          type: string
+      type: object
     Foo:
       example:
         bar: bar

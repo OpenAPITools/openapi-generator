@@ -17,6 +17,117 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /api/v1/environments:
+    get:
+      tags:
+        - Environment
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Environment'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Environment'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Environment'
+    post:
+      tags:
+        - Environment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Environment'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+  /api/v1/environments/{id}:
+    get:
+      tags:
+        - Environment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Environment'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+    put:
+      tags:
+        - Environment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+      responses:
+        '200':
+          description: Success
+    delete:
+      tags:
+        - Environment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
   /hello:
     get:
       summary: Hello
@@ -1276,6 +1387,16 @@ components:
       type: http
       scheme: signature
   schemas:
+    Environment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          nullable: true
+      additionalProperties: false
     Foo:
       type: object
       properties:

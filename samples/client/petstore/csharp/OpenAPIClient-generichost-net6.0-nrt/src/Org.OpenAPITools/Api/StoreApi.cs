@@ -19,7 +19,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
@@ -89,7 +88,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Order&gt;&gt;</returns>
-        Task<ApiResponse<Order>> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.Order>> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Find purchase order by ID
@@ -100,7 +99,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;Order&gt;?&gt;</returns>
-        Task<ApiResponse<Order>?> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.Order>?> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Place an order for a pet
@@ -112,7 +111,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Order&gt;&gt;</returns>
-        Task<ApiResponse<Order>> PlaceOrderAsync(Order order, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.Order>> PlaceOrderAsync(Order order, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Place an order for a pet
@@ -123,7 +122,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;Order&gt;?&gt;</returns>
-        Task<ApiResponse<Order>?> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.Order>?> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -175,16 +174,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<Order>>? OnGetOrderById;
+        public event EventHandler<ApiResponseEventArgs<Org.OpenAPITools.Model.Order>>? OnGetOrderById;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorGetOrderById;
 
-        internal void ExecuteOnGetOrderById(ApiResponse<Order> apiResponse)
+        internal void ExecuteOnGetOrderById(ApiResponse<Org.OpenAPITools.Model.Order> apiResponse)
         {
-            OnGetOrderById?.Invoke(this, new ApiResponseEventArgs<Order>(apiResponse));
+            OnGetOrderById?.Invoke(this, new ApiResponseEventArgs<Org.OpenAPITools.Model.Order>(apiResponse));
         }
 
         internal void ExecuteOnErrorGetOrderById(Exception exception)
@@ -195,16 +194,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<Order>>? OnPlaceOrder;
+        public event EventHandler<ApiResponseEventArgs<Org.OpenAPITools.Model.Order>>? OnPlaceOrder;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorPlaceOrder;
 
-        internal void ExecuteOnPlaceOrder(ApiResponse<Order> apiResponse)
+        internal void ExecuteOnPlaceOrder(ApiResponse<Org.OpenAPITools.Model.Order> apiResponse)
         {
-            OnPlaceOrder?.Invoke(this, new ApiResponseEventArgs<Order>(apiResponse));
+            OnPlaceOrder?.Invoke(this, new ApiResponseEventArgs<Org.OpenAPITools.Model.Order>(apiResponse));
         }
 
         internal void ExecuteOnErrorPlaceOrder(Exception exception)
@@ -546,7 +545,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        private void AfterGetOrderByIdDefaultImplementation(ApiResponse<Order> apiResponseLocalVar, long orderId)
+        private void AfterGetOrderByIdDefaultImplementation(ApiResponse<Org.OpenAPITools.Model.Order> apiResponseLocalVar, long orderId)
         {
             bool suppressDefaultLog = false;
             AfterGetOrderById(ref suppressDefaultLog, apiResponseLocalVar, orderId);
@@ -560,7 +559,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="orderId"></param>
-        partial void AfterGetOrderById(ref bool suppressDefaultLog, ApiResponse<Order> apiResponseLocalVar, long orderId);
+        partial void AfterGetOrderById(ref bool suppressDefaultLog, ApiResponse<Org.OpenAPITools.Model.Order> apiResponseLocalVar, long orderId);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -593,7 +592,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
-        public async Task<ApiResponse<Order>?> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.Order>?> GetOrderByIdOrDefaultAsync(long orderId, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -612,7 +611,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
-        public async Task<ApiResponse<Order>> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.Order>> GetOrderByIdAsync(long orderId, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -648,7 +647,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<Order> apiResponseLocalVar = new ApiResponse<Order>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order/{order_id}", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<Org.OpenAPITools.Model.Order> apiResponseLocalVar = new ApiResponse<Org.OpenAPITools.Model.Order>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order/{order_id}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetOrderByIdDefaultImplementation(apiResponseLocalVar, orderId);
 
@@ -666,14 +665,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
-        partial void FormatPlaceOrder(Order order);
+        partial void FormatPlaceOrder(Org.OpenAPITools.Model.Order order);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        private void ValidatePlaceOrder(Order order)
+        private void ValidatePlaceOrder(Org.OpenAPITools.Model.Order order)
         {
             if (order == null)
                 throw new ArgumentNullException(nameof(order));
@@ -684,7 +683,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="order"></param>
-        private void AfterPlaceOrderDefaultImplementation(ApiResponse<Order> apiResponseLocalVar, Order order)
+        private void AfterPlaceOrderDefaultImplementation(ApiResponse<Org.OpenAPITools.Model.Order> apiResponseLocalVar, Org.OpenAPITools.Model.Order order)
         {
             bool suppressDefaultLog = false;
             AfterPlaceOrder(ref suppressDefaultLog, apiResponseLocalVar, order);
@@ -698,7 +697,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="order"></param>
-        partial void AfterPlaceOrder(ref bool suppressDefaultLog, ApiResponse<Order> apiResponseLocalVar, Order order);
+        partial void AfterPlaceOrder(ref bool suppressDefaultLog, ApiResponse<Org.OpenAPITools.Model.Order> apiResponseLocalVar, Org.OpenAPITools.Model.Order order);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -707,7 +706,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="order"></param>
-        private void OnErrorPlaceOrderDefaultImplementation(Exception exception, string pathFormat, string path, Order order)
+        private void OnErrorPlaceOrderDefaultImplementation(Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.Order order)
         {
             bool suppressDefaultLog = false;
             OnErrorPlaceOrder(ref suppressDefaultLog, exception, pathFormat, path, order);
@@ -723,7 +722,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="order"></param>
-        partial void OnErrorPlaceOrder(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Order order);
+        partial void OnErrorPlaceOrder(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.Order order);
 
         /// <summary>
         /// Place an order for a pet 
@@ -731,7 +730,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
-        public async Task<ApiResponse<Order>?> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.Order>?> PlaceOrderOrDefaultAsync(Order order, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -750,7 +749,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Order"/></returns>
-        public async Task<ApiResponse<Order>> PlaceOrderAsync(Order order, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.Order>> PlaceOrderAsync(Order order, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -800,7 +799,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<Order> apiResponseLocalVar = new ApiResponse<Order>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<Org.OpenAPITools.Model.Order> apiResponseLocalVar = new ApiResponse<Org.OpenAPITools.Model.Order>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/store/order", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterPlaceOrderDefaultImplementation(apiResponseLocalVar, order);
 

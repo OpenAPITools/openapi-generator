@@ -17,7 +17,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
@@ -42,7 +41,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;HealthCheckResult&gt;&gt;</returns>
-        Task<ApiResponse<HealthCheckResult>> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.HealthCheckResult>> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Health check endpoint
@@ -52,7 +51,7 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;HealthCheckResult&gt;&gt;</returns>
-        Task<ApiResponse<HealthCheckResult>> FakeHealthGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.HealthCheckResult>> FakeHealthGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -87,7 +86,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;OuterComposite&gt;&gt;</returns>
-        Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeAsync(Option<OuterComposite> outerComposite = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.OuterComposite>> FakeOuterCompositeSerializeAsync(Option<Org.OpenAPITools.Model.OuterComposite> outerComposite = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -98,7 +97,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;OuterComposite&gt;&gt;</returns>
-        Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeOrDefaultAsync(Option<OuterComposite> outerComposite = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.OuterComposite>> FakeOuterCompositeSerializeOrDefaultAsync(Option<Org.OpenAPITools.Model.OuterComposite> outerComposite = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -157,7 +156,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;List&lt;OuterEnum&gt;&gt;&gt;</returns>
-        Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<List<Org.OpenAPITools.Model.OuterEnum>>> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Array of Enums
@@ -167,7 +166,7 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;List&lt;OuterEnum&gt;&gt;&gt;</returns>
-        Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<List<Org.OpenAPITools.Model.OuterEnum>>> GetArrayOfEnumsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -227,7 +226,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;ModelClient&gt;&gt;</returns>
-        Task<ApiResponse<ModelClient>> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.ModelClient>> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test \&quot;client\&quot; model
@@ -238,7 +237,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;ModelClient&gt;&gt;</returns>
-        Task<ApiResponse<ModelClient>> TestClientModelOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.ModelClient>> TestClientModelOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -456,16 +455,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<HealthCheckResult>> OnFakeHealthGet;
+        public event EventHandler<ApiResponseEventArgs<Org.OpenAPITools.Model.HealthCheckResult>> OnFakeHealthGet;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorFakeHealthGet;
 
-        internal void ExecuteOnFakeHealthGet(ApiResponse<HealthCheckResult> apiResponse)
+        internal void ExecuteOnFakeHealthGet(ApiResponse<Org.OpenAPITools.Model.HealthCheckResult> apiResponse)
         {
-            OnFakeHealthGet?.Invoke(this, new ApiResponseEventArgs<HealthCheckResult>(apiResponse));
+            OnFakeHealthGet?.Invoke(this, new ApiResponseEventArgs<Org.OpenAPITools.Model.HealthCheckResult>(apiResponse));
         }
 
         internal void ExecuteOnErrorFakeHealthGet(Exception exception)
@@ -496,16 +495,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<OuterComposite>> OnFakeOuterCompositeSerialize;
+        public event EventHandler<ApiResponseEventArgs<Org.OpenAPITools.Model.OuterComposite>> OnFakeOuterCompositeSerialize;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorFakeOuterCompositeSerialize;
 
-        internal void ExecuteOnFakeOuterCompositeSerialize(ApiResponse<OuterComposite> apiResponse)
+        internal void ExecuteOnFakeOuterCompositeSerialize(ApiResponse<Org.OpenAPITools.Model.OuterComposite> apiResponse)
         {
-            OnFakeOuterCompositeSerialize?.Invoke(this, new ApiResponseEventArgs<OuterComposite>(apiResponse));
+            OnFakeOuterCompositeSerialize?.Invoke(this, new ApiResponseEventArgs<Org.OpenAPITools.Model.OuterComposite>(apiResponse));
         }
 
         internal void ExecuteOnErrorFakeOuterCompositeSerialize(Exception exception)
@@ -556,16 +555,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<List<OuterEnum>>> OnGetArrayOfEnums;
+        public event EventHandler<ApiResponseEventArgs<List<Org.OpenAPITools.Model.OuterEnum>>> OnGetArrayOfEnums;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorGetArrayOfEnums;
 
-        internal void ExecuteOnGetArrayOfEnums(ApiResponse<List<OuterEnum>> apiResponse)
+        internal void ExecuteOnGetArrayOfEnums(ApiResponse<List<Org.OpenAPITools.Model.OuterEnum>> apiResponse)
         {
-            OnGetArrayOfEnums?.Invoke(this, new ApiResponseEventArgs<List<OuterEnum>>(apiResponse));
+            OnGetArrayOfEnums?.Invoke(this, new ApiResponseEventArgs<List<Org.OpenAPITools.Model.OuterEnum>>(apiResponse));
         }
 
         internal void ExecuteOnErrorGetArrayOfEnums(Exception exception)
@@ -616,16 +615,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<ModelClient>> OnTestClientModel;
+        public event EventHandler<ApiResponseEventArgs<Org.OpenAPITools.Model.ModelClient>> OnTestClientModel;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorTestClientModel;
 
-        internal void ExecuteOnTestClientModel(ApiResponse<ModelClient> apiResponse)
+        internal void ExecuteOnTestClientModel(ApiResponse<Org.OpenAPITools.Model.ModelClient> apiResponse)
         {
-            OnTestClientModel?.Invoke(this, new ApiResponseEventArgs<ModelClient>(apiResponse));
+            OnTestClientModel?.Invoke(this, new ApiResponseEventArgs<Org.OpenAPITools.Model.ModelClient>(apiResponse));
         }
 
         internal void ExecuteOnErrorTestClientModel(Exception exception)
@@ -827,7 +826,7 @@ namespace Org.OpenAPITools.Api
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        private void AfterFakeHealthGetDefaultImplementation(ApiResponse<HealthCheckResult> apiResponseLocalVar)
+        private void AfterFakeHealthGetDefaultImplementation(ApiResponse<Org.OpenAPITools.Model.HealthCheckResult> apiResponseLocalVar)
         {
             bool suppressDefaultLog = false;
             AfterFakeHealthGet(ref suppressDefaultLog, apiResponseLocalVar);
@@ -840,7 +839,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterFakeHealthGet(ref bool suppressDefaultLog, ApiResponse<HealthCheckResult> apiResponseLocalVar);
+        partial void AfterFakeHealthGet(ref bool suppressDefaultLog, ApiResponse<Org.OpenAPITools.Model.HealthCheckResult> apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -870,7 +869,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="HealthCheckResult"/></returns>
-        public async Task<ApiResponse<HealthCheckResult>> FakeHealthGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.HealthCheckResult>> FakeHealthGetOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -888,7 +887,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="HealthCheckResult"/></returns>
-        public async Task<ApiResponse<HealthCheckResult>> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.HealthCheckResult>> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -920,7 +919,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<HealthCheckResult> apiResponseLocalVar = new ApiResponse<HealthCheckResult>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/health", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<Org.OpenAPITools.Model.HealthCheckResult> apiResponseLocalVar = new ApiResponse<Org.OpenAPITools.Model.HealthCheckResult>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/health", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterFakeHealthGetDefaultImplementation(apiResponseLocalVar);
 
@@ -1077,14 +1076,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
-        partial void FormatFakeOuterCompositeSerialize(Option<OuterComposite> outerComposite);
+        partial void FormatFakeOuterCompositeSerialize(Option<Org.OpenAPITools.Model.OuterComposite> outerComposite);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="outerComposite"></param>
         /// <returns></returns>
-        private void ValidateFakeOuterCompositeSerialize(Option<OuterComposite> outerComposite)
+        private void ValidateFakeOuterCompositeSerialize(Option<Org.OpenAPITools.Model.OuterComposite> outerComposite)
         {
             if (outerComposite.IsSet && outerComposite.Value == null)
                 throw new ArgumentNullException(nameof(outerComposite));
@@ -1095,7 +1094,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="outerComposite"></param>
-        private void AfterFakeOuterCompositeSerializeDefaultImplementation(ApiResponse<OuterComposite> apiResponseLocalVar, Option<OuterComposite> outerComposite)
+        private void AfterFakeOuterCompositeSerializeDefaultImplementation(ApiResponse<Org.OpenAPITools.Model.OuterComposite> apiResponseLocalVar, Option<Org.OpenAPITools.Model.OuterComposite> outerComposite)
         {
             bool suppressDefaultLog = false;
             AfterFakeOuterCompositeSerialize(ref suppressDefaultLog, apiResponseLocalVar, outerComposite);
@@ -1109,7 +1108,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="outerComposite"></param>
-        partial void AfterFakeOuterCompositeSerialize(ref bool suppressDefaultLog, ApiResponse<OuterComposite> apiResponseLocalVar, Option<OuterComposite> outerComposite);
+        partial void AfterFakeOuterCompositeSerialize(ref bool suppressDefaultLog, ApiResponse<Org.OpenAPITools.Model.OuterComposite> apiResponseLocalVar, Option<Org.OpenAPITools.Model.OuterComposite> outerComposite);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1118,7 +1117,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="outerComposite"></param>
-        private void OnErrorFakeOuterCompositeSerializeDefaultImplementation(Exception exception, string pathFormat, string path, Option<OuterComposite> outerComposite)
+        private void OnErrorFakeOuterCompositeSerializeDefaultImplementation(Exception exception, string pathFormat, string path, Option<Org.OpenAPITools.Model.OuterComposite> outerComposite)
         {
             bool suppressDefaultLog = false;
             OnErrorFakeOuterCompositeSerialize(ref suppressDefaultLog, exception, pathFormat, path, outerComposite);
@@ -1134,7 +1133,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="outerComposite"></param>
-        partial void OnErrorFakeOuterCompositeSerialize(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Option<OuterComposite> outerComposite);
+        partial void OnErrorFakeOuterCompositeSerialize(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Option<Org.OpenAPITools.Model.OuterComposite> outerComposite);
 
         /// <summary>
         ///  Test serialization of object with outer number type
@@ -1142,7 +1141,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="OuterComposite"/></returns>
-        public async Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeOrDefaultAsync(Option<OuterComposite> outerComposite = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.OuterComposite>> FakeOuterCompositeSerializeOrDefaultAsync(Option<Org.OpenAPITools.Model.OuterComposite> outerComposite = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1161,7 +1160,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="OuterComposite"/></returns>
-        public async Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeAsync(Option<OuterComposite> outerComposite = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.OuterComposite>> FakeOuterCompositeSerializeAsync(Option<Org.OpenAPITools.Model.OuterComposite> outerComposite = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1211,7 +1210,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<OuterComposite> apiResponseLocalVar = new ApiResponse<OuterComposite>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/composite", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<Org.OpenAPITools.Model.OuterComposite> apiResponseLocalVar = new ApiResponse<Org.OpenAPITools.Model.OuterComposite>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/outer/composite", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterFakeOuterCompositeSerializeDefaultImplementation(apiResponseLocalVar, outerComposite);
 
@@ -1536,7 +1535,7 @@ namespace Org.OpenAPITools.Api
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        private void AfterGetArrayOfEnumsDefaultImplementation(ApiResponse<List<OuterEnum>> apiResponseLocalVar)
+        private void AfterGetArrayOfEnumsDefaultImplementation(ApiResponse<List<Org.OpenAPITools.Model.OuterEnum>> apiResponseLocalVar)
         {
             bool suppressDefaultLog = false;
             AfterGetArrayOfEnums(ref suppressDefaultLog, apiResponseLocalVar);
@@ -1549,7 +1548,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetArrayOfEnums(ref bool suppressDefaultLog, ApiResponse<List<OuterEnum>> apiResponseLocalVar);
+        partial void AfterGetArrayOfEnums(ref bool suppressDefaultLog, ApiResponse<List<Org.OpenAPITools.Model.OuterEnum>> apiResponseLocalVar);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1579,7 +1578,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<List<Org.OpenAPITools.Model.OuterEnum>>> GetArrayOfEnumsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1597,7 +1596,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<List<Org.OpenAPITools.Model.OuterEnum>>> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1629,7 +1628,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<List<OuterEnum>> apiResponseLocalVar = new ApiResponse<List<OuterEnum>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/array-of-enums", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<List<Org.OpenAPITools.Model.OuterEnum>> apiResponseLocalVar = new ApiResponse<List<Org.OpenAPITools.Model.OuterEnum>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/array-of-enums", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetArrayOfEnumsDefaultImplementation(apiResponseLocalVar);
 
@@ -1647,14 +1646,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
-        partial void FormatTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass);
+        partial void FormatTestBodyWithFileSchema(Org.OpenAPITools.Model.FileSchemaTestClass fileSchemaTestClass);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="fileSchemaTestClass"></param>
         /// <returns></returns>
-        private void ValidateTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass)
+        private void ValidateTestBodyWithFileSchema(Org.OpenAPITools.Model.FileSchemaTestClass fileSchemaTestClass)
         {
             if (fileSchemaTestClass == null)
                 throw new ArgumentNullException(nameof(fileSchemaTestClass));
@@ -1665,7 +1664,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="fileSchemaTestClass"></param>
-        private void AfterTestBodyWithFileSchemaDefaultImplementation(ApiResponse<object> apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass)
+        private void AfterTestBodyWithFileSchemaDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Org.OpenAPITools.Model.FileSchemaTestClass fileSchemaTestClass)
         {
             bool suppressDefaultLog = false;
             AfterTestBodyWithFileSchema(ref suppressDefaultLog, apiResponseLocalVar, fileSchemaTestClass);
@@ -1679,7 +1678,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="fileSchemaTestClass"></param>
-        partial void AfterTestBodyWithFileSchema(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, FileSchemaTestClass fileSchemaTestClass);
+        partial void AfterTestBodyWithFileSchema(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, Org.OpenAPITools.Model.FileSchemaTestClass fileSchemaTestClass);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1688,7 +1687,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="fileSchemaTestClass"></param>
-        private void OnErrorTestBodyWithFileSchemaDefaultImplementation(Exception exception, string pathFormat, string path, FileSchemaTestClass fileSchemaTestClass)
+        private void OnErrorTestBodyWithFileSchemaDefaultImplementation(Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.FileSchemaTestClass fileSchemaTestClass)
         {
             bool suppressDefaultLog = false;
             OnErrorTestBodyWithFileSchema(ref suppressDefaultLog, exception, pathFormat, path, fileSchemaTestClass);
@@ -1704,7 +1703,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="fileSchemaTestClass"></param>
-        partial void OnErrorTestBodyWithFileSchema(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, FileSchemaTestClass fileSchemaTestClass);
+        partial void OnErrorTestBodyWithFileSchema(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.FileSchemaTestClass fileSchemaTestClass);
 
         /// <summary>
         ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
@@ -1789,7 +1788,7 @@ namespace Org.OpenAPITools.Api
             }
         }
 
-        partial void FormatTestBodyWithQueryParams(User user, ref string query);
+        partial void FormatTestBodyWithQueryParams(Org.OpenAPITools.Model.User user, ref string query);
 
         /// <summary>
         /// Validates the request parameters
@@ -1797,7 +1796,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user"></param>
         /// <param name="query"></param>
         /// <returns></returns>
-        private void ValidateTestBodyWithQueryParams(User user, string query)
+        private void ValidateTestBodyWithQueryParams(Org.OpenAPITools.Model.User user, string query)
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
@@ -1812,7 +1811,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
         /// <param name="query"></param>
-        private void AfterTestBodyWithQueryParamsDefaultImplementation(ApiResponse<object> apiResponseLocalVar, User user, string query)
+        private void AfterTestBodyWithQueryParamsDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Org.OpenAPITools.Model.User user, string query)
         {
             bool suppressDefaultLog = false;
             AfterTestBodyWithQueryParams(ref suppressDefaultLog, apiResponseLocalVar, user, query);
@@ -1827,7 +1826,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="user"></param>
         /// <param name="query"></param>
-        partial void AfterTestBodyWithQueryParams(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, User user, string query);
+        partial void AfterTestBodyWithQueryParams(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, Org.OpenAPITools.Model.User user, string query);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1837,7 +1836,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="path"></param>
         /// <param name="user"></param>
         /// <param name="query"></param>
-        private void OnErrorTestBodyWithQueryParamsDefaultImplementation(Exception exception, string pathFormat, string path, User user, string query)
+        private void OnErrorTestBodyWithQueryParamsDefaultImplementation(Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.User user, string query)
         {
             bool suppressDefaultLog = false;
             OnErrorTestBodyWithQueryParams(ref suppressDefaultLog, exception, pathFormat, path, user, query);
@@ -1854,7 +1853,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="path"></param>
         /// <param name="user"></param>
         /// <param name="query"></param>
-        partial void OnErrorTestBodyWithQueryParams(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, User user, string query);
+        partial void OnErrorTestBodyWithQueryParams(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.User user, string query);
 
         /// <summary>
         ///  
@@ -1947,14 +1946,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
-        partial void FormatTestClientModel(ModelClient modelClient);
+        partial void FormatTestClientModel(Org.OpenAPITools.Model.ModelClient modelClient);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="modelClient"></param>
         /// <returns></returns>
-        private void ValidateTestClientModel(ModelClient modelClient)
+        private void ValidateTestClientModel(Org.OpenAPITools.Model.ModelClient modelClient)
         {
             if (modelClient == null)
                 throw new ArgumentNullException(nameof(modelClient));
@@ -1965,7 +1964,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        private void AfterTestClientModelDefaultImplementation(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient)
+        private void AfterTestClientModelDefaultImplementation(ApiResponse<Org.OpenAPITools.Model.ModelClient> apiResponseLocalVar, Org.OpenAPITools.Model.ModelClient modelClient)
         {
             bool suppressDefaultLog = false;
             AfterTestClientModel(ref suppressDefaultLog, apiResponseLocalVar, modelClient);
@@ -1979,7 +1978,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        partial void AfterTestClientModel(ref bool suppressDefaultLog, ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient);
+        partial void AfterTestClientModel(ref bool suppressDefaultLog, ApiResponse<Org.OpenAPITools.Model.ModelClient> apiResponseLocalVar, Org.OpenAPITools.Model.ModelClient modelClient);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1988,7 +1987,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        private void OnErrorTestClientModelDefaultImplementation(Exception exception, string pathFormat, string path, ModelClient modelClient)
+        private void OnErrorTestClientModelDefaultImplementation(Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.ModelClient modelClient)
         {
             bool suppressDefaultLog = false;
             OnErrorTestClientModel(ref suppressDefaultLog, exception, pathFormat, path, modelClient);
@@ -2004,7 +2003,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        partial void OnErrorTestClientModel(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, ModelClient modelClient);
+        partial void OnErrorTestClientModel(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.ModelClient modelClient);
 
         /// <summary>
         /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
@@ -2012,7 +2011,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
-        public async Task<ApiResponse<ModelClient>> TestClientModelOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.ModelClient>> TestClientModelOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -2031,7 +2030,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
-        public async Task<ApiResponse<ModelClient>> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.ModelClient>> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -2080,7 +2079,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<Org.OpenAPITools.Model.ModelClient> apiResponseLocalVar = new ApiResponse<Org.OpenAPITools.Model.ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterTestClientModelDefaultImplementation(apiResponseLocalVar, modelClient);
 

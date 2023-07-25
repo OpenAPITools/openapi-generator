@@ -17,7 +17,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
@@ -91,7 +90,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;List&lt;Pet&gt;&gt;&gt;</returns>
-        Task<ApiResponse<List<Pet>>> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<List<Org.OpenAPITools.Model.Pet>>> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Finds Pets by status
@@ -102,7 +101,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;List&lt;Pet&gt;&gt;&gt;</returns>
-        Task<ApiResponse<List<Pet>>> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<List<Org.OpenAPITools.Model.Pet>>> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Finds Pets by tags
@@ -114,7 +113,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;List&lt;Pet&gt;&gt;&gt;</returns>
-        Task<ApiResponse<List<Pet>>> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<List<Org.OpenAPITools.Model.Pet>>> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Finds Pets by tags
@@ -125,7 +124,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;List&lt;Pet&gt;&gt;&gt;</returns>
-        Task<ApiResponse<List<Pet>>> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<List<Org.OpenAPITools.Model.Pet>>> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Find pet by ID
@@ -137,7 +136,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Pet&gt;&gt;</returns>
-        Task<ApiResponse<Pet>> GetPetByIdAsync(long petId, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.Pet>> GetPetByIdAsync(long petId, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Find pet by ID
@@ -148,7 +147,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;Pet&gt;&gt;</returns>
-        Task<ApiResponse<Pet>> GetPetByIdOrDefaultAsync(long petId, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.Pet>> GetPetByIdOrDefaultAsync(long petId, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Update an existing pet
@@ -212,7 +211,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;ApiResponse&gt;&gt;</returns>
-        Task<ApiResponse<ApiResponse>> UploadFileAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.ApiResponse>> UploadFileAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// uploads an image
@@ -225,7 +224,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;ApiResponse&gt;&gt;</returns>
-        Task<ApiResponse<ApiResponse>> UploadFileOrDefaultAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.ApiResponse>> UploadFileOrDefaultAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// uploads an image (required)
@@ -239,7 +238,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;ApiResponse&gt;&gt;</returns>
-        Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.ApiResponse>> UploadFileWithRequiredFileAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// uploads an image (required)
@@ -252,7 +251,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;ApiResponse&gt;&gt;</returns>
-        Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileOrDefaultAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.ApiResponse>> UploadFileWithRequiredFileOrDefaultAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -304,16 +303,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<List<Pet>>> OnFindPetsByStatus;
+        public event EventHandler<ApiResponseEventArgs<List<Org.OpenAPITools.Model.Pet>>> OnFindPetsByStatus;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorFindPetsByStatus;
 
-        internal void ExecuteOnFindPetsByStatus(ApiResponse<List<Pet>> apiResponse)
+        internal void ExecuteOnFindPetsByStatus(ApiResponse<List<Org.OpenAPITools.Model.Pet>> apiResponse)
         {
-            OnFindPetsByStatus?.Invoke(this, new ApiResponseEventArgs<List<Pet>>(apiResponse));
+            OnFindPetsByStatus?.Invoke(this, new ApiResponseEventArgs<List<Org.OpenAPITools.Model.Pet>>(apiResponse));
         }
 
         internal void ExecuteOnErrorFindPetsByStatus(Exception exception)
@@ -324,16 +323,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<List<Pet>>> OnFindPetsByTags;
+        public event EventHandler<ApiResponseEventArgs<List<Org.OpenAPITools.Model.Pet>>> OnFindPetsByTags;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorFindPetsByTags;
 
-        internal void ExecuteOnFindPetsByTags(ApiResponse<List<Pet>> apiResponse)
+        internal void ExecuteOnFindPetsByTags(ApiResponse<List<Org.OpenAPITools.Model.Pet>> apiResponse)
         {
-            OnFindPetsByTags?.Invoke(this, new ApiResponseEventArgs<List<Pet>>(apiResponse));
+            OnFindPetsByTags?.Invoke(this, new ApiResponseEventArgs<List<Org.OpenAPITools.Model.Pet>>(apiResponse));
         }
 
         internal void ExecuteOnErrorFindPetsByTags(Exception exception)
@@ -344,16 +343,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<Pet>> OnGetPetById;
+        public event EventHandler<ApiResponseEventArgs<Org.OpenAPITools.Model.Pet>> OnGetPetById;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorGetPetById;
 
-        internal void ExecuteOnGetPetById(ApiResponse<Pet> apiResponse)
+        internal void ExecuteOnGetPetById(ApiResponse<Org.OpenAPITools.Model.Pet> apiResponse)
         {
-            OnGetPetById?.Invoke(this, new ApiResponseEventArgs<Pet>(apiResponse));
+            OnGetPetById?.Invoke(this, new ApiResponseEventArgs<Org.OpenAPITools.Model.Pet>(apiResponse));
         }
 
         internal void ExecuteOnErrorGetPetById(Exception exception)
@@ -404,16 +403,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<ApiResponse>> OnUploadFile;
+        public event EventHandler<ApiResponseEventArgs<Org.OpenAPITools.Model.ApiResponse>> OnUploadFile;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorUploadFile;
 
-        internal void ExecuteOnUploadFile(ApiResponse<ApiResponse> apiResponse)
+        internal void ExecuteOnUploadFile(ApiResponse<Org.OpenAPITools.Model.ApiResponse> apiResponse)
         {
-            OnUploadFile?.Invoke(this, new ApiResponseEventArgs<ApiResponse>(apiResponse));
+            OnUploadFile?.Invoke(this, new ApiResponseEventArgs<Org.OpenAPITools.Model.ApiResponse>(apiResponse));
         }
 
         internal void ExecuteOnErrorUploadFile(Exception exception)
@@ -424,16 +423,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<ApiResponse>> OnUploadFileWithRequiredFile;
+        public event EventHandler<ApiResponseEventArgs<Org.OpenAPITools.Model.ApiResponse>> OnUploadFileWithRequiredFile;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorUploadFileWithRequiredFile;
 
-        internal void ExecuteOnUploadFileWithRequiredFile(ApiResponse<ApiResponse> apiResponse)
+        internal void ExecuteOnUploadFileWithRequiredFile(ApiResponse<Org.OpenAPITools.Model.ApiResponse> apiResponse)
         {
-            OnUploadFileWithRequiredFile?.Invoke(this, new ApiResponseEventArgs<ApiResponse>(apiResponse));
+            OnUploadFileWithRequiredFile?.Invoke(this, new ApiResponseEventArgs<Org.OpenAPITools.Model.ApiResponse>(apiResponse));
         }
 
         internal void ExecuteOnErrorUploadFileWithRequiredFile(Exception exception)
@@ -511,14 +510,14 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
-        partial void FormatAddPet(Pet pet);
+        partial void FormatAddPet(Org.OpenAPITools.Model.Pet pet);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="pet"></param>
         /// <returns></returns>
-        private void ValidateAddPet(Pet pet)
+        private void ValidateAddPet(Org.OpenAPITools.Model.Pet pet)
         {
             if (pet == null)
                 throw new ArgumentNullException(nameof(pet));
@@ -529,7 +528,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="pet"></param>
-        private void AfterAddPetDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Pet pet)
+        private void AfterAddPetDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Org.OpenAPITools.Model.Pet pet)
         {
             bool suppressDefaultLog = false;
             AfterAddPet(ref suppressDefaultLog, apiResponseLocalVar, pet);
@@ -543,7 +542,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="pet"></param>
-        partial void AfterAddPet(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, Pet pet);
+        partial void AfterAddPet(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, Org.OpenAPITools.Model.Pet pet);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -552,7 +551,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="pet"></param>
-        private void OnErrorAddPetDefaultImplementation(Exception exception, string pathFormat, string path, Pet pet)
+        private void OnErrorAddPetDefaultImplementation(Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.Pet pet)
         {
             bool suppressDefaultLog = false;
             OnErrorAddPet(ref suppressDefaultLog, exception, pathFormat, path, pet);
@@ -568,7 +567,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="pet"></param>
-        partial void OnErrorAddPet(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Pet pet);
+        partial void OnErrorAddPet(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.Pet pet);
 
         /// <summary>
         /// Add a new pet to the store 
@@ -849,7 +848,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="status"></param>
-        private void AfterFindPetsByStatusDefaultImplementation(ApiResponse<List<Pet>> apiResponseLocalVar, List<string> status)
+        private void AfterFindPetsByStatusDefaultImplementation(ApiResponse<List<Org.OpenAPITools.Model.Pet>> apiResponseLocalVar, List<string> status)
         {
             bool suppressDefaultLog = false;
             AfterFindPetsByStatus(ref suppressDefaultLog, apiResponseLocalVar, status);
@@ -863,7 +862,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="status"></param>
-        partial void AfterFindPetsByStatus(ref bool suppressDefaultLog, ApiResponse<List<Pet>> apiResponseLocalVar, List<string> status);
+        partial void AfterFindPetsByStatus(ref bool suppressDefaultLog, ApiResponse<List<Org.OpenAPITools.Model.Pet>> apiResponseLocalVar, List<string> status);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -896,7 +895,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<Pet>>> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<List<Org.OpenAPITools.Model.Pet>>> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -915,7 +914,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<Pet>>> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<List<Org.OpenAPITools.Model.Pet>>> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -976,7 +975,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<List<Pet>> apiResponseLocalVar = new ApiResponse<List<Pet>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/findByStatus", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<List<Org.OpenAPITools.Model.Pet>> apiResponseLocalVar = new ApiResponse<List<Org.OpenAPITools.Model.Pet>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/findByStatus", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterFindPetsByStatusDefaultImplementation(apiResponseLocalVar, status);
 
@@ -1020,7 +1019,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="tags"></param>
-        private void AfterFindPetsByTagsDefaultImplementation(ApiResponse<List<Pet>> apiResponseLocalVar, List<string> tags)
+        private void AfterFindPetsByTagsDefaultImplementation(ApiResponse<List<Org.OpenAPITools.Model.Pet>> apiResponseLocalVar, List<string> tags)
         {
             bool suppressDefaultLog = false;
             AfterFindPetsByTags(ref suppressDefaultLog, apiResponseLocalVar, tags);
@@ -1034,7 +1033,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="tags"></param>
-        partial void AfterFindPetsByTags(ref bool suppressDefaultLog, ApiResponse<List<Pet>> apiResponseLocalVar, List<string> tags);
+        partial void AfterFindPetsByTags(ref bool suppressDefaultLog, ApiResponse<List<Org.OpenAPITools.Model.Pet>> apiResponseLocalVar, List<string> tags);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1067,7 +1066,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<Pet>>> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<List<Org.OpenAPITools.Model.Pet>>> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1086,7 +1085,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="List{TValue}"/></returns>
-        public async Task<ApiResponse<List<Pet>>> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<List<Org.OpenAPITools.Model.Pet>>> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1147,7 +1146,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<List<Pet>> apiResponseLocalVar = new ApiResponse<List<Pet>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/findByTags", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<List<Org.OpenAPITools.Model.Pet>> apiResponseLocalVar = new ApiResponse<List<Org.OpenAPITools.Model.Pet>>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/findByTags", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterFindPetsByTagsDefaultImplementation(apiResponseLocalVar, tags);
 
@@ -1180,7 +1179,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="petId"></param>
-        private void AfterGetPetByIdDefaultImplementation(ApiResponse<Pet> apiResponseLocalVar, long petId)
+        private void AfterGetPetByIdDefaultImplementation(ApiResponse<Org.OpenAPITools.Model.Pet> apiResponseLocalVar, long petId)
         {
             bool suppressDefaultLog = false;
             AfterGetPetById(ref suppressDefaultLog, apiResponseLocalVar, petId);
@@ -1194,7 +1193,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="petId"></param>
-        partial void AfterGetPetById(ref bool suppressDefaultLog, ApiResponse<Pet> apiResponseLocalVar, long petId);
+        partial void AfterGetPetById(ref bool suppressDefaultLog, ApiResponse<Org.OpenAPITools.Model.Pet> apiResponseLocalVar, long petId);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1227,7 +1226,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Pet"/></returns>
-        public async Task<ApiResponse<Pet>> GetPetByIdOrDefaultAsync(long petId, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.Pet>> GetPetByIdOrDefaultAsync(long petId, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1246,7 +1245,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Pet"/></returns>
-        public async Task<ApiResponse<Pet>> GetPetByIdAsync(long petId, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.Pet>> GetPetByIdAsync(long petId, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1290,7 +1289,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<Pet> apiResponseLocalVar = new ApiResponse<Pet>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<Org.OpenAPITools.Model.Pet> apiResponseLocalVar = new ApiResponse<Org.OpenAPITools.Model.Pet>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetPetByIdDefaultImplementation(apiResponseLocalVar, petId);
 
@@ -1312,14 +1311,14 @@ namespace Org.OpenAPITools.Api
             }
         }
 
-        partial void FormatUpdatePet(Pet pet);
+        partial void FormatUpdatePet(Org.OpenAPITools.Model.Pet pet);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="pet"></param>
         /// <returns></returns>
-        private void ValidateUpdatePet(Pet pet)
+        private void ValidateUpdatePet(Org.OpenAPITools.Model.Pet pet)
         {
             if (pet == null)
                 throw new ArgumentNullException(nameof(pet));
@@ -1330,7 +1329,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="pet"></param>
-        private void AfterUpdatePetDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Pet pet)
+        private void AfterUpdatePetDefaultImplementation(ApiResponse<object> apiResponseLocalVar, Org.OpenAPITools.Model.Pet pet)
         {
             bool suppressDefaultLog = false;
             AfterUpdatePet(ref suppressDefaultLog, apiResponseLocalVar, pet);
@@ -1344,7 +1343,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="pet"></param>
-        partial void AfterUpdatePet(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, Pet pet);
+        partial void AfterUpdatePet(ref bool suppressDefaultLog, ApiResponse<object> apiResponseLocalVar, Org.OpenAPITools.Model.Pet pet);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1353,7 +1352,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="pet"></param>
-        private void OnErrorUpdatePetDefaultImplementation(Exception exception, string pathFormat, string path, Pet pet)
+        private void OnErrorUpdatePetDefaultImplementation(Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.Pet pet)
         {
             bool suppressDefaultLog = false;
             OnErrorUpdatePet(ref suppressDefaultLog, exception, pathFormat, path, pet);
@@ -1369,7 +1368,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="pet"></param>
-        partial void OnErrorUpdatePet(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Pet pet);
+        partial void OnErrorUpdatePet(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.Pet pet);
 
         /// <summary>
         /// Update an existing pet 
@@ -1684,7 +1683,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId"></param>
         /// <param name="file"></param>
         /// <param name="additionalMetadata"></param>
-        private void AfterUploadFileDefaultImplementation(ApiResponse<ApiResponse> apiResponseLocalVar, long petId, Option<System.IO.Stream> file, Option<string> additionalMetadata)
+        private void AfterUploadFileDefaultImplementation(ApiResponse<Org.OpenAPITools.Model.ApiResponse> apiResponseLocalVar, long petId, Option<System.IO.Stream> file, Option<string> additionalMetadata)
         {
             bool suppressDefaultLog = false;
             AfterUploadFile(ref suppressDefaultLog, apiResponseLocalVar, petId, file, additionalMetadata);
@@ -1700,7 +1699,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId"></param>
         /// <param name="file"></param>
         /// <param name="additionalMetadata"></param>
-        partial void AfterUploadFile(ref bool suppressDefaultLog, ApiResponse<ApiResponse> apiResponseLocalVar, long petId, Option<System.IO.Stream> file, Option<string> additionalMetadata);
+        partial void AfterUploadFile(ref bool suppressDefaultLog, ApiResponse<Org.OpenAPITools.Model.ApiResponse> apiResponseLocalVar, long petId, Option<System.IO.Stream> file, Option<string> additionalMetadata);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1739,7 +1738,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ApiResponse"/></returns>
-        public async Task<ApiResponse<ApiResponse>> UploadFileOrDefaultAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.ApiResponse>> UploadFileOrDefaultAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1760,7 +1759,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ApiResponse"/></returns>
-        public async Task<ApiResponse<ApiResponse>> UploadFileAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.ApiResponse>> UploadFileAsync(long petId, Option<System.IO.Stream> file = default, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1826,7 +1825,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<ApiResponse> apiResponseLocalVar = new ApiResponse<ApiResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}/uploadImage", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<Org.OpenAPITools.Model.ApiResponse> apiResponseLocalVar = new ApiResponse<Org.OpenAPITools.Model.ApiResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/pet/{petId}/uploadImage", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterUploadFileDefaultImplementation(apiResponseLocalVar, petId, file, additionalMetadata);
 
@@ -1872,7 +1871,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile"></param>
         /// <param name="petId"></param>
         /// <param name="additionalMetadata"></param>
-        private void AfterUploadFileWithRequiredFileDefaultImplementation(ApiResponse<ApiResponse> apiResponseLocalVar, System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata)
+        private void AfterUploadFileWithRequiredFileDefaultImplementation(ApiResponse<Org.OpenAPITools.Model.ApiResponse> apiResponseLocalVar, System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata)
         {
             bool suppressDefaultLog = false;
             AfterUploadFileWithRequiredFile(ref suppressDefaultLog, apiResponseLocalVar, requiredFile, petId, additionalMetadata);
@@ -1888,7 +1887,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile"></param>
         /// <param name="petId"></param>
         /// <param name="additionalMetadata"></param>
-        partial void AfterUploadFileWithRequiredFile(ref bool suppressDefaultLog, ApiResponse<ApiResponse> apiResponseLocalVar, System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata);
+        partial void AfterUploadFileWithRequiredFile(ref bool suppressDefaultLog, ApiResponse<Org.OpenAPITools.Model.ApiResponse> apiResponseLocalVar, System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1927,7 +1926,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ApiResponse"/></returns>
-        public async Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileOrDefaultAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.ApiResponse>> UploadFileWithRequiredFileOrDefaultAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1948,7 +1947,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ApiResponse"/></returns>
-        public async Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.ApiResponse>> UploadFileWithRequiredFileAsync(System.IO.Stream requiredFile, long petId, Option<string> additionalMetadata = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -2014,7 +2013,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<ApiResponse> apiResponseLocalVar = new ApiResponse<ApiResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/{petId}/uploadImageWithRequiredFile", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<Org.OpenAPITools.Model.ApiResponse> apiResponseLocalVar = new ApiResponse<Org.OpenAPITools.Model.ApiResponse>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/{petId}/uploadImageWithRequiredFile", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterUploadFileWithRequiredFileDefaultImplementation(apiResponseLocalVar, requiredFile, petId, additionalMetadata);
 

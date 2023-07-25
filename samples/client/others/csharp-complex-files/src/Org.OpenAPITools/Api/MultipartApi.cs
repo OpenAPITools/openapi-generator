@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="statusArray"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void MultipartMixed(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0);
+        void MultipartMixed(Org.OpenAPITools.Model.MultipartMixedStatus status, System.IO.Stream file, Org.OpenAPITools.Model.MultipartMixedRequestMarker marker = default(Org.OpenAPITools.Model.MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0);
 
         /// <summary>
         /// 
@@ -77,7 +77,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="statusArray"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> MultipartMixedWithHttpInfo(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0);
+        ApiResponse<Object> MultipartMixedWithHttpInfo(Org.OpenAPITools.Model.MultipartMixedStatus status, System.IO.Stream file, Org.OpenAPITools.Model.MultipartMixedRequestMarker marker = default(Org.OpenAPITools.Model.MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0);
         /// <summary>
         /// 
         /// </summary>
@@ -149,7 +149,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task MultipartMixedAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task MultipartMixedAsync(Org.OpenAPITools.Model.MultipartMixedStatus status, System.IO.Stream file, Org.OpenAPITools.Model.MultipartMixedRequestMarker marker = default(Org.OpenAPITools.Model.MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(Org.OpenAPITools.Model.MultipartMixedStatus status, System.IO.Stream file, Org.OpenAPITools.Model.MultipartMixedRequestMarker marker = default(Org.OpenAPITools.Model.MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -463,7 +463,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="statusArray"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void MultipartMixed(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0)
+        public void MultipartMixed(Org.OpenAPITools.Model.MultipartMixedStatus status, System.IO.Stream file, Org.OpenAPITools.Model.MultipartMixedRequestMarker marker = default(Org.OpenAPITools.Model.MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0)
         {
             MultipartMixedWithHttpInfo(status, file, marker, statusArray);
         }
@@ -478,7 +478,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="statusArray"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> MultipartMixedWithHttpInfo(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> MultipartMixedWithHttpInfo(Org.OpenAPITools.Model.MultipartMixedStatus status, System.IO.Stream file, Org.OpenAPITools.Model.MultipartMixedRequestMarker marker = default(Org.OpenAPITools.Model.MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0)
         {
             // verify the required parameter 'status' is set
             if (status == null)
@@ -554,7 +554,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task MultipartMixedAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task MultipartMixedAsync(Org.OpenAPITools.Model.MultipartMixedStatus status, System.IO.Stream file, Org.OpenAPITools.Model.MultipartMixedRequestMarker marker = default(Org.OpenAPITools.Model.MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await MultipartMixedWithHttpInfoAsync(status, file, marker, statusArray, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -570,7 +570,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(Org.OpenAPITools.Model.MultipartMixedStatus status, System.IO.Stream file, Org.OpenAPITools.Model.MultipartMixedRequestMarker marker = default(Org.OpenAPITools.Model.MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'status' is set
             if (status == null)

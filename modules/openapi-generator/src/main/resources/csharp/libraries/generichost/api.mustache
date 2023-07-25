@@ -13,7 +13,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using {{packageName}}.{{clientPackage}};
-using {{packageName}}.{{apiPackage}};
 {{#hasImport}}
 using {{packageName}}.{{modelPackage}};
 {{/hasImport}}
@@ -45,7 +44,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}&gt;&gt;</returns>
-        Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>> {{operationId}}Async({{>OperationSignature}});
+        Task<ApiResponse<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}object{{/returnType}}>> {{operationId}}Async({{>OperationSignature}});
 
         /// <summary>
         /// {{summary}}
@@ -58,7 +57,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}object{{/returnType}}&gt;{{nrt?}}&gt;</returns>
-        Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}});
+        Task<ApiResponse<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}object{{/returnType}}>{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}});
         {{^-last}}
 
         {{/-last}}
@@ -76,16 +75,16 @@ namespace {{packageName}}.{{apiPackage}}
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<{{{returnType}}}{{^returnType}}object{{/returnType}}>>{{nrt?}} On{{operationId}};
+        public event EventHandler<ApiResponseEventArgs<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}object{{/returnType}}>>{{nrt?}} On{{operationId}};
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs>{{nrt?}} OnError{{operationId}};
 
-        internal void ExecuteOn{{operationId}}(ApiResponse<{{{returnType}}}{{^returnType}}object{{/returnType}}> apiResponse)
+        internal void ExecuteOn{{operationId}}(ApiResponse<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}object{{/returnType}}> apiResponse)
         {
-            On{{operationId}}?.Invoke(this, new ApiResponseEventArgs<{{{returnType}}}{{^returnType}}object{{/returnType}}>(apiResponse));
+            On{{operationId}}?.Invoke(this, new ApiResponseEventArgs<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}object{{/returnType}}>(apiResponse));
         }
 
         internal void ExecuteOnError{{operationId}}(Exception exception)
@@ -169,7 +168,7 @@ namespace {{packageName}}.{{apiPackage}}
 
         {{#allParams}}
         {{#-first}}
-        partial void Format{{operationId}}({{#allParams}}{{#isPrimitiveType}}ref {{/isPrimitiveType}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        partial void Format{{operationId}}({{#allParams}}{{#isPrimitiveType}}ref {{/isPrimitiveType}}{{^required}}Option<{{/required}}{{>ParameterNamespace}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 
         {{/-first}}
         {{/allParams}}
@@ -181,7 +180,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="{{paramName}}"></param>
         {{/vendorExtensions.x-not-nullable-reference-types}}
         /// <returns></returns>
-        private void Validate{{operationId}}({{#vendorExtensions.x-not-nullable-reference-types}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-not-nullable-reference-types}})
+        private void Validate{{operationId}}({{#vendorExtensions.x-not-nullable-reference-types}}{{^required}}Option<{{/required}}{{>ParameterNamespace}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-not-nullable-reference-types}})
         {
             {{#lambda.trimTrailingWhiteSpace}}
             {{#vendorExtensions.x-not-nullable-reference-types}}
@@ -211,7 +210,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        private void After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
+        private void After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}ApiResponse<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{>ParameterNamespace}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
         {
             bool suppressDefaultLog = false;
             After{{operationId}}({{#lambda.joinWithComma}}ref suppressDefaultLog  apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
@@ -226,7 +225,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        partial void After{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+        partial void After{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  ApiResponse<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{>ParameterNamespace}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -237,7 +236,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        private void OnError{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}Exception exception  string pathFormat  string path  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
+        private void OnError{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}Exception exception  string pathFormat  string path  {{#allParams}}{{^required}}Option<{{/required}}{{>ParameterNamespace}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
         {
             bool suppressDefaultLog = false;
             OnError{{operationId}}({{#lambda.joinWithComma}}ref suppressDefaultLog  exception  pathFormat  path  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
@@ -254,7 +253,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        partial void OnError{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  Exception exception  string pathFormat  string path  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+        partial void OnError{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  Exception exception  string pathFormat  string path  {{#allParams}}{{^required}}Option<{{/required}}{{>ParameterNamespace}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 
         /// <summary>
         /// {{summary}} {{notes}}
@@ -264,7 +263,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="{{#returnProperty}}{{baseType}}{{#isContainer}}{{#isMap}}{TKey, TValue}{{/isMap}}{{^isMap}}{TValue}{{/isMap}}{{/isContainer}}{{/returnProperty}}{{^returnProperty}}object{{/returnProperty}}"/></returns>
-        public async Task<ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}>{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}})
+        public async Task<ApiResponse<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}object{{/returnType}}>{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}})
         {
             try
             {
@@ -285,7 +284,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="{{#returnProperty}}{{baseType}}{{#isContainer}}{{#isMap}}{TKey, TValue}{{/isMap}}{{^isMap}}{TValue}{{/isMap}}{{/isContainer}}{{/returnProperty}}{{^returnProperty}}object{{/returnProperty}}"/></returns>
-        public async Task<ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}object{{/returnType}}>> {{operationId}}Async({{>OperationSignature}})
+        public async Task<ApiResponse<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}object{{/returnType}}>> {{operationId}}Async({{>OperationSignature}})
         {
             {{#lambda.trimLineBreaks}}
             UriBuilder uriBuilderLocalVar = new UriBuilder();
@@ -539,7 +538,7 @@ namespace {{packageName}}.{{apiPackage}}
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync({{#net60OrLater}}cancellationToken{{/net60OrLater}}).ConfigureAwait(false);
 
-                        ApiResponse<{{{returnType}}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar = new ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}object{{/returnType}}>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{path}}", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}object{{/returnType}}> apiResponseLocalVar = new ApiResponse<{{{vendorExtensions.x-fully-qualified-return-type}}}{{^returnType}}object{{/returnType}}>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "{{path}}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 

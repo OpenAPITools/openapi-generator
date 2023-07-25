@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">Created user object</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void CreateUser(User user, int operationIndex = 0);
+        void CreateUser(Org.OpenAPITools.Model.User user, int operationIndex = 0);
 
         /// <summary>
         /// Create user
@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">Created user object</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> CreateUserWithHttpInfo(User user, int operationIndex = 0);
+        ApiResponse<Object> CreateUserWithHttpInfo(Org.OpenAPITools.Model.User user, int operationIndex = 0);
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
@@ -120,7 +120,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>User</returns>
-        User GetUserByName(string username, int operationIndex = 0);
+        Org.OpenAPITools.Model.User GetUserByName(string username, int operationIndex = 0);
 
         /// <summary>
         /// Get user by user name
@@ -132,7 +132,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of User</returns>
-        ApiResponse<User> GetUserByNameWithHttpInfo(string username, int operationIndex = 0);
+        ApiResponse<Org.OpenAPITools.Model.User> GetUserByNameWithHttpInfo(string username, int operationIndex = 0);
         /// <summary>
         /// Logs user into the system
         /// </summary>
@@ -184,7 +184,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">Updated user object</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void UpdateUser(string username, User user, int operationIndex = 0);
+        void UpdateUser(string username, Org.OpenAPITools.Model.User user, int operationIndex = 0);
 
         /// <summary>
         /// Updated user
@@ -197,7 +197,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">Updated user object</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UpdateUserWithHttpInfo(string username, User user, int operationIndex = 0);
+        ApiResponse<Object> UpdateUserWithHttpInfo(string username, Org.OpenAPITools.Model.User user, int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -218,7 +218,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task CreateUserAsync(User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task CreateUserAsync(Org.OpenAPITools.Model.User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Create user
@@ -231,7 +231,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> CreateUserWithHttpInfoAsync(User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> CreateUserWithHttpInfoAsync(Org.OpenAPITools.Model.User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
@@ -318,7 +318,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of User</returns>
-        System.Threading.Tasks.Task<User> GetUserByNameAsync(string username, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Org.OpenAPITools.Model.User> GetUserByNameAsync(string username, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Get user by user name
@@ -331,7 +331,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (User)</returns>
-        System.Threading.Tasks.Task<ApiResponse<User>> GetUserByNameWithHttpInfoAsync(string username, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Org.OpenAPITools.Model.User>> GetUserByNameWithHttpInfoAsync(string username, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Logs user into the system
         /// </summary>
@@ -394,7 +394,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task UpdateUserAsync(string username, User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task UpdateUserAsync(string username, Org.OpenAPITools.Model.User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Updated user
@@ -408,7 +408,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateUserWithHttpInfoAsync(string username, User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateUserWithHttpInfoAsync(string username, Org.OpenAPITools.Model.User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -536,7 +536,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">Created user object</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void CreateUser(User user, int operationIndex = 0)
+        public void CreateUser(Org.OpenAPITools.Model.User user, int operationIndex = 0)
         {
             CreateUserWithHttpInfo(user);
         }
@@ -548,7 +548,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">Created user object</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> CreateUserWithHttpInfo(User user, int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> CreateUserWithHttpInfo(Org.OpenAPITools.Model.User user, int operationIndex = 0)
         {
             // verify the required parameter 'user' is set
             if (user == null)
@@ -611,7 +611,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task CreateUserAsync(User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task CreateUserAsync(Org.OpenAPITools.Model.User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await CreateUserWithHttpInfoAsync(user, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -624,7 +624,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> CreateUserWithHttpInfoAsync(User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> CreateUserWithHttpInfoAsync(Org.OpenAPITools.Model.User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'user' is set
             if (user == null)
@@ -1142,9 +1142,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>User</returns>
-        public User GetUserByName(string username, int operationIndex = 0)
+        public Org.OpenAPITools.Model.User GetUserByName(string username, int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<User> localVarResponse = GetUserByNameWithHttpInfo(username);
+            Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.User> localVarResponse = GetUserByNameWithHttpInfo(username);
             return localVarResponse.Data;
         }
 
@@ -1155,7 +1155,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of User</returns>
-        public Org.OpenAPITools.Client.ApiResponse<User> GetUserByNameWithHttpInfo(string username, int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.User> GetUserByNameWithHttpInfo(string username, int operationIndex = 0)
         {
             // verify the required parameter 'username' is set
             if (username == null)
@@ -1193,7 +1193,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<User>("/user/{username}", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<Org.OpenAPITools.Model.User>("/user/{username}", localVarRequestOptions, this.Configuration);
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("GetUserByName", localVarResponse);
@@ -1214,9 +1214,9 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of User</returns>
-        public async System.Threading.Tasks.Task<User> GetUserByNameAsync(string username, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Model.User> GetUserByNameAsync(string username, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<User> localVarResponse = await GetUserByNameWithHttpInfoAsync(username, operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.User> localVarResponse = await GetUserByNameWithHttpInfoAsync(username, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1228,7 +1228,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (User)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<User>> GetUserByNameWithHttpInfoAsync(string username, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Org.OpenAPITools.Model.User>> GetUserByNameWithHttpInfoAsync(string username, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'username' is set
             if (username == null)
@@ -1267,7 +1267,7 @@ namespace Org.OpenAPITools.Api
 
 
             // make the HTTP request
-            var localVarResponse = await this.AsynchronousClient.GetAsync<User>("/user/{username}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<Org.OpenAPITools.Model.User>("/user/{username}", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1585,7 +1585,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">Updated user object</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void UpdateUser(string username, User user, int operationIndex = 0)
+        public void UpdateUser(string username, Org.OpenAPITools.Model.User user, int operationIndex = 0)
         {
             UpdateUserWithHttpInfo(username, user);
         }
@@ -1598,7 +1598,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="user">Updated user object</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> UpdateUserWithHttpInfo(string username, User user, int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> UpdateUserWithHttpInfo(string username, Org.OpenAPITools.Model.User user, int operationIndex = 0)
         {
             // verify the required parameter 'username' is set
             if (username == null)
@@ -1669,7 +1669,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task UpdateUserAsync(string username, User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task UpdateUserAsync(string username, Org.OpenAPITools.Model.User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await UpdateUserWithHttpInfoAsync(username, user, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -1683,7 +1683,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdateUserWithHttpInfoAsync(string username, User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdateUserWithHttpInfoAsync(string username, Org.OpenAPITools.Model.User user, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'username' is set
             if (username == null)

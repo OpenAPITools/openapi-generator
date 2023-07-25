@@ -69,6 +69,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new EnumClassJsonConverter());
             _jsonOptions.Converters.Add(new EnumClassNullableJsonConverter());
             _jsonOptions.Converters.Add(new EnumTestJsonConverter());
+            _jsonOptions.Converters.Add(new EnvironmentJsonConverter());
             _jsonOptions.Converters.Add(new EquilateralTriangleJsonConverter());
             _jsonOptions.Converters.Add(new FileJsonConverter());
             _jsonOptions.Converters.Add(new FileSchemaTestClassJsonConverter());
@@ -137,6 +138,8 @@ namespace Org.OpenAPITools.Client
             _services.AddTransient<IAnotherFakeApi, AnotherFakeApi>();
             _services.AddSingleton<DefaultApiEvents>();
             _services.AddTransient<IDefaultApi, DefaultApi>();
+            _services.AddSingleton<EnvironmentApiEvents>();
+            _services.AddTransient<IEnvironmentApi, EnvironmentApi>();
             _services.AddSingleton<FakeApiEvents>();
             _services.AddTransient<IFakeApi, FakeApi>();
             _services.AddSingleton<FakeClassnameTags123ApiEvents>();
@@ -166,6 +169,7 @@ namespace Org.OpenAPITools.Client
 
             builders.Add(_services.AddHttpClient<IAnotherFakeApi, AnotherFakeApi>(client));
             builders.Add(_services.AddHttpClient<IDefaultApi, DefaultApi>(client));
+            builders.Add(_services.AddHttpClient<IEnvironmentApi, EnvironmentApi>(client));
             builders.Add(_services.AddHttpClient<IFakeApi, FakeApi>(client));
             builders.Add(_services.AddHttpClient<IFakeClassnameTags123Api, FakeClassnameTags123Api>(client));
             builders.Add(_services.AddHttpClient<IPetApi, PetApi>(client));

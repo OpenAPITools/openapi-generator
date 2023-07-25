@@ -17,7 +17,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
@@ -43,7 +42,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;ModelClient&gt;&gt;</returns>
-        Task<ApiResponse<ModelClient>> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.ModelClient>> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test class name in snake case
@@ -54,7 +53,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;ModelClient&gt;&gt;</returns>
-        Task<ApiResponse<ModelClient>> TestClassnameOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.ModelClient>> TestClassnameOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -66,16 +65,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<ModelClient>> OnTestClassname;
+        public event EventHandler<ApiResponseEventArgs<Org.OpenAPITools.Model.ModelClient>> OnTestClassname;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs> OnErrorTestClassname;
 
-        internal void ExecuteOnTestClassname(ApiResponse<ModelClient> apiResponse)
+        internal void ExecuteOnTestClassname(ApiResponse<Org.OpenAPITools.Model.ModelClient> apiResponse)
         {
-            OnTestClassname?.Invoke(this, new ApiResponseEventArgs<ModelClient>(apiResponse));
+            OnTestClassname?.Invoke(this, new ApiResponseEventArgs<Org.OpenAPITools.Model.ModelClient>(apiResponse));
         }
 
         internal void ExecuteOnErrorTestClassname(Exception exception)
@@ -153,14 +152,14 @@ namespace Org.OpenAPITools.Api
             OauthTokenProvider = oauthTokenProvider;
         }
 
-        partial void FormatTestClassname(ModelClient modelClient);
+        partial void FormatTestClassname(Org.OpenAPITools.Model.ModelClient modelClient);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="modelClient"></param>
         /// <returns></returns>
-        private void ValidateTestClassname(ModelClient modelClient)
+        private void ValidateTestClassname(Org.OpenAPITools.Model.ModelClient modelClient)
         {
             if (modelClient == null)
                 throw new ArgumentNullException(nameof(modelClient));
@@ -171,7 +170,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        private void AfterTestClassnameDefaultImplementation(ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient)
+        private void AfterTestClassnameDefaultImplementation(ApiResponse<Org.OpenAPITools.Model.ModelClient> apiResponseLocalVar, Org.OpenAPITools.Model.ModelClient modelClient)
         {
             bool suppressDefaultLog = false;
             AfterTestClassname(ref suppressDefaultLog, apiResponseLocalVar, modelClient);
@@ -185,7 +184,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="modelClient"></param>
-        partial void AfterTestClassname(ref bool suppressDefaultLog, ApiResponse<ModelClient> apiResponseLocalVar, ModelClient modelClient);
+        partial void AfterTestClassname(ref bool suppressDefaultLog, ApiResponse<Org.OpenAPITools.Model.ModelClient> apiResponseLocalVar, Org.OpenAPITools.Model.ModelClient modelClient);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -194,7 +193,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        private void OnErrorTestClassnameDefaultImplementation(Exception exception, string pathFormat, string path, ModelClient modelClient)
+        private void OnErrorTestClassnameDefaultImplementation(Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.ModelClient modelClient)
         {
             bool suppressDefaultLog = false;
             OnErrorTestClassname(ref suppressDefaultLog, exception, pathFormat, path, modelClient);
@@ -210,7 +209,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
         /// <param name="modelClient"></param>
-        partial void OnErrorTestClassname(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, ModelClient modelClient);
+        partial void OnErrorTestClassname(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Org.OpenAPITools.Model.ModelClient modelClient);
 
         /// <summary>
         /// To test class name in snake case To test class name in snake case
@@ -218,7 +217,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
-        public async Task<ApiResponse<ModelClient>> TestClassnameOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.ModelClient>> TestClassnameOrDefaultAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -237,7 +236,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="ModelClient"/></returns>
-        public async Task<ApiResponse<ModelClient>> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.ModelClient>> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -296,7 +295,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                        ApiResponse<ModelClient> apiResponseLocalVar = new ApiResponse<ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake_classname_test", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<Org.OpenAPITools.Model.ModelClient> apiResponseLocalVar = new ApiResponse<Org.OpenAPITools.Model.ModelClient>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake_classname_test", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterTestClassnameDefaultImplementation(apiResponseLocalVar, modelClient);
 

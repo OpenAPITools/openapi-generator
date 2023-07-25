@@ -19,7 +19,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Api
@@ -45,7 +44,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&lt;Person&gt;&gt;</returns>
-        Task<ApiResponse<Person>> ListAsync(string personId, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.Person>> ListAsync(string personId, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -56,7 +55,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task&lt;ApiResponse&gt;Person&gt;?&gt;</returns>
-        Task<ApiResponse<Person>?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken cancellationToken = default);
+        Task<ApiResponse<Org.OpenAPITools.Model.Person>?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -68,16 +67,16 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs<Person>>? OnList;
+        public event EventHandler<ApiResponseEventArgs<Org.OpenAPITools.Model.Person>>? OnList;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorList;
 
-        internal void ExecuteOnList(ApiResponse<Person> apiResponse)
+        internal void ExecuteOnList(ApiResponse<Org.OpenAPITools.Model.Person> apiResponse)
         {
-            OnList?.Invoke(this, new ApiResponseEventArgs<Person>(apiResponse));
+            OnList?.Invoke(this, new ApiResponseEventArgs<Org.OpenAPITools.Model.Person>(apiResponse));
         }
 
         internal void ExecuteOnErrorList(Exception exception)
@@ -138,7 +137,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="personId"></param>
-        private void AfterListDefaultImplementation(ApiResponse<Person> apiResponseLocalVar, string personId)
+        private void AfterListDefaultImplementation(ApiResponse<Org.OpenAPITools.Model.Person> apiResponseLocalVar, string personId)
         {
             bool suppressDefaultLog = false;
             AfterList(ref suppressDefaultLog, apiResponseLocalVar, personId);
@@ -152,7 +151,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="personId"></param>
-        partial void AfterList(ref bool suppressDefaultLog, ApiResponse<Person> apiResponseLocalVar, string personId);
+        partial void AfterList(ref bool suppressDefaultLog, ApiResponse<Org.OpenAPITools.Model.Person> apiResponseLocalVar, string personId);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -185,7 +184,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Person"/></returns>
-        public async Task<ApiResponse<Person>?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.Person>?> ListOrDefaultAsync(string personId, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -204,7 +203,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="personId">The id of the person to retrieve</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ApiResponse{T}"/>&gt; where T : <see cref="Person"/></returns>
-        public async Task<ApiResponse<Person>> ListAsync(string personId, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<Org.OpenAPITools.Model.Person>> ListAsync(string personId, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -241,7 +240,7 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ApiResponse<Person> apiResponseLocalVar = new ApiResponse<Person>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/person/display/{personId}", requestedAtLocalVar, _jsonSerializerOptions);
+                        ApiResponse<Org.OpenAPITools.Model.Person> apiResponseLocalVar = new ApiResponse<Org.OpenAPITools.Model.Person>(httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/person/display/{personId}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterListDefaultImplementation(apiResponseLocalVar, personId);
 

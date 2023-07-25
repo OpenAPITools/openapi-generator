@@ -32,6 +32,8 @@ docs/Drawing.md
 docs/EnumArrays.md
 docs/EnumClass.md
 docs/EnumTest.md
+docs/Environment.md
+docs/EnvironmentApi.md
 docs/EquilateralTriangle.md
 docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
@@ -97,6 +99,7 @@ docs/ZeroBasedEnumClass.md
 git_push.sh
 src/Org.OpenAPITools/Api/AnotherFakeApi.cs
 src/Org.OpenAPITools/Api/DefaultApi.cs
+src/Org.OpenAPITools/Api/EnvironmentApi.cs
 src/Org.OpenAPITools/Api/FakeApi.cs
 src/Org.OpenAPITools/Api/FakeClassnameTags123Api.cs
 src/Org.OpenAPITools/Api/PetApi.cs
@@ -150,6 +153,7 @@ src/Org.OpenAPITools/Model/Drawing.cs
 src/Org.OpenAPITools/Model/EnumArrays.cs
 src/Org.OpenAPITools/Model/EnumClass.cs
 src/Org.OpenAPITools/Model/EnumTest.cs
+src/Org.OpenAPITools/Model/Environment.cs
 src/Org.OpenAPITools/Model/EquilateralTriangle.cs
 src/Org.OpenAPITools/Model/File.cs
 src/Org.OpenAPITools/Model/FileSchemaTestClass.cs
