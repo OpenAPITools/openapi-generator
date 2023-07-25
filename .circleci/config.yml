@@ -40,6 +40,9 @@ commands: # a reusable command with parameters
       - run:
           command: |
             sudo tee -a /etc/hosts \<<< "127.0.0.1       petstore.swagger.io"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       path1.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       path2.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.111     path3.test.openapi-generator.tech"
             sudo tee -a /etc/hosts \<<< "127.0.0.1       operation1.test.openapi-generator.tech"
             sudo tee -a /etc/hosts \<<< "127.0.0.1       operation2.test.openapi-generator.tech"
             sudo tee -a /etc/hosts \<<< "127.0.0.111     operation3.test.openapi-generator.tech"
