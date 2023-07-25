@@ -39,15 +39,15 @@ commands: # a reusable command with parameters
           command: 'sudo docker info >/dev/null 2>&1 || sudo service docker start; '
       - run:
           command: |
-            #sudo tee -a /etc/hosts \<<< "127.0.0.1       path1.test.openapi-generator.tech"
-            #sudo tee -a /etc/hosts \<<< "127.0.0.1       path2.test.openapi-generator.tech"
-            #sudo tee -a /etc/hosts \<<< "127.0.0.111     path3.test.openapi-generator.tech"
-            #sudo tee -a /etc/hosts \<<< "127.0.0.1       operation1.test.openapi-generator.tech"
-            #sudo tee -a /etc/hosts \<<< "127.0.0.1       operation2.test.openapi-generator.tech"
-            #sudo tee -a /etc/hosts \<<< "127.0.0.111     operation3.test.openapi-generator.tech"
-            #sudo tee -a /etc/hosts \<<< "127.0.0.1       server1.test.openapi-generator.tech"
-            #sudo tee -a /etc/hosts \<<< "127.0.0.1       server2.test.openapi-generator.tech"
-            #sudo tee -a /etc/hosts \<<< "127.0.0.111     server3.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       path.v1.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       path.v2.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.111     path.v3.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       operation.v1.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       operation.v2.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.111     operation.v3.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       server.v1.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       server.v2.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.111     server.v3.test.openapi-generator.tech"
             sudo tee -a /etc/hosts \<<< "127.0.0.1       petstore.swagger.io"
             cat /etc/hosts
       #    - run: docker pull openapitools/openapi-petstore
