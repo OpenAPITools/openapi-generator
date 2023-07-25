@@ -53,8 +53,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected String packageName = "openapi";
     protected Set<String> numberTypes;
 
-    protected boolean usesOptionals = true;
-
     public AbstractGoCodegen() {
         super();
 
@@ -499,7 +497,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
         }
 
-        boolean addedOptionalImport = false;
         boolean addedTimeImport = false;
         boolean addedOSImport = false;
         boolean addedReflectImport = false;
@@ -516,35 +513,16 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     addedOSImport = true;
                 }
 
-                // import "time" if the operation has a required time parameter.
-                if (param.required || !usesOptionals) {
-                    if (!addedTimeImport && "time.Time".equals(param.dataType)) {
-                        imports.add(createMapping("import", "time"));
-                        addedTimeImport = true;
-                    }
+                // import "time" if the operation has a time parameter.
+                if (!addedTimeImport && "time.Time".equals(param.dataType)) {
+                    imports.add(createMapping("import", "time"));
+                    addedTimeImport = true;
                 }
 
                 // import "reflect" package if the parameter is collectionFormat=multi
                 if (!addedReflectImport && param.isCollectionFormatMulti) {
                     imports.add(createMapping("import", "reflect"));
                     addedReflectImport = true;
-                }
-
-                // import "optionals" package if the parameter is optional
-                if (!param.required && usesOptionals) {
-                    if (!addedOptionalImport) {
-                        imports.add(createMapping("import", "github.com/antihax/optional"));
-                        addedOptionalImport = true;
-                    }
-
-                    // We need to specially map Time type to the optionals package
-                    if ("time.Time".equals(param.dataType)) {
-                        param.vendorExtensions.put("x-optional-data-type", "Time");
-                    } else {
-                        // Map optional type to dataType
-                        String optionalType = param.dataType.substring(0, 1).toUpperCase(Locale.ROOT) + param.dataType.substring(1);
-                        param.vendorExtensions.put("x-optional-data-type", optionalType);
-                    }
                 }
 
                 // set x-exportParamName
