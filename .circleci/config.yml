@@ -40,6 +40,12 @@ commands: # a reusable command with parameters
       - run:
           command: |-
             printf '127.0.0.1       petstore.swagger.io
+                    127.0.0.1   operation1.test.openapi-generator.tech
+                    127.0.0.1   operation2.test.openapi-generator.tech
+                    127.0.0.111 operation3.test.openapi-generator.tech
+                    127.0.0.1   server1.test.openapi-generator.tech
+                    127.0.0.1   server2.test.openapi-generator.tech
+                    127.0.0.111 server3.test.openapi-generator.tech
             ' | sudo tee -a /etc/hosts
       #    - run: docker pull openapitools/openapi-petstore
       #    - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 80:8080 openapitools/openapi-petstore
