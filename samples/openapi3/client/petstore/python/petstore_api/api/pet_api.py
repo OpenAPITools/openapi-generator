@@ -25,6 +25,7 @@ from typing import List, Optional, Union
 
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.pet import Pet
+from petstore_api.models.pet import Pet
 
 from petstore_api.api_client import ApiClient
 from petstore_api.api_response import ApiResponse

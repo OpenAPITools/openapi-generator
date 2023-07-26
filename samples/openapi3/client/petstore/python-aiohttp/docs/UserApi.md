@@ -52,6 +52,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -114,6 +115,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling UserApi->create_users_with_array_input: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -180,6 +182,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -241,6 +244,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling UserApi->delete_user: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -308,6 +312,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling UserApi->get_user_by_name: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -378,6 +383,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -442,6 +448,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 This endpoint does not need any parameter.
 
@@ -502,6 +509,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling UserApi->update_user: %s\n" % e)
 ```
+
 
 
 ### Parameters

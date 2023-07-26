@@ -89,3 +89,4 @@ class OuterObjectWithEnumProperty(BaseModel):
 
         return _obj
 
+

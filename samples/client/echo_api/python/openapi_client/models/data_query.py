@@ -76,3 +76,6 @@ class DataQuery(Query):
         })
         return _obj
 
+from openapi_client.models.query import Query
+DataQuery.update_forward_refs()
+

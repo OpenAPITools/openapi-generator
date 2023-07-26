@@ -84,3 +84,4 @@ class HasOnlyReadOnly(BaseModel):
 
         return _obj
 
+

@@ -81,3 +81,6 @@ class FileSchemaTestClass(BaseModel):
         })
         return _obj
 
+from petstore_api.models.file import File
+FileSchemaTestClass.update_forward_refs()
+

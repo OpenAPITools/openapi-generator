@@ -97,3 +97,6 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
 
         return _obj
 
+from petstore_api.models.animal import Animal
+MixedPropertiesAndAdditionalPropertiesClass.update_forward_refs()
+

@@ -83,3 +83,4 @@ class AllOfWithSingleRef(BaseModel):
 
         return _obj
 
+

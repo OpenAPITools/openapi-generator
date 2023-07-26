@@ -60,6 +60,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -120,6 +121,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_enum_ref_query_parameter: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -183,6 +185,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_health_get: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -313,6 +316,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -377,6 +381,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_outer_boolean_serialize: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -444,6 +449,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -508,6 +514,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -570,6 +577,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->fake_outer_string_serialize: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -637,6 +645,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -697,6 +706,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_body_with_binary: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -762,6 +772,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -822,6 +833,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_body_with_query_params: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -891,6 +903,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -950,6 +963,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_date_time_query_parameter: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -1039,6 +1053,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_endpoint_parameters: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -1134,6 +1149,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -1202,6 +1218,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -1264,6 +1281,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_json_form_data: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -1333,6 +1351,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling FakeApi->test_query_parameter_collection_format: %s\n" % e)
 ```
+
 
 
 ### Parameters

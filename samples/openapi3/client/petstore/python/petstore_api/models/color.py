@@ -164,3 +164,4 @@ class Color(BaseModel):
         """Returns the string representation of the actual instance"""
         return pprint.pformat(self.dict())
 
+

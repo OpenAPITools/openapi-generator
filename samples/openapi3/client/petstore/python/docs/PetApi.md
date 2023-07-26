@@ -123,6 +123,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -195,6 +196,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -237,7 +239,6 @@ Multiple status values can be provided with comma separated strings
 import time
 import os
 import petstore_api
-from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
 from pprint import pprint
 
@@ -333,6 +334,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -374,7 +376,6 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 import time
 import os
 import petstore_api
-from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
 from pprint import pprint
 
@@ -470,6 +471,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -546,6 +548,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PetApi->get_pet_by_id: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -684,6 +687,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -757,6 +761,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PetApi->update_pet_with_form: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -837,6 +842,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -912,6 +918,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling PetApi->upload_file_with_required_file: %s\n" % e)
 ```
+
 
 
 ### Parameters
