@@ -115,12 +115,14 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 | OpenAPI Generator Version                                                                                                                                 | Release Date | Notes                                             |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
-| 7.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.0.0-SNAPSHOT/) | May/Jun 2023   | Major release with breaking changes (no fallback) |
+| 7.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/7.0.0-SNAPSHOT/) | Jul/Aug 2023   | Major release with breaking changes (no fallback) |
 | [6.6.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v6.6.0) (latest stable release)                                                    | 11.05.2023   | Minor release with breaking changes (with fallback) |
 | [5.4.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.4.0)                                                    | 31.01.2022   | Minor release with breaking changes (with fallback) |
 | [4.3.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.3.1)                                                    | 06.05.2020   | Patch release (enhancements, bug fixes, etc)                       |
 
 OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
+
+(We do not publish daily/nightly build. Please use SNAPSHOT instead)
 
 For old releases, please refer to the [**Release**](https://github.com/OpenAPITools/openapi-generator/releases) page.
 
@@ -906,6 +908,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2023-04-27 - [Create an Angular Client using OpenAPI Specifications](Create an Angular Client using OpenAPI Specifications) by [Patric](https://pguso.medium.com/)
 - 2023-05-16 - [Adyen for Java developers](https://www.adyen.com/blog/adyen-java-library) by [Beppe Catanese, Developer Advocate, Adyen](https://github.com/gcatanese)
 - 2023-05-18 - [如何基于 Swagger 使用 OpenAPI Generator 生成 JMeter 脚本？](https://blog.51cto.com/u_15181572/6294974) by [高楼（Zee)](https://blog.51cto.com/u_15181572)
+- 2023-06-28 - [Generate API contract using OpenAPI Generator Maven plugin](https://huongdanjava.com/generate-api-contract-using-openapi-generator-maven-plugin.html) by [Khanh Nguyen](https://huongdanjava.com/)
+- 2023-06-30 - [Generate Client SDKs with OpenApi Generator in Springboot](https://medium.com/@ramavathvinayak/generate-client-sdks-with-openapi-generator-in-springboot-f9f012e73c0b) by [Vinayak Ramavath](https://medium.com/@ramavathvinayak)
 
 ## [6 - About Us](#table-of-contents)
 
