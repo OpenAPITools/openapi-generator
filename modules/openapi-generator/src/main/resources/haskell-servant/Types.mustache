@@ -74,7 +74,7 @@ removeFieldLabelPrefix :: String -> Options
 removeFieldLabelPrefix prefix =
   defaultOptions
     { omitNothingFields  = True
-    , fieldLabelModifier = uncapitalize . fromMaybe (error ("did not find prefix " ++ prefix)) . stripPrefix prefix . replaceSpecialChars
+    , fieldLabelModifier = uncapitalize . replaceSpecialChars . fromMaybe (error ("did not find prefix " ++ prefix)) . stripPrefix prefix
     }
   where
     replaceSpecialChars field = foldl (&) field (map mkCharReplacement specialChars)
