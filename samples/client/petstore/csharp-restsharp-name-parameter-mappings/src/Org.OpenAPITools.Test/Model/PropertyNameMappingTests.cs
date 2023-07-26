@@ -64,12 +64,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Type'
+        /// Test the property 'UnderscoreType'
         /// </summary>
         [Fact]
-        public void TypeTest()
+        public void UnderscoreTypeTest()
         {
-            // TODO unit test for the property 'Type'
+            // TODO unit test for the property 'UnderscoreType'
         }
 
         /// <summary>
@@ -82,12 +82,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Type'
+        /// Test the property 'TypeWithUnderscore'
         /// </summary>
         [Fact]
-        public void TypeTest()
+        public void TypeWithUnderscoreTest()
         {
-            // TODO unit test for the property 'Type'
+            // TODO unit test for the property 'TypeWithUnderscore'
         }
     }
 }
