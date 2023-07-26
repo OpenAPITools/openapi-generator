@@ -194,3 +194,10 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
         return pprint.pformat(self.dict())
+
+{{#vendorExtensions.x-py-postponed-model-imports.size}}
+{{#vendorExtensions.x-py-postponed-model-imports}}
+{{{.}}}
+{{/vendorExtensions.x-py-postponed-model-imports}}
+{{classname}}.update_forward_refs()
+{{/vendorExtensions.x-py-postponed-model-imports.size}}
