@@ -21,7 +21,7 @@ on:
       # build C# API client (.net 5.0 with ConditionalSerialization)
       - samples/client/petstore/csharp/OpenAPIClient-ConditionalSerialization/**
       # build C# API client (property, parameter name mappings)
-      - samples/client/petstore/csharp-restsharp-name-parameter-mappings
+      - samples/client/petstore/csharp-restsharp-name-parameter-mappings/**
   pull_request:
     paths:
       # build C# API client (multiple frameworks)
@@ -42,7 +42,7 @@ on:
       # build C# API client (.net 5.0 with ConditionalSerialization)
       - samples/client/petstore/csharp/OpenAPIClient-ConditionalSerialization/**
       # build C# API client (property, parameter name mappings)
-      - samples/client/petstore/csharp-restsharp-name-parameter-mappings
+      - samples/client/petstore/csharp-restsharp-name-parameter-mappings/**
 jobs:
   build:
     name: Build .Net clients
