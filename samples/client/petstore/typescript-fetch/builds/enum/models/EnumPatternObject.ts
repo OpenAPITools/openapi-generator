@@ -78,9 +78,9 @@ export function EnumPatternObjectFromJSONTyped(json: any, ignoreDiscriminator: b
     return {
         
         'stringEnum': !exists(json, 'string-enum') ? undefined : StringEnumFromJSON(json['string-enum']),
-        'nullableStringEnum': !exists(json, 'nullable-string-enum') ? undefined : StringEnumFromJSON(json['nullable-string-enum']),
+        'nullableStringEnum': !exists(json, 'nullable-string-enum', true) ? undefined : StringEnumFromJSON(json['nullable-string-enum']),
         'numberEnum': !exists(json, 'number-enum') ? undefined : NumberEnumFromJSON(json['number-enum']),
-        'nullableNumberEnum': !exists(json, 'nullable-number-enum') ? undefined : NumberEnumFromJSON(json['nullable-number-enum']),
+        'nullableNumberEnum': !exists(json, 'nullable-number-enum', true) ? undefined : NumberEnumFromJSON(json['nullable-number-enum']),
     };
 }
 

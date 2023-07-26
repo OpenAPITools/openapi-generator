@@ -53,7 +53,7 @@ export function ClubFromJSONTyped(json: any, ignoreDiscriminator: boolean): Club
     }
     return {
         
-        'owner': !exists(json, 'owner') ? undefined : OwnerFromJSON(json['owner']),
+        'owner': !exists(json, 'owner', true) ? undefined : OwnerFromJSON(json['owner']),
     };
 }
 

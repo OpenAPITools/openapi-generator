@@ -158,7 +158,7 @@ export function EnumTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'enumStringRequired': json['enum_string_required'],
         'enumInteger': !exists(json, 'enum_integer') ? undefined : json['enum_integer'],
         'enumNumber': !exists(json, 'enum_number') ? undefined : json['enum_number'],
-        'outerEnum': !exists(json, 'outerEnum') ? undefined : OuterEnumFromJSON(json['outerEnum']),
+        'outerEnum': !exists(json, 'outerEnum', true) ? undefined : OuterEnumFromJSON(json['outerEnum']),
         'outerEnumInteger': !exists(json, 'outerEnumInteger') ? undefined : OuterEnumIntegerFromJSON(json['outerEnumInteger']),
         'outerEnumDefaultValue': !exists(json, 'outerEnumDefaultValue') ? undefined : OuterEnumDefaultValueFromJSON(json['outerEnumDefaultValue']),
         'outerEnumIntegerDefaultValue': !exists(json, 'outerEnumIntegerDefaultValue') ? undefined : OuterEnumIntegerDefaultValueFromJSON(json['outerEnumIntegerDefaultValue']),
