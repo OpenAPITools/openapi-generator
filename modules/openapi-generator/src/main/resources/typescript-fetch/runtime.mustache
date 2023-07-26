@@ -300,9 +300,9 @@ export interface RequestOpts {
 }
 
 {{^withoutRuntimeChecks}}
-export function exists(json: any, key: string) {
+export function exists(json: any, key: string, nullable: boolean = false) {
     const value = json[key];
-    return value !== null && value !== undefined;
+    return nullable ? value !== undefined : value !== null && value !== undefined;
 }
 {{/withoutRuntimeChecks}}
 
