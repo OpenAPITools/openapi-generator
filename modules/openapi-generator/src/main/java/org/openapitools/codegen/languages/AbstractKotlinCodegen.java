@@ -937,6 +937,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         // to avoid conflicts with 'callback' parameter for async call
         if ("callback".equals(name)) {
             return "paramCallback";
@@ -948,6 +953,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         name = toVariableName(name);
         if (propertyAdditionalKeywords.contains(name)) {
             return camelize("property_" + name, LOWERCASE_FIRST_LETTER);
