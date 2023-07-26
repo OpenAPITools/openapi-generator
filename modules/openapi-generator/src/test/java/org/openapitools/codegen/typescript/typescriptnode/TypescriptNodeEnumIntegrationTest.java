@@ -40,7 +40,6 @@ public class TypescriptNodeEnumIntegrationTest extends AbstractIntegrationTest {
         properties.put("npmName", "node-es6-test");
         properties.put("npmVersion", "1.0.3");
         properties.put("snapshot", "false");
-        properties.put("supportsES6", "false");
 
         return properties;
     }
