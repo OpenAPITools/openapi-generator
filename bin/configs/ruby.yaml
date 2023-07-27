@@ -9,3 +9,9 @@ additionalProperties:
   gemName: petstore
   skipFormModel: "true"
 strictSpecBehavior: false
+nameMappings:
+  _type: underscore_type
+  type_: type_with_underscore
+parameterNameMappings:
+  _type: underscore_type
+  type_: type_with_underscore
