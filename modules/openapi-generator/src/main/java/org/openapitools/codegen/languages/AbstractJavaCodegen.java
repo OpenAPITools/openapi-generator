@@ -212,6 +212,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("set", "LinkedHashSet");
         instantiationTypes.put("map", "HashMap");
+        typeMapping.put("date", "Date");
         typeMapping.put("file", "File");
         typeMapping.put("AnyType", "Object");
 
@@ -228,42 +229,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("List", "java.util.*");
         importMapping.put("Set", "java.util.*");
         importMapping.put("LinkedHashSet", "java.util.LinkedHashSet");
-
-        importMapping.put("List", "java.util.List");
-        importMapping.put("Set", "java.util.Set");
-
-        // optional jackson mappings for BigDecimal support
-        importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
-        importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
-        importMapping.put("JsonDeserialize", "com.fasterxml.jackson.databind.annotation.JsonDeserialize");
-
-        // imports for pojos
-        importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
-        importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
-        importMapping.put("Schema", "io.swagger.v3.oas.annotations.media.Schema");
-        importMapping.put("BigDecimal", "java.math.BigDecimal");
-        importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
-        importMapping.put("JsonSubTypes", "com.fasterxml.jackson.annotation.JsonSubTypes");
-        importMapping.put("JsonTypeInfo", "com.fasterxml.jackson.annotation.JsonTypeInfo");
-        importMapping.put("JsonTypeName", "com.fasterxml.jackson.annotation.JsonTypeName");
-        importMapping.put("JsonCreator", "com.fasterxml.jackson.annotation.JsonCreator");
-        importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
-        importMapping.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
-        importMapping.put("JsonIgnoreProperties", "com.fasterxml.jackson.annotation.JsonIgnoreProperties");
-        importMapping.put("JsonInclude", "com.fasterxml.jackson.annotation.JsonInclude");
-        importMapping.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
-        importMapping.put("SerializedName", "com.google.gson.annotations.SerializedName");
-        importMapping.put("TypeAdapter", "com.google.gson.TypeAdapter");
-        importMapping.put("JsonAdapter", "com.google.gson.annotations.JsonAdapter");
-        importMapping.put("JsonReader", "com.google.gson.stream.JsonReader");
-        importMapping.put("JsonWriter", "com.google.gson.stream.JsonWriter");
-        importMapping.put("IOException", "java.io.IOException");
-        importMapping.put("Arrays", "java.util.Arrays");
-        importMapping.put("Objects", "java.util.Objects");
-        importMapping.put("StringUtil", invokerPackage + ".StringUtil");
-        // import JsonCreator if JsonProperty is imported
-        // used later in recursive import in postProcessingModels
-        importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
+        importMapping.put("DateTime", "org.joda.time.*");
+        importMapping.put("LocalDateTime", "org.joda.time.*");
+        importMapping.put("LocalDate", "org.joda.time.*");
+        importMapping.put("LocalTime", "org.joda.time.*");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -610,7 +579,43 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
+        importMapping.put("List", "java.util.List");
+        importMapping.put("Set", "java.util.Set");
+
         this.sanitizeConfig();
+
+        // optional jackson mappings for BigDecimal support
+        importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
+        importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
+        importMapping.put("JsonDeserialize", "com.fasterxml.jackson.databind.annotation.JsonDeserialize");
+
+        // imports for pojos
+        importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
+        importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
+        importMapping.put("Schema", "io.swagger.v3.oas.annotations.media.Schema");
+        importMapping.put("BigDecimal", "java.math.BigDecimal");
+        importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
+        importMapping.put("JsonSubTypes", "com.fasterxml.jackson.annotation.JsonSubTypes");
+        importMapping.put("JsonTypeInfo", "com.fasterxml.jackson.annotation.JsonTypeInfo");
+        importMapping.put("JsonTypeName", "com.fasterxml.jackson.annotation.JsonTypeName");
+        importMapping.put("JsonCreator", "com.fasterxml.jackson.annotation.JsonCreator");
+        importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
+        importMapping.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
+        importMapping.put("JsonIgnoreProperties", "com.fasterxml.jackson.annotation.JsonIgnoreProperties");
+        importMapping.put("JsonInclude", "com.fasterxml.jackson.annotation.JsonInclude");
+        importMapping.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
+        importMapping.put("SerializedName", "com.google.gson.annotations.SerializedName");
+        importMapping.put("TypeAdapter", "com.google.gson.TypeAdapter");
+        importMapping.put("JsonAdapter", "com.google.gson.annotations.JsonAdapter");
+        importMapping.put("JsonReader", "com.google.gson.stream.JsonReader");
+        importMapping.put("JsonWriter", "com.google.gson.stream.JsonWriter");
+        importMapping.put("IOException", "java.io.IOException");
+        importMapping.put("Arrays", "java.util.Arrays");
+        importMapping.put("Objects", "java.util.Objects");
+        importMapping.put("StringUtil", invokerPackage + ".StringUtil");
+        // import JsonCreator if JsonProperty is imported
+        // used later in recursive import in postProcessingModels
+        importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
 
         if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
             setSupportAsync(Boolean.parseBoolean(additionalProperties.get(SUPPORT_ASYNC).toString()));
@@ -625,31 +630,26 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if ("joda".equals(dateLibrary)) {
             additionalProperties.put("joda", "true");
-            typeMapping.putIfAbsent("date", "LocalDate");
-            typeMapping.putIfAbsent("DateTime", "DateTime");
-            importMapping.putIfAbsent("LocalDate", "org.joda.time.LocalDate");
-            importMapping.putIfAbsent("DateTime", "org.joda.time.DateTime");
+            typeMapping.put("date", "LocalDate");
+            typeMapping.put("DateTime", "DateTime");
+            importMapping.put("LocalDate", "org.joda.time.LocalDate");
+            importMapping.put("DateTime", "org.joda.time.DateTime");
         } else if (dateLibrary.startsWith("java8")) {
             additionalProperties.put("java8", "true");
             additionalProperties.put("jsr310", "true");
-            typeMapping.putIfAbsent("date", "LocalDate");
-            importMapping.putIfAbsent("LocalDate", "java.time.LocalDate");
-            importMapping.putIfAbsent("LocalTime", "java.time.LocalTime");
+            typeMapping.put("date", "LocalDate");
+            importMapping.put("LocalDate", "java.time.LocalDate");
+            importMapping.put("LocalTime", "java.time.LocalTime");
             if ("java8-localdatetime".equals(dateLibrary)) {
-                typeMapping.putIfAbsent("DateTime", "LocalDateTime");
-                importMapping.putIfAbsent("LocalDateTime", "java.time.LocalDateTime");
+                typeMapping.put("DateTime", "LocalDateTime");
+                importMapping.put("LocalDateTime", "java.time.LocalDateTime");
             } else {
-                typeMapping.putIfAbsent("DateTime", "OffsetDateTime");
-                importMapping.putIfAbsent("OffsetDateTime", "java.time.OffsetDateTime");
+                typeMapping.put("DateTime", "OffsetDateTime");
+                importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
             }
         } else if (dateLibrary.equals("legacy")) {
             additionalProperties.put("legacyDates", "true");
         }
-        typeMapping.putIfAbsent("date", "Date");
-        importMapping.putIfAbsent("LocalDate", "org.joda.time.*");
-        importMapping.putIfAbsent("DateTime", "org.joda.time.*");
-        importMapping.putIfAbsent("LocalTime", "org.joda.time.*");
-        importMapping.putIfAbsent("LocalDateTime", "org.joda.time.*");
 
         if (additionalProperties.containsKey(TEST_OUTPUT)) {
             setOutputTestFolder(additionalProperties.get(TEST_OUTPUT).toString());
