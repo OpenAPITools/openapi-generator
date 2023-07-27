@@ -1353,7 +1353,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             // add parent model to import
             if (!StringUtils.isEmpty(model.parent)) {
                 modelImports.add(model.parent);
-                postponedModelImports.add(model.parent);
             }
 
             // set enum type in extensions and update `name` in enumVars
