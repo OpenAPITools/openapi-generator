@@ -15,10 +15,11 @@
   ],
   "license": "Unlicense",
   "main": "./dist/index.js",
-  "type": "commonjs",
+  "type": "module",
+  "module": "./dist/index.js",
   "exports": {
     ".": {
-      "require": "./dist/index.js",
+      "import": "./dist/index.js",
       "types": "./dist/index.d.js"
     }
   },
