@@ -513,6 +513,87 @@ module Petstore
       return data, status_code, headers
     end
 
+    # parameter name mapping test
+    # @param underscore_type [Integer] _type
+    # @param type [String] type
+    # @param type_with_underscore [String] type_
+    # @param http_debug_option [String] http debug option (to test parameter naming option)
+    # @param [Hash] opts the optional parameters
+    # @return [nil]
+    def get_parameter_name_mapping(underscore_type, type, type_with_underscore, http_debug_option, opts = {})
+      get_parameter_name_mapping_with_http_info(underscore_type, type, type_with_underscore, http_debug_option, opts)
+      nil
+    end
+
+    # parameter name mapping test
+    # @param underscore_type [Integer] _type
+    # @param type [String] type
+    # @param type_with_underscore [String] type_
+    # @param http_debug_option [String] http debug option (to test parameter naming option)
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    def get_parameter_name_mapping_with_http_info(underscore_type, type, type_with_underscore, http_debug_option, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: FakeApi.get_parameter_name_mapping ...'
+      end
+      # verify the required parameter 'underscore_type' is set
+      if @api_client.config.client_side_validation && underscore_type.nil?
+        fail ArgumentError, "Missing the required parameter 'underscore_type' when calling FakeApi.get_parameter_name_mapping"
+      end
+      # verify the required parameter 'type' is set
+      if @api_client.config.client_side_validation && type.nil?
+        fail ArgumentError, "Missing the required parameter 'type' when calling FakeApi.get_parameter_name_mapping"
+      end
+      # verify the required parameter 'type_with_underscore' is set
+      if @api_client.config.client_side_validation && type_with_underscore.nil?
+        fail ArgumentError, "Missing the required parameter 'type_with_underscore' when calling FakeApi.get_parameter_name_mapping"
+      end
+      # verify the required parameter 'http_debug_option' is set
+      if @api_client.config.client_side_validation && http_debug_option.nil?
+        fail ArgumentError, "Missing the required parameter 'http_debug_option' when calling FakeApi.get_parameter_name_mapping"
+      end
+      # resource path
+      local_var_path = '/fake/parameter-name-mapping'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'type'] = type
+      query_params[:'http_debug_option'] = http_debug_option
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      header_params[:'_type'] = underscore_type
+      header_params[:'type_'] = type_with_underscore
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type]
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || []
+
+      new_options = opts.merge(
+        :operation => :"FakeApi.get_parameter_name_mapping",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FakeApi#get_parameter_name_mapping\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # For this test, the body has to be a binary file.
     # @param body [File] image to upload
     # @param [Hash] opts the optional parameters
