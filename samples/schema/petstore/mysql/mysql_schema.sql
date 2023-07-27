@@ -165,8 +165,8 @@ CREATE TABLE IF NOT EXISTS `Enum_Test` (
   `enum_number` ENUM('1.1', '-1.2') DEFAULT NULL,
   `outerEnum` TEXT DEFAULT NULL,
   `outerEnumInteger` TEXT DEFAULT NULL,
-  `outerEnumDefaultValue` TEXT DEFAULT NULL,
-  `outerEnumIntegerDefaultValue` TEXT DEFAULT NULL
+  `outerEnumDefaultValue` TEXT,
+  `outerEnumIntegerDefaultValue` TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
