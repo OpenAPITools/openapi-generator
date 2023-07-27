@@ -181,6 +181,7 @@ public class FormatTest {
   **/
   @javax.annotation.Nonnull
   @NotNull
+  @Valid
  @DecimalMin("32.1") @DecimalMax("543.2")
 
   public BigDecimal getNumber() {
@@ -422,6 +423,7 @@ public class FormatTest {
    * @return bigDecimal
   **/
   @javax.annotation.Nullable
+  @Valid
 
 
   public BigDecimal getBigDecimal() {
