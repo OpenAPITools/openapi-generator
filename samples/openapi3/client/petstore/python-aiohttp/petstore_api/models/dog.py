@@ -71,6 +71,4 @@ class Dog(Animal):
         })
         return _obj
 
-from petstore_api.models.animal import Animal
-Dog.update_forward_refs()
 

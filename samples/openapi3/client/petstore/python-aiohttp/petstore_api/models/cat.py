@@ -71,6 +71,4 @@ class Cat(Animal):
         })
         return _obj
 
-from petstore_api.models.animal import Animal
-Cat.update_forward_refs()
 
