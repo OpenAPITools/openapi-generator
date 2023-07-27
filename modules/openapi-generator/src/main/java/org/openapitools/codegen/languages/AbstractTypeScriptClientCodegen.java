@@ -508,9 +508,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toParamName(String name) {
-        // obtain the name from nameMapping directly if provided
-        if (nameMapping.containsKey(name)) {
-            return nameMapping.get(name);
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
         }
 
         name = sanitizeName(name, "[^\\w$]");
