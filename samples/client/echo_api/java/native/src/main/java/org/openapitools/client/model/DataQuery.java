@@ -49,7 +49,7 @@ public class DataQuery extends Query {
   private String text;
 
   public static final String JSON_PROPERTY_DATE = "date";
-  private OffsetDateTime date;
+  private Instant date;
 
   public DataQuery() { 
   }
@@ -104,7 +104,7 @@ public class DataQuery extends Query {
   }
 
 
-  public DataQuery date(OffsetDateTime date) {
+  public DataQuery date(Instant date) {
     this.date = date;
     return this;
   }
@@ -117,14 +117,14 @@ public class DataQuery extends Query {
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public OffsetDateTime getDate() {
+  public Instant getDate() {
     return date;
   }
 
 
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDate(OffsetDateTime date) {
+  public void setDate(Instant date) {
     this.date = date;
   }
 
