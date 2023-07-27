@@ -670,7 +670,7 @@ public class DefaultGeneratorTest {
         Assert.assertEquals(servers.get(1).url, "http://trailingshlash.io:80/v1");
         Assert.assertEquals(servers.get(2).url, "http://notrailingslash.io:80/v2");
     }
-    
+
     @Test
     public void testHandlesRelativeUrlsInServers() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10056.yaml");
