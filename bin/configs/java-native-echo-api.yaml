@@ -9,5 +9,5 @@ additionalProperties:
 
 typeMappings:
   OffsetDateTime: "Instant"
-#importMappings:
-#  OffsetDateTime: "java.time.Instant"
+importMappings:
+  OffsetDateTime: "java.time.Instant"

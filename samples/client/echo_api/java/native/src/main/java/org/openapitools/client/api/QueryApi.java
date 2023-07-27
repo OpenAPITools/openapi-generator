@@ -19,7 +19,7 @@ import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.DataQuery;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter;
