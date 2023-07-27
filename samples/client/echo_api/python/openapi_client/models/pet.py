@@ -101,6 +101,4 @@ class Pet(BaseModel):
         })
         return _obj
 
-from openapi_client.models.tag import Tag
-Pet.update_forward_refs()
 

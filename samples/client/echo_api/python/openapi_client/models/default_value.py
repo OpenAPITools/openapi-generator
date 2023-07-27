@@ -110,6 +110,4 @@ class DefaultValue(BaseModel):
         })
         return _obj
 
-from openapi_client.models.string_enum_ref import StringEnumRef
-DefaultValue.update_forward_refs()
 

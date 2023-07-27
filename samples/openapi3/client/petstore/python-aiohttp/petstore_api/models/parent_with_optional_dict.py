@@ -81,6 +81,4 @@ class ParentWithOptionalDict(BaseModel):
         })
         return _obj
 
-from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
-ParentWithOptionalDict.update_forward_refs()
 

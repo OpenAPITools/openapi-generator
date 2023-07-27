@@ -112,6 +112,4 @@ class Pet(BaseModel):
 
         return _obj
 
-from petstore_api.models.tag import Tag
-Pet.update_forward_refs()
 

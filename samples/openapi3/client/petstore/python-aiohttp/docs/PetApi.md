@@ -239,6 +239,7 @@ Multiple status values can be provided with comma separated strings
 import time
 import os
 import petstore_api
+from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
 from pprint import pprint
 
@@ -376,6 +377,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 import time
 import os
 import petstore_api
+from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
 from pprint import pprint
 
