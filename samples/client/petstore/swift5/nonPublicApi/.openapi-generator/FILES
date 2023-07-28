@@ -47,6 +47,7 @@ PetstoreClient/Classes/OpenAPIs/Models/Order.swift
 PetstoreClient/Classes/OpenAPIs/Models/OuterComposite.swift
 PetstoreClient/Classes/OpenAPIs/Models/OuterEnum.swift
 PetstoreClient/Classes/OpenAPIs/Models/Pet.swift
+PetstoreClient/Classes/OpenAPIs/Models/PropertyNameMapping.swift
 PetstoreClient/Classes/OpenAPIs/Models/ReadOnlyFirst.swift
 PetstoreClient/Classes/OpenAPIs/Models/Return.swift
 PetstoreClient/Classes/OpenAPIs/Models/SpecialModelName.swift
@@ -94,6 +95,7 @@ docs/OuterComposite.md
 docs/OuterEnum.md
 docs/Pet.md
 docs/PetAPI.md
+docs/PropertyNameMapping.md
 docs/ReadOnlyFirst.md
 docs/Return.md
 docs/SpecialModelName.md
