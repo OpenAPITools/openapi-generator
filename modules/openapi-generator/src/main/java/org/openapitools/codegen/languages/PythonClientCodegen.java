@@ -1325,7 +1325,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             // add parent model to import
             if (!StringUtils.isEmpty(model.parent)) {
                 modelImports.add(model.parent);
-            } else {
+            } else if (!model.isEnum) {
                 pydanticImports.add("BaseModel");
             }
 
