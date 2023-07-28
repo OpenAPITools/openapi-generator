@@ -469,31 +469,31 @@ public class DefaultValue {
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_string_enum_ref_default") != null && !jsonObj.get("array_string_enum_ref_default").isJsonArray()) {
+      if (jsonObj.get("array_string_enum_ref_default") != null && !jsonObj.get("array_string_enum_ref_default").isJsonNull() && !jsonObj.get("array_string_enum_ref_default").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_string_enum_ref_default` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_enum_ref_default").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_string_enum_default") != null && !jsonObj.get("array_string_enum_default").isJsonArray()) {
+      if (jsonObj.get("array_string_enum_default") != null && !jsonObj.get("array_string_enum_default").isJsonNull() && !jsonObj.get("array_string_enum_default").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_string_enum_default` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_enum_default").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_string_default") != null && !jsonObj.get("array_string_default").isJsonArray()) {
+      if (jsonObj.get("array_string_default") != null && !jsonObj.get("array_string_default").isJsonNull() && !jsonObj.get("array_string_default").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_string_default` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_default").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_integer_default") != null && !jsonObj.get("array_integer_default").isJsonArray()) {
+      if (jsonObj.get("array_integer_default") != null && !jsonObj.get("array_integer_default").isJsonNull() && !jsonObj.get("array_integer_default").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_integer_default` to be an array in the JSON string but got `%s`", jsonObj.get("array_integer_default").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_string") != null && !jsonObj.get("array_string").isJsonArray()) {
+      if (jsonObj.get("array_string") != null && !jsonObj.get("array_string").isJsonNull() && !jsonObj.get("array_string").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_string` to be an array in the JSON string but got `%s`", jsonObj.get("array_string").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_string_nullable") != null && !jsonObj.get("array_string_nullable").isJsonArray()) {
+      if (jsonObj.get("array_string_nullable") != null && !jsonObj.get("array_string_nullable").isJsonNull() && !jsonObj.get("array_string_nullable").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_string_nullable` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_nullable").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_string_extension_nullable") != null && !jsonObj.get("array_string_extension_nullable").isJsonArray()) {
+      if (jsonObj.get("array_string_extension_nullable") != null && !jsonObj.get("array_string_extension_nullable").isJsonNull() && !jsonObj.get("array_string_extension_nullable").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_string_extension_nullable` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_extension_nullable").toString()));
       }
       if ((jsonObj.get("string_nullable") != null && !jsonObj.get("string_nullable").isJsonNull()) && !jsonObj.get("string_nullable").isJsonPrimitive()) {
