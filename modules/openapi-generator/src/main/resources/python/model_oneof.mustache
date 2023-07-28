@@ -9,7 +9,7 @@ import re  # noqa: F401
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
-from typing import Union, List
+from typing import Union, Any, List, TYPE_CHECKING
 from pydantic import StrictStr, Field
 
 {{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ONE_OF_SCHEMAS = [{{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}}]
@@ -22,7 +22,10 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     # data type: {{{dataType}}}
     {{vendorExtensions.x-py-name}}: {{{vendorExtensions.x-py-typing}}}
 {{/composedSchemas.oneOf}}
-    actual_instance: Union[{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}]
+    if TYPE_CHECKING:
+        actual_instance: Union[{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}]
+    else:
+        actual_instance: Any
     one_of_schemas: List[str] = Field({{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ONE_OF_SCHEMAS, const=True)
 
     class Config:
