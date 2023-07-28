@@ -19,8 +19,10 @@ import json
 import petstore_api.models
 
 
-from typing import Optional
+from typing import Optional, Union
 from pydantic import BaseModel, Field, StrictStr
+from petstore_api.models.cat import Cat
+from petstore_api.models.dog import Dog
 
 class Animal(BaseModel):
     """
