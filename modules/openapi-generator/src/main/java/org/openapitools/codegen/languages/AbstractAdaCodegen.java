@@ -364,11 +364,21 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         return toAdaIdentifier(sanitizeName(name), "P_");
     }
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         return toAdaIdentifier(super.toParamName(name), "P_");
     }
 
@@ -833,7 +843,6 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-
         // This is run first, before the operations.
         // remove model imports to avoid error
         List<Map<String, String>> imports = objs.getImports();
