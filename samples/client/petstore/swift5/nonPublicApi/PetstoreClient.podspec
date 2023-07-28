@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.source = { :git => 'git@github.com:OpenAPITools/openapi-generator.git', :tag => 'v1.0.0' }
   s.authors = ''
   s.license = 'Proprietary'
-  s.homepage = 'https://github.com/openapitools/openapi-generatorq'
+  s.homepage = 'https://github.com/openapitools/openapi-generator'
   s.summary = 'PetstoreClient'
   s.source_files = 'PetstoreClient/Classes/**/*.swift'
   s.dependency 'AnyCodable-FlightSchool', '~> 0.6'
