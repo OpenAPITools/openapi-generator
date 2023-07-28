@@ -22,7 +22,7 @@ from typing import Any, List, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
 from petstore_api.models.enum_string1 import EnumString1
 from petstore_api.models.enum_string2 import EnumString2
-from typing import Union, List
+from typing import Union, Any, List, TYPE_CHECKING
 from pydantic import StrictStr, Field
 
 ONEOFENUMSTRING_ONE_OF_SCHEMAS = ["EnumString1", "EnumString2"]
@@ -35,7 +35,10 @@ class OneOfEnumString(BaseModel):
     oneof_schema_1_validator: Optional[EnumString1] = None
     # data type: EnumString2
     oneof_schema_2_validator: Optional[EnumString2] = None
-    actual_instance: Union[EnumString1, EnumString2]
+    if TYPE_CHECKING:
+        actual_instance: Union[EnumString1, EnumString2]
+    else:
+        actual_instance: Any
     one_of_schemas: List[str] = Field(ONEOFENUMSTRING_ONE_OF_SCHEMAS, const=True)
 
     class Config:

@@ -20,7 +20,7 @@ import re  # noqa: F401
 
 from typing import Any, List, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, validator
-from typing import Union, List
+from typing import Union, Any, List, TYPE_CHECKING
 from pydantic import StrictStr, Field
 
 INTORSTRING_ONE_OF_SCHEMAS = ["int", "str"]
@@ -33,7 +33,10 @@ class IntOrString(BaseModel):
     oneof_schema_1_validator: Optional[conint(strict=True, ge=10)] = None
     # data type: str
     oneof_schema_2_validator: Optional[StrictStr] = None
-    actual_instance: Union[int, str]
+    if TYPE_CHECKING:
+        actual_instance: Union[int, str]
+    else:
+        actual_instance: Any
     one_of_schemas: List[str] = Field(INTORSTRING_ONE_OF_SCHEMAS, const=True)
 
     class Config:

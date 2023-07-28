@@ -20,7 +20,7 @@ import re  # noqa: F401
 
 from typing import Any, List, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, conlist, constr, validator
-from typing import Union, List
+from typing import Union, Any, List, TYPE_CHECKING
 from pydantic import StrictStr, Field
 
 COLOR_ONE_OF_SCHEMAS = ["List[int]", "str"]
@@ -35,7 +35,10 @@ class Color(BaseModel):
     oneof_schema_2_validator: Optional[conlist(conint(strict=True, le=255, ge=0), max_items=4, min_items=4)] = Field(None, description="RGBA four element array with values 0-255.")
     # data type: str
     oneof_schema_3_validator: Optional[constr(strict=True, max_length=7, min_length=7)] = Field(None, description="Hex color string, such as #00FF00.")
-    actual_instance: Union[List[int], str]
+    if TYPE_CHECKING:
+        actual_instance: Union[List[int], str]
+    else:
+        actual_instance: Any
     one_of_schemas: List[str] = Field(COLOR_ONE_OF_SCHEMAS, const=True)
 
     class Config:
