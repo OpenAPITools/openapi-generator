@@ -1237,6 +1237,23 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 pydanticImports.add("validator");
             } else { // typical model
                 codegenProperties = model.vars;
+
+                // if super class
+                if (model.getDiscriminator() != null && model.getDiscriminator().getMappedModels() != null) {
+                    typingImports.add("Union");
+                    Set<CodegenDiscriminator.MappedModel> discriminator = model.getDiscriminator().getMappedModels();
+                    for (CodegenDiscriminator.MappedModel mappedModel : discriminator) {
+                        modelImports.add(mappedModel.getMappingName());
+                    }
+                }
+            }
+
+            if (!model.allOf.isEmpty()) { // allOf
+                for (CodegenProperty cp : model.allVars) {
+                    if (!cp.isPrimitiveType || cp.isModel) {
+                        modelImports.add(cp.dataType);
+                    }
+                }
             }
 
             //loop through properties/schemas to set up typing, pydantic
