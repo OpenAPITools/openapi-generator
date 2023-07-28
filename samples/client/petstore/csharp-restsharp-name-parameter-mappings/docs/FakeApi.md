@@ -8,7 +8,7 @@ All URIs are relative to *http://localhost*
 
 <a id="getparameternamemapping"></a>
 # **GetParameterNameMapping**
-> void GetParameterNameMapping (long UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption)
+> Env GetParameterNameMapping (long UnderscoreType, string type, string TypeWithUnderscore, string httpDebugOption)
 
 parameter name mapping test
 
@@ -37,7 +37,8 @@ namespace Example
             try
             {
                 // parameter name mapping test
-                apiInstance.GetParameterNameMapping(UnderscoreType, type, TypeWithUnderscore, httpDebugOption);
+                Env result = apiInstance.GetParameterNameMapping(UnderscoreType, type, TypeWithUnderscore, httpDebugOption);
+                Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
@@ -57,7 +58,10 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // parameter name mapping test
-    apiInstance.GetParameterNameMappingWithHttpInfo(UnderscoreType, type, TypeWithUnderscore, httpDebugOption);
+    ApiResponse<Env> response = apiInstance.GetParameterNameMappingWithHttpInfo(UnderscoreType, type, TypeWithUnderscore, httpDebugOption);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
@@ -78,7 +82,7 @@ catch (ApiException e)
 
 ### Return type
 
-void (empty response body)
+[**Env**](Env.md)
 
 ### Authorization
 
@@ -87,7 +91,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 
 ### HTTP response details

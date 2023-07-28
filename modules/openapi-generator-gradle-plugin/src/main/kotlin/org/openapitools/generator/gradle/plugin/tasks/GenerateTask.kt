@@ -287,6 +287,13 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val parameterNameMappings = project.objects.mapProperty<String, String>()
 
     /**
+     * Specifies mappings between the model name and the new name
+     */
+    @Optional
+    @Input
+    val modelNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
      * Specifies mappings (rules) in OpenAPI normalizer
      */
     @Optional
@@ -830,6 +837,12 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
             if (parameterNameMappings.isPresent) {
                 parameterNameMappings.get().forEach { entry ->
                     configurator.addParameterNameMapping(entry.key, entry.value)
+                }
+            }
+
+            if (modelNameMappings.isPresent) {
+                modelNameMappings.get().forEach { entry ->
+                    configurator.addModelNameMapping(entry.key, entry.value)
                 }
             }
 
