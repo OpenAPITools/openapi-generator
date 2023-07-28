@@ -1322,13 +1322,11 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 }
             }
 
-            if (!model.isEnum) {
-                pydanticImports.add("BaseModel");
-            }
-
             // add parent model to import
             if (!StringUtils.isEmpty(model.parent)) {
                 modelImports.add(model.parent);
+            } else {
+                pydanticImports.add("BaseModel");
             }
 
             // set enum type in extensions and update `name` in enumVars
