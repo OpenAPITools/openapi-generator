@@ -94,7 +94,6 @@ Class | Method | HTTP request | Description
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)
  - [Pet](docs/Pet.md)
- - [PropertyNameMapping](docs/PropertyNameMapping.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Return](docs/Return.md)
  - [SpecialModelName](docs/SpecialModelName.md)
