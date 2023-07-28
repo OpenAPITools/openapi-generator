@@ -19,7 +19,7 @@ import json
 import petstore_api.models
 
 
-from typing import Optional
+from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field, StrictStr
 
 class Animal(BaseModel):
