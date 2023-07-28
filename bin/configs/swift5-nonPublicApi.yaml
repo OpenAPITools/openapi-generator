@@ -9,4 +9,13 @@ additionalProperties:
   sortParamsByRequiredFlag: false
   nonPublicApi: true
   projectName: PetstoreClient
-  podHomepage: https://github.com/openapitools/openapi-generatorq
+  podHomepage: https://github.com/openapitools/openapi-generator
+nameMappings:
+  _type: underscoreType
+  type_: typeWithUnderscore
+  -type: dashType
+parameterNameMappings:
+  _type: underscoreType
+  type_: typeWithUnderscore
+  -type: dashType
+
