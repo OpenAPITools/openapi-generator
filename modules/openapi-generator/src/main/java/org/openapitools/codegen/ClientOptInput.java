@@ -99,8 +99,6 @@ public class ClientOptInput {
         }
     }
 
-    // TODO: why deprecated?
-
     @Deprecated
     public GeneratorSettings getGeneratorSettings() {
         return generatorSettings;
