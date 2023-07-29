@@ -61,6 +61,7 @@ from petstore_api.models.name import Name
 from petstore_api.models.nullable_class import NullableClass
 from petstore_api.models.nullable_property import NullableProperty
 from petstore_api.models.number_only import NumberOnly
+from petstore_api.models.object_to_test_additional_properties import ObjectToTestAdditionalProperties
 from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields
 from petstore_api.models.one_of_enum_string import OneOfEnumString
 from petstore_api.models.order import Order

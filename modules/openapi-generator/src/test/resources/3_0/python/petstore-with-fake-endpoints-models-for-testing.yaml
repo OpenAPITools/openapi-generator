@@ -2238,3 +2238,11 @@ components:
         type_:
           type: string
       type: object
+    ObjectToTestAdditionalProperties:
+      description: Minimal object
+      type: object
+      properties:
+        property:
+          description: Property
+          type: boolean
+          default: false
