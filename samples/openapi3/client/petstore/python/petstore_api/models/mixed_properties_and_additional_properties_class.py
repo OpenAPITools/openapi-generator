@@ -97,3 +97,4 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
 
         return _obj
 
+

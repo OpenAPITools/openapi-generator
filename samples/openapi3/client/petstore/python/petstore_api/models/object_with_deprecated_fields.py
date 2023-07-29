@@ -90,3 +90,4 @@ class ObjectWithDeprecatedFields(BaseModel):
 
         return _obj
 
+

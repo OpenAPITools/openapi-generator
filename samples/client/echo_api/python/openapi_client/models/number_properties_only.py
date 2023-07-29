@@ -73,3 +73,4 @@ class NumberPropertiesOnly(BaseModel):
         })
         return _obj
 
+

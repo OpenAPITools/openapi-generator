@@ -84,3 +84,4 @@ class PropertyNameCollision(BaseModel):
 
         return _obj
 
+

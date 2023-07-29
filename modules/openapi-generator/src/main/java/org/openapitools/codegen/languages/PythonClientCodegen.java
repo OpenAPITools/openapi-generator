@@ -413,6 +413,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
      * @param datetimeImports datetime imports
      * @param modelImports model imports
      * @param exampleImports example imports
+     * @param postponedModelImports postponed model imports
+     * @param postponedExampleImports postponed example imports
      * @param classname class name
      * @return pydantic type
      *
@@ -423,6 +425,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                                    Set<String> datetimeImports,
                                    Set<String> modelImports,
                                    Set<String> exampleImports,
+                                   Set<String> postponedModelImports,
+                                   Set<String> postponedExampleImports,
                                    String classname) {
         if (cp == null) {
             // if codegen parameter (e.g. map/dict of undefined type) is null, default to string
@@ -444,12 +448,12 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             }
             pydanticImports.add("conlist");
             return String.format(Locale.ROOT, "conlist(%s%s)",
-                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, classname),
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname),
                     constraints);
         } else if (cp.isMap) {
             typingImports.add("Dict");
             return String.format(Locale.ROOT, "Dict[str, %s]",
-                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, classname));
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname));
         } else if (cp.isString) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
@@ -658,7 +662,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 CodegenMediaType cmt = contents.get(key);
                 // TODO process the first one only at the moment
                 if (cmt != null)
-                    return getPydanticType(cmt.getSchema(), typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, classname);
+                    return getPydanticType(cmt.getSchema(), typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname);
             }
             throw new RuntimeException("Error! Failed to process getPydanticType when getting the content: " + cp);
         } else {
@@ -675,6 +679,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
      * @param datetimeImports datetime imports
      * @param modelImports model imports
      * @param exampleImports example imports
+     * @param postponedModelImports postponed model imports
+     * @param postponedExampleImports postponed example imports
      * @param classname class name
      * @return pydantic type
      *
@@ -685,6 +691,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                                    Set<String> datetimeImports,
                                    Set<String> modelImports,
                                    Set<String> exampleImports,
+                                   Set<String> postponedModelImports,
+                                   Set<String> postponedExampleImports,
                                    String classname) {
         if (cp == null) {
             // if codegen property (e.g. map/dict of undefined type) is null, default to string
@@ -725,11 +733,11 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             pydanticImports.add("conlist");
             typingImports.add("List"); // for return type
             return String.format(Locale.ROOT, "conlist(%s%s)",
-                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, classname),
+                    getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname),
                     constraints);
         } else if (cp.isMap) {
             typingImports.add("Dict");
-            return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, classname));
+            return String.format(Locale.ROOT, "Dict[str, %s]", getPydanticType(cp.items, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname));
         } else if (cp.isString) {
             if (cp.hasValidation) {
                 List<String> fieldCustomization = new ArrayList<>();
@@ -935,6 +943,9 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             } else {
                 if (circularImports.containsKey(cp.dataType)) {
                     if (circularImports.get(cp.dataType).contains(classname)) {
+                        hasModelsToImport = true;
+                        postponedModelImports.add(cp.dataType);
+                        postponedExampleImports.add(cp.dataType);
                         // cp.dataType import map of set contains this model (classname), don't import
                         LOGGER.debug("Skipped importing {} in {} due to circular import.", cp.dataType, classname);
                     } else {
@@ -960,15 +971,17 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         TreeSet<String> pydanticImports = new TreeSet<>();
         TreeSet<String> datetimeImports = new TreeSet<>();
         TreeSet<String> modelImports = new TreeSet<>();
+        TreeSet<String> postponedModelImports = new TreeSet<>();
 
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             TreeSet<String> exampleImports = new TreeSet<>(); // import for each operation to be show in sample code
+            TreeSet<String> postponedExampleImports = new TreeSet<>(); // import for each operation to be show in sample code
             List<CodegenParameter> params = operation.allParams;
 
             for (CodegenParameter param : params) {
-                String typing = getPydanticType(param, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, null);
+                String typing = getPydanticType(param, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, null);
                 List<String> fields = new ArrayList<>();
                 String firstField = "";
 
@@ -1020,7 +1033,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             // update typing import for operation return type
             if (!StringUtils.isEmpty(operation.returnType)) {
                 String typing = getPydanticType(operation.returnProperty, typingImports,
-                        new TreeSet<>() /* skip pydantic import for return type */, datetimeImports, modelImports, exampleImports, null);
+                        new TreeSet<>() /* skip pydantic import for return type */, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, null);
             }
 
             // add import for code samples
@@ -1029,6 +1042,15 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 List<String> imports = new ArrayList<>();
                 for (String exampleImport : exampleImports) {
                     imports.add("from " + packageName + ".models." + underscore(exampleImport) + " import " + exampleImport);
+                }
+                operation.vendorExtensions.put("x-py-example-import", imports);
+            }
+
+            if (!postponedExampleImports.isEmpty()) {
+                List<String> imports = new ArrayList<>();
+                for (String exampleImport : postponedExampleImports) {
+                    imports.add("from " + packageName + ".models." + underscore(exampleImport) + " import "
+                            + exampleImport);
                 }
                 operation.vendorExtensions.put("x-py-example-import", imports);
             }
@@ -1060,6 +1082,14 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         // import models one by one
         if (!modelImports.isEmpty()) {
             for (String modelImport : modelImports) {
+                Map<String, String> item = new HashMap<>();
+                item.put("import", "from " + packageName + ".models." + underscore(modelImport) + " import " + modelImport);
+                newImports.add(item);
+            }
+        }
+
+        if (!postponedModelImports.isEmpty()) {
+            for (String modelImport : postponedModelImports) {
                 Map<String, String> item = new HashMap<>();
                 item.put("import", "from " + packageName + ".models." + underscore(modelImport) + " import " + modelImport);
                 newImports.add(item);
@@ -1194,9 +1224,11 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         TreeSet<String> pydanticImports = new TreeSet<>();
         TreeSet<String> datetimeImports = new TreeSet<>();
         TreeSet<String> modelImports = new TreeSet<>();
+        TreeSet<String> postponedModelImports = new TreeSet<>();
 
         for (ModelMap m : objs.getModels()) {
             TreeSet<String> exampleImports = new TreeSet<>();
+            TreeSet<String> postponedExampleImports = new TreeSet<>();
             List<String> readOnlyFields = new ArrayList<>();
             hasModelsToImport = false;
             int property_count = 1;
@@ -1249,7 +1281,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
             //loop through properties/schemas to set up typing, pydantic
             for (CodegenProperty cp : codegenProperties) {
-                String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, model.classname);
+                String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, model.classname);
                 List<String> fields = new ArrayList<>();
                 String firstField = "";
 
@@ -1362,6 +1394,20 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
                 model.getVendorExtensions().putIfAbsent("x-py-model-imports", modelsToImport);
             }
+
+            if (!postponedModelImports.isEmpty()) {
+                Set<String> modelsToImport = new TreeSet<>();
+                for (String modelImport : postponedModelImports) {
+                    if (modelImport.equals(model.classname)) {
+                        // skip self import
+                        continue;
+                    }
+                    modelsToImport.add("from " + packageName + ".models." + underscore(modelImport) + " import " + modelImport);
+                }
+
+                model.getVendorExtensions().putIfAbsent("x-py-postponed-model-imports", modelsToImport);
+            }
+
         }
 
         return objs;

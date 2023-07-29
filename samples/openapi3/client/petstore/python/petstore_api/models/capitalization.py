@@ -90,3 +90,4 @@ class Capitalization(BaseModel):
 
         return _obj
 
+

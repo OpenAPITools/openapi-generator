@@ -84,3 +84,4 @@ class FooGetDefaultResponse(BaseModel):
 
         return _obj
 
+

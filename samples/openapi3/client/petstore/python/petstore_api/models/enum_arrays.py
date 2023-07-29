@@ -103,3 +103,4 @@ class EnumArrays(BaseModel):
 
         return _obj
 
+

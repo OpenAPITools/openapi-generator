@@ -357,3 +357,10 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/isAdditionalPropertiesTrue}}
         return _obj
         {{/hasChildren}}
+
+{{#vendorExtensions.x-py-postponed-model-imports.size}}
+{{#vendorExtensions.x-py-postponed-model-imports}}
+{{{.}}}
+{{/vendorExtensions.x-py-postponed-model-imports}}
+{{classname}}.update_forward_refs()
+{{/vendorExtensions.x-py-postponed-model-imports.size}}

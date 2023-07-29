@@ -80,3 +80,4 @@ class SpecialModelName(BaseModel):
 
         return _obj
 
+

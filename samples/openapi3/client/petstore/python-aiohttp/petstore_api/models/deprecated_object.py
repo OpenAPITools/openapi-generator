@@ -68,3 +68,4 @@ class DeprecatedObject(BaseModel):
         })
         return _obj
 
+
