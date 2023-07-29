@@ -508,3 +508,8 @@ class ModelTests(unittest.TestCase):
         # should not throw the following errors:
         #   pydantic.errors.ConfigError: field "additional_properties" not yet prepared so type is still a ForwardRef, you might need to call ObjectToTestAdditionalProperties.update_forward_refs().
 
+    def test_first_ref(self):
+        # shouldn't throw "still a ForwardRef" error
+        a = petstore_api.FirstRef.from_dict({})
+        self.assertEqual(a.to_json(), "{}")
+
