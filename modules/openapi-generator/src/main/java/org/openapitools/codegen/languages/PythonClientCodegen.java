@@ -1239,12 +1239,12 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 codegenProperties = model.vars;
             }
 
-            // if model_generic.mustache is used
-            if (model.oneOf.isEmpty() && !model.isEnum) {
-                if (!this.disallowAdditionalPropertiesIfNotPresent) {
-                    typingImports.add("Dict");
-                    typingImports.add("Any");
-                }
+            // if model_generic.mustache is used and support additionalProperties
+            if (model.oneOf.isEmpty() && model.anyOf.isEmpty()
+                    && !model.isEnum
+                    && !this.disallowAdditionalPropertiesIfNotPresent) {
+                typingImports.add("Dict");
+                typingImports.add("Any");
             }
 
             //loop through properties/schemas to set up typing, pydantic

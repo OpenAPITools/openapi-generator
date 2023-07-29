@@ -178,4 +178,3 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_object_to_test_additional_properties.py
