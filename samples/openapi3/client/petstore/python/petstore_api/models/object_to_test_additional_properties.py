@@ -80,3 +80,4 @@ class ObjectToTestAdditionalProperties(BaseModel):
 
         return _obj
 
+
