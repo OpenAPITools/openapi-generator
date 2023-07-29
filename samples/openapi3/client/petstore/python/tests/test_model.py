@@ -501,3 +501,10 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(a.to_json(), '{"another_property": [[{"id": 123, "name": "tag name"}]]}')
         a2 = petstore_api.ArrayOfArrayOfModel.from_dict(a.to_dict())
         self.assertEqual(a.to_dict(), a2.to_dict())
+
+    def test_object_with_additional_properties(self):
+        a = petstore_api.ObjectToTestAdditionalProperties()
+        a.additional_properties = { "abc": 123 }
+        # should not throw the following errors:
+        #   pydantic.errors.ConfigError: field "additional_properties" not yet prepared so type is still a ForwardRef, you might need to call ObjectToTestAdditionalProperties.update_forward_refs().
+
