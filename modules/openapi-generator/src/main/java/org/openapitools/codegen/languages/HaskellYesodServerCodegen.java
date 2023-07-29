@@ -286,7 +286,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
             String c = (String) replacementChar;
             Map<String, Object> o = new HashMap<>();
             o.put("char", c);
-            o.put("replacement", "'" + specialCharReplacements.get(c));
+            o.put("replacement", specialCharReplacements.get(c));
             replacements.add(o);
         }
         additionalProperties.put("specialCharReplacements", replacements);
@@ -530,29 +530,6 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         }
     }
 
-    private String fixOperatorChars(String string) {
-        StringBuilder sb = new StringBuilder();
-        String name = string;
-        //Check if it is a reserved word, in which case the underscore is added when property name is generated.
-        if (string.startsWith("_")) {
-            if (reservedWords.contains(string.substring(1))) {
-                name = string.substring(1);
-            } else if (reservedWordsMappings.containsValue(string)) {
-                name = LEADING_UNDERSCORE.matcher(string).replaceFirst("");
-            }
-        }
-        for (char c : name.toCharArray()) {
-            String cString = String.valueOf(c);
-            if (specialCharReplacements.containsKey(cString)) {
-                sb.append("'");
-                sb.append(specialCharReplacements.get(cString));
-            } else {
-                sb.append(c);
-            }
-        }
-        return sb.toString();
-    }
-
     // Remove characters from a string that do not belong in a model classname
     private String fixModelChars(String string) {
         return string.replace(".", "").replace("-", "");
@@ -574,7 +551,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         // From the model name, compute the prefix for the fields.
         String prefix = camelize(model.classname, LOWERCASE_FIRST_LETTER);
         for (CodegenProperty prop : model.vars) {
-            prop.name = toVarName(prefix + camelize(fixOperatorChars(prop.name)));
+            prop.name = toVarName(prefix + camelize(prop.name));
         }
 
         // Create newtypes for things with non-object types

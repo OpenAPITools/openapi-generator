@@ -1271,6 +1271,14 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 codegenProperties = model.vars;
             }
 
+            // if model_generic.mustache is used and support additionalProperties
+            if (model.oneOf.isEmpty() && model.anyOf.isEmpty()
+                    && !model.isEnum
+                    && !this.disallowAdditionalPropertiesIfNotPresent) {
+                typingImports.add("Dict");
+                typingImports.add("Any");
+            }
+
             //loop through properties/schemas to set up typing, pydantic
             for (CodegenProperty cp : codegenProperties) {
                 String typing = getPydanticType(cp, typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, model.classname);
@@ -1346,13 +1354,11 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                 }
             }
 
-            if (!model.isEnum) {
-                pydanticImports.add("BaseModel");
-            }
-
             // add parent model to import
             if (!StringUtils.isEmpty(model.parent)) {
                 modelImports.add(model.parent);
+            } else if (!model.isEnum) {
+                pydanticImports.add("BaseModel");
             }
 
             // set enum type in extensions and update `name` in enumVars

@@ -54,6 +54,7 @@ docs/Name.md
 docs/NullableClass.md
 docs/NullableProperty.md
 docs/NumberOnly.md
+docs/ObjectToTestAdditionalProperties.md
 docs/ObjectWithDeprecatedFields.md
 docs/OneOfEnumString.md
 docs/Order.md
@@ -143,6 +144,7 @@ petstore_api/models/name.py
 petstore_api/models/nullable_class.py
 petstore_api/models/nullable_property.py
 petstore_api/models/number_only.py
+petstore_api/models/object_to_test_additional_properties.py
 petstore_api/models/object_with_deprecated_fields.py
 petstore_api/models/one_of_enum_string.py
 petstore_api/models/order.py

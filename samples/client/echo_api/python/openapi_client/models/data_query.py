@@ -20,7 +20,7 @@ import json
 
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import Field, StrictStr
 from openapi_client.models.query import Query
 
 class DataQuery(Query):

@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, StrictBool
+from pydantic import StrictBool
 from petstore_api.models.animal import Animal
 
 class Cat(Animal):
