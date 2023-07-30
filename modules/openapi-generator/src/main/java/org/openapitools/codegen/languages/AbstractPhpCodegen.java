@@ -460,6 +460,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         // translate @ for properties (like @type) to at_.
         // Otherwise an additional "type" property will leed to duplcates
         name = name.replaceAll("^@", "at_");
@@ -490,6 +495,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         // should be the same as variable name
         return toVarName(name);
     }
