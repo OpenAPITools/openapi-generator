@@ -1961,15 +1961,3 @@ components:
       enum:
         - admin
         - user
-    PropertyNameMapping:
-      properties:
-        http_debug_operation:
-          type: string
-        _type:
-          type: string
-        type:
-          type: string
-        type_:
-          type: string
-        -type:
-          type: string
