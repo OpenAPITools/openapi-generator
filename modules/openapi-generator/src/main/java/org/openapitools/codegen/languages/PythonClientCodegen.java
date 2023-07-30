@@ -1275,7 +1275,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                     typingImports.add("Union");
                     Set<CodegenDiscriminator.MappedModel> discriminator = model.getDiscriminator().getMappedModels();
                     for (CodegenDiscriminator.MappedModel mappedModel : discriminator) {
-                        modelImports.add(mappedModel.getMappingName());
+                        postponedModelImports.add(mappedModel.getMappingName());
                     }
                 }
             }
@@ -1283,7 +1283,11 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             if (!model.allOf.isEmpty()) { // allOf
                 for (CodegenProperty cp : model.allVars) {
                     if (!cp.isPrimitiveType || cp.isModel) {
-                        modelImports.add(cp.dataType);
+                        if (cp.isArray){ // if array
+                            modelImports.add(cp.items.dataType);
+                        }else{ // if model
+                            modelImports.add(cp.dataType);
+                        }
                     }
                 }
             }
