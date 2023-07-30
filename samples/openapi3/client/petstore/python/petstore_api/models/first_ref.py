@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import Any, Dict, Optional
 from pydantic import BaseModel, StrictStr
 
 class FirstRef(BaseModel):
@@ -84,4 +84,7 @@ class FirstRef(BaseModel):
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj
+
+from petstore_api.models.second_ref import SecondRef
+FirstRef.update_forward_refs()
 

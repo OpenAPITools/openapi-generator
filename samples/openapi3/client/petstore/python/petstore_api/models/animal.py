@@ -16,10 +16,9 @@ from __future__ import annotations
 import pprint
 import re  # noqa: F401
 import json
-import petstore_api.models
 
 
-from typing import Optional, Union
+from typing import Any, Dict, Optional, Union
 from pydantic import BaseModel, Field, StrictStr
 from petstore_api.models.cat import Cat
 from petstore_api.models.dog import Dog
@@ -95,4 +94,5 @@ class Animal(BaseModel):
             raise ValueError("Animal failed to lookup discriminator value from " +
                              json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
                              ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+
 

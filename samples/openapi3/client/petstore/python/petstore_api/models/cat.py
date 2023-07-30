@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictBool
+from typing import Any, Dict, Optional
+from pydantic import StrictBool
 from petstore_api.models.animal import Animal
 
 class Cat(Animal):
@@ -82,4 +82,5 @@ class Cat(Animal):
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj
+
 

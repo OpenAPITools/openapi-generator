@@ -179,6 +179,7 @@ Class | Method | HTTP request | Description
  - [NullableClass](docs/NullableClass.md)
  - [NullableProperty](docs/NullableProperty.md)
  - [NumberOnly](docs/NumberOnly.md)
+ - [ObjectToTestAdditionalProperties](docs/ObjectToTestAdditionalProperties.md)
  - [ObjectWithDeprecatedFields](docs/ObjectWithDeprecatedFields.md)
  - [OneOfEnumString](docs/OneOfEnumString.md)
  - [Order](docs/Order.md)

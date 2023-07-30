@@ -51,6 +51,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 This endpoint does not need any parameter.
 
@@ -111,6 +112,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling BodyApi->test_body_application_octetstream_binary: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -178,6 +180,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -241,6 +244,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling BodyApi->test_echo_body_free_form_object_response_string: %s\n" % e)
 ```
+
 
 
 ### Parameters
@@ -309,6 +313,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -375,6 +380,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
 
 Name | Type | Description  | Notes
@@ -439,6 +445,7 @@ with openapi_client.ApiClient(configuration) as api_client:
     except Exception as e:
         print("Exception when calling BodyApi->test_echo_body_tag_response_string: %s\n" % e)
 ```
+
 
 
 ### Parameters

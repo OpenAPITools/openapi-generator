@@ -52,6 +52,7 @@ docs/Model/OuterEnumInteger.md
 docs/Model/OuterEnumIntegerDefaultValue.md
 docs/Model/OuterObjectWithEnumProperty.md
 docs/Model/Pet.md
+docs/Model/PropertyNameMapping.md
 docs/Model/ReadOnlyFirst.md
 docs/Model/SingleRefType.md
 docs/Model/SpecialModelName.md
@@ -111,6 +112,7 @@ lib/Model/OuterEnumInteger.php
 lib/Model/OuterEnumIntegerDefaultValue.php
 lib/Model/OuterObjectWithEnumProperty.php
 lib/Model/Pet.php
+lib/Model/PropertyNameMapping.php
 lib/Model/ReadOnlyFirst.php
 lib/Model/SingleRefType.php
 lib/Model/SpecialModelName.php

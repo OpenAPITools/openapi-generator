@@ -1,0 +1,14 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-name-parameter-mappings
+inputSpec: modules/openapi-generator/src/test/resources/3_0/name-parameter-mappings.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+nameMappings:
+  _type: underscoreType
+  type_: typeWithUnderscore
+  http_debug_operation: httpDebugOperation
+parameterNameMappings:
+  _type: underscoreType
+  type_: typeWithUnderscore
+  http_debug_operation: httpDebugOperation
+additionalProperties:
+  artifactId: kotlin-petstore-client

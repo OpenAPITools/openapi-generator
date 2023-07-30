@@ -159,15 +159,15 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         if (additionalProperties.containsKey("mainPackage")) {
             setMainPackage((String) additionalProperties.get("mainPackage"));
             additionalProperties.replace("configKeyPath", this.configKeyPath);
-            if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)){
+            if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
                 apiPackage = mainPackage + ".api";
                 additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
             }
-            if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)){
+            if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
                 modelPackage = mainPackage + ".model";
                 additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
             }
-            if (!additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)){
+            if (!additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
                 invokerPackage = mainPackage + ".core";
             }
         }
@@ -262,6 +262,11 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         return formatIdentifier(name, false);
     }
 
