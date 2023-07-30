@@ -10,10 +10,10 @@
 {{#vars}}
 #' @field {{name}} {{#lambdaRdocEscape}}{{{description}}}{{/lambdaRdocEscape}} {{{vendorExtensions.x-r-doc-type}}}{{^required}} [optional]{{/required}}
 {{/vars}}
-{{#isAdditionalPropertiesTrue}}
+{{#isAdditionalPropertiesEnabled}}
 #' @field _field_list a list of fields list(character)
 #' @field additional_properties additional properties list(character) [optional]
-{{/isAdditionalPropertiesTrue}}
+{{/isAdditionalPropertiesEnabled}}
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -26,10 +26,10 @@
     {{#vars}}
     `{{{name}}}` = NULL,
     {{/vars}}
-    {{#isAdditionalPropertiesTrue}}
+    {{#isAdditionalPropertiesEnabled}}
     `_field_list` = c({{#vars}}"{{{name}}}"{{^-last}}, {{/-last}}{{/vars}}),
     `additional_properties` = list(),
-    {{/isAdditionalPropertiesTrue}}
+    {{/isAdditionalPropertiesEnabled}}
     {{#discriminator}}
     `_discriminator_property_name` = '{{discriminator.propertyName}}',
     {{#discriminator.mappedModels}}{{#-first}}`_discriminator_mapping_name` = c({{/-first}}'{{mappingName}}' = '{{modelName}}'{{^-last}}, {{/-last}}{{#-last}}),{{/-last}}{{/discriminator.mappedModels}}
@@ -45,12 +45,12 @@
     {{#optionalVars}}
     #' @param {{name}} {{#lambdaRdocEscape}}{{{description}}}{{/lambdaRdocEscape}}{{^description}}{{{name}}}{{/description}}{{#defaultValue}}. Default to {{{.}}}.{{/defaultValue}}
     {{/optionalVars}}
-    {{#isAdditionalPropertiesTrue}}
+    {{#isAdditionalPropertiesEnabled}}
     #' @param additional_properties additional properties (optional)
-    {{/isAdditionalPropertiesTrue}}
+    {{/isAdditionalPropertiesEnabled}}
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function({{#requiredVars}}`{{name}}`, {{/requiredVars}}{{#optionalVars}}`{{name}}` = {{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}{{#isAdditionalPropertiesTrue}}additional_properties = NULL, {{/isAdditionalPropertiesTrue}}...) {
+    initialize = function({{#requiredVars}}`{{name}}`, {{/requiredVars}}{{#optionalVars}}`{{name}}` = {{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}{{#isAdditionalPropertiesEnabled}}additional_properties = NULL, {{/isAdditionalPropertiesEnabled}}...) {
       {{#requiredVars}}
       if (!missing(`{{name}}`)) {
         {{^isContainer}}
@@ -195,13 +195,13 @@
         self$`{{name}}` <- `{{name}}`
       }
       {{/optionalVars}}
-      {{#isAdditionalPropertiesTrue}}
+      {{#isAdditionalPropertiesEnabled}}
       if (!is.null(additional_properties)) {
         for (key in names(additional_properties)) {
           self$additional_properties[[key]] <- additional_properties[[key]]
         }
       }
-      {{/isAdditionalPropertiesTrue}}
+      {{/isAdditionalPropertiesEnabled}}
     },
     #' To JSON string
     #'
@@ -243,12 +243,12 @@
           {{/isContainer}}
       }
       {{/vars}}
-      {{#isAdditionalPropertiesTrue}}
+      {{#isAdditionalPropertiesEnabled}}
       for (key in names(self$additional_properties)) {
         {{classname}}Object[[key]] <- self$additional_properties[[key]]
       }
 
-      {{/isAdditionalPropertiesTrue}}
+      {{/isAdditionalPropertiesEnabled}}
       {{classname}}Object
     },
     #' Deserialize JSON string into an instance of {{{classname}}}
@@ -296,7 +296,7 @@
         {{/isContainer}}
       }
       {{/vars}}
-      {{#isAdditionalPropertiesTrue}}
+      {{#isAdditionalPropertiesEnabled}}
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
         if (!(key %in% self$`_field_list`)) { # json key not in list of fields
@@ -304,7 +304,7 @@
         }
       }
 
-      {{/isAdditionalPropertiesTrue}}
+      {{/isAdditionalPropertiesEnabled}}
       self
     },
     #' To JSON string
@@ -375,13 +375,13 @@
       )
       jsoncontent <- paste(jsoncontent, collapse = ",")
       json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
-      {{#isAdditionalPropertiesTrue}}
+      {{#isAdditionalPropertiesEnabled}}
       json_obj <- jsonlite::fromJSON(json_string)
       for (key in names(self$additional_properties)) {
         json_obj[[key]] <- self$additional_properties[[key]]
       }
       json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
-      {{/isAdditionalPropertiesTrue}}
+      {{/isAdditionalPropertiesEnabled}}
     },
     #' Deserialize JSON string into an instance of {{{classname}}}
     #'
@@ -425,7 +425,7 @@
       {{/isPrimitiveType}}
       {{/isContainer}}
       {{/vars}}
-      {{#isAdditionalPropertiesTrue}}
+      {{#isAdditionalPropertiesEnabled}}
       # process additional properties/fields in the payload
       for (key in names(this_object)) {
         if (!(key %in% self$`_field_list`)) { # json key not in list of fields
@@ -433,7 +433,7 @@
         }
       }
 
-      {{/isAdditionalPropertiesTrue}}
+      {{/isAdditionalPropertiesEnabled}}
       self
     },
     #' Validate JSON input with respect to {{classname}}

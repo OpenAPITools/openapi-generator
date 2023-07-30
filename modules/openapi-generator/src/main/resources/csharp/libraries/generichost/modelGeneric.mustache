@@ -168,7 +168,7 @@
         {{/isInherited}}
         {{/isEnum}}
         {{/allVars}}
-        {{#isAdditionalPropertiesTrue}}
+        {{#isAdditionalPropertiesEnabled}}
         {{^parentModel}}
         /// <summary>
         /// Gets or Sets additional properties
@@ -177,7 +177,7 @@
         public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
 
         {{/parentModel}}
-        {{/isAdditionalPropertiesTrue}}
+        {{/isAdditionalPropertiesEnabled}}
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -192,11 +192,11 @@
             {{#vars}}
             sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
             {{/vars}}
-            {{#isAdditionalPropertiesTrue}}
+            {{#isAdditionalPropertiesEnabled}}
             {{^parentModel}}
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             {{/parentModel}}
-            {{/isAdditionalPropertiesTrue}}
+            {{/isAdditionalPropertiesEnabled}}
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -249,12 +249,12 @@
                     {{^vendorExtensions.x-is-value-type}}{{name}} != null &&
                     input.{{name}} != null &&
                     {{/vendorExtensions.x-is-value-type}}{{name}}.SequenceEqual(input.{{name}})
-                ){{^-last}} && {{/-last}}{{/isContainer}}{{/isInherited}}{{/readOnlyVars}}{{^readOnlyVars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/readOnlyVars}}{{^isAdditionalPropertiesTrue}};{{/isAdditionalPropertiesTrue}}
-                {{#isAdditionalPropertiesTrue}}
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{/isInherited}}{{/readOnlyVars}}{{^readOnlyVars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/readOnlyVars}}{{^isAdditionalPropertiesEnabled}};{{/isAdditionalPropertiesEnabled}}
+                {{#isAdditionalPropertiesEnabled}}
                 {{^parentModel}}
                 && (AdditionalProperties.Count == input.AdditionalProperties.Count && !AdditionalProperties.Except(input.AdditionalProperties).Any());
                 {{/parentModel}}
-                {{/isAdditionalPropertiesTrue}}
+                {{/isAdditionalPropertiesEnabled}}
             {{/useCompareNetObjects}}
         }
 
@@ -284,11 +284,11 @@
                     hashCode = (hashCode * 59) + {{name}}.GetHashCode();
                 {{/isNullable}}
                 {{/readOnlyVars}}
-                {{#isAdditionalPropertiesTrue}}
+                {{#isAdditionalPropertiesEnabled}}
                 {{^parentModel}}
                 hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 {{/parentModel}}
-                {{/isAdditionalPropertiesTrue}}
+                {{/isAdditionalPropertiesEnabled}}
 
                 return hashCode;
             }

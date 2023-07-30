@@ -97,15 +97,15 @@
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        {{^isAdditionalPropertiesTrue}}
+        {{^isAdditionalPropertiesEnabled}}
         protected {{classname}}() { }
-        {{/isAdditionalPropertiesTrue}}
-        {{#isAdditionalPropertiesTrue}}
+        {{/isAdditionalPropertiesEnabled}}
+        {{#isAdditionalPropertiesEnabled}}
         protected {{classname}}()
         {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
-        {{/isAdditionalPropertiesTrue}}
+        {{/isAdditionalPropertiesEnabled}}
     {{/hasOnlyReadOnly}}
     {{/hasRequired}}
         /// <summary>
@@ -170,9 +170,9 @@
             {{/isReadOnly}}
             {{/isInherited}}
             {{/vars}}
-            {{#isAdditionalPropertiesTrue}}
+            {{#isAdditionalPropertiesEnabled}}
             this.AdditionalProperties = new Dictionary<string, object>();
-            {{/isAdditionalPropertiesTrue}}
+            {{/isAdditionalPropertiesEnabled}}
         }
 
         {{#vars}}
@@ -250,14 +250,14 @@
         {{/isEnum}}
         {{/isInherited}}
         {{/vars}}
-        {{#isAdditionalPropertiesTrue}}
+        {{#isAdditionalPropertiesEnabled}}
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
         public IDictionary<string, object> AdditionalProperties { get; set; }
 
-        {{/isAdditionalPropertiesTrue}}
+        {{/isAdditionalPropertiesEnabled}}
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -272,9 +272,9 @@
             {{#vars}}
             sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
             {{/vars}}
-            {{#isAdditionalPropertiesTrue}}
+            {{#isAdditionalPropertiesEnabled}}
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
-            {{/isAdditionalPropertiesTrue}}
+            {{/isAdditionalPropertiesEnabled}}
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -333,10 +333,10 @@
                     {{^vendorExtensions.x-is-value-type}}this.{{name}} != null &&
                     input.{{name}} != null &&
                     {{/vendorExtensions.x-is-value-type}}this.{{name}}.SequenceEqual(input.{{name}})
-                ){{^-last}} && {{/-last}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}}{{^isAdditionalPropertiesTrue}};{{/isAdditionalPropertiesTrue}}
-                {{#isAdditionalPropertiesTrue}}
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}}{{^isAdditionalPropertiesEnabled}};{{/isAdditionalPropertiesEnabled}}
+                {{#isAdditionalPropertiesEnabled}}
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
-                {{/isAdditionalPropertiesTrue}}
+                {{/isAdditionalPropertiesEnabled}}
             {{/useCompareNetObjects}}
         }
 
@@ -363,10 +363,10 @@
                 hashCode = hashCode * 59 + this.{{name}}.GetHashCode();
                 {{/vendorExtensions.x-is-value-type}}
                 {{/vars}}
-                {{#isAdditionalPropertiesTrue}}
+                {{#isAdditionalPropertiesEnabled}}
                 if (this.AdditionalProperties != null)
                     hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
-                {{/isAdditionalPropertiesTrue}}
+                {{/isAdditionalPropertiesEnabled}}
                 return hashCode;
             }
         }

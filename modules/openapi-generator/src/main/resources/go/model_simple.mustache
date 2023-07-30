@@ -24,15 +24,15 @@ type {{classname}} struct {
 {{/deprecated}}
 	{{name}} {{^required}}{{^isNullable}}{{^isArray}}{{^isFreeFormObject}}*{{/isFreeFormObject}}{{/isArray}}{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
-{{#isAdditionalPropertiesTrue}}
+{{#isAdditionalPropertiesEnabled}}
 	AdditionalProperties map[string]interface{}
-{{/isAdditionalPropertiesTrue}}
+{{/isAdditionalPropertiesEnabled}}
 }
 
-{{#isAdditionalPropertiesTrue}}
+{{#isAdditionalPropertiesEnabled}}
 type _{{{classname}}} {{{classname}}}
 
-{{/isAdditionalPropertiesTrue}}
+{{/isAdditionalPropertiesEnabled}}
 // New{{classname}} instantiates a new {{classname}} object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
@@ -321,17 +321,17 @@ func (o {{classname}}) ToMap() (map[string]interface{}, error) {
 	{{/required}}
 	{{/isNullable}}
 	{{/vars}}
-	{{#isAdditionalPropertiesTrue}}
+	{{#isAdditionalPropertiesEnabled}}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	{{/isAdditionalPropertiesTrue}}
+	{{/isAdditionalPropertiesEnabled}}
 	return toSerialize, nil
 }
 
-{{#isAdditionalPropertiesTrue}}
+{{#isAdditionalPropertiesEnabled}}
 func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 {{#parent}}
 {{^isMap}}
@@ -440,7 +440,7 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 {{/parent}}
 }
 
-{{/isAdditionalPropertiesTrue}}
+{{/isAdditionalPropertiesEnabled}}
 {{#isArray}}
 func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 	return json.Unmarshal(bytes, &o.Items)
