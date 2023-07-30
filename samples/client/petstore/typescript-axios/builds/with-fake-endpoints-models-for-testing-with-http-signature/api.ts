@@ -175,7 +175,7 @@ export interface ArrayTest {
  * @interface Banana
  */
 export interface Banana {
-    [key: string]: any;
+    [key: string]: any | any;
 
     /**
      * 

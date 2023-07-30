@@ -3186,9 +3186,6 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (schema.getAdditionalProperties() instanceof Boolean) {
             if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
                 isAdditionalPropertiesTrue = true;
-                addPropProp = fromProperty(getAdditionalPropertiesName(), new Schema(), false);
-                //  TODO revise below as it should be true only if it's any type, not boolean
-                additionalPropertiesIsAnyType = true;
             }
         } else {
             addPropProp = fromProperty(getAdditionalPropertiesName(), (Schema) schema.getAdditionalProperties(), false);

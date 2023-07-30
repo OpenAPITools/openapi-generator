@@ -1656,7 +1656,7 @@ export interface Whale {
  * @interface Zebra
  */
 export interface Zebra {
-    [key: string]: any;
+    [key: string]: any | any;
 
     /**
      * 
