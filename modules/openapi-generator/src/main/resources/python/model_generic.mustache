@@ -22,9 +22,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#vars}}
     {{name}}: {{{vendorExtensions.x-py-typing}}}
 {{/vars}}
-{{#isAdditionalPropertiesTrue}}
+{{#isAdditionalPropertiesEnabled}}
     additional_properties: Dict[str, Any] = {}
-{{/isAdditionalPropertiesTrue}}
+{{/isAdditionalPropertiesEnabled}}
     __properties = [{{#allVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/allVars}}]
 {{#vars}}
     {{#vendorExtensions.x-regex}}
@@ -130,9 +130,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                             {{#vendorExtensions.x-py-readonly}}
                             "{{{.}}}",
                             {{/vendorExtensions.x-py-readonly}}
-                            {{#isAdditionalPropertiesTrue}}
+                            {{#isAdditionalPropertiesEnabled}}
                             "additional_properties"
-                            {{/isAdditionalPropertiesTrue}}
+                            {{/isAdditionalPropertiesEnabled}}
                           },
                           exclude_none=True)
         {{#allVars}}
@@ -202,13 +202,13 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/isPrimitiveType}}
         {{/isContainer}}
         {{/allVars}}
-        {{#isAdditionalPropertiesTrue}}
+        {{#isAdditionalPropertiesEnabled}}
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
                 _dict[_key] = _value
 
-        {{/isAdditionalPropertiesTrue}}
+        {{/isAdditionalPropertiesEnabled}}
         {{#allVars}}
         {{#isNullable}}
         # set to None if {{{name}}} (nullable) is None
@@ -244,13 +244,13 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             return {{{classname}}}.parse_obj(obj)
 
         {{#disallowAdditionalPropertiesIfNotPresent}}
-        {{^isAdditionalPropertiesTrue}}
+        {{^isAdditionalPropertiesEnabled}}
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
                 raise ValueError("Error due to additional fields (not defined in {{classname}}) in the input: " + obj)
 
-        {{/isAdditionalPropertiesTrue}}
+        {{/isAdditionalPropertiesEnabled}}
         {{/disallowAdditionalPropertiesIfNotPresent}}
         _obj = {{{classname}}}.parse_obj({
             {{#allVars}}
@@ -348,13 +348,13 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{/isContainer}}
             {{/allVars}}
         })
-        {{#isAdditionalPropertiesTrue}}
+        {{#isAdditionalPropertiesEnabled}}
         # store additional fields in additional_properties
         for _key in obj.keys():
             if _key not in cls.__properties:
                 _obj.additional_properties[_key] = obj.get(_key)
 
-        {{/isAdditionalPropertiesTrue}}
+        {{/isAdditionalPropertiesEnabled}}
         return _obj
         {{/hasChildren}}
 

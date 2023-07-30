@@ -3167,13 +3167,16 @@ public class DefaultCodegen implements CodegenConfig {
             // if we are trying to set additionalProperties on an empty schema stop recursing
             return;
         }
+
         boolean additionalPropertiesIsAnyType = false;
+        boolean isAdditionalPropertiesTrue = false;
+        boolean isAdditionalPropertiesFreeFormObject = false;
+
         CodegenModel m = null;
         if (property instanceof CodegenModel) {
             m = (CodegenModel) property;
         }
         CodegenProperty addPropProp = null;
-        boolean isAdditionalPropertiesTrue = false;
         if (schema.getAdditionalProperties() == null) {
             if (!disallowAdditionalPropertiesIfNotPresent) {
                 isAdditionalPropertiesTrue = true;
@@ -3184,19 +3187,27 @@ public class DefaultCodegen implements CodegenConfig {
             if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
                 isAdditionalPropertiesTrue = true;
                 addPropProp = fromProperty(getAdditionalPropertiesName(), new Schema(), false);
+                //  TODO revise below as it should be true only if it's any type, not boolean
                 additionalPropertiesIsAnyType = true;
             }
         } else {
             addPropProp = fromProperty(getAdditionalPropertiesName(), (Schema) schema.getAdditionalProperties(), false);
             if (ModelUtils.isAnyType((Schema) schema.getAdditionalProperties())) {
+                isAdditionalPropertiesTrue = true;
                 additionalPropertiesIsAnyType = true;
+            }
+
+            if (ModelUtils.isFreeFormObject((Schema) schema.getAdditionalProperties())) {
+                isAdditionalPropertiesFreeFormObject = true;
             }
         }
         if (additionalPropertiesIsAnyType) {
             property.setAdditionalPropertiesIsAnyType(true);
         }
-        if (m != null && isAdditionalPropertiesTrue) {
-            m.isAdditionalPropertiesTrue = true;
+        if (m != null) {
+            m.isAdditionalPropertiesTrue = isAdditionalPropertiesTrue;
+            m.isAdditionalPropertiesAnyType = additionalPropertiesIsAnyType;
+            m.isAdditionalPropertiesFreeFormObject = isAdditionalPropertiesFreeFormObject;
         }
         if (ModelUtils.isComposedSchema(schema) && !supportsAdditionalPropertiesWithComposedSchema) {
             return;

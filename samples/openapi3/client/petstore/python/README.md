@@ -132,6 +132,8 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AdditionalPropertieAnyType](docs/AdditionalPropertieAnyType.md)
+ - [AdditionalPropertieObject](docs/AdditionalPropertieObject.md)
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [Animal](docs/Animal.md)

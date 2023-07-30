@@ -2246,3 +2246,16 @@ components:
           description: Property
           type: boolean
           default: false
+    AdditionalPropertieObject:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: object
+    AdditionalPropertieAnyType:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties: {}

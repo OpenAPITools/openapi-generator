@@ -153,6 +153,23 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      */
     public boolean isAdditionalPropertiesTrue;
 
+    /**
+     * True if additional properties is set to any type
+     */
+    public boolean isAdditionalPropertiesAnyType;
+
+    /**
+     * True if additional properties is set to free form object
+     */
+    public boolean isAdditionalPropertiesFreeFormObject;
+
+    /**
+     * True if additional properties is enabled (boolean or any type)
+     */
+    public boolean isAdditionalPropertiesEnabled() {
+        return isAdditionalPropertiesTrue || isAdditionalPropertiesAnyType || isAdditionalPropertiesFreeFormObject;
+    }
+
     private Integer maxProperties;
     private Integer minProperties;
     private boolean uniqueItems;
@@ -1088,6 +1105,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(externalDocumentation, that.externalDocumentation) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions) &&
                 Objects.equals(additionalPropertiesType, that.additionalPropertiesType) &&
+                Objects.equals(isAdditionalPropertiesAnyType, that.isAdditionalPropertiesAnyType) &&
+                Objects.equals(isAdditionalPropertiesFreeFormObject, that.isAdditionalPropertiesFreeFormObject) &&
+                Objects.equals(isAdditionalPropertiesTrue, that.isAdditionalPropertiesTrue) &&
                 Objects.equals(getMaxProperties(), that.getMaxProperties()) &&
                 Objects.equals(getMinProperties(), that.getMinProperties()) &&
                 Objects.equals(getMaxItems(), that.getMaxItems()) &&
@@ -1121,7 +1141,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping,
                 isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid, requiredVarsMap, ref,
                 uniqueItemsBoolean, schemaIsFromAdditionalProperties, isBooleanSchemaTrue, isBooleanSchemaFalse,
-                format, dependentRequired, contains);
+                format, dependentRequired, contains, isAdditionalPropertiesTrue, isAdditionalPropertiesFreeFormObject,
+                isAdditionalPropertiesFreeFormObject);
     }
 
     @Override
@@ -1227,6 +1248,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", format=").append(format);
         sb.append(", dependentRequired=").append(dependentRequired);
         sb.append(", contains=").append(contains);
+        sb.append(", isAdditionalPropertiesAnyType=").append(isAdditionalPropertiesAnyType);
+        sb.append(", isAdditionalPropertiesFreeFormObject=").append(isAdditionalPropertiesFreeFormObject);
+        sb.append(", isAdditionalPropertiesTrue=").append(isAdditionalPropertiesTrue);
         sb.append('}');
         return sb.toString();
     }
