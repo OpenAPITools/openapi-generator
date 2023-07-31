@@ -56,6 +56,8 @@ from petstore_api.models.circular_reference_model import CircularReferenceModel
 from petstore_api.models.class_model import ClassModel
 from petstore_api.models.client import Client
 from petstore_api.models.color import Color
+from petstore_api.models.creature import Creature
+from petstore_api.models.creature_info import CreatureInfo
 from petstore_api.models.danish_pig import DanishPig
 from petstore_api.models.deprecated_object import DeprecatedObject
 from petstore_api.models.dog import Dog
@@ -108,5 +110,6 @@ from petstore_api.models.special_character_enum import SpecialCharacterEnum
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.special_name import SpecialName
 from petstore_api.models.tag import Tag
+from petstore_api.models.tiger import Tiger
 from petstore_api.models.user import User
 from petstore_api.models.with_nested_one_of import WithNestedOneOf
