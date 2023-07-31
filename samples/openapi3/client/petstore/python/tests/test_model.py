@@ -513,3 +513,10 @@ class ModelTests(unittest.TestCase):
         a = petstore_api.FirstRef.from_dict({})
         self.assertEqual(a.to_json(), "{}")
 
+    def test_allof(self):
+        # for issue 16104
+        model = petstore_api.Tiger.from_json('{"skill": "none", "type": "tiger", "info": {"name": "creature info"}}')
+        # shouldn't throw NameError
+        self.assertEqual(model.to_json(), '{"skill": "none", "type": "tiger", "info": {"name": "creature info"}}')
+
+

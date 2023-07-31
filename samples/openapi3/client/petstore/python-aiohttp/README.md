@@ -150,6 +150,8 @@ Class | Method | HTTP request | Description
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [Color](docs/Color.md)
+ - [Creature](docs/Creature.md)
+ - [CreatureInfo](docs/CreatureInfo.md)
  - [DanishPig](docs/DanishPig.md)
  - [DeprecatedObject](docs/DeprecatedObject.md)
  - [Dog](docs/Dog.md)
@@ -202,6 +204,7 @@ Class | Method | HTTP request | Description
  - [SpecialModelName](docs/SpecialModelName.md)
  - [SpecialName](docs/SpecialName.md)
  - [Tag](docs/Tag.md)
+ - [Tiger](docs/Tiger.md)
  - [User](docs/User.md)
  - [WithNestedOneOf](docs/WithNestedOneOf.md)
 
