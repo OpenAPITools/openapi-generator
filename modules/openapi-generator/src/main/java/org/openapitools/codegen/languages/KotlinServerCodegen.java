@@ -48,6 +48,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     private boolean interfaceOnly = false;
     private boolean useBeanValidation = false;
     private boolean useCoroutines = false;
+    private boolean useMutiny = false;
     private boolean returnResponse = false;
 
     // This is here to potentially warn the user when an option is not supported by the target framework.
@@ -64,6 +65,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             .put(Constants.JAXRS_SPEC, Arrays.asList(
                     USE_BEANVALIDATION,
                     Constants.USE_COROUTINES,
+                    Constants.USE_MUTINY,
                     Constants.RETURN_RESPONSE,
                     Constants.INTERFACE_ONLY
             ))
@@ -128,6 +130,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(Constants.INTERFACE_ONLY, Constants.INTERFACE_ONLY_DESC, interfaceOnly);
         addSwitch(USE_BEANVALIDATION, Constants.USE_BEANVALIDATION_DESC, useBeanValidation);
         addSwitch(Constants.USE_COROUTINES, Constants.USE_COROUTINES_DESC, useCoroutines);
+        addSwitch(Constants.USE_MUTINY, Constants.USE_MUTINY_DESC, useMutiny);
         addSwitch(Constants.RETURN_RESPONSE, Constants.RETURN_RESPONSE_DESC, returnResponse);
         addSwitch(USE_JAKARTA_EE, Constants.USE_JAKARTA_EE_DESC, useJakartaEe);
     }
@@ -223,6 +226,13 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             useCoroutines = Boolean.parseBoolean(additionalProperties.get(Constants.USE_COROUTINES).toString());
             if (!useCoroutines) {
                 additionalProperties.remove(Constants.USE_COROUTINES);
+            }
+        }
+
+        if (additionalProperties.containsKey(Constants.USE_MUTINY)) {
+            useMutiny = Boolean.parseBoolean(additionalProperties.get(Constants.USE_MUTINY).toString());
+            if (!useMutiny) {
+                additionalProperties.remove(Constants.USE_MUTINY);
             }
         }
 
@@ -348,6 +358,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public static final String RETURN_RESPONSE = "returnResponse";
         public static final String RETURN_RESPONSE_DESC = "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true. This option is currently supported only when using jaxrs-spec library.";
         public static final String USE_JAKARTA_EE_DESC = "whether to use Jakarta EE namespace instead of javax";
+        public static final String USE_MUTINY = "useMutiny";
+        public static final String USE_MUTINY_DESC = "Whether to use Mutiny (should not be used with useCoroutines). This option is currently supported only when using jaxrs-spec library.";
     }
 
     @Override
