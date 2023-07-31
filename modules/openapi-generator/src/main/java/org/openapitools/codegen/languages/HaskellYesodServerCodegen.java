@@ -552,6 +552,7 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         String prefix = camelize(model.classname, LOWERCASE_FIRST_LETTER);
         for (CodegenProperty prop : model.vars) {
             prop.name = toVarName(prefix + camelize(prop.name));
+            prop.vendorExtensions.put("x-base-name-string-literal", "\"" + escapeText(prop.getBaseName()) + "\"");
         }
 
         // Create newtypes for things with non-object types
@@ -562,8 +563,6 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
             model.vendorExtensions.put("x-custom-newtype", newtype);
         }
 
-        // Provide the prefix as a vendor extension, so that it can be used in the ToJSON and FromJSON instances.
-        model.vendorExtensions.put("x-prefix", prefix);
         model.vendorExtensions.put("x-data", dataOrNewtype);
 
         return model;
