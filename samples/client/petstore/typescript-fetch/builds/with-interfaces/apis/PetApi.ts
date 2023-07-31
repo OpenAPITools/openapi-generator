@@ -17,13 +17,13 @@ import * as runtime from '../runtime';
 import type {
   ModelApiResponse,
   Pet,
-} from '../models';
+} from '../models/index';
 import {
     ModelApiResponseFromJSON,
     ModelApiResponseToJSON,
     PetFromJSON,
     PetToJSON,
-} from '../models';
+} from '../models/index';
 
 export interface AddPetRequest {
     body: Pet;

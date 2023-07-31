@@ -34,10 +34,10 @@ public class ArrayTest   {
   }
 
   public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
-    if (arrayOfString == null) {
-      arrayOfString = new ArrayList<>();
+    if (this.arrayOfString == null) {
+      this.arrayOfString = new ArrayList<>();
     }
-    arrayOfString.add(arrayOfStringItem);
+    this.arrayOfString.add(arrayOfStringItem);
     return this;
   }
 
@@ -59,10 +59,10 @@ public class ArrayTest   {
   }
 
   public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
-    if (arrayArrayOfInteger == null) {
-      arrayArrayOfInteger = new ArrayList<>();
+    if (this.arrayArrayOfInteger == null) {
+      this.arrayArrayOfInteger = new ArrayList<>();
     }
-    arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
+    this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
     return this;
   }
 
@@ -84,10 +84,10 @@ public class ArrayTest   {
   }
 
   public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
-    if (arrayArrayOfModel == null) {
-      arrayArrayOfModel = new ArrayList<>();
+    if (this.arrayArrayOfModel == null) {
+      this.arrayArrayOfModel = new ArrayList<>();
     }
-    arrayArrayOfModel.add(arrayArrayOfModelItem);
+    this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
   }
 

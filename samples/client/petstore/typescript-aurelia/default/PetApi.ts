@@ -77,7 +77,7 @@ export interface IUpdatePetWithFormParams {
 export interface IUploadFileParams {
   petId: number;
   additionalMetadata?: string;
-  file?: any;
+  file?: File;
 }
 
 /**

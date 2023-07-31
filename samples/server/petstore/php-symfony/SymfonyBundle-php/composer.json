@@ -7,12 +7,12 @@
         "sdk",
         "api"
     ],
-    "homepage": "https://github.com/openapitools/openapi-generator",
+    "homepage": "https://openapi-generator.tech",
     "license": "unlicense",
     "authors": [
         {
-            "name": "openapi-generator contributors",
-            "homepage": "https://github.com/openapitools/openapi-generator"
+            "name": "OpenAPI",
+            "homepage": "https://openapi-generator.tech"
         }
     ],
     "require": {
@@ -33,7 +33,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OpenAPI\\Server\\" : "./"
+            "OpenAPI\\Server\\" : ""
         }
     }
 }

@@ -13,7 +13,7 @@
         end
 
         unless response.success?
-          if response.status == 0
+          if response.status == 0 && response.respond_to?(:return_message)
             # Errors from libcurl will be made visible here
             fail ApiError.new(code: 0,
                               message: response.return_message)
@@ -26,6 +26,8 @@
         end
       rescue Faraday::TimeoutError
         fail ApiError.new('Connection timed out')
+      rescue Faraday::ConnectionFailed
+        fail ApiError.new('Connection failed')
       end
 
       if opts[:return_type]
@@ -67,7 +69,6 @@
       # Overload default options only if provided
       request.options.params_encoder = config.params_encoder if config.params_encoder
       request.options.timeout        = config.timeout        if config.timeout
-      request.options.verbose        = config.debugging      if config.debugging
 
       request.url url
       request.params = query_params
@@ -91,7 +92,7 @@
           case value
           when ::File, ::Tempfile
             # TODO hardcode to application/octet-stream, need better way to detect content type
-            data[key] = Faraday::UploadIO.new(value.path, 'application/octet-stream', value.path)
+            data[key] = Faraday::FilePart.new(value.path, 'application/octet-stream', value.path)
           when ::Array, nil
             # let Faraday handle Array and nil parameters
             data[key] = value
@@ -132,11 +133,12 @@
     end
 
     def build_connection
-      Faraday.new(url: config.base_url, ssl: ssl_options) do |conn|
+      Faraday.new(url: config.base_url, ssl: ssl_options, proxy: config.proxy) do |conn|
         basic_auth(conn)
         config.configure_middleware(conn)
         yield(conn) if block_given?
         conn.adapter(Faraday.default_adapter)
+        config.configure_connection(conn)
       end
     end
 

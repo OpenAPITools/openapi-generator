@@ -163,7 +163,12 @@
         <swagger-inflector-version>1.0.14</swagger-inflector-version>
         <jetty-version>9.2.9.v20150224</jetty-version>
         <logback-version>1.2.10</logback-version>
+        {{#useJakartaEe}}
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        {{/useJakartaEe}}
         <junit-version>4.13.2</junit-version>
         <slf4j-version>1.6.3</slf4j-version>
     </properties>

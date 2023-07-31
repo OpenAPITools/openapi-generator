@@ -1,7 +1,7 @@
 generatorName: java
 outputDir: samples/client/petstore/java/native
 library: native
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/native/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
 templateDir: modules/openapi-generator/src/main/resources/Java
 additionalProperties:
   artifactId: petstore-native

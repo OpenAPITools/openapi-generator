@@ -1,10 +1,12 @@
 #![allow(unused_qualifications)]
 
+use validator::Validate;
+
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesClass {
     #[serde(rename = "map_property")]
@@ -17,7 +19,9 @@ pub struct AdditionalPropertiesClass {
 
 }
 
+
 impl AdditionalPropertiesClass {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> AdditionalPropertiesClass {
         AdditionalPropertiesClass {
             map_property: None,
@@ -31,13 +35,15 @@ impl AdditionalPropertiesClass {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for AdditionalPropertiesClass {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-        // Skipping map_property in query parameter serialization
+        let params: Vec<Option<String>> = vec![
+            // Skipping map_property in query parameter serialization
 
-        // Skipping map_of_map_property in query parameter serialization
-        // Skipping map_of_map_property in query parameter serialization
+            // Skipping map_of_map_property in query parameter serialization
+            // Skipping map_of_map_property in query parameter serialization
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -48,8 +54,9 @@ impl std::str::FromStr for AdditionalPropertiesClass {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub map_property: Vec<std::collections::HashMap<String, String>>,
             pub map_of_map_property: Vec<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
@@ -58,7 +65,7 @@ impl std::str::FromStr for AdditionalPropertiesClass {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -68,6 +75,7 @@ impl std::str::FromStr for AdditionalPropertiesClass {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     "map_property" => return std::result::Result::Err("Parsing a container in this style is not supported in AdditionalPropertiesClass".to_string()),
                     "map_of_map_property" => return std::result::Result::Err("Parsing a container in this style is not supported in AdditionalPropertiesClass".to_string()),
@@ -130,12 +138,12 @@ impl AdditionalPropertiesClass {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Animal {
     #[serde(rename = "className")]
@@ -147,10 +155,12 @@ pub struct Animal {
 
 }
 
+
 impl Animal {
+    #[allow(clippy::new_without_default)]
     pub fn new(class_name: String, ) -> Animal {
         Animal {
-            class_name: class_name,
+            class_name,
             color: Some("red".to_string()),
         }
     }
@@ -161,18 +171,22 @@ impl Animal {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Animal {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        params.push("className".to_string());
-        params.push(self.class_name.to_string());
+            Some("className".to_string()),
+            Some(self.class_name.to_string()),
 
 
-        if let Some(ref color) = self.color {
-            params.push("color".to_string());
-            params.push(color.to_string());
-        }
+            self.color.as_ref().map(|color| {
+                vec![
+                    "color".to_string(),
+                    color.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -183,8 +197,9 @@ impl std::str::FromStr for Animal {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub class_name: Vec<String>,
             pub color: Vec<String>,
@@ -193,7 +208,7 @@ impl std::str::FromStr for Animal {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -203,9 +218,12 @@ impl std::str::FromStr for Animal {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "className" => intermediate_rep.class_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "color" => intermediate_rep.color.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "className" => intermediate_rep.class_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "color" => intermediate_rep.color.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Animal".to_string())
                 }
             }
@@ -216,7 +234,7 @@ impl std::str::FromStr for Animal {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(Animal {
-            class_name: intermediate_rep.class_name.into_iter().next().ok_or("className missing in Animal".to_string())?,
+            class_name: intermediate_rep.class_name.into_iter().next().ok_or_else(|| "className missing in Animal".to_string())?,
             color: intermediate_rep.color.into_iter().next(),
         })
     }
@@ -265,7 +283,7 @@ impl Animal {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -308,7 +326,7 @@ impl<'a> std::iter::IntoIterator for &'a AnimalFarm {
     type IntoIter = std::slice::Iter<'a, Animal>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&self.0).into_iter()
+        self.0.iter()
     }
 }
 
@@ -317,7 +335,7 @@ impl<'a> std::iter::IntoIterator for &'a mut AnimalFarm {
     type IntoIter = std::slice::IterMut<'a, Animal>;
 
     fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).into_iter()
+        self.0.iter_mut()
     }
 }
 
@@ -339,7 +357,7 @@ impl std::ops::DerefMut for AnimalFarm {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for AnimalFarm {
     fn to_string(&self) -> String {
-        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()
+        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")
     }
 }
 
@@ -403,12 +421,12 @@ impl AnimalFarm {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ApiResponse {
     #[serde(rename = "code")]
@@ -417,7 +435,7 @@ pub struct ApiResponse {
 
     #[serde(rename = "type")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub type_: Option<String>,
+    pub r#type: Option<String>,
 
     #[serde(rename = "message")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -425,11 +443,13 @@ pub struct ApiResponse {
 
 }
 
+
 impl ApiResponse {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> ApiResponse {
         ApiResponse {
             code: None,
-            type_: None,
+            r#type: None,
             message: None,
         }
     }
@@ -440,26 +460,34 @@ impl ApiResponse {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ApiResponse {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref code) = self.code {
-            params.push("code".to_string());
-            params.push(code.to_string());
-        }
-
-
-        if let Some(ref type_) = self.type_ {
-            params.push("type".to_string());
-            params.push(type_.to_string());
-        }
+            self.code.as_ref().map(|code| {
+                vec![
+                    "code".to_string(),
+                    code.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref message) = self.message {
-            params.push("message".to_string());
-            params.push(message.to_string());
-        }
+            self.r#type.as_ref().map(|r#type| {
+                vec![
+                    "type".to_string(),
+                    r#type.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+
+            self.message.as_ref().map(|message| {
+                vec![
+                    "message".to_string(),
+                    message.to_string(),
+                ].join(",")
+            }),
+
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -470,18 +498,19 @@ impl std::str::FromStr for ApiResponse {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub code: Vec<i32>,
-            pub type_: Vec<String>,
+            pub r#type: Vec<String>,
             pub message: Vec<String>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -491,10 +520,14 @@ impl std::str::FromStr for ApiResponse {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "code" => intermediate_rep.code.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "type" => intermediate_rep.type_.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "message" => intermediate_rep.message.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "code" => intermediate_rep.code.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "type" => intermediate_rep.r#type.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "message" => intermediate_rep.message.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ApiResponse".to_string())
                 }
             }
@@ -506,7 +539,7 @@ impl std::str::FromStr for ApiResponse {
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(ApiResponse {
             code: intermediate_rep.code.into_iter().next(),
-            type_: intermediate_rep.type_.into_iter().next(),
+            r#type: intermediate_rep.r#type.into_iter().next(),
             message: intermediate_rep.message.into_iter().next(),
         })
     }
@@ -555,12 +588,12 @@ impl ApiResponse {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfArrayOfNumberOnly {
     #[serde(rename = "ArrayArrayNumber")]
@@ -569,7 +602,9 @@ pub struct ArrayOfArrayOfNumberOnly {
 
 }
 
+
 impl ArrayOfArrayOfNumberOnly {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> ArrayOfArrayOfNumberOnly {
         ArrayOfArrayOfNumberOnly {
             array_array_number: None,
@@ -582,10 +617,12 @@ impl ArrayOfArrayOfNumberOnly {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ArrayOfArrayOfNumberOnly {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-        // Skipping ArrayArrayNumber in query parameter serialization
+        let params: Vec<Option<String>> = vec![
+            // Skipping ArrayArrayNumber in query parameter serialization
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -596,8 +633,9 @@ impl std::str::FromStr for ArrayOfArrayOfNumberOnly {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub array_array_number: Vec<Vec<Vec<f64>>>,
         }
@@ -605,7 +643,7 @@ impl std::str::FromStr for ArrayOfArrayOfNumberOnly {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -615,6 +653,7 @@ impl std::str::FromStr for ArrayOfArrayOfNumberOnly {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     "ArrayArrayNumber" => return std::result::Result::Err("Parsing a container in this style is not supported in ArrayOfArrayOfNumberOnly".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing ArrayOfArrayOfNumberOnly".to_string())
@@ -675,12 +714,12 @@ impl ArrayOfArrayOfNumberOnly {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfNumberOnly {
     #[serde(rename = "ArrayNumber")]
@@ -689,7 +728,9 @@ pub struct ArrayOfNumberOnly {
 
 }
 
+
 impl ArrayOfNumberOnly {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> ArrayOfNumberOnly {
         ArrayOfNumberOnly {
             array_number: None,
@@ -702,14 +743,18 @@ impl ArrayOfNumberOnly {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ArrayOfNumberOnly {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref array_number) = self.array_number {
-            params.push("ArrayNumber".to_string());
-            params.push(array_number.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
-        }
+            self.array_number.as_ref().map(|array_number| {
+                vec![
+                    "ArrayNumber".to_string(),
+                    array_number.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -720,8 +765,9 @@ impl std::str::FromStr for ArrayOfNumberOnly {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub array_number: Vec<Vec<f64>>,
         }
@@ -729,7 +775,7 @@ impl std::str::FromStr for ArrayOfNumberOnly {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -739,6 +785,7 @@ impl std::str::FromStr for ArrayOfNumberOnly {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     "ArrayNumber" => return std::result::Result::Err("Parsing a container in this style is not supported in ArrayOfNumberOnly".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing ArrayOfNumberOnly".to_string())
@@ -799,12 +846,12 @@ impl ArrayOfNumberOnly {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayTest {
     #[serde(rename = "array_of_string")]
@@ -826,7 +873,9 @@ pub struct ArrayTest {
 
 }
 
+
 impl ArrayTest {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> ArrayTest {
         ArrayTest {
             array_of_string: None,
@@ -842,24 +891,30 @@ impl ArrayTest {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ArrayTest {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref array_of_string) = self.array_of_string {
-            params.push("array_of_string".to_string());
-            params.push(array_of_string.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
-        }
+            self.array_of_string.as_ref().map(|array_of_string| {
+                vec![
+                    "array_of_string".to_string(),
+                    array_of_string.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+                ].join(",")
+            }),
 
-        // Skipping array_array_of_integer in query parameter serialization
+            // Skipping array_array_of_integer in query parameter serialization
 
-        // Skipping array_array_of_model in query parameter serialization
+            // Skipping array_array_of_model in query parameter serialization
 
 
-        if let Some(ref array_of_enum) = self.array_of_enum {
-            params.push("array_of_enum".to_string());
-            params.push(array_of_enum.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
-        }
+            self.array_of_enum.as_ref().map(|array_of_enum| {
+                vec![
+                    "array_of_enum".to_string(),
+                    array_of_enum.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -870,8 +925,9 @@ impl std::str::FromStr for ArrayTest {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub array_of_string: Vec<Vec<String>>,
             pub array_array_of_integer: Vec<Vec<Vec<i64>>>,
@@ -882,7 +938,7 @@ impl std::str::FromStr for ArrayTest {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -892,6 +948,7 @@ impl std::str::FromStr for ArrayTest {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     "array_of_string" => return std::result::Result::Err("Parsing a container in this style is not supported in ArrayTest".to_string()),
                     "array_array_of_integer" => return std::result::Result::Err("Parsing a container in this style is not supported in ArrayTest".to_string()),
@@ -958,12 +1015,12 @@ impl ArrayTest {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Capitalization {
     #[serde(rename = "smallCamel")]
@@ -993,7 +1050,9 @@ pub struct Capitalization {
 
 }
 
+
 impl Capitalization {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Capitalization {
         Capitalization {
             small_camel: None,
@@ -1011,44 +1070,58 @@ impl Capitalization {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Capitalization {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref small_camel) = self.small_camel {
-            params.push("smallCamel".to_string());
-            params.push(small_camel.to_string());
-        }
-
-
-        if let Some(ref capital_camel) = self.capital_camel {
-            params.push("CapitalCamel".to_string());
-            params.push(capital_camel.to_string());
-        }
+            self.small_camel.as_ref().map(|small_camel| {
+                vec![
+                    "smallCamel".to_string(),
+                    small_camel.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref small_snake) = self.small_snake {
-            params.push("small_Snake".to_string());
-            params.push(small_snake.to_string());
-        }
+            self.capital_camel.as_ref().map(|capital_camel| {
+                vec![
+                    "CapitalCamel".to_string(),
+                    capital_camel.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref capital_snake) = self.capital_snake {
-            params.push("Capital_Snake".to_string());
-            params.push(capital_snake.to_string());
-        }
+            self.small_snake.as_ref().map(|small_snake| {
+                vec![
+                    "small_Snake".to_string(),
+                    small_snake.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref sca_eth_flow_points) = self.sca_eth_flow_points {
-            params.push("SCA_ETH_Flow_Points".to_string());
-            params.push(sca_eth_flow_points.to_string());
-        }
+            self.capital_snake.as_ref().map(|capital_snake| {
+                vec![
+                    "Capital_Snake".to_string(),
+                    capital_snake.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref att_name) = self.att_name {
-            params.push("ATT_NAME".to_string());
-            params.push(att_name.to_string());
-        }
+            self.sca_eth_flow_points.as_ref().map(|sca_eth_flow_points| {
+                vec![
+                    "SCA_ETH_Flow_Points".to_string(),
+                    sca_eth_flow_points.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+
+            self.att_name.as_ref().map(|att_name| {
+                vec![
+                    "ATT_NAME".to_string(),
+                    att_name.to_string(),
+                ].join(",")
+            }),
+
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -1059,8 +1132,9 @@ impl std::str::FromStr for Capitalization {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub small_camel: Vec<String>,
             pub capital_camel: Vec<String>,
@@ -1073,7 +1147,7 @@ impl std::str::FromStr for Capitalization {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -1083,13 +1157,20 @@ impl std::str::FromStr for Capitalization {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "smallCamel" => intermediate_rep.small_camel.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "CapitalCamel" => intermediate_rep.capital_camel.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "small_Snake" => intermediate_rep.small_snake.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "Capital_Snake" => intermediate_rep.capital_snake.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "SCA_ETH_Flow_Points" => intermediate_rep.sca_eth_flow_points.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "ATT_NAME" => intermediate_rep.att_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "smallCamel" => intermediate_rep.small_camel.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "CapitalCamel" => intermediate_rep.capital_camel.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "small_Snake" => intermediate_rep.small_snake.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "Capital_Snake" => intermediate_rep.capital_snake.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "SCA_ETH_Flow_Points" => intermediate_rep.sca_eth_flow_points.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "ATT_NAME" => intermediate_rep.att_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Capitalization".to_string())
                 }
             }
@@ -1153,12 +1234,12 @@ impl Capitalization {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Cat {
     #[serde(rename = "className")]
@@ -1174,10 +1255,12 @@ pub struct Cat {
 
 }
 
+
 impl Cat {
+    #[allow(clippy::new_without_default)]
     pub fn new(class_name: String, ) -> Cat {
         Cat {
-            class_name: class_name,
+            class_name,
             color: Some("red".to_string()),
             declawed: None,
         }
@@ -1189,24 +1272,30 @@ impl Cat {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Cat {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        params.push("className".to_string());
-        params.push(self.class_name.to_string());
-
-
-        if let Some(ref color) = self.color {
-            params.push("color".to_string());
-            params.push(color.to_string());
-        }
+            Some("className".to_string()),
+            Some(self.class_name.to_string()),
 
 
-        if let Some(ref declawed) = self.declawed {
-            params.push("declawed".to_string());
-            params.push(declawed.to_string());
-        }
+            self.color.as_ref().map(|color| {
+                vec![
+                    "color".to_string(),
+                    color.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+
+            self.declawed.as_ref().map(|declawed| {
+                vec![
+                    "declawed".to_string(),
+                    declawed.to_string(),
+                ].join(",")
+            }),
+
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -1217,8 +1306,9 @@ impl std::str::FromStr for Cat {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub class_name: Vec<String>,
             pub color: Vec<String>,
@@ -1228,7 +1318,7 @@ impl std::str::FromStr for Cat {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -1238,10 +1328,14 @@ impl std::str::FromStr for Cat {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "className" => intermediate_rep.class_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "color" => intermediate_rep.color.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "declawed" => intermediate_rep.declawed.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "className" => intermediate_rep.class_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "color" => intermediate_rep.color.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "declawed" => intermediate_rep.declawed.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Cat".to_string())
                 }
             }
@@ -1252,7 +1346,7 @@ impl std::str::FromStr for Cat {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(Cat {
-            class_name: intermediate_rep.class_name.into_iter().next().ok_or("className missing in Cat".to_string())?,
+            class_name: intermediate_rep.class_name.into_iter().next().ok_or_else(|| "className missing in Cat".to_string())?,
             color: intermediate_rep.color.into_iter().next(),
             declawed: intermediate_rep.declawed.into_iter().next(),
         })
@@ -1302,136 +1396,12 @@ impl Cat {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct CatAllOf {
-    #[serde(rename = "declawed")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub declawed: Option<bool>,
-
-}
-
-impl CatAllOf {
-    pub fn new() -> CatAllOf {
-        CatAllOf {
-            declawed: None,
-        }
-    }
-}
-
-/// Converts the CatAllOf value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl std::string::ToString for CatAllOf {
-    fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-
-        if let Some(ref declawed) = self.declawed {
-            params.push("declawed".to_string());
-            params.push(declawed.to_string());
-        }
-
-        params.join(",").to_string()
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a CatAllOf value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl std::str::FromStr for CatAllOf {
-    type Err = String;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
-        struct IntermediateRep {
-            pub declawed: Vec<bool>,
-        }
-
-        let mut intermediate_rep = IntermediateRep::default();
-
-        // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
-        let mut key_result = string_iter.next();
-
-        while key_result.is_some() {
-            let val = match string_iter.next() {
-                Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing CatAllOf".to_string())
-            };
-
-            if let Some(key) = key_result {
-                match key {
-                    "declawed" => intermediate_rep.declawed.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing CatAllOf".to_string())
-                }
-            }
-
-            // Get the next key
-            key_result = string_iter.next();
-        }
-
-        // Use the intermediate representation to return the struct
-        std::result::Result::Ok(CatAllOf {
-            declawed: intermediate_rep.declawed.into_iter().next(),
-        })
-    }
-}
-
-// Methods for converting between header::IntoHeaderValue<CatAllOf> and hyper::header::HeaderValue
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<CatAllOf>> for hyper::header::HeaderValue {
-    type Error = String;
-
-    fn try_from(hdr_value: header::IntoHeaderValue<CatAllOf>) -> std::result::Result<Self, Self::Error> {
-        let hdr_value = hdr_value.to_string();
-        match hyper::header::HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for CatAllOf - value: {} is invalid {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<CatAllOf> {
-    type Error = String;
-
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
-        match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <CatAllOf as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into CatAllOf - {}",
-                                value, err))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-
-impl CatAllOf {
-    /// Helper function to allow us to convert this model to an XML string.
-    /// Will panic if serialisation fails.
-    #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
-        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Category")]
 pub struct Category {
@@ -1445,7 +1415,9 @@ pub struct Category {
 
 }
 
+
 impl Category {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Category {
         Category {
             id: None,
@@ -1459,20 +1431,26 @@ impl Category {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Category {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref id) = self.id {
-            params.push("id".to_string());
-            params.push(id.to_string());
-        }
+            self.id.as_ref().map(|id| {
+                vec![
+                    "id".to_string(),
+                    id.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref name) = self.name {
-            params.push("name".to_string());
-            params.push(name.to_string());
-        }
+            self.name.as_ref().map(|name| {
+                vec![
+                    "name".to_string(),
+                    name.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -1483,8 +1461,9 @@ impl std::str::FromStr for Category {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub id: Vec<i64>,
             pub name: Vec<String>,
@@ -1493,7 +1472,7 @@ impl std::str::FromStr for Category {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -1503,9 +1482,12 @@ impl std::str::FromStr for Category {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "name" => intermediate_rep.name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "name" => intermediate_rep.name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Category".to_string())
                 }
             }
@@ -1565,13 +1547,13 @@ impl Category {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
 /// Model for testing model with \"_class\" property
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ClassModel {
     #[serde(rename = "_class")]
@@ -1580,7 +1562,9 @@ pub struct ClassModel {
 
 }
 
+
 impl ClassModel {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> ClassModel {
         ClassModel {
             _class: None,
@@ -1593,14 +1577,18 @@ impl ClassModel {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ClassModel {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref _class) = self._class {
-            params.push("_class".to_string());
-            params.push(_class.to_string());
-        }
+            self._class.as_ref().map(|_class| {
+                vec![
+                    "_class".to_string(),
+                    _class.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -1611,8 +1599,9 @@ impl std::str::FromStr for ClassModel {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub _class: Vec<String>,
         }
@@ -1620,7 +1609,7 @@ impl std::str::FromStr for ClassModel {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -1630,8 +1619,10 @@ impl std::str::FromStr for ClassModel {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "_class" => intermediate_rep._class.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "_class" => intermediate_rep._class.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ClassModel".to_string())
                 }
             }
@@ -1690,12 +1681,12 @@ impl ClassModel {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Client {
     #[serde(rename = "client")]
@@ -1704,7 +1695,9 @@ pub struct Client {
 
 }
 
+
 impl Client {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Client {
         Client {
             client: None,
@@ -1717,14 +1710,18 @@ impl Client {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Client {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref client) = self.client {
-            params.push("client".to_string());
-            params.push(client.to_string());
-        }
+            self.client.as_ref().map(|client| {
+                vec![
+                    "client".to_string(),
+                    client.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -1735,8 +1732,9 @@ impl std::str::FromStr for Client {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub client: Vec<String>,
         }
@@ -1744,7 +1742,7 @@ impl std::str::FromStr for Client {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -1754,8 +1752,10 @@ impl std::str::FromStr for Client {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "client" => intermediate_rep.client.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "client" => intermediate_rep.client.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Client".to_string())
                 }
             }
@@ -1814,12 +1814,12 @@ impl Client {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Dog {
     #[serde(rename = "className")]
@@ -1835,10 +1835,12 @@ pub struct Dog {
 
 }
 
+
 impl Dog {
+    #[allow(clippy::new_without_default)]
     pub fn new(class_name: String, ) -> Dog {
         Dog {
-            class_name: class_name,
+            class_name,
             color: Some("red".to_string()),
             breed: None,
         }
@@ -1850,24 +1852,30 @@ impl Dog {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Dog {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        params.push("className".to_string());
-        params.push(self.class_name.to_string());
-
-
-        if let Some(ref color) = self.color {
-            params.push("color".to_string());
-            params.push(color.to_string());
-        }
+            Some("className".to_string()),
+            Some(self.class_name.to_string()),
 
 
-        if let Some(ref breed) = self.breed {
-            params.push("breed".to_string());
-            params.push(breed.to_string());
-        }
+            self.color.as_ref().map(|color| {
+                vec![
+                    "color".to_string(),
+                    color.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+
+            self.breed.as_ref().map(|breed| {
+                vec![
+                    "breed".to_string(),
+                    breed.to_string(),
+                ].join(",")
+            }),
+
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -1878,8 +1886,9 @@ impl std::str::FromStr for Dog {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub class_name: Vec<String>,
             pub color: Vec<String>,
@@ -1889,7 +1898,7 @@ impl std::str::FromStr for Dog {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -1899,10 +1908,14 @@ impl std::str::FromStr for Dog {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "className" => intermediate_rep.class_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "color" => intermediate_rep.color.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "breed" => intermediate_rep.breed.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "className" => intermediate_rep.class_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "color" => intermediate_rep.color.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "breed" => intermediate_rep.breed.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Dog".to_string())
                 }
             }
@@ -1913,7 +1926,7 @@ impl std::str::FromStr for Dog {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(Dog {
-            class_name: intermediate_rep.class_name.into_iter().next().ok_or("className missing in Dog".to_string())?,
+            class_name: intermediate_rep.class_name.into_iter().next().ok_or_else(|| "className missing in Dog".to_string())?,
             color: intermediate_rep.color.into_iter().next(),
             breed: intermediate_rep.breed.into_iter().next(),
         })
@@ -1963,73 +1976,83 @@ impl Dog {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct DogAllOf {
-    #[serde(rename = "breed")]
+#[serde(rename = "$special[model.name]")]
+pub struct DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+    #[serde(rename = "$special[property.name]")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub breed: Option<String>,
+    pub dollar_special_left_square_bracket_property_period_name_right_square_bracket: Option<i64>,
 
 }
 
-impl DogAllOf {
-    pub fn new() -> DogAllOf {
-        DogAllOf {
-            breed: None,
+
+impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+    #[allow(clippy::new_without_default)]
+    pub fn new() -> DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+        DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+            dollar_special_left_square_bracket_property_period_name_right_square_bracket: None,
         }
     }
 }
 
-/// Converts the DogAllOf value to the Query Parameters representation (style=form, explode=false)
+/// Converts the DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for DogAllOf {
+impl std::string::ToString for DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref breed) = self.breed {
-            params.push("breed".to_string());
-            params.push(breed.to_string());
-        }
+            self.dollar_special_left_square_bracket_property_period_name_right_square_bracket.as_ref().map(|dollar_special_left_square_bracket_property_period_name_right_square_bracket| {
+                vec![
+                    "$special[property.name]".to_string(),
+                    dollar_special_left_square_bracket_property_period_name_right_square_bracket.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
-/// Converts Query Parameters representation (style=form, explode=false) to a DogAllOf value
+/// Converts Query Parameters representation (style=form, explode=false) to a DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl std::str::FromStr for DogAllOf {
+impl std::str::FromStr for DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
-            pub breed: Vec<String>,
+            pub dollar_special_left_square_bracket_property_period_name_right_square_bracket: Vec<i64>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing DogAllOf".to_string())
+                None => return std::result::Result::Err("Missing value while parsing DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket".to_string())
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "breed" => intermediate_rep.breed.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing DogAllOf".to_string())
+                    #[allow(clippy::redundant_clone)]
+                    "$special[property.name]" => intermediate_rep.dollar_special_left_square_bracket_property_period_name_right_square_bracket.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket".to_string())
                 }
             }
 
@@ -2038,40 +2061,40 @@ impl std::str::FromStr for DogAllOf {
         }
 
         // Use the intermediate representation to return the struct
-        std::result::Result::Ok(DogAllOf {
-            breed: intermediate_rep.breed.into_iter().next(),
+        std::result::Result::Ok(DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
+            dollar_special_left_square_bracket_property_period_name_right_square_bracket: intermediate_rep.dollar_special_left_square_bracket_property_period_name_right_square_bracket.into_iter().next(),
         })
     }
 }
 
-// Methods for converting between header::IntoHeaderValue<DogAllOf> and hyper::header::HeaderValue
+// Methods for converting between header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<DogAllOf>> for hyper::header::HeaderValue {
+impl std::convert::TryFrom<header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<DogAllOf>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for DogAllOf - value: {} is invalid {}",
+                 format!("Invalid header value for DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket - value: {} is invalid {}",
                      hdr_value, e))
         }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<DogAllOf> {
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket> {
     type Error = String;
 
     fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
              std::result::Result::Ok(value) => {
-                    match <DogAllOf as std::str::FromStr>::from_str(value) {
+                    match <DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into DogAllOf - {}",
+                            format!("Unable to convert header value '{}' into DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket - {}",
                                 value, err))
                     }
              },
@@ -2083,16 +2106,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-impl DogAllOf {
+impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumArrays {
     // Note: inline enums are not fully supported by openapi-generator
@@ -2112,7 +2135,9 @@ pub struct EnumArrays {
 
 }
 
+
 impl EnumArrays {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> EnumArrays {
         EnumArrays {
             just_symbol: None,
@@ -2127,22 +2152,28 @@ impl EnumArrays {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for EnumArrays {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref just_symbol) = self.just_symbol {
-            params.push("just_symbol".to_string());
-            params.push(just_symbol.to_string());
-        }
+            self.just_symbol.as_ref().map(|just_symbol| {
+                vec![
+                    "just_symbol".to_string(),
+                    just_symbol.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref array_enum) = self.array_enum {
-            params.push("array_enum".to_string());
-            params.push(array_enum.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
-        }
+            self.array_enum.as_ref().map(|array_enum| {
+                vec![
+                    "array_enum".to_string(),
+                    array_enum.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+                ].join(",")
+            }),
 
-        // Skipping array_array_enum in query parameter serialization
+            // Skipping array_array_enum in query parameter serialization
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -2153,8 +2184,9 @@ impl std::str::FromStr for EnumArrays {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub just_symbol: Vec<String>,
             pub array_enum: Vec<Vec<String>>,
@@ -2164,7 +2196,7 @@ impl std::str::FromStr for EnumArrays {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -2174,8 +2206,10 @@ impl std::str::FromStr for EnumArrays {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "just_symbol" => intermediate_rep.just_symbol.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "just_symbol" => intermediate_rep.just_symbol.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "array_enum" => return std::result::Result::Err("Parsing a container in this style is not supported in EnumArrays".to_string()),
                     "array_array_enum" => return std::result::Result::Err("Parsing a container in this style is not supported in EnumArrays".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing EnumArrays".to_string())
@@ -2238,13 +2272,13 @@ impl EnumArrays {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
 /// Enumeration of values.
-/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
@@ -2252,19 +2286,19 @@ impl EnumArrays {
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumClass {
     #[serde(rename = "_abc")]
-    _ABC,
+    Abc,
     #[serde(rename = "-efg")]
-    _EFG,
+    Efg,
     #[serde(rename = "(xyz)")]
-    _XYZ_,
+    LeftParenthesisXyzRightParenthesis,
 }
 
 impl std::fmt::Display for EnumClass {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
-            EnumClass::_ABC => write!(f, "{}", "_abc"),
-            EnumClass::_EFG => write!(f, "{}", "-efg"),
-            EnumClass::_XYZ_ => write!(f, "{}", "(xyz)"),
+            EnumClass::Abc => write!(f, "_abc"),
+            EnumClass::Efg => write!(f, "-efg"),
+            EnumClass::LeftParenthesisXyzRightParenthesis => write!(f, "(xyz)"),
         }
     }
 }
@@ -2274,9 +2308,9 @@ impl std::str::FromStr for EnumClass {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match s {
-            "_abc" => std::result::Result::Ok(EnumClass::_ABC),
-            "-efg" => std::result::Result::Ok(EnumClass::_EFG),
-            "(xyz)" => std::result::Result::Ok(EnumClass::_XYZ_),
+            "_abc" => std::result::Result::Ok(EnumClass::Abc),
+            "-efg" => std::result::Result::Ok(EnumClass::Efg),
+            "(xyz)" => std::result::Result::Ok(EnumClass::LeftParenthesisXyzRightParenthesis),
             _ => std::result::Result::Err(format!("Value not valid: {}", s)),
         }
     }
@@ -2286,12 +2320,12 @@ impl EnumClass {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumTest {
     // Note: inline enums are not fully supported by openapi-generator
@@ -2319,11 +2353,13 @@ pub struct EnumTest {
 
 }
 
+
 impl EnumTest {
+    #[allow(clippy::new_without_default)]
     pub fn new(enum_string_required: String, ) -> EnumTest {
         EnumTest {
             enum_string: None,
-            enum_string_required: enum_string_required,
+            enum_string_required,
             enum_integer: None,
             enum_number: None,
             outer_enum: None,
@@ -2336,32 +2372,40 @@ impl EnumTest {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for EnumTest {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref enum_string) = self.enum_string {
-            params.push("enum_string".to_string());
-            params.push(enum_string.to_string());
-        }
-
-
-        params.push("enum_string_required".to_string());
-        params.push(self.enum_string_required.to_string());
+            self.enum_string.as_ref().map(|enum_string| {
+                vec![
+                    "enum_string".to_string(),
+                    enum_string.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref enum_integer) = self.enum_integer {
-            params.push("enum_integer".to_string());
-            params.push(enum_integer.to_string());
-        }
+            Some("enum_string_required".to_string()),
+            Some(self.enum_string_required.to_string()),
 
 
-        if let Some(ref enum_number) = self.enum_number {
-            params.push("enum_number".to_string());
-            params.push(enum_number.to_string());
-        }
+            self.enum_integer.as_ref().map(|enum_integer| {
+                vec![
+                    "enum_integer".to_string(),
+                    enum_integer.to_string(),
+                ].join(",")
+            }),
 
-        // Skipping outerEnum in query parameter serialization
 
-        params.join(",").to_string()
+            self.enum_number.as_ref().map(|enum_number| {
+                vec![
+                    "enum_number".to_string(),
+                    enum_number.to_string(),
+                ].join(",")
+            }),
+
+            // Skipping outerEnum in query parameter serialization
+
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -2372,8 +2416,9 @@ impl std::str::FromStr for EnumTest {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub enum_string: Vec<String>,
             pub enum_string_required: Vec<String>,
@@ -2385,7 +2430,7 @@ impl std::str::FromStr for EnumTest {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -2395,12 +2440,18 @@ impl std::str::FromStr for EnumTest {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "enum_string" => intermediate_rep.enum_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "enum_string_required" => intermediate_rep.enum_string_required.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "enum_integer" => intermediate_rep.enum_integer.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "enum_number" => intermediate_rep.enum_number.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "outerEnum" => intermediate_rep.outer_enum.push(<models::OuterEnum as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "enum_string" => intermediate_rep.enum_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "enum_string_required" => intermediate_rep.enum_string_required.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "enum_integer" => intermediate_rep.enum_integer.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "enum_number" => intermediate_rep.enum_number.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "outerEnum" => intermediate_rep.outer_enum.push(<models::OuterEnum as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing EnumTest".to_string())
                 }
             }
@@ -2412,7 +2463,7 @@ impl std::str::FromStr for EnumTest {
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(EnumTest {
             enum_string: intermediate_rep.enum_string.into_iter().next(),
-            enum_string_required: intermediate_rep.enum_string_required.into_iter().next().ok_or("enum_string_required missing in EnumTest".to_string())?,
+            enum_string_required: intermediate_rep.enum_string_required.into_iter().next().ok_or_else(|| "enum_string_required missing in EnumTest".to_string())?,
             enum_integer: intermediate_rep.enum_integer.into_iter().next(),
             enum_number: intermediate_rep.enum_number.into_iter().next(),
             outer_enum: intermediate_rep.outer_enum.into_iter().next(),
@@ -2463,19 +2514,25 @@ impl EnumTest {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct FormatTest {
     #[serde(rename = "integer")]
+    #[validate(
+            range(min = 10, max = 100),
+        )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub integer: Option<u8>,
 
     #[serde(rename = "int32")]
+    #[validate(
+            range(min = 20, max = 200),
+        )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub int32: Option<u32>,
 
@@ -2484,21 +2541,36 @@ pub struct FormatTest {
     pub int64: Option<i64>,
 
     #[serde(rename = "number")]
+    #[validate(
+            range(min = 32.1, max = 543.2),
+        )]
     pub number: f64,
 
     #[serde(rename = "float")]
+    #[validate(
+            range(min = 54.3, max = 987.6),
+        )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub float: Option<f32>,
 
     #[serde(rename = "double")]
+    #[validate(
+            range(min = 67.8, max = 123.4),
+        )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub double: Option<f64>,
 
     #[serde(rename = "string")]
+    #[validate(
+           regex = "RE_FORMATTEST_STRING",
+        )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub string: Option<String>,
 
     #[serde(rename = "byte")]
+    #[validate(
+           custom ="validate_byte_formattest_byte"
+        )]
     pub byte: swagger::ByteArray,
 
     #[serde(rename = "binary")]
@@ -2517,26 +2589,45 @@ pub struct FormatTest {
     pub uuid: Option<uuid::Uuid>,
 
     #[serde(rename = "password")]
+    #[validate(
+            length(min = 10, max = 64),
+        )]
     pub password: String,
 
 }
 
+lazy_static::lazy_static! {
+    static ref RE_FORMATTEST_STRING: regex::Regex = regex::Regex::new(r"/[a-z]/i").unwrap();
+}
+lazy_static::lazy_static! {
+    static ref RE_FORMATTEST_BYTE: regex::bytes::Regex = regex::bytes::Regex::new(r"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}&#x3D;&#x3D;|[A-Za-z0-9+/]{3}&#x3D;)?$").unwrap();
+}
+fn validate_byte_formattest_byte(
+    b: &swagger::ByteArray
+) -> Result<(), validator::ValidationError> {
+    if !RE_FORMATTEST_BYTE.is_match(b) {
+        return Err(validator::ValidationError::new("Character not allowed"));
+    }
+    Ok(())
+}
+
 impl FormatTest {
+    #[allow(clippy::new_without_default)]
     pub fn new(number: f64, byte: swagger::ByteArray, date: chrono::DateTime::<chrono::Utc>, password: String, ) -> FormatTest {
         FormatTest {
             integer: None,
             int32: None,
             int64: None,
-            number: number,
+            number,
             float: None,
             double: None,
             string: None,
-            byte: byte,
+            byte,
             binary: None,
-            date: date,
+            date,
             date_time: None,
             uuid: None,
-            password: password,
+            password,
         }
     }
 }
@@ -2546,64 +2637,78 @@ impl FormatTest {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for FormatTest {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref integer) = self.integer {
-            params.push("integer".to_string());
-            params.push(integer.to_string());
-        }
-
-
-        if let Some(ref int32) = self.int32 {
-            params.push("int32".to_string());
-            params.push(int32.to_string());
-        }
+            self.integer.as_ref().map(|integer| {
+                vec![
+                    "integer".to_string(),
+                    integer.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref int64) = self.int64 {
-            params.push("int64".to_string());
-            params.push(int64.to_string());
-        }
+            self.int32.as_ref().map(|int32| {
+                vec![
+                    "int32".to_string(),
+                    int32.to_string(),
+                ].join(",")
+            }),
 
 
-        params.push("number".to_string());
-        params.push(self.number.to_string());
+            self.int64.as_ref().map(|int64| {
+                vec![
+                    "int64".to_string(),
+                    int64.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref float) = self.float {
-            params.push("float".to_string());
-            params.push(float.to_string());
-        }
+            Some("number".to_string()),
+            Some(self.number.to_string()),
 
 
-        if let Some(ref double) = self.double {
-            params.push("double".to_string());
-            params.push(double.to_string());
-        }
+            self.float.as_ref().map(|float| {
+                vec![
+                    "float".to_string(),
+                    float.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref string) = self.string {
-            params.push("string".to_string());
-            params.push(string.to_string());
-        }
-
-        // Skipping byte in query parameter serialization
-        // Skipping byte in query parameter serialization
-
-        // Skipping binary in query parameter serialization
-        // Skipping binary in query parameter serialization
-
-        // Skipping date in query parameter serialization
-
-        // Skipping dateTime in query parameter serialization
-
-        // Skipping uuid in query parameter serialization
+            self.double.as_ref().map(|double| {
+                vec![
+                    "double".to_string(),
+                    double.to_string(),
+                ].join(",")
+            }),
 
 
-        params.push("password".to_string());
-        params.push(self.password.to_string());
+            self.string.as_ref().map(|string| {
+                vec![
+                    "string".to_string(),
+                    string.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+            // Skipping byte in query parameter serialization
+            // Skipping byte in query parameter serialization
+
+            // Skipping binary in query parameter serialization
+            // Skipping binary in query parameter serialization
+
+            // Skipping date in query parameter serialization
+
+            // Skipping dateTime in query parameter serialization
+
+            // Skipping uuid in query parameter serialization
+
+
+            Some("password".to_string()),
+            Some(self.password.to_string()),
+
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -2614,8 +2719,9 @@ impl std::str::FromStr for FormatTest {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub integer: Vec<u8>,
             pub int32: Vec<u32>,
@@ -2635,7 +2741,7 @@ impl std::str::FromStr for FormatTest {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -2645,20 +2751,32 @@ impl std::str::FromStr for FormatTest {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "integer" => intermediate_rep.integer.push(<u8 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "int32" => intermediate_rep.int32.push(<u32 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "int64" => intermediate_rep.int64.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "number" => intermediate_rep.number.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "float" => intermediate_rep.float.push(<f32 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "double" => intermediate_rep.double.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "string" => intermediate_rep.string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "integer" => intermediate_rep.integer.push(<u8 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "int32" => intermediate_rep.int32.push(<u32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "int64" => intermediate_rep.int64.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "number" => intermediate_rep.number.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "float" => intermediate_rep.float.push(<f32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "double" => intermediate_rep.double.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "string" => intermediate_rep.string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "byte" => return std::result::Result::Err("Parsing binary data in this style is not supported in FormatTest".to_string()),
                     "binary" => return std::result::Result::Err("Parsing binary data in this style is not supported in FormatTest".to_string()),
-                    "date" => intermediate_rep.date.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "dateTime" => intermediate_rep.date_time.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "uuid" => intermediate_rep.uuid.push(<uuid::Uuid as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "password" => intermediate_rep.password.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "date" => intermediate_rep.date.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "dateTime" => intermediate_rep.date_time.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "uuid" => intermediate_rep.uuid.push(<uuid::Uuid as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "password" => intermediate_rep.password.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing FormatTest".to_string())
                 }
             }
@@ -2672,16 +2790,16 @@ impl std::str::FromStr for FormatTest {
             integer: intermediate_rep.integer.into_iter().next(),
             int32: intermediate_rep.int32.into_iter().next(),
             int64: intermediate_rep.int64.into_iter().next(),
-            number: intermediate_rep.number.into_iter().next().ok_or("number missing in FormatTest".to_string())?,
+            number: intermediate_rep.number.into_iter().next().ok_or_else(|| "number missing in FormatTest".to_string())?,
             float: intermediate_rep.float.into_iter().next(),
             double: intermediate_rep.double.into_iter().next(),
             string: intermediate_rep.string.into_iter().next(),
-            byte: intermediate_rep.byte.into_iter().next().ok_or("byte missing in FormatTest".to_string())?,
+            byte: intermediate_rep.byte.into_iter().next().ok_or_else(|| "byte missing in FormatTest".to_string())?,
             binary: intermediate_rep.binary.into_iter().next(),
-            date: intermediate_rep.date.into_iter().next().ok_or("date missing in FormatTest".to_string())?,
+            date: intermediate_rep.date.into_iter().next().ok_or_else(|| "date missing in FormatTest".to_string())?,
             date_time: intermediate_rep.date_time.into_iter().next(),
             uuid: intermediate_rep.uuid.into_iter().next(),
-            password: intermediate_rep.password.into_iter().next().ok_or("password missing in FormatTest".to_string())?,
+            password: intermediate_rep.password.into_iter().next().ok_or_else(|| "password missing in FormatTest".to_string())?,
         })
     }
 }
@@ -2729,12 +2847,12 @@ impl FormatTest {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct HasOnlyReadOnly {
     #[serde(rename = "bar")]
@@ -2747,7 +2865,9 @@ pub struct HasOnlyReadOnly {
 
 }
 
+
 impl HasOnlyReadOnly {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> HasOnlyReadOnly {
         HasOnlyReadOnly {
             bar: None,
@@ -2761,20 +2881,26 @@ impl HasOnlyReadOnly {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for HasOnlyReadOnly {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref bar) = self.bar {
-            params.push("bar".to_string());
-            params.push(bar.to_string());
-        }
+            self.bar.as_ref().map(|bar| {
+                vec![
+                    "bar".to_string(),
+                    bar.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref foo) = self.foo {
-            params.push("foo".to_string());
-            params.push(foo.to_string());
-        }
+            self.foo.as_ref().map(|foo| {
+                vec![
+                    "foo".to_string(),
+                    foo.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -2785,8 +2911,9 @@ impl std::str::FromStr for HasOnlyReadOnly {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub bar: Vec<String>,
             pub foo: Vec<String>,
@@ -2795,7 +2922,7 @@ impl std::str::FromStr for HasOnlyReadOnly {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -2805,9 +2932,12 @@ impl std::str::FromStr for HasOnlyReadOnly {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "bar" => intermediate_rep.bar.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "foo" => intermediate_rep.foo.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "bar" => intermediate_rep.bar.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "foo" => intermediate_rep.foo.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing HasOnlyReadOnly".to_string())
                 }
             }
@@ -2867,12 +2997,12 @@ impl HasOnlyReadOnly {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct List {
     #[serde(rename = "123-list")]
@@ -2881,7 +3011,9 @@ pub struct List {
 
 }
 
+
 impl List {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> List {
         List {
             param_123_list: None,
@@ -2894,14 +3026,18 @@ impl List {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for List {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref param_123_list) = self.param_123_list {
-            params.push("123-list".to_string());
-            params.push(param_123_list.to_string());
-        }
+            self.param_123_list.as_ref().map(|param_123_list| {
+                vec![
+                    "123-list".to_string(),
+                    param_123_list.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -2912,8 +3048,9 @@ impl std::str::FromStr for List {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub param_123_list: Vec<String>,
         }
@@ -2921,7 +3058,7 @@ impl std::str::FromStr for List {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -2931,8 +3068,10 @@ impl std::str::FromStr for List {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "123-list" => intermediate_rep.param_123_list.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "123-list" => intermediate_rep.param_123_list.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing List".to_string())
                 }
             }
@@ -2991,12 +3130,12 @@ impl List {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MapTest {
     #[serde(rename = "map_map_of_string")]
@@ -3015,7 +3154,9 @@ pub struct MapTest {
 
 }
 
+
 impl MapTest {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> MapTest {
         MapTest {
             map_map_of_string: None,
@@ -3030,16 +3171,18 @@ impl MapTest {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for MapTest {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-        // Skipping map_map_of_string in query parameter serialization
-        // Skipping map_map_of_string in query parameter serialization
+        let params: Vec<Option<String>> = vec![
+            // Skipping map_map_of_string in query parameter serialization
+            // Skipping map_map_of_string in query parameter serialization
 
-        // Skipping map_map_of_enum in query parameter serialization
-        // Skipping map_map_of_enum in query parameter serialization
+            // Skipping map_map_of_enum in query parameter serialization
+            // Skipping map_map_of_enum in query parameter serialization
 
-        // Skipping map_of_enum_string in query parameter serialization
+            // Skipping map_of_enum_string in query parameter serialization
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -3050,8 +3193,9 @@ impl std::str::FromStr for MapTest {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub map_map_of_string: Vec<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
             pub map_map_of_enum: Vec<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
@@ -3061,7 +3205,7 @@ impl std::str::FromStr for MapTest {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -3071,6 +3215,7 @@ impl std::str::FromStr for MapTest {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
                     "map_map_of_string" => return std::result::Result::Err("Parsing a container in this style is not supported in MapTest".to_string()),
                     "map_map_of_enum" => return std::result::Result::Err("Parsing a container in this style is not supported in MapTest".to_string()),
@@ -3135,12 +3280,12 @@ impl MapTest {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MixedPropertiesAndAdditionalPropertiesClass {
     #[serde(rename = "uuid")]
@@ -3157,7 +3302,9 @@ pub struct MixedPropertiesAndAdditionalPropertiesClass {
 
 }
 
+
 impl MixedPropertiesAndAdditionalPropertiesClass {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> MixedPropertiesAndAdditionalPropertiesClass {
         MixedPropertiesAndAdditionalPropertiesClass {
             uuid: None,
@@ -3172,15 +3319,17 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for MixedPropertiesAndAdditionalPropertiesClass {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-        // Skipping uuid in query parameter serialization
+        let params: Vec<Option<String>> = vec![
+            // Skipping uuid in query parameter serialization
 
-        // Skipping dateTime in query parameter serialization
+            // Skipping dateTime in query parameter serialization
 
-        // Skipping map in query parameter serialization
-        // Skipping map in query parameter serialization
+            // Skipping map in query parameter serialization
+            // Skipping map in query parameter serialization
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -3191,8 +3340,9 @@ impl std::str::FromStr for MixedPropertiesAndAdditionalPropertiesClass {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub uuid: Vec<uuid::Uuid>,
             pub date_time: Vec<chrono::DateTime::<chrono::Utc>>,
@@ -3202,7 +3352,7 @@ impl std::str::FromStr for MixedPropertiesAndAdditionalPropertiesClass {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -3212,9 +3362,12 @@ impl std::str::FromStr for MixedPropertiesAndAdditionalPropertiesClass {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "uuid" => intermediate_rep.uuid.push(<uuid::Uuid as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "dateTime" => intermediate_rep.date_time.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "uuid" => intermediate_rep.uuid.push(<uuid::Uuid as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "dateTime" => intermediate_rep.date_time.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "map" => return std::result::Result::Err("Parsing a container in this style is not supported in MixedPropertiesAndAdditionalPropertiesClass".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing MixedPropertiesAndAdditionalPropertiesClass".to_string())
                 }
@@ -3276,13 +3429,13 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
 /// Model for testing model name starting with number
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Model200Response {
@@ -3296,7 +3449,9 @@ pub struct Model200Response {
 
 }
 
+
 impl Model200Response {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Model200Response {
         Model200Response {
             name: None,
@@ -3310,20 +3465,26 @@ impl Model200Response {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Model200Response {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref name) = self.name {
-            params.push("name".to_string());
-            params.push(name.to_string());
-        }
+            self.name.as_ref().map(|name| {
+                vec![
+                    "name".to_string(),
+                    name.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref class) = self.class {
-            params.push("class".to_string());
-            params.push(class.to_string());
-        }
+            self.class.as_ref().map(|class| {
+                vec![
+                    "class".to_string(),
+                    class.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -3334,8 +3495,9 @@ impl std::str::FromStr for Model200Response {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub name: Vec<i32>,
             pub class: Vec<String>,
@@ -3344,7 +3506,7 @@ impl std::str::FromStr for Model200Response {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -3354,9 +3516,12 @@ impl std::str::FromStr for Model200Response {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "name" => intermediate_rep.name.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "class" => intermediate_rep.class.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "name" => intermediate_rep.name.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "class" => intermediate_rep.class.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Model200Response".to_string())
                 }
             }
@@ -3416,139 +3581,13 @@ impl Model200Response {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
-        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
-/// Model for testing reserved words
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-#[serde(rename = "Return")]
-pub struct ModelReturn {
-    #[serde(rename = "return")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub return_: Option<i32>,
-
-}
-
-impl ModelReturn {
-    pub fn new() -> ModelReturn {
-        ModelReturn {
-            return_: None,
-        }
-    }
-}
-
-/// Converts the ModelReturn value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl std::string::ToString for ModelReturn {
-    fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-
-        if let Some(ref return_) = self.return_ {
-            params.push("return".to_string());
-            params.push(return_.to_string());
-        }
-
-        params.join(",").to_string()
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a ModelReturn value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl std::str::FromStr for ModelReturn {
-    type Err = String;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
-        struct IntermediateRep {
-            pub return_: Vec<i32>,
-        }
-
-        let mut intermediate_rep = IntermediateRep::default();
-
-        // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
-        let mut key_result = string_iter.next();
-
-        while key_result.is_some() {
-            let val = match string_iter.next() {
-                Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing ModelReturn".to_string())
-            };
-
-            if let Some(key) = key_result {
-                match key {
-                    "return" => intermediate_rep.return_.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing ModelReturn".to_string())
-                }
-            }
-
-            // Get the next key
-            key_result = string_iter.next();
-        }
-
-        // Use the intermediate representation to return the struct
-        std::result::Result::Ok(ModelReturn {
-            return_: intermediate_rep.return_.into_iter().next(),
-        })
-    }
-}
-
-// Methods for converting between header::IntoHeaderValue<ModelReturn> and hyper::header::HeaderValue
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<ModelReturn>> for hyper::header::HeaderValue {
-    type Error = String;
-
-    fn try_from(hdr_value: header::IntoHeaderValue<ModelReturn>) -> std::result::Result<Self, Self::Error> {
-        let hdr_value = hdr_value.to_string();
-        match hyper::header::HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for ModelReturn - value: {} is invalid {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ModelReturn> {
-    type Error = String;
-
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
-        match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <ModelReturn as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into ModelReturn - {}",
-                                value, err))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-
-impl ModelReturn {
-    /// Helper function to allow us to convert this model to an XML string.
-    /// Will panic if serialisation fails.
-    #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
 /// Model for testing model name same as property name
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Name {
@@ -3565,14 +3604,16 @@ pub struct Name {
 
     #[serde(rename = "123Number")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub param_123_number: Option<isize>,
+    pub param_123_number: Option<i32>,
 
 }
 
+
 impl Name {
+    #[allow(clippy::new_without_default)]
     pub fn new(name: i32, ) -> Name {
         Name {
-            name: name,
+            name,
             snake_case: None,
             property: None,
             param_123_number: None,
@@ -3585,30 +3626,38 @@ impl Name {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Name {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        params.push("name".to_string());
-        params.push(self.name.to_string());
-
-
-        if let Some(ref snake_case) = self.snake_case {
-            params.push("snake_case".to_string());
-            params.push(snake_case.to_string());
-        }
+            Some("name".to_string()),
+            Some(self.name.to_string()),
 
 
-        if let Some(ref property) = self.property {
-            params.push("property".to_string());
-            params.push(property.to_string());
-        }
+            self.snake_case.as_ref().map(|snake_case| {
+                vec![
+                    "snake_case".to_string(),
+                    snake_case.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref param_123_number) = self.param_123_number {
-            params.push("123Number".to_string());
-            params.push(param_123_number.to_string());
-        }
+            self.property.as_ref().map(|property| {
+                vec![
+                    "property".to_string(),
+                    property.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+
+            self.param_123_number.as_ref().map(|param_123_number| {
+                vec![
+                    "123Number".to_string(),
+                    param_123_number.to_string(),
+                ].join(",")
+            }),
+
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -3619,19 +3668,20 @@ impl std::str::FromStr for Name {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub name: Vec<i32>,
             pub snake_case: Vec<i32>,
             pub property: Vec<String>,
-            pub param_123_number: Vec<isize>,
+            pub param_123_number: Vec<i32>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -3641,11 +3691,16 @@ impl std::str::FromStr for Name {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "name" => intermediate_rep.name.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "snake_case" => intermediate_rep.snake_case.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "property" => intermediate_rep.property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "123Number" => intermediate_rep.param_123_number.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "name" => intermediate_rep.name.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "snake_case" => intermediate_rep.snake_case.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "property" => intermediate_rep.property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "123Number" => intermediate_rep.param_123_number.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Name".to_string())
                 }
             }
@@ -3656,7 +3711,7 @@ impl std::str::FromStr for Name {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(Name {
-            name: intermediate_rep.name.into_iter().next().ok_or("name missing in Name".to_string())?,
+            name: intermediate_rep.name.into_iter().next().ok_or_else(|| "name missing in Name".to_string())?,
             snake_case: intermediate_rep.snake_case.into_iter().next(),
             property: intermediate_rep.property.into_iter().next(),
             param_123_number: intermediate_rep.param_123_number.into_iter().next(),
@@ -3707,12 +3762,12 @@ impl Name {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct NumberOnly {
     #[serde(rename = "JustNumber")]
@@ -3721,7 +3776,9 @@ pub struct NumberOnly {
 
 }
 
+
 impl NumberOnly {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> NumberOnly {
         NumberOnly {
             just_number: None,
@@ -3734,14 +3791,18 @@ impl NumberOnly {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for NumberOnly {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref just_number) = self.just_number {
-            params.push("JustNumber".to_string());
-            params.push(just_number.to_string());
-        }
+            self.just_number.as_ref().map(|just_number| {
+                vec![
+                    "JustNumber".to_string(),
+                    just_number.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -3752,8 +3813,9 @@ impl std::str::FromStr for NumberOnly {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub just_number: Vec<f64>,
         }
@@ -3761,7 +3823,7 @@ impl std::str::FromStr for NumberOnly {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -3771,8 +3833,10 @@ impl std::str::FromStr for NumberOnly {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "JustNumber" => intermediate_rep.just_number.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "JustNumber" => intermediate_rep.just_number.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing NumberOnly".to_string())
                 }
             }
@@ -3831,12 +3895,12 @@ impl NumberOnly {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectContainingObjectWithOnlyAdditionalProperties {
     #[serde(rename = "inner")]
@@ -3845,7 +3909,9 @@ pub struct ObjectContainingObjectWithOnlyAdditionalProperties {
 
 }
 
+
 impl ObjectContainingObjectWithOnlyAdditionalProperties {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> ObjectContainingObjectWithOnlyAdditionalProperties {
         ObjectContainingObjectWithOnlyAdditionalProperties {
             inner: None,
@@ -3858,10 +3924,12 @@ impl ObjectContainingObjectWithOnlyAdditionalProperties {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ObjectContainingObjectWithOnlyAdditionalProperties {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
-        // Skipping inner in query parameter serialization
+        let params: Vec<Option<String>> = vec![
+            // Skipping inner in query parameter serialization
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -3872,8 +3940,9 @@ impl std::str::FromStr for ObjectContainingObjectWithOnlyAdditionalProperties {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub inner: Vec<models::ObjectWithOnlyAdditionalProperties>,
         }
@@ -3881,7 +3950,7 @@ impl std::str::FromStr for ObjectContainingObjectWithOnlyAdditionalProperties {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -3891,8 +3960,10 @@ impl std::str::FromStr for ObjectContainingObjectWithOnlyAdditionalProperties {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "inner" => intermediate_rep.inner.push(<models::ObjectWithOnlyAdditionalProperties as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "inner" => intermediate_rep.inner.push(<models::ObjectWithOnlyAdditionalProperties as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectContainingObjectWithOnlyAdditionalProperties".to_string())
                 }
             }
@@ -3951,7 +4022,7 @@ impl ObjectContainingObjectWithOnlyAdditionalProperties {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -4010,12 +4081,12 @@ impl ObjectWithOnlyAdditionalProperties {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Order")]
 pub struct Order {
@@ -4047,7 +4118,9 @@ pub struct Order {
 
 }
 
+
 impl Order {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Order {
         Order {
             id: None,
@@ -4065,40 +4138,52 @@ impl Order {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Order {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref id) = self.id {
-            params.push("id".to_string());
-            params.push(id.to_string());
-        }
-
-
-        if let Some(ref pet_id) = self.pet_id {
-            params.push("petId".to_string());
-            params.push(pet_id.to_string());
-        }
+            self.id.as_ref().map(|id| {
+                vec![
+                    "id".to_string(),
+                    id.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref quantity) = self.quantity {
-            params.push("quantity".to_string());
-            params.push(quantity.to_string());
-        }
-
-        // Skipping shipDate in query parameter serialization
-
-
-        if let Some(ref status) = self.status {
-            params.push("status".to_string());
-            params.push(status.to_string());
-        }
+            self.pet_id.as_ref().map(|pet_id| {
+                vec![
+                    "petId".to_string(),
+                    pet_id.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref complete) = self.complete {
-            params.push("complete".to_string());
-            params.push(complete.to_string());
-        }
+            self.quantity.as_ref().map(|quantity| {
+                vec![
+                    "quantity".to_string(),
+                    quantity.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+            // Skipping shipDate in query parameter serialization
+
+
+            self.status.as_ref().map(|status| {
+                vec![
+                    "status".to_string(),
+                    status.to_string(),
+                ].join(",")
+            }),
+
+
+            self.complete.as_ref().map(|complete| {
+                vec![
+                    "complete".to_string(),
+                    complete.to_string(),
+                ].join(",")
+            }),
+
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -4109,8 +4194,9 @@ impl std::str::FromStr for Order {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub id: Vec<i64>,
             pub pet_id: Vec<i64>,
@@ -4123,7 +4209,7 @@ impl std::str::FromStr for Order {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -4133,13 +4219,20 @@ impl std::str::FromStr for Order {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "petId" => intermediate_rep.pet_id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "quantity" => intermediate_rep.quantity.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "shipDate" => intermediate_rep.ship_date.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "status" => intermediate_rep.status.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "complete" => intermediate_rep.complete.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "petId" => intermediate_rep.pet_id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "quantity" => intermediate_rep.quantity.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "shipDate" => intermediate_rep.ship_date.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "status" => intermediate_rep.status.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "complete" => intermediate_rep.complete.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Order".to_string())
                 }
             }
@@ -4203,7 +4296,7 @@ impl Order {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -4242,12 +4335,12 @@ impl OuterBoolean {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterComposite {
     #[serde(rename = "my_number")]
@@ -4264,7 +4357,9 @@ pub struct OuterComposite {
 
 }
 
+
 impl OuterComposite {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> OuterComposite {
         OuterComposite {
             my_number: None,
@@ -4279,26 +4374,34 @@ impl OuterComposite {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for OuterComposite {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref my_number) = self.my_number {
-            params.push("my_number".to_string());
-            params.push(my_number.to_string());
-        }
-
-
-        if let Some(ref my_string) = self.my_string {
-            params.push("my_string".to_string());
-            params.push(my_string.to_string());
-        }
+            self.my_number.as_ref().map(|my_number| {
+                vec![
+                    "my_number".to_string(),
+                    my_number.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref my_boolean) = self.my_boolean {
-            params.push("my_boolean".to_string());
-            params.push(my_boolean.to_string());
-        }
+            self.my_string.as_ref().map(|my_string| {
+                vec![
+                    "my_string".to_string(),
+                    my_string.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+
+            self.my_boolean.as_ref().map(|my_boolean| {
+                vec![
+                    "my_boolean".to_string(),
+                    my_boolean.to_string(),
+                ].join(",")
+            }),
+
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -4309,8 +4412,9 @@ impl std::str::FromStr for OuterComposite {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub my_number: Vec<f64>,
             pub my_string: Vec<String>,
@@ -4320,7 +4424,7 @@ impl std::str::FromStr for OuterComposite {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -4330,10 +4434,14 @@ impl std::str::FromStr for OuterComposite {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "my_number" => intermediate_rep.my_number.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "my_string" => intermediate_rep.my_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "my_boolean" => intermediate_rep.my_boolean.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "my_number" => intermediate_rep.my_number.push(<f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "my_string" => intermediate_rep.my_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "my_boolean" => intermediate_rep.my_boolean.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing OuterComposite".to_string())
                 }
             }
@@ -4394,13 +4502,13 @@ impl OuterComposite {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
 /// Enumeration of values.
-/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
 #[repr(C)]
@@ -4408,19 +4516,19 @@ impl OuterComposite {
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum OuterEnum {
     #[serde(rename = "placed")]
-    PLACED,
+    Placed,
     #[serde(rename = "approved")]
-    APPROVED,
+    Approved,
     #[serde(rename = "delivered")]
-    DELIVERED,
+    Delivered,
 }
 
 impl std::fmt::Display for OuterEnum {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
-            OuterEnum::PLACED => write!(f, "{}", "placed"),
-            OuterEnum::APPROVED => write!(f, "{}", "approved"),
-            OuterEnum::DELIVERED => write!(f, "{}", "delivered"),
+            OuterEnum::Placed => write!(f, "placed"),
+            OuterEnum::Approved => write!(f, "approved"),
+            OuterEnum::Delivered => write!(f, "delivered"),
         }
     }
 }
@@ -4430,9 +4538,9 @@ impl std::str::FromStr for OuterEnum {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         match s {
-            "placed" => std::result::Result::Ok(OuterEnum::PLACED),
-            "approved" => std::result::Result::Ok(OuterEnum::APPROVED),
-            "delivered" => std::result::Result::Ok(OuterEnum::DELIVERED),
+            "placed" => std::result::Result::Ok(OuterEnum::Placed),
+            "approved" => std::result::Result::Ok(OuterEnum::Approved),
+            "delivered" => std::result::Result::Ok(OuterEnum::Delivered),
             _ => std::result::Result::Err(format!("Value not valid: {}", s)),
         }
     }
@@ -4442,7 +4550,7 @@ impl OuterEnum {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -4481,7 +4589,7 @@ impl OuterNumber {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
@@ -4533,12 +4641,12 @@ impl OuterString {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Pet")]
 pub struct Pet {
@@ -4568,13 +4676,15 @@ pub struct Pet {
 
 }
 
+
 impl Pet {
+    #[allow(clippy::new_without_default)]
     pub fn new(name: String, photo_urls: Vec<String>, ) -> Pet {
         Pet {
             id: None,
             category: None,
-            name: name,
-            photo_urls: photo_urls,
+            name,
+            photo_urls,
             tags: None,
             status: None,
         }
@@ -4586,32 +4696,38 @@ impl Pet {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Pet {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref id) = self.id {
-            params.push("id".to_string());
-            params.push(id.to_string());
-        }
+            self.id.as_ref().map(|id| {
+                vec![
+                    "id".to_string(),
+                    id.to_string(),
+                ].join(",")
+            }),
 
-        // Skipping category in query parameter serialization
-
-
-        params.push("name".to_string());
-        params.push(self.name.to_string());
+            // Skipping category in query parameter serialization
 
 
-        params.push("photoUrls".to_string());
-        params.push(self.photo_urls.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
-
-        // Skipping tags in query parameter serialization
+            Some("name".to_string()),
+            Some(self.name.to_string()),
 
 
-        if let Some(ref status) = self.status {
-            params.push("status".to_string());
-            params.push(status.to_string());
-        }
+            Some("photoUrls".to_string()),
+            Some(self.photo_urls.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")),
 
-        params.join(",").to_string()
+            // Skipping tags in query parameter serialization
+
+
+            self.status.as_ref().map(|status| {
+                vec![
+                    "status".to_string(),
+                    status.to_string(),
+                ].join(",")
+            }),
+
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -4622,8 +4738,9 @@ impl std::str::FromStr for Pet {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub id: Vec<i64>,
             pub category: Vec<models::Category>,
@@ -4636,7 +4753,7 @@ impl std::str::FromStr for Pet {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -4646,13 +4763,18 @@ impl std::str::FromStr for Pet {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "category" => intermediate_rep.category.push(<models::Category as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "name" => intermediate_rep.name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "category" => intermediate_rep.category.push(<models::Category as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "name" => intermediate_rep.name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "photoUrls" => return std::result::Result::Err("Parsing a container in this style is not supported in Pet".to_string()),
                     "tags" => return std::result::Result::Err("Parsing a container in this style is not supported in Pet".to_string()),
-                    "status" => intermediate_rep.status.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "status" => intermediate_rep.status.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Pet".to_string())
                 }
             }
@@ -4665,8 +4787,8 @@ impl std::str::FromStr for Pet {
         std::result::Result::Ok(Pet {
             id: intermediate_rep.id.into_iter().next(),
             category: intermediate_rep.category.into_iter().next(),
-            name: intermediate_rep.name.into_iter().next().ok_or("name missing in Pet".to_string())?,
-            photo_urls: intermediate_rep.photo_urls.into_iter().next().ok_or("photoUrls missing in Pet".to_string())?,
+            name: intermediate_rep.name.into_iter().next().ok_or_else(|| "name missing in Pet".to_string())?,
+            photo_urls: intermediate_rep.photo_urls.into_iter().next().ok_or_else(|| "photoUrls missing in Pet".to_string())?,
             tags: intermediate_rep.tags.into_iter().next(),
             status: intermediate_rep.status.into_iter().next(),
         })
@@ -4716,12 +4838,12 @@ impl Pet {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ReadOnlyFirst {
     #[serde(rename = "bar")]
@@ -4734,7 +4856,9 @@ pub struct ReadOnlyFirst {
 
 }
 
+
 impl ReadOnlyFirst {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> ReadOnlyFirst {
         ReadOnlyFirst {
             bar: None,
@@ -4748,20 +4872,26 @@ impl ReadOnlyFirst {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for ReadOnlyFirst {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref bar) = self.bar {
-            params.push("bar".to_string());
-            params.push(bar.to_string());
-        }
+            self.bar.as_ref().map(|bar| {
+                vec![
+                    "bar".to_string(),
+                    bar.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref baz) = self.baz {
-            params.push("baz".to_string());
-            params.push(baz.to_string());
-        }
+            self.baz.as_ref().map(|baz| {
+                vec![
+                    "baz".to_string(),
+                    baz.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -4772,8 +4902,9 @@ impl std::str::FromStr for ReadOnlyFirst {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub bar: Vec<String>,
             pub baz: Vec<String>,
@@ -4782,7 +4913,7 @@ impl std::str::FromStr for ReadOnlyFirst {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -4792,9 +4923,12 @@ impl std::str::FromStr for ReadOnlyFirst {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "bar" => intermediate_rep.bar.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "baz" => intermediate_rep.baz.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "bar" => intermediate_rep.bar.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "baz" => intermediate_rep.baz.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ReadOnlyFirst".to_string())
                 }
             }
@@ -4854,74 +4988,84 @@ impl ReadOnlyFirst {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+/// Model for testing reserved words
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-#[serde(rename = "$special[model.name]")]
-pub struct SpecialModelName {
-    #[serde(rename = "$special[property.name]")]
+#[serde(rename = "Return")]
+pub struct Return {
+    #[serde(rename = "return")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub special_property_name: Option<i64>,
+    pub r#return: Option<i32>,
 
 }
 
-impl SpecialModelName {
-    pub fn new() -> SpecialModelName {
-        SpecialModelName {
-            special_property_name: None,
+
+impl Return {
+    #[allow(clippy::new_without_default)]
+    pub fn new() -> Return {
+        Return {
+            r#return: None,
         }
     }
 }
 
-/// Converts the SpecialModelName value to the Query Parameters representation (style=form, explode=false)
+/// Converts the Return value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for SpecialModelName {
+impl std::string::ToString for Return {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref special_property_name) = self.special_property_name {
-            params.push("$special[property.name]".to_string());
-            params.push(special_property_name.to_string());
-        }
+            self.r#return.as_ref().map(|r#return| {
+                vec![
+                    "return".to_string(),
+                    r#return.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
-/// Converts Query Parameters representation (style=form, explode=false) to a SpecialModelName value
+/// Converts Query Parameters representation (style=form, explode=false) to a Return value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
-impl std::str::FromStr for SpecialModelName {
+impl std::str::FromStr for Return {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
-            pub special_property_name: Vec<i64>,
+            pub r#return: Vec<i32>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
             let val = match string_iter.next() {
                 Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing SpecialModelName".to_string())
+                None => return std::result::Result::Err("Missing value while parsing Return".to_string())
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "$special[property.name]" => intermediate_rep.special_property_name.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing SpecialModelName".to_string())
+                    #[allow(clippy::redundant_clone)]
+                    "return" => intermediate_rep.r#return.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing Return".to_string())
                 }
             }
 
@@ -4930,40 +5074,40 @@ impl std::str::FromStr for SpecialModelName {
         }
 
         // Use the intermediate representation to return the struct
-        std::result::Result::Ok(SpecialModelName {
-            special_property_name: intermediate_rep.special_property_name.into_iter().next(),
+        std::result::Result::Ok(Return {
+            r#return: intermediate_rep.r#return.into_iter().next(),
         })
     }
 }
 
-// Methods for converting between header::IntoHeaderValue<SpecialModelName> and hyper::header::HeaderValue
+// Methods for converting between header::IntoHeaderValue<Return> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<SpecialModelName>> for hyper::header::HeaderValue {
+impl std::convert::TryFrom<header::IntoHeaderValue<Return>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<SpecialModelName>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<Return>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for SpecialModelName - value: {} is invalid {}",
+                 format!("Invalid header value for Return - value: {} is invalid {}",
                      hdr_value, e))
         }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<SpecialModelName> {
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Return> {
     type Error = String;
 
     fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
              std::result::Result::Ok(value) => {
-                    match <SpecialModelName as std::str::FromStr>::from_str(value) {
+                    match <Return as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into SpecialModelName - {}",
+                            format!("Unable to convert header value '{}' into Return - {}",
                                 value, err))
                     }
              },
@@ -4975,16 +5119,16 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-impl SpecialModelName {
+impl Return {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Tag")]
 pub struct Tag {
@@ -4998,7 +5142,9 @@ pub struct Tag {
 
 }
 
+
 impl Tag {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> Tag {
         Tag {
             id: None,
@@ -5012,20 +5158,26 @@ impl Tag {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for Tag {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref id) = self.id {
-            params.push("id".to_string());
-            params.push(id.to_string());
-        }
+            self.id.as_ref().map(|id| {
+                vec![
+                    "id".to_string(),
+                    id.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref name) = self.name {
-            params.push("name".to_string());
-            params.push(name.to_string());
-        }
+            self.name.as_ref().map(|name| {
+                vec![
+                    "name".to_string(),
+                    name.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -5036,8 +5188,9 @@ impl std::str::FromStr for Tag {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub id: Vec<i64>,
             pub name: Vec<String>,
@@ -5046,7 +5199,7 @@ impl std::str::FromStr for Tag {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -5056,9 +5209,12 @@ impl std::str::FromStr for Tag {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "name" => intermediate_rep.name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "name" => intermediate_rep.name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing Tag".to_string())
                 }
             }
@@ -5118,12 +5274,12 @@ impl Tag {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "User")]
 pub struct User {
@@ -5162,7 +5318,9 @@ pub struct User {
 
 }
 
+
 impl User {
+    #[allow(clippy::new_without_default)]
     pub fn new() -> User {
         User {
             id: None,
@@ -5182,56 +5340,74 @@ impl User {
 /// Should be implemented in a serde serializer
 impl std::string::ToString for User {
     fn to_string(&self) -> String {
-        let mut params: Vec<String> = vec![];
+        let params: Vec<Option<String>> = vec![
 
-        if let Some(ref id) = self.id {
-            params.push("id".to_string());
-            params.push(id.to_string());
-        }
-
-
-        if let Some(ref username) = self.username {
-            params.push("username".to_string());
-            params.push(username.to_string());
-        }
+            self.id.as_ref().map(|id| {
+                vec![
+                    "id".to_string(),
+                    id.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref first_name) = self.first_name {
-            params.push("firstName".to_string());
-            params.push(first_name.to_string());
-        }
+            self.username.as_ref().map(|username| {
+                vec![
+                    "username".to_string(),
+                    username.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref last_name) = self.last_name {
-            params.push("lastName".to_string());
-            params.push(last_name.to_string());
-        }
+            self.first_name.as_ref().map(|first_name| {
+                vec![
+                    "firstName".to_string(),
+                    first_name.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref email) = self.email {
-            params.push("email".to_string());
-            params.push(email.to_string());
-        }
+            self.last_name.as_ref().map(|last_name| {
+                vec![
+                    "lastName".to_string(),
+                    last_name.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref password) = self.password {
-            params.push("password".to_string());
-            params.push(password.to_string());
-        }
+            self.email.as_ref().map(|email| {
+                vec![
+                    "email".to_string(),
+                    email.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref phone) = self.phone {
-            params.push("phone".to_string());
-            params.push(phone.to_string());
-        }
+            self.password.as_ref().map(|password| {
+                vec![
+                    "password".to_string(),
+                    password.to_string(),
+                ].join(",")
+            }),
 
 
-        if let Some(ref user_status) = self.user_status {
-            params.push("userStatus".to_string());
-            params.push(user_status.to_string());
-        }
+            self.phone.as_ref().map(|phone| {
+                vec![
+                    "phone".to_string(),
+                    phone.to_string(),
+                ].join(",")
+            }),
 
-        params.join(",").to_string()
+
+            self.user_status.as_ref().map(|user_status| {
+                vec![
+                    "userStatus".to_string(),
+                    user_status.to_string(),
+                ].join(",")
+            }),
+
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
     }
 }
 
@@ -5242,8 +5418,9 @@ impl std::str::FromStr for User {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
         #[derive(Default)]
-        // An intermediate representation of the struct to use for parsing.
+        #[allow(dead_code)]
         struct IntermediateRep {
             pub id: Vec<i64>,
             pub username: Vec<String>,
@@ -5258,7 +5435,7 @@ impl std::str::FromStr for User {
         let mut intermediate_rep = IntermediateRep::default();
 
         // Parse into intermediate representation
-        let mut string_iter = s.split(',').into_iter();
+        let mut string_iter = s.split(',');
         let mut key_result = string_iter.next();
 
         while key_result.is_some() {
@@ -5268,15 +5445,24 @@ impl std::str::FromStr for User {
             };
 
             if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
                 match key {
-                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "username" => intermediate_rep.username.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "firstName" => intermediate_rep.first_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "lastName" => intermediate_rep.last_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "email" => intermediate_rep.email.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "password" => intermediate_rep.password.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "phone" => intermediate_rep.phone.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
-                    "userStatus" => intermediate_rep.user_status.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    #[allow(clippy::redundant_clone)]
+                    "id" => intermediate_rep.id.push(<i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "username" => intermediate_rep.username.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "firstName" => intermediate_rep.first_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "lastName" => intermediate_rep.last_name.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "email" => intermediate_rep.email.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "password" => intermediate_rep.password.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "phone" => intermediate_rep.phone.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    #[allow(clippy::redundant_clone)]
+                    "userStatus" => intermediate_rep.user_status.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing User".to_string())
                 }
             }
@@ -5342,7 +5528,7 @@ impl User {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
+    pub(crate) fn as_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }

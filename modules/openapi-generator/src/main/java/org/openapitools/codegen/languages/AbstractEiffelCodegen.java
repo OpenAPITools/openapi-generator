@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -277,9 +278,6 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
                 childrenByParent.put(model.parent, model);
             }
         }
-        if (StringUtils.isNotBlank(model.parentSchema)) {
-            model.parentSchema = model.parentSchema.toLowerCase(Locale.ROOT);
-        }
     }
 
     @Override
@@ -299,7 +297,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             Schema inner = ap.getItems();
             return "LIST [" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
 
             return getSchemaType(p) + " [" + getTypeDeclaration(inner) + "]";
         }
@@ -343,7 +341,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
-        String sanitizedOperationId = camelize(sanitizeName(operationId), true);
+        String sanitizedOperationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
@@ -354,7 +352,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
-            sanitizedOperationId = camelize("call_" + sanitizedOperationId, true);
+            sanitizedOperationId = camelize("call_" + sanitizedOperationId, LOWERCASE_FIRST_LETTER);
         }
 
         // method name from updateSomething to update_Something.
@@ -571,7 +569,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     public String toInstantiationType(Schema p) {
         return getTypeDeclaration(p);
 //        if (ModelUtils.isMapSchema(p)) {
-//            Schema additionalProperties2 = getAdditionalProperties(p);
+//            Schema additionalProperties2 = ModelUtils.getAdditionalProperties(p);
 //            String type = additionalProperties2.getType();
 //            if (null == type) {
 //                LOGGER.error("No Type defined for Additional Schema " + additionalProperties2 + "\n" //

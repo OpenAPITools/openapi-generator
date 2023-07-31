@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **int64** | **int** |  | [optional]
 **number** | **float** |  |
 **float** | **float** |  | [optional]
-**double** | **double** |  | [optional]
+**double** | **float** |  | [optional]
 **decimal** | **float** |  | [optional]
 **string** | **string** |  | [optional]
 **byte** | **string** |  |

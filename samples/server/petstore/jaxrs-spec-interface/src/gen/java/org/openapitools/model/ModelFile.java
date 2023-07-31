@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("File")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class ModelFile  implements Serializable {
-  
   private @Valid String sourceURI;
 
   /**

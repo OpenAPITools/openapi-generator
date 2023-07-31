@@ -28,8 +28,8 @@ import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture
 {{/async}}
 {{#useBeanValidation}}
 import org.springframework.validation.annotation.Validated;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 {{/useBeanValidation}}
 /**
  * Provides the info about api methods

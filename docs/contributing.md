@@ -56,15 +56,16 @@ Code change should conform to the programming style guide of the respective lang
 - Clojure: https://github.com/bbatsov/clojure-style-guide
 - Crystal: https://crystal-lang.org/reference/conventions/coding_style.html
 - Dart: https://www.dartlang.org/guides/language/effective-dart/style
-- Elixir: https://github.com/christopheradams/elixir_style_guide
 - Eiffel: https://www.eiffel.org/doc/eiffel/Coding%20Standards
+- Elixir: https://github.com/christopheradams/elixir_style_guide
 - Erlang: https://github.com/inaka/erlang_guidelines
+- Go: https://github.com/golang/go/wiki/CodeReviewComments
+- Groovy: http://groovy-lang.org/style-guide.html
 - Haskell: https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md
 - Java: https://google.github.io/styleguide/javaguide.html
 - JavaScript: https://github.com/airbnb/javascript/
+- Julia: https://docs.julialang.org/en/v1/manual/style-guide/
 - Kotlin: https://kotlinlang.org/docs/reference/coding-conventions.html
-- Groovy: http://groovy-lang.org/style-guide.html
-- Go: https://github.com/golang/go/wiki/CodeReviewComments
 - ObjC: https://github.com/NYTimes/objective-c-style-guide
 - Perl: http://perldoc.perl.org/perlstyle.html
 - PHP: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-12-extended-coding-style-guide.md
@@ -76,6 +77,7 @@ Code change should conform to the programming style guide of the respective lang
 - Scala: http://docs.scala-lang.org/style/
 - Swift: [Apple Developer](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html)
 - TypeScript: https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines
+- Xojo: https://documentation.xojo.com/topics/code_management/coding_guidelines.html
 
 For other languages, feel free to suggest.
 
@@ -94,7 +96,7 @@ To test the templates, please perform the following:
 
 - Update the Petstore sample by running the shell scripts under the `bin` folder. For example, run `./bin/generate-samples.sh ./bin/configs/python*` to update the Python-related samples under [`samples`](https://github.com/openapitools/openapi-generator/tree/master/samples). For Windows, please install [GIT bash](https://gitforwindows.org/). (If you find that there are new files generated or unexpected changes as a result of the update, that's not unusual as the test cases are added to the OpenAPI spec from time to time. If you've questions or concerns, please open a ticket to start a discussion)
 - During development, it can be helpful to quickly regenerate the samples without recompiling all of openapi-generator, e.g. when you have only updated the mustache templates. This can be done by passing the `-t` parameter: `-t modules/openapi-generator/src/main/resources/python`.
-- Run the tests in the sample folder using maven `mvn integration-test -f /path/to/pom.xml`, e.g. `mvn integration-test -f samples/client/petstore/python/pom.xml`. (some languages may not contain unit testing for Petstore and we're looking for contribution from the community to implement those tests)
+- Run the tests in the sample folder using maven `mvn integration-test -f /path/to/pom.xml`, e.g. `mvn integration-test -f samples/client/petstore/python/pom.xml`. (some languages may not contain unit testing for Petstore and we're looking for contribution from the community to implement those tests). __Please notice:__ you must run a local instance of the Petstore server in order to perform the tests, as running them against petstore.swagger.io is not supported anymore. Please refer to item 3 of [Integration Tests - How to add integration tests for new Petstore samples](https://github.com/OpenAPITools/openapi-generator/wiki/Integration-Tests#how-to-add-integration-tests-for-new-petstore-samples) to learn how to quickly configure and run it.
 - Finally, git commit the updated samples files: `git commit -a` (`git add -A` if added files with new test cases)
 - For new test cases, please add to the [Fake Petstore spec](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml)
 

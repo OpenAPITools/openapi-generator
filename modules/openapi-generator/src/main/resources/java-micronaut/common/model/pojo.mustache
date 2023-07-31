@@ -9,6 +9,9 @@
 @Schema({{#name}}name = "{{name}}", {{/name}}description = "{{{description}}}")
     {{/generateSwagger2Annotations}}
 {{/description}}
+{{#micronaut_serde_jackson}}
+@io.micronaut.serde.annotation.Serdeable
+{{/micronaut_serde_jackson}}
 {{#jackson}}
 @JsonPropertyOrder({
   {{#vars}}
@@ -120,7 +123,7 @@ Declare the class with extends and implements
     public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
                 {{#vendorExtensions.x-is-jackson-optional-nullable}}
         if (this.{{name}} == null || !this.{{name}}.isPresent()) {
-            this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
+            this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}});
         }
         try {
             this.{{name}}.get().add({{name}}Item);
@@ -132,7 +135,7 @@ Declare the class with extends and implements
                 {{^vendorExtensions.x-is-jackson-optional-nullable}}
                     {{^required}}
         if (this.{{name}} == null) {
-            this.{{name}} = {{{defaultValue}}};
+            this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
         }
                     {{/required}}
         this.{{name}}.add({{name}}Item);
@@ -145,7 +148,7 @@ Declare the class with extends and implements
     public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
                 {{#vendorExtensions.x-is-jackson-optional-nullable}}
         if (this.{{name}} == null || !this.{{name}}.isPresent()) {
-            this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}});
+            this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}});
         }
         try {
             this.{{name}}.get().put(key, {{name}}Item);
@@ -157,7 +160,7 @@ Declare the class with extends and implements
                 {{^vendorExtensions.x-is-jackson-optional-nullable}}
                     {{^required}}
         if (this.{{name}} == null) {
-            this.{{name}} = {{{defaultValue}}};
+            this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
         }
                     {{/required}}
         this.{{name}}.put(key, {{name}}Item);
@@ -187,7 +190,7 @@ Declare the class with extends and implements
     @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
         {{/generateSwagger1Annotations}}
         {{#generateSwagger2Annotations}}
-    @Schema(name = "{{{baseName}}}", {{#isReadOnly}}accessMode = Schema.AccessMode.READ_ONLY, {{/isReadOnly}}{{#example}}example = "{{{.}}}", {{/example}}{{#description}}description = "{{{.}}}", {{/description}}required = {{{required}}})
+    @Schema(name = "{{{baseName}}}"{{#isReadOnly}}, accessMode = Schema.AccessMode.READ_ONLY{{/isReadOnly}}{{#example}}, example = "{{{.}}}"{{/example}}{{#description}}, description = "{{{.}}}"{{/description}}, requiredMode = {{#required}}Schema.RequiredMode.REQUIRED{{/required}}{{^required}}Schema.RequiredMode.NOT_REQUIRED{{/required}})
         {{/generateSwagger2Annotations}}
         {{#vendorExtensions.x-extra-annotation}}
     {{{vendorExtensions.x-extra-annotation}}}
@@ -236,8 +239,8 @@ Declare the class with extends and implements
         {{^isReadOnly}}
             {{#jackson}}
                 {{^vendorExtensions.x-is-jackson-optional-nullable}}
-{{>common/model/jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}{{#vendorExtensions.x-setter-extra-annotation}}       {{{vendorExtensions.x-setter-extra-annotation}}}
-{{/vendorExtensions.x-setter-extra-annotation}}    public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+{{>common/model/jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{#vendorExtensions.x-setter-extra-annotation}}       {{{vendorExtensions.x-setter-extra-annotation}}}
+{{/vendorExtensions.x-setter-extra-annotation}}{{/jackson}}    public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
             {{#vendorExtensions.x-is-jackson-optional-nullable}}
         this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
             {{/vendorExtensions.x-is-jackson-optional-nullable}}

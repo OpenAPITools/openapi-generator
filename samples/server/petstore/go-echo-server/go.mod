@@ -1,5 +1,5 @@
-module github.com/GIT_USER_ID/GIT_REPO_ID
+module gitlab.com/openapitools/petstore
 
 go 1.16
 
-require github.com/labstack/echo/v4 v4.2.0
+require github.com/labstack/echo/v4 v4.9.0

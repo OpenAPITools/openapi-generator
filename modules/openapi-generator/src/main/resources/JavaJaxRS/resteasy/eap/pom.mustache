@@ -187,6 +187,11 @@
 {{#useBeanValidation}}
         <beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}
+        {{#useJakartaEe}}
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        {{/useJakartaEe}}
     </properties>
 </project>

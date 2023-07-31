@@ -2,6 +2,7 @@ README.md
 models/api_response.proto
 models/category.proto
 models/order.proto
+models/other_test.proto
 models/pet.proto
 models/tag.proto
 models/user.proto

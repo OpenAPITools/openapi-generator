@@ -1,7 +1,7 @@
 package org.openapitools.api;
 
 import java.util.Map;
-import org.openapitools.model.Order;
+import org.openapitools.model.OrderDto;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

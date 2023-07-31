@@ -6,11 +6,19 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+{{#useNewtonsoft}}
 using Newtonsoft.Json;
+{{/useNewtonsoft}}
+{{^useNewtonsoft}}
+using System.Text.Json;
+{{/useNewtonsoft}}
 {{#models}}
 {{#model}}
 {{#discriminator}}
 using JsonSubTypes;
+{{#useSwashbuckle}}
+using Swashbuckle.AspNetCore.Annotations;
+{{/useSwashbuckle}}
 {{/discriminator}}
 {{/model}}
 {{/models}}
@@ -25,12 +33,20 @@ namespace {{modelPackage}}
     /// </summary>
     [DataContract]
     {{#discriminator}}
+    {{#useNewtonsoft}}
     [JsonConverter(typeof(JsonSubtypes), "{{{discriminatorName}}}")]
+    {{/useNewtonsoft}}
+    {{#useSwashbuckle}}
+    [SwaggerDiscriminator("{{{discriminatorName}}}")]
+    {{/useSwashbuckle}}
     {{#mappedModels}}
     [JsonSubtypes.KnownSubType(typeof({{{modelName}}}), "{{^vendorExtensions.x-discriminator-value}}{{{mappingName}}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{.}}}{{/vendorExtensions.x-discriminator-value}}")]
+    {{#useSwashbuckle}}
+    [SwaggerSubType(typeof({{{modelName}}}), DiscriminatorValue =  "{{^vendorExtensions.x-discriminator-value}}{{{mappingName}}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{.}}}{{/vendorExtensions.x-discriminator-value}}")]
+    {{/useSwashbuckle}}
     {{/mappedModels}}
     {{/discriminator}}
-    public {{#modelClassModifier}}{{.}} {{/modelClassModifier}}class {{classname}} : {{#parent}}{{{.}}}, {{/parent}}IEquatable<{{classname}}>
+    public {{#modelClassModifier}}{{.}} {{/modelClassModifier}}class {{classname}} {{#parent}}: {{{.}}}{{^pocoModels}}, {{/pocoModels}}{{/parent}}{{^pocoModels}}{{^parent}}: {{/parent}}IEquatable<{{classname}}>{{/pocoModels}}
     {
         {{#vars}}
         {{#items.isEnum}}
@@ -48,7 +64,8 @@ namespace {{modelPackage}}
         /// <summary>
         /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
         /// </summary>{{#description}}
-        /// <value>{{.}}</value>{{/description}}{{#required}}
+        /// <value>{{.}}</value>{{/description}}{{#example}}
+        /// <example>{{.}}</example>{{/example}}{{#required}}
         [Required]{{/required}}{{#pattern}}
         [RegularExpression("{{{.}}}")]{{/pattern}}{{#minLength}}{{#maxLength}}
         [StringLength({{maxLength}}, MinimumLength={{minLength}})]{{/maxLength}}{{/minLength}}{{#minLength}}{{^maxLength}}
@@ -67,6 +84,7 @@ namespace {{modelPackage}}
         {{/-last}}
         {{/vars}}
 
+        {{^pocoModels}}
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -88,7 +106,17 @@ namespace {{modelPackage}}
         /// <returns>JSON string presentation of the object</returns>
         public {{#parent}}{{^isMap}}{{^isArray}}new {{/isArray}}{{/isMap}}{{/parent}}string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            {{#useNewtonsoft}}
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            {{/useNewtonsoft}}
+            {{^useNewtonsoft}}
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+
+            return JsonSerializer.Serialize(this, options);
+            {{/useNewtonsoft}}
         }
 
         /// <summary>
@@ -160,6 +188,7 @@ namespace {{modelPackage}}
 
         #pragma warning restore 1591
         #endregion Operators
+        {{/pocoModels}}
     }
 {{/isEnum}}
 {{/model}}

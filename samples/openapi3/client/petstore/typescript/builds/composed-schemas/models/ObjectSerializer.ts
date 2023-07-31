@@ -1,22 +1,18 @@
-export * from './Cat';
-export * from './CatAllOf';
-export * from './Dog';
-export * from './DogAllOf';
-export * from './FilePostRequest';
-export * from './PetByAge';
-export * from './PetByType';
-export * from './PetsFilteredPatchRequest';
-export * from './PetsPatchRequest';
+export * from '../models/Cat';
+export * from '../models/Dog';
+export * from '../models/FilePostRequest';
+export * from '../models/PetByAge';
+export * from '../models/PetByType';
+export * from '../models/PetsFilteredPatchRequest';
+export * from '../models/PetsPatchRequest';
 
-import { Cat } from './Cat';
-import { CatAllOf } from './CatAllOf';
-import { Dog , DogBreedEnum   } from './Dog';
-import { DogAllOf , DogAllOfBreedEnum   } from './DogAllOf';
-import { FilePostRequest } from './FilePostRequest';
-import { PetByAge } from './PetByAge';
-import { PetByType, PetByTypePetTypeEnum    } from './PetByType';
-import { PetsFilteredPatchRequest  , PetsFilteredPatchRequestPetTypeEnum    } from './PetsFilteredPatchRequest';
-import { PetsPatchRequest   , PetsPatchRequestBreedEnum   } from './PetsPatchRequest';
+import { Cat } from '../models/Cat';
+import { Dog , DogBreedEnum   } from '../models/Dog';
+import { FilePostRequest } from '../models/FilePostRequest';
+import { PetByAge } from '../models/PetByAge';
+import { PetByType, PetByTypePetTypeEnum    } from '../models/PetByType';
+import { PetsFilteredPatchRequest  , PetsFilteredPatchRequestPetTypeEnum    } from '../models/PetsFilteredPatchRequest';
+import { PetsPatchRequest   , PetsPatchRequestBreedEnum   } from '../models/PetsPatchRequest';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -39,7 +35,6 @@ const supportedMediaTypes: { [mediaType: string]: number } = {
 
 let enumsMap: Set<string> = new Set<string>([
     "DogBreedEnum",
-    "DogAllOfBreedEnum",
     "PetByTypePetTypeEnum",
     "PetsFilteredPatchRequestPetTypeEnum",
     "PetsPatchRequestBreedEnum",
@@ -47,9 +42,7 @@ let enumsMap: Set<string> = new Set<string>([
 
 let typeMap: {[index: string]: any} = {
     "Cat": Cat,
-    "CatAllOf": CatAllOf,
     "Dog": Dog,
-    "DogAllOf": DogAllOf,
     "FilePostRequest": FilePostRequest,
     "PetByAge": PetByAge,
     "PetByType": PetByType,
@@ -102,8 +95,7 @@ export class ObjectSerializer {
             let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
             subType = subType.substring(0, subType.length - 1); // Type> => Type
             let transformedData: any[] = [];
-            for (let index in data) {
-                let date = data[index];
+            for (let date of data) {
                 transformedData.push(ObjectSerializer.serialize(date, subType, format));
             }
             return transformedData;
@@ -132,8 +124,7 @@ export class ObjectSerializer {
             // get the map for the correct type.
             let attributeTypes = typeMap[type].getAttributeTypeMap();
             let instance: {[index: string]: any} = {};
-            for (let index in attributeTypes) {
-                let attributeType = attributeTypes[index];
+            for (let attributeType of attributeTypes) {
                 instance[attributeType.baseName] = ObjectSerializer.serialize(data[attributeType.name], attributeType.type, attributeType.format);
             }
             return instance;
@@ -151,8 +142,7 @@ export class ObjectSerializer {
             let subType: string = type.replace("Array<", ""); // Array<Type> => Type>
             subType = subType.substring(0, subType.length - 1); // Type> => Type
             let transformedData: any[] = [];
-            for (let index in data) {
-                let date = data[index];
+            for (let date of data) {
                 transformedData.push(ObjectSerializer.deserialize(date, subType, format));
             }
             return transformedData;
@@ -168,8 +158,7 @@ export class ObjectSerializer {
             }
             let instance = new typeMap[type]();
             let attributeTypes = typeMap[type].getAttributeTypeMap();
-            for (let index in attributeTypes) {
-                let attributeType = attributeTypes[index];
+            for (let attributeType of attributeTypes) {
                 let value = ObjectSerializer.deserialize(data[attributeType.baseName], attributeType.type, attributeType.format);
                 if (value !== undefined) {
                     instance[attributeType.name] = value;
@@ -201,7 +190,7 @@ export class ObjectSerializer {
      */
     public static getPreferredMediaType(mediaTypes: Array<string>): string {
         /** According to OAS 3 we should default to json */
-        if (!mediaTypes) {
+        if (mediaTypes.length === 0) {
             return "application/json";
         }
 
@@ -226,6 +215,10 @@ export class ObjectSerializer {
      * Convert data to a string according the given media type
      */
     public static stringify(data: any, mediaType: string): string {
+        if (mediaType === "text/plain") {
+            return String(data);
+        }
+
         if (mediaType === "application/json") {
             return JSON.stringify(data);
         }
@@ -239,6 +232,10 @@ export class ObjectSerializer {
     public static parse(rawData: string, mediaType: string | undefined) {
         if (mediaType === undefined) {
             throw new Error("Cannot parse content. No Content-Type defined.");
+        }
+
+        if (mediaType === "text/plain") {
+            return rawData;
         }
 
         if (mediaType === "application/json") {

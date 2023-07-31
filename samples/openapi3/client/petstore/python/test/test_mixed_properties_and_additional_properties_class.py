@@ -10,14 +10,14 @@
 """
 
 
-import sys
+from __future__ import absolute_import
+
 import unittest
+import datetime
 
 import petstore_api
-from petstore_api.model.animal import Animal
-globals()['Animal'] = Animal
-from petstore_api.model.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
-
+from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass  # noqa: E501
+from petstore_api.rest import ApiException
 
 class TestMixedPropertiesAndAdditionalPropertiesClass(unittest.TestCase):
     """MixedPropertiesAndAdditionalPropertiesClass unit test stubs"""
@@ -28,12 +28,30 @@ class TestMixedPropertiesAndAdditionalPropertiesClass(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def make_instance(self, include_optional):
+        """Test MixedPropertiesAndAdditionalPropertiesClass
+            include_option is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # model = petstore_api.models.mixed_properties_and_additional_properties_class.MixedPropertiesAndAdditionalPropertiesClass()  # noqa: E501
+        if include_optional :
+            return MixedPropertiesAndAdditionalPropertiesClass(
+                uuid = '', 
+                date_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
+                map = {
+                    'key' : petstore_api.models.animal.Animal(
+                        class_name = '', 
+                        color = 'red', )
+                    }
+            )
+        else :
+            return MixedPropertiesAndAdditionalPropertiesClass(
+        )
+
     def testMixedPropertiesAndAdditionalPropertiesClass(self):
         """Test MixedPropertiesAndAdditionalPropertiesClass"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = MixedPropertiesAndAdditionalPropertiesClass()  # noqa: E501
-        pass
-
+        inst_req_only = self.make_instance(include_optional=False)
+        inst_req_and_optional = self.make_instance(include_optional=True)
 
 if __name__ == '__main__':
     unittest.main()

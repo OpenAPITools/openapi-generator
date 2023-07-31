@@ -27,7 +27,7 @@ public interface PathHandlerInterface {
      * <ul>
      * </ul>
      *
-     * <p><b>Consumes</b>: [{mediaType=application/json}, {mediaType=application/xml}]</p>
+     * <p><b>Consumes</b>: [{isJson=true, mediaType=application/json}, {isXml=true, mediaType=application/xml}]</p>
      * <p><b>Payload</b>: {@link Pet} (<i>required: true</i>)</p>
      *
      *
@@ -94,7 +94,7 @@ public interface PathHandlerInterface {
      * </li>
      * </ul>
      *
-     * <p><b>Produces</b>: [{mediaType=application/xml}, {mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link java.util.List List} of {@link Pet}</p>
      *
      * <p><b>Responses</b>:</p>
@@ -126,7 +126,7 @@ public interface PathHandlerInterface {
      * </li>
      * </ul>
      *
-     * <p><b>Produces</b>: [{mediaType=application/xml}, {mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link java.util.List List} of {@link Pet}</p>
      *
      * <p><b>Responses</b>:</p>
@@ -159,7 +159,7 @@ public interface PathHandlerInterface {
      * </li>
      * </ul>
      *
-     * <p><b>Produces</b>: [{mediaType=application/xml}, {mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link Pet}</p>
      *
      * <p><b>Responses</b>:</p>
@@ -181,7 +181,7 @@ public interface PathHandlerInterface {
      * <ul>
      * </ul>
      *
-     * <p><b>Consumes</b>: [{mediaType=application/json}, {mediaType=application/xml}]</p>
+     * <p><b>Consumes</b>: [{isJson=true, mediaType=application/json}, {isXml=true, mediaType=application/xml}]</p>
      * <p><b>Payload</b>: {@link Pet} (<i>required: true</i>)</p>
      *
      *
@@ -280,7 +280,7 @@ public interface PathHandlerInterface {
      *
      * <p><b>Consumes</b>: [{mediaType=multipart/form-data}]</p>
      *
-     * <p><b>Produces</b>: [{mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link ModelApiResponse}</p>
      *
      * <p><b>Responses</b>:</p>
@@ -328,7 +328,7 @@ public interface PathHandlerInterface {
      *
      * <p><b>Endpoint</b>: {@link Methods#GET GET} "/v2/store/inventory" (<i>privileged: true</i>)</p>
      *
-     * <p><b>Produces</b>: [{mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link java.util.Map Map} of {@link Integer}</p>
      *
      * <p><b>Responses</b>:</p>
@@ -342,7 +342,7 @@ public interface PathHandlerInterface {
     /**
      * <p>Find purchase order by ID</p>
      *
-     * <p>For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions</p>
+     * <p>For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions</p>
      *
      * <p><b>Endpoint</b>: {@link Methods#GET GET} "/v2/store/order/{orderId}" (<i>privileged: false</i>)</p>
      *
@@ -359,7 +359,7 @@ public interface PathHandlerInterface {
      * </li>
      * </ul>
      *
-     * <p><b>Produces</b>: [{mediaType=application/xml}, {mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link Order}</p>
      *
      * <p><b>Responses</b>:</p>
@@ -381,7 +381,7 @@ public interface PathHandlerInterface {
      * <ul>
      * </ul>
      *
-     * <p><b>Produces</b>: [{mediaType=application/xml}, {mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link Order}</p>
      *
      * <p><b>Responses</b>:</p>
@@ -497,7 +497,7 @@ public interface PathHandlerInterface {
      * </li>
      * </ul>
      *
-     * <p><b>Produces</b>: [{mediaType=application/xml}, {mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link User}</p>
      *
      * <p><b>Responses</b>:</p>
@@ -536,15 +536,15 @@ public interface PathHandlerInterface {
      * </p>
      * </li>
      * </ul>
-     * <p><b>Response headers</b>: [CodegenProperty{openApiType='integer', baseName='X-Rate-Limit', complexType='null', getter='getxRateLimit', setter='setxRateLimit', description='calls per hour allowed by the user', dataType='Integer', datatypeWithEnum='Integer', dataFormat='int32', name='xRateLimit', min='null', max='null', defaultValue='null', defaultValueWithParam=' = data.X-Rate-Limit;', baseType='Integer', containerType='null', title='null', unescapedDescription='calls per hour allowed by the user', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
+     * <p><b>Response headers</b>: [CodegenProperty{openApiType='integer', baseName='X-Rate-Limit', complexType='null', getter='getxRateLimit', setter='setxRateLimit', description='calls per hour allowed by the user', dataType='Integer', datatypeWithEnum='Integer', dataFormat='int32', name='xRateLimit', min='null', max='null', defaultValue='null', defaultValueWithParam=' = data.X-Rate-Limit;', baseType='Integer', containerType='null', containerTypeMapped='null', title='null', unescapedDescription='calls per hour allowed by the user', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
   "type" : "integer",
   "format" : "int32"
-}', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=true, isModel=false, isContainer=false, isString=false, isNumeric=true, isInteger=true, isShort=true, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=false, isUuid=false, isUri=false, isEmail=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isAnyType=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, _enum=null, allowableValues=null, items=null, additionalProperties=null, vars=[], requiredVars=[], mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='XRateLimit', nameInSnakeCase='X_RATE_LIMIT', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false, isNull=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false}, CodegenProperty{openApiType='string', baseName='X-Expires-After', complexType='Date', getter='getxExpiresAfter', setter='setxExpiresAfter', description='date in UTC when token expires', dataType='Date', datatypeWithEnum='Date', dataFormat='date-time', name='xExpiresAfter', min='null', max='null', defaultValue='null', defaultValueWithParam=' = data.X-Expires-After;', baseType='Date', containerType='null', title='null', unescapedDescription='date in UTC when token expires', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
+}', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=true, isModel=false, isContainer=false, isString=false, isNumeric=true, isInteger=true, isShort=true, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=false, isUuid=false, isUri=false, isEmail=false, isPassword=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isInnerEnum=false, isEnumRef=false, isAnyType=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, isNew=false, isOverridden=null, _enum=null, allowableValues=null, items=null, additionalProperties=null, vars=[], requiredVars=[], mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='XRateLimit', nameInSnakeCase='X_RATE_LIMIT', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, uniqueItemsBoolean=null, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false, isNull=false, isVoid=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false, requiredVarsMap=null, ref=null, schemaIsFromAdditionalProperties=false, isBooleanSchemaTrue=false, isBooleanSchemaFalse=false, format=int32, dependentRequired=null, contains=null}, CodegenProperty{openApiType='string', baseName='X-Expires-After', complexType='Date', getter='getxExpiresAfter', setter='setxExpiresAfter', description='date in UTC when token expires', dataType='Date', datatypeWithEnum='Date', dataFormat='date-time', name='xExpiresAfter', min='null', max='null', defaultValue='null', defaultValueWithParam=' = data.X-Expires-After;', baseType='Date', containerType='null', containerTypeMapped='null', title='null', unescapedDescription='date in UTC when token expires', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
   "type" : "string",
   "format" : "date-time"
-}', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=false, isModel=false, isContainer=false, isString=false, isNumeric=false, isInteger=false, isShort=false, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=true, isUuid=false, isUri=false, isEmail=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isAnyType=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, _enum=null, allowableValues=null, items=null, additionalProperties=null, vars=[], requiredVars=[], mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='XExpiresAfter', nameInSnakeCase='X_EXPIRES_AFTER', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false, isNull=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false}]</p>
+}', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=false, isModel=false, isContainer=false, isString=false, isNumeric=false, isInteger=false, isShort=false, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=true, isUuid=false, isUri=false, isEmail=false, isPassword=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isInnerEnum=false, isEnumRef=false, isAnyType=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, isNew=false, isOverridden=null, _enum=null, allowableValues=null, items=null, additionalProperties=null, vars=[], requiredVars=[], mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='XExpiresAfter', nameInSnakeCase='X_EXPIRES_AFTER', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, uniqueItemsBoolean=null, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false, isNull=false, isVoid=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false, requiredVarsMap=null, ref=null, schemaIsFromAdditionalProperties=false, isBooleanSchemaTrue=false, isBooleanSchemaFalse=false, format=date-time, dependentRequired=null, contains=null}]</p>
      *
-     * <p><b>Produces</b>: [{mediaType=application/xml}, {mediaType=application/json}]</p>
+     * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link String}</p>
      *
      * <p><b>Responses</b>:</p>

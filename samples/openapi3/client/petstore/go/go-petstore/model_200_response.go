@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the Model200Response type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Model200Response{}
+
 // Model200Response Model for testing model name starting with number
 type Model200Response struct {
 	Name *int32 `json:"name,omitempty"`
@@ -42,7 +45,7 @@ func NewModel200ResponseWithDefaults() *Model200Response {
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Model200Response) GetName() int32 {
-	if o == nil || o.Name == nil {
+	if o == nil || IsNil(o.Name) {
 		var ret int32
 		return ret
 	}
@@ -52,7 +55,7 @@ func (o *Model200Response) GetName() int32 {
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Model200Response) GetNameOk() (*int32, bool) {
-	if o == nil || o.Name == nil {
+	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
 	return o.Name, true
@@ -60,7 +63,7 @@ func (o *Model200Response) GetNameOk() (*int32, bool) {
 
 // HasName returns a boolean if a field has been set.
 func (o *Model200Response) HasName() bool {
-	if o != nil && o.Name != nil {
+	if o != nil && !IsNil(o.Name) {
 		return true
 	}
 
@@ -74,7 +77,7 @@ func (o *Model200Response) SetName(v int32) {
 
 // GetClass returns the Class field value if set, zero value otherwise.
 func (o *Model200Response) GetClass() string {
-	if o == nil || o.Class == nil {
+	if o == nil || IsNil(o.Class) {
 		var ret string
 		return ret
 	}
@@ -84,7 +87,7 @@ func (o *Model200Response) GetClass() string {
 // GetClassOk returns a tuple with the Class field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Model200Response) GetClassOk() (*string, bool) {
-	if o == nil || o.Class == nil {
+	if o == nil || IsNil(o.Class) {
 		return nil, false
 	}
 	return o.Class, true
@@ -92,7 +95,7 @@ func (o *Model200Response) GetClassOk() (*string, bool) {
 
 // HasClass returns a boolean if a field has been set.
 func (o *Model200Response) HasClass() bool {
-	if o != nil && o.Class != nil {
+	if o != nil && !IsNil(o.Class) {
 		return true
 	}
 
@@ -105,11 +108,19 @@ func (o *Model200Response) SetClass(v string) {
 }
 
 func (o Model200Response) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Model200Response) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Name != nil {
+	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
 	}
-	if o.Class != nil {
+	if !IsNil(o.Class) {
 		toSerialize["class"] = o.Class
 	}
 
@@ -117,7 +128,7 @@ func (o Model200Response) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *Model200Response) UnmarshalJSON(bytes []byte) (err error) {

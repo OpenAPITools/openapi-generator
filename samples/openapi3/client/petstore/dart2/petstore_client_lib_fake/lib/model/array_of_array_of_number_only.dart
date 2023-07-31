@@ -31,9 +31,9 @@ class ArrayOfArrayOfNumberOnly {
   String toString() => 'ArrayOfArrayOfNumberOnly[arrayArrayNumber=$arrayArrayNumber]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-      _json[r'ArrayArrayNumber'] = arrayArrayNumber;
-    return _json;
+    final json = <String, dynamic>{};
+      json[r'ArrayArrayNumber'] = this.arrayArrayNumber;
+    return json;
   }
 
   /// Returns a new [ArrayOfArrayOfNumberOnly] instance and imports its values from
@@ -56,16 +56,16 @@ class ArrayOfArrayOfNumberOnly {
 
       return ArrayOfArrayOfNumberOnly(
         arrayArrayNumber: json[r'ArrayArrayNumber'] is List
-          ? (json[r'ArrayArrayNumber'] as List).map(
-              (e) => e == null ? null : (e as List).cast<num>()
+          ? (json[r'ArrayArrayNumber'] as List).map((e) =>
+              e == null ? const  <num>[] : (e as List).cast<num>()
             ).toList()
-          : null,
+          :  const [],
       );
     }
     return null;
   }
 
-  static List<ArrayOfArrayOfNumberOnly>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<ArrayOfArrayOfNumberOnly> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <ArrayOfArrayOfNumberOnly>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -96,12 +96,10 @@ class ArrayOfArrayOfNumberOnly {
   static Map<String, List<ArrayOfArrayOfNumberOnly>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<ArrayOfArrayOfNumberOnly>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = ArrayOfArrayOfNumberOnly.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = ArrayOfArrayOfNumberOnly.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

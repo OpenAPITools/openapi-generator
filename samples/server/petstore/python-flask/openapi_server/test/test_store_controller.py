@@ -52,7 +52,7 @@ class TestStoreController(BaseTestCase):
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/v2/store/order/{order_id}'.format(order_id=5),
+            '/v2/store/order/{order_id}'.format(order_id=1),
             method='GET',
             headers=headers)
         self.assert200(response,
@@ -64,7 +64,7 @@ class TestStoreController(BaseTestCase):
 
         Place an order for a pet
         """
-        body = {}
+        body = openapi_server.Order()
         headers = { 
             'Accept': 'application/json',
             'Content-Type': 'application/json',

@@ -13,13 +13,15 @@
  */
 
 
-import { Configuration } from './configuration';
-import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import type { Configuration } from './configuration';
+import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
+import type { RequestArgs } from './base';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
+import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
 
 /**
  * 
@@ -37,25 +39,6 @@ export interface Cat {
      * 
      * @type {number}
      * @memberof Cat
-     */
-    'age'?: number;
-}
-/**
- * 
- * @export
- * @interface CatAllOf
- */
-export interface CatAllOf {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CatAllOf
-     */
-    'hunts'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof CatAllOf
      */
     'age'?: number;
 }
@@ -87,35 +70,6 @@ export const DogBreedEnum = {
 } as const;
 
 export type DogBreedEnum = typeof DogBreedEnum[keyof typeof DogBreedEnum];
-
-/**
- * 
- * @export
- * @interface DogAllOf
- */
-export interface DogAllOf {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof DogAllOf
-     */
-    'bark'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof DogAllOf
-     */
-    'breed'?: DogAllOfBreedEnum;
-}
-
-export const DogAllOfBreedEnum = {
-    Dingo: 'Dingo',
-    Husky: 'Husky',
-    Retriever: 'Retriever',
-    Shepherd: 'Shepherd'
-} as const;
-
-export type DogAllOfBreedEnum = typeof DogAllOfBreedEnum[keyof typeof DogAllOfBreedEnum];
 
 /**
  * 
@@ -219,7 +173,7 @@ export type PetsFilteredPatchRequestPetTypeEnum = typeof PetsFilteredPatchReques
  * @type PetsPatchRequest
  * @export
  */
-export type PetsPatchRequest = Cat | Dog | any;
+export type PetsPatchRequest = Cat | Dog;
 
 
 /**
@@ -263,11 +217,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {PetsFilteredPatchRequest} [petsFilteredPatchRequest] 
+         * @param {PetsFilteredPatchRequest | null} [petsFilteredPatchRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        petsFilteredPatch: async (petsFilteredPatchRequest?: PetsFilteredPatchRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        petsFilteredPatch: async (petsFilteredPatchRequest?: PetsFilteredPatchRequest | null, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/pets-filtered`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -296,11 +250,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {PetsPatchRequest} [petsPatchRequest] 
+         * @param {PetsPatchRequest | null} [petsPatchRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        petsPatch: async (petsPatchRequest?: PetsPatchRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        petsPatch: async (petsPatchRequest?: PetsPatchRequest | null, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/pets`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -349,21 +303,21 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {PetsFilteredPatchRequest} [petsFilteredPatchRequest] 
+         * @param {PetsFilteredPatchRequest | null} [petsFilteredPatchRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest | null, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.petsFilteredPatch(petsFilteredPatchRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {PetsPatchRequest} [petsPatchRequest] 
+         * @param {PetsPatchRequest | null} [petsPatchRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async petsPatch(petsPatchRequest?: PetsPatchRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async petsPatch(petsPatchRequest?: PetsPatchRequest | null, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.petsPatch(petsPatchRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -388,20 +342,20 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @param {PetsFilteredPatchRequest} [petsFilteredPatchRequest] 
+         * @param {PetsFilteredPatchRequest | null} [petsFilteredPatchRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, options?: any): AxiosPromise<void> {
+        petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest | null, options?: any): AxiosPromise<void> {
             return localVarFp.petsFilteredPatch(petsFilteredPatchRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {PetsPatchRequest} [petsPatchRequest] 
+         * @param {PetsPatchRequest | null} [petsPatchRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        petsPatch(petsPatchRequest?: PetsPatchRequest, options?: any): AxiosPromise<void> {
+        petsPatch(petsPatchRequest?: PetsPatchRequest | null, options?: any): AxiosPromise<void> {
             return localVarFp.petsPatch(petsPatchRequest, options).then((request) => request(axios, basePath));
         },
     };
@@ -427,25 +381,26 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
-     * @param {PetsFilteredPatchRequest} [petsFilteredPatchRequest] 
+     * @param {PetsFilteredPatchRequest | null} [petsFilteredPatchRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, options?: AxiosRequestConfig) {
+    public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest | null, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).petsFilteredPatch(petsFilteredPatchRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {PetsPatchRequest} [petsPatchRequest] 
+     * @param {PetsPatchRequest | null} [petsPatchRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public petsPatch(petsPatchRequest?: PetsPatchRequest, options?: AxiosRequestConfig) {
+    public petsPatch(petsPatchRequest?: PetsPatchRequest | null, options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).petsPatch(petsPatchRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 

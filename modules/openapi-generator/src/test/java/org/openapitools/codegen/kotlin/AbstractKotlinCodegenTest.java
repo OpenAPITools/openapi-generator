@@ -221,15 +221,15 @@ public class AbstractKotlinCodegenTest {
     @Test
     public void handleInheritance() {
         Schema parent = new ObjectSchema()
-                .addProperties("a", new StringSchema())
-                .addProperties("b", new StringSchema())
+                .addProperty("a", new StringSchema())
+                .addProperty("b", new StringSchema())
                 .addRequiredItem("a")
                 .name("Parent");
         Schema child = new ComposedSchema()
                 .addAllOfItem(new Schema().$ref("Parent"))
                 .addAllOfItem(new ObjectSchema()
-                        .addProperties("c", new StringSchema())
-                        .addProperties("d", new StringSchema())
+                        .addProperty("c", new StringSchema())
+                        .addProperty("d", new StringSchema())
                         .addRequiredItem("c"))
                 .name("Child");
         OpenAPI openAPI = TestUtils.createOpenAPI();
@@ -263,6 +263,7 @@ public class AbstractKotlinCodegenTest {
     public void testEnumPropertyWithDefaultValue() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue10591-enum-defaultValue.yaml");
         final AbstractKotlinCodegen codegen = new P_AbstractKotlinCodegen();
+        codegen.setOpenAPI(openAPI);
 
         Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumPropertyHavingDefault");
         CodegenModel cm1 = codegen.fromModel("ModelWithEnumPropertyHavingDefault", test1);
@@ -283,20 +284,20 @@ public class AbstractKotlinCodegenTest {
     @Test(description = "Issue #10792")
     public void handleInheritanceWithObjectTypeShouldNotBeAMap() {
         Schema parent = new ObjectSchema()
-            .addProperties("a", new StringSchema())
-            .addProperties("b", new StringSchema())
+            .addProperty("a", new StringSchema())
+            .addProperty("b", new StringSchema())
             .addRequiredItem("a")
             .name("Parent");
         Schema child = new ComposedSchema()
             .addAllOfItem(new Schema().$ref("Parent"))
             .addAllOfItem(new ObjectSchema()
-                .addProperties("c", new StringSchema())
-                .addProperties("d", new StringSchema())
+                .addProperty("c", new StringSchema())
+                .addProperty("d", new StringSchema())
                 .addRequiredItem("c"))
             .name("Child")
             .type("object"); // Without the object type it is not wrongly recognized as map
         Schema mapSchema = new ObjectSchema()
-            .addProperties("a", new StringSchema())
+            .addProperty("a", new StringSchema())
             .additionalProperties(Boolean.TRUE)
             .name("MapSchema")
             .type("object");
@@ -318,5 +319,19 @@ public class AbstractKotlinCodegenTest {
         final CodegenModel mapSchemaModel = codegen
             .fromModel("MapSchema", mapSchema);
         Assert.assertTrue(mapSchemaModel.isMap);
+    }
+
+    @Test
+    public void handleUseJakartaEeTrue() {
+        codegen.additionalProperties().put("useJakartaEe", true);
+        codegen.processOpts();
+        assertEquals(codegen.additionalProperties().get("javaxPackage"), "jakarta");
+    }
+
+    @Test
+    public void handleUseJakartaEeFalse() {
+        codegen.additionalProperties().put("useJakartaEe", false);
+        codegen.processOpts();
+        assertEquals(codegen.additionalProperties().get("javaxPackage"), "javax");
     }
 }

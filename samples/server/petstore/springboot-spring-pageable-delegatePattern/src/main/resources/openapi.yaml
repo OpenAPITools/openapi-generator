@@ -135,6 +135,37 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: pet
+  /pet/all:
+    get:
+      operationId: listAllPets
+      responses:
+        "200":
+          content:
+            application/xml:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Pet'
+                type: array
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Pet'
+                type: array
+          description: successful operation
+        "400":
+          content: {}
+          description: Invalid status value
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
+      summary: List all pets
+      tags:
+      - pet
+      x-spring-paginated: true
+      x-accepts: application/json
+      x-tags:
+      - tag: pet
   /pet/findByTags:
     get:
       deprecated: true
@@ -184,17 +215,22 @@ paths:
     delete:
       operationId: deletePet
       parameters:
-      - in: header
+      - explode: false
+        in: header
         name: api_key
+        required: false
         schema:
           type: string
+        style: simple
       - description: Pet id to delete
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       responses:
         "200":
           content: {}
@@ -217,12 +253,14 @@ paths:
       operationId: getPetById
       parameters:
       - description: ID of pet to return
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       responses:
         "200":
           content:
@@ -251,12 +289,14 @@ paths:
       operationId: updatePetWithForm
       parameters:
       - description: ID of pet that needs to be updated
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -282,12 +322,14 @@ paths:
       operationId: uploadFile
       parameters:
       - description: ID of pet to update
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
         content:
           multipart/form-data:
@@ -371,11 +413,13 @@ paths:
       operationId: deleteOrder
       parameters:
       - description: ID of the order that needs to be deleted
+        explode: false
         in: path
         name: order_id
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "400":
           content: {}
@@ -391,10 +435,11 @@ paths:
       - tag: store
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
-        values will generated exceptions
+        values will generate exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
+        explode: false
         in: path
         name: order_id
         required: true
@@ -403,6 +448,7 @@ paths:
           maximum: 5
           minimum: 1
           type: integer
+        style: simple
       responses:
         "200":
           content:
@@ -501,17 +547,21 @@ paths:
       operationId: loginUser
       parameters:
       - description: The user name for login
+        explode: true
         in: query
         name: username
         required: true
         schema:
           type: string
+        style: form
       - description: The password for login in clear text
+        explode: true
         in: query
         name: password
         required: true
         schema:
           type: string
+        style: form
       responses:
         "200":
           content:
@@ -525,14 +575,18 @@ paths:
           headers:
             X-Rate-Limit:
               description: calls per hour allowed by the user
+              explode: false
               schema:
                 format: int32
                 type: integer
+              style: simple
             X-Expires-After:
               description: date in UTC when token expires
+              explode: false
               schema:
                 format: date-time
                 type: string
+              style: simple
         "400":
           content: {}
           description: Invalid username/password supplied
@@ -561,11 +615,13 @@ paths:
       operationId: deleteUser
       parameters:
       - description: The name that needs to be deleted
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "400":
           content: {}
@@ -583,11 +639,13 @@ paths:
       operationId: getUserByName
       parameters:
       - description: The name that needs to be fetched. Use user1 for testing.
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       responses:
         "200":
           content:
@@ -615,11 +673,13 @@ paths:
       operationId: updateUser
       parameters:
       - description: name that need to be deleted
+        explode: false
         in: path
         name: username
         required: true
         schema:
           type: string
+        style: simple
       requestBody:
         content:
           '*/*':
@@ -676,44 +736,59 @@ paths:
       operationId: testGroupParameters
       parameters:
       - description: Required String in group parameters
+        explode: true
         in: query
         name: required_string_group
         required: true
         schema:
           type: integer
+        style: form
       - description: Required Boolean in group parameters
+        explode: false
         in: header
         name: required_boolean_group
         required: true
         schema:
           type: boolean
+        style: simple
       - description: Required Integer in group parameters
+        explode: true
         in: query
         name: required_int64_group
         required: true
         schema:
           format: int64
           type: integer
+        style: form
       - description: String in group parameters
+        explode: true
         in: query
         name: string_group
+        required: false
         schema:
           type: integer
+        style: form
       - description: Boolean in group parameters
+        explode: false
         in: header
         name: boolean_group
+        required: false
         schema:
           type: boolean
+        style: simple
       - description: Integer in group parameters
+        explode: true
         in: query
         name: int64_group
+        required: false
         schema:
           format: int64
           type: integer
+        style: form
       responses:
         "400":
           content: {}
-          description: Someting wrong
+          description: Something wrong
       summary: Fake endpoint to test group parameters (optional)
       tags:
       - fake
@@ -729,6 +804,7 @@ paths:
         explode: false
         in: header
         name: enum_header_string_array
+        required: false
         schema:
           items:
             default: $
@@ -739,8 +815,10 @@ paths:
           type: array
         style: simple
       - description: Header parameter enum test (string)
+        explode: false
         in: header
         name: enum_header_string
+        required: false
         schema:
           default: -efg
           enum:
@@ -748,10 +826,12 @@ paths:
           - -efg
           - (xyz)
           type: string
+        style: simple
       - description: Query parameter enum test (string array)
         explode: false
         in: query
         name: enum_query_string_array
+        required: false
         schema:
           items:
             default: $
@@ -762,8 +842,10 @@ paths:
           type: array
         style: form
       - description: Query parameter enum test (string)
+        explode: true
         in: query
         name: enum_query_string
+        required: false
         schema:
           default: -efg
           enum:
@@ -771,24 +853,31 @@ paths:
           - -efg
           - (xyz)
           type: string
+        style: form
       - description: Query parameter enum test (double)
+        explode: true
         in: query
         name: enum_query_integer
+        required: false
         schema:
           enum:
           - 1
           - -2
           format: int32
           type: integer
+        style: form
       - description: Query parameter enum test (double)
+        explode: true
         in: query
         name: enum_query_double
+        required: false
         schema:
           enum:
           - 1.1
           - -1.2
           format: double
           type: number
+        style: form
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -1014,11 +1103,13 @@ paths:
     put:
       operationId: testBodyWithQueryParams
       parameters:
-      - in: query
+      - explode: true
+        in: query
         name: query
         required: true
         schema:
           type: string
+        style: form
       requestBody:
         content:
           application/json:
@@ -1136,14 +1227,17 @@ paths:
             type: string
           type: array
         style: form
-      - in: query
+      - explode: true
+        in: query
         name: ioutil
         required: true
         schema:
           items:
             type: string
           type: array
-      - in: query
+        style: form
+      - explode: false
+        in: query
         name: http
         required: true
         schema:
@@ -1183,12 +1277,14 @@ paths:
       operationId: uploadFileWithRequiredFile
       parameters:
       - description: ID of pet to update
+        explode: false
         in: path
         name: petId
         required: true
         schema:
           format: int64
           type: integer
+        style: simple
       requestBody:
         content:
           multipart/form-data:
@@ -1213,6 +1309,157 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: pet
+  /versioning/headers:
+    post:
+      operationId: versioningHeaders
+      parameters:
+      - explode: false
+        in: header
+        name: VersionWithDefaultValue
+        required: true
+        schema:
+          default: V1
+          type: string
+          x-version-param: true
+        style: simple
+        x-version-param: true
+      - explode: false
+        in: header
+        name: VersionNoDefaultValue
+        required: true
+        schema:
+          type: string
+          x-version-param: true
+        style: simple
+        x-version-param: true
+      - description: ID of pet to update
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      tags:
+      - versioning
+      x-accepts: '*/*'
+      x-tags:
+      - tag: versioning
+  /versioning/query-params:
+    post:
+      operationId: versioningQueryParams
+      parameters:
+      - explode: true
+        in: query
+        name: VersionWithDefaultValue
+        required: true
+        schema:
+          default: V1
+          type: string
+          x-version-param: true
+        style: form
+        x-version-param: true
+      - explode: true
+        in: query
+        name: VersionNoDefaultValue
+        required: true
+        schema:
+          type: string
+          x-version-param: true
+        style: form
+        x-version-param: true
+      - description: ID of pet to update
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      tags:
+      - versioning
+      x-accepts: '*/*'
+      x-tags:
+      - tag: versioning
+  /versioning/mix:
+    post:
+      operationId: versioningMix
+      parameters:
+      - explode: true
+        in: query
+        name: VersionWithDefaultValueQuery
+        required: true
+        schema:
+          default: V1
+          type: string
+          x-version-param: true
+        style: form
+        x-version-param: true
+      - explode: true
+        in: query
+        name: VersionNoDefaultValueQuery
+        required: true
+        schema:
+          type: string
+          x-version-param: true
+        style: form
+        x-version-param: true
+      - explode: false
+        in: header
+        name: VersionWithDefaultValueHeader
+        required: true
+        schema:
+          default: V1
+          type: string
+          x-version-param: true
+        style: simple
+        x-version-param: true
+      - explode: false
+        in: header
+        name: VersionNoDefaultValueHeader
+        required: true
+        schema:
+          type: string
+          x-version-param: true
+        style: simple
+        x-version-param: true
+      - description: ID of pet to update
+        explode: false
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      tags:
+      - versioning
+      x-accepts: '*/*'
+      x-tags:
+      - tag: versioning
 components:
   schemas:
     Order:
@@ -1379,7 +1626,7 @@ components:
         message:
           type: string
       type: object
-    $special[model.name]:
+    _special_model_name_:
       properties:
         $special[property.name]:
           format: int64
@@ -1436,11 +1683,17 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Animal:
       discriminator:
         propertyName: className
@@ -1460,13 +1713,13 @@ components:
     format_test:
       properties:
         integer:
-          maximum: 100
-          minimum: 10
+          maximum: 100.0
+          minimum: 10.0
           type: integer
         int32:
           format: int32
-          maximum: 200
-          minimum: 20
+          maximum: 200.0
+          minimum: 20.0
           type: integer
         int64:
           format: int64
@@ -2227,16 +2480,6 @@ components:
           type: string
       required:
       - requiredFile
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
   securitySchemes:
     petstore_auth:
       flows:
@@ -2257,4 +2500,3 @@ components:
     http_basic_test:
       scheme: basic
       type: http
-x-original-swagger-version: "2.0"

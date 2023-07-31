@@ -355,7 +355,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: order_id
@@ -838,7 +838,13 @@ paths:
             format: int64
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
+        '5XX':
+          description: Something wrong
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/OuterNumber'
   /fake/outer/number:
     post:
       tags:
@@ -1149,6 +1155,64 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
+  /fake/deep_object_test:
+    get:
+      tags:
+        - fake
+      operationId: test_query_deep_object
+      parameters:
+        - name: test_pet
+          in: query
+          required: false
+          style: deepObject
+          schema:
+            $ref: '#/components/schemas/Pet'
+          explode: true
+        - name: inputOptions
+          in: query
+          required: false
+          style: deepObject
+          schema:
+            $ref: '#/components/schemas/Category'
+          explode: true
+      responses:
+        '200':
+          description: OK
+  /fake/parameter-name-mapping:
+    get:
+      tags:
+        - fake
+      summary: parameter name mapping test
+      operationId: getParameterNameMapping
+      parameters:
+        - name: _type
+          in: header 
+          description: _type
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: type
+          in: query
+          description: type
+          required: true
+          schema:
+            type: string
+        - name: type_
+          in: header 
+          description: type_
+          required: true
+          schema:
+            type: string
+        - name: http_debug_option
+          in: query
+          description: http debug option (to test parameter naming option)
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1986,3 +2050,56 @@ components:
       type: array
       items:
         type: string
+    # `dup-prop` is defined in both parent and child models
+    #  but not identical: optional vs required
+    DuplicatedPropChild:
+      allOf:
+        - $ref: '#/components/schemas/DuplicatedPropParent'
+        - type: object
+          properties:
+            'dup-prop':
+              description: A discriminator value
+              type: string
+    DuplicatedPropParent:
+      description: parent model with duplicated property
+      type: object
+      discriminator:
+        propertyName: 'dup-prop'
+      required:
+        - 'dup-prop'
+      properties:
+        'dup-prop':
+          description: A discriminator value
+          type: string
+    MapOfFileTest:
+      description: test map of file in a property
+      type: object
+      properties:
+        'prop_test':
+          description: a property to test map of file
+          type: object
+          additionalProperties:
+            type: string
+            format: binary
+    OneOfPrimitiveTypes:
+      oneOf:
+      - type: string
+      - format: date-time
+        type: string
+    AllOfPrimitiveTypes:
+      allOf:
+      - type: object
+        properties: 
+          test: 
+            type: string
+            format: date-time
+    PropertyNameMapping:
+      properties: 
+        http_debug_operation: 
+          type: string
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string

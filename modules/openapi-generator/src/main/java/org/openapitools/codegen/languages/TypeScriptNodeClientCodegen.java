@@ -23,6 +23,8 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -35,6 +37,7 @@ import java.io.File;
 import java.util.*;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -49,6 +52,8 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     public TypeScriptNodeClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features.includeSecurityFeatures(SecurityFeature.BearerToken));
 
         typeMapping.put("file", "RequestFile");
         // RequestFile is defined as: `type RequestFile = string | Buffer | ReadStream | RequestDetailedFile;`
@@ -141,7 +146,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
-        return camelize(name, true) + apiSuffix;
+        return camelize(name, LOWERCASE_FIRST_LETTER) + apiSuffix;
     }
 
     @Override
@@ -159,7 +164,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             return importMapping.get(name);
         }
 
-        return DEFAULT_MODEL_FILENAME_DIRECTORY_PREFIX + camelize(toModelName(name), true);
+        return DEFAULT_MODEL_FILENAME_DIRECTORY_PREFIX + camelize(toModelName(name), LOWERCASE_FIRST_LETTER);
     }
 
     @Override
@@ -168,7 +173,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             return importMapping.get(name);
         }
 
-        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + camelize(toModelName(name), true);
+        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + camelize(toModelName(name), LOWERCASE_FIRST_LETTER);
     }
 
     @Override
@@ -329,7 +334,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
-        Schema additionalProperties = getAdditionalProperties(schema);
+        Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
         codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
         if ("array".equalsIgnoreCase(codegenModel.additionalPropertiesType)) {
             codegenModel.additionalPropertiesType += '<' + getSchemaType(((ArraySchema) additionalProperties).getItems()) + '>';

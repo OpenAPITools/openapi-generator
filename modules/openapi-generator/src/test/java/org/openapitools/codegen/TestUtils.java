@@ -244,6 +244,16 @@ public class TestUtils {
         }
     }
 
+    public static void assertFileExists(Path path) {
+        try {
+            new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+            // File exists, pass.
+            assertTrue(true);
+        } catch (IOException e) {
+            fail("File does not exist when it should: " + path);
+        }
+    }
+
     public static void assertExtraAnnotationFiles(String baseOutputPath) {
 
         JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/EmployeeEntity.java"))
@@ -337,6 +347,11 @@ public class TestUtils {
                     .containsWithName("javax.persistence.Transient")
                     .toProperty()
                 .toType();
+
+        JavaFileAssert.assertThat(java.nio.file.Paths.get(baseOutputPath + "/CompanyDto.java"))
+            .hasProperty("priceCategory")
+                .assertPropertyAnnotations()
+                .containsWithNameAndAttributes("IgnoreForRoles", ImmutableMap.of("value", "\"MEDIA_ADMIN\""));
     }
 
     public static ModelsMap createCodegenModelWrapper(CodegenModel cm) {

@@ -46,35 +46,35 @@ import javax.validation.Valid;
 public class AdditionalPropertiesClass   {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
   @JsonProperty(JSON_PROPERTY_MAP_STRING)
-  private Map<String, String> mapString = null;
+  private Map<String, String> mapString = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_NUMBER = "map_number";
   @JsonProperty(JSON_PROPERTY_MAP_NUMBER)
-  private Map<String, BigDecimal> mapNumber = null;
+  private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_INTEGER = "map_integer";
   @JsonProperty(JSON_PROPERTY_MAP_INTEGER)
-  private Map<String, Integer> mapInteger = null;
+  private Map<String, Integer> mapInteger = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_BOOLEAN = "map_boolean";
   @JsonProperty(JSON_PROPERTY_MAP_BOOLEAN)
-  private Map<String, Boolean> mapBoolean = null;
+  private Map<String, Boolean> mapBoolean = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_ARRAY_INTEGER = "map_array_integer";
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_INTEGER)
-  private Map<String, List<Integer>> mapArrayInteger = null;
+  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
-  private Map<String, List<Object>> mapArrayAnytype = null;
+  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
   @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
-  private Map<String, Map<String, String>> mapMapString = null;
+  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_MAP_ANYTYPE = "map_map_anytype";
   @JsonProperty(JSON_PROPERTY_MAP_MAP_ANYTYPE)
-  private Map<String, Map<String, Object>> mapMapAnytype = null;
+  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
   @JsonProperty(JSON_PROPERTY_ANYTYPE1)
@@ -382,17 +382,17 @@ public class AdditionalPropertiesClass   {
       return false;
     }
     AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
-    return Objects.equals(this.mapString, additionalPropertiesClass.mapString) &&
-        Objects.equals(this.mapNumber, additionalPropertiesClass.mapNumber) &&
-        Objects.equals(this.mapInteger, additionalPropertiesClass.mapInteger) &&
-        Objects.equals(this.mapBoolean, additionalPropertiesClass.mapBoolean) &&
-        Objects.equals(this.mapArrayInteger, additionalPropertiesClass.mapArrayInteger) &&
-        Objects.equals(this.mapArrayAnytype, additionalPropertiesClass.mapArrayAnytype) &&
-        Objects.equals(this.mapMapString, additionalPropertiesClass.mapMapString) &&
-        Objects.equals(this.mapMapAnytype, additionalPropertiesClass.mapMapAnytype) &&
-        Objects.equals(this.anytype1, additionalPropertiesClass.anytype1) &&
-        Objects.equals(this.anytype2, additionalPropertiesClass.anytype2) &&
-        Objects.equals(this.anytype3, additionalPropertiesClass.anytype3);
+    return Objects.equals(mapString, additionalPropertiesClass.mapString) &&
+        Objects.equals(mapNumber, additionalPropertiesClass.mapNumber) &&
+        Objects.equals(mapInteger, additionalPropertiesClass.mapInteger) &&
+        Objects.equals(mapBoolean, additionalPropertiesClass.mapBoolean) &&
+        Objects.equals(mapArrayInteger, additionalPropertiesClass.mapArrayInteger) &&
+        Objects.equals(mapArrayAnytype, additionalPropertiesClass.mapArrayAnytype) &&
+        Objects.equals(mapMapString, additionalPropertiesClass.mapMapString) &&
+        Objects.equals(mapMapAnytype, additionalPropertiesClass.mapMapAnytype) &&
+        Objects.equals(anytype1, additionalPropertiesClass.anytype1) &&
+        Objects.equals(anytype2, additionalPropertiesClass.anytype2) &&
+        Objects.equals(anytype3, additionalPropertiesClass.anytype3);
   }
 
   @Override

@@ -122,8 +122,8 @@ public class Swift5ClientCodegenTest {
         Assert.assertTrue(op.responses.get(0).isBinary);
     }
 
-    @Test(description = "returns Date when response format is date", enabled = true)
-    public void dateTest() {
+    @Test(description = "returns Date when response format is date per default", enabled = true)
+    public void dateDefaultTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new Swift5ClientCodegen();
         codegen.setOpenAPI(openAPI);
@@ -133,6 +133,73 @@ public class Swift5ClientCodegenTest {
 
         Assert.assertEquals(op.returnType, "Date");
         Assert.assertEquals(op.bodyParam.dataType, "Date");
+    }
+
+    @Test(description = "returns Date when response format is date and cli option is disabled", enabled = true)
+    public void dateDisabledCLITest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.additionalProperties().put(Swift5ClientCodegen.USE_CUSTOM_DATE_WITHOUT_TIME, false);
+        codegen.processOpts();
+        final String path = "/tests/dateResponse";
+        final Operation p = openAPI.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
+
+        Assert.assertEquals(op.returnType, "Date");
+        Assert.assertEquals(op.bodyParam.dataType, "Date");
+    }
+
+    @Test(description = "returns OpenAPIDateWithoutTime when response format is date and cli option is enabled", enabled = true)
+    public void dateWithoutTimeTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.additionalProperties().put(Swift5ClientCodegen.USE_CUSTOM_DATE_WITHOUT_TIME, true);
+        codegen.processOpts();
+
+        final String path = "/tests/dateResponse";
+        final Operation p = openAPI.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
+
+        Assert.assertEquals(op.returnType, "OpenAPIDateWithoutTime");
+        Assert.assertEquals(op.bodyParam.dataType, "OpenAPIDateWithoutTime");
+    }
+
+    @Test(description = "type from languageSpecificPrimitives should not be prefixed", enabled = true)
+    public void prefixExceptionTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setModelNamePrefix("API");
+
+        final String result = codegen.toModelName("AnyCodable");
+        Assert.assertEquals(result, "AnyCodable");
+    }
+
+    @Test(description = "type from languageSpecificPrimitives should not be suffixed", enabled = true)
+    public void suffixExceptionTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setModelNameSuffix("API");
+
+        final String result = codegen.toModelName("AnyCodable");
+        Assert.assertEquals(result, "AnyCodable");
+    }
+
+    @Test(description = "Other types should be prefixed", enabled = true)
+    public void prefixTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setModelNamePrefix("API");
+
+        final String result = codegen.toModelName("MyType");
+        Assert.assertEquals(result, "APIMyType");
+    }
+
+    @Test(description = "Other types should be suffixed", enabled = true)
+    public void suffixTest() {
+        final DefaultCodegen codegen = new Swift5ClientCodegen();
+        codegen.setModelNameSuffix("API");
+
+        final String result = codegen.toModelName("MyType");
+        Assert.assertEquals(result, "MyTypeAPI");
     }
 
     @Test(enabled = true)
@@ -188,7 +255,7 @@ public class Swift5ClientCodegenTest {
             List<File> files = generator.opts(clientOptInput).generate();
             Assert.assertTrue(files.size() > 0, "No files generated");
         } finally {
-           output.delete();
+           output.deleteOnExit();
         }
     }
 
@@ -221,7 +288,7 @@ public class Swift5ClientCodegenTest {
             List<File> files = generator.opts(clientOptInput).generate();
             Assert.assertTrue(files.size() > 0, "No files generated");
         } finally {
-            output.delete();
+            output.deleteOnExit();
         }
     }
 

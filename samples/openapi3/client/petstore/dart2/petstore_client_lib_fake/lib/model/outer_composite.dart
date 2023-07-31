@@ -59,23 +59,23 @@ class OuterComposite {
   String toString() => 'OuterComposite[myNumber=$myNumber, myString=$myString, myBoolean=$myBoolean]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (myNumber != null) {
-      _json[r'my_number'] = myNumber;
+    final json = <String, dynamic>{};
+    if (this.myNumber != null) {
+      json[r'my_number'] = this.myNumber;
     } else {
-      _json[r'my_number'] = null;
+      json[r'my_number'] = null;
     }
-    if (myString != null) {
-      _json[r'my_string'] = myString;
+    if (this.myString != null) {
+      json[r'my_string'] = this.myString;
     } else {
-      _json[r'my_string'] = null;
+      json[r'my_string'] = null;
     }
-    if (myBoolean != null) {
-      _json[r'my_boolean'] = myBoolean;
+    if (this.myBoolean != null) {
+      json[r'my_boolean'] = this.myBoolean;
     } else {
-      _json[r'my_boolean'] = null;
+      json[r'my_boolean'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [OuterComposite] instance and imports its values from
@@ -97,9 +97,7 @@ class OuterComposite {
       }());
 
       return OuterComposite(
-        myNumber: json[r'my_number'] == null
-            ? null
-            : num.parse(json[r'my_number'].toString()),
+        myNumber: num.parse('${json[r'my_number']}'),
         myString: mapValueOfType<String>(json, r'my_string'),
         myBoolean: mapValueOfType<bool>(json, r'my_boolean'),
       );
@@ -107,7 +105,7 @@ class OuterComposite {
     return null;
   }
 
-  static List<OuterComposite>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<OuterComposite> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <OuterComposite>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -138,12 +136,10 @@ class OuterComposite {
   static Map<String, List<OuterComposite>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<OuterComposite>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = OuterComposite.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = OuterComposite.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

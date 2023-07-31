@@ -38,7 +38,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     @Operation(
         summary = "Add a new pet to the store",
         operationId = "addPet",
-        description = "",
+        description = """""",
         responses = [
             ApiResponse(responseCode = "405", description = "Invalid input") ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
@@ -55,7 +55,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     @Operation(
         summary = "Deletes a pet",
         operationId = "deletePet",
-        description = "",
+        description = """""",
         responses = [
             ApiResponse(responseCode = "400", description = "Invalid pet value") ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
@@ -71,7 +71,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     @Operation(
         summary = "Finds Pets by status",
         operationId = "findPetsByStatus",
-        description = "Multiple status values can be provided with comma separated strings",
+        description = """Multiple status values can be provided with comma separated strings""",
         responses = [
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Pet::class))]),
             ApiResponse(responseCode = "400", description = "Invalid status value") ],
@@ -89,7 +89,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     @Operation(
         summary = "Finds Pets by tags",
         operationId = "findPetsByTags",
-        description = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+        description = """Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.""",
         responses = [
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Pet::class))]),
             ApiResponse(responseCode = "400", description = "Invalid tag value") ],
@@ -107,7 +107,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     @Operation(
         summary = "Find pet by ID",
         operationId = "getPetById",
-        description = "Returns a single pet",
+        description = """Returns a single pet""",
         responses = [
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Pet::class))]),
             ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
@@ -126,7 +126,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     @Operation(
         summary = "Update an existing pet",
         operationId = "updatePet",
-        description = "",
+        description = """""",
         responses = [
             ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             ApiResponse(responseCode = "404", description = "Pet not found"),
@@ -145,7 +145,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     @Operation(
         summary = "Updates a pet in the store with form data",
         operationId = "updatePetWithForm",
-        description = "",
+        description = """""",
         responses = [
             ApiResponse(responseCode = "405", description = "Invalid input") ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
@@ -162,7 +162,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     @Operation(
         summary = "uploads an image",
         operationId = "uploadFile",
-        description = "",
+        description = """""",
         responses = [
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = ModelApiResponse::class))]) ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]

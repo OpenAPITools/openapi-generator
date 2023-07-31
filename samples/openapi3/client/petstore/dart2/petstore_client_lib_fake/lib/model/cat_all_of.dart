@@ -37,13 +37,13 @@ class CatAllOf {
   String toString() => 'CatAllOf[declawed=$declawed]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (declawed != null) {
-      _json[r'declawed'] = declawed;
+    final json = <String, dynamic>{};
+    if (this.declawed != null) {
+      json[r'declawed'] = this.declawed;
     } else {
-      _json[r'declawed'] = null;
+      json[r'declawed'] = null;
     }
-    return _json;
+    return json;
   }
 
   /// Returns a new [CatAllOf] instance and imports its values from
@@ -71,7 +71,7 @@ class CatAllOf {
     return null;
   }
 
-  static List<CatAllOf>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<CatAllOf> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <CatAllOf>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -102,12 +102,10 @@ class CatAllOf {
   static Map<String, List<CatAllOf>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<CatAllOf>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = CatAllOf.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = CatAllOf.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

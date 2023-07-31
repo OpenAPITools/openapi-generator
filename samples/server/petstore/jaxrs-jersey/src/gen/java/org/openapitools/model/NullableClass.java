@@ -73,27 +73,27 @@ public class NullableClass extends HashMap<String, Object>  {
 
   public static final String JSON_PROPERTY_ARRAY_NULLABLE_PROP = "array_nullable_prop";
   @JsonProperty(JSON_PROPERTY_ARRAY_NULLABLE_PROP)
-  private List<Object> arrayNullableProp = null;
+  private List<Object> arrayNullableProp;
 
   public static final String JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP = "array_and_items_nullable_prop";
   @JsonProperty(JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP)
-  private List<Object> arrayAndItemsNullableProp = null;
+  private List<Object> arrayAndItemsNullableProp;
 
   public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
-  private List<Object> arrayItemsNullable = null;
+  private List<Object> arrayItemsNullable;
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   @JsonProperty(JSON_PROPERTY_OBJECT_NULLABLE_PROP)
-  private Map<String, Object> objectNullableProp = null;
+  private Map<String, Object> objectNullableProp;
 
   public static final String JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP = "object_and_items_nullable_prop";
   @JsonProperty(JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP)
-  private Map<String, Object> objectAndItemsNullableProp = null;
+  private Map<String, Object> objectAndItemsNullableProp;
 
   public static final String JSON_PROPERTY_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
   @JsonProperty(JSON_PROPERTY_OBJECT_ITEMS_NULLABLE)
-  private Map<String, Object> objectItemsNullable = null;
+  private Map<String, Object> objectItemsNullable = new HashMap<>();
 
   public NullableClass integerProp(Integer integerProp) {
     this.integerProp = integerProp;
@@ -393,24 +393,23 @@ public class NullableClass extends HashMap<String, Object>  {
       return false;
     }
     NullableClass nullableClass = (NullableClass) o;
-    return Objects.equals(this.integerProp, nullableClass.integerProp) &&
-        Objects.equals(this.numberProp, nullableClass.numberProp) &&
-        Objects.equals(this.booleanProp, nullableClass.booleanProp) &&
-        Objects.equals(this.stringProp, nullableClass.stringProp) &&
-        Objects.equals(this.dateProp, nullableClass.dateProp) &&
-        Objects.equals(this.datetimeProp, nullableClass.datetimeProp) &&
-        Objects.equals(this.arrayNullableProp, nullableClass.arrayNullableProp) &&
-        Objects.equals(this.arrayAndItemsNullableProp, nullableClass.arrayAndItemsNullableProp) &&
-        Objects.equals(this.arrayItemsNullable, nullableClass.arrayItemsNullable) &&
-        Objects.equals(this.objectNullableProp, nullableClass.objectNullableProp) &&
-        Objects.equals(this.objectAndItemsNullableProp, nullableClass.objectAndItemsNullableProp) &&
-        Objects.equals(this.objectItemsNullable, nullableClass.objectItemsNullable) &&
-        super.equals(o);
+    return super.equals(o) && Objects.equals(integerProp, nullableClass.integerProp) &&
+        Objects.equals(numberProp, nullableClass.numberProp) &&
+        Objects.equals(booleanProp, nullableClass.booleanProp) &&
+        Objects.equals(stringProp, nullableClass.stringProp) &&
+        Objects.equals(dateProp, nullableClass.dateProp) &&
+        Objects.equals(datetimeProp, nullableClass.datetimeProp) &&
+        Objects.equals(arrayNullableProp, nullableClass.arrayNullableProp) &&
+        Objects.equals(arrayAndItemsNullableProp, nullableClass.arrayAndItemsNullableProp) &&
+        Objects.equals(arrayItemsNullable, nullableClass.arrayItemsNullable) &&
+        Objects.equals(objectNullableProp, nullableClass.objectNullableProp) &&
+        Objects.equals(objectAndItemsNullableProp, nullableClass.objectAndItemsNullableProp) &&
+        Objects.equals(objectItemsNullable, nullableClass.objectItemsNullable);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integerProp, numberProp, booleanProp, stringProp, dateProp, datetimeProp, arrayNullableProp, arrayAndItemsNullableProp, arrayItemsNullable, objectNullableProp, objectAndItemsNullableProp, objectItemsNullable, super.hashCode());
+    return Objects.hash(super.hashCode(), integerProp, super.hashCode(), numberProp, super.hashCode(), booleanProp, super.hashCode(), stringProp, super.hashCode(), dateProp, super.hashCode(), datetimeProp, super.hashCode(), arrayNullableProp, super.hashCode(), arrayAndItemsNullableProp, super.hashCode(), arrayItemsNullable, super.hashCode(), objectNullableProp, super.hashCode(), objectAndItemsNullableProp, super.hashCode(), objectItemsNullable);
   }
 
   @Override

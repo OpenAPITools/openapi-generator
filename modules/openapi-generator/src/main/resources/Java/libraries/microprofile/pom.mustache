@@ -156,6 +156,13 @@
         <version>${jakarta.annotation.version}</version>
         <scope>provided</scope>
     </dependency>
+{{#microprofileMutiny}}
+    <dependency>
+        <groupId>io.smallrye.reactive</groupId>
+        <artifactId>mutiny</artifactId>
+        <version>${mutiny.version}</version>
+    </dependency>
+{{/microprofileMutiny}}
   </dependencies>
   <repositories>
     <repository>
@@ -196,5 +203,8 @@
     <maven.failsafe.plugin.version>2.6</maven.failsafe.plugin.version>
     <build.helper.maven.plugin.version>1.9.1</build.helper.maven.plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+{{#microprofileMutiny}}
+    <mutiny.version>1.2.0</mutiny.version>
+{{/microprofileMutiny}}
   </properties>
 </project>

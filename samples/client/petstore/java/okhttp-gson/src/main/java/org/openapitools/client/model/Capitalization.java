@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 import com.google.gson.Gson;
@@ -34,10 +32,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -73,7 +76,7 @@ public class Capitalization {
   @SerializedName(SERIALIZED_NAME_A_T_T_N_A_M_E)
   private String ATT_NAME;
 
-  public Capitalization() { 
+  public Capitalization() {
   }
 
   public Capitalization smallCamel(String smallCamel) {
@@ -87,8 +90,6 @@ public class Capitalization {
    * @return smallCamel
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getSmallCamel() {
     return smallCamel;
   }
@@ -110,8 +111,6 @@ public class Capitalization {
    * @return capitalCamel
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getCapitalCamel() {
     return capitalCamel;
   }
@@ -133,8 +132,6 @@ public class Capitalization {
    * @return smallSnake
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getSmallSnake() {
     return smallSnake;
   }
@@ -156,8 +153,6 @@ public class Capitalization {
    * @return capitalSnake
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getCapitalSnake() {
     return capitalSnake;
   }
@@ -179,8 +174,6 @@ public class Capitalization {
    * @return scAETHFlowPoints
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
@@ -202,8 +195,6 @@ public class Capitalization {
    * @return ATT_NAME
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "Name of the pet ")
-
   public String getATTNAME() {
     return ATT_NAME;
   }
@@ -223,6 +214,10 @@ public class Capitalization {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the Capitalization instance itself
    */
   public Capitalization putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
@@ -234,6 +229,8 @@ public class Capitalization {
 
   /**
    * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
    */
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -241,6 +238,9 @@ public class Capitalization {
 
   /**
    * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
    */
   public Object getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {
@@ -318,35 +318,34 @@ public class Capitalization {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to Capitalization
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to Capitalization
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (Capitalization.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!Capitalization.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Capitalization is not found in the empty JSON string", Capitalization.openapiRequiredFields.toString()));
         }
       }
-      if (jsonObj.get("smallCamel") != null && !jsonObj.get("smallCamel").isJsonPrimitive()) {
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
+      if ((jsonObj.get("smallCamel") != null && !jsonObj.get("smallCamel").isJsonNull()) && !jsonObj.get("smallCamel").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `smallCamel` to be a primitive type in the JSON string but got `%s`", jsonObj.get("smallCamel").toString()));
       }
-      if (jsonObj.get("CapitalCamel") != null && !jsonObj.get("CapitalCamel").isJsonPrimitive()) {
+      if ((jsonObj.get("CapitalCamel") != null && !jsonObj.get("CapitalCamel").isJsonNull()) && !jsonObj.get("CapitalCamel").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `CapitalCamel` to be a primitive type in the JSON string but got `%s`", jsonObj.get("CapitalCamel").toString()));
       }
-      if (jsonObj.get("small_Snake") != null && !jsonObj.get("small_Snake").isJsonPrimitive()) {
+      if ((jsonObj.get("small_Snake") != null && !jsonObj.get("small_Snake").isJsonNull()) && !jsonObj.get("small_Snake").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `small_Snake` to be a primitive type in the JSON string but got `%s`", jsonObj.get("small_Snake").toString()));
       }
-      if (jsonObj.get("Capital_Snake") != null && !jsonObj.get("Capital_Snake").isJsonPrimitive()) {
+      if ((jsonObj.get("Capital_Snake") != null && !jsonObj.get("Capital_Snake").isJsonNull()) && !jsonObj.get("Capital_Snake").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `Capital_Snake` to be a primitive type in the JSON string but got `%s`", jsonObj.get("Capital_Snake").toString()));
       }
-      if (jsonObj.get("SCA_ETH_Flow_Points") != null && !jsonObj.get("SCA_ETH_Flow_Points").isJsonPrimitive()) {
+      if ((jsonObj.get("SCA_ETH_Flow_Points") != null && !jsonObj.get("SCA_ETH_Flow_Points").isJsonNull()) && !jsonObj.get("SCA_ETH_Flow_Points").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `SCA_ETH_Flow_Points` to be a primitive type in the JSON string but got `%s`", jsonObj.get("SCA_ETH_Flow_Points").toString()));
       }
-      if (jsonObj.get("ATT_NAME") != null && !jsonObj.get("ATT_NAME").isJsonPrimitive()) {
+      if ((jsonObj.get("ATT_NAME") != null && !jsonObj.get("ATT_NAME").isJsonNull()) && !jsonObj.get("ATT_NAME").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `ATT_NAME` to be a primitive type in the JSON string but got `%s`", jsonObj.get("ATT_NAME").toString()));
       }
   }
@@ -367,7 +366,7 @@ public class Capitalization {
            public void write(JsonWriter out, Capitalization value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
-             // serialize additonal properties
+             // serialize additional properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
                  if (entry.getValue() instanceof String)
@@ -388,8 +387,9 @@ public class Capitalization {
 
            @Override
            public Capitalization read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
              // store additional fields in the deserialized instance
              Capitalization instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
@@ -403,8 +403,10 @@ public class Capitalization {
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
                      throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
-                 } else { // non-primitive type
-                   instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
+                 } else if (entry.getValue().isJsonArray()) {
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
+                 } else { // JSON object
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
                  }
                }
              }

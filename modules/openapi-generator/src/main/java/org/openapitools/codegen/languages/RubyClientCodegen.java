@@ -25,6 +25,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +46,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public static final String GEM_AUTHOR_EMAIL = "gemAuthorEmail";
     public static final String FARADAY = "faraday";
     public static final String TYPHOEUS = "typhoeus";
+    public static final String USE_AUTOLOAD = "useAutoload";
     private final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "N";
     protected static int emptyMethodNameCounter = 0;
@@ -62,6 +64,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     protected String gemAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected boolean useAutoload = false;
+
+    private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public RubyClientCodegen() {
         super();
@@ -163,7 +168,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
 
-        supportedLibraries.put(FARADAY, "Faraday (https://github.com/lostisland/faraday) (Beta support)");
+        cliOptions.add(CliOption.newBoolean(USE_AUTOLOAD, "Use autoload instead of require to load modules.").
+                defaultValue(Boolean.FALSE.toString()));
+
+        supportedLibraries.put(FARADAY, "Faraday >= 1.0.1 (https://github.com/lostisland/faraday)");
         supportedLibraries.put(TYPHOEUS, "Typhoeus >= 1.0.1 (https://github.com/typhoeus/typhoeus)");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
@@ -232,6 +240,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             setGemAuthorEmail((String) additionalProperties.get(GEM_AUTHOR_EMAIL));
         }
 
+        if (additionalProperties.containsKey(USE_AUTOLOAD)) {
+            setUseAutoload(convertPropertyToBooleanAndWriteBack(USE_AUTOLOAD));
+        }
+
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -295,7 +307,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
      * Generate Ruby module name from the gem name, e.g. use "OpenAPIClient" for "openapi_client".
      *
      * @param gemName Ruby gem name
-     *
      * @return Ruby module name
      */
     @SuppressWarnings("static-method")
@@ -307,7 +318,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
      * Generate Ruby gem name from the module name, e.g. use "openapi_client" for "OpenAPIClient".
      *
      * @param moduleName Ruby module name
-     *
      * @return Ruby gem name
      */
     @SuppressWarnings("static-method")
@@ -367,6 +377,18 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toModelName(final String name) {
+        // We need to check if schema-mapping has a different model for this class, so we use it
+        // instead of the auto-generated one.
+        if (schemaMapping.containsKey(name)) {
+            return schemaMapping.get(name);
+        }
+
+        // memoization
+        String origName = name;
+        if (schemaKeyToModelNameCache.containsKey(origName)) {
+            return schemaKeyToModelNameCache.get(origName);
+        }
+
         String modelName;
         modelName = sanitizeName(name);
 
@@ -382,6 +404,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         if (isReservedWord(modelName)) {
             modelName = camelize("Model" + modelName);
             LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, modelName);
+            schemaKeyToModelNameCache.put(origName, modelName);
             return modelName;
         }
 
@@ -394,7 +417,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(modelName);
+        String camelizedName = camelize(modelName);
+        schemaKeyToModelNameCache.put(origName, camelizedName);
+        return camelizedName;
     }
 
     @Override
@@ -566,9 +591,13 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         this.gemAuthorEmail = gemAuthorEmail;
     }
 
+    public void setUseAutoload(boolean useAutoload) {
+        this.useAutoload = useAutoload;
+    }
+
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        final Schema additionalProperties = getAdditionalProperties(schema);
+        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
 
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);

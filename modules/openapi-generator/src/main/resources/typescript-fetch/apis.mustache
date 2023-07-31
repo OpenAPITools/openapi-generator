@@ -2,20 +2,20 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
-import * as runtime from '../runtime';
+import * as runtime from '../runtime{{importFileExtension}}';
 {{#imports.0}}
 import type {
   {{#imports}}
   {{className}},
   {{/imports}}
-} from '../models';
+} from '../models/index{{importFileExtension}}';
 {{^withoutRuntimeChecks}}
 import {
     {{#imports}}
     {{className}}FromJSON,
     {{className}}ToJSON,
     {{/imports}}
-} from '../models';
+} from '../models/index{{importFileExtension}}';
 {{/withoutRuntimeChecks}}
 {{/imports.0}}
 
@@ -123,17 +123,17 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isArray}}
         {{^isArray}}
         if (requestParameters.{{paramName}} !== undefined) {
-            {{#isDateTime}}
+            {{#isDateTimeType}}
             queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString();
-            {{/isDateTime}}
-            {{^isDateTime}}
-            {{#isDate}}
-            queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString().substr(0,10);
-            {{/isDate}}
-            {{^isDate}}
+            {{/isDateTimeType}}
+            {{^isDateTimeType}}
+            {{#isDateType}}
+            queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString().substring(0,10);
+            {{/isDateType}}
+            {{^isDateType}}
             queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
-            {{/isDate}}
-            {{/isDateTime}}
+            {{/isDateType}}
+            {{/isDateTimeType}}
         }
 
         {{/isArray}}
@@ -306,7 +306,11 @@ export class {{classname}} extends runtime.BaseAPI {
         return new runtime.JSONApiResponse<any>(response);
         {{/isArray}}
         {{#returnSimpleType}}
-        return new runtime.TextApiResponse(response) as any;
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<{{returnType}}>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
         {{/returnSimpleType}}
         {{/returnTypeIsPrimitive}}
         {{^returnTypeIsPrimitive}}

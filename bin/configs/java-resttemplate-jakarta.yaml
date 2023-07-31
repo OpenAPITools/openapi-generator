@@ -1,0 +1,10 @@
+generatorName: java
+outputDir: samples/client/petstore/java/resttemplate-jakarta
+library: resttemplate
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: petstore-resttemplate
+  hideGenerationTimestamp: "true"
+  java8: true
+  useJakartaEe: true

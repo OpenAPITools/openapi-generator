@@ -10,7 +10,7 @@ import MobileCoreServices
 #endif
 
 internal protocol URLSessionProtocol {
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+    func dataTask(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 }
 
 extension URLSession: URLSessionProtocol {}
@@ -52,11 +52,11 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      - intercept and handle errors like authorization
      - retry the request.
      */
-    @available(*, deprecated, message: "Please override execute() method to intercept and handle errors like authorization or retry the request. Check the Wiki for more info. https://github.com/OpenAPITools/openapi-generator/wiki/FAQ#how-do-i-implement-bearer-token-authentication-with-urlsession-on-the-swift-api-client")
+    @available(*, unavailable, message: "Please override execute() method to intercept and handle errors like authorization or retry the request. Check the Wiki for more info. https://github.com/OpenAPITools/openapi-generator/wiki/FAQ#how-do-i-implement-bearer-token-authentication-with-urlsession-on-the-swift-api-client")
     internal var taskCompletionShouldRetry: ((Data?, URLResponse?, Error?, @escaping (Bool) -> Void) -> Void)?
 
-    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:]) {
-        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers)
+    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication)
     }
 
     /**
@@ -92,10 +92,6 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
         originalRequest.httpMethod = method.rawValue
 
-        headers.forEach { key, value in
-            originalRequest.setValue(value, forHTTPHeaderField: key)
-        }
-
         buildHeaders().forEach { key, value in
             originalRequest.setValue(value, forHTTPHeaderField: key)
         }
@@ -122,11 +118,11 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         case .options, .post, .put, .patch, .delete, .trace, .connect:
             let contentType = headers["Content-Type"] ?? "application/json"
 
-            if contentType == "application/json" {
+            if contentType.hasPrefix("application/json") {
                 encoding = JSONDataEncoding()
-            } else if contentType == "multipart/form-data" {
+            } else if contentType.hasPrefix("multipart/form-data") {
                 encoding = FormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
-            } else if contentType == "application/x-www-form-urlencoded" {
+            } else if contentType.hasPrefix("application/x-www-form-urlencoded") {
                 encoding = FormURLEncoding()
             } else {
                 fatalError("Unsupported Media Type - \(contentType)")
@@ -145,32 +141,13 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
              }
 
             let dataTask = urlSession.dataTask(with: request) { data, response, error in
-
-                if let taskCompletionShouldRetry = self.taskCompletionShouldRetry {
-
-                    taskCompletionShouldRetry(data, response, error) { shouldRetry in
-
-                        if shouldRetry {
-                            cleanupRequest()
-                            self.execute(apiResponseQueue, completion)
-                        } else {
-                            apiResponseQueue.async {
-                                self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
-                                cleanupRequest()
-                            }
-                        }
-                    }
-                } else {
-                    apiResponseQueue.async {
-                        self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
-                        cleanupRequest()
-                    }
+                apiResponseQueue.async {
+                    self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
+                    cleanupRequest()
                 }
             }
 
-            if #available(iOS 11.0, macOS 10.13, macCatalyst 13.0, tvOS 11.0, watchOS 4.0, *) {
-                onProgressReady?(dataTask.progress)
-            }
+            onProgressReady?(dataTask.progress)
 
             taskIdentifier = dataTask.taskIdentifier
             challengeHandlerStore[dataTask.taskIdentifier] = taskDidReceiveChallenge
@@ -208,7 +185,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         switch T.self {
         case is Void.Type:
 
-            completion(.success(Response(response: httpResponse, body: () as! T)))
+            completion(.success(Response(response: httpResponse, body: () as! T, bodyData: data)))
 
         default:
             fatalError("Unsupported Response Body Type - \(String(describing: T.self))")
@@ -218,10 +195,10 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T> {
 
     internal func buildHeaders() -> [String: String] {
         var httpHeaders: [String: String] = [:]
-        for (key, value) in headers {
+        for (key, value) in PetstoreClientAPI.customHeaders {
             httpHeaders[key] = value
         }
-        for (key, value) in PetstoreClientAPI.customHeaders {
+        for (key, value) in headers {
             httpHeaders[key] = value
         }
         return httpHeaders
@@ -303,7 +280,7 @@ internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionReques
 
             let body = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
 
-            completion(.success(Response<T>(response: httpResponse, body: body as! T)))
+            completion(.success(Response<T>(response: httpResponse, body: body as! T, bodyData: data)))
 
         case is URL.Type:
             do {
@@ -334,7 +311,7 @@ internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionReques
                 try fileManager.createDirectory(atPath: directoryPath, withIntermediateDirectories: true, attributes: nil)
                 try data.write(to: filePath, options: .atomic)
 
-                completion(.success(Response(response: httpResponse, body: filePath as! T)))
+                completion(.success(Response(response: httpResponse, body: filePath as! T, bodyData: data)))
 
             } catch let requestParserError as DownloadException {
                 completion(.failure(ErrorResponse.error(400, data, response, requestParserError)))
@@ -344,30 +321,30 @@ internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionReques
 
         case is Void.Type:
 
-            completion(.success(Response(response: httpResponse, body: () as! T)))
+            completion(.success(Response(response: httpResponse, body: () as! T, bodyData: data)))
 
         case is Data.Type:
 
-            completion(.success(Response(response: httpResponse, body: data as! T)))
+            completion(.success(Response(response: httpResponse, body: data as! T, bodyData: data)))
 
         default:
 
-            guard let data = data, !data.isEmpty else {
-                if T.self is ExpressibleByNilLiteral.Type {
-                    completion(.success(Response(response: httpResponse, body: Optional<T>.none as! T)))
+            guard let unwrappedData = data, !unwrappedData.isEmpty else {
+                if let E = T.self as? ExpressibleByNilLiteral.Type {
+                    completion(.success(Response(response: httpResponse, body: E.init(nilLiteral: ()) as! T, bodyData: data)))
                 } else {
                     completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, response, DecodableRequestBuilderError.emptyDataResponse)))
                 }
                 return
             }
 
-            let decodeResult = CodableHelper.decode(T.self, from: data)
+            let decodeResult = CodableHelper.decode(T.self, from: unwrappedData)
 
             switch decodeResult {
             case let .success(decodableObj):
-                completion(.success(Response(response: httpResponse, body: decodableObj)))
+                completion(.success(Response(response: httpResponse, body: decodableObj, bodyData: unwrappedData)))
             case let .failure(error):
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, error)))
+                completion(.failure(ErrorResponse.error(httpResponse.statusCode, unwrappedData, response, error)))
             }
         }
     }
@@ -455,49 +432,62 @@ private class FormDataEncoding: ParameterEncoding {
         urlRequest.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         for (key, value) in parameters {
-            switch value {
-            case let fileURL as URL:
+            for value in (value as? Array ?? [value]) {
+                switch value {
+                case let fileURL as URL:
 
-                urlRequest = try configureFileUploadRequest(
-                    urlRequest: urlRequest,
-                    boundary: boundary,
-                    name: key,
-                    fileURL: fileURL
-                )
+                    urlRequest = try configureFileUploadRequest(
+                        urlRequest: urlRequest,
+                        boundary: boundary,
+                        name: key,
+                        fileURL: fileURL
+                    )
 
-            case let string as String:
+                case let string as String:
 
-                if let data = string.data(using: .utf8) {
+                    if let data = string.data(using: .utf8) {
+                        urlRequest = configureDataUploadRequest(
+                            urlRequest: urlRequest,
+                            boundary: boundary,
+                            name: key,
+                            data: data
+                        )
+                    }
+
+                case let number as NSNumber:
+
+                    if let data = number.stringValue.data(using: .utf8) {
+                        urlRequest = configureDataUploadRequest(
+                            urlRequest: urlRequest,
+                            boundary: boundary,
+                            name: key,
+                            data: data
+                        )
+                    }
+
+                case let data as Data:
+
                     urlRequest = configureDataUploadRequest(
                         urlRequest: urlRequest,
                         boundary: boundary,
                         name: key,
                         data: data
                     )
+
+                case let uuid as UUID:
+
+                    if let data = uuid.uuidString.data(using: .utf8) {
+                        urlRequest = configureDataUploadRequest(
+                            urlRequest: urlRequest,
+                            boundary: boundary,
+                            name: key,
+                            data: data
+                        )
+                    }
+
+                default:
+                    fatalError("Unprocessable value \(value) with key \(key)")
                 }
-
-            case let number as NSNumber:
-
-                if let data = number.stringValue.data(using: .utf8) {
-                    urlRequest = configureDataUploadRequest(
-                        urlRequest: urlRequest,
-                        boundary: boundary,
-                        name: key,
-                        data: data
-                    )
-                }
-
-            case let data as Data:
-
-                urlRequest = configureDataUploadRequest(
-                    urlRequest: urlRequest,
-                    boundary: boundary,
-                    name: key,
-                    data: data
-                )
-
-            default:
-                fatalError("Unprocessable value \(value) with key \(key)")
             }
         }
 

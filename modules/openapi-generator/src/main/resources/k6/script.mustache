@@ -20,7 +20,7 @@ export default function() {
         {{/variables}}
         {{#requests}}
 
-        // Request No. {{-index}}
+        // Request No. {{-index}}: {{{operationId}}}
         {
             let url = BASE_URL + `{{{path}}}{{=<% %>=}}<%#query%><%#-first%>?<%/-first%><%& key%>=<%& value%><%^-last%>&<%/-last%><%/query%><%={{ }}=%>`;
             {{#body}}

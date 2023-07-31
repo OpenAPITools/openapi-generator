@@ -15,15 +15,15 @@ configuration = {{{packageName}}}.Configuration(
 
 # Configure HTTP basic authorization: {{{name}}}
 configuration = {{{packageName}}}.Configuration(
-    username = 'YOUR_USERNAME',
-    password = 'YOUR_PASSWORD'
+    username = os.environ["USERNAME"],
+    password = os.environ["PASSWORD"]
 )
 {{/isBasicBasic}}
 {{#isBasicBearer}}
 
 # Configure Bearer authorization{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}: {{{name}}}
 configuration = {{{packageName}}}.Configuration(
-    access_token = 'YOUR_BEARER_TOKEN'
+    access_token = os.environ["BEARER_TOKEN"]
 )
 {{/isBasicBearer}}
 {{#isHttpSignature}}
@@ -64,9 +64,12 @@ configuration = {{{packageName}}}.Configuration(
 # the API server.
 #
 # See {{{packageName}}}.signing for a list of all supported parameters.
+from {{{packageName}}} import signing
+import datetime
+
 configuration = {{{packageName}}}.Configuration(
     host = "{{{basePath}}}",
-    signing_info = {{{packageName}}}.signing.HttpSigningConfiguration(
+    signing_info = {{{packageName}}}.HttpSigningConfiguration(
         key_id = 'my-key-id',
         private_key_path = 'private_key.pem',
         private_key_passphrase = 'YOUR_PASSPHRASE',
@@ -92,18 +95,14 @@ configuration = {{{packageName}}}.Configuration(
 {{#isApiKey}}
 
 # Configure API key authorization: {{{name}}}
-configuration.api_key['{{{name}}}'] = 'YOUR_API_KEY'
+configuration.api_key['{{{name}}}'] = os.environ["API_KEY"]
 
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['{{name}}'] = 'Bearer'
 {{/isApiKey}}
 {{#isOAuth}}
 
-# Configure OAuth2 access token for authorization: {{{name}}}
-configuration = {{{packageName}}}.Configuration(
-    host = "{{{basePath}}}"
-)
-configuration.access_token = 'YOUR_ACCESS_TOKEN'
+configuration.access_token = os.environ["ACCESS_TOKEN"]
 {{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}

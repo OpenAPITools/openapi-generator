@@ -1,12 +1,9 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http';
-import * as models from '../models/all';
 import { Configuration} from '../configuration'
 import { Observable, of, from } from '../rxjsStub';
 import {mergeMap, map} from  '../rxjsStub';
 import { Cat } from '../models/Cat';
-import { CatAllOf } from '../models/CatAllOf';
 import { Dog } from '../models/Dog';
-import { DogAllOf } from '../models/DogAllOf';
 import { FilePostRequest } from '../models/FilePostRequest';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType } from '../models/PetByType';

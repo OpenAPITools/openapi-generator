@@ -2,6 +2,7 @@ README.md
 pom.xml
 src/main/java/org/openapitools/OpenApiGeneratorApplication.java
 src/main/java/org/openapitools/RFC3339DateFormat.java
+src/main/java/org/openapitools/configuration/EnumConverterConfiguration.java
 src/main/java/org/openapitools/configuration/HomeController.java
 src/main/java/org/openapitools/configuration/SpringDocConfiguration.java
 src/main/java/org/openapitools/virtualan/api/AnotherFakeApi.java
@@ -30,15 +31,13 @@ src/main/java/org/openapitools/virtualan/model/ArrayOfArrayOfNumberOnly.java
 src/main/java/org/openapitools/virtualan/model/ArrayOfNumberOnly.java
 src/main/java/org/openapitools/virtualan/model/ArrayTest.java
 src/main/java/org/openapitools/virtualan/model/BigCat.java
-src/main/java/org/openapitools/virtualan/model/BigCatAllOf.java
 src/main/java/org/openapitools/virtualan/model/Capitalization.java
 src/main/java/org/openapitools/virtualan/model/Cat.java
-src/main/java/org/openapitools/virtualan/model/CatAllOf.java
 src/main/java/org/openapitools/virtualan/model/Category.java
 src/main/java/org/openapitools/virtualan/model/ClassModel.java
 src/main/java/org/openapitools/virtualan/model/Client.java
+src/main/java/org/openapitools/virtualan/model/ContainerDefaultValue.java
 src/main/java/org/openapitools/virtualan/model/Dog.java
-src/main/java/org/openapitools/virtualan/model/DogAllOf.java
 src/main/java/org/openapitools/virtualan/model/EnumArrays.java
 src/main/java/org/openapitools/virtualan/model/EnumClass.java
 src/main/java/org/openapitools/virtualan/model/EnumTest.java
@@ -59,6 +58,7 @@ src/main/java/org/openapitools/virtualan/model/OuterComposite.java
 src/main/java/org/openapitools/virtualan/model/OuterEnum.java
 src/main/java/org/openapitools/virtualan/model/Pet.java
 src/main/java/org/openapitools/virtualan/model/ReadOnlyFirst.java
+src/main/java/org/openapitools/virtualan/model/ResponseObjectWithDifferentFieldNames.java
 src/main/java/org/openapitools/virtualan/model/SpecialModelName.java
 src/main/java/org/openapitools/virtualan/model/Tag.java
 src/main/java/org/openapitools/virtualan/model/TypeHolderDefault.java

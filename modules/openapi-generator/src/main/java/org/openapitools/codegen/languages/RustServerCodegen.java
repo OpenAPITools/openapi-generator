@@ -30,6 +30,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
+import joptsimple.internal.Strings;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -46,6 +47,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.*;
 import java.util.Map.Entry;
@@ -55,13 +57,11 @@ import java.util.regex.Pattern;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
+public class RustServerCodegen extends AbstractRustCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
 
     private Map<String, String> modelXmlNames = new HashMap<String, String>();
-
-    private static final String NO_FORMAT = "%%NO_FORMAT";
 
     protected String apiVersion = "1.0.0";
     protected String serverHost = "localhost";
@@ -149,22 +149,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
          * will use the resource stream to attempt to read the templates.
          */
         embeddedTemplateDir = templateDir = "rust-server";
-
-        /*
-         * Reserved words.  Override this with reserved words specific to your language
-         */
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        // From https://doc.rust-lang.org/grammar.html#keywords
-                        "abstract", "alignof", "as", "become", "box", "break", "const",
-                        "continue", "crate", "do", "else", "enum", "extern", "false",
-                        "final", "fn", "for", "if", "impl", "in", "let", "loop", "macro",
-                        "match", "mod", "move", "mut", "offsetof", "override", "priv",
-                        "proc", "pub", "pure", "ref", "return", "Self", "self", "sizeof",
-                        "static", "struct", "super", "trait", "true", "type", "typeof",
-                        "unsafe", "unsized", "use", "virtual", "where", "while", "yield"
-                )
-        );
 
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
@@ -335,7 +319,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String getHelp() {
-        return "Generates a Rust client/server library (beta) using the openapi-generator project.";
+        return "Generates a Rust Hyper/Tower server library. Also generates a matching Hyper client library within " +
+                "the same crate that implements the same trait.";
     }
 
     @Override
@@ -367,21 +352,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if (name.isEmpty()) {
             return "default";
         }
-        return underscore(name);
-    }
-
-    /**
-     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
-     * those terms here.  This logic is only called if a variable matches the reserved words
-     *
-     * @return the escaped term
-     */
-    @Override
-    public String escapeReservedWord(String name) {
-        if (this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
-        return name + "_"; // add an underscore _suffix_ to the name - a prefix implies unused
+        return sanitizeIdentifier(name, CasingType.SNAKE_CASE, "api", "API", true);
     }
 
     /**
@@ -394,147 +365,15 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toModelName(String name) {
-        // camelize the model name
-        // phone_number => PhoneNumber
-        String camelizedName = camelize(toModelFilename(name));
-
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(camelizedName)) {
-            final String modelName = "Model" + camelizedName;
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", camelizedName, modelName);
-            return modelName;
-        }
-
-        // model name starts with number
-        else if (camelizedName.matches("^\\d.*")) {
-            // e.g. 200Response => Model200Response (after camelize)
-            camelizedName = "Model" + camelizedName;
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
-                    camelizedName);
-        }
-
-        return camelizedName;
-
-    }
-
-    @Override
-    public String toParamName(String name) {
-        // should be the same as variable name (stolen from RubyClientCodegen)
-        return toVarName(name);
-    }
-
-    @Override
-    public String toVarName(String name) {
-        // translate @ for properties (like @type) to at_. 
-        // Otherwise an additional "type" property will leed to duplcates
-        name = name.replaceAll("^@", "at_");
-
-        String sanitizedName = super.sanitizeName(name);
-        // for reserved word, append _
-        if (isReservedWord(sanitizedName)) {
-            sanitizedName = escapeReservedWord(sanitizedName);
-        }
-        // for word starting with number, prepend "param_"
-        else if (sanitizedName.matches("^\\d.*")) {
-            sanitizedName = "param_" + sanitizedName;
-        }
-
-        return underscore(sanitizedName);
-    }
-
-    @Override
     public String toOperationId(String operationId) {
-        // method name cannot use reserved keyword, e.g. return
-        if (isReservedWord(operationId)) {
-            LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, camelize("call_" + operationId));
-            operationId = "call_" + operationId;
-        } else if (operationId.matches("\\d.*")) {
-            LOGGER.warn("{} cannot be used as method name because it starts with a digit. Renamed to {}", operationId,
-                    camelize("call_" + operationId));
-            operationId = "call_" + operationId;
-        }
-
-        return camelize(operationId);
-    }
-
-    @Override
-    public String toModelFilename(String name) {
-        if (!StringUtils.isEmpty(modelNamePrefix)) {
-            name = modelNamePrefix + "_" + name;
-        }
-
-        if (!StringUtils.isEmpty(modelNameSuffix)) {
-            name = name + "_" + modelNameSuffix;
-        }
-
-        name = sanitizeName(name);
-
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            LOGGER.warn("{} (reserved word) cannot be used as model name. Renamed to {}", name, camelize("model_" + name));
-            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
-        }
-
-        return underscore(name);
-    }
-
-    @Override
-    public String toEnumName(CodegenProperty property) {
-        return sanitizeName(camelize(property.name)) + "Enum";
-    }
-
-    @Override
-    public String toEnumVarName(String value, String datatype) {
-        String var = null;
-        if (value.isEmpty()) {
-            var = "EMPTY";
-        }
-
-        // for symbol, e.g. $, #
-        else if (getSymbolName(value) != null) {
-            var = getSymbolName(value).toUpperCase(Locale.ROOT);
-        }
-
-        // number
-        else if ("Integer".equals(datatype) || "Long".equals(datatype) ||
-                "Float".equals(datatype) || "Double".equals(datatype)) {
-            String varName = "NUMBER_" + value;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            var = varName;
-        }
-
-        // string
-        else {
-            var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
-            if (var.matches("\\d.*")) {
-                var = "_" + var;
-            } else {
-                var = sanitizeName(var);
-            }
-        }
-        return var;
+        // rust-server uses camel case instead
+        return sanitizeIdentifier(operationId, CasingType.CAMEL_CASE, "call", "method", true);
     }
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("Integer".equals(datatype) || "Long".equals(datatype) ||
-                "Float".equals(datatype) || "Double".equals(datatype)) {
-            return value;
-        } else {
-            return "\"" + escapeText(value) + "\"";
-        }
-    }
-
-    @Override
-    public String toApiFilename(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        // e.g. PetApi.go => pet_api.go
-        return underscore(name);
+        // rust-server templates expect value to be in quotes
+        return "\"" + super.toEnumValue(value, datatype) + "\"";
     }
 
     @Override
@@ -548,24 +387,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toModelDocFilename(String name) {
-        return toModelName(name);
-    }
-
-    @Override
     public String toApiDocFilename(String name) {
         return toApiName(name) + "_api";
-    }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
     private boolean isMimetypeXml(String mimetype) {
@@ -734,6 +557,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             // basePath on the front.
             for (CodegenParameter param : op.pathParams) {
                 // Replace {baseName} with (?P<baseName>[^/?#]*) for regex
+                // TODO: Sanitize baseName to avoid using '-' (see clippy::invalid_regex)
                 String paramSearch = "{" + param.baseName + "}";
                 String paramReplace = "(?P<" + param.baseName + ">[^/?#]*)";
 
@@ -1110,9 +934,12 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
             co, Map<String, List<CodegenOperation>> operations) {
         // only generate operation for the first tag of the tags
-        if (tag != null && co.tags.size() > 1 && !tag.equals(co.tags.get(0).getName())) {
-            LOGGER.info("generated skip additional tag `{}` with operationId={}", tag, co.operationId);
-            return;
+        if (tag != null && co.tags.size() > 1) {
+            String expectedTag = sanitizeTag(co.tags.get(0).getName());
+            if (!tag.equals(expectedTag)) {
+                LOGGER.info("generated skip additional tag `{}` with operationId={}", tag, co.operationId);
+                return;
+            }
         }
         super.addOperationToGroup(tag, resourcePath, operation, co, operations);
     }
@@ -1161,7 +988,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             String innerType = getTypeDeclaration(inner);
             return typeMapping.get("array") + "<" + innerType + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             String innerType = getTypeDeclaration(inner);
             StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
             typeDeclaration.append(innerType).append(">");
@@ -1195,7 +1022,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             return instantiationTypes.get("array") + "<" + getSchemaType(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return instantiationTypes.get("map") + "<" + typeMapping.get("string") + ", " + getSchemaType(inner) + ">";
         } else {
             return null;
@@ -1257,7 +1084,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put("usesXmlNamespaces", true);
         }
 
-        Schema additionalProperties = getAdditionalProperties(model);
+        Schema additionalProperties = ModelUtils.getAdditionalProperties(model);
 
         if (additionalProperties != null) {
             mdl.additionalPropertiesType = getTypeDeclaration(additionalProperties);
@@ -1448,53 +1275,49 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 int position = property.dataType.lastIndexOf(":");
                 property.dataType = property.dataType.substring(0, position) + camelize(property.dataType.substring(position));
             } else {
-                property.dataType = camelize(property.dataType, false);
+                property.dataType = camelize(property.dataType);
             }
             property.isPrimitiveType = property.isContainer && languageSpecificPrimitives.contains(typeMapping.get(property.complexType));
         } else {
             property.isPrimitiveType = true;
         }
 
-        if ("integer".equals(property.baseType)) {
-            // custom integer formats (legacy)
-            if ("uint32".equals(property.dataFormat)) {
-                property.dataType = "u32";
-            } else if ("uint64".equals(property.dataFormat)) {
-                property.dataType = "u64";
+        // Integer type fitting
+        if (Objects.equals(property.baseType, "integer")) {
 
+            BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
+            BigInteger maximum = Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
+
+            boolean unsigned = canFitIntoUnsigned(minimum, property.getExclusiveMinimum());
+
+            if (Strings.isNullOrEmpty(property.dataFormat)) {
+                property.dataType = bestFittingIntegerType(minimum,
+                        property.getExclusiveMinimum(),
+                        maximum,
+                        property.getExclusiveMaximum(),
+                        true);
             } else {
-                // match int type to schema constraints
-                Long inclusiveMinimum = property.minimum != null ? Long.parseLong(property.minimum) : null;
-                if (inclusiveMinimum != null && property.exclusiveMinimum) {
-                    inclusiveMinimum++;
-                }
-
-                // a signed int is required unless a minimum greater than zero is set
-                boolean unsigned = inclusiveMinimum != null && inclusiveMinimum >= 0;
-
-                Long inclusiveMaximum = property.maximum != null ? Long.parseLong(property.maximum) : null;
-                if (inclusiveMaximum != null && property.exclusiveMaximum) {
-                    inclusiveMaximum--;
-                }
-
-                switch (property.dataFormat == null ? NO_FORMAT : property.dataFormat) {
-                    // standard swagger formats
+                switch (property.dataFormat) {
+                    // custom integer formats (legacy)
+                    case "uint32":
+                        property.dataType = "u32";
+                        break;
+                    case "uint64":
+                        property.dataType = "u64";
+                        break;
                     case "int32":
                         property.dataType = unsigned ? "u32" : "i32";
                         break;
-
                     case "int64":
                         property.dataType = unsigned ? "u64" : "i64";
                         break;
-
-                    case NO_FORMAT:
-                        property.dataType = matchingIntType(unsigned, inclusiveMinimum, inclusiveMaximum);
-                        break;
-
                     default:
-                        // unknown format
                         LOGGER.warn("The integer format '{}' is not recognized and will be ignored.", property.dataFormat);
-                        property.dataType = matchingIntType(unsigned, inclusiveMinimum, inclusiveMaximum);
+                        property.dataType = bestFittingIntegerType(minimum,
+                                property.getExclusiveMinimum(),
+                                maximum,
+                                property.getExclusiveMaximum(),
+                                true);
                 }
             }
         }
@@ -1515,46 +1338,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             property.dataType = "serde_json::Value";
             property.isNullable = false;
         }
-    }
-
-    private long requiredBits(Long bound, boolean unsigned) {
-        if (bound == null) return 0;
-
-        if (unsigned) {
-            if (bound < 0) {
-                throw new RuntimeException("Unsigned bound is negative: " + bound);
-            }
-            return 65L - Long.numberOfLeadingZeros(bound >> 1);
-        }
-
-        return 65L - Long.numberOfLeadingZeros(
-                // signed bounds go from (-n) to (n - 1), i.e. i8 goes from -128 to 127
-                bound < 0 ? Math.abs(bound) - 1 : bound);
-    }
-
-    private String matchingIntType(boolean unsigned, Long inclusiveMin, Long inclusiveMax) {
-        long requiredMinBits = requiredBits(inclusiveMin, unsigned);
-        long requiredMaxBits = requiredBits(inclusiveMax, unsigned);
-        long requiredBits = Math.max(requiredMinBits, requiredMaxBits);
-
-        if (requiredMaxBits == 0 && requiredMinBits <= 16) {
-            // rust 'size' types are arch-specific and thus somewhat loose
-            // so they are used when no format or maximum are specified
-            // and as long as minimum stays within plausible smallest ptr size (16 bits)
-            // this way all rust types are obtainable without defining custom formats
-            // this behavior (default int size) could also follow a generator flag
-            return unsigned ? "usize" : "isize";
-
-        } else if (requiredBits <= 8) {
-            return unsigned ? "u8" : "i8";
-
-        } else if (requiredBits <= 16) {
-            return unsigned ? "u16" : "i16";
-
-        } else if (requiredBits <= 32) {
-            return unsigned ? "u32" : "i32";
-        }
-        return unsigned ? "u64" : "i64";
     }
 
     @Override
@@ -1684,7 +1467,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema){
+    protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema) {
         /**
          * we have a custom version of this function to set isString to false for uuid
          */
@@ -1739,9 +1522,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             updatePropertyForMap(property, p);
         }
     }
-
-    @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.RUST; }
 
     @Override
     protected String getParameterDataType(Parameter parameter, Schema schema) {

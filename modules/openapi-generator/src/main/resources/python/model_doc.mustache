@@ -6,32 +6,28 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-{{#isEnum}}
-**value** | {{^arrayModelType}}**{{dataType}}**{{/arrayModelType}} | {{description}} | {{#defaultValue}}{{#hasRequired}} if omitted the server will use the default value of {{/hasRequired}}{{^hasRequired}}defaults to {{/hasRequired}}{{{.}}}{{/defaultValue}}{{#allowableValues}}{{#defaultValue}}, {{/defaultValue}} must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}
-{{/isEnum}}
-{{#isAlias}}
-**value** | {{^arrayModelType}}**{{dataType}}**{{/arrayModelType}} | {{description}} | {{#defaultValue}}{{#hasRequired}} if omitted the server will use the default value of {{/hasRequired}}{{^hasRequired}}defaults to {{/hasRequired}}{{{.}}}{{/defaultValue}}
-{{/isAlias}}
-{{#isArray}}
-**value** | {{^arrayModelType}}**{{dataType}}**{{/arrayModelType}}{{#arrayModelType}}[**{{dataType}}**]({{arrayModelType}}.md){{/arrayModelType}} | {{description}} | {{#defaultValue}}{{#hasRequired}} if omitted the server will use the default value of {{/hasRequired}}{{^hasRequired}}defaults to {{/hasRequired}}{{{.}}}{{/defaultValue}}
-{{/isArray}}
-{{#requiredVars}}
-{{^defaultValue}}
-**{{name}}** | {{^complexType}}**{{dataType}}**{{/complexType}}{{#complexType}}[**{{dataType}}**]({{complexType}}.md){{/complexType}} | {{description}} | {{#isReadOnly}}[readonly] {{/isReadOnly}}
-{{/defaultValue}}
-{{/requiredVars}}
-{{#requiredVars}}
-{{#defaultValue}}
-**{{name}}** | {{^complexType}}**{{dataType}}**{{/complexType}}{{#complexType}}[**{{dataType}}**]({{complexType}}.md){{/complexType}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}defaults to {{{.}}}{{/defaultValue}}
-{{/defaultValue}}
-{{/requiredVars}}
-{{#optionalVars}}
-**{{name}}** | {{^complexType}}**{{dataType}}**{{/complexType}}{{#complexType}}[**{{dataType}}**]({{complexType}}.md){{/complexType}} | {{description}} | [optional] {{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}} if omitted the server will use the default value of {{{.}}}{{/defaultValue}}
-{{/optionalVars}}
-{{#additionalProperties}}
-**any string name** | {{^complexType}}**{{dataType}}**{{/complexType}}{{#complexType}}[**{{dataType}}**]({{complexType}}.md){{/complexType}} | any string name can be used but the value must be the correct type | [optional]
-{{/additionalProperties}}
+{{#vars}}**{{name}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}
+{{/vars}}
 
+{{^isEnum}}
+## Example
+
+```python
+from {{modelPackage}}.{{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}} import {{classname}}
+
+# TODO update the JSON string below
+json = "{}"
+# create an instance of {{classname}} from a JSON string
+{{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_instance = {{classname}}.from_json(json)
+# print the JSON string representation of the object
+print {{classname}}.to_json()
+
+# convert the object into a dict
+{{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_dict = {{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_instance.to_dict()
+# create an instance of {{classname}} from a dict
+{{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_form_dict = {{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}.from_dict({{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_dict)
+```
+{{/isEnum}}
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 {{/model}}{{/models}}

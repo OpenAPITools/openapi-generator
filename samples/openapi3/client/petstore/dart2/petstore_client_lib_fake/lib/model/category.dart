@@ -42,14 +42,14 @@ class Category {
   String toString() => 'Category[id=$id, name=$name]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (id != null) {
-      _json[r'id'] = id;
+    final json = <String, dynamic>{};
+    if (this.id != null) {
+      json[r'id'] = this.id;
     } else {
-      _json[r'id'] = null;
+      json[r'id'] = null;
     }
-      _json[r'name'] = name;
-    return _json;
+      json[r'name'] = this.name;
+    return json;
   }
 
   /// Returns a new [Category] instance and imports its values from
@@ -78,7 +78,7 @@ class Category {
     return null;
   }
 
-  static List<Category>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<Category> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <Category>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -109,12 +109,10 @@ class Category {
   static Map<String, List<Category>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<Category>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = Category.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = Category.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

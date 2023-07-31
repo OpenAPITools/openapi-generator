@@ -144,8 +144,14 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
+                {{#useJakartaEe}}
+                    <source>17</source>
+                    <target>17</target>
+                {{/useJakartaEe}}
+                {{^useJakartaEe}}
                     <source>1.8</source>
                     <target>1.8</target>
+                {{/useJakartaEe}}
                 </configuration>
             </plugin>
             <plugin>
@@ -205,11 +211,20 @@
     </profiles>
 
     <dependencies>
+        {{#swagger1AnnotationLibrary}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
+        {{/swagger1AnnotationLibrary}}
+        {{#swagger2AnnotationLibrary}}
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotations-version}</version>
+        </dependency>
+        {{/swagger2AnnotationLibrary}}
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -251,37 +266,43 @@
             <artifactId>jackson-jaxrs-json-provider</artifactId>
             <version>${jackson-version}</version>
         </dependency>
+        {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
             <version>${jackson-databind-nullable-version}</version>
         </dependency>
+        {{/openApiNullable}}
         {{#withXml}}
 
-            <!-- XML processing: Jackson -->
-            <dependency>
-                <groupId>com.fasterxml.jackson.dataformat</groupId>
-                <artifactId>jackson-dataformat-xml</artifactId>
-                <version>${jackson-version}</version>
-            </dependency>
-
+        <!-- XML processing: Jackson -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.threeten-jaxb</groupId>
+            <artifactId>threeten-jaxb-core</artifactId>
+            <version>1.2</version>
+        </dependency>
         {{/withXml}}
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson-version}</version>
-            </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
         {{#joda}}
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-joda</artifactId>
-                <version>${jackson-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>joda-time</groupId>
-                <artifactId>joda-time</artifactId>
-                <version>${jodatime-version}</version>
-            </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-joda</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${jodatime-version}</version>
+        </dependency>
         {{/joda}}
         <dependency>
             <groupId>jakarta.annotation</groupId>
@@ -300,12 +321,29 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.5.22</swagger-annotations-version>
-        <spring-web-version>5.3.18</spring-web-version>
-        <jackson-version>2.10.5</jackson-version>
-        <jackson-databind-version>2.11.4</jackson-databind-version>
-        <jackson-databind-nullable-version>0.2.3</jackson-databind-nullable-version>
+        {{#swagger1AnnotationLibrary}}
+        <swagger-annotations-version>1.6.9</swagger-annotations-version>
+        {{/swagger1AnnotationLibrary}}
+        {{#swagger2AnnotationLibrary}}
+        <swagger-annotations-version>2.2.9</swagger-annotations-version>
+        {{/swagger2AnnotationLibrary}}
+        {{#useJakartaEe}}
+        <spring-web-version>6.0.3</spring-web-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
+        <spring-web-version>5.3.24</spring-web-version>
+        {{/useJakartaEe}}
+        <jackson-version>2.14.1</jackson-version>
+        <jackson-databind-version>2.14.1</jackson-databind-version>
+        {{#openApiNullable}}
+        <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
+        {{/openApiNullable}}
+        {{#useJakartaEe}}
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        {{/useJakartaEe}}
         {{#joda}}
         <jodatime-version>2.9.9</jodatime-version>
         {{/joda}}

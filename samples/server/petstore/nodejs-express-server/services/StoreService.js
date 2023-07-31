@@ -43,7 +43,7 @@ const getInventory = () => new Promise(
 );
 /**
 * Find purchase order by ID
-* For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+* For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 *
 * orderId Long ID of pet that needs to be fetched
 * returns Order

@@ -158,7 +158,7 @@ import org.slf4j.LoggerFactory;
 public class ${lang_classname} extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
 
-    static final Logger LOGGER = LoggerFactory.getLogger(${lang_classname}.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(${lang_classname}.class);
 
     public CodegenType getTag() {
         return CodegenType.${codegen_type_enum};

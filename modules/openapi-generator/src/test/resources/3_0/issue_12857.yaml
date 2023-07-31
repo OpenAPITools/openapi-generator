@@ -1,0 +1,17 @@
+openapi: 3.0.3
+info:
+  title: openapi 3.0.3 sample spec
+  description: sample spec for testing openapi functionality, built from json schema
+    tests for draft6
+  version: 0.0.1
+paths: {}
+components:
+  schemas:
+    FooRequired:
+      properties:
+        foo: {}
+      required:
+        - foo
+    FooOptional:
+      properties:
+        foo: {}

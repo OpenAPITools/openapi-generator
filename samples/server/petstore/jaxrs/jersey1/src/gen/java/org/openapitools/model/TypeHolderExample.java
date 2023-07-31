@@ -168,6 +168,9 @@ public class TypeHolderExample   {
   }
 
   public TypeHolderExample addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -197,12 +200,12 @@ public class TypeHolderExample   {
       return false;
     }
     TypeHolderExample typeHolderExample = (TypeHolderExample) o;
-    return Objects.equals(this.stringItem, typeHolderExample.stringItem) &&
-        Objects.equals(this.numberItem, typeHolderExample.numberItem) &&
-        Objects.equals(this.floatItem, typeHolderExample.floatItem) &&
-        Objects.equals(this.integerItem, typeHolderExample.integerItem) &&
-        Objects.equals(this.boolItem, typeHolderExample.boolItem) &&
-        Objects.equals(this.arrayItem, typeHolderExample.arrayItem);
+    return Objects.equals(stringItem, typeHolderExample.stringItem) &&
+        Objects.equals(numberItem, typeHolderExample.numberItem) &&
+        Objects.equals(floatItem, typeHolderExample.floatItem) &&
+        Objects.equals(integerItem, typeHolderExample.integerItem) &&
+        Objects.equals(boolItem, typeHolderExample.boolItem) &&
+        Objects.equals(arrayItem, typeHolderExample.arrayItem);
   }
 
   @Override

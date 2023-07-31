@@ -1,0 +1,1 @@
+{{#isEnum}}{{enumName}}_{{operationId}}ToString(localVarItem{{{paramName}}}){{/isEnum}}{{^isEnum}}{{^isPrimitiveType}}Xoson.toJSON(localVarItem{{{paramName}}}){{/isPrimitiveType}}{{#isPrimitiveType}}localVarItem{{{paramName}}}{{^isString}}.ToString{{/isString}}{{/isPrimitiveType}}{{/isEnum}}

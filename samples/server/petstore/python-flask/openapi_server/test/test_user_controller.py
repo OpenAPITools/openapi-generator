@@ -19,7 +19,7 @@ class TestUserController(BaseTestCase):
 
         Create user
         """
-        body = {}
+        body = openapi_server.User()
         headers = { 
             'Content-Type': 'application/json',
         }
@@ -38,7 +38,7 @@ class TestUserController(BaseTestCase):
 
         Creates list of users with given input array
         """
-        body = [{}]
+        body = [openapi_server.User()]
         headers = { 
             'Content-Type': 'application/json',
         }
@@ -57,7 +57,7 @@ class TestUserController(BaseTestCase):
 
         Creates list of users with given input array
         """
-        body = [{}]
+        body = [openapi_server.User()]
         headers = { 
             'Content-Type': 'application/json',
         }
@@ -137,7 +137,7 @@ class TestUserController(BaseTestCase):
 
         Updated user
         """
-        body = {}
+        body = openapi_server.User()
         headers = { 
             'Content-Type': 'application/json',
         }

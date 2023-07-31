@@ -46,11 +46,11 @@ class ApiClient {
          * @type {Array.<String>}
          */
         this.authentications = {
+            'petstore_auth': {type: 'oauth2'},
             'api_key': {type: 'apiKey', 'in': 'header', name: 'api_key'},
             'api_key_query': {type: 'apiKey', 'in': 'query', name: 'api_key_query'},
-            'bearer_test': {type: 'bearer'}, // JWT
             'http_basic_test': {type: 'basic'},
-            'petstore_auth': {type: 'oauth2'}
+            'bearer_test': {type: 'bearer'}, // JWT
         }
 
         /**

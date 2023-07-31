@@ -1,7 +1,6 @@
 package org.openapitools.api;
 
 import java.util.Date;
-import java.util.List;
 import org.openapitools.model.User;
 
 import javax.ws.rs.*;

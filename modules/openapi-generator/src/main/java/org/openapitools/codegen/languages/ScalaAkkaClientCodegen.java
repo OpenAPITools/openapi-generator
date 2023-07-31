@@ -123,6 +123,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         importMapping.remove("List");
         importMapping.remove("Set");
         importMapping.remove("Map");
+        importMapping.put("BigDecimal", "java.math.BigDecimal");
 
         typeMapping = new HashMap<>();
         typeMapping.put("array", "Seq");
@@ -158,15 +159,15 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         if (additionalProperties.containsKey("mainPackage")) {
             setMainPackage((String) additionalProperties.get("mainPackage"));
             additionalProperties.replace("configKeyPath", this.configKeyPath);
-            if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)){
+            if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
                 apiPackage = mainPackage + ".api";
                 additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
             }
-            if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)){
+            if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
                 modelPackage = mainPackage + ".model";
                 additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
             }
-            if (!additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)){
+            if (!additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
                 invokerPackage = mainPackage + ".core";
             }
         }
@@ -261,6 +262,11 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         return formatIdentifier(name, false);
     }
 
@@ -286,7 +292,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         } else if (ModelUtils.isIntegerSchema(p)) {
             return null;
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(getAdditionalProperties(p));
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "Map[String, " + inner + "].empty ";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -302,16 +308,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         }
     }
 
-    private static abstract class CustomLambda implements Mustache.Lambda {
-        @Override
-        public void execute(Template.Fragment frag, Writer out) throws IOException {
-            final StringWriter tempWriter = new StringWriter();
-            frag.execute(tempWriter);
-            out.write(formatFragment(tempWriter.toString()));
-        }
-
-        public abstract String formatFragment(String fragment);
-    }
 
     private static class JavadocLambda extends CustomLambda {
         @Override
@@ -331,19 +327,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         @Override
         public String formatFragment(String fragment) {
             return StringUtils.capitalize(fragment);
-        }
-    }
-
-    private static class CamelizeLambda extends CustomLambda {
-        private final boolean capitalizeFirst;
-
-        public CamelizeLambda(boolean capitalizeFirst) {
-            this.capitalizeFirst = capitalizeFirst;
-        }
-
-        @Override
-        public String formatFragment(String fragment) {
-            return camelize(fragment, !capitalizeFirst);
         }
     }
 

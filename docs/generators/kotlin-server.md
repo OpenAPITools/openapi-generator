@@ -18,6 +18,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |apiSuffix|suffix for api classes| |Api|
 |artifactId|Generated artifact id (name of jar).| |kotlin-server|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
@@ -27,8 +28,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |featureCompression|Adds ability to compress outgoing content using gzip, deflate or custom encoder and thus reduce size of the response.| |true|
 |featureConditionalHeaders|Avoid sending content if client already has same content, by checking ETag or LastModified properties.| |false|
 |featureHSTS|Avoid sending content if client already has same content, by checking ETag or LastModified properties.| |true|
-|featureLocations|Generates routes in a typed way, for both: constructing URLs and reading the parameters.| |true|
 |featureMetrics|Enables metrics feature.| |true|
+|featureResources|Generates routes in a typed way, for both: constructing URLs and reading the parameters.| |true|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |interfaceOnly|Whether to generate only API interface stubs without the server files. This option is currently supported only when using jaxrs-spec library.| |false|
 |library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd><dt>**jaxrs-spec**</dt><dd>JAX-RS spec only</dd></dl>|ktor|
@@ -37,12 +38,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |returnResponse|Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true. This option is currently supported only when using jaxrs-spec library.| |false|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
-|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'| |moshi|
+|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson' or 'jackson' or 'kotlinx_serialization'| |moshi|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
 |useBeanValidation|Use BeanValidation API annotations. This option is currently supported only when using jaxrs-spec library.| |false|
 |useCoroutines|Whether to use the Coroutines. This option is currently supported only when using jaxrs-spec library.| |false|
+|useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
+|useMutiny|Whether to use Mutiny (should not be used with useCoroutines). This option is currently supported only when using jaxrs-spec library.| |false|
 
 ## IMPORT MAPPING
 
@@ -105,6 +108,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>const</li>
 <li>constructor</li>
 <li>continue</li>
+<li>contract</li>
 <li>crossinline</li>
 <li>data</li>
 <li>delegate</li>
@@ -276,6 +280,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

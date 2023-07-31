@@ -23,7 +23,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, Animal> map = null;
+  private Map<String, Animal> map = new HashMap<>();
  /**
    * Get uuid
    * @return uuid

@@ -50,7 +50,7 @@ public interface UserApi  {
     @POST
     
     @Consumes({ "application/json" })
-    public void createUser(User user) throws ApiException, ProcessingException;
+    void createUser(User user) throws ApiException, ProcessingException;
 
     /**
      * Creates list of users with given input array
@@ -61,7 +61,7 @@ public interface UserApi  {
     @POST
     @Path("/createWithArray")
     @Consumes({ "application/json" })
-    public void createUsersWithArrayInput(List<User> user) throws ApiException, ProcessingException;
+    void createUsersWithArrayInput(List<User> user) throws ApiException, ProcessingException;
 
     /**
      * Creates list of users with given input array
@@ -72,7 +72,7 @@ public interface UserApi  {
     @POST
     @Path("/createWithList")
     @Consumes({ "application/json" })
-    public void createUsersWithListInput(List<User> user) throws ApiException, ProcessingException;
+    void createUsersWithListInput(List<User> user) throws ApiException, ProcessingException;
 
     /**
      * Delete user
@@ -82,7 +82,7 @@ public interface UserApi  {
      */
     @DELETE
     @Path("/{username}")
-    public void deleteUser(@PathParam("username") String username) throws ApiException, ProcessingException;
+    void deleteUser(@PathParam("username") String username) throws ApiException, ProcessingException;
 
     /**
      * Get user by user name
@@ -93,7 +93,7 @@ public interface UserApi  {
     @GET
     @Path("/{username}")
     @Produces({ "application/xml", "application/json" })
-    public User getUserByName(@PathParam("username") String username) throws ApiException, ProcessingException;
+    User getUserByName(@PathParam("username") String username) throws ApiException, ProcessingException;
 
     /**
      * Logs user into the system
@@ -104,7 +104,7 @@ public interface UserApi  {
     @GET
     @Path("/login")
     @Produces({ "application/xml", "application/json" })
-    public String loginUser(@QueryParam("username") String username, @QueryParam("password") String password) throws ApiException, ProcessingException;
+    String loginUser(@QueryParam("username") String username, @QueryParam("password") String password) throws ApiException, ProcessingException;
 
     /**
      * Logs out current logged in user session
@@ -114,7 +114,7 @@ public interface UserApi  {
      */
     @GET
     @Path("/logout")
-    public void logoutUser() throws ApiException, ProcessingException;
+    void logoutUser() throws ApiException, ProcessingException;
 
     /**
      * Updated user
@@ -125,5 +125,5 @@ public interface UserApi  {
     @PUT
     @Path("/{username}")
     @Consumes({ "application/json" })
-    public void updateUser(@PathParam("username") String username, User user) throws ApiException, ProcessingException;
+    void updateUser(@PathParam("username") String username, User user) throws ApiException, ProcessingException;
 }

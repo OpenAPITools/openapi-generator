@@ -53,6 +53,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_TRUE = "true";
     public static final String OPT_GENERATE_SWAGGER_ANNOTATIONS_FALSE = "false";
     public static final String OPT_GENERATE_OPERATION_ONLY_FOR_FIRST_TAG = "generateOperationOnlyForFirstTag";
+    public enum SERIALIZATION_LIBRARY_TYPE {jackson, micronaut_serde_jackson}
 
     protected final Logger LOGGER = LoggerFactory.getLogger(JavaMicronautAbstractCodegen.class);
 
@@ -69,6 +70,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     protected String appName;
     protected String generateSwaggerAnnotations;
     protected boolean generateOperationOnlyForFirstTag;
+    protected String serializationLibrary = SERIALIZATION_LIBRARY_TYPE.jackson.name();
 
     public static final String CONTENT_TYPE_APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
     public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
@@ -123,7 +125,6 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         );
 
         // Set additional properties
-        additionalProperties.put("jackson", "true");
         additionalProperties.put("openbrace", "{");
         additionalProperties.put("closebrace", "}");
 
@@ -179,6 +180,14 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             valuesEnum.put(OPT_DATE_LIBRARY_JAVA8_LOCAL_DATETIME, opt.getEnum().get(OPT_DATE_LIBRARY_JAVA8_LOCAL_DATETIME));
             opt.setEnum(valuesEnum);
         });
+
+        final CliOption serializationLibraryOpt = CliOption.newString(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library for model");
+        serializationLibraryOpt.defaultValue(SERIALIZATION_LIBRARY_TYPE.jackson.name());
+        Map<String, String> serializationLibraryOptions = new HashMap<>();
+        serializationLibraryOptions.put(SERIALIZATION_LIBRARY_TYPE.jackson.name(), "Jackson as serialization library");
+        serializationLibraryOptions.put(SERIALIZATION_LIBRARY_TYPE.micronaut_serde_jackson.name(), "Use micronaut-serialization with Jackson annotations");
+        serializationLibraryOpt.setEnum(serializationLibraryOptions);
+        cliOptions.add(serializationLibraryOpt);
 
         // Add reserved words
         String[] reservedWordsArray = {
@@ -304,6 +313,11 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         } else if (OPT_GENERATE_SWAGGER_ANNOTATIONS_SWAGGER_2.equals(this.generateSwaggerAnnotations)) {
             additionalProperties.put("generateSwagger2Annotations", true);
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
+            setSerializationLibrary((String) additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
+        }
+        additionalProperties.put(this.serializationLibrary, true);
 
         // Add all the supporting files
         String resourceFolder = projectFolder + "/resources";
@@ -708,6 +722,18 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         @Override
         public void execute(final Template.Fragment fragment, final Writer writer) throws IOException {
             writer.write(fragment.execute().replace('.', '_'));
+        }
+    }
+
+    public void setSerializationLibrary(final String serializationLibrary) {
+        try {
+            this.serializationLibrary = JavaMicronautAbstractCodegen.SERIALIZATION_LIBRARY_TYPE.valueOf(serializationLibrary).name();
+        } catch (IllegalArgumentException ex) {
+            StringBuilder sb = new StringBuilder(serializationLibrary + " is an invalid enum property naming option. Please choose from:");
+            for (JavaMicronautAbstractCodegen.SERIALIZATION_LIBRARY_TYPE availableSerializationLibrary : JavaMicronautAbstractCodegen.SERIALIZATION_LIBRARY_TYPE.values()) {
+                sb.append("\n  ").append(availableSerializationLibrary.name());
+            }
+            throw new RuntimeException(sb.toString());
         }
     }
 }

@@ -80,12 +80,9 @@ public class ExampleGenerator {
 
         if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
             ArraySchema as = (ArraySchema) responseSchema;
-            if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // array of primitive types
+            if (as.getItems() != null) { // array of primitive types
                 return generate((Map<String, Object>) responseSchema.getExample(),
-                        new ArrayList<String>(producesInfo), as.getItems());
-            } else if (as.getItems() != null && !StringUtils.isEmpty(as.getItems().get$ref())) { // array of model
-                return generate((Map<String, Object>) responseSchema.getExample(),
-                        new ArrayList<String>(producesInfo), ModelUtils.getSimpleRef(as.getItems().get$ref()));
+                        new ArrayList<>(producesInfo), as);
             } else {
                 // TODO log warning message as such case is not handled at the moment
                 return null;
@@ -272,10 +269,10 @@ public class ExampleGenerator {
             Map<String, Object> mp = new HashMap<String, Object>();
             if (property.getName() != null) {
                 mp.put(property.getName(),
-                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(openAPI, property), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(property), processedModels));
             } else {
                 mp.put("key",
-                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(openAPI, property), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(property), processedModels));
             }
             return mp;
         } else if (ModelUtils.isUUIDSchema(property)) {

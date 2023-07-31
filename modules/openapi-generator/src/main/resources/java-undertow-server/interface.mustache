@@ -65,7 +65,7 @@ public interface PathHandlerInterface {
 {{/responses}}
      * </ul>
      */
-    @javax.annotation.Nonnull
+    @{{javaxPackage}}.annotation.Nonnull
 {{#isDeprecated}}    @Deprecated
 {{/isDeprecated}}
     HttpHandler {{{operationId}}}();

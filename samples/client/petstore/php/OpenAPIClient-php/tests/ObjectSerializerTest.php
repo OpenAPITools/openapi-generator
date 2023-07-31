@@ -2,44 +2,53 @@
 
 namespace OpenAPI\Client;
 
+use DateTime;
 use GuzzleHttp\Psr7\Utils;
+use OpenAPI\Client\Model\Pet;
+use OpenAPI\Client\Model\Tag;
 use PHPUnit\Framework\TestCase;
+use SplFileObject;
 
-// test object serializer
+/**
+ * class ObjectSerializerTest
+ *
+ * @package OpenAPI\Client
+ */
 class ObjectSerializerTest extends TestCase
 {
-    // test sanitizeFilename
-    public function testSanitizeFilename()
+    /**
+     * Test sanitizeFilename
+     *
+     * @covers ObjectSerializer::sanitizeFilename
+     */
+    public function testSanitizeFilename(): void
     {
-        // initialize the API client
-        $s = new ObjectSerializer();
-
-        $this->assertSame("sun.gif", $s->sanitizeFilename("sun.gif"));
-        $this->assertSame("sun.gif", $s->sanitizeFilename("../sun.gif"));
-        $this->assertSame("sun.gif", $s->sanitizeFilename("/var/tmp/sun.gif"));
-        $this->assertSame("sun.gif", $s->sanitizeFilename("./sun.gif"));
+        $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("sun.gif"));
+        $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("../sun.gif"));
+        $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("/var/tmp/sun.gif"));
+        $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("./sun.gif"));
         
-        $this->assertSame("sun", $s->sanitizeFilename("sun"));
-        $this->assertSame("sun.gif", $s->sanitizeFilename("..\sun.gif"));
-        $this->assertSame("sun.gif", $s->sanitizeFilename("\var\tmp\sun.gif"));
-        $this->assertSame("sun.gif", $s->sanitizeFilename("c:\var\tmp\sun.gif"));
-        $this->assertSame("sun.gif", $s->sanitizeFilename(".\sun.gif"));
+        $this->assertSame("sun", ObjectSerializer::sanitizeFilename("sun"));
+        $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("..\sun.gif"));
+        $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("\var\tmp\sun.gif"));
+        $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename("c:\var\tmp\sun.gif"));
+        $this->assertSame("sun.gif", ObjectSerializer::sanitizeFilename(".\sun.gif"));
     }
 
     /**
      * Test SplFileObject class deserialization.
      *
      * @see https://github.com/OpenAPITools/openapi-generator/pull/11184
-     * @covers ObjectSerializer::serialize
+     * @covers ObjectSerializer::deserialize
      * @dataProvider provideFileStreams
      */
     public function testDeserializeFile($stream, ?array $httpHeaders = null, ?string $expectedFilename = null): void
     {
         $s = new ObjectSerializer();
 
-        /** @var \SplFileObject */
-        $file = $s->deserialize($stream, '\SplFileObject', $httpHeaders);
-        $this->assertInstanceOf(\SplFileObject::class, $file);
+        /** @var SplFileObject $file */
+        $file = ObjectSerializer::deserialize($stream, '\SplFileObject', $httpHeaders);
+        $this->assertInstanceOf(SplFileObject::class, $file);
 
         if (is_string($expectedFilename)) {
             $this->assertEquals($expectedFilename, $file->getFilename());
@@ -48,7 +57,11 @@ class ObjectSerializerTest extends TestCase
         }
     }
 
-    public function provideFileStreams()
+    /**
+     * File Streams Provider
+     * @return array[]
+     */
+    public function provideFileStreams(): array
     {
         return [
             'File stream without headers' => [
@@ -90,9 +103,14 @@ class ObjectSerializerTest extends TestCase
     public function testDateTimeParseSecondAccuracy(string $timestamp, string $expected): void
     {
         $dateTime = ObjectSerializer::deserialize($timestamp, '\DateTime');
-        $this->assertEquals(new \DateTime($expected), $dateTime);
+        $this->assertEquals(new DateTime($expected), $dateTime);
     }
 
+    /**
+     * Timestamps provider
+     *
+     * @return string[][]
+     */
     public function provideTimestamps(): array
     {
         return [
@@ -149,6 +167,11 @@ class ObjectSerializerTest extends TestCase
         $this->assertEquals($expected, $query);
     }
 
+    /**
+     * Query params provider
+     *
+     * @return array[]
+     */
     public function provideQueryParams(): array
     {
         $array = ['blue', 'black', 'brown'];
@@ -304,6 +327,106 @@ class ObjectSerializerTest extends TestCase
                 true,
                 'filter%5Bor%5D%5B0%5D%5Bname%5D=John&filter%5Bor%5D%5B1%5D%5Bemail%5D=john%40doe.com'
             ],
+            'form DateTime object, explode on, required true' => [
+                new DateTime('2021-10-06T20:17:16'), 'dateTime', '\DateTime', 'form', true, true, 'dateTime=2021-10-06T20%3A17%3A16%2B00%3A00',
+            ],
+            'form null DateTime object, explode on, required true' => [
+                null, 'dateTime', '\DateTime', 'form', true, true, 'dateTime=',
+            ],
+            'form null DateTime object, explode on, required false' => [
+                null, 'dateTime', '\DateTime', 'form', true, false, '',
+            ],
+            'form 1 int, explode on, required false' => [
+                1, 'field', 'int', 'form', true, false, 'field=1',
+            ],
+            'form 0 int, explode on, required false' => [
+                0, 'field', 'int', 'form', true, false, 'field=0',
+            ],
+            'form 0 int, explode on, required true' => [
+                0, 'field', 'int', 'form', true, true, 'field=0',
+            ],
+            'form null int, explode on, required false' => [
+                null, 'field', 'int', 'form', true, false, '',
+            ],
+            'form null int, explode on, required true' => [
+                null, 'field', 'int', 'form', true, true, 'field=',
+            ],
+            'form 1 integer, explode on, required false' => [
+                1, 'field', 'integer', 'form', true, false, 'field=1',
+            ],
+            'form 0 integer, explode on, required false' => [
+                0, 'field', 'integer', 'form', true, false, 'field=0',
+            ],
+            'form 0 integer, explode on, required true' => [
+                0, 'field', 'integer', 'form', true, true, 'field=0',
+            ],
+            'form null integer, explode on, required false' => [
+                null, 'field', 'integer', 'form', true, false, '',
+            ],
+            'form null integer, explode on, required true' => [
+                null, 'field', 'integer', 'form', true, true, 'field=',
+            ],
+            'form 1.1 float, explode on, required false' => [
+                1.1, 'field', 'float', 'form', true, false, 'field=1.1',
+            ],
+            'form 0 float, explode on, required false' => [
+                0, 'field', 'float', 'form', true, false, 'field=0',
+            ],
+            'form 0.0 float, explode on, required false' => [
+                0.0, 'field', 'float', 'form', true, false, 'field=0',
+            ],
+            'form 0 float, explode on, required true' => [
+                0, 'field', 'float', 'form', true, true, 'field=0',
+            ],
+            'form 0.0 float, explode on, required true' => [
+                0.0, 'field', 'float', 'form', true, true, 'field=0',
+            ],
+            'form null float, explode on, required false' => [
+                null, 'field', 'float', 'form', true, false, '',
+            ],
+            'form null float, explode on, required true' => [
+                null, 'field', 'float', 'form', true, true, 'field=',
+            ],
+            'form 1.1 number, explode on, required false' => [
+                1.1, 'field', 'number', 'form', true, false, 'field=1.1',
+            ],
+            'form 0 number, explode on, required false' => [
+                0, 'field', 'number', 'form', true, false, 'field=0',
+            ],
+            'form 0.0 number, explode on, required false' => [
+                0.0, 'field', 'number', 'form', true, false, 'field=0',
+            ],
+            'form 0 number, explode on, required true' => [
+                0, 'field', 'number', 'form', true, true, 'field=0',
+            ],
+            'form 0.0 number, explode on, required true' => [
+                0.0, 'field', 'number', 'form', true, true, 'field=0',
+            ],
+            'form null number, explode on, required false' => [
+                null, 'field', 'number', 'form', true, false, '',
+            ],
+            'form null number, explode on, required true' => [
+                null, 'field', 'number', 'form', true, true, 'field=',
+            ],
+            'form true bool, explode on, required false' => [
+                true, 'field', 'bool', 'form', true, false, 'field=1',
+            ],
+            'form false bool, explode on, required false' => [
+                false, 'field', 'bool', 'form', true, false, 'field=0',
+            ],
+            'form empty bool, explode on, required false' => [
+                null, 'field', 'bool', 'form', true, false, '',
+            ],
+            'form empty bool, explode on, required true' => [
+                null, 'field', 'bool', 'form', true, true, 'field=',
+            ],
+            # Entries for "boolean" type are already covered in the beginning of this provider
+            'form 1 bool, explode on, required false' => [
+                1, 'field', 'bool', 'form', true, false, 'field=1',
+            ],
+            'form 0 bool, explode on, required false' => [
+                0, 'field', 'bool', 'form', true, false, 'field=0',
+            ],
         ];
     }
 
@@ -321,6 +444,11 @@ class ObjectSerializerTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
+    /**
+     * Deep Objects provider
+     *
+     * @return array
+     */
     public function provideDeepObjects(): array
     {
         return [
@@ -360,6 +488,11 @@ class ObjectSerializerTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * toString() input provider
+     *
+     * @return array
+     */
     public function provideToStringInput(): array
     {
         return [
@@ -384,11 +517,12 @@ class ObjectSerializerTest extends TestCase
                 'expected' => 'some string',
             ],
             'a date' => [
-                'input' => new \DateTime('14-04-2022'),
+                'input' => new DateTime('14-04-2022'),
                 'expected' => '2022-04-14T00:00:00+00:00',
             ],
         ];
     }
+
     /**
      * @covers ObjectSerializer::toQueryValue
      * @dataProvider provideQueryParamsWithStringBooleanFormatForQueryString
@@ -412,6 +546,11 @@ class ObjectSerializerTest extends TestCase
         $this->assertEquals($expected, $query);
     }
 
+    /**
+     * Query Params with string boolean format provider
+     *
+     * @return array[]
+     */
     public function provideQueryParamsWithStringBooleanFormatForQueryString(): array
     {
         return [
@@ -430,5 +569,34 @@ class ObjectSerializerTest extends TestCase
                 true, 'skipValidation', 'boolean', 'form', true, false, 'skipValidation=true',
             ],
         ];
+    }
+
+    /**
+     * Test array to class deserialization.
+     *
+     * @covers ObjectSerializer::deserialize
+     *
+     * @see https://github.com/OpenAPITools/openapi-generator/pull/12849#issuecomment-1186130098
+     */
+    public function testArrayGivenAsObjectForDeserialize(): void
+    {
+        $data = [
+            'name' => 'Pet Name',
+            'status' => Pet::STATUS_AVAILABLE,
+            'tags' => [
+                ['name' => 'Tag Name'],
+            ]
+        ];
+
+        /** @var Pet $pet */
+        $pet = ObjectSerializer::deserialize($data, Pet::class);
+        $this->assertEquals('Pet Name', $pet->getName());
+        $this->assertEquals(Pet::STATUS_AVAILABLE, $pet->getStatus());
+
+        $tags = $pet->getTags();
+        $this->assertIsArray($tags);
+
+        $tag = $tags[0];
+        $this->assertInstanceOf(Tag::class, $tag);
     }
 }

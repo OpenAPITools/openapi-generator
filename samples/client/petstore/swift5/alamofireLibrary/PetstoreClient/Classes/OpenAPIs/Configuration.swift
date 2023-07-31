@@ -5,11 +5,36 @@
 //
 
 import Foundation
+import Alamofire
 
 open class Configuration {
     
-    // This value is used to configure the date formatter that is used to serialize dates into JSON format.
-    // You must set it prior to encoding any dates, and it will only be read once.
-    @available(*, unavailable, message: "To set a different date format, use CodableHelper.dateFormatter instead.")
-    public static var dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+    /// Configures the range of HTTP status codes that will result in a successful response
+    ///
+    /// If a HTTP status code is outside of this range the response will be interpreted as failed.
+    public static var successfulStatusCodeRange: Range = 200..<300
+    /// ResponseSerializer that will be used by the generator for `Data` responses
+    ///
+    /// If unchanged, Alamofires default `DataResponseSerializer` will be used. 
+    public static var dataResponseSerializer: AnyResponseSerializer<Data> = AnyResponseSerializer(DataResponseSerializer())
+    /// ResponseSerializer that will be used by the generator for `String` responses
+    ///
+    /// If unchanged, Alamofires default `StringResponseSerializer` will be used. 
+    public static var stringResponseSerializer: AnyResponseSerializer<String> = AnyResponseSerializer(StringResponseSerializer())
+}
+
+/// Type-erased ResponseSerializer
+///
+/// This is needed in order to use `ResponseSerializer` as a Type in `Configuration`. Obsolete with `any` keyword in Swift >= 5.7
+public struct AnyResponseSerializer<T>: ResponseSerializer {
+    
+    let _serialize: (URLRequest?, HTTPURLResponse?, Data?, Error?) throws -> T
+    
+    public init<V: ResponseSerializer>(_ delegatee: V) where V.SerializedObject == T {
+        _serialize = delegatee.serialize
+    }
+    
+    public func serialize(request: URLRequest?, response: HTTPURLResponse?, data: Data?, error: Error?) throws -> T {
+        try _serialize(request, response, data, error)
+    }
 }

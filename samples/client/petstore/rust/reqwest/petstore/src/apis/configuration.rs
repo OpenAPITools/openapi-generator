@@ -9,8 +9,6 @@
  */
 
 
-use reqwest;
-
 
 #[derive(Debug, Clone)]
 pub struct Configuration {

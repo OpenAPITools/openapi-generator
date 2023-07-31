@@ -45,7 +45,7 @@ MyApp.add_route('GET', '/v2/store/order/{orderId}', {
   "nickname" => "get_order_by_id", 
   "responseClass" => "Order",
   "endpoint" => "/store/order/{orderId}", 
-  "notes" => "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
+  "notes" => "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions",
   "parameters" => [
     {
       "name" => "order_id",

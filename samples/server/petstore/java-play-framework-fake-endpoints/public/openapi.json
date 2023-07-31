@@ -477,7 +477,7 @@
         "x-accepts" : "application/json"
       },
       "get" : {
-        "description" : "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
+        "description" : "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions",
         "operationId" : "getOrderById",
         "parameters" : [ {
           "description" : "ID of pet that needs to be fetched",
@@ -884,7 +884,7 @@
         "responses" : {
           "400" : {
             "content" : { },
-            "description" : "Someting wrong"
+            "description" : "Something wrong"
           }
         },
         "summary" : "Fake endpoint to test group parameters (optional)",
@@ -1791,21 +1791,37 @@
         "allOf" : [ {
           "$ref" : "#/components/schemas/Animal"
         }, {
-          "$ref" : "#/components/schemas/Dog_allOf"
+          "properties" : {
+            "breed" : {
+              "type" : "string"
+            }
+          },
+          "type" : "object"
         } ]
       },
       "Cat" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/Animal"
         }, {
-          "$ref" : "#/components/schemas/Cat_allOf"
+          "properties" : {
+            "declawed" : {
+              "type" : "boolean"
+            }
+          },
+          "type" : "object"
         } ]
       },
       "BigCat" : {
         "allOf" : [ {
           "$ref" : "#/components/schemas/Cat"
         }, {
-          "$ref" : "#/components/schemas/BigCat_allOf"
+          "properties" : {
+            "kind" : {
+              "enum" : [ "lions", "tigers", "leopards", "jaguars" ],
+              "type" : "string"
+            }
+          },
+          "type" : "object"
         } ]
       },
       "Animal" : {
@@ -2699,7 +2715,8 @@
             "description" : "Updated status of the pet",
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       },
       "uploadFile_request" : {
         "properties" : {
@@ -2712,7 +2729,8 @@
             "format" : "binary",
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       },
       "testEnumParameters_request" : {
         "properties" : {
@@ -2731,7 +2749,8 @@
             "enum" : [ "_abc", "-efg", "(xyz)" ],
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       },
       "testEndpointParameters_request" : {
         "properties" : {
@@ -2815,7 +2834,8 @@
             "type" : "string"
           }
         },
-        "required" : [ "byte", "double", "number", "pattern_without_delimiter" ]
+        "required" : [ "byte", "double", "number", "pattern_without_delimiter" ],
+        "type" : "object"
       },
       "testJsonFormData_request" : {
         "properties" : {
@@ -2828,7 +2848,8 @@
             "type" : "string"
           }
         },
-        "required" : [ "param", "param2" ]
+        "required" : [ "param", "param2" ],
+        "type" : "object"
       },
       "uploadFileWithRequiredFile_request" : {
         "properties" : {
@@ -2842,31 +2863,7 @@
             "type" : "string"
           }
         },
-        "required" : [ "requiredFile" ]
-      },
-      "Dog_allOf" : {
-        "properties" : {
-          "breed" : {
-            "type" : "string"
-          }
-        },
-        "type" : "object"
-      },
-      "Cat_allOf" : {
-        "properties" : {
-          "declawed" : {
-            "type" : "boolean"
-          }
-        },
-        "type" : "object"
-      },
-      "BigCat_allOf" : {
-        "properties" : {
-          "kind" : {
-            "enum" : [ "lions", "tigers", "leopards", "jaguars" ],
-            "type" : "string"
-          }
-        },
+        "required" : [ "requiredFile" ],
         "type" : "object"
       }
     },

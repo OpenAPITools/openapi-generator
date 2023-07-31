@@ -41,11 +41,11 @@ class ArrayTest {
   String toString() => 'ArrayTest[arrayOfString=$arrayOfString, arrayArrayOfInteger=$arrayArrayOfInteger, arrayArrayOfModel=$arrayArrayOfModel]';
 
   Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-      _json[r'array_of_string'] = arrayOfString;
-      _json[r'array_array_of_integer'] = arrayArrayOfInteger;
-      _json[r'array_array_of_model'] = arrayArrayOfModel;
-    return _json;
+    final json = <String, dynamic>{};
+      json[r'array_of_string'] = this.arrayOfString;
+      json[r'array_array_of_integer'] = this.arrayArrayOfInteger;
+      json[r'array_array_of_model'] = this.arrayArrayOfModel;
+    return json;
   }
 
   /// Returns a new [ArrayTest] instance and imports its values from
@@ -67,25 +67,25 @@ class ArrayTest {
       }());
 
       return ArrayTest(
-        arrayOfString: json[r'array_of_string'] is List
-            ? (json[r'array_of_string'] as List).cast<String>()
+        arrayOfString: json[r'array_of_string'] is Iterable
+            ? (json[r'array_of_string'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         arrayArrayOfInteger: json[r'array_array_of_integer'] is List
-          ? (json[r'array_array_of_integer'] as List).map(
-              (e) => e == null ? null : (e as List).cast<int>()
+          ? (json[r'array_array_of_integer'] as List).map((e) =>
+              e == null ? const  <int>[] : (e as List).cast<int>()
             ).toList()
-          : null,
+          :  const [],
         arrayArrayOfModel: json[r'array_array_of_model'] is List
-          ? (json[r'array_array_of_model'] as List).map(
+          ? (json[r'array_array_of_model'] as List).map((e) =>
               ReadOnlyFirst.listFromJson(json[r'array_array_of_model'])
             ).toList()
-          : null,
+          :  const [],
       );
     }
     return null;
   }
 
-  static List<ArrayTest>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<ArrayTest> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <ArrayTest>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -116,12 +116,10 @@ class ArrayTest {
   static Map<String, List<ArrayTest>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<ArrayTest>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = ArrayTest.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = ArrayTest.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

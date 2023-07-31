@@ -10,17 +10,20 @@
 """
 
 
+from __future__ import absolute_import
+
 import unittest
 
 import petstore_api
 from petstore_api.api.another_fake_api import AnotherFakeApi  # noqa: E501
+from petstore_api.rest import ApiException
 
 
 class TestAnotherFakeApi(unittest.TestCase):
     """AnotherFakeApi unit test stubs"""
 
     def setUp(self):
-        self.api = AnotherFakeApi()  # noqa: E501
+        self.api = petstore_api.api.another_fake_api.AnotherFakeApi()  # noqa: E501
 
     def tearDown(self):
         pass

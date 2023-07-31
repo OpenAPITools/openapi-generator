@@ -19,14 +19,19 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.Sets;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Discriminator;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -78,9 +83,16 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.Authorizations,
                         ClientModificationFeature.UserAgent
+                ).includeSchemaSupportFeatures(
+                    SchemaSupportFeature.Polymorphism,
+                    SchemaSupportFeature.Union,
+                    SchemaSupportFeature.Composite,
+                    SchemaSupportFeature.allOf,
+                    SchemaSupportFeature.oneOf,
+                    SchemaSupportFeature.anyOf
                 )
         );
-        generatorMetadata = GeneratorMetadata.newBuilder()
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.STABLE)
                 .build();
 
@@ -95,13 +107,13 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         serializationLibrary.setDefault(SERIALIZATION_LIBRARY_DEFAULT);
         cliOptions.add(serializationLibrary);
 
-        final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
-        finalProperties.setDefault("true");
-        cliOptions.add(finalProperties);
-
         // Date Library Option
         final CliOption dateOption = CliOption.newString(DATE_LIBRARY, "Specify Date library");
         dateOption.setDefault(DATE_LIBRARY_DEFAULT);
+
+        final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
+        finalProperties.setDefault("true");
+        cliOptions.add(finalProperties);
 
         final Map<String, String> dateOptions = new HashMap<>();
         dateOptions.put(DATE_LIBRARY_CORE, "[DEFAULT] Dart core library (DateTime)");
@@ -133,7 +145,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Dart Dio client library with null-safety.";
+        return "Generates a Dart Dio client library.";
     }
 
     @Override
@@ -150,6 +162,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             LOGGER.debug("Serialization library not set, using default {}", SERIALIZATION_LIBRARY_DEFAULT);
         }
         setLibrary(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY).toString());
+        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+            this.setLegacyDiscriminatorBehavior(false);
+        }
 
         if (!additionalProperties.containsKey(DATE_LIBRARY)) {
             additionalProperties.put(DATE_LIBRARY, DATE_LIBRARY_DEFAULT);
@@ -322,12 +337,256 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         objs = super.postProcessModels(objs);
         List<ModelMap> models = objs.getModels();
         ProcessUtils.addIndexToProperties(models, 1);
+        return objs;
+    }
 
-        for (ModelMap mo : models) {
-            CodegenModel cm = mo.getModel();
-            cm.imports = rewriteImports(cm.imports, true);
-            cm.vendorExtensions.put("x-has-vars", !cm.vars.isEmpty());
+    /// Gets all ancestors of a given model, and puts it in accumulator
+    private void getAncestors(CodegenModel cm, Map<String, CodegenModel> allModels, Set<String> accumulator) {
+
+        // get direct parents
+        Set<String> directParentNames = cm.allOf;
+        if (directParentNames != null && !directParentNames.isEmpty()) {
+            for (String directParentName : directParentNames) {
+                if (accumulator.add(directParentName)) {
+                    CodegenModel parent = allModels.get(directParentName);
+                    getAncestors(parent, allModels, accumulator);
+                }
+            }
         }
+    }
+
+    private void syncRootTypesWithInnerVars(Map<String, ModelsMap> objs) {
+        Map<String, CodegenModel> allModels = new HashMap<>();
+        for (ModelsMap modelsEntries : objs.values()) {
+            for (ModelMap modelsMap : modelsEntries.getModels()) {
+                CodegenModel model = modelsMap.getModel();
+                allModels.put(model.getClassname(), model);
+            }
+        }
+
+        for (CodegenModel model : allModels.values()) {
+            syncRootTypesWithInnerVars(allModels, model);
+        }
+    }
+    private void syncRootTypesWithInnerVars(Map<String, CodegenModel> objs, CodegenModel model) {
+        List<CodegenProperty> allVars = new ArrayList<>();
+        allVars.addAll(((Collection<CodegenProperty>) model.vendorExtensions.get(kSelfAndAncestorOnlyProps)));
+        allVars.addAll(((Collection<CodegenProperty>) model.vendorExtensions.get(kSelfOnlyProps)));
+        allVars.addAll(((Collection<CodegenProperty>) model.vendorExtensions.get(kAncestorOnlyProps)));
+
+        for (CodegenProperty prop : allVars) {
+            //check if type exists in parent map
+            String type = prop.openApiType;
+            if (objs.containsKey(type)) {
+                //get the type
+                CodegenModel relatedModel = objs.get(type);
+                //fill the property's VendorExtensions with the type's VendorExtensions
+                prop.getVendorExtensions().put(kIsParent, relatedModel.getVendorExtensions().get(kIsParent));
+                prop.isEnum = relatedModel.isEnum;
+
+            }
+        }
+    }
+    private final String kIsChild = "x-is-child";
+    private final String kIsParent = "x-is-parent";
+    private final String kIsPure = "x-is-pure";
+    private final String kSelfOnlyProps = "x-self-only-props";
+    private final String kHasSelfOnlyProps = "x-has-self-only-props";
+    private final String kAncestorOnlyProps = "x-ancestor-only-props";
+    private final String kHasAncestorOnlyProps = "x-has-ancestor-only-props";
+    private final String kSelfAndAncestorOnlyProps = "x-self-and-ancestor-only-props";
+    private final String kHasSelfAndAncestorOnlyProps = "x-has-self-and-ancestor-only-props";
+    private final String kParentDiscriminator = "x-parent-discriminator";
+
+    // adapts codegen models and property to dart rules of inheritance
+    private void adaptToDartInheritance(Map<String, ModelsMap> objs) {
+        // get all models
+        Map<String, CodegenModel> allModels = new HashMap<>();
+        for (ModelsMap modelsEntries : objs.values()) {
+            for (ModelMap modelsMap : modelsEntries.getModels()) {
+                CodegenModel model = modelsMap.getModel();
+                allModels.put(model.getClassname(), model);
+            }
+        }
+
+        // all ancestors
+        Set<String> allAncestorsForAllModelsFlat = new HashSet<>();
+        // maps a model to its ancestors
+        Map<String, Set<String>> allAncestorsForAllModels = new HashMap<>();
+        for (java.util.Map.Entry<String, CodegenModel> cm : allModels.entrySet()) {
+            Set<String> allAncestors = new HashSet<>();
+            // get all ancestors
+            // TODO: optimize this logic ?
+            getAncestors(cm.getValue(), allModels, allAncestors);
+            // just in case, a model can't be its own ancestor
+            allAncestors.remove(cm.getKey());
+
+            allAncestorsForAllModels.put(cm.getKey(), allAncestors);
+            allAncestorsForAllModelsFlat.addAll(allAncestors);
+        }
+
+
+
+        Set<String> allPureClasses = new HashSet<>();
+        // set isChild,isParent,isPure
+        for (java.util.Map.Entry<String, CodegenModel> cmEntry : allModels.entrySet()) {
+            String key = cmEntry.getKey();
+            CodegenModel cm = cmEntry.getValue();
+            // get all ancestors
+            Set<String> allAncestors = allAncestorsForAllModels.get(key);
+
+            // a class is a parent when it's an ancestor to another class
+            boolean isParent = allAncestorsForAllModelsFlat.contains(key);
+            // a class is a child when it has any ancestor
+            boolean isChild = !allAncestors.isEmpty();
+            // a class is pure when it's not a child, and has no oneOf nor anyOf
+            boolean isPure = !isChild && (cm.oneOf == null || cm.oneOf.isEmpty())
+                    && (cm.anyOf == null || cm.anyOf.isEmpty());
+
+            cm.vendorExtensions.put(kIsChild, isChild);
+            cm.vendorExtensions.put(kIsParent, isParent);
+            cm.vendorExtensions.put(kIsPure, isPure);
+            if (!isParent && (cm.oneOf == null || cm.oneOf.isEmpty())) {
+                //discriminator has no meaning here
+                if (cm.discriminator!=null) {
+                    cm.vendorExtensions.put(kParentDiscriminator, cm.discriminator);
+                    cm.discriminator=null;
+                }
+
+            }
+            // when pure:
+            // vars = allVars = selfOnlyProperties = kSelfAndAncestorOnlyProps
+            // ancestorOnlyProps = empty
+            if (isPure) {
+                cm.vendorExtensions.put(kSelfOnlyProps, new ArrayList<>(cm.getVars()));
+                cm.vendorExtensions.put(kHasSelfOnlyProps, !cm.getVars().isEmpty());
+                cm.vendorExtensions.put(kAncestorOnlyProps, new ArrayList<CodegenProperty>());
+                cm.vendorExtensions.put(kHasAncestorOnlyProps, false);
+                cm.vendorExtensions.put(kSelfAndAncestorOnlyProps, new ArrayList<>(cm.getVars()));
+                cm.vendorExtensions.put(kHasSelfAndAncestorOnlyProps, !cm.getVars().isEmpty());
+
+                allPureClasses.add(key);
+            }
+        }
+
+        // handle impure models
+        for (java.util.Map.Entry<String, CodegenModel> cmEntry : allModels.entrySet()) {
+            String key = cmEntry.getKey();
+            CodegenModel cm = cmEntry.getValue();
+            if (allPureClasses.contains(key)) {
+                continue;
+            }
+            // get all ancestors
+            Set<String> allAncestors = allAncestorsForAllModels.get(key);
+
+            // get direct parents
+            // Set<String> directParentNames = cm.allOf == null ? new HashSet<>() :
+            // cm.allOf;
+            Set<String> compositeProperties = new HashSet<>();
+
+            Set<String> compositeModelNames = new HashSet<String>();
+            compositeModelNames.addAll(ObjectUtils.firstNonNull(cm.oneOf, new HashSet<>()));
+            compositeModelNames.addAll(ObjectUtils.firstNonNull(cm.anyOf, new HashSet<>()));
+            compositeModelNames.addAll(allAncestors);
+
+            for (String compositeModelName : compositeModelNames) {
+                CodegenModel model = allModels.get(compositeModelName);
+                if (model == null)
+                    continue;
+                List<CodegenProperty> allVars = ObjectUtils.firstNonNull(model.getAllVars(), new ArrayList<>());
+                for (CodegenProperty prop : allVars) {
+                    compositeProperties.add(prop.getName());
+                }
+            }
+            // dart classes declare selfOnlyProperties as direct members (they exist in
+            // "vars")
+            // for pure models, this will equal vars
+            Map<String, CodegenProperty> selfOnlyProperties = new HashMap<>();
+
+            // ancestorOnlyProperties are properties defined by all ancestors
+            // NOTE: oneOf,anyOf are NOT considered ancestors
+            // since a child in dart must implement ALL OF the parent (using implements)
+            Map<String, CodegenProperty> ancestorOnlyProperties = new HashMap<>();
+
+            // combines both selfOnlyProperties and ancestorOnlyProperties
+            // this will be used by the custom serializer as "x-handled-vars" and
+            // "x-has-handled-vars"
+            Map<String, CodegenProperty> selfAndAncestorOnlyProperties = new HashMap<>();
+
+            // STEP 1: calculating selfOnlyProperties
+            // get all vars of all ancestors and add them to ancestorPropNames
+            // Set<String> _ancestorPropNames = new HashSet<>();
+            for (String ancestorKey : allAncestors) {
+                CodegenModel ancestorCM = allModels.get(ancestorKey);
+                for (CodegenProperty prop : ancestorCM.getVars()) {
+                    ancestorOnlyProperties.put(prop.getName(), prop);
+                }
+            }
+            for (CodegenProperty p : cm.getVars()) {
+                p.isInherited = ancestorOnlyProperties.containsKey(p.getName());
+                if (!p.isInherited && !compositeProperties.contains(p.getName())) {
+                    selfOnlyProperties.put(p.getName(), p);
+                }
+            }
+            selfAndAncestorOnlyProperties.putAll(selfOnlyProperties);
+            selfAndAncestorOnlyProperties.putAll(ancestorOnlyProperties);
+
+            cm.vendorExtensions.put(kSelfOnlyProps, new ArrayList<>(selfOnlyProperties.values()));
+            cm.vendorExtensions.put(kHasSelfOnlyProps, !selfOnlyProperties.isEmpty());
+            cm.vendorExtensions.put(kAncestorOnlyProps, new ArrayList<>(ancestorOnlyProperties.values()));
+            cm.vendorExtensions.put(kHasAncestorOnlyProps, !ancestorOnlyProperties.isEmpty());
+            cm.vendorExtensions.put(kSelfAndAncestorOnlyProps, new ArrayList<>(selfAndAncestorOnlyProperties.values()));
+            cm.vendorExtensions.put(kHasSelfAndAncestorOnlyProps, !selfAndAncestorOnlyProperties.isEmpty());
+            // fixes missing imports
+            Set<String> interfaceImports = new HashSet<String>();
+            interfaceImports.addAll(cm.allOf);
+            interfaceImports.addAll(cm.oneOf);
+            interfaceImports.addAll(cm.anyOf);
+            cm.imports.addAll(rewriteImports(interfaceImports, true));
+        }
+    }
+
+    /// override the default behavior of createDiscriminator
+    /// to remove extra mappings added as a side effect of setLegacyDiscriminatorBehavior(false)
+    /// this ensures 1-1 schema mapping instead of 1-many
+    @Override
+    protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
+        CodegenDiscriminator sub = super.createDiscriminator(schemaName, schema);
+        Discriminator originalDiscriminator = schema.getDiscriminator();
+        if (originalDiscriminator!=null) {
+            Map<String,String> originalMapping = originalDiscriminator.getMapping();
+            if (originalMapping != null && !originalMapping.isEmpty()) {
+                //we already have a discriminator mapping, remove everything else
+                for (MappedModel currentMappings : new HashSet<>(sub.getMappedModels())) {
+                    if (originalMapping.containsKey(currentMappings.getMappingName())) {
+                        //all good
+                    } else {
+                        sub.getMapping().remove(currentMappings.getMappingName());
+                        sub.getMappedModels().remove(currentMappings);
+                    }
+                }
+            }
+        }
+        return sub;
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {
+            adaptToDartInheritance(objs);
+            syncRootTypesWithInnerVars(objs);
+        }
+
+        // loop through models to update the imports
+        for (ModelsMap entry : objs.values()) {
+            for (ModelMap mo : entry.getModels()) {
+                CodegenModel cm = mo.getModel();
+                cm.imports = rewriteImports(cm.imports, true);
+                cm.vendorExtensions.put("x-has-vars", !cm.vars.isEmpty());
+            }
+        }
+
         return objs;
     }
 
@@ -361,7 +620,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = objs.getOperations();
-        List<CodegenOperation> operationList =  operations.getOperation();
+        List<CodegenOperation> operationList = operations.getOperation();
 
         Set<String> resultImports = new HashSet<>();
 
@@ -403,7 +662,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 for (CodegenParameter param : op.allParams) {
                     // Generate serializer factories for all container type parameters.
                     // But skip binary and file parameters, JSON serializers don't make sense there.
-                    if (param.isContainer && !(param.isBinary || param.isFile )) {
+                    if (param.isContainer && !(param.isBinary || param.isFile)) {
                         addBuiltValueSerializer(new BuiltValueSerializer(
                                 param.isArray,
                                 param.uniqueItems,
@@ -415,8 +674,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 }
             }
 
-            resultImports.addAll(rewriteImports(op.imports, false));
-            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library) && (op.getHasFormParams() || op.getHasQueryParams())) {
+            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library) && (op.getHasFormParams() || op.getHasQueryParams() || op.getHasPathParams())) {
                 resultImports.add("package:" + pubName + "/" + sourceFolder + "/api_util.dart");
             }
 
@@ -459,6 +717,14 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     private Set<String> rewriteImports(Set<String> originalImports, boolean isModel) {
         Set<String> resultImports = Sets.newHashSet();
         for (String modelImport : originalImports) {
+            if (modelImport.startsWith("BuiltList", 0)) {
+                modelImport = "BuiltList";
+            } else if (modelImport.startsWith("BuiltSet", 0)) {
+                modelImport = "BuiltSet";
+            } else if (modelImport.startsWith("BuiltMap", 0)) {
+                modelImport = "BuiltMap";
+            }
+
             if (imports.containsKey(modelImport)) {
                 String i = imports.get(modelImport);
                 if (Objects.equals(i, DIO_IMPORT) && !isModel) {
@@ -468,6 +734,10 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 resultImports.add(i);
             } else if (importMapping().containsKey(modelImport)) {
                 resultImports.add(importMapping().get(modelImport));
+            } else if (modelImport.startsWith("dart:")) { // import dart:* directly
+                resultImports.add(modelImport);
+            } else if (modelImport.startsWith("package:")) { // e.g. package:openapi/src/model/child.dart
+                resultImports.add(modelImport);
             } else {
                 resultImports.add("package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/" + underscore(modelImport) + ".dart");
             }

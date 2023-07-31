@@ -13,13 +13,9 @@ import (
 	"log"
 
 	// WARNING!
-	// Change this to a fully-qualified import path
-	// once you place this file into your project.
-	// For example,
+	// Pass --git-repo-id and --git-user-id properties when generating the code
 	//
-	//sw "github.com/GIT_USER_ID/GIT_REPO_ID/go"
-	//
-	sw "./go"
+	sw "github.com/GIT_USER_ID/GIT_REPO_ID/go"
 )
 
 func main() {

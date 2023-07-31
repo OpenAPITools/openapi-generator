@@ -54,7 +54,7 @@ public class PetApiController extends Controller {
 
     
     public Result deletePet(Http.Request request, Long petId) throws Exception {
-        String valueapiKey = request.header("api_key").get();
+        String valueapiKey = request.header("api_key").orElse(null);
         String apiKey;
         if (valueapiKey != null) {
             apiKey = valueapiKey;

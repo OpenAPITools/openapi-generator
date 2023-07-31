@@ -20,9 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Enum_Test")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class EnumTest  implements Serializable {
-  
-
-public enum EnumStringEnum {
+  public enum EnumStringEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
 
@@ -70,8 +68,7 @@ public enum EnumStringEnum {
 }
 
   private @Valid EnumStringEnum enumString;
-
-public enum EnumStringRequiredEnum {
+  public enum EnumStringRequiredEnum {
 
     UPPER(String.valueOf("UPPER")), LOWER(String.valueOf("lower")), EMPTY(String.valueOf(""));
 
@@ -119,8 +116,7 @@ public enum EnumStringRequiredEnum {
 }
 
   private @Valid EnumStringRequiredEnum enumStringRequired;
-
-public enum EnumIntegerEnum {
+  public enum EnumIntegerEnum {
 
     NUMBER_1(Integer.valueOf(1)), NUMBER_MINUS_1(Integer.valueOf(-1));
 
@@ -168,8 +164,7 @@ public enum EnumIntegerEnum {
 }
 
   private @Valid EnumIntegerEnum enumInteger;
-
-public enum EnumNumberEnum {
+  public enum EnumNumberEnum {
 
     NUMBER_1_DOT_1(Double.valueOf(1.1)), NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
 
@@ -220,10 +215,15 @@ public enum EnumNumberEnum {
   private @Valid OuterEnum outerEnum;
 
   protected EnumTest(EnumTestBuilder<?, ?> b) {
-  this.enumString = b.enumString;this.enumStringRequired = b.enumStringRequired;this.enumInteger = b.enumInteger;this.enumNumber = b.enumNumber;this.outerEnum = b.outerEnum;
+    this.enumString = b.enumString;
+    this.enumStringRequired = b.enumStringRequired;
+    this.enumInteger = b.enumInteger;
+    this.enumNumber = b.enumNumber;
+    this.outerEnum = b.outerEnum;
   }
 
-  public EnumTest() { }
+  public EnumTest() {
+  }
 
   /**
    **/
@@ -244,7 +244,7 @@ public enum EnumNumberEnum {
     this.enumString = enumString;
   }
 
-/**
+  /**
    **/
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
@@ -264,7 +264,7 @@ public enum EnumNumberEnum {
     this.enumStringRequired = enumStringRequired;
   }
 
-/**
+  /**
    **/
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
@@ -283,7 +283,7 @@ public enum EnumNumberEnum {
     this.enumInteger = enumInteger;
   }
 
-/**
+  /**
    **/
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
@@ -302,7 +302,7 @@ public enum EnumNumberEnum {
     this.enumNumber = enumNumber;
   }
 
-/**
+  /**
    **/
   public EnumTest outerEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;

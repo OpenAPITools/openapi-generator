@@ -13,13 +13,15 @@
  */
 
 
-import { Configuration } from './configuration';
-import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import type { Configuration } from './configuration';
+import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
+import type { RequestArgs } from './base';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
+import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
 
 /**
  * 
@@ -313,19 +315,6 @@ export interface Cat extends Animal {
 /**
  * 
  * @export
- * @interface CatAllOf
- */
-export interface CatAllOf {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CatAllOf
-     */
-    'declawed'?: boolean;
-}
-/**
- * 
- * @export
  * @interface Category
  */
 export interface Category {
@@ -359,7 +348,7 @@ export interface ChildCat extends ParentPet {
      * @type {string}
      * @memberof ChildCat
      */
-    'pet_type': ChildCatPetTypeEnum;
+    'pet_type'?: ChildCatPetTypeEnum;
 }
 
 export const ChildCatPetTypeEnum = {
@@ -367,32 +356,6 @@ export const ChildCatPetTypeEnum = {
 } as const;
 
 export type ChildCatPetTypeEnum = typeof ChildCatPetTypeEnum[keyof typeof ChildCatPetTypeEnum];
-
-/**
- * 
- * @export
- * @interface ChildCatAllOf
- */
-export interface ChildCatAllOf {
-    /**
-     * 
-     * @type {string}
-     * @memberof ChildCatAllOf
-     */
-    'name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ChildCatAllOf
-     */
-    'pet_type'?: ChildCatAllOfPetTypeEnum;
-}
-
-export const ChildCatAllOfPetTypeEnum = {
-    ChildCat: 'ChildCat'
-} as const;
-
-export type ChildCatAllOfPetTypeEnum = typeof ChildCatAllOfPetTypeEnum[keyof typeof ChildCatAllOfPetTypeEnum];
 
 /**
  * Model for testing model with \"_class\" property
@@ -481,19 +444,6 @@ export interface Dog extends Animal {
 /**
  * 
  * @export
- * @interface DogAllOf
- */
-export interface DogAllOf {
-    /**
-     * 
-     * @type {string}
-     * @memberof DogAllOf
-     */
-    'breed'?: string;
-}
-/**
- * 
- * @export
  * @interface Drawing
  */
 export interface Drawing {
@@ -510,7 +460,7 @@ export interface Drawing {
      * @type {ShapeOrNull}
      * @memberof Drawing
      */
-    'shapeOrNull'?: ShapeOrNull;
+    'shapeOrNull'?: ShapeOrNull | null;
     /**
      * 
      * @type {NullableShape}
@@ -793,10 +743,10 @@ export interface FormatTest {
     'byte': string;
     /**
      * 
-     * @type {any}
+     * @type {File}
      * @memberof FormatTest
      */
-    'binary'?: any;
+    'binary'?: File;
     /**
      * 
      * @type {string}
@@ -844,7 +794,7 @@ export type Fruit = Apple | Banana;
  * @type FruitReq
  * @export
  */
-export type FruitReq = AppleReq | BananaReq | Null;
+export type FruitReq = AppleReq | BananaReq;
 
 /**
  * 
@@ -1518,7 +1468,7 @@ export interface ShapeInterface {
  * The value may be a shape or the \'null\' value. This is introduced in OAS schema >= 3.1.
  * @export
  */
-export type ShapeOrNull = Null | Quadrilateral | Triangle;
+export type ShapeOrNull = Quadrilateral | Triangle;
 
 /**
  * 
@@ -1838,6 +1788,7 @@ export class AnotherFakeApi extends BaseAPI {
 }
 
 
+
 /**
  * DefaultApi - axios parameter creator
  * @export
@@ -1930,6 +1881,7 @@ export class DefaultApi extends BaseAPI {
         return DefaultApiFp(this.configuration).fooGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 
 /**
@@ -2255,7 +2207,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {number} [int64] None
          * @param {number} [_float] None
          * @param {string} [string] None
-         * @param {any} [binary] None
+         * @param {File} [binary] None
          * @param {string} [date] None
          * @param {string} [dateTime] None
          * @param {string} [password] None
@@ -2263,7 +2215,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testEndpointParameters: async (number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: any, date?: string, dateTime?: string, password?: string, callback?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        testEndpointParameters: async (number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'number' is not null or undefined
             assertParamExists('testEndpointParameters', 'number', number)
             // verify required parameter '_double' is not null or undefined
@@ -2362,18 +2314,18 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * To test enum parameters
          * @summary To test enum parameters
-         * @param {Array<'>' | '$'>} [enumHeaderStringArray] Header parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumHeaderString] Header parameter enum test (string)
-         * @param {Array<'>' | '$'>} [enumQueryStringArray] Query parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumQueryString] Query parameter enum test (string)
-         * @param {1 | -2} [enumQueryInteger] Query parameter enum test (double)
-         * @param {1.1 | -1.2} [enumQueryDouble] Query parameter enum test (double)
-         * @param {Array<string>} [enumFormStringArray] Form parameter enum test (string array)
-         * @param {string} [enumFormString] Form parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumHeaderStringArrayEnum>} [enumHeaderStringArray] Header parameter enum test (string array)
+         * @param {TestEnumParametersEnumHeaderStringEnum} [enumHeaderString] Header parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumQueryStringArrayEnum>} [enumQueryStringArray] Query parameter enum test (string array)
+         * @param {TestEnumParametersEnumQueryStringEnum} [enumQueryString] Query parameter enum test (string)
+         * @param {TestEnumParametersEnumQueryIntegerEnum} [enumQueryInteger] Query parameter enum test (double)
+         * @param {TestEnumParametersEnumQueryDoubleEnum} [enumQueryDouble] Query parameter enum test (double)
+         * @param {Array<TestEnumParametersEnumFormStringArrayEnum>} [enumFormStringArray] Form parameter enum test (string array)
+         * @param {TestEnumParametersEnumFormStringEnum} [enumFormString] Form parameter enum test (string)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testEnumParameters: async (enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumFormStringArray?: Array<string>, enumFormString?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        testEnumParameters: async (enumHeaderStringArray?: Array<TestEnumParametersEnumHeaderStringArrayEnum>, enumHeaderString?: TestEnumParametersEnumHeaderStringEnum, enumQueryStringArray?: Array<TestEnumParametersEnumQueryStringArrayEnum>, enumQueryString?: TestEnumParametersEnumQueryStringEnum, enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum, enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum, enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>, enumFormString?: TestEnumParametersEnumFormStringEnum, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/fake`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2408,7 +2360,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarHeaderParameter['enum_header_string_array'] = mapped.join(COLLECTION_FORMATS["csv"]);
             }
 
-            if (enumHeaderString !== undefined && enumHeaderString !== null) {
+            if (enumHeaderString != null) {
                 localVarHeaderParameter['enum_header_string'] = String(enumHeaderString);
             }
 
@@ -2485,12 +2437,16 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarQueryParameter['int64_group'] = int64Group;
             }
 
-            if (requiredBooleanGroup !== undefined && requiredBooleanGroup !== null) {
-                localVarHeaderParameter['required_boolean_group'] = String(JSON.stringify(requiredBooleanGroup));
+            if (requiredBooleanGroup != null) {
+                localVarHeaderParameter['required_boolean_group'] = typeof requiredBooleanGroup === 'string'
+                    ? requiredBooleanGroup
+                    : JSON.stringify(requiredBooleanGroup);
             }
 
-            if (booleanGroup !== undefined && booleanGroup !== null) {
-                localVarHeaderParameter['boolean_group'] = String(JSON.stringify(booleanGroup));
+            if (booleanGroup != null) {
+                localVarHeaderParameter['boolean_group'] = typeof booleanGroup === 'string'
+                    ? booleanGroup
+                    : JSON.stringify(booleanGroup);
             }
 
 
@@ -2766,7 +2722,7 @@ export const FakeApiFp = function(configuration?: Configuration) {
          * @param {number} [int64] None
          * @param {number} [_float] None
          * @param {string} [string] None
-         * @param {any} [binary] None
+         * @param {File} [binary] None
          * @param {string} [date] None
          * @param {string} [dateTime] None
          * @param {string} [password] None
@@ -2774,25 +2730,25 @@ export const FakeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: any, date?: string, dateTime?: string, password?: string, callback?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * To test enum parameters
          * @summary To test enum parameters
-         * @param {Array<'>' | '$'>} [enumHeaderStringArray] Header parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumHeaderString] Header parameter enum test (string)
-         * @param {Array<'>' | '$'>} [enumQueryStringArray] Query parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumQueryString] Query parameter enum test (string)
-         * @param {1 | -2} [enumQueryInteger] Query parameter enum test (double)
-         * @param {1.1 | -1.2} [enumQueryDouble] Query parameter enum test (double)
-         * @param {Array<string>} [enumFormStringArray] Form parameter enum test (string array)
-         * @param {string} [enumFormString] Form parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumHeaderStringArrayEnum>} [enumHeaderStringArray] Header parameter enum test (string array)
+         * @param {TestEnumParametersEnumHeaderStringEnum} [enumHeaderString] Header parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumQueryStringArrayEnum>} [enumQueryStringArray] Query parameter enum test (string array)
+         * @param {TestEnumParametersEnumQueryStringEnum} [enumQueryString] Query parameter enum test (string)
+         * @param {TestEnumParametersEnumQueryIntegerEnum} [enumQueryInteger] Query parameter enum test (double)
+         * @param {TestEnumParametersEnumQueryDoubleEnum} [enumQueryDouble] Query parameter enum test (double)
+         * @param {Array<TestEnumParametersEnumFormStringArrayEnum>} [enumFormStringArray] Form parameter enum test (string array)
+         * @param {TestEnumParametersEnumFormStringEnum} [enumFormString] Form parameter enum test (string)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumFormStringArray?: Array<string>, enumFormString?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async testEnumParameters(enumHeaderStringArray?: Array<TestEnumParametersEnumHeaderStringArrayEnum>, enumHeaderString?: TestEnumParametersEnumHeaderStringEnum, enumQueryStringArray?: Array<TestEnumParametersEnumQueryStringArrayEnum>, enumQueryString?: TestEnumParametersEnumQueryStringEnum, enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum, enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum, enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>, enumFormString?: TestEnumParametersEnumFormStringEnum, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2954,7 +2910,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {number} [int64] None
          * @param {number} [_float] None
          * @param {string} [string] None
-         * @param {any} [binary] None
+         * @param {File} [binary] None
          * @param {string} [date] None
          * @param {string} [dateTime] None
          * @param {string} [password] None
@@ -2962,24 +2918,24 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: any, date?: string, dateTime?: string, password?: string, callback?: string, options?: any): AxiosPromise<void> {
+        testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: any): AxiosPromise<void> {
             return localVarFp.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options).then((request) => request(axios, basePath));
         },
         /**
          * To test enum parameters
          * @summary To test enum parameters
-         * @param {Array<'>' | '$'>} [enumHeaderStringArray] Header parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumHeaderString] Header parameter enum test (string)
-         * @param {Array<'>' | '$'>} [enumQueryStringArray] Query parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumQueryString] Query parameter enum test (string)
-         * @param {1 | -2} [enumQueryInteger] Query parameter enum test (double)
-         * @param {1.1 | -1.2} [enumQueryDouble] Query parameter enum test (double)
-         * @param {Array<string>} [enumFormStringArray] Form parameter enum test (string array)
-         * @param {string} [enumFormString] Form parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumHeaderStringArrayEnum>} [enumHeaderStringArray] Header parameter enum test (string array)
+         * @param {TestEnumParametersEnumHeaderStringEnum} [enumHeaderString] Header parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumQueryStringArrayEnum>} [enumQueryStringArray] Query parameter enum test (string array)
+         * @param {TestEnumParametersEnumQueryStringEnum} [enumQueryString] Query parameter enum test (string)
+         * @param {TestEnumParametersEnumQueryIntegerEnum} [enumQueryInteger] Query parameter enum test (double)
+         * @param {TestEnumParametersEnumQueryDoubleEnum} [enumQueryDouble] Query parameter enum test (double)
+         * @param {Array<TestEnumParametersEnumFormStringArrayEnum>} [enumFormStringArray] Form parameter enum test (string array)
+         * @param {TestEnumParametersEnumFormStringEnum} [enumFormString] Form parameter enum test (string)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumFormStringArray?: Array<string>, enumFormString?: string, options?: any): AxiosPromise<void> {
+        testEnumParameters(enumHeaderStringArray?: Array<TestEnumParametersEnumHeaderStringArrayEnum>, enumHeaderString?: TestEnumParametersEnumHeaderStringEnum, enumQueryStringArray?: Array<TestEnumParametersEnumQueryStringArrayEnum>, enumQueryString?: TestEnumParametersEnumQueryStringEnum, enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum, enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum, enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>, enumFormString?: TestEnumParametersEnumFormStringEnum, options?: any): AxiosPromise<void> {
             return localVarFp.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3154,7 +3110,7 @@ export class FakeApi extends BaseAPI {
      * @param {number} [int64] None
      * @param {number} [_float] None
      * @param {string} [string] None
-     * @param {any} [binary] None
+     * @param {File} [binary] None
      * @param {string} [date] None
      * @param {string} [dateTime] None
      * @param {string} [password] None
@@ -3163,26 +3119,26 @@ export class FakeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof FakeApi
      */
-    public testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: any, date?: string, dateTime?: string, password?: string, callback?: string, options?: AxiosRequestConfig) {
+    public testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: File, date?: string, dateTime?: string, password?: string, callback?: string, options?: AxiosRequestConfig) {
         return FakeApiFp(this.configuration).testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * To test enum parameters
      * @summary To test enum parameters
-     * @param {Array<'>' | '$'>} [enumHeaderStringArray] Header parameter enum test (string array)
-     * @param {'_abc' | '-efg' | '(xyz)'} [enumHeaderString] Header parameter enum test (string)
-     * @param {Array<'>' | '$'>} [enumQueryStringArray] Query parameter enum test (string array)
-     * @param {'_abc' | '-efg' | '(xyz)'} [enumQueryString] Query parameter enum test (string)
-     * @param {1 | -2} [enumQueryInteger] Query parameter enum test (double)
-     * @param {1.1 | -1.2} [enumQueryDouble] Query parameter enum test (double)
-     * @param {Array<string>} [enumFormStringArray] Form parameter enum test (string array)
-     * @param {string} [enumFormString] Form parameter enum test (string)
+     * @param {Array<TestEnumParametersEnumHeaderStringArrayEnum>} [enumHeaderStringArray] Header parameter enum test (string array)
+     * @param {TestEnumParametersEnumHeaderStringEnum} [enumHeaderString] Header parameter enum test (string)
+     * @param {Array<TestEnumParametersEnumQueryStringArrayEnum>} [enumQueryStringArray] Query parameter enum test (string array)
+     * @param {TestEnumParametersEnumQueryStringEnum} [enumQueryString] Query parameter enum test (string)
+     * @param {TestEnumParametersEnumQueryIntegerEnum} [enumQueryInteger] Query parameter enum test (double)
+     * @param {TestEnumParametersEnumQueryDoubleEnum} [enumQueryDouble] Query parameter enum test (double)
+     * @param {Array<TestEnumParametersEnumFormStringArrayEnum>} [enumFormStringArray] Form parameter enum test (string array)
+     * @param {TestEnumParametersEnumFormStringEnum} [enumFormString] Form parameter enum test (string)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FakeApi
      */
-    public testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumFormStringArray?: Array<string>, enumFormString?: string, options?: AxiosRequestConfig) {
+    public testEnumParameters(enumHeaderStringArray?: Array<TestEnumParametersEnumHeaderStringArrayEnum>, enumHeaderString?: TestEnumParametersEnumHeaderStringEnum, enumQueryStringArray?: Array<TestEnumParametersEnumQueryStringArrayEnum>, enumQueryString?: TestEnumParametersEnumQueryStringEnum, enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum, enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum, enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>, enumFormString?: TestEnumParametersEnumFormStringEnum, options?: AxiosRequestConfig) {
         return FakeApiFp(this.configuration).testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -3243,6 +3199,74 @@ export class FakeApi extends BaseAPI {
         return FakeApiFp(this.configuration).testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
+/**
+ * @export
+ */
+export const TestEnumParametersEnumHeaderStringArrayEnum = {
+    GreaterThan: '>',
+    Dollar: '$'
+} as const;
+export type TestEnumParametersEnumHeaderStringArrayEnum = typeof TestEnumParametersEnumHeaderStringArrayEnum[keyof typeof TestEnumParametersEnumHeaderStringArrayEnum];
+/**
+ * @export
+ */
+export const TestEnumParametersEnumHeaderStringEnum = {
+    Abc: '_abc',
+    Efg: '-efg',
+    Xyz: '(xyz)'
+} as const;
+export type TestEnumParametersEnumHeaderStringEnum = typeof TestEnumParametersEnumHeaderStringEnum[keyof typeof TestEnumParametersEnumHeaderStringEnum];
+/**
+ * @export
+ */
+export const TestEnumParametersEnumQueryStringArrayEnum = {
+    GreaterThan: '>',
+    Dollar: '$'
+} as const;
+export type TestEnumParametersEnumQueryStringArrayEnum = typeof TestEnumParametersEnumQueryStringArrayEnum[keyof typeof TestEnumParametersEnumQueryStringArrayEnum];
+/**
+ * @export
+ */
+export const TestEnumParametersEnumQueryStringEnum = {
+    Abc: '_abc',
+    Efg: '-efg',
+    Xyz: '(xyz)'
+} as const;
+export type TestEnumParametersEnumQueryStringEnum = typeof TestEnumParametersEnumQueryStringEnum[keyof typeof TestEnumParametersEnumQueryStringEnum];
+/**
+ * @export
+ */
+export const TestEnumParametersEnumQueryIntegerEnum = {
+    NUMBER_1: 1,
+    NUMBER_MINUS_2: -2
+} as const;
+export type TestEnumParametersEnumQueryIntegerEnum = typeof TestEnumParametersEnumQueryIntegerEnum[keyof typeof TestEnumParametersEnumQueryIntegerEnum];
+/**
+ * @export
+ */
+export const TestEnumParametersEnumQueryDoubleEnum = {
+    NUMBER_1_DOT_1: 1.1,
+    NUMBER_MINUS_1_DOT_2: -1.2
+} as const;
+export type TestEnumParametersEnumQueryDoubleEnum = typeof TestEnumParametersEnumQueryDoubleEnum[keyof typeof TestEnumParametersEnumQueryDoubleEnum];
+/**
+ * @export
+ */
+export const TestEnumParametersEnumFormStringArrayEnum = {
+    GreaterThan: '>',
+    Dollar: '$'
+} as const;
+export type TestEnumParametersEnumFormStringArrayEnum = typeof TestEnumParametersEnumFormStringArrayEnum[keyof typeof TestEnumParametersEnumFormStringArrayEnum];
+/**
+ * @export
+ */
+export const TestEnumParametersEnumFormStringEnum = {
+    Abc: '_abc',
+    Efg: '-efg',
+    Xyz: '(xyz)'
+} as const;
+export type TestEnumParametersEnumFormStringEnum = typeof TestEnumParametersEnumFormStringEnum[keyof typeof TestEnumParametersEnumFormStringEnum];
 
 
 /**
@@ -3355,6 +3379,7 @@ export class FakeClassnameTags123Api extends BaseAPI {
 }
 
 
+
 /**
  * PetApi - axios parameter creator
  * @export
@@ -3383,11 +3408,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication http_signature_test required
-
             // authentication petstore_auth required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
+
+            // authentication http_signature_test required
 
 
     
@@ -3431,7 +3456,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
-            if (apiKey !== undefined && apiKey !== null) {
+            if (apiKey != null) {
                 localVarHeaderParameter['api_key'] = String(apiKey);
             }
 
@@ -3449,11 +3474,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
         /**
          * Multiple status values can be provided with comma separated strings
          * @summary Finds Pets by status
-         * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+         * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByStatus: async (status: Array<'available' | 'pending' | 'sold'>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        findPetsByStatus: async (status: Array<FindPetsByStatusStatusEnum>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'status' is not null or undefined
             assertParamExists('findPetsByStatus', 'status', status)
             const localVarPath = `/pet/findByStatus`;
@@ -3468,11 +3493,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication http_signature_test required
-
             // authentication petstore_auth required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
+
+            // authentication http_signature_test required
 
             if (status) {
                 localVarQueryParameter['status'] = status.join(COLLECTION_FORMATS.csv);
@@ -3512,11 +3537,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication http_signature_test required
-
             // authentication petstore_auth required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
+
+            // authentication http_signature_test required
 
             if (tags) {
                 localVarQueryParameter['tags'] = tags.join(COLLECTION_FORMATS.csv);
@@ -3592,11 +3617,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            // authentication http_signature_test required
-
             // authentication petstore_auth required
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
+
+            // authentication http_signature_test required
 
 
     
@@ -3669,11 +3694,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @summary uploads an image
          * @param {number} petId ID of pet to update
          * @param {string} [additionalMetadata] Additional data to pass to server
-         * @param {any} [file] file to upload
+         * @param {File} [file] file to upload
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile: async (petId: number, additionalMetadata?: string, file?: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadFile: async (petId: number, additionalMetadata?: string, file?: File, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('uploadFile', 'petId', petId)
             const localVarPath = `/pet/{petId}/uploadImage`
@@ -3720,12 +3745,12 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * 
          * @summary uploads an image (required)
          * @param {number} petId ID of pet to update
-         * @param {any} requiredFile file to upload
+         * @param {File} requiredFile file to upload
          * @param {string} [additionalMetadata] Additional data to pass to server
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFileWithRequiredFile: async (petId: number, requiredFile: any, additionalMetadata?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadFileWithRequiredFile: async (petId: number, requiredFile: File, additionalMetadata?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('uploadFileWithRequiredFile', 'petId', petId)
             // verify required parameter 'requiredFile' is not null or undefined
@@ -3806,11 +3831,11 @@ export const PetApiFp = function(configuration?: Configuration) {
         /**
          * Multiple status values can be provided with comma separated strings
          * @summary Finds Pets by status
-         * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+         * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
+        async findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.findPetsByStatus(status, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3866,11 +3891,11 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @summary uploads an image
          * @param {number} petId ID of pet to update
          * @param {string} [additionalMetadata] Additional data to pass to server
-         * @param {any} [file] file to upload
+         * @param {File} [file] file to upload
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
+        async uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.uploadFile(petId, additionalMetadata, file, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3878,12 +3903,12 @@ export const PetApiFp = function(configuration?: Configuration) {
          * 
          * @summary uploads an image (required)
          * @param {number} petId ID of pet to update
-         * @param {any} requiredFile file to upload
+         * @param {File} requiredFile file to upload
          * @param {string} [additionalMetadata] Additional data to pass to server
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadFileWithRequiredFile(petId: number, requiredFile: any, additionalMetadata?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
+        async uploadFileWithRequiredFile(petId: number, requiredFile: File, additionalMetadata?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3921,11 +3946,11 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
         /**
          * Multiple status values can be provided with comma separated strings
          * @summary Finds Pets by status
-         * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+         * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: any): AxiosPromise<Array<Pet>> {
+        findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: any): AxiosPromise<Array<Pet>> {
             return localVarFp.findPetsByStatus(status, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3976,23 +4001,23 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
          * @summary uploads an image
          * @param {number} petId ID of pet to update
          * @param {string} [additionalMetadata] Additional data to pass to server
-         * @param {any} [file] file to upload
+         * @param {File} [file] file to upload
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any): AxiosPromise<ApiResponse> {
+        uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: any): AxiosPromise<ApiResponse> {
             return localVarFp.uploadFile(petId, additionalMetadata, file, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary uploads an image (required)
          * @param {number} petId ID of pet to update
-         * @param {any} requiredFile file to upload
+         * @param {File} requiredFile file to upload
          * @param {string} [additionalMetadata] Additional data to pass to server
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFileWithRequiredFile(petId: number, requiredFile: any, additionalMetadata?: string, options?: any): AxiosPromise<ApiResponse> {
+        uploadFileWithRequiredFile(petId: number, requiredFile: File, additionalMetadata?: string, options?: any): AxiosPromise<ApiResponse> {
             return localVarFp.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, options).then((request) => request(axios, basePath));
         },
     };
@@ -4033,12 +4058,12 @@ export class PetApi extends BaseAPI {
     /**
      * Multiple status values can be provided with comma separated strings
      * @summary Finds Pets by status
-     * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+     * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: AxiosRequestConfig) {
+    public findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: AxiosRequestConfig) {
         return PetApiFp(this.configuration).findPetsByStatus(status, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -4098,12 +4123,12 @@ export class PetApi extends BaseAPI {
      * @summary uploads an image
      * @param {number} petId ID of pet to update
      * @param {string} [additionalMetadata] Additional data to pass to server
-     * @param {any} [file] file to upload
+     * @param {File} [file] file to upload
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: AxiosRequestConfig) {
+    public uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: AxiosRequestConfig) {
         return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -4111,16 +4136,26 @@ export class PetApi extends BaseAPI {
      * 
      * @summary uploads an image (required)
      * @param {number} petId ID of pet to update
-     * @param {any} requiredFile file to upload
+     * @param {File} requiredFile file to upload
      * @param {string} [additionalMetadata] Additional data to pass to server
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public uploadFileWithRequiredFile(petId: number, requiredFile: any, additionalMetadata?: string, options?: AxiosRequestConfig) {
+    public uploadFileWithRequiredFile(petId: number, requiredFile: File, additionalMetadata?: string, options?: AxiosRequestConfig) {
         return PetApiFp(this.configuration).uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
+/**
+ * @export
+ */
+export const FindPetsByStatusStatusEnum = {
+    Available: 'available',
+    Pending: 'pending',
+    Sold: 'sold'
+} as const;
+export type FindPetsByStatusStatusEnum = typeof FindPetsByStatusStatusEnum[keyof typeof FindPetsByStatusStatusEnum];
 
 
 /**
@@ -4197,7 +4232,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
          * @summary Find purchase order by ID
          * @param {number} orderId ID of pet that needs to be fetched
          * @param {*} [options] Override http request option.
@@ -4298,7 +4333,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
          * @summary Find purchase order by ID
          * @param {number} orderId ID of pet that needs to be fetched
          * @param {*} [options] Override http request option.
@@ -4349,7 +4384,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.getInventory(options).then((request) => request(axios, basePath));
         },
         /**
-         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
          * @summary Find purchase order by ID
          * @param {number} orderId ID of pet that needs to be fetched
          * @param {*} [options] Override http request option.
@@ -4402,7 +4437,7 @@ export class StoreApi extends BaseAPI {
     }
 
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * @summary Find purchase order by ID
      * @param {number} orderId ID of pet that needs to be fetched
      * @param {*} [options] Override http request option.
@@ -4425,6 +4460,7 @@ export class StoreApi extends BaseAPI {
         return StoreApiFp(this.configuration).placeOrder(order, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 
 /**
@@ -5020,5 +5056,6 @@ export class UserApi extends BaseAPI {
         return UserApiFp(this.configuration).updateUser(username, user, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 

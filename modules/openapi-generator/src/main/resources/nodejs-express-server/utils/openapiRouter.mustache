@@ -19,7 +19,7 @@ function handleError(err, request, response, next) {
  * middleware. All parameters are collected in the request.swagger.values key-value object
  *
  * The assumption is that security handlers have already verified and allowed access
- * to this path. If the business-logic of a particular path is dependant on authentication
+ * to this path. If the business-logic of a particular path is dependent on authentication
  * parameters (e.g. scope checking) - it is recommended to define the authentication header
  * as one of the parameters expected in the OpenAPI/Swagger document.
  *

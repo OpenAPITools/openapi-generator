@@ -26,6 +26,7 @@
   'use strict';
 
   var api_instance;
+  var id = 129038120;
 
   beforeEach(function() {
     api_instance = new OpenApiPetstore.PetApi();
@@ -48,7 +49,6 @@
   }
 
   var createRandomPet = function() {
-    var id = new Date().getTime();
     var pet = new OpenApiPetstore.Pet();
     setProperty(pet, "setId", "id", id);
     setProperty(pet, "setName", "name", "pet" + id);
@@ -81,6 +81,13 @@
             expect(response.get('Content-Type')).to.be('application/json');
 
             expect(fetched).to.be.a(OpenApiPetstore.Pet);
+            expect(JSON.stringify(fetched)).to.be('{"name":"pet129038120","photoUrls":["http://foo.bar.com/1","http://foo.bar.com/2"],"id":129038120,"category":{"name":"category129038120","id":129038120},"tags":[],"status":"available"}');
+
+            // test ApiClient.convertToType 
+            var tag_result = OpenApiPetstore.ApiClient.convertToType(JSON.stringify(fetched), OpenApiPetstore.Pet);
+            expect(tag_result).to.be.a(OpenApiPetstore.Pet);
+
+            // test returned object `Pet`
             expect(fetched.id).to.be(pet.id);
             expect(getProperty(fetched, "getPhotoUrls", "photoUrls"))
               .to.eql(getProperty(pet, "getPhotoUrls", "photoUrls"));

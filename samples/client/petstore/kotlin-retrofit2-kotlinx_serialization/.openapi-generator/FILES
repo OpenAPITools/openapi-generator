@@ -28,7 +28,6 @@ src/main/kotlin/org/openapitools/client/infrastructure/AtomicIntegerAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/AtomicLongAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/BigDecimalAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/BigIntegerAdapter.kt
-src/main/kotlin/org/openapitools/client/infrastructure/ByteArrayAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/CollectionFormats.kt
 src/main/kotlin/org/openapitools/client/infrastructure/LocalDateAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/LocalDateTimeAdapter.kt

@@ -49,7 +49,7 @@ feature -- Access
 			-- base path.
 
 	authentications: STRING_TABLE [AUTHENTICATION]
-			-- autentication table.
+			-- authentication table.
 
 feature -- Status Report
 
@@ -139,7 +139,7 @@ feature -- Helper: OAuth Authentication
 feature -- Query Parameter Helpers
 
 	parameter_to_tuple (a_collection_format, a_name: STRING; a_value: detachable ANY): LIST [TUPLE [name: STRING; value: STRING]]
-			-- A list of tuples with name and valule.
+			-- A list of tuples with name and value.
 			-- collectionFormat collection format (e.g. csv, tsv)
 			-- name Name
 			-- value Value
@@ -201,7 +201,7 @@ feature -- Query Parameter Helpers
 
 
 	parameter_to_string (a_param: detachable ANY): STRING
-			-- return the string representation of the givien object `a_param'.
+			-- return the string representation of the given object `a_param'.
 		do
 			if a_param = Void then
 				Result := ""
@@ -248,7 +248,7 @@ feature -- Query Parameter Helpers
 						-- dateTime	string	date-time	As defined by date-time - RFC3339
 					Result := date_time.date.debug_output
 				elseif attached {STRING_32} a_param as str_32 then
-						-- TODO check if this is a good convertion.
+						-- TODO check if this is a good conversion.
 					Result := str_32.to_string_8
 				elseif attached {STRING_8} a_param as str_8 then
 					Result := str_8
@@ -335,7 +335,7 @@ feature -- HTTP client: call api
 			-- Execute an HTTP request with the given options.
 			-- Relative path `a_path'
 			-- Method `a_method'  "GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH" and "DELETE"
-			-- A request `a_request' wth
+			-- A request `a_request' with
 			-- The query parameters: `query_params'.
 			-- The Header parameters: `header_params'.
 			-- The Request Body: `body' could be Void, object to be serialized using the serializer function `a_serializer' with a given content_type.
@@ -372,7 +372,7 @@ feature -- HTTP client: call api
 			elseif l_content_type.is_case_insensitive_equal ("application/x-www-form-urlencoded") then
 				add_form_data (l_context_executor, a_request.form_params)
 			elseif l_content_type.is_case_insensitive_equal ("multipart/form-data") then
-				-- add_mulipart_data (l_context_executor, a_form_params, l_content_type)
+				-- add_multipart_data (l_context_executor, a_form_params, l_content_type)
 				-- here we need a way to identify files.
 			elseif a_request.body = Void then
 				if a_method.is_case_insensitive_equal ("DELETE") then
@@ -409,7 +409,7 @@ feature -- HTTP client: call api
 
 
 	build_url (a_path: STRING_8; a_query_params: LIST [TUPLE [name: STRING; value: STRING]]): STRING_8
-			-- Build a relatative url to `base_path' with `a_path' and a list of
+			-- Build a relative url to `base_path' with `a_path' and a list of
 			-- query parameters `a_query_params'.
 		local
 			l_query: STRING

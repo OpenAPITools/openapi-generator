@@ -12,16 +12,16 @@
 
 
 
-#[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct User {
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: Option<i64>,
-    #[serde(rename = "username", skip_serializing_if = "Option::is_none")]
-    pub username: Option<String>,
+    #[serde(rename = "username")]
+    pub username: String,
     #[serde(rename = "firstName", skip_serializing_if = "Option::is_none")]
     pub first_name: Option<String>,
-    #[serde(rename = "lastName", skip_serializing_if = "Option::is_none")]
-    pub last_name: Option<String>,
+    #[serde(rename = "lastName")]
+    pub last_name: String,
     #[serde(rename = "email", skip_serializing_if = "Option::is_none")]
     pub email: Option<String>,
     #[serde(rename = "password", skip_serializing_if = "Option::is_none")]
@@ -35,12 +35,12 @@ pub struct User {
 
 impl User {
     /// A User who is purchasing from the pet store
-    pub fn new() -> User {
+    pub fn new(username: String, last_name: String) -> User {
         User {
             id: None,
-            username: None,
+            username,
             first_name: None,
-            last_name: None,
+            last_name,
             email: None,
             password: None,
             phone: None,

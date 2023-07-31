@@ -363,11 +363,11 @@
         <gson-fire-version>1.8.3</gson-fire-version>
         <swagger-annotations-version>1.6.3</swagger-annotations-version>
         {{#usePlayWS}}
-        <jackson-version>2.12.1</jackson-version>
-        <jackson-databind-version>2.12.6.1</jackson-databind-version>
+        <jackson-version>2.13.4</jackson-version>
+        <jackson-databind-version>2.13.4.2</jackson-databind-version>
         <play-version>2.6.7</play-version>
         {{#openApiNullable}}
-        <jackson-databind-nullable-version>0.2.3</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         {{/openApiNullable}}
         {{/usePlayWS}}
         <retrofit-version>2.5.0</retrofit-version>
@@ -380,7 +380,12 @@
         {{#joda}}
         <jodatime-version>2.9.9</jodatime-version>
         {{/joda}}
+        {{#useJakartaEe}}
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        {{/useJakartaEe}}
 {{#useBeanValidation}}
         <beanvalidation-version>2.0.2</beanvalidation-version>
 {{/useBeanValidation}}

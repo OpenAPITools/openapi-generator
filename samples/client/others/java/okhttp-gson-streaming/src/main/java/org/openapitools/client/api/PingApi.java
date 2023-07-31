@@ -35,7 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.io.InputStream;
-import javax.ws.rs.core.GenericType;
 
 public class PingApi {
     private ApiClient localVarApiClient;
@@ -133,15 +132,12 @@ public class PingApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call getPingValidateBeforeCall(Long petId, String name, String status, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling getPing(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = getPingCall(petId, name, status, _callback);
-        return localVarCall;
+        return getPingCall(petId, name, status, _callback);
 
     }
 
@@ -321,10 +317,7 @@ public class PingApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call postPingValidateBeforeCall(SomeObj someObj, final ApiCallback _callback) throws ApiException {
-        
-
-        okhttp3.Call localVarCall = postPingCall(someObj, _callback);
-        return localVarCall;
+        return postPingCall(someObj, _callback);
 
     }
 

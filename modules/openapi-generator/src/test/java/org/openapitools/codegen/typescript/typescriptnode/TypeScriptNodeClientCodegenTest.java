@@ -11,12 +11,14 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.*;
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_NODE})
 public class TypeScriptNodeClientCodegenTest {
 
     private TypeScriptNodeClientCodegen codegen;
@@ -169,15 +171,16 @@ public class TypeScriptNodeClientCodegenTest {
     public void postProcessOperationsWithModelsTestWithModelNameSuffix() {
         final OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema rootSchema = new ObjectSchema()
-            .addProperties("child", new Schema().$ref("Child"));
+            .addProperty("child", new Schema().$ref("Child"));
         final Schema childSchema = new ObjectSchema()
-            .addProperties("key", new StringSchema());
+            .addProperty("key", new StringSchema());
 
         openAPI.getComponents()
             .addSchemas("Root", rootSchema)
             .addSchemas("Child", childSchema);
 
         final TypeScriptNodeClientCodegen codegen = new TypeScriptNodeClientCodegen();
+        codegen.setOpenAPI(openAPI);
         codegen.setModelNameSuffix("Suffix");
 
         final HashMap<String, ModelsMap> allModels = createParameterForPostProcessAllModels(
@@ -198,15 +201,16 @@ public class TypeScriptNodeClientCodegenTest {
     public void postProcessOperationsWithModelsTestWithModelNamePrefix() {
         final OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema rootSchema = new ObjectSchema()
-            .addProperties("child", new Schema().$ref("Child"));
+            .addProperty("child", new Schema().$ref("Child"));
         final Schema childSchema = new ObjectSchema()
-            .addProperties("key", new StringSchema());
+            .addProperty("key", new StringSchema());
 
         openAPI.getComponents()
             .addSchemas("Root", rootSchema)
             .addSchemas("Child", childSchema);
 
         final TypeScriptNodeClientCodegen codegen = new TypeScriptNodeClientCodegen();
+        codegen.setOpenAPI(openAPI);
         codegen.setModelNamePrefix("Prefix");
 
         final HashMap<String, ModelsMap> allModels = createParameterForPostProcessAllModels(

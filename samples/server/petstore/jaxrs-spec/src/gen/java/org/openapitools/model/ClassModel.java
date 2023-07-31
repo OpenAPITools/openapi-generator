@@ -20,14 +20,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("ClassModel")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class ClassModel  implements Serializable {
-  
   private @Valid String propertyClass;
 
   protected ClassModel(ClassModelBuilder<?, ?> b) {
-  this.propertyClass = b.propertyClass;
+    this.propertyClass = b.propertyClass;
   }
 
-  public ClassModel() { }
+  public ClassModel() {
+  }
 
   /**
    **/

@@ -9,8 +9,6 @@
  */
 
 
-use reqwest;
-
 use std::time::SystemTime;
 use aws_sigv4::http_request::{sign, SigningSettings, SigningParams, SignableRequest};
 use http;

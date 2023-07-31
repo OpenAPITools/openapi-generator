@@ -15,6 +15,10 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 {{/useNewtonsoft}}
+{{^useNewtonsoft}}
+using System.Text.Json;
+using System.Text.Json.Serialization;
+{{/useNewtonsoft}}
 using {{packageName}}.Authentication;
 {{#useSwashbuckle}}
 using {{packageName}}.Filters;
@@ -73,19 +77,29 @@ namespace {{packageName}}
                 // Don't need this for 3.x - see https://docs.microsoft.com/en-us/aspnet/core/mvc/compatibility-version?view=aspnetcore-3.1
                 //.SetCompatibilityVersion(CompatibilityVersion.{{.}})
                 {{/compatibilityVersion}}
-                .{{#useNewtonsoft}}AddNewtonsoftJson{{/useNewtonsoft}}{{^useNewtonsoft}}AddJsonOptions{{/useNewtonsoft}}(opts =>
+                {{#useNewtonsoft}}
+                .AddNewtonsoftJson(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     opts.SerializerSettings.Converters.Add(new StringEnumConverter
                     {
-                        {{#useNewtonsoft}}NamingStrategy = new CamelCaseNamingStrategy(){{/useNewtonsoft}}{{^useNewtonsoft}}CamelCaseText = true{{/useNewtonsoft}}
+                        NamingStrategy = new CamelCaseNamingStrategy()
                     });
                 });
+                {{/useNewtonsoft}}
+                {{^useNewtonsoft}}
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+                });
+                {{/useNewtonsoft}}
 {{#useSwashbuckle}}
-
             services
                 .AddSwaggerGen(c =>
                 {
+                    c.EnableAnnotations(enableAnnotationsForInheritance: true, enableAnnotationsForPolymorphism: true);
+                    
                     c.SwaggerDoc("{{{version}}}{{^version}}v1{{/version}}", new OpenApiInfo
                     {
                         Title = "{{{appName}}}{{^appName}}{{packageName}}{{/appName}}",

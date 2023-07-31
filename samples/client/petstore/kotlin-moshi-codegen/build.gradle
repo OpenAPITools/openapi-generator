@@ -2,12 +2,12 @@ group 'org.openapitools'
 version '1.0.0'
 
 wrapper {
-    gradleVersion = '6.8.3'
+    gradleVersion = '7.5'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
-    ext.kotlin_version = '1.5.10'
+    ext.kotlin_version = '1.7.21'
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -19,6 +19,7 @@ buildscript {
 
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'maven-publish'
 
 repositories {
     maven { url "https://repo1.maven.org/maven2" }
@@ -30,9 +31,9 @@ test {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "com.squareup.moshi:moshi:1.12.0"
-    implementation "com.squareup.moshi:moshi-adapters:1.12.0"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.12.0"
-    implementation "com.squareup.okhttp3:okhttp:4.9.1"
+    implementation "com.squareup.moshi:moshi:1.13.0"
+    implementation "com.squareup.moshi:moshi-adapters:1.13.0"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.13.0"
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }

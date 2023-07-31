@@ -19,14 +19,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("NumberOnly")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class NumberOnly  implements Serializable {
-  
   private @Valid BigDecimal justNumber;
 
   protected NumberOnly(NumberOnlyBuilder<?, ?> b) {
-  this.justNumber = b.justNumber;
+    this.justNumber = b.justNumber;
   }
 
-  public NumberOnly() { }
+  public NumberOnly() {
+  }
 
   /**
    **/

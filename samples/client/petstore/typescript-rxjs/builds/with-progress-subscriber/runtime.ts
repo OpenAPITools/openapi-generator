@@ -140,7 +140,7 @@ export class BaseAPI {
  * export for not being a breaking change
  */
 export class RequiredError extends Error {
-    name: 'RequiredError' = 'RequiredError';
+    override name: 'RequiredError' = 'RequiredError';
 }
 
 export const COLLECTION_FORMATS = {

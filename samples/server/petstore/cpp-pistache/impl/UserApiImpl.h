@@ -38,7 +38,7 @@ namespace org::openapitools::server::api
 
 using namespace org::openapitools::server::model;
 
-class UserApiImpl : public org::openapitools::server::api::UserApi {
+class  UserApiImpl : public org::openapitools::server::api::UserApi {
 public:
     explicit UserApiImpl(const std::shared_ptr<Pistache::Rest::Router>& rtr);
     ~UserApiImpl() override = default;

@@ -2,6 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
+// ignore_for_file: unused_element
 import 'package:openapi/src/model/deprecated_object.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -39,6 +40,7 @@ class ObjectWithDeprecatedFields {
 
 
 
+  @Deprecated('id has been deprecated')
   @JsonKey(
     
     name: r'id',
@@ -51,6 +53,7 @@ class ObjectWithDeprecatedFields {
 
 
 
+  @Deprecated('deprecatedRef has been deprecated')
   @JsonKey(
     
     name: r'deprecatedRef',
@@ -63,6 +66,7 @@ class ObjectWithDeprecatedFields {
 
 
 
+  @Deprecated('bars has been deprecated')
   @JsonKey(
     
     name: r'bars',

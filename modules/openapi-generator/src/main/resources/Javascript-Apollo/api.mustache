@@ -19,9 +19,8 @@ export default class <&classname> extends ApiClient {
     * @alias module:<#invokerPackage><&invokerPackage>/</invokerPackage><#apiPackage><&apiPackage>/</apiPackage><classname>
     * @class
     */</emitJSDoc>
-    constructor() {
-      super();
-      this.baseURL = <#servers.0>basePath</servers.0><^servers.0>null</servers.0>;
+    constructor(baseURL = '<&basePath>') {
+      super(baseURL);
     }
 
 <#operations><#operation><#emitJSDoc>
@@ -31,6 +30,7 @@ export default class <&classname> extends ApiClient {
      * @param {<&vendorExtensions.x-jsdoc-type>} <&paramName> <&description></required></allParams><#hasOptionalParams>
      * @param {Object} opts Optional parameters<#allParams><^required>
      * @param {<&vendorExtensions.x-jsdoc-type>} opts.<&paramName> <&description><#defaultValue> (default to <&.>)</defaultValue></required></allParams></hasOptionalParams>
+     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      <=| |=>* @return {Promise|#returnType|<|&vendorExtensions.x-jsdoc-type|>|/returnType|}|=< >=|
      */
 </emitJSDoc>    async <operationId>(<vendorExtensions.x-codegen-arg-list>) {
@@ -80,7 +80,7 @@ export default class <&classname> extends ApiClient {
       return this.callApi(
         '<&path>', '<httpMethod>',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, requestInit
       );
     }
 </operation></operations>

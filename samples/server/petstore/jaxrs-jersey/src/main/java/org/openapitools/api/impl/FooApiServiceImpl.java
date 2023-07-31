@@ -1,8 +1,6 @@
 package org.openapitools.api.impl;
 
 import org.openapitools.api.*;
-import org.openapitools.model.*;
-
 import org.openapitools.model.FooGetDefaultResponse;
 
 import java.util.List;

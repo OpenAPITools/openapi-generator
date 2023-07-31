@@ -54,6 +54,14 @@ void
 UserAPI_logoutUser(apiClient_t *apiClient);
 
 
+// test integer and boolean query parameters in API
+//
+// This can test integer and boolean query parameters in API.
+//
+void
+UserAPI_testIntAndBool(apiClient_t *apiClient, int keep , int keepDay );
+
+
 // Updated user
 //
 // This can only be done by the logged in user.

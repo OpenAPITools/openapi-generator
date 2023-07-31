@@ -18,17 +18,16 @@
 package org.openapitools.codegen.typescript.typescriptnode;
 
 import com.google.common.collect.Sets;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -40,6 +39,7 @@ import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.Locale;
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_NODE})
 @SuppressWarnings("static-method")
 public class TypeScriptNodeModelTest {
 
@@ -297,7 +297,7 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(cm.additionalPropertiesType, "Array<string>");
     }
 
-    @Test(description = "convert an string additional properties model")
+    @Test(description = "convert a string additional properties model")
     public void arrayModelAdditionalPropertiesStringTest() {
         final Schema schema = new Schema()
                 .description("a map model")
@@ -313,7 +313,7 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(cm.additionalPropertiesType, "string");
     }
 
-    @Test(description = "convert an complex additional properties model")
+    @Test(description = "convert a complex additional properties model")
     public void arrayModelAdditionalPropertiesComplexTest() {
         final Schema schema = new Schema()
                 .description("a map model")

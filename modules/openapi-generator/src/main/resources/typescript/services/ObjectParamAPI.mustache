@@ -7,7 +7,7 @@ import type { Observable } from 'rxjs';
 
 {{#models}}
 {{#model}}
-import type { {{{ classname }}} } from '../models/{{{ classFilename }}}';
+import type { {{{ classname }}} } from '{{{ importPath }}}';
 {{/model}}
 {{/models}}
 {{#apiInfo}}

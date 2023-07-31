@@ -1,0 +1,53 @@
+{{>licenseInfo}}
+
+import { ApiExecuterI, ApiError{{#checkRequiredParamsNotNull}}, checkRequiredParams{{/checkRequiredParamsNotNull}}{{#checkSuperfluousBodyProps}}{{#needImportCleanCopyBody}}, cleanCopyBody{{/needImportCleanCopyBody}}{{/checkSuperfluousBodyProps}} } from "{{{apiPackage}}}/ApiHelper"
+{{#imports}}
+import { {{classname}} } from '{{filename}}';
+{{/imports}}
+
+
+{{#operations}}
+{{#description}}
+/*
+ * {{&description}}
+ */
+{{/description}}
+
+{{#operation}}
+
+/**
+ {{#notes}}
+ * {{&notes}}
+ {{/notes}}
+ {{#summary}}
+ * @summary {{&summary}}
+ {{/summary}}
+ * @param fe Callback interface that runs the fetch query
+ {{#allParams}}
+ * @param {{paramName}} {{description}}
+ {{/allParams}}
+ {{#responses}}
+ * @response {{code}} [{{#dataType}}{{.}}{{/dataType}}{{^dataType}}undefined{{/dataType}}] {{message}}
+ {{/responses}}
+ */
+export public async function {{{classname}}}__{{{nickname}}}(fe : ApiExecuterI, {{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}={{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : Promise<{{#returnType}}{{.}}{{/returnType}}{{^returnType}}undefined{{/returnType}}, Object{{#vendorExtensions}}{{#responses4xx.0}} | ApiError<{{#responses4xx}}{{{baseType}}}{{^-last}} | {{/-last}}{{/responses4xx}}>{{/responses4xx.0}}{{/vendorExtensions}}> {
+{{#checkRequiredParamsNotNull}}    checkRequiredParams('{{{nickname}}}', { {{#allParams}}{{#required}}'{{{paramName}}}': {{{paramName}}}{{^-last}}, {{/-last}}{{/required}}{{/allParams}} });
+
+{{/checkRequiredParamsNotNull}}
+    const _pathParams = { {{#pathParams}}
+        '{{baseName}}': {{{paramName}}}{{^-last}},{{/-last}} {{/pathParams}}};
+    const _queryParams = { {{#queryParams}}
+        '{{baseName}}': {{{paramName}}}{{^-last}},{{/-last}} {{/queryParams}}};
+    const _headerParams = { {{#headerParams}}
+        '{{baseName}}': {{{paramName}}}{{^-last}},{{/-last}} {{/headerParams}}};
+    const _body = {{^bodyParam}}undefined{{/bodyParam}}{{#bodyParam}}{{#vars.empty}}{{{paramName}}}{{/vars.empty}}{{^vars.empty}}{{#checkSuperfluousBodyProps}}cleanCopyBody({{{paramName}}}{{#vars}}, '{{{baseName}}}'{{/vars}}){{/checkSuperfluousBodyProps}}{{^checkSuperfluousBodyProps}}{{{paramName}}}{{/checkSuperfluousBodyProps}}{{/vars.empty}}{{/bodyParam}};
+
+    {{#returnType}}return {{/returnType}}await fe.{{#returnType}}<{{.}}, {{#vendorExtensions}}{{^responses4xx.0}}undefined{{/responses4xx.0}}{{#responses4xx.0}}{{#responses4xx}}{{{baseType}}}{{^-last}} | {{/-last}}{{/responses4xx}}{{/responses4xx.0}}{{/vendorExtensions}}>{{/returnType}}exec(
+        '{{httpMethod}}', '{{{basePathWithoutHost}}}' + '{{{path}}}',
+        _pathParams, _queryParams, _headerParams,
+        {{#responses2xx.0}}'{{{mediaType}}}'{{/responses2xx.0}}{{^responses2xx.0}}undefined{{/responses2xx.0}},
+        _body
+    );
+}
+{{/operation}}
+{{/operations}}

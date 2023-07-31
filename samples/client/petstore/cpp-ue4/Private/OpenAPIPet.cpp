@@ -60,11 +60,6 @@ bool OpenAPIPet::EnumFromString(const FString& EnumAsString, OpenAPIPet::StatusE
 	return FromString(EnumAsString, EnumValue);
 }
 
-inline FStringFormatArg ToStringFormatArg(const OpenAPIPet::StatusEnum& Value)
-{
-	return FStringFormatArg(ToString(Value));
-}
-
 inline void WriteJsonValue(JsonWriter& Writer, const OpenAPIPet::StatusEnum& Value)
 {
 	WriteJsonValue(Writer, ToString(Value));

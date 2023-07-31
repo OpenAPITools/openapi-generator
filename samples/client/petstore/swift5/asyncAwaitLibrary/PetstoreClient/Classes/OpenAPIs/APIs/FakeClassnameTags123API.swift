@@ -20,27 +20,7 @@ open class FakeClassnameTags123API {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testClassname(body: Client) async throws -> Client {
-        var requestTask: RequestTask?
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestTask = testClassnameWithRequestBuilder(body: body).execute { result in
-                    switch result {
-                    case let .success(response):
-                        continuation.resume(returning: response.body)
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
-            }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
-        }
+        return try await testClassnameWithRequestBuilder(body: body).execute().body
     }
 
     /**
@@ -68,6 +48,6 @@ open class FakeClassnameTags123API {
 
         let localVariableRequestBuilder: RequestBuilder<Client>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
 }

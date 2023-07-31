@@ -16,8 +16,8 @@ apiClient_t *apiClient_create() {
     apiClient->progress_func = NULL;
     apiClient->progress_data = NULL;
     apiClient->response_code = 0;
-    apiClient->apiKeys_api_key = NULL;
     apiClient->accessToken = NULL;
+    apiClient->apiKeys_api_key = NULL;
 
     return apiClient;
 }
@@ -45,6 +45,7 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     apiClient->progress_func = NULL;
     apiClient->progress_data = NULL;
     apiClient->response_code = 0;
+    apiClient->accessToken = NULL;
     if(apiKeys_api_key!= NULL) {
         apiClient->apiKeys_api_key = list_createList();
         listEntry_t *listEntry = NULL;
@@ -56,7 +57,6 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     }else{
         apiClient->apiKeys_api_key = NULL;
     }
-    apiClient->accessToken = NULL;
 
     return apiClient;
 }
@@ -68,6 +68,9 @@ void apiClient_free(apiClient_t *apiClient) {
     apiClient->data_callback_func = NULL;
     apiClient->progress_func = NULL;
     apiClient->progress_data = NULL;
+    if(apiClient->accessToken) {
+        free(apiClient->accessToken);
+    }
     if(apiClient->apiKeys_api_key) {
         listEntry_t *listEntry = NULL;
         list_ForEach(listEntry, apiClient->apiKeys_api_key) {
@@ -81,9 +84,6 @@ void apiClient_free(apiClient_t *apiClient) {
             keyValuePair_free(pair);
         }
         list_freeList(apiClient->apiKeys_api_key);
-    }
-    if(apiClient->accessToken) {
-        free(apiClient->accessToken);
     }
     free(apiClient);
 }

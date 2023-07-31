@@ -1,4 +1,3 @@
-import  URLParse from "url-parse";
 import { Observable, from } from '../rxjsStub';
 
 export * from './isomorphic-fetch';
@@ -23,7 +22,6 @@ export enum HttpMethod {
  */
 export type HttpFile = Blob & { readonly name: string };
 
-
 export class HttpException extends Error {
     public constructor(msg: string) {
         super(msg);
@@ -35,13 +33,20 @@ export class HttpException extends Error {
  */
 export type RequestBody = undefined | string | FormData | URLSearchParams;
 
+function ensureAbsoluteUrl(url: string) {
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+        return url;
+    }
+    return window.location.origin + url;
+}
+
 /**
  * Represents an HTTP request context
  */
 export class RequestContext {
     private headers: { [key: string]: string } = {};
     private body: RequestBody = undefined;
-    private url: URLParse;
+    private url: URL;
 
     /**
      * Creates the request context using a http method and request resource url
@@ -50,7 +55,7 @@ export class RequestContext {
      * @param httpMethod http method
      */
     public constructor(url: string, private httpMethod: HttpMethod) {
-        this.url = new URLParse(url, true);
+        this.url = new URL(ensureAbsoluteUrl(url));
     }
 
     /*
@@ -58,7 +63,9 @@ export class RequestContext {
      *
      */
     public getUrl(): string {
-        return this.url.toString();
+        return this.url.toString().endsWith("/") ?
+            this.url.toString().slice(0, -1)
+            : this.url.toString();
     }
 
     /**
@@ -66,7 +73,7 @@ export class RequestContext {
      *
      */
     public setUrl(url: string) {
-        this.url = new URLParse(url, true);
+        this.url = new URL(ensureAbsoluteUrl(url));
     }
 
     /**
@@ -95,9 +102,7 @@ export class RequestContext {
     }
 
     public setQueryParam(name: string, value: string) {
-        let queryObj = this.url.query;
-        queryObj[name] = value;
-        this.url.set("query", queryObj);
+        this.url.searchParams.set(name, value);
     }
 
     /**

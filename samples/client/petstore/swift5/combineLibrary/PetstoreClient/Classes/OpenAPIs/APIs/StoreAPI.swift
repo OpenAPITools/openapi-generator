@@ -24,9 +24,10 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteOrder(orderId: String) -> AnyPublisher<Void, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = deleteOrderWithRequestBuilder(orderId: orderId)
+        let requestTask = requestBuilder.requestTask
         return Future<Void, Error> { promise in
-            requestTask = deleteOrderWithRequestBuilder(orderId: orderId).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case .success:
                     promise(.success(()))
@@ -36,7 +37,7 @@ open class StoreAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -67,7 +68,7 @@ open class StoreAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
     /**
@@ -78,9 +79,10 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getInventory() -> AnyPublisher<[String: Int], Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = getInventoryWithRequestBuilder()
+        let requestTask = requestBuilder.requestTask
         return Future<[String: Int], Error> { promise in
-            requestTask = getInventoryWithRequestBuilder().execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -90,7 +92,7 @@ open class StoreAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -101,7 +103,7 @@ open class StoreAPI {
      - GET /store/inventory
      - Returns a map of status codes to quantities
      - API Key:
-       - type: apiKey api_key 
+       - type: apiKey api_key (HEADER)
        - name: api_key
      - returns: RequestBuilder<[String: Int]> 
      */
@@ -120,7 +122,7 @@ open class StoreAPI {
 
         let localVariableRequestBuilder: RequestBuilder<[String: Int]>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
 
     /**
@@ -132,9 +134,10 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getOrderById(orderId: Int64) -> AnyPublisher<Order, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = getOrderByIdWithRequestBuilder(orderId: orderId)
+        let requestTask = requestBuilder.requestTask
         return Future<Order, Error> { promise in
-            requestTask = getOrderByIdWithRequestBuilder(orderId: orderId).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -144,7 +147,7 @@ open class StoreAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -153,7 +156,7 @@ open class StoreAPI {
     /**
      Find purchase order by ID
      - GET /store/order/{order_id}
-     - For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     - For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: RequestBuilder<Order> 
      */
@@ -175,7 +178,7 @@ open class StoreAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 
     /**
@@ -187,9 +190,10 @@ open class StoreAPI {
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func placeOrder(body: Order) -> AnyPublisher<Order, Error> {
-        var requestTask: RequestTask?
+        let requestBuilder = placeOrderWithRequestBuilder(body: body)
+        let requestTask = requestBuilder.requestTask
         return Future<Order, Error> { promise in
-            requestTask = placeOrderWithRequestBuilder(body: body).execute { result in
+            requestBuilder.execute { result in
                 switch result {
                 case let .success(response):
                     promise(.success(response.body))
@@ -199,7 +203,7 @@ open class StoreAPI {
             }
         }
         .handleEvents(receiveCancel: {
-            requestTask?.cancel()
+            requestTask.cancel()
         })
         .eraseToAnyPublisher()
     }
@@ -226,6 +230,6 @@ open class StoreAPI {
 
         let localVariableRequestBuilder: RequestBuilder<Order>.Type = PetstoreClientAPI.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
     }
 }

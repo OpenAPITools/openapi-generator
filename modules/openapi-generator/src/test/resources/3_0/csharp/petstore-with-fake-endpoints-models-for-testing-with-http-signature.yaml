@@ -17,6 +17,21 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /hello:
+    get:
+      summary: Hello
+      description: Hello
+      operationId: Hello
+      responses:
+        '200':
+          description: UUIDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: uuid
   /foo:
     get:
       responses:
@@ -337,7 +352,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: order_id
@@ -822,7 +837,7 @@ paths:
             format: int64
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
   /fake/outer/number:
     post:
       tags:
@@ -848,6 +863,14 @@ paths:
         - fake
       description: Test serialization of outer string types
       operationId: fakeOuterStringSerialize
+      parameters:
+        - name: required_string_uuid
+          in: query
+          description: Required UUID String
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: Output string
@@ -1044,6 +1067,34 @@ paths:
             type: array
             items:
               type: string
+        - name: requiredNotNullable
+          in: query
+          required: true
+          explode: true
+          schema:
+            type: string
+            nullable: false
+        - name: requiredNullable
+          in: query
+          required: true
+          explode: true
+          schema:
+            type: string
+            nullable: true
+        - name: notRequiredNotNullable
+          in: query
+          required: false
+          explode: true
+          schema:
+            type: string
+            nullable: false
+        - name: notRequiredNullable
+          in: query
+          required: false
+          explode: true
+          schema:
+            type: string
+            nullable: true
       responses:
         "200":
           description: Success
@@ -1117,6 +1168,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /country:
+    post:
+      operationId: getCountry
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+              - required:
+                - country
+                type: object
+                properties:
+                  country:
+                    type: string
+      responses:
+        '200':
+          description: OK
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1466,9 +1534,19 @@ components:
           format: int32
           maximum: 200
           minimum: 20
+        unsigned_integer:
+          type: integer
+          format: int32
+          maximum: 200
+          minimum: 20
+          x-unsigned: true
         int64:
           type: integer
           format: int64
+        unsigned_long:
+          type: integer
+          format: int64
+          x-unsigned: true
         number:
           maximum: 543.2
           minimum: 32.1
@@ -1521,6 +1599,10 @@ components:
           description: A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
           type: string
           pattern: '/^image_\d{1,3}$/i'
+        pattern_with_backslash:
+          description: None
+          type: string
+          pattern: '^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$'
     EnumClass:
       type: string
       default: '-efg'
@@ -1604,6 +1686,10 @@ components:
     MixedPropertiesAndAdditionalPropertiesClass:
       type: object
       properties:
+        uuid_with_pattern:
+          type: string
+          format: uuid
+          pattern: "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
         uuid:
           type: string
           format: uuid
@@ -2160,3 +2246,77 @@ components:
     StringArrayItem:
       type: string
       format: string
+    Activity:
+      description: "test map of maps"
+      type: object
+      properties:
+        activity_outputs:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ActivityOutputRepresentation'
+    ActivityOutputRepresentation:
+      type: array
+      items: 
+        $ref: '#/components/schemas/ActivityOutputElementRepresentation'
+    ActivityOutputElementRepresentation:
+      type: object
+      properties:
+        prop1:
+          type: string
+        prop2:
+          type: object
+    NullableGuidClass:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+          nullable: true
+    DateOnlyClass:
+      type: object
+      properties:
+        dateOnlyProperty:
+          type: string
+          format: date
+          example: "2017-07-21"
+    TestCollectionEndingWithWordListObject:
+      type: object
+      properties:
+        TestCollectionEndingWithWordList:
+          type: array
+          items:
+            $ref: '#/components/schemas/TestCollectionEndingWithWordList'
+    TestCollectionEndingWithWordList:
+      type: object
+      properties:
+        value:
+          type: string
+    LiteralStringClass:
+      type: object
+      properties:
+        escapedLiteralString:
+          type: string
+          default: C:\\Users\\username
+        unescapedLiteralString:
+          type: string
+          default: C:\Users\username
+    OneOfString:
+      oneOf:
+        - type: string
+          pattern: ^a
+        - type: string
+          pattern: ^b
+    ZeroBasedEnum:
+      type: string
+      enum:
+        - unknown
+        - notUnknown
+    ZeroBasedEnumClass:
+      type: object
+      properties:
+        ZeroBasedEnum:
+          type: string
+          enum:
+            - unknown
+            - notUnknown

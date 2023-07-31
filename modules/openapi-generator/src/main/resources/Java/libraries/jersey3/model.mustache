@@ -36,15 +36,15 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 {{/vendorExtensions.x-has-readonly-properties}}
 {{/jackson}}
 {{#withXml}}
-import javax.xml.bind.annotation.*;
+import {{javaxPackage}}.xml.bind.annotation.*;
 {{/withXml}}
 {{#parcelableModel}}
 import android.os.Parcelable;
 import android.os.Parcel;
 {{/parcelableModel}}
 {{#useBeanValidation}}
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 {{/useBeanValidation}}
 {{#performBeanValidation}}
 import org.hibernate.validator.constraints.*;

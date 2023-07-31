@@ -3,10 +3,10 @@ name: Samples PHP 8.x
 on:
   push:
     paths:
-      - samples/server/petstore/php-symfony/SymfonyBundle-php/
+      - samples/server/petstore/php-symfony/SymfonyBundle-php/**
   pull_request:
     paths:
-      - samples/server/petstore/php-symfony/SymfonyBundle-php/
+      - samples/server/petstore/php-symfony/SymfonyBundle-php/**
 jobs:
   build:
     name: Build PHP projects

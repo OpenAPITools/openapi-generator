@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
@@ -30,3 +31,10 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("{{packageVersion}}")]
 [assembly: AssemblyFileVersion("{{packageVersion}}")]
+{{^supportsAsync}}
+// Settings which don't support asynchronous operations rely on non-public constructors
+// This is due to how RestSharp requires the type constraint `where T : new()` in places it probably shouldn't.
+[assembly: InternalsVisibleTo("RestSharp")]
+[assembly: InternalsVisibleTo("NewtonSoft.Json")]
+[assembly: InternalsVisibleTo("JsonSubTypes")]
+{{/supportsAsync}}

@@ -1,10 +1,11 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>5</version>
-        <relativePath/><!-- lookup parent from repository -->
+        <relativePath/>
+    <!-- lookup parent from repository -->
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
@@ -12,7 +13,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>6.1.0-SNAPSHOT</version>
+    <version>7.0.0-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -180,6 +181,7 @@
                     <junitArtifactName>none:none</junitArtifactName>
                     <testNGArtifactName>org.testng:testng</testNGArtifactName>
                     <argLine>@{argLine} -XX:+StartAttachListener</argLine>
+                    <rerunFailingTestsCount>2</rerunFailingTestsCount>
                     <systemPropertyVariables>
                         <org.openapitools.codegen.utils.oncelogger.expiry>1000</org.openapitools.codegen.utils.oncelogger.expiry>
                         <org.openapitools.codegen.utils.oncelogger.cachesize>5000</org.openapitools.codegen.utils.oncelogger.cachesize>
@@ -198,6 +200,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven-dependency-plugin.version}</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -216,6 +219,21 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.source}</target>
+                    <annotationProcessors>
+                        lombok.launch.AnnotationProcessorHider$AnnotationProcessor,lombok.launch.AnnotationProcessorHider$ClaimingProcessor,javaslang.match.PatternsProcessor
+                    </annotationProcessors>
+                    <annotationProcessorPaths>
+                        <processorPath>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </processorPath>
+                        <processorPath>
+                            <groupId>org.jetbrains.kotlin</groupId>
+                            <artifactId>kotlin-compiler-embeddable</artifactId>
+                            <version>${kotlin-compiler-embeddable.version}</version>
+                        </processorPath>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>
@@ -252,7 +270,8 @@
                     <source>${maven.compiler.source}</source>
                     <encoding>UTF-8</encoding>
                     <maxmemory>1g</maxmemory>
-                    <failOnWarnings>true</failOnWarnings>
+                    <failOnWarnings>false</failOnWarnings>
+                    <doclint>none</doclint>
                 </configuration>
                 <executions>
                     <execution>
@@ -281,20 +300,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M2</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
-                        <id>enforce-versions</id>
+                        <id>enforce-maven</id>
                         <goals>
                             <goal>enforce</goal>
                         </goals>
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>1.8.0</version>
+                                    <version>1.11.0</version>
                                 </requireJavaVersion>
                                 <requireMavenVersion>
-                                    <version>3.2.5</version>
+                                    <version>3.3.4</version>
                                 </requireMavenVersion>
                                 <requireReleaseDeps>
                                     <message>No Snapshots Allowed!</message>
@@ -311,7 +330,7 @@
             <plugin>
                 <groupId>de.thetaphi</groupId>
                 <artifactId>forbiddenapis</artifactId>
-                <version>2.6</version>
+                <version>3.5.1</version>
                 <configuration>
                     <bundledSignatures>
                         <!--
@@ -669,7 +688,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/retrofit2rx</module>
+                <module>samples/client/petstore/java/retrofit2rx2</module>
             </modules>
         </profile>
         <profile>
@@ -709,7 +728,7 @@
             </modules>
         </profile>
         <profile>
-            <id>scala-httpclient</id>
+            <id>scala-sttp</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -717,7 +736,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/scala-httpclient</module>
+                <module>samples/client/petstore/scala-sttp</module>
             </modules>
         </profile>
         <profile>
@@ -742,6 +761,30 @@
             </activation>
             <modules>
                 <module>samples/server/petstore/java-micronaut-server</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>java-helidon-client</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java-helidon-client/mp</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>java-helidon-server</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/java-helidon-server/mp</module>
             </modules>
         </profile>
         <profile>
@@ -1010,18 +1053,6 @@
             </modules>
         </profile>
         <profile>
-            <id>python-client</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/python</module>
-            </modules>
-        </profile>
-        <profile>
             <id>ruby-client</id>
             <activation>
                 <property>
@@ -1128,35 +1159,27 @@
             <modules>
                 <!-- comment out as newer version of qt needed in travis
                 <module>samples/client/petstore/cpp-qt</module>-->
-                <module>samples/client/petstore/php/OpenAPIClient-php</module>
+                <!--
+                <module>samples/client/petstore/php/OpenAPIClient-php</module>-->
                 <!-- TODO: move to github action or circleci
                 <module>samples/client/petstore/crystal</module>-->
-                <!-- servers -->
-                <module>samples/server/petstore/python-aiohttp</module>
-                <module>samples/server/petstore/python-aiohttp-srclayout</module>
-                <module>samples/server/petstore/python-fastapi</module>
-                <module>samples/server/petstore/python-flask</module>
                 <!-- TODO: will move these to Github action
                 <module>samples/server/petstore/php-slim4</module>
                 <module>samples/server/petstore/php-laravel</module>
                 <module>samples/server/petstore/php-lumen</module>-->
-                <module>samples/server/petstore/rust-server</module>
+                <!--<module>samples/server/petstore/rust-server</module>-->
                 <!-- clients -->
-                <!--<module>samples/client/petstore/perl</module>
-                <module>samples/client/petstore/bash</module>-->
-                <module>samples/client/petstore/ruby-faraday</module>
-                <module>samples/client/petstore/ruby</module>
+                <!--<module>samples/client/petstore/perl</module>-->
+                <!--<module>samples/client/petstore/bash</module>-->
                 <!-- comment out as it's not working as the moment
                 <module>samples/client/petstore/c</module>
                 -->
                 <module>samples/client/petstore/rust</module>
+                <module>samples/client/petstore/rust/hyper/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
+                <module>samples/client/petstore/rust/reqwest/petstore-async-middleware</module>
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
-                <module>samples/client/petstore/python-legacy</module>
-                <module>samples/client/petstore/python-asyncio</module>
-                <module>samples/client/petstore/python-tornado</module>
-                <module>samples/openapi3/client/petstore/python-legacy</module>
             </modules>
         </profile>
         <!-- test with JDK8 in CircleCI -->
@@ -1169,12 +1192,9 @@
                 </property>
             </activation>
             <modules>
-                <!-- servers -->
-                <module>samples/server/petstore/java-camel</module>
-                <module>samples/server/petstore/java-vertx-web</module>
-                <module>samples/server/petstore/java-inflector</module>
-                <module>samples/server/petstore/java-pkmst</module>
-                <module>samples/server/petstore/java-undertow</module>
+                <module>samples/client/petstore/ruby</module>
+                <module>samples/client/petstore/ruby-faraday</module>
+                <module>samples/client/petstore/ruby-autoload</module>
             </modules>
         </profile>
         <profile>
@@ -1201,15 +1221,18 @@
             </activation>
             <modules>
                 <!-- clients -->
-                <module>samples/client/petstore/python</module>
-                <module>samples/client/petstore/python_disallowAdditionalPropertiesIfNotPresent</module>
-                <!--<module>samples/openapi3/client/petstore/python-legacy</module>-->
+                <module>samples/openapi3/client/petstore/python</module>
+                <module>samples/openapi3/client/petstore/python-aiohttp</module>
                 <!-- TODO comment out below when the test for typescript-nestjs is ready
                 <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
                 <!-- comment out due to error `npm run build`
                 <module>samples/client/petstore/typescript-jquery/npm</module>-->
+                <module>samples/client/others/typescript-angular</module>
                 <module>samples/client/petstore/typescript-angular-v12-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v13-provided-in-root</module>
+                <module>samples/client/petstore/typescript-angular-v14-provided-in-root</module>
+                <module>samples/client/petstore/typescript-angular-v15-provided-in-root</module>
+                <module>samples/client/petstore/typescript-angular-v16-provided-in-root</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/default</module>
                 <module>samples/openapi3/client/petstore/typescript/tests/default</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/jquery</module>
@@ -1245,9 +1268,6 @@
                 </property>
             </activation>
             <modules>
-                <!-- python clients which don't need the server running -->
-                <module>samples/openapi3/client/petstore/python</module>
-                <module>samples/openapi3/client/petstore/python-experimental</module>
             </modules>
         </profile>
         <!-- other tests in CircleCI -->
@@ -1264,30 +1284,15 @@
                 <!-- test java-related projects -->
                 <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-sttp</module>
+                <module>samples/client/petstore/scala-sttp4</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
                 <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
                 <module>samples/client/petstore/java/jersey3</module>
                 <module>samples/client/others/java/okhttp-gson-streaming</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
-            </modules>
-        </profile>
-        <!-- test with JDK9 in Shippable CI -->
-        <profile>
-            <id>samples.shippable</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>samples.shippable</value>
-                </property>
-            </activation>
-            <modules>
-                <!-- clients -->
-                <module>samples/openapi3/client/elm</module>
-                <!--<module>samples/client/petstore/elixir</module>-->
-                <module>samples/client/petstore/erlang-client</module>
-                <module>samples/client/petstore/erlang-proper</module>
-                <!--<module>samples/server/petstore/erlang-server</module>-->
+                <module>samples/client/petstore/java-micronaut-client</module>
+                <module>samples/client/petstore/java/apache-httpclient</module>
             </modules>
         </profile>
         <!-- test with Haskell -->
@@ -1307,10 +1312,8 @@
                 <!-- test Go projects -->
                 <module>samples/client/petstore/go</module>
                 <module>samples/openapi3/client/petstore/go</module>
-                <module>samples/server/petstore/go-api-server</module>
                 <!-- comment out due to Go version
                 <module>samples/server/petstore/go-gin-api-server</module>-->
-                <module>samples/server/petstore/go-echo-server</module>
             </modules>
         </profile>
         <profile>
@@ -1323,6 +1326,9 @@
             </activation>
             <modules>
                 <module>samples/openapi3/client/petstore/dart2/petstore_client_lib</module>
+                <module>samples/openapi3/client/petstore/dart-dio/oneof</module>
+                <module>samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance</module>
+                <module>samples/openapi3/client/petstore/dart-dio/oneof_primitive</module>
                 <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake</module>
                 <module>samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable</module>
             </modules>
@@ -1453,45 +1459,47 @@
         </repository>
     </repositories>
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <archunit.version>0.23.1</archunit.version>
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
-        <commons-cli.version>1.4</commons-cli.version>
+        <commons-cli.version>1.5.0</commons-cli.version>
         <commons-io.version>2.11.0</commons-io.version>
         <commons-lang.version>3.12.0</commons-lang.version>
-        <commons-text.version>1.9</commons-text.version>
+        <commons-text.version>1.10.0</commons-text.version>
         <diffutils.version>1.3.0</diffutils.version>
         <generex.version>1.0.2</generex.version>
         <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
         <groovy.version>3.0.9</groovy.version>
-        <guava.version>30.1.1-jre</guava.version>
-        <handlebars-java.version>4.2.1</handlebars-java.version>
-        <jackson-threetenbp.version>2.10.0</jackson-threetenbp.version>
-        <jackson.version>2.13.1</jackson.version>
-        <jacoco.version>0.8.7</jacoco.version>
-        <jmustache.version>1.14</jmustache.version>
+        <guava.version>31.1-jre</guava.version>
+        <handlebars-java.version>4.3.1</handlebars-java.version>
+        <jackson-threetenbp.version>2.12.5</jackson-threetenbp.version>
+        <jackson-databind.version>2.14.0</jackson-databind.version>
+        <jackson.version>2.14.0</jackson.version>
+        <jacoco.version>0.8.10</jacoco.version>
+        <jmustache.version>1.15</jmustache.version>
         <junit.version>4.13.2</junit.version>
-        <kotlin.version>1.6.10</kotlin.version>
-        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
-        <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
+        <kotlin.version>1.6.21</kotlin.version>
+        <kotlin-compiler-embeddable.version>1.6.21</kotlin-compiler-embeddable.version>
+        <lombok.version>1.18.24</lombok.version>
+        <maven-dependency-plugin.version>3.6.0</maven-dependency-plugin.version>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>3.4.0</maven-javadoc-plugin.version>
         <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-        <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
-        <mockito.version>4.5.1</mockito.version>
+        <maven-site-plugin.version>4.0.0-M8</maven-site-plugin.version>
+        <maven-surefire-plugin.version>3.0.0</maven-surefire-plugin.version>
+        <mockito.version>4.10.0</mockito.version>
+        <openrewrite.version>7.39.1</openrewrite.version>
         <pmd-plugin.version>3.12.0</pmd-plugin.version>
-        <reflections.version>0.10</reflections.version>
-        <rxgen.version>1.3</rxgen.version>
+        <reflections.version>0.10.2</reflections.version>
+        <rxgen.version>1.4</rxgen.version>
         <scala-maven-plugin.version>4.6.1</scala-maven-plugin.version>
         <slf4j.version>1.7.36</slf4j.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
-        <maven-surefire-plugin.version>3.0.0-M6</maven-surefire-plugin.version>
-        <openrewrite.version>7.22.0</openrewrite.version>
-        <swagger-core.version>2.1.12</swagger-core.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
-        <swagger-parser.version>2.0.31</swagger-parser.version>
+        <swagger-parser.version>2.1.14</swagger-parser.version>
         <testng.version>7.5</testng.version>
         <violations-maven-plugin.version>1.34</violations-maven-plugin.version>
         <wagon-ssh-external.version>3.4.3</wagon-ssh-external.version>

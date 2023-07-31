@@ -20,6 +20,8 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -35,6 +37,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -69,7 +72,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
 
-    protected String ngVersion = "13.0.1";
+    protected String ngVersion = "16.1.2";
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = false;
     protected String serviceSuffix = "Service";
@@ -86,7 +89,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public TypeScriptAngularClientCodegen() {
         super();
 
-        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .includeSecurityFeatures(SecurityFeature.BearerToken)
+                .includeGlobalFeatures(GlobalFeature.ParameterStyling)
+        );
 
         this.outputFolder = "generated-code/typescript-angular";
 
@@ -134,7 +141,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -145,7 +152,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Angular (9.x - 13.x) client library.";
+        return "Generates a TypeScript Angular (9.x - 16.x) client library.";
     }
 
     @Override
@@ -160,6 +167,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         supportingFiles.add(new SupportingFile("configuration.mustache", getIndexDirectory(), "configuration.ts"));
         supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
         supportingFiles.add(new SupportingFile("encoder.mustache", getIndexDirectory(), "encoder.ts"));
+        supportingFiles.add(new SupportingFile("param.mustache", getIndexDirectory(), "param.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
@@ -274,7 +282,16 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the typescript version compatible to the Angular version
-        if (ngVersion.atLeast("13.0.0")) {
+        // based on https://angular.io/guide/versions#actively-supported-versions
+        if (ngVersion.atLeast("16.1.0")) {
+            additionalProperties.put("tsVersion", ">=4.9.3 <5.2.0");
+        } else if (ngVersion.atLeast("16.0.0")) {
+            additionalProperties.put("tsVersion", ">=4.9.3 <5.1.0");
+        } else if (ngVersion.atLeast("15.0.0")) {
+            additionalProperties.put("tsVersion", ">=4.8.2 <4.10.0");
+        } else if (ngVersion.atLeast("14.0.0")) {
+            additionalProperties.put("tsVersion", ">=4.6.0 <=4.8.0");
+        } else if (ngVersion.atLeast("13.0.0")) {
             additionalProperties.put("tsVersion", ">=4.4.2 <4.5.0");
         } else if (ngVersion.atLeast("12.0.0")) {
             additionalProperties.put("tsVersion", ">=4.3.0 <4.4.0");
@@ -289,7 +306,13 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the rxJS version compatible to the Angular version
-        if (ngVersion.atLeast("13.0.0")) {
+        if (ngVersion.atLeast("16.0.0")) {
+            additionalProperties.put("rxjsVersion", "7.4.0");
+        } else if (ngVersion.atLeast("15.0.0")) {
+            additionalProperties.put("rxjsVersion", "7.5.5");
+        } else if (ngVersion.atLeast("14.0.0")) {
+            additionalProperties.put("rxjsVersion", "7.5.5");
+        } else  if (ngVersion.atLeast("13.0.0")) {
             additionalProperties.put("rxjsVersion", "7.4.0");
         } else if (ngVersion.atLeast("10.0.0")) {
             additionalProperties.put("rxjsVersion", "6.6.0");
@@ -300,7 +323,18 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         supportingFiles.add(new SupportingFile("ng-package.mustache", getIndexDirectory(), "ng-package.json"));
 
         // Specific ng-packagr configuration
-        if (ngVersion.atLeast("13.0.0")) {
+        if (ngVersion.atLeast("16.0.0")) {
+            additionalProperties.put("ngPackagrVersion", "16.0.0");
+            // tsTickle is not required and there is no available version compatible with
+            // versions of TypeScript compatible with Angular 16.
+        } else if (ngVersion.atLeast("15.0.0")) {
+            additionalProperties.put("ngPackagrVersion", "15.0.2");
+            // tsTickle is not required and there is no available version compatible with
+            // versions of TypeScript compatible with Angular 15.
+        } else if (ngVersion.atLeast("14.0.0")) {
+            additionalProperties.put("ngPackagrVersion", "14.0.2");
+            additionalProperties.put("tsickleVersion", "0.46.3");
+        } else if (ngVersion.atLeast("13.0.0")) {
             additionalProperties.put("ngPackagrVersion", "13.0.3");
             additionalProperties.put("tsickleVersion", "0.43.0");
         } else if (ngVersion.atLeast("12.0.0")) {
@@ -318,7 +352,13 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // set zone.js version
-        if (ngVersion.atLeast("12.0.0")) {
+        if (ngVersion.atLeast("16.0.0")) {
+            additionalProperties.put("zonejsVersion", "0.13.0");
+        } else if (ngVersion.atLeast("15.0.0")) {
+            additionalProperties.put("zonejsVersion", "0.11.5");
+        } else if (ngVersion.atLeast("14.0.0")) {
+            additionalProperties.put("zonejsVersion", "0.11.5");
+        } else if (ngVersion.atLeast("12.0.0")) {
             additionalProperties.put("zonejsVersion", "0.11.4");
         } else if (ngVersion.atLeast("11.0.0")) {
             additionalProperties.put("zonejsVersion", "0.11.3");
@@ -395,6 +435,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         List<CodegenOperation> ops = objs.getOperation();
         boolean hasSomeFormParams = false;
+        boolean hasSomeEncodableParams = false;
         for (CodegenOperation op : ops) {
             if (op.getHasFormParams()) {
                 hasSomeFormParams = true;
@@ -404,7 +445,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
             // Prep a string buffer where we're going to set up our new version of the string.
             StringBuilder pathBuffer = new StringBuilder();
-            StringBuilder parameterName = new StringBuilder();
+            ParameterExpander paramExpander = new ParameterExpander(op, this::toParamName);
             int insideCurly = 0;
 
             // Iterate through existing string, one character at a time.
@@ -413,27 +454,18 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                     case '{':
                         // We entered curly braces, so track that.
                         insideCurly++;
-
-                        // Add the more complicated component instead of just the brace.
-                        pathBuffer.append("${encodeURIComponent(String(");
                         break;
                     case '}':
                         // We exited curly braces, so track that.
                         insideCurly--;
 
-                        // Add the more complicated component instead of just the brace.
-                        CodegenParameter parameter = findPathParameterByName(op, parameterName.toString());
-                        pathBuffer.append(toParamName(parameterName.toString()));
-                        if (parameter != null && parameter.isDateTime) {
-                            pathBuffer.append(".toISOString()");
-                        }
-                        pathBuffer.append("))}");
-                        parameterName.setLength(0);
+                        pathBuffer.append(paramExpander.buildPathEntry());
+                        hasSomeEncodableParams = true;
                         break;
                     default:
                         char nextChar = op.path.charAt(i);
                         if (insideCurly > 0) {
-                            parameterName.append(nextChar);
+                            paramExpander.appendToParameterName(nextChar);
                         } else {
                             pathBuffer.append(nextChar);
                         }
@@ -446,6 +478,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         operations.put("hasSomeFormParams", hasSomeFormParams);
+        operations.put("hasSomeEncodableParams", hasSomeEncodableParams);
 
         // Add additional filename information for model imports in the services
         List<Map<String, String>> imports = operations.getImports();
@@ -456,22 +489,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         return operations;
-    }
-
-    /**
-     * Finds and returns a path parameter of an operation by its name
-     *
-     * @param operation the operation
-     * @param parameterName the name of the parameter
-     * @return param
-     */
-    private CodegenParameter findPathParameterByName(CodegenOperation operation, String parameterName) {
-        for (CodegenParameter param : operation.pathParams) {
-            if (param.baseName.equals(parameterName)) {
-                return param;
-            }
-        }
-        return null;
     }
 
     @Override
@@ -597,7 +614,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
-        return DEFAULT_IMPORT_PREFIX + this.convertUsingFileNamingConvention(this.sanitizeName(name)) + modelFileSuffix;
+        return DEFAULT_IMPORT_PREFIX + this.convertUsingFileNamingConvention(super.toModelFilename(name)) + modelFileSuffix;
     }
 
     @Override
@@ -605,7 +622,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
-        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + toModelFilename(name).substring(DEFAULT_IMPORT_PREFIX.length());
+        return DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX + modelPackage() + "/" + toModelFilename(removeModelPrefixSuffix(name)).substring(DEFAULT_IMPORT_PREFIX.length());
     }
 
     public String getNpmRepository() {
@@ -740,7 +757,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if ("kebab-case".equals(fileNaming)) {
             name = dashize(underscore(name));
         } else {
-            name = camelize(name, true);
+            name = camelize(name, LOWERCASE_FIRST_LETTER);
         }
         return name;
     }

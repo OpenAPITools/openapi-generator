@@ -1,12 +1,12 @@
 import io.swagger.annotations.ApiModelProperty;
 {{#withXml}}
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import {{javaxPackage}}.xml.bind.annotation.XmlElement;
+import {{javaxPackage}}.xml.bind.annotation.XmlRootElement;
+import {{javaxPackage}}.xml.bind.annotation.XmlAccessType;
+import {{javaxPackage}}.xml.bind.annotation.XmlAccessorType;
+import {{javaxPackage}}.xml.bind.annotation.XmlType;
+import {{javaxPackage}}.xml.bind.annotation.XmlEnum;
+import {{javaxPackage}}.xml.bind.annotation.XmlEnumValue;
 {{/withXml}}
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -51,12 +51,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
 {{#vendorExtensions.x-field-extra-annotation}}
 {{{vendorExtensions.x-field-extra-annotation}}}
 {{/vendorExtensions.x-field-extra-annotation}}
-{{#isContainer}}
-  private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
-{{/isContainer}}
-{{^isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
-{{/isContainer}}
   {{/vars}}
   {{#vars}}
  /**
@@ -137,6 +132,24 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{/isMap}}
 
   {{/vars}}
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    {{classname}} {{classVarName}} = ({{classname}}) o;{{#hasVars}}
+    return {{#parent}}super.equals(o) && {{/parent}}{{#vars}}Objects.equals({{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+        {{/-last}}{{#-last}};{{/-last}}{{/vars}}{{/hasVars}}{{^hasVars}}{{#parent}}return super.equals(o);{{/parent}}{{^parent}}return true;{{/parent}}{{/hasVars}}
+  }
+
+  @Override
+  public int hashCode() {
+    return {{^hasVars}}{{#parent}}super.hashCode(){{/parent}}{{^parent}}1{{/parent}}{{/hasVars}}{{#hasVars}}Objects.hash({{#vars}}{{#parent}}super.hashCode(), {{/parent}}{{name}}{{^-last}}, {{/-last}}{{/vars}}){{/hasVars}};
+  }
 
   @Override
   public String toString() {

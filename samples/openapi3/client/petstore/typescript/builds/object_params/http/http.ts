@@ -1,9 +1,8 @@
 // TODO: evaluate if we can easily get rid of this library
 import * as FormData from "form-data";
-import { URLSearchParams } from 'url';
+import { URL, URLSearchParams } from 'url';
 import * as http from 'http';
 import * as https from 'https';
-import * as URLParse from "url-parse";
 import { Observable, from } from '../rxjsStub';
 
 export * from './isomorphic-fetch';
@@ -31,7 +30,6 @@ export type HttpFile = {
     name: string
 };
 
-
 export class HttpException extends Error {
     public constructor(msg: string) {
         super(msg);
@@ -43,13 +41,20 @@ export class HttpException extends Error {
  */
 export type RequestBody = undefined | string | FormData | URLSearchParams;
 
+function ensureAbsoluteUrl(url: string) {
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+        return url;
+    }
+    throw new Error("You need to define an absolute base url for the server.");
+}
+
 /**
  * Represents an HTTP request context
  */
 export class RequestContext {
     private headers: { [key: string]: string } = {};
     private body: RequestBody = undefined;
-    private url: URLParse;
+    private url: URL;
     private agent: http.Agent | https.Agent | undefined = undefined;
 
     /**
@@ -59,7 +64,7 @@ export class RequestContext {
      * @param httpMethod http method
      */
     public constructor(url: string, private httpMethod: HttpMethod) {
-        this.url = new URLParse(url, true);
+        this.url = new URL(ensureAbsoluteUrl(url));
     }
 
     /*
@@ -67,7 +72,9 @@ export class RequestContext {
      *
      */
     public getUrl(): string {
-        return this.url.toString();
+        return this.url.toString().endsWith("/") ?
+            this.url.toString().slice(0, -1)
+            : this.url.toString();
     }
 
     /**
@@ -75,7 +82,7 @@ export class RequestContext {
      *
      */
     public setUrl(url: string) {
-        this.url = new URLParse(url, true);
+        this.url = new URL(ensureAbsoluteUrl(url));
     }
 
     /**
@@ -104,9 +111,7 @@ export class RequestContext {
     }
 
     public setQueryParam(name: string, value: string) {
-        let queryObj = this.url.query;
-        queryObj[name] = value;
-        this.url.set("query", queryObj);
+        this.url.searchParams.set(name, value);
     }
 
     /**

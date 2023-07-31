@@ -28,7 +28,7 @@ public class Order   {
 
 public enum StatusEnum {
 
-    PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));
+    @JsonProperty("placed") PLACED(String.valueOf("placed")), @JsonProperty("approved") APPROVED(String.valueOf("approved")), @JsonProperty("delivered") DELIVERED(String.valueOf("delivered"));
 
 
     private String value;
@@ -59,7 +59,6 @@ public enum StatusEnum {
   private StatusEnum status;
 
   private Boolean complete = false;
-
 
   /**
    **/

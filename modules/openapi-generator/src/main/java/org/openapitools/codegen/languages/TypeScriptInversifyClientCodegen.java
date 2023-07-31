@@ -27,10 +27,12 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -79,7 +81,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -315,7 +317,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
         if (name.length() == 0) {
             return "default.service";
         }
-        return camelize(name, true) + ".service";
+        return camelize(name, LOWERCASE_FIRST_LETTER) + ".service";
     }
 
     @Override
@@ -325,7 +327,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
 
     @Override
     public String toModelFilename(String name) {
-        return camelize(toModelName(name), true);
+        return camelize(toModelName(name), LOWERCASE_FIRST_LETTER);
     }
 
     @Override

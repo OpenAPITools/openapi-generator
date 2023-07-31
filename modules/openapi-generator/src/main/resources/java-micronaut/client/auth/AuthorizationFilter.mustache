@@ -33,11 +33,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.annotation.Generated;
+import {{javaxPackage}}.annotation.Generated;
 
 
 {{>common/generatedAnnotation}}
-@Filter(Filter.MATCH_ALL_PATTERN)
+@Filter({{#configureAuthFilterPattern}}"{{authorizationFilterPattern}}"{{/configureAuthFilterPattern}}{{^configureAuthFilterPattern}}Filter.MATCH_ALL_PATTERN{{/configureAuthFilterPattern}})
 public class AuthorizationFilter implements HttpClientFilter {
     private static final Logger LOG = LoggerFactory.getLogger(ClientCredentialsHttpClientFilter.class);
 

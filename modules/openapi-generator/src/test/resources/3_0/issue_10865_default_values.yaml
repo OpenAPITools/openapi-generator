@@ -145,6 +145,15 @@ paths:
           in: formData
           required: true
           type: number
+        - name: fn4
+          in: formData
+          required: true
+          type: array
+          items:
+            type: string
+          default:
+            - item0
+
 
       responses:
         "200":

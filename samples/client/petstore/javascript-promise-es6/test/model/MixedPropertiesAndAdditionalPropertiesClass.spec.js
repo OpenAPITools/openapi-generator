@@ -50,25 +50,25 @@
   describe('MixedPropertiesAndAdditionalPropertiesClass', function() {
     it('should create an instance of MixedPropertiesAndAdditionalPropertiesClass', function() {
       // uncomment below and update the code to test MixedPropertiesAndAdditionalPropertiesClass
-      //var instane = new OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass();
+      //var instance = new OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass();
       //expect(instance).to.be.a(OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass);
     });
 
     it('should have the property uuid (base name: "uuid")', function() {
       // uncomment below and update the code to test the property uuid
-      //var instane = new OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass();
+      //var instance = new OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass();
       //expect(instance).to.be();
     });
 
     it('should have the property dateTime (base name: "dateTime")', function() {
       // uncomment below and update the code to test the property dateTime
-      //var instane = new OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass();
+      //var instance = new OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass();
       //expect(instance).to.be();
     });
 
     it('should have the property map (base name: "map")', function() {
       // uncomment below and update the code to test the property map
-      //var instane = new OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass();
+      //var instance = new OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass();
       //expect(instance).to.be();
     });
 

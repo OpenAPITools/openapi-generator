@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -50,55 +50,55 @@
   describe('User', function() {
     it('should create an instance of User', function() {
       // uncomment below and update the code to test User
-      //var instane = new OpenApiPetstore.User();
+      //var instance = new OpenApiPetstore.User();
       //expect(instance).to.be.a(OpenApiPetstore.User);
     });
 
     it('should have the property id (base name: "id")', function() {
       // uncomment below and update the code to test the property id
-      //var instane = new OpenApiPetstore.User();
+      //var instance = new OpenApiPetstore.User();
       //expect(instance).to.be();
     });
 
     it('should have the property username (base name: "username")', function() {
       // uncomment below and update the code to test the property username
-      //var instane = new OpenApiPetstore.User();
+      //var instance = new OpenApiPetstore.User();
       //expect(instance).to.be();
     });
 
     it('should have the property firstName (base name: "firstName")', function() {
       // uncomment below and update the code to test the property firstName
-      //var instane = new OpenApiPetstore.User();
+      //var instance = new OpenApiPetstore.User();
       //expect(instance).to.be();
     });
 
     it('should have the property lastName (base name: "lastName")', function() {
       // uncomment below and update the code to test the property lastName
-      //var instane = new OpenApiPetstore.User();
+      //var instance = new OpenApiPetstore.User();
       //expect(instance).to.be();
     });
 
     it('should have the property email (base name: "email")', function() {
       // uncomment below and update the code to test the property email
-      //var instane = new OpenApiPetstore.User();
+      //var instance = new OpenApiPetstore.User();
       //expect(instance).to.be();
     });
 
     it('should have the property password (base name: "password")', function() {
       // uncomment below and update the code to test the property password
-      //var instane = new OpenApiPetstore.User();
+      //var instance = new OpenApiPetstore.User();
       //expect(instance).to.be();
     });
 
     it('should have the property phone (base name: "phone")', function() {
       // uncomment below and update the code to test the property phone
-      //var instane = new OpenApiPetstore.User();
+      //var instance = new OpenApiPetstore.User();
       //expect(instance).to.be();
     });
 
     it('should have the property userStatus (base name: "userStatus")', function() {
       // uncomment below and update the code to test the property userStatus
-      //var instane = new OpenApiPetstore.User();
+      //var instance = new OpenApiPetstore.User();
       //expect(instance).to.be();
     });
 

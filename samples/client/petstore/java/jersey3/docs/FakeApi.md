@@ -260,7 +260,7 @@ public class Example {
 
 ### Return type
 
-[**BigDecimal**](BigDecimal.md)
+**BigDecimal**
 
 ### Authorization
 
@@ -861,7 +861,7 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **400** | Someting wrong |  -  |
+| **400** | Something wrong |  -  |
 
 
 ## testInlineAdditionalProperties

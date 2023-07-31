@@ -381,7 +381,7 @@ paths:
       - store
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
-        values will generated exceptions
+        values will generate exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -666,7 +666,13 @@ paths:
         style: form
       responses:
         "400":
-          description: Someting wrong
+          description: Something wrong
+        "5XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OuterNumber'
+          description: Something wrong
       security:
       - bearer_test: []
       summary: Fake endpoint to test group parameters (optional)
@@ -1110,6 +1116,72 @@ paths:
       summary: Health check endpoint
       tags:
       - fake
+  /fake/deep_object_test:
+    get:
+      operationId: test_query_deep_object
+      parameters:
+      - explode: true
+        in: query
+        name: test_pet
+        required: false
+        schema:
+          $ref: '#/components/schemas/Pet'
+        style: deepObject
+      - explode: true
+        in: query
+        name: inputOptions
+        required: false
+        schema:
+          $ref: '#/components/schemas/Category'
+        style: deepObject
+      responses:
+        "200":
+          description: OK
+      tags:
+      - fake
+  /fake/parameter-name-mapping:
+    get:
+      operationId: getParameterNameMapping
+      parameters:
+      - description: _type
+        explode: false
+        in: header
+        name: _type
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - description: type
+        explode: true
+        in: query
+        name: type
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: type_
+        explode: false
+        in: header
+        name: type_
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: http debug option (to test parameter naming option)
+        explode: true
+        in: query
+        name: http_debug_option
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: OK
+      summary: parameter name mapping test
+      tags:
+      - fake
 components:
   requestBodies:
     UserArray:
@@ -1380,12 +1452,18 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - $ref: '#/components/schemas/Address'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Address:
       additionalProperties:
         type: integer
@@ -1936,7 +2014,9 @@ components:
     NullableAllOf:
       properties:
         child:
-          $ref: '#/components/schemas/NullableAllOf_child'
+          allOf:
+          - $ref: '#/components/schemas/NullableAllOfChild'
+          nullable: true
       type: object
     OneOfPrimitiveType:
       oneOf:
@@ -1953,6 +2033,57 @@ components:
       items:
         type: string
       type: array
+    DuplicatedPropChild:
+      allOf:
+      - $ref: '#/components/schemas/DuplicatedPropParent'
+      - properties:
+          dup-prop:
+            description: A discriminator value
+            type: string
+        type: object
+    DuplicatedPropParent:
+      description: parent model with duplicated property
+      discriminator:
+        propertyName: dup-prop
+      properties:
+        dup-prop:
+          description: A discriminator value
+          type: string
+      required:
+      - dup-prop
+      type: object
+    MapOfFileTest:
+      description: test map of file in a property
+      properties:
+        prop_test:
+          additionalProperties:
+            format: binary
+            type: string
+          description: a property to test map of file
+          type: object
+      type: object
+    OneOfPrimitiveTypes:
+      oneOf:
+      - type: string
+      - format: date-time
+        type: string
+    AllOfPrimitiveTypes:
+      allOf:
+      - properties:
+          test:
+            format: date-time
+            type: string
+        type: object
+    PropertyNameMapping:
+      properties:
+        http_debug_operation:
+          type: string
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string
     _foo_get_default_response:
       example:
         string:
@@ -2096,20 +2227,6 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-    NullableAllOf_child:
-      allOf:
-      - $ref: '#/components/schemas/NullableAllOfChild'
-      nullable: true
   securitySchemes:
     petstore_auth:
       flows:

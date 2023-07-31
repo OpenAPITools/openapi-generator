@@ -335,7 +335,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: orderId
@@ -599,6 +599,31 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+  '/tests/fileResponse':
+    get:
+      tags:
+        - testing
+      summary: Returns an image file
+      responses:
+        '200':
+          description: An image file
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+  '/tests/typeTesting':
+    get:
+      tags:
+        - testing
+      summary: Route to test the TypeTesting schema
+      responses:
+        '200':
+          description: The TypeTesting response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TypeTesting'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -645,12 +670,14 @@ components:
         id:
           type: integer
           format: int64
+          minimum: 0
         petId:
           type: integer
           format: int64
         quantity:
           type: integer
           format: int32
+          minimum: 0
         shipDate:
           type: string
           format: date-time
@@ -689,10 +716,14 @@ components:
           format: int64
         username:
           type: string
+          maxLength: 90
+          minLength: 1
+          pattern: '^[a-z][-a-z0-9]*$'
         firstName:
           type: string
         lastName:
           type: string
+          minLength: 1
         email:
           type: string
         password:
@@ -703,6 +734,9 @@ components:
           type: integer
           format: int32
           description: User Status
+      required:
+        - username
+        - lastName
       xml:
         name: User
     Tag:
@@ -769,3 +803,122 @@ components:
           type: string
         message:
           type: string
+    property_test:
+      title: A model to test various formats, e.g. UUID
+      description: A model to test various formats, e.g. UUID
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+    ActionContainer:
+      required:
+      - action
+      type: object
+      properties:
+        action:
+          allOf:
+          - $ref: '#/components/schemas/Baz'
+          - nullable: false
+    Baz:
+      description: Test handling of empty variants
+      enum:
+      - A
+      - B
+      - ""
+      type: string
+    TypeTesting:
+      description: Test handling of different field data types
+      type: object
+      required:
+        - int32
+        - int64
+        - float
+        - double
+        - string
+        - boolean
+        - uuid
+      properties:
+        int32:
+          type: integer
+          format: int32
+        int64:
+          type: integer
+          format: int64
+        float:
+          type: number
+          format: float
+        double:
+          type: number
+          format: double
+        string:
+          type: string
+        boolean:
+          type: boolean
+        uuid:
+          type: string
+          format: uuid
+    Return:
+      description: Test using keywords
+      type: object
+      properties:
+        match:
+          type: integer
+        async:
+          type: boolean
+        super:
+          type: boolean
+    OptionalTesting:
+      description: Test handling of optional and nullable fields
+      type: object
+      required:
+        - required_nonnull
+        - required_nullable
+      properties:
+        optional_nonnull:
+          type: string
+          nullable: false
+        required_nonnull:
+          type: string
+          nullable: false
+        optional_nullable:
+          type: string
+          nullable: true
+        required_nullable:
+          type: string
+          nullable: true
+    EnumArrayTesting:
+      description: Test of enum array
+      type: object
+      required:
+        - required_enums
+      properties:
+        required_enums:
+          type: array
+          items:
+            type: string
+            enum: ["A", "B", "C"]
+    ArrayRefItem:
+      description: Helper object for the array item ref test
+      type: array
+      items:
+        type: string
+    ObjectRefItem:
+      description: Helper object for the array item ref test
+      type: object
+      additionalProperties: true
+    ArrayItemRefTest:
+      description: Test handling of object reference in arrays
+      type: object
+      required:
+        - list_with_array_ref
+        - list_with_object_ref
+      properties:
+        list_with_array_ref:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArrayRefItem'
+        list_with_object_ref:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectRefItem'

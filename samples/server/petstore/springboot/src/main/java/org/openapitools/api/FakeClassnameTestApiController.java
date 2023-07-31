@@ -1,6 +1,6 @@
 package org.openapitools.api;
 
-import org.openapitools.model.Client;
+import org.openapitools.model.ClientDto;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
