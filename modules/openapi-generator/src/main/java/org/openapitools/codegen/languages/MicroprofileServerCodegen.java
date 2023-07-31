@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 public class MicroprofileServerCodegen extends JavaClientCodegen {
 	public static final String PROJECT_NAME = "projectName";
 	public static final String MICROPROFILE_SERVER = "microprofileServer";
-	private final Logger LOGGER = LoggerFactory.getLogger(MicroprofileServerCodegen.class);
 	protected boolean microprofileServer = true;
 
 	public MicroprofileServerCodegen() {
@@ -22,7 +21,6 @@ public class MicroprofileServerCodegen extends JavaClientCodegen {
 		outputFolder = "generated-code" + File.separator + "microprofile";
 		invokerPackage = "org.openapitools.server";
 		artifactId = "openapi-microprofile-server";
-		//embeddedTemplateDir = templateDir = "microprofile";
 		apiPackage = "org.openapitools.server.api";
 		modelPackage = "org.openapitools.server.model";
 		setLibrary("microprofile");

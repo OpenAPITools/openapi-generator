@@ -694,7 +694,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         if (MICROPROFILE.equals(getLibrary())) {
             objs = AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
-			LOGGER.info("OBJS:" + objs.keySet());
 			if(configKeyFromClassName) {
 				Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
 				String configKeyFromClassName = operations.get("classname")
