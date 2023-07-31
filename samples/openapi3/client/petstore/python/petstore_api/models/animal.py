@@ -16,10 +16,9 @@ from __future__ import annotations
 import pprint
 import re  # noqa: F401
 import json
-import petstore_api.models
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 from pydantic import BaseModel, Field, StrictStr
 
 class Animal(BaseModel):
@@ -87,11 +86,14 @@ class Animal(BaseModel):
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
         if object_type:
-            klass = getattr(petstore_api.models, object_type)
+            klass = globals()[object_type]
             return klass.from_dict(obj)
         else:
             raise ValueError("Animal failed to lookup discriminator value from " +
                              json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
                              ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
 
+from petstore_api.models.cat import Cat
+from petstore_api.models.dog import Dog
+Animal.update_forward_refs()
 
