@@ -519,4 +519,13 @@ class ModelTests(unittest.TestCase):
         # shouldn't throw NameError
         self.assertEqual(model.to_json(), '{"skill": "none", "type": "tiger", "info": {"name": "creature info"}}')
 
+    def test_additional_properties(self):
+        a1 = petstore_api.AdditionalPropertieAnyType()
+        a1.additional_properties = { "abc": 123 }
+        self.assertEqual(a1.to_dict(), {"abc": 123})
+        self.assertEqual(a1.to_json(), "{\"abc\": 123}")
 
+        a2 = petstore_api.AdditionalPropertieObject()
+        a2.additional_properties = { "efg": 45.6 }
+        self.assertEqual(a2.to_dict(), {"efg": 45.6})
+        self.assertEqual(a2.to_json(), "{\"efg\": 45.6}")

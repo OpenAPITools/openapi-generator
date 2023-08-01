@@ -2272,4 +2272,16 @@ components:
           properties:
             skill:
               type: string
-
+    AdditionalPropertieObject:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: object
+    AdditionalPropertieAnyType:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties: {}

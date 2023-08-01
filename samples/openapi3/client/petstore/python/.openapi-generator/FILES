@@ -3,6 +3,8 @@
 .gitlab-ci.yml
 .travis.yml
 README.md
+docs/AdditionalPropertieAnyType.md
+docs/AdditionalPropertieObject.md
 docs/AdditionalPropertiesClass.md
 docs/AllOfWithSingleRef.md
 docs/Animal.md
@@ -100,6 +102,8 @@ petstore_api/api_response.py
 petstore_api/configuration.py
 petstore_api/exceptions.py
 petstore_api/models/__init__.py
+petstore_api/models/additional_propertie_any_type.py
+petstore_api/models/additional_propertie_object.py
 petstore_api/models/additional_properties_class.py
 petstore_api/models/all_of_with_single_ref.py
 petstore_api/models/animal.py
