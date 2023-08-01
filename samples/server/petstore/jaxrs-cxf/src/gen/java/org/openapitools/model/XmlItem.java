@@ -7,7 +7,9 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class XmlItem  {
   
@@ -25,7 +27,7 @@ public class XmlItem  {
   private Boolean attributeBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> wrappedArray = null;
+  private List<Integer> wrappedArray;
 
   @ApiModelProperty(example = "string", value = "")
   private String nameString;
@@ -41,10 +43,10 @@ public class XmlItem  {
   private Boolean nameBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> nameArray = null;
+  private List<Integer> nameArray;
 
   @ApiModelProperty(value = "")
-  private List<Integer> nameWrappedArray = null;
+  private List<Integer> nameWrappedArray;
 
   @ApiModelProperty(example = "string", value = "")
   private String prefixString;
@@ -60,10 +62,10 @@ public class XmlItem  {
   private Boolean prefixBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> prefixArray = null;
+  private List<Integer> prefixArray;
 
   @ApiModelProperty(value = "")
-  private List<Integer> prefixWrappedArray = null;
+  private List<Integer> prefixWrappedArray;
 
   @ApiModelProperty(example = "string", value = "")
   private String namespaceString;
@@ -79,10 +81,10 @@ public class XmlItem  {
   private Boolean namespaceBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> namespaceArray = null;
+  private List<Integer> namespaceArray;
 
   @ApiModelProperty(value = "")
-  private List<Integer> namespaceWrappedArray = null;
+  private List<Integer> namespaceWrappedArray;
 
   @ApiModelProperty(example = "string", value = "")
   private String prefixNsString;
@@ -98,10 +100,10 @@ public class XmlItem  {
   private Boolean prefixNsBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> prefixNsArray = null;
+  private List<Integer> prefixNsArray;
 
   @ApiModelProperty(value = "")
-  private List<Integer> prefixNsWrappedArray = null;
+  private List<Integer> prefixNsWrappedArray;
  /**
    * Get attributeString
    * @return attributeString
@@ -669,6 +671,50 @@ public class XmlItem  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    XmlItem xmlItem = (XmlItem) o;
+    return Objects.equals(attributeString, xmlItem.attributeString) &&
+        Objects.equals(attributeNumber, xmlItem.attributeNumber) &&
+        Objects.equals(attributeInteger, xmlItem.attributeInteger) &&
+        Objects.equals(attributeBoolean, xmlItem.attributeBoolean) &&
+        Objects.equals(wrappedArray, xmlItem.wrappedArray) &&
+        Objects.equals(nameString, xmlItem.nameString) &&
+        Objects.equals(nameNumber, xmlItem.nameNumber) &&
+        Objects.equals(nameInteger, xmlItem.nameInteger) &&
+        Objects.equals(nameBoolean, xmlItem.nameBoolean) &&
+        Objects.equals(nameArray, xmlItem.nameArray) &&
+        Objects.equals(nameWrappedArray, xmlItem.nameWrappedArray) &&
+        Objects.equals(prefixString, xmlItem.prefixString) &&
+        Objects.equals(prefixNumber, xmlItem.prefixNumber) &&
+        Objects.equals(prefixInteger, xmlItem.prefixInteger) &&
+        Objects.equals(prefixBoolean, xmlItem.prefixBoolean) &&
+        Objects.equals(prefixArray, xmlItem.prefixArray) &&
+        Objects.equals(prefixWrappedArray, xmlItem.prefixWrappedArray) &&
+        Objects.equals(namespaceString, xmlItem.namespaceString) &&
+        Objects.equals(namespaceNumber, xmlItem.namespaceNumber) &&
+        Objects.equals(namespaceInteger, xmlItem.namespaceInteger) &&
+        Objects.equals(namespaceBoolean, xmlItem.namespaceBoolean) &&
+        Objects.equals(namespaceArray, xmlItem.namespaceArray) &&
+        Objects.equals(namespaceWrappedArray, xmlItem.namespaceWrappedArray) &&
+        Objects.equals(prefixNsString, xmlItem.prefixNsString) &&
+        Objects.equals(prefixNsNumber, xmlItem.prefixNsNumber) &&
+        Objects.equals(prefixNsInteger, xmlItem.prefixNsInteger) &&
+        Objects.equals(prefixNsBoolean, xmlItem.prefixNsBoolean) &&
+        Objects.equals(prefixNsArray, xmlItem.prefixNsArray) &&
+        Objects.equals(prefixNsWrappedArray, xmlItem.prefixNsWrappedArray);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(attributeString, attributeNumber, attributeInteger, attributeBoolean, wrappedArray, nameString, nameNumber, nameInteger, nameBoolean, nameArray, nameWrappedArray, prefixString, prefixNumber, prefixInteger, prefixBoolean, prefixArray, prefixWrappedArray, namespaceString, namespaceNumber, namespaceInteger, namespaceBoolean, namespaceArray, namespaceWrappedArray, prefixNsString, prefixNsNumber, prefixNsInteger, prefixNsBoolean, prefixNsArray, prefixNsWrappedArray);
+  }
 
   @Override
   public String toString() {

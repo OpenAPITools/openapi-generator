@@ -10,9 +10,9 @@ namespace app\Models;
 class FileSchemaTestClass {
 
     /** @var \app\Models\File $file */
-    private $file;
+    public $file;
 
     /** @var \app\Models\File[] $files */
-    private $files;
+    public $files = [];
 
 }

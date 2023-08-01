@@ -20,8 +20,6 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -93,7 +91,7 @@ public class FormatTest {
   @SerializedName(SERIALIZED_NAME_BIG_DECIMAL)
   private BigDecimal bigDecimal;
 
-  public FormatTest() { 
+  public FormatTest() {
   }
 
   public FormatTest integer(Integer integer) {
@@ -109,7 +107,7 @@ public class FormatTest {
    * @return integer
   **/
   @javax.annotation.Nullable
- @Min(10) @Max(100)  @ApiModelProperty(value = "")
+ @Min(10) @Max(100)
 
   public Integer getInteger() {
     return integer;
@@ -134,7 +132,7 @@ public class FormatTest {
    * @return int32
   **/
   @javax.annotation.Nullable
- @Min(20) @Max(200)  @ApiModelProperty(value = "")
+ @Min(20) @Max(200)
 
   public Integer getInt32() {
     return int32;
@@ -157,7 +155,7 @@ public class FormatTest {
    * @return int64
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+
 
   public Long getInt64() {
     return int64;
@@ -183,8 +181,7 @@ public class FormatTest {
   **/
   @javax.annotation.Nonnull
   @NotNull
-  @Valid
- @DecimalMin("32.1") @DecimalMax("543.2")  @ApiModelProperty(required = true, value = "")
+ @DecimalMin("32.1") @DecimalMax("543.2")
 
   public BigDecimal getNumber() {
     return number;
@@ -209,7 +206,7 @@ public class FormatTest {
    * @return _float
   **/
   @javax.annotation.Nullable
- @DecimalMin("54.3") @DecimalMax("987.6")  @ApiModelProperty(value = "")
+ @DecimalMin("54.3") @DecimalMax("987.6")
 
   public Float getFloat() {
     return _float;
@@ -234,7 +231,7 @@ public class FormatTest {
    * @return _double
   **/
   @javax.annotation.Nullable
- @DecimalMin("67.8") @DecimalMax("123.4")  @ApiModelProperty(value = "")
+ @DecimalMin("67.8") @DecimalMax("123.4")
 
   public Double getDouble() {
     return _double;
@@ -257,7 +254,7 @@ public class FormatTest {
    * @return string
   **/
   @javax.annotation.Nullable
- @Pattern(regexp="/[a-z]/i")  @ApiModelProperty(value = "")
+ @Pattern(regexp="/[a-z]/i")
 
   public String getString() {
     return string;
@@ -281,7 +278,7 @@ public class FormatTest {
   **/
   @javax.annotation.Nonnull
   @NotNull
-  @ApiModelProperty(required = true, value = "")
+
 
   public byte[] getByte() {
     return _byte;
@@ -305,7 +302,7 @@ public class FormatTest {
   **/
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
+
 
   public File getBinary() {
     return binary;
@@ -330,7 +327,7 @@ public class FormatTest {
   @javax.annotation.Nonnull
   @NotNull
   @Valid
-  @ApiModelProperty(required = true, value = "")
+
 
   public LocalDate getDate() {
     return date;
@@ -354,7 +351,7 @@ public class FormatTest {
   **/
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
+
 
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -378,7 +375,7 @@ public class FormatTest {
   **/
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+
 
   public UUID getUuid() {
     return uuid;
@@ -402,7 +399,7 @@ public class FormatTest {
   **/
   @javax.annotation.Nonnull
   @NotNull
- @Size(min=10,max=64)  @ApiModelProperty(required = true, value = "")
+ @Size(min=10,max=64)
 
   public String getPassword() {
     return password;
@@ -425,8 +422,7 @@ public class FormatTest {
    * @return bigDecimal
   **/
   @javax.annotation.Nullable
-  @Valid
-  @ApiModelProperty(value = "")
+
 
   public BigDecimal getBigDecimal() {
     return bigDecimal;
@@ -436,7 +432,6 @@ public class FormatTest {
   public void setBigDecimal(BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
-
 
   @Override
   public boolean equals(Object o) {

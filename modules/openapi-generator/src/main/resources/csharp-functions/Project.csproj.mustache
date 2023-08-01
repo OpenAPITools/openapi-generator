@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>{{packageDescription}}{{^packageDescription}}{{packageName}}{{/packageDescription}}</Description>
+    <Copyright>{{packageCopyright}}</Copyright>
+    <Authors>{{packageAuthors}}</Authors>
+    <TargetFramework>{{targetFramework}}</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <Version>{{packageVersion}}</Version>
+    <AzureFunctionsVersion>{{azureFunctionsVersion}}</AzureFunctionsVersion>
+{{#nullableReferenceTypes}}
+    <Nullable>annotations</Nullable>
+{{/nullableReferenceTypes}}
+{{#isLibrary}}
+    <OutputType>Library</OutputType>
+{{/isLibrary}}
+    <AssemblyName>{{packageName}}</AssemblyName>
+    <PackageId>{{packageName}}</PackageId>
+    <UserSecretsId>{{userSecretsGuid}}</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+  <ItemGroup>
+      <PackageReference Include="Microsoft.Azure.WebJobs.Extensions" Version="4.0.1" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.OpenApi.Core" Version="1.0.0" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="{{functionsSDKVersion}}" />
+    <PackageReference Include="Microsoft.OpenApi" Version="1.2.3" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.OpenApi" Version="0.7.2-preview" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="host.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="local.settings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,15 +1,23 @@
 package org.openapitools.codegen.typescript.fetch;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.languages.AbstractTypeScriptClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_FETCH})
 public class TypeScriptFetchClientCodegenTest {
     @Test
     public void testSnapshotVersion() {
@@ -72,6 +80,38 @@ public class TypeScriptFetchClientCodegenTest {
     }
 
     @Test
+    public void toEnumVarName() {
+        TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumVarName("", "string"), "Empty");
+        Assert.assertEquals(codegen.toEnumVarName("$", "string"), "Dollar");
+        Assert.assertEquals(codegen.toEnumVarName("valid_var", "string"), "ValidVar");
+        Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "ValidVar");
+        Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30validVar");
+
+        codegen = new TypeScriptFetchClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "original");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumVarName("", "string"), "empty");
+        Assert.assertEquals(codegen.toEnumVarName("$", "string"), "Dollar");
+        Assert.assertEquals(codegen.toEnumVarName("valid_var", "string"), "valid_var");
+        Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "valid_var");
+        Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30valid_var");
+
+        codegen = new TypeScriptFetchClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "UPPERCASE");
+        codegen.additionalProperties().put(AbstractTypeScriptClientCodegen.ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR, "true");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumVarName("", "string"), "EMPTY");
+        Assert.assertEquals(codegen.toEnumVarName("$", "string"), "DOLLAR");
+        Assert.assertEquals(codegen.toEnumVarName("valid_var", "string"), "VALID_VAR");
+        Assert.assertEquals(codegen.toEnumVarName("-valid_+var", "string"), "MINUS_VALID_PLUS_VAR");
+        Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "MINUS_VALID_VAR_PLUS");
+        Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30VALID_PLUS_VAR");
+
+    }
+
+    @Test
     public void getTypeDeclarationTest() {
         Schema<?> childSchema = new ArraySchema().items(new StringSchema());
 
@@ -102,4 +142,33 @@ public class TypeScriptFetchClientCodegenTest {
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Child; }");
     }
 
+    @Test
+    public void containsESMTSConfigFileInCaseOfES6AndNPM() {
+        TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+
+        codegen.additionalProperties().put("npmName", "@openapi/typescript-fetch-petstore");
+        codegen.additionalProperties().put("snapshot", false);
+        codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
+        codegen.additionalProperties().put("supportsES6", true);
+
+        codegen.processOpts();
+
+        assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
+    }
+
+    @Test
+    public void doesNotContainESMTSConfigFileInCaseOfES5AndNPM() {
+        TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+
+        codegen.additionalProperties().put("npmName", "@openapi/typescript-fetch-petstore");
+        codegen.additionalProperties().put("snapshot", false);
+        codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
+        codegen.additionalProperties().put("supportsES6", false);
+
+        codegen.processOpts();
+
+        assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        assertThat(codegen.supportingFiles()).doesNotContain(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
+    }
 }

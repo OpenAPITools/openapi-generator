@@ -1,9 +1,9 @@
 {{>licenseInfo}}
 package {{apiPackage}};
 
-import javax.ws.rs.core.Response;
+import {{rootJavaEEPackage}}.ws.rs.core.Response;
 
-public class ApiException extends Exception {
+public class ApiException extends{{#useRuntimeException}} RuntimeException {{/useRuntimeException}}{{^useRuntimeException}} Exception {{/useRuntimeException}}{
 
   private static final long serialVersionUID = 1L;
   private Response response;

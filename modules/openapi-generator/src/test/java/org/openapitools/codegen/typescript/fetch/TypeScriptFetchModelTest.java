@@ -26,6 +26,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -35,9 +36,11 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /*
 import static io.swagger.codegen.CodegenConstants.IS_ENUM_EXT_NAME;
@@ -45,6 +48,7 @@ import static io.swagger.codegen.languages.helpers.ExtensionHelper.getBooleanVal
 import static io.swagger.codegen.utils.ModelUtils.updateCodegenPropertyEnum;
 */
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_FETCH})
 @SuppressWarnings("static-method")
 public class TypeScriptFetchModelTest {
 
@@ -52,11 +56,11 @@ public class TypeScriptFetchModelTest {
     public void simpleModelTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("name", new StringSchema())
-                .addProperties("createdAt", new DateTimeSchema())
-                .addProperties("birthDate", new DateSchema())
-                .addProperties("active", new BooleanSchema())
+                .addProperty("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperty("name", new StringSchema())
+                .addProperty("createdAt", new DateTimeSchema())
+                .addProperty("birthDate", new DateSchema())
+                .addProperty("active", new BooleanSchema())
                 .addRequiredItem("id")
                 .addRequiredItem("name");
 
@@ -117,6 +121,76 @@ public class TypeScriptFetchModelTest {
         Assert.assertFalse(property5.isContainer);
     }
 
+    @Test(description = "convert a simple TypeScript Angular model; overwrite date/DateTime type mapping")
+    public void simpleModelWithStringDateTest() {
+        final Schema model = new Schema()
+                .description("a sample model")
+                .addProperty("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperty("name", new StringSchema())
+                .addProperty("createdAt", new DateTimeSchema())
+                .addProperty("birthDate", new DateSchema())
+                .addProperty("active", new BooleanSchema())
+                .addRequiredItem("id")
+                .addRequiredItem("name");
+
+        final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        codegen.typeMapping().put("date", "string");
+        codegen.typeMapping().put("DateTime", "string");
+        final CodegenModel cm = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 5);
+
+        final CodegenProperty property1 = cm.vars.get(0);
+        Assert.assertEquals(property1.baseName, "id");
+        Assert.assertEquals(property1.dataType, "number");
+        Assert.assertEquals(property1.name, "id");
+        Assert.assertEquals(property1.defaultValue, "undefined");
+        Assert.assertEquals(property1.baseType, "number");
+        Assert.assertTrue(property1.required);
+        Assert.assertFalse(property1.isContainer);
+
+        final CodegenProperty property2 = cm.vars.get(1);
+        Assert.assertEquals(property2.baseName, "name");
+        Assert.assertEquals(property2.dataType, "string");
+        Assert.assertEquals(property2.name, "name");
+        Assert.assertEquals(property2.defaultValue, "undefined");
+        Assert.assertEquals(property2.baseType, "string");
+        Assert.assertTrue(property2.required);
+        Assert.assertFalse(property2.isContainer);
+
+        final CodegenProperty property3 = cm.vars.get(2);
+        Assert.assertEquals(property3.baseName, "createdAt");
+        Assert.assertEquals(property3.complexType, null);
+        Assert.assertEquals(property3.dataType, "string");
+        Assert.assertEquals(property3.name, "createdAt");
+        Assert.assertEquals(property3.defaultValue, "undefined");
+        Assert.assertFalse(property3.required);
+        Assert.assertFalse(property3.isContainer);
+
+        final CodegenProperty property4 = cm.vars.get(3);
+        Assert.assertEquals(property4.baseName, "birthDate");
+        Assert.assertEquals(property4.complexType, null);
+        Assert.assertEquals(property4.dataType, "string");
+        Assert.assertEquals(property4.name, "birthDate");
+        Assert.assertEquals(property4.defaultValue, "undefined");
+        Assert.assertFalse(property4.required);
+        Assert.assertFalse(property4.isContainer);
+
+        final CodegenProperty property5 = cm.vars.get(4);
+        Assert.assertEquals(property5.baseName, "active");
+        Assert.assertEquals(property5.complexType, null);
+        Assert.assertEquals(property5.dataType, "boolean");
+        Assert.assertEquals(property5.name, "active");
+        Assert.assertEquals(property5.defaultValue, "undefined");
+        Assert.assertFalse(property5.required);
+        Assert.assertFalse(property5.isContainer);
+    }
+
     @Test(description = "convert and check default values for a simple TypeScript Angular model")
     public void simpleModelDefaultValuesTest() throws ParseException {
         IntegerSchema integerSchema = new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT);
@@ -138,11 +212,11 @@ public class TypeScriptFetchModelTest {
 
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id", integerSchema)
-                .addProperties("name", stringSchema)
-                .addProperties("createdAt", dateTimeSchema)
-                .addProperties("birthDate", dateSchema)
-                .addProperties("active", booleanSchema)
+                .addProperty("id", integerSchema)
+                .addProperty("name", stringSchema)
+                .addProperty("createdAt", dateTimeSchema)
+                .addProperty("birthDate", dateSchema)
+                .addProperty("active", booleanSchema)
                 .addRequiredItem("id")
                 .addRequiredItem("name");
 
@@ -181,8 +255,8 @@ public class TypeScriptFetchModelTest {
     public void listPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("urls", new ArraySchema().items(new StringSchema()))
+                .addProperty("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperty("urls", new ArraySchema().items(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -215,7 +289,7 @@ public class TypeScriptFetchModelTest {
     public void complexPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("children", new Schema().$ref("#/definitions/Children"));
+                .addProperty("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -239,7 +313,7 @@ public class TypeScriptFetchModelTest {
     public void complexListPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("children", new ArraySchema()
+                .addProperty("children", new ArraySchema()
                         .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -385,5 +459,25 @@ public class TypeScriptFetchModelTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.getTypeDeclaration(model), "{ [key: string]: string; }");
+    }
+
+    @Test(description = "Don't generate new schemas for readonly references")
+    public void testNestedReadonlySchemas() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf-readonly.yaml");
+        final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.processOpts();
+        codegen.setOpenAPI(openAPI);
+        final Map<String, Schema> schemaBefore = openAPI.getComponents().getSchemas();
+        Assert.assertEquals(schemaBefore.keySet(), Sets.newHashSet("club", "owner"));
+    }
+
+    @Test(description = "Don't generate new schemas for nullable references")
+    public void testNestedNullableSchemas() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf-nullable.yaml");
+        final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.processOpts();
+        codegen.setOpenAPI(openAPI);
+        final Map<String, Schema> schemaBefore = openAPI.getComponents().getSchemas();
+        Assert.assertEquals(schemaBefore.keySet(), Sets.newHashSet("club", "owner"));
     }
 }

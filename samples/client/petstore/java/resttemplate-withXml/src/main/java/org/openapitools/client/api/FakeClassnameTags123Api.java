@@ -26,7 +26,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-@Component("org.openapitools.client.api.FakeClassnameTags123Api")
 public class FakeClassnameTags123Api {
     private ApiClient apiClient;
 
@@ -34,7 +33,6 @@ public class FakeClassnameTags123Api {
         this(new ApiClient());
     }
 
-    @Autowired
     public FakeClassnameTags123Api(ApiClient apiClient) {
         this.apiClient = apiClient;
     }

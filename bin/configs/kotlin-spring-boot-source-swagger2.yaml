@@ -1,0 +1,12 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-springboot-source-swagger2
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  documentationProvider: source
+  annotationLibrary: swagger2
+  useSwaggerUI: "true"
+  serviceImplementation: "true"
+  serializableModel: "true"
+  beanValidations: "true"

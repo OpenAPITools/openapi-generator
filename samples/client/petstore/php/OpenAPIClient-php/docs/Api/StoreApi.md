@@ -1,13 +1,13 @@
 # OpenAPI\Client\StoreApi
 
-All URIs are relative to http://petstore.swagger.io:80/v2.
+All URIs are relative to http://petstore.swagger.io:80/v2, except if the operation defines another base path.
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**deleteOrder()**](StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
-[**getInventory()**](StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
-[**getOrderById()**](StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID
-[**placeOrder()**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**deleteOrder()**](StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID |
+| [**getInventory()**](StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status |
+| [**getOrderById()**](StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID |
+| [**placeOrder()**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet |
 
 
 ## `deleteOrder()`
@@ -44,9 +44,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **order_id** | **string**| ID of the order that needs to be deleted |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **order_id** | **string**| ID of the order that needs to be deleted | |
 
 ### Return type
 
@@ -132,7 +132,7 @@ getOrderById($order_id): \OpenAPI\Client\Model\Order
 
 Find purchase order by ID
 
-For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 
 ### Example
 
@@ -159,9 +159,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **order_id** | **int**| ID of pet that needs to be fetched |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **order_id** | **int**| ID of pet that needs to be fetched | |
 
 ### Return type
 
@@ -188,6 +188,8 @@ placeOrder($order): \OpenAPI\Client\Model\Order
 
 Place an order for a pet
 
+
+
 ### Example
 
 ```php
@@ -213,9 +215,9 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **order** | [**\OpenAPI\Client\Model\Order**](../Model/Order.md)| order placed for purchasing the pet |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **order** | [**\OpenAPI\Client\Model\Order**](../Model/Order.md)| order placed for purchasing the pet | |
 
 ### Return type
 

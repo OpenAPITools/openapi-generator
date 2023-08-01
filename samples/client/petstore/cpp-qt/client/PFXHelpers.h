@@ -135,6 +135,7 @@ QJsonValue toJsonValue(const double &value);
 QJsonValue toJsonValue(const PFXObject &value);
 QJsonValue toJsonValue(const PFXEnum &value);
 QJsonValue toJsonValue(const PFXHttpFileElement &value);
+QJsonValue toJsonValue(const QJsonValue &value);
 
 template <typename T>
 QJsonValue toJsonValue(const QList<T> &val) {
@@ -221,6 +222,7 @@ bool fromJsonValue(double &value, const QJsonValue &jval);
 bool fromJsonValue(PFXObject &value, const QJsonValue &jval);
 bool fromJsonValue(PFXEnum &value, const QJsonValue &jval);
 bool fromJsonValue(PFXHttpFileElement &value, const QJsonValue &jval);
+bool fromJsonValue(QJsonValue &value, const QJsonValue &jval);
 
 template <typename T>
 bool fromJsonValue(QList<T> &val, const QJsonValue &jval) {

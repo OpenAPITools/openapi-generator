@@ -5,7 +5,9 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class NumberOnly  {
   
@@ -30,6 +32,22 @@ public class NumberOnly  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    NumberOnly numberOnly = (NumberOnly) o;
+    return Objects.equals(justNumber, numberOnly.justNumber);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(justNumber);
+  }
 
   @Override
   public String toString() {

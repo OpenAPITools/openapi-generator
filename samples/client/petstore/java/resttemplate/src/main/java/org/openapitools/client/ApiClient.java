@@ -59,7 +59,6 @@ import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-@Component("org.openapitools.client.ApiClient")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
@@ -93,7 +92,6 @@ public class ApiClient extends JavaTimeFormatter {
         init();
     }
 
-    @Autowired
     public ApiClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
         init();
@@ -112,10 +110,10 @@ public class ApiClient extends JavaTimeFormatter {
 
         // Setup authentications (key: authentication name, value: authentication).
         authentications = new HashMap<String, Authentication>();
+        authentications.put("petstore_auth", new OAuth());
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
         authentications.put("http_basic_test", new HttpBasicAuth());
-        authentications.put("petstore_auth", new OAuth());
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
@@ -592,8 +590,7 @@ public class ApiClient extends JavaTimeFormatter {
                         queryBuilder.append(encodedName);
                         if (value != null) {
                             String templatizedKey = encodedName + valueItemCounter++;
-                            final String encodedValue = URLEncoder.encode(value.toString(), "UTF-8");
-                            uriParams.put(templatizedKey, encodedValue);
+                            uriParams.put(templatizedKey, value.toString());
                             queryBuilder.append('=').append("{").append(templatizedKey).append("}");
                         }
                     }
@@ -648,7 +645,7 @@ public class ApiClient extends JavaTimeFormatter {
             throw new RestClientException("Could not build URL: " + builder.toUriString(), ex);
         }
 
-        final BodyBuilder requestBuilder = RequestEntity.method(method, uri);
+        final BodyBuilder requestBuilder = RequestEntity.method(method, UriComponentsBuilder.fromHttpUrl(basePath).toUriString() + finalUri, uriParams);
         if (accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
         }
@@ -730,7 +727,7 @@ public class ApiClient extends JavaTimeFormatter {
 
         // disable default URL encoding
         DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory();
-        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+        uriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
         restTemplate.setUriTemplateHandler(uriBuilderFactory);
         return restTemplate;
     }
@@ -778,6 +775,9 @@ public class ApiClient extends JavaTimeFormatter {
         }
 
         private String headersToString(HttpHeaders headers) {
+            if(headers == null || headers.isEmpty()) {
+                return "";
+            }
             StringBuilder builder = new StringBuilder();
             for (Entry<String, List<String>> entry : headers.entrySet()) {
                 builder.append(entry.getKey()).append("=[");

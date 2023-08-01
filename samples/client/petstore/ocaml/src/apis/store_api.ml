@@ -6,7 +6,7 @@
  *)
 
 let delete_order ~order_id =
-    let open Lwt in
+    let open Lwt.Infix in
     let uri = Request.build_uri "/store/order/{orderId}" in
     let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "orderId" (fun x -> x) order_id in
@@ -14,7 +14,7 @@ let delete_order ~order_id =
     Request.handle_unit_response resp
 
 let get_inventory () =
-    let open Lwt in
+    let open Lwt.Infix in
     let uri = Request.build_uri "/store/inventory" in
     let headers = Request.default_headers in
     let headers = Cohttp.Header.add headers "api_key" Request.api_key in
@@ -22,7 +22,7 @@ let get_inventory () =
     Request.read_json_body_as_map_of (JsonSupport.to_int32) resp body
 
 let get_order_by_id ~order_id =
-    let open Lwt in
+    let open Lwt.Infix in
     let uri = Request.build_uri "/store/order/{orderId}" in
     let headers = Request.default_headers in
     let uri = Request.replace_path_param uri "orderId" Int64.to_string order_id in
@@ -30,7 +30,7 @@ let get_order_by_id ~order_id =
     Request.read_json_body_as (JsonSupport.unwrap Order.of_yojson) resp body
 
 let place_order ~order_t =
-    let open Lwt in
+    let open Lwt.Infix in
     let uri = Request.build_uri "/store/order" in
     let headers = Request.default_headers in
     let body = Request.write_as_json_body Order.to_yojson order_t in

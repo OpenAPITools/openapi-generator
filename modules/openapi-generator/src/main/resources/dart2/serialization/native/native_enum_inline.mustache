@@ -28,7 +28,7 @@ class {{{enumName}}} {
 
   static {{{enumName}}}? fromJson(dynamic value) => {{{enumName}}}TypeTransformer().decode(value);
 
-  static List<{{{enumName}}}>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<{{{enumName}}}> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <{{{enumName}}}>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -61,7 +61,7 @@ class {{{enumName}}}TypeTransformer {
   /// and users are still using an old app with the old code.
   {{{enumName}}}? decode(dynamic data, {bool allowNull = true}) {
     if (data != null) {
-      switch (data.toString()) {
+      switch (data) {
         {{#allowableValues}}
           {{#enumVars}}
         case {{#isString}}r{{/isString}}{{{value}}}: return {{{enumName}}}.{{{name}}};

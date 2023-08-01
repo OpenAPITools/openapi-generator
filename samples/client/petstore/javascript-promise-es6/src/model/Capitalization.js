@@ -69,8 +69,44 @@ class Capitalization {
         return obj;
     }
 
+    /**
+     * Validates the JSON data with respect to <code>Capitalization</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>Capitalization</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is a string
+        if (data['smallCamel'] && !(typeof data['smallCamel'] === 'string' || data['smallCamel'] instanceof String)) {
+            throw new Error("Expected the field `smallCamel` to be a primitive type in the JSON string but got " + data['smallCamel']);
+        }
+        // ensure the json data is a string
+        if (data['CapitalCamel'] && !(typeof data['CapitalCamel'] === 'string' || data['CapitalCamel'] instanceof String)) {
+            throw new Error("Expected the field `CapitalCamel` to be a primitive type in the JSON string but got " + data['CapitalCamel']);
+        }
+        // ensure the json data is a string
+        if (data['small_Snake'] && !(typeof data['small_Snake'] === 'string' || data['small_Snake'] instanceof String)) {
+            throw new Error("Expected the field `small_Snake` to be a primitive type in the JSON string but got " + data['small_Snake']);
+        }
+        // ensure the json data is a string
+        if (data['Capital_Snake'] && !(typeof data['Capital_Snake'] === 'string' || data['Capital_Snake'] instanceof String)) {
+            throw new Error("Expected the field `Capital_Snake` to be a primitive type in the JSON string but got " + data['Capital_Snake']);
+        }
+        // ensure the json data is a string
+        if (data['SCA_ETH_Flow_Points'] && !(typeof data['SCA_ETH_Flow_Points'] === 'string' || data['SCA_ETH_Flow_Points'] instanceof String)) {
+            throw new Error("Expected the field `SCA_ETH_Flow_Points` to be a primitive type in the JSON string but got " + data['SCA_ETH_Flow_Points']);
+        }
+        // ensure the json data is a string
+        if (data['ATT_NAME'] && !(typeof data['ATT_NAME'] === 'string' || data['ATT_NAME'] instanceof String)) {
+            throw new Error("Expected the field `ATT_NAME` to be a primitive type in the JSON string but got " + data['ATT_NAME']);
+        }
+
+        return true;
+    }
+
 
 }
+
+
 
 /**
  * @member {String} smallCamel

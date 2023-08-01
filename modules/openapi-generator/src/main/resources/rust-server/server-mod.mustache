@@ -26,20 +26,20 @@ pub mod callbacks;
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl<T> RequestParser<T> for ApiRequestParser {
-    fn parse_operation_id(request: &Request<T>) -> Result<&'static str, ()> {
+    fn parse_operation_id(request: &Request<T>) -> Option<&'static str> {
         let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
-        match request.method() {
+        match *request.method() {
 {{#apiInfo}}
   {{#apis}}
     {{#operations}}
       {{#operation}}
             // {{{operationId}}} - {{{httpMethod}}} {{{path}}}
-            &hyper::Method::{{{vendorExtensions.x-http-method}}} if path.matched(paths::ID_{{{vendorExtensions.x-path-id}}}) => Ok("{{{operationId}}}"),
+            hyper::Method::{{{vendorExtensions.x-http-method}}} if path.matched(paths::ID_{{{vendorExtensions.x-path-id}}}) => Some("{{{operationId}}}"),
       {{/operation}}
     {{/operations}}
   {{/apis}}
 {{/apiInfo}}
-            _ => Err(()),
+            _ => None,
         }
     }
 }

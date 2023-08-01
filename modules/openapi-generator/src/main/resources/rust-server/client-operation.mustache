@@ -49,7 +49,7 @@
                     &param_{{{paramName}}}.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
       {{/isArray}}
       {{^isArray}}
-                    &param_{{{paramName}}}.to_string());
+                    &param_{{{paramName}}}{{^isString}}.to_string(){{/isString}});
       {{/isArray}}
     {{/x-consumes-json}}
   {{/vendorExtensions}}
@@ -60,10 +60,8 @@
 {{#authMethods}}
   {{#isApiKey}}
     {{#isKeyInQuery}}
-            if let Some(auth_data) = (context as &dyn Has<Option<AuthData>>).get().as_ref() {
-                if let AuthData::ApiKey(ref api_key) = *auth_data {
-                    query_string.append_pair("{{keyParamName}}", api_key);
-                }
+            if let Some(AuthData::ApiKey(ref api_key)) = (context as &dyn Has<Option<AuthData>>).get().as_ref() {
+                query_string.append_pair("{{keyParamName}}", api_key);
             }
     {{/isKeyInQuery}}
   {{/isApiKey}}
@@ -187,8 +185,8 @@
         // no such boundary is used.
         let mut boundary = generate_boundary();
         for b in boundary.iter_mut() {
-            if b == &('/' as u8) {
-                *b = '=' as u8;
+            if b == &(b'/') {
+                *b = b'=';
             }
         }
 
@@ -257,7 +255,7 @@
         {{/x-consumes-plain-text}}
         {{#required}}
         {{#x-consumes-xml}}
-        let body = param_{{{paramName}}}.to_xml();
+        let body = param_{{{paramName}}}.as_xml();
         {{/x-consumes-xml}}
         {{#x-consumes-json}}
         let body = serde_json::to_string(&param_{{{paramName}}}).expect("impossible to fail to serialize");
@@ -266,7 +264,7 @@
         {{^required}}
         let body = param_{{{paramName}}}.map(|ref body| {
             {{#x-consumes-xml}}
-            body.to_xml()
+            body.as_xml()
             {{/x-consumes-xml}}
             {{#x-consumes-json}}
             serde_json::to_string(body).expect("impossible to fail to serialize")
@@ -298,15 +296,17 @@
 {{/bodyParam}}
 {{/x-consumes-multipart}}
 {{/vendorExtensions}}
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
 {{#hasAuthMethods}}
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
             {{#authMethods}}
                 {{#isBasicBasic}}
@@ -359,11 +359,13 @@
 {{/-first}}
 {{^isMap}}
 {{^required}}
+        #[allow(clippy::single_match)]
         match param_{{{paramName}}} {
             Some(param_{{{paramName}}}) => {
 {{/required}}
         request.headers_mut().append(
             HeaderName::from_static("{{{nameInLowerCase}}}"),
+            #[allow(clippy::redundant_clone)]
             match header::IntoHeaderValue(param_{{{paramName}}}.clone()).try_into() {
                 Ok(header) => header,
                 Err(e) => {
@@ -382,7 +384,7 @@
 {{/isMap}}
 
 {{/headerParams}}
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -398,12 +400,11 @@
                                 return Err(ApiError(format!("Invalid response header {{baseName}} for response {{code}} - {}", e)));
                             },
                         };
-                        let response_{{{name}}} = response_{{{name}}}.0;
   {{#required}}
-                        response_{{{name}}}
+                        response_{{{name}}}.0
   {{/required}}
   {{^required}}
-                        Some(response_{{{name}}})
+                        Some(response_{{{name}}}.0)
   {{/required}}
                         },
   {{#required}}
@@ -415,10 +416,10 @@
                 };
 
 {{/headers}}
-                let body = response.into_body();
 {{#dataType}}
+                let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
 {{#vendorExtensions}}
 {{#x-produces-bytes}}
@@ -434,7 +435,9 @@
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
     {{/x-produces-xml}}
     {{#x-produces-json}}
-                let body = serde_json::from_str::<{{{dataType}}}>(body)?;
+                let body = serde_json::from_str::<{{{dataType}}}>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
     {{/x-produces-json}}
     {{#x-produces-plain-text}}
                 let body = body.to_string();
@@ -448,7 +451,7 @@
 {{#headers}}
   {{#-first}}
                     {
-                        body: body,
+                        body,
   {{/-first}}
                         {{{name}}}: response_{{name}},
   {{#-last}}
@@ -477,7 +480,7 @@
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,

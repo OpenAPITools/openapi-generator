@@ -18,7 +18,7 @@ class PetApiTest {
      */
     @Test
     fun addPetTest() {
-        val body:Pet = TODO()
+        val body: Pet = TODO()
         val response: ResponseEntity<Unit> = api.addPet(body)
 
         // TODO: test validations
@@ -32,8 +32,8 @@ class PetApiTest {
      */
     @Test
     fun deletePetTest() {
-        val petId:kotlin.Long = TODO()
-        val apiKey:kotlin.String? = TODO()
+        val petId: kotlin.Long = TODO()
+        val apiKey: kotlin.String? = TODO()
         val response: ResponseEntity<Unit> = api.deletePet(petId, apiKey)
 
         // TODO: test validations
@@ -47,7 +47,7 @@ class PetApiTest {
      */
     @Test
     fun findPetsByStatusTest() {
-        val status:kotlin.collections.List<kotlin.String> = TODO()
+        val status: kotlin.collections.List<kotlin.String> = TODO()
         val response: ResponseEntity<List<Pet>> = api.findPetsByStatus(status)
 
         // TODO: test validations
@@ -61,7 +61,7 @@ class PetApiTest {
      */
     @Test
     fun findPetsByTagsTest() {
-        val tags:kotlin.collections.List<kotlin.String> = TODO()
+        val tags: kotlin.collections.List<kotlin.String> = TODO()
         val response: ResponseEntity<List<Pet>> = api.findPetsByTags(tags)
 
         // TODO: test validations
@@ -75,7 +75,7 @@ class PetApiTest {
      */
     @Test
     fun getPetByIdTest() {
-        val petId:kotlin.Long = TODO()
+        val petId: kotlin.Long = TODO()
         val response: ResponseEntity<Pet> = api.getPetById(petId)
 
         // TODO: test validations
@@ -89,7 +89,7 @@ class PetApiTest {
      */
     @Test
     fun updatePetTest() {
-        val body:Pet = TODO()
+        val body: Pet = TODO()
         val response: ResponseEntity<Unit> = api.updatePet(body)
 
         // TODO: test validations
@@ -103,9 +103,9 @@ class PetApiTest {
      */
     @Test
     fun updatePetWithFormTest() {
-        val petId:kotlin.Long = TODO()
-        val name:kotlin.String? = TODO()
-        val status:kotlin.String? = TODO()
+        val petId: kotlin.Long = TODO()
+        val name: kotlin.String? = TODO()
+        val status: kotlin.String? = TODO()
         val response: ResponseEntity<Unit> = api.updatePetWithForm(petId, name, status)
 
         // TODO: test validations
@@ -119,12 +119,11 @@ class PetApiTest {
      */
     @Test
     fun uploadFileTest() {
-        val petId:kotlin.Long = TODO()
-        val additionalMetadata:kotlin.String? = TODO()
-        val file:org.springframework.core.io.Resource? = TODO()
+        val petId: kotlin.Long = TODO()
+        val additionalMetadata: kotlin.String? = TODO()
+        val file: org.springframework.core.io.Resource? = TODO()
         val response: ResponseEntity<ModelApiResponse> = api.uploadFile(petId, additionalMetadata, file)
 
         // TODO: test validations
     }
-
 }

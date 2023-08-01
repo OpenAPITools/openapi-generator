@@ -6,7 +6,7 @@ This is a sample server Petstore server. For this sample, you can use the api ke
 
 - node 10+
 
-## Gettings started
+## Getting started
 
     npm install
     npm run start

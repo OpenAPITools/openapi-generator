@@ -71,9 +71,9 @@ public:
     void getOrderById(const qint64 &order_id);
 
     /**
-    * @param[in]  body PFXOrder [required]
+    * @param[in]  pfx_order PFXOrder [required]
     */
-    void placeOrder(const PFXOrder &body);
+    void placeOrder(const PFXOrder &pfx_order);
 
 
 private:

@@ -27,7 +27,7 @@ components:
       properties:
         id:
           type: string
-        withAdditinalProperties:
+        withAdditionalProperties:
           $ref: '#/components/schemas/ModelWithAdditionalProperties'
     ModelWithAdditionalProperties:
       type: object

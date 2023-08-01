@@ -243,6 +243,7 @@ use WWW::OpenAPIClient::UserApi;
 To load the models:
 ```perl
 use WWW::OpenAPIClient::Object::AdditionalPropertiesClass;
+use WWW::OpenAPIClient::Object::AllOfWithSingleRef;
 use WWW::OpenAPIClient::Object::Animal;
 use WWW::OpenAPIClient::Object::ApiResponse;
 use WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly;
@@ -250,23 +251,22 @@ use WWW::OpenAPIClient::Object::ArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayTest;
 use WWW::OpenAPIClient::Object::Capitalization;
 use WWW::OpenAPIClient::Object::Cat;
-use WWW::OpenAPIClient::Object::CatAllOf;
 use WWW::OpenAPIClient::Object::Category;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
 use WWW::OpenAPIClient::Object::DeprecatedObject;
 use WWW::OpenAPIClient::Object::Dog;
-use WWW::OpenAPIClient::Object::DogAllOf;
 use WWW::OpenAPIClient::Object::EnumArrays;
 use WWW::OpenAPIClient::Object::EnumClass;
 use WWW::OpenAPIClient::Object::EnumTest;
+use WWW::OpenAPIClient::Object::FakeBigDecimalMap200Response;
 use WWW::OpenAPIClient::Object::File;
 use WWW::OpenAPIClient::Object::FileSchemaTestClass;
 use WWW::OpenAPIClient::Object::Foo;
+use WWW::OpenAPIClient::Object::FooGetDefaultResponse;
 use WWW::OpenAPIClient::Object::FormatTest;
 use WWW::OpenAPIClient::Object::HasOnlyReadOnly;
 use WWW::OpenAPIClient::Object::HealthCheckResult;
-use WWW::OpenAPIClient::Object::InlineResponseDefault;
 use WWW::OpenAPIClient::Object::List;
 use WWW::OpenAPIClient::Object::MapTest;
 use WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass;
@@ -285,6 +285,7 @@ use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
 use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
+use WWW::OpenAPIClient::Object::SingleRefType;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
 use WWW::OpenAPIClient::Object::User;
@@ -309,6 +310,7 @@ use WWW::OpenAPIClient::UserApi;
 
 # load the models
 use WWW::OpenAPIClient::Object::AdditionalPropertiesClass;
+use WWW::OpenAPIClient::Object::AllOfWithSingleRef;
 use WWW::OpenAPIClient::Object::Animal;
 use WWW::OpenAPIClient::Object::ApiResponse;
 use WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly;
@@ -316,23 +318,22 @@ use WWW::OpenAPIClient::Object::ArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayTest;
 use WWW::OpenAPIClient::Object::Capitalization;
 use WWW::OpenAPIClient::Object::Cat;
-use WWW::OpenAPIClient::Object::CatAllOf;
 use WWW::OpenAPIClient::Object::Category;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
 use WWW::OpenAPIClient::Object::DeprecatedObject;
 use WWW::OpenAPIClient::Object::Dog;
-use WWW::OpenAPIClient::Object::DogAllOf;
 use WWW::OpenAPIClient::Object::EnumArrays;
 use WWW::OpenAPIClient::Object::EnumClass;
 use WWW::OpenAPIClient::Object::EnumTest;
+use WWW::OpenAPIClient::Object::FakeBigDecimalMap200Response;
 use WWW::OpenAPIClient::Object::File;
 use WWW::OpenAPIClient::Object::FileSchemaTestClass;
 use WWW::OpenAPIClient::Object::Foo;
+use WWW::OpenAPIClient::Object::FooGetDefaultResponse;
 use WWW::OpenAPIClient::Object::FormatTest;
 use WWW::OpenAPIClient::Object::HasOnlyReadOnly;
 use WWW::OpenAPIClient::Object::HealthCheckResult;
-use WWW::OpenAPIClient::Object::InlineResponseDefault;
 use WWW::OpenAPIClient::Object::List;
 use WWW::OpenAPIClient::Object::MapTest;
 use WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass;
@@ -351,6 +352,7 @@ use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
 use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
+use WWW::OpenAPIClient::Object::SingleRefType;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
 use WWW::OpenAPIClient::Object::User;
@@ -382,6 +384,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**foo_get**](docs/DefaultApi.md#foo_get) | **GET** /foo | 
+*FakeApi* | [**fake_big_decimal_map**](docs/FakeApi.md#fake_big_decimal_map) | **GET** /fake/BigDecimalMap | 
 *FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fake_http_signature_test**](docs/FakeApi.md#fake_http_signature_test) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
@@ -425,6 +428,7 @@ Class | Method | HTTP request | Description
 
 # DOCUMENTATION FOR MODELS
  - [WWW::OpenAPIClient::Object::AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [WWW::OpenAPIClient::Object::AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [WWW::OpenAPIClient::Object::Animal](docs/Animal.md)
  - [WWW::OpenAPIClient::Object::ApiResponse](docs/ApiResponse.md)
  - [WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
@@ -432,23 +436,22 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::ArrayTest](docs/ArrayTest.md)
  - [WWW::OpenAPIClient::Object::Capitalization](docs/Capitalization.md)
  - [WWW::OpenAPIClient::Object::Cat](docs/Cat.md)
- - [WWW::OpenAPIClient::Object::CatAllOf](docs/CatAllOf.md)
  - [WWW::OpenAPIClient::Object::Category](docs/Category.md)
  - [WWW::OpenAPIClient::Object::ClassModel](docs/ClassModel.md)
  - [WWW::OpenAPIClient::Object::Client](docs/Client.md)
  - [WWW::OpenAPIClient::Object::DeprecatedObject](docs/DeprecatedObject.md)
  - [WWW::OpenAPIClient::Object::Dog](docs/Dog.md)
- - [WWW::OpenAPIClient::Object::DogAllOf](docs/DogAllOf.md)
  - [WWW::OpenAPIClient::Object::EnumArrays](docs/EnumArrays.md)
  - [WWW::OpenAPIClient::Object::EnumClass](docs/EnumClass.md)
  - [WWW::OpenAPIClient::Object::EnumTest](docs/EnumTest.md)
+ - [WWW::OpenAPIClient::Object::FakeBigDecimalMap200Response](docs/FakeBigDecimalMap200Response.md)
  - [WWW::OpenAPIClient::Object::File](docs/File.md)
  - [WWW::OpenAPIClient::Object::FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [WWW::OpenAPIClient::Object::Foo](docs/Foo.md)
+ - [WWW::OpenAPIClient::Object::FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [WWW::OpenAPIClient::Object::FormatTest](docs/FormatTest.md)
  - [WWW::OpenAPIClient::Object::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [WWW::OpenAPIClient::Object::HealthCheckResult](docs/HealthCheckResult.md)
- - [WWW::OpenAPIClient::Object::InlineResponseDefault](docs/InlineResponseDefault.md)
  - [WWW::OpenAPIClient::Object::List](docs/List.md)
  - [WWW::OpenAPIClient::Object::MapTest](docs/MapTest.md)
  - [WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
@@ -467,12 +470,23 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
  - [WWW::OpenAPIClient::Object::Pet](docs/Pet.md)
  - [WWW::OpenAPIClient::Object::ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [WWW::OpenAPIClient::Object::SingleRefType](docs/SingleRefType.md)
  - [WWW::OpenAPIClient::Object::SpecialModelName](docs/SpecialModelName.md)
  - [WWW::OpenAPIClient::Object::Tag](docs/Tag.md)
  - [WWW::OpenAPIClient::Object::User](docs/User.md)
 
 
 # DOCUMENTATION FOR AUTHORIZATION
+
+Authentication schemes defined for the API:
+## petstore_auth
+
+- **Type**: OAuth
+- **Flow**: implicit
+- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
+- **Scopes**: 
+  - **write:pets**: modify pets in your account
+  - **read:pets**: read your pets
 
 ## api_key
 
@@ -486,24 +500,15 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
-## bearer_test
-
-- **Type**: HTTP basic authentication
-
 ## http_basic_test
 
 - **Type**: HTTP basic authentication
 
+## bearer_test
+
+- **Type**: HTTP Bearer Token authentication (JWT)
+
 ## http_signature_test
 
-- **Type**: HTTP basic authentication
-
-## petstore_auth
-
-- **Type**: OAuth
-- **Flow**: implicit
-- **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
-- **Scopes**: 
-  - **write:pets**: modify pets in your account
-  - **read:pets**: read your pets
+- **Type**: HTTP signature authentication
 

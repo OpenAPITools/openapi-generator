@@ -17,12 +17,13 @@
 
 package org.openapitools.codegen.dart;
 
+import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.DartClientCodegen;
-import org.openapitools.codegen.languages.DartDioClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -460,7 +461,7 @@ public class DartModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
-        codegen.postProcessModels(Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm))));
+        codegen.postProcessModels(createCodegenModelWrapper(cm));
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "testStringEnum");
@@ -523,7 +524,7 @@ public class DartModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
-        codegen.postProcessModels(Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm))));
+        codegen.postProcessModels(createCodegenModelWrapper(cm));
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "testIntEnum");
@@ -562,30 +563,5 @@ public class DartModelTest {
 
         Assert.assertEquals(op.returnType, "DateTime");
         Assert.assertEquals(op.bodyParam.dataType, "DateTime");
-    }
-
-    @Test(description = "correctly generate date/datetime default values, currently null")
-    public void dateDefaultValues() {
-        final DateSchema date = new DateSchema();
-        date.setDefault("2021-01-01");
-        final DateTimeSchema dateTime = new DateTimeSchema();
-        dateTime.setDefault("2021-01-01T14:00:00Z");
-        final Schema model = new Schema()
-                .description("a sample model")
-                .addProperties("date", date)
-                .addProperties("dateTime", dateTime)
-                .addProperties("mapNoDefault", new MapSchema());
-        final DefaultCodegen codegen = new DartDioClientCodegen();
-        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setOpenAPI(openAPI);
-        final CodegenModel cm = codegen.fromModel("sample", model);
-
-        final CodegenProperty dateDefault = cm.vars.get(0);
-        Assert.assertEquals(dateDefault.name, "date");
-        Assert.assertNull(dateDefault.defaultValue);
-
-        final CodegenProperty dateTimeDefault = cm.vars.get(1);
-        Assert.assertEquals(dateTimeDefault.name, "dateTime");
-        Assert.assertNull(dateTimeDefault.defaultValue);
     }
 }

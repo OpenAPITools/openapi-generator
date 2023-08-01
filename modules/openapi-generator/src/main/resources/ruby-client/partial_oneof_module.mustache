@@ -44,11 +44,11 @@
       def build(data)
       {{#discriminator}}
         discriminator_value = data[openapi_discriminator_name]
-        return nil unless discriminator_value
+        return nil if discriminator_value.nil?
       {{#mappedModels}}
       {{#-first}}
 
-        klass = openapi_discriminator_mapping[discriminator_value.to_sym]
+        klass = openapi_discriminator_mapping[discriminator_value.to_s.to_sym]
         return nil unless klass
 
         {{moduleName}}.const_get(klass).build_from_hash(data)
@@ -123,7 +123,7 @@
               # raise if data contains keys that are not known to the model
               raise unless (data.keys - const.acceptable_attributes).empty?
               model = const.build_from_hash(data)
-              return model if model && model.valid?
+              return model if model
             end
           end
         end

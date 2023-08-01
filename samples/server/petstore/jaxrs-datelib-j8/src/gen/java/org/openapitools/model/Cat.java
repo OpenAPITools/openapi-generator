@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
-import org.openapitools.model.CatAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
@@ -67,13 +66,12 @@ public class Cat extends Animal implements Serializable {
       return false;
     }
     Cat cat = (Cat) o;
-    return Objects.equals(this.declawed, cat.declawed) &&
-        super.equals(o);
+    return super.equals(o) && Objects.equals(declawed, cat.declawed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(declawed, super.hashCode());
+    return Objects.hash(super.hashCode(), declawed);
   }
 
   @Override

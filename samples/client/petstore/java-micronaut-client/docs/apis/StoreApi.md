@@ -2,12 +2,12 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
-[**getInventory**](StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
-[**getOrderById**](StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID
-[**placeOrder**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID |
+| [**getInventory**](StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status |
+| [**getOrderById**](StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID |
+| [**placeOrder**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet |
 
 
 ## Creating StoreApi
@@ -38,7 +38,7 @@ Note that the class needs to be annotated with one of Micronaut's [scope annotat
 
 More information can be found inside [Inversion of Control guide section](https://docs.micronaut.io/latest/guide/#ioc).
 
-<a name="deleteOrder"></a>
+<a id="deleteOrder"></a>
 # **deleteOrder**
 ```java
 Mono<Void> StoreApi.deleteOrder(orderId)
@@ -49,9 +49,9 @@ Delete purchase order by ID
 For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
 
 ### Parameters
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **orderId** | `String`| ID of the order that needs to be deleted |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **orderId** | `String`| ID of the order that needs to be deleted | |
 
 
 
@@ -62,7 +62,7 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="getInventory"></a>
+<a id="getInventory"></a>
 # **getInventory**
 ```java
 Mono<Map<String, Integer>> StoreApi.getInventory()
@@ -84,7 +84,7 @@ Returns a map of status codes to quantities
  - **Content-Type**: Not defined
  - **Accept**: `application/json`
 
-<a name="getOrderById"></a>
+<a id="getOrderById"></a>
 # **getOrderById**
 ```java
 Mono<Order> StoreApi.getOrderById(orderId)
@@ -92,12 +92,12 @@ Mono<Order> StoreApi.getOrderById(orderId)
 
 Find purchase order by ID
 
-For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
 
 ### Parameters
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **orderId** | `Long`| ID of pet that needs to be fetched |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **orderId** | `Long`| ID of pet that needs to be fetched | |
 
 
 ### Return type
@@ -109,7 +109,7 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: `application/xml`, `application/json`
 
-<a name="placeOrder"></a>
+<a id="placeOrder"></a>
 # **placeOrder**
 ```java
 Mono<Order> StoreApi.placeOrder(_body)
@@ -118,9 +118,9 @@ Mono<Order> StoreApi.placeOrder(_body)
 Place an order for a pet
 
 ### Parameters
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **_body** | [**Order**](Order.md)| order placed for purchasing the pet |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **_body** | [**Order**](Order.md)| order placed for purchasing the pet | |
 
 
 ### Return type

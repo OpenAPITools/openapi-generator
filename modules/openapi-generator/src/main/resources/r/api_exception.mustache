@@ -1,3 +1,4 @@
+{{>partial_header}}
 {{! ApiException class for returning the ApiException object on encountering errors}}
 #' @docType class
 #' @title ApiException
@@ -7,6 +8,9 @@
 #' @field reason Reason of the ApiException
 #' @field body Body of the http response
 #' @field headers Headers of the http response
+{{#errorObjectType}}
+#' @field error_object error object type
+{{/errorObjectType}}
 #' @export
 ApiException <- R6::R6Class(
   "ApiException",
@@ -15,26 +19,48 @@ ApiException <- R6::R6Class(
     reason = NULL,
     body = NULL,
     headers = NULL,
-
+    {{#errorObjectType}}
+    error_object = NULL,
+    {{/errorObjectType}}
+    #' Initialize a new ApiException class.
+    #'
+    #' @description
+    #' Initialize a new ApiExceptino class.
+    #'
+    #' @param status HTTP status.
+    #' @param reason Reason of the ApiException.
+    #' @param http_response HTTP response object.
+    #' @export
     initialize = function(status = NULL, reason = NULL, http_response = NULL) {
       if (!is.null(http_response)) {
         self$status <- http_response$status_code
-        errorMsg <- toString(content(http_response))
-        if(errorMsg == ""){
-          errorMsg <- "Api exception encountered."
+        errorMsg <- http_response$response
+        if (is.null(errorMsg) || errorMsg == "") {
+          errorMsg <- "Api exception encountered. No details given."
         }
         self$body <- errorMsg
         self$headers <- http_response$headers
-        self$reason <- httr::http_status(http_response)$reason
+        self$reason <- http_response$http_status_desc
+        {{#errorObjectType}}
+        self$error_object <- {{errorObjectType}}$new()$fromJSONString(http_response$response)
+        {{/errorObjectType}}
       } else {
         self$status <- status
         self$reason <- reason
         self$body <- NULL
         self$headers <- NULL
+        {{#errorObjectType}}
+        self$error_object <- NULL
+        {{/errorObjectType}}
       }
     },
-
-    # returns the string format of ApiException
+    #' Returns the string format of ApiException.
+    #'
+    #' @description
+    #' Returns the string format of ApiException.
+    #'
+    #' @return the string format of ApiException.
+    #' @export
     toString = function() {
       errorMsg <- ""
       errorMsg <- paste("status : ", self$status, "\n", sep = "")
@@ -47,8 +73,14 @@ ApiException <- R6::R6Class(
       }
       if (!is.null(self$body)) {
         errorMsg <- paste(errorMsg, "Body : ", "\n", sep = "")
-        errorMsg <- paste(errorMsg, self$body,"\n")
+        errorMsg <- paste(errorMsg, self$body, "\n")
       }
+      {{#errorObjectType}}
+      if (!is.null(self$error_object)) {
+        errorMsg <- paste(errorMsg, "Error object : ", "\n", sep = "")
+        errorMsg <- paste(errorMsg, self$error_object$toJSONString(), "\n")
+      }
+      {{/errorObjectType}}
       errorMsg
     }
   )

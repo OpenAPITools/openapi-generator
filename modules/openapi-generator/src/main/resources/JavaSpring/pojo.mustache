@@ -15,14 +15,19 @@
 {{/discriminator}}
 {{#jackson}}
 {{#isClassnameSanitized}}
+{{^hasDiscriminatorWithNonEmptyMapping}}
 @JsonTypeName("{{name}}")
+{{/hasDiscriminatorWithNonEmptyMapping}}
 {{/isClassnameSanitized}}
 {{/jackson}}
 {{#withXml}}
 {{>xmlAnnotation}}
 {{/withXml}}
 {{>generatedAnnotation}}
-public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#hateoas}}extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}} extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
 {{#serializableModel}}
 
   private static final long serialVersionUID = 1L;
@@ -40,7 +45,6 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
     {{/isContainer}}
     {{/isEnum}}
   {{#jackson}}
-  @JsonProperty("{{baseName}}")
   {{#withXml}}
   @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
   {{/withXml}}
@@ -48,13 +52,16 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{#gson}}
   @SerializedName("{{baseName}}")
   {{/gson}}
+  {{#vendorExtensions.x-field-extra-annotation}}
+  {{{vendorExtensions.x-field-extra-annotation}}}
+  {{/vendorExtensions.x-field-extra-annotation}}
   {{#isContainer}}
   {{#useBeanValidation}}@Valid{{/useBeanValidation}}
   {{#openApiNullable}}
-  private {{>nullableDataType}} {{name}} = {{#isNullable}}JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}}{{/isNullable}};
+  private {{>nullableDataType}} {{name}}{{#isNullable}} = JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
   {{/openApiNullable}}
   {{^openApiNullable}}
-  private {{>nullableDataType}} {{name}} = {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}};
+  private {{>nullableDataType}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
   {{/openApiNullable}}
   {{/isContainer}}
   {{^isContainer}}
@@ -72,6 +79,33 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{/openApiNullable}}
   {{/isContainer}}
   {{/vars}}
+  {{#generatedConstructorWithRequiredArgs}}
+  {{#hasRequired}}
+
+  public {{classname}}() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public {{classname}}({{#requiredVars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/requiredVars}}) {
+    {{#parent}}
+    super({{#parentRequiredVars}}{{name}}{{^-last}}, {{/-last}}{{/parentRequiredVars}});
+    {{/parent}}
+    {{#vars}}
+    {{#required}}
+    {{#openApiNullable}}
+    this.{{name}} = {{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}};
+    {{/openApiNullable}}
+    {{^openApiNullable}}
+    this.{{name}} = {{name}};
+    {{/openApiNullable}}
+    {{/required}}
+    {{/vars}}
+  }
+  {{/hasRequired}}
+  {{/generatedConstructorWithRequiredArgs}}
   {{#vars}}
 
   {{! begin feature: fluent setter methods }}
@@ -88,16 +122,14 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
 
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#openApiNullable}}
-    {{^required}}
     if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
-      this.{{name}} = {{#isNullable}}JsonNullable.of({{{defaultValue}}}){{/isNullable}}{{^isNullable}}{{{defaultValue}}}{{/isNullable}};
+      this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}}{{#isNullable}}){{/isNullable}};
     }
-    {{/required}}
     this.{{name}}{{#isNullable}}.get(){{/isNullable}}.add({{name}}Item);
     {{/openApiNullable}}
     {{^openApiNullable}}
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
     }
     this.{{name}}.add({{name}}Item);
     {{/openApiNullable}}
@@ -107,11 +139,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{#isMap}}
 
   public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
-    {{^required}}
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
     }
-    {{/required}}
     this.{{name}}.put(key, {{name}}Item);
     return this;
   }
@@ -140,12 +170,18 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   {{#useBeanValidation}}
   {{>beanValidation}}
   {{/useBeanValidation}}
+  {{^useBeanValidation}}
+  {{#required}}@NotNull{{/required}}
+  {{/useBeanValidation}}
   {{#swagger2AnnotationLibrary}}
-  @Schema(name = "{{{baseName}}}", {{#isReadOnly}}accessMode = Schema.AccessMode.READ_ONLY, {{/isReadOnly}}{{#example}}example = "{{{.}}}", {{/example}}{{#description}}description = "{{{.}}}", {{/description}}required = {{{required}}})
+  @Schema(name = "{{{baseName}}}"{{#isReadOnly}}, accessMode = Schema.AccessMode.READ_ONLY{{/isReadOnly}}{{#example}}, example = "{{{.}}}"{{/example}}{{#description}}, description = "{{{.}}}"{{/description}}, requiredMode = {{#required}}Schema.RequiredMode.REQUIRED{{/required}}{{^required}}Schema.RequiredMode.NOT_REQUIRED{{/required}})
   {{/swagger2AnnotationLibrary}}
   {{#swagger1AnnotationLibrary}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
   {{/swagger1AnnotationLibrary}}
+  {{#jackson}}
+  @JsonProperty("{{baseName}}")
+  {{/jackson}}
   public {{>nullableDataType}} {{getter}}() {
     return {{name}};
   }
@@ -158,7 +194,30 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
   }
   {{! end feature: getter and setter }}
   {{/vars}}
+{{>additionalProperties}}
+  {{#parentVars}}
 
+  {{! begin feature: fluent setter methods for inherited properties }}
+  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    super.{{setter}}({{name}});
+    return this;
+  }
+  {{#isArray}}
+
+  public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    super.add{{nameInCamelCase}}Item({{name}}Item);
+    return this;
+  }
+  {{/isArray}}
+  {{#isMap}}
+
+  public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+    super.put{{nameInCamelCase}}Item(key, {{name}}Item);
+    return this;
+  }
+  {{/isMap}}
+  {{! end feature: fluent setter methods for inherited properties }}
+  {{/parentVars}}
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -169,7 +228,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
     }{{#hasVars}}
     {{classname}} {{classVarName}} = ({{classname}}) o;
     return {{#vars}}{{#vendorExtensions.x-is-jackson-optional-nullable}}equalsNullable(this.{{name}}, {{classVarName}}.{{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^-last}} &&
-        {{/-last}}{{/vars}}{{#parent}} &&
+        {{/-last}}{{/vars}}{{#additionalPropertiesType}} &&
+    Objects.equals(this.additionalProperties, {{classVarName}}.additionalProperties){{/additionalPropertiesType}}{{#parent}} &&
         super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
     return true;{{/hasVars}}
   }{{#vendorExtensions.x-jackson-optional-nullable-helpers}}
@@ -180,7 +240,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
 
   @Override
   public int hashCode() {
-    return Objects.hash({{#vars}}{{#vendorExtensions.x-is-jackson-optional-nullable}}hashCodeNullable({{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}});
+    return Objects.hash({{#vars}}{{#vendorExtensions.x-is-jackson-optional-nullable}}hashCodeNullable({{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}}{{#additionalPropertiesType}}{{#hasVars}}, {{/hasVars}}{{^hasVars}}{{#parent}}, {{/parent}}{{/hasVars}}additionalProperties{{/additionalPropertiesType}});
   }{{#vendorExtensions.x-jackson-optional-nullable-helpers}}
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -198,7 +258,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{^parent}}{{#ha
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     {{/parent}}
     {{#vars}}sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
-    {{/vars}}sb.append("}");
+    {{/vars}}{{#additionalPropertiesType}}
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
+    {{/additionalPropertiesType}}sb.append("}");
     return sb.toString();
   }
 

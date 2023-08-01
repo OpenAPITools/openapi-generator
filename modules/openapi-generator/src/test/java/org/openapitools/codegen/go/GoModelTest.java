@@ -25,7 +25,7 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.GoDeprecatedClientCodegen;
+import org.openapitools.codegen.languages.GoClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -37,12 +37,12 @@ public class GoModelTest {
     public void simpleModelTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("name", new StringSchema())
-                .addProperties("createdAt", new DateTimeSchema())
+                .addProperty("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperty("name", new StringSchema())
+                .addProperty("createdAt", new DateTimeSchema())
                 .addRequiredItem("id")
                 .addRequiredItem("name");
-        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
+        final DefaultCodegen codegen = new GoClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -85,11 +85,11 @@ public class GoModelTest {
     public void listPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
-                .addProperties("urls", new ArraySchema()
+                .addProperty("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperty("urls", new ArraySchema()
                         .items(new StringSchema()))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
+        final DefaultCodegen codegen = new GoClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -122,10 +122,10 @@ public class GoModelTest {
     public void mapPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("translations", new MapSchema()
+                .addProperty("translations", new MapSchema()
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
+        final DefaultCodegen codegen = new GoClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -150,8 +150,8 @@ public class GoModelTest {
     public void complexPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("children", new Schema().$ref("#/definitions/Children"));
-        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
+                .addProperty("children", new Schema().$ref("#/definitions/Children"));
+        final DefaultCodegen codegen = new GoClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -173,9 +173,9 @@ public class GoModelTest {
     public void complexListProperty() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("children", new ArraySchema()
+                .addProperty("children", new ArraySchema()
                         .items(new Schema().$ref("#/definitions/Children")));
-        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
+        final DefaultCodegen codegen = new GoClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -199,9 +199,9 @@ public class GoModelTest {
     public void complexMapProperty() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("children", new MapSchema()
+                .addProperty("children", new MapSchema()
                         .additionalProperties(new Schema().$ref("#/definitions/Children")));
-        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
+        final DefaultCodegen codegen = new GoClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -228,7 +228,7 @@ public class GoModelTest {
         final Schema model = new ArraySchema()
                 .items(new Schema().$ref("#/definitions/Children"))
                 .description("an array model");
-        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
+        final DefaultCodegen codegen = new GoClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -245,7 +245,7 @@ public class GoModelTest {
         final Schema model = new Schema()
                 .additionalProperties(new Schema().$ref("#/definitions/Children"))
                 .description("a map model");
-        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
+        final DefaultCodegen codegen = new GoClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -260,7 +260,7 @@ public class GoModelTest {
 
     @Test(description = "convert file type and file schema models")
     public void filePropertyTest() {
-        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
+        final DefaultCodegen codegen = new GoClientCodegen();
         final Schema model1 = new Schema().type("file");
         Assert.assertEquals(codegen.getSchemaType(model1), "*os.File");
         Assert.assertEquals(codegen.getTypeDeclaration(model1), "*os.File");
@@ -290,7 +290,7 @@ public class GoModelTest {
     @Test(dataProvider = "modelNames", description = "avoid inner class")
     public void modelNameTest(String name, String expectedName) {
         final Schema model = new Schema();
-        final DefaultCodegen codegen = new GoDeprecatedClientCodegen();
+        final DefaultCodegen codegen = new GoClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema(name, model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel(name, model);

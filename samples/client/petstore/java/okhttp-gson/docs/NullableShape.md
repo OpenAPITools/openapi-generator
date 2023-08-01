@@ -6,10 +6,10 @@ The value may be a shape or the 'null' value. The 'nullable' attribute was intro
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**shapeType** | **String** |  | 
-**quadrilateralType** | **String** |  | 
+| Name | Type | Description | Notes |
+|------------ | ------------- | ------------- | -------------|
+|**shapeType** | **String** |  |  |
+|**quadrilateralType** | **String** |  |  |
 
 
 

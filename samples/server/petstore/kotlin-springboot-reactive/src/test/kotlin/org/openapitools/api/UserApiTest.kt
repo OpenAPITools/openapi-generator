@@ -2,7 +2,7 @@ package org.openapitools.api
 
 import org.openapitools.model.User
 import org.junit.jupiter.api.Test
-import kotlinx.coroutines.flow.Flow;
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.runBlockingTest
 import org.springframework.http.ResponseEntity
 
@@ -19,7 +19,7 @@ class UserApiTest {
      */
     @Test
     fun createUserTest() = runBlockingTest {
-        val body:User = TODO()
+        val body: User = TODO()
         val response: ResponseEntity<Unit> = api.createUser(body)
 
         // TODO: test validations
@@ -33,7 +33,7 @@ class UserApiTest {
      */
     @Test
     fun createUsersWithArrayInputTest() = runBlockingTest {
-        val body:kotlin.collections.List<User> = TODO()
+        val body: kotlin.collections.List<User> = TODO()
         val response: ResponseEntity<Unit> = api.createUsersWithArrayInput(body)
 
         // TODO: test validations
@@ -47,7 +47,7 @@ class UserApiTest {
      */
     @Test
     fun createUsersWithListInputTest() = runBlockingTest {
-        val body:kotlin.collections.List<User> = TODO()
+        val body: kotlin.collections.List<User> = TODO()
         val response: ResponseEntity<Unit> = api.createUsersWithListInput(body)
 
         // TODO: test validations
@@ -61,7 +61,7 @@ class UserApiTest {
      */
     @Test
     fun deleteUserTest() = runBlockingTest {
-        val username:kotlin.String = TODO()
+        val username: kotlin.String = TODO()
         val response: ResponseEntity<Unit> = api.deleteUser(username)
 
         // TODO: test validations
@@ -75,7 +75,7 @@ class UserApiTest {
      */
     @Test
     fun getUserByNameTest() = runBlockingTest {
-        val username:kotlin.String = TODO()
+        val username: kotlin.String = TODO()
         val response: ResponseEntity<User> = api.getUserByName(username)
 
         // TODO: test validations
@@ -89,8 +89,8 @@ class UserApiTest {
      */
     @Test
     fun loginUserTest() = runBlockingTest {
-        val username:kotlin.String = TODO()
-        val password:kotlin.String = TODO()
+        val username: kotlin.String = TODO()
+        val password: kotlin.String = TODO()
         val response: ResponseEntity<kotlin.String> = api.loginUser(username, password)
 
         // TODO: test validations
@@ -117,11 +117,10 @@ class UserApiTest {
      */
     @Test
     fun updateUserTest() = runBlockingTest {
-        val username:kotlin.String = TODO()
-        val body:User = TODO()
+        val username: kotlin.String = TODO()
+        val body: User = TODO()
         val response: ResponseEntity<Unit> = api.updateUser(username, body)
 
         // TODO: test validations
     }
-
 }

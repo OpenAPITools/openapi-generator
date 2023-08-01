@@ -2,16 +2,18 @@
 {{#operations}}
 #' @docType class
 #' @title {{baseName}} operations
-#' @description {{importPath}}
+#' @description {{{description}}}{{^description}}{{{classname}}}{{/description}}
 #' @format An \code{R6Class} generator object
-#' @field apiClient Handles the client-server communication.
+#' @field api_client Handles the client-server communication.
 #'
 #' @section Methods:
 {{! Adding the below changes for generating documentation for the api methods. }}
 #' \describe{
 {{#operation}}
-#' \strong{ {{operationId}} } \emph{ {{summary}} }
-#' {{notes}}
+#' \strong{ {{operationId}} } \emph{ {{#lambdaRdocEscape}}{{summary}}{{/lambdaRdocEscape}} }
+{{#notes}}
+#' {{#lambdaRdocEscape}}{{{.}}}{{/lambdaRdocEscape}}
+{{/notes}}
 #'
 #' \itemize{
 {{#allParams}}
@@ -60,14 +62,14 @@
 {{/useRlangExceptionHandling}}
 #'
 {{#responses}}
-#' \item status code : {{code}} | {{message}}
+#' \item status code : {{code}} | {{{message}}}
 #'
-#'{{#dataType}} \item return type : {{.}} {{/dataType}}
+#'{{#dataType}} \item return type : {{{.}}}{{/dataType}}
 #' \item response headers :
 #'
 #' \tabular{ll}{
 {{#headers}}
-#' {{name}} \tab {{description}} \cr
+#' {{name}} \tab {{{description}}} \cr
 {{/headers}}
 #' }
 {{/responses}}
@@ -84,57 +86,90 @@
 #'
 #' library({{{packageName}}})
 {{#allParams}}
-#' var.{{{paramName}}} <- {{{example}}} # {{{dataType}}} | {{{description}}}
+#' var_{{{paramName}}} <- {{{vendorExtensions.x-r-example}}} # {{{dataType}}} | {{{description}}}{{^required}} (Optional){{/required}}
 {{/allParams}}
 #'
 {{#summary}}
 #' #{{{.}}}
 {{/summary}}
-#' api.instance <- {{{classname}}}$new()
+{{#generateWrapper}}
+#' api_instance <- {{#lambda.lowercase}}{{{packageName}}}{{/lambda.lowercase}}_api$new()
+{{/generateWrapper}}
+{{^generateWrapper}}
+#' api_instance <- {{{classname}}}$new()
+{{/generateWrapper}}
 {{#hasAuthMethods}}
 {{#authMethods}}
 #'
 {{#isBasic}}
-#' #Configure HTTP basic authorization: {{{name}}}
-#' # provide your username in the user-serial format
-#' api.instance$apiClient$username <- '<user-serial>';
-#' # provide your api key generated using the developer portal
-#' api.instance$apiClient$password <- '<api_key>';
+{{#isBasicBasic}}
+#' # Configure HTTP basic authorization: {{{name}}}
+#' api_instance$api_client$username <- Sys.getenv("USERNAME")
+#' api_instance$api_client$password <- Sys.getenv("PASSWORD")
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+#' # Configure HTTP bearer authorization: {{{name}}}
+#' api_instance$api_client$bearer_token <- Sys.getenv("BEARER_TOKEN")
+{{/isBasicBearer}}
 {{/isBasic}}
 {{#isApiKey}}
-#' #Configure API key authorization: {{{name}}}
-#' api.instance$apiClient$apiKeys['{{{keyParamName}}}'] <- 'TODO_YOUR_API_KEY';
+#' # Configure API key authorization: {{{name}}}
+#' api_instance$api_client$api_keys["{{{keyParamName}}}"] <- Sys.getenv("API_KEY")
 {{/isApiKey}}
 {{#isOAuth}}
 #' # Configure OAuth2 access token for authorization: {{{name}}}
-#' api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
+#' api_instance$api_client$access_token <- Sys.getenv("ACCESS_TOKEN")
 {{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}
 #'
 {{#returnExceptionOnFailure}}
 {{#useRlangExceptionHandling}}
-#'result <- tryCatch(
-#'             api.instance${{{operationId}}}({{#requiredParams}}var.{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}=var.{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}),
-#'             ApiException = function(ex) ex
-#'          )
+#' result <- tryCatch(
+#'              {{#returnType}}
+#'              # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#'              # api_instance{{#generateWrapper}}${{#lambda.snakecase}}{{{classname}}}{{/lambda.snakecase}}{{/generateWrapper}}${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}data_file = "result.txt"),
+#'              {{#vendorExtensions.x-streaming}}
+#'              # this endpoint supports data streaming via a callback function using the optional `stream_callback` parameter, e.g.
+#'              # api_instance{{#generateWrapper}}${{#lambda.snakecase}}{{{classname}}}{{/lambda.snakecase}}{{/generateWrapper}}${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}stream_callback = function(x){ print(length(x)) }),
+#'              {{/vendorExtensions.x-streaming}}
+#'              {{/returnType}}
+#'              api_instance{{#generateWrapper}}${{#lambda.snakecase}}{{{classname}}}{{/lambda.snakecase}}{{/generateWrapper}}${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}),
+#'              ApiException = function(ex) ex
+#'           )
 #' # In case of error, print the error object
-#' if(!is.null(result$ApiException)) {
-#'   cat(result$ApiException$toString())
-#' } else {
-{{#returnType}}
-#' # deserialized response object
-#' response.object <- result$content
-{{/returnType}}
-#' # response headers
-#' response.headers <- result$response$headers
-#' # response status code
-#' response.status.code <- result$response$status_code
+#' if (!is.null(result$ApiException)) {
+#'   print("Exception occurs when calling `{{{operationId}}}`:")
+#'   dput(result$ApiException$toString())
+#'   {{#errorObjectType}}
+#'   # error object
+#'   dput(result$ApiException$error_object$toJSONString())
+#'   {{/errorObjectType}}
+#' }{{#returnType}} else {
+#'   # deserialized response object
+#'   print("The response is ...")
+#'   dput(result$toString())
 #' }
+{{/returnType}}
+#'
+{{^returnType}}
+#' # This endpoint doesn't return data
+{{/returnType}}
 {{/useRlangExceptionHandling}}
 {{/returnExceptionOnFailure}}
 {{^useRlangExceptionHandling}}
-#' result <- api.instance${{{operationId}}}({{#requiredParams}}var.{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}=var.{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}})
+{{#returnType}}
+#' # to save the result into a file, simply add the optional `data_file` parameter, e.g.
+#' # result <- api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}data_file = "result.txt")
+{{/returnType}}
+{{#vendorExtensions.x-streaming}}
+#' # this endpoint supports data streaming via a callback function using the optional `stream_callback` parameter, e.g.
+#' # api_instance${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}}{{#allParams}}{{#-first}}, {{/-first}}{{/allParams}}stream_callback = function(x){ print(length(x)) })
+{{/vendorExtensions.x-streaming}}
+#' {{#returnType}}result <- {{/returnType}}api_instance{{#generateWrapper}}${{#lambda.snakecase}}{{{classname}}}{{/lambda.snakecase}}{{/generateWrapper}}${{{operationId}}}({{#requiredParams}}var_{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}} = var_{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}})
+{{#returnType}}
+#' dput(result)
+{{/returnType}}
 {{/useRlangExceptionHandling}}
 #'
 #'
@@ -147,36 +182,91 @@
 {{/useRlangExceptionHandling}}
 #' @export
 {{classname}} <- R6::R6Class(
-  '{{classname}}',
+  "{{classname}}",
   public = list(
-    apiClient = NULL,
-    initialize = function(apiClient){
-      if (!missing(apiClient)) {
-        self$apiClient <- apiClient
-      }
-      else {
-        self$apiClient <- ApiClient$new()
+    api_client = NULL,
+    #' Initialize a new {{{classname}}}.
+    #'
+    #' @description
+    #' Initialize a new {{{classname}}}.
+    #'
+    #' @param api_client An instance of API client.
+    #' @export
+    initialize = function(api_client) {
+      if (!missing(api_client)) {
+        self$api_client <- api_client
+      } else {
+        self$api_client <- ApiClient$new()
       }
     },
     {{#operation}}
-    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}...){
-      apiResponse <- self${{{operationId}}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}...)
-      resp <- apiResponse$response
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        apiResponse$content
-      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
-        apiResponse
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        apiResponse
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        apiResponse
+    #' {{{summary}}}
+    #'
+    #' @description
+    #' {{{description}}}{{^description}}{{{summary}}}{{/description}}
+    #'
+    {{#requiredParams}}
+    #' @param {{{paramName}}} {{{description}}}
+    {{/requiredParams}}
+    {{#optionalParams}}
+    #' @param {{{paramName}}} (optional) {{{description}}}{{^description}}No description{{/description}}{{#defaultValue}} (default value: {{{.}}}){{/defaultValue}}
+    {{/optionalParams}}
+    {{#vendorExtensions.x-streaming}}
+    #' @param stream_callback (optional) callback function to process the data stream
+    {{/vendorExtensions.x-streaming}}
+    {{#returnType}}
+    #' @param data_file (optional) name of the data file to save the result
+    {{/returnType}}
+    #' @param ... Other optional arguments
+    #' @return {{{returnType}}}{{^returnType}}void{{/returnType}}
+    #' @export
+    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}} = {{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback = NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
+      local_var_response <- self${{{operationId}}}{{WithHttpInfo}}({{#allParams}}{{paramName}}, {{/allParams}}{{#vendorExtensions.x-streaming}}stream_callback = stream_callback, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = data_file, {{/returnType}}...)
+      {{#vendorExtensions.x-streaming}}
+      if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
+        return(invisible(NULL))
+      }
+
+      {{/vendorExtensions.x-streaming}}
+      if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
+        local_var_response$content
+      } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
+        local_var_response
+      } else if (local_var_response$status_code >= 400 && local_var_response$status_code <= 499) {
+        local_var_response
+      } else if (local_var_response$status_code >= 500 && local_var_response$status_code <= 599) {
+        local_var_response
       }
     },
-
-    {{{operationId}}}WithHttpInfo = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}...){
+    #' {{{summary}}}
+    #'
+    #' @description
+    #' {{{description}}}{{^description}}{{{summary}}}{{/description}}
+    #'
+    {{#requiredParams}}
+    #' @param {{{paramName}}} {{{description}}}
+    {{/requiredParams}}
+    {{#optionalParams}}
+    #' @param {{{paramName}}} (optional) {{{description}}}{{^description}}No description{{/description}}{{#defaultValue}} (default value: {{{.}}}){{/defaultValue}}
+    {{/optionalParams}}
+    {{#vendorExtensions.x-streaming}}
+    #' @param stream_callback (optional) callback function to process the data stream
+    {{/vendorExtensions.x-streaming}}
+    {{#returnType}}
+    #' @param data_file (optional) name of the data file to save the result
+    {{/returnType}}
+    #' @param ... Other optional arguments
+    #' @return API response ({{{returnType}}}{{^returnType}}void{{/returnType}}) with additional information such as HTTP status code, headers
+    #' @export
+    {{{operationId}}}{{WithHttpInfo}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}} = {{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback = NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
       args <- list(...)
-      queryParams <- list()
-      headerParams <- c()
+      query_params <- list()
+      header_params <- c()
+      form_params <- list()
+      file_params <- list()
+      local_var_body <- NULL
+      oauth_scopes <- NULL
+      is_oauth <- FALSE
 
       {{#requiredParams}}
       if (missing(`{{paramName}}`)) {
@@ -184,41 +274,263 @@
         stop("Missing required parameter `{{{paramName}}}`.")
       {{/useDefaultExceptionHandling}}
       {{#useRlangExceptionHandling}}
-        rlang::abort(message = "Missing required parameter `{{{paramName}}}`.", .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = "Missing required parameter `{{{paramName}}}`."))
+        rlang::abort(message = "Missing required parameter `{{{paramName}}}`.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Missing required parameter `{{{paramName}}}`."))
       {{/useRlangExceptionHandling}}
       }
 
       {{/requiredParams}}
+      {{#allParams}}
+      {{#maxLength}}
+      if (nchar(`{{paramName}}`) > {{maxLength}}) {
+        {{#useDefaultExceptionHandling}}
+        stop("Invalid length for `{{paramName}}` when calling {{classname}}${{operationId}}, must be smaller than or equal to {{maxLength}}.")
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = "Invalid length for `{{paramName}}` when calling {{classname}}${{operationId}}, must be smaller than or equal to {{maxLength}}.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}."))
+        {{/useRlangExceptionHandling}}
+      }
+      {{/maxLength}}
+      {{#minLength}}
+      if (nchar(`{{paramName}}`) < {{minLength}}) {
+        {{#useDefaultExceptionHandling}}
+        stop("Invalid length for `{{paramName}}` when calling {{classname}}${{operationId}}, must be bigger than or equal to {{minLength}}.")
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = "Invalid length for `{{paramName}}` when calling {{classname}}${{operationId}}, must be bigger than or equal to {{minLength}}.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Invalid length for `{{paramName}}` when calling {{classname}}${{operationId}}, must be bigger than or equal to {{minLength}}."))
+        {{/useRlangExceptionHandling}}
+      }
+      {{/minLength}}
+      {{#maximum}}
+      if (`{{paramName}}` >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
+        {{#useDefaultExceptionHandling}}
+        stop("Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.")
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}."))
+        {{/useRlangExceptionHandling}}
+      }
+      {{/maximum}}
+      {{#minimum}}
+      if (`{{paramName}}` <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
+        {{#useDefaultExceptionHandling}}
+        stop("Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.")
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}."))
+        {{/useRlangExceptionHandling}}
+      }
+      {{/minimum}}
+      {{#pattern}}
+      if (!str_detect(`{{paramName}}`, "{{{pattern}}}")) {
+        {{#useDefaultExceptionHandling}}
+        stop("Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, must conform to the pattern {{{pattern}}}.")
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, must conform to the pattern {{{pattern}}}.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}, must conform to the pattern {{{pattern}}}."))
+        {{/useRlangExceptionHandling}}
+      }
+      {{/pattern}}
+      {{#maxItems}}
+      if (length(`{{paramName}}`) > {{maxItems}}) {
+        {{#useDefaultExceptionHandling}}
+        stop("Invalid length for `{{paramName}}` when calling {{classname}}${{operationId}}, number of items must be less than or equal to {{maxItems}}.")
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = "Invalid length for `{{paramName}}` when calling {{classname}}${{operationId}}, number of items must be less than or equal to {{maxItems}}.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Invalid length for `{{paramName}}` when calling {{classname}}${{operationId}}, number of items must be less than or equal to {{maxItems}}."))
+        {{/useRlangExceptionHandling}}
+      }
+      {{/maxItems}}
+      {{#minItems}}
+      if (length(`{{paramName}}`) < {{minItems}}) {
+        {{#useDefaultExceptionHandling}}
+        stop("Invalid length for `{{paramName}}` when calling {{classname}}${{operationId}}, number of items must be greater than or equal to {{minItems}}.")
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = "Invalid length for `{{paramName}}` when calling {{classname}}${{operationId}}, number of items must be greater than or equal to {{minItems}}.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Invalid length for `{{paramName}}` when calling {{classname}}${{operationId}}, number of items must be greater than or equal to {{minItems}}."))
+        {{/useRlangExceptionHandling}}
+      }
+      {{/minItems}}
+
+      {{/allParams}}
       {{#headerParams}}
-      headerParams['{{baseName}}'] <- `{{paramName}}`
+      header_params["{{baseName}}"] <- `{{paramName}}`
 
       {{/headerParams}}
       {{#queryParams}}
-      queryParams['{{baseName}}'] <- {{paramName}}
+      {{#isArray}}
+      {{#uniqueItems}}
+      # check if items are unique
+      if (!identical(`{{{paramName}}}`, unique(`{{{paramName}}}`))) {
+        {{#useDefaultExceptionHandling}}
+        stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Items must be unique.")
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Items must be unique.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Items must be unique."))
+        {{/useRlangExceptionHandling}}
+      }
+      {{#isExplode}}
+      # explore
+      for (query_item in `{{{paramName}}}`) {
+        {{#items}}
+        {{#isEnum}}
+        # validate enum values
+        if (!(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+          {{#useDefaultExceptionHandling}}
+          stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
+          {{/useDefaultExceptionHandling}}
+          {{#useRlangExceptionHandling}}
+          rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}.",
+                       .subclass = "ApiException",
+                       ApiException = ApiException$new(status = 0,
+                                                       reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}."))
+          {{/useRlangExceptionHandling}}
+        }
+        {{/isEnum}}
+        {{/items}}
+        query_params[["{{{baseName}}}"]] <- c(query_params[["{{{baseName}}}"]], list(`{{{baseName}}}` = query_item))
+      }
+      {{/isExplode}}
+      {{^isExplode}}
+      # no explore
+      {{#items}}
+      {{#isEnum}}
+      # validate enum values
+      for (query_item in `{{{paramName}}}`) {
+        if (!(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+          {{#useDefaultExceptionHandling}}
+          stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
+          {{/useDefaultExceptionHandling}}
+          {{#useRlangExceptionHandling}}
+          rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}.",
+                       .subclass = "ApiException",
+                       ApiException = ApiException$new(status = 0,
+                                                       reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}."))
+          {{/useRlangExceptionHandling}}
+        }
+      }
+      {{/isEnum}}
+      {{/items}}
+      query_params[["{{{baseName}}}"]] <- I(paste(lapply(`{{{paramName}}}`, URLencode, reserved = TRUE), collapse = ","))
+      {{/isExplode}}
+      {{/uniqueItems}}
+      {{^uniqueItems}}
+      {{#isExplode}}
+      # explore
+      for (query_item in `{{{paramName}}}`) {
+        {{#items}}
+        {{#isEnum}}
+        # validate enum values
+        if (!(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+          {{#useDefaultExceptionHandling}}
+          stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
+          {{/useDefaultExceptionHandling}}
+          {{#useRlangExceptionHandling}}
+          rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}.",
+                       .subclass = "ApiException",
+                       ApiException = ApiException$new(status = 0,
+                                                       reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}."))
+          {{/useRlangExceptionHandling}}
+        }
+        {{/isEnum}}
+        {{/items}}
+        query_params[["{{{baseName}}}"]] <- c(query_params[["{{{baseName}}}"]], list(`{{{baseName}}}` = query_item))
+      }
+      {{/isExplode}}
+      {{^isExplode}}
+      # no explore
+      {{#items}}
+      {{#isEnum}}
+      # validate enum values
+      for (query_item in `{{{paramName}}}`) {
+        if (!(query_item %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+          {{#useDefaultExceptionHandling}}
+          stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
+          {{/useDefaultExceptionHandling}}
+          {{#useRlangExceptionHandling}}
+          rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}.",
+                       .subclass = "ApiException",
+                       ApiException = ApiException$new(status = 0,
+                                                       reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}."))
+          {{/useRlangExceptionHandling}}
+        }
+      }
+      {{/isEnum}}
+      {{/items}}
+      query_params[["{{{baseName}}}"]] <- I(paste(lapply(`{{{paramName}}}`, URLencode, reserved = TRUE), collapse = ","))
+      {{/isExplode}}
+      {{/uniqueItems}}
+      {{/isArray}}
+      {{^isArray}}
+      {{#isEnum}}
+      if (!(`{{paramName}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+        {{#useDefaultExceptionHandling}}
+        stop("Invalid value for {{{paramName}}} when calling {{classname}}${{operationId}}. Must be {{_enum}}.")
+        {{/useDefaultExceptionHandling}}
+        {{#useRlangExceptionHandling}}
+        rlang::abort(message = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}.",
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(status = 0,
+                                                     reason = "Invalid value for `{{paramName}}` when calling {{classname}}${{operationId}}. Must be {{_enum}}."))
+        {{/useRlangExceptionHandling}}
+      }
+      {{/isEnum}}
+      query_params[["{{baseName}}"]] <- `{{paramName}}`
+      {{/isArray}}
 
       {{/queryParams}}
       {{#hasFormParams}}
-      body <- list(
-        {{#formParams}}
-        {{^isFile}}
-        "{{baseName}}" = {{paramName}}{{^-last}},{{/-last}}
-        {{/isFile}}
-        {{#isFile}}
-        "{{baseName}}" = httr::upload_file({{paramName}}){{^-last}},{{/-last}}
-        {{/isFile}}
-        {{/formParams}}
-      )
-
+      {{#formParams}}
+      {{^isFile}}
+      form_params["{{baseName}}"] <- `{{paramName}}`
+      {{/isFile}}
+      {{#isFile}}
+      {{^isHttr2}}
+      file_params["{{baseName}}"] <- httr::upload_file(`{{paramName}}`)
+      {{/isHttr2}}
+      {{#isHttr2}}
+      file_params["{{baseName}}"] <- curl::form_file(`{{paramName}}`)
+      {{/isHttr2}}
+      {{/isFile}}
+      {{/formParams}}
       {{/hasFormParams}}
       {{#hasBodyParam}}
       {{#bodyParams}}
-      if (!missing(`{{paramName}}`)) {
+      if (!is.null(`{{paramName}}`)) {
         {{#isArray}}
-        body.items = paste(unlist(lapply({{paramName}}, function(param){param$toJSONString()})), collapse = ",")
-        body <- paste0('[', body.items, ']')
+        body.items <- paste(unlist(lapply(`{{paramName}}`, function(param) {
+                                                             param$toJSONString()
+                                                         })), collapse = ",")
+        local_var_body <- paste0("[", body.items, "]")
         {{/isArray}}
         {{^isArray}}
-        body <- `{{paramName}}`$toJSONString()
+        local_var_body <- `{{paramName}}`$toJSONString()
         {{/isArray}}
       } else {
         body <- NULL
@@ -226,16 +538,18 @@
 
       {{/bodyParams}}
       {{/hasBodyParam}}
-      {{^hasBodyParam}}
-      {{^hasFormParams}}
-      body <- NULL
-      {{/hasFormParams}}
-      {{/hasBodyParam}}
-      urlPath <- "{{path}}"
+      local_var_url_path <- "{{path}}"
       {{#hasPathParams}}
       {{#pathParams}}
       if (!missing(`{{paramName}}`)) {
-        urlPath <- gsub(paste0("\\{", "{{baseName}}", "\\}"), URLencode(as.character(`{{paramName}}`), reserved = TRUE), urlPath)
+        {{=< >=}}
+        <#isArray>
+        local_var_url_path <- gsub("\\{<baseName>\\}", paste(URLencode(as.character(`<paramName>`), reserved = TRUE), collapse= ",", sep=""), local_var_url_path)
+        </isArray>
+        <^isArray>
+        local_var_url_path <- gsub("\\{<baseName>\\}", URLencode(as.character(`<paramName>`), reserved = TRUE), local_var_url_path)
+        </isArray>
+        <={{ }}=>
       }
 
       {{/pathParams}}
@@ -244,110 +558,162 @@
       {{#isBasic}}
       {{#isBasicBasic}}
       # HTTP basic auth
-      headerParams['Authorization'] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$apiClient$username, self$apiClient$password, sep=":"))))
+      if (!is.null(self$api_client$username) || !is.null(self$api_client$password)) {
+        header_params["Authorization"] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$api_client$username, self$api_client$password, sep = ":"))))
+      }
       {{/isBasicBasic}}
+      {{#isBasicBearer}}
+      # Bearer token
+      if (!is.null(self$api_client$bearer_token)) {
+        header_params["Authorization"] <- paste("Bearer", self$api_client$bearer_token, sep = " ")
+      }
+      {{/isBasicBearer}}
       {{/isBasic}}
       {{#isApiKey}}
       # API key authentication
       {{#isKeyInHeader}}
-      if ("{{{keyParamName}}}" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["{{{keyParamName}}}"]) > 0) {
-        headerParams['{{keyParamName}}'] <- paste(unlist(self$apiClient$apiKeys["{{keyParamName}}"]), collapse='')
+      if ("{{{keyParamName}}}" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["{{{keyParamName}}}"]) > 0) {
+        header_params["{{keyParamName}}"] <- paste(unlist(self$api_client$api_keys["{{keyParamName}}"]), collapse = "")
       }
       {{/isKeyInHeader}}
       {{#isKeyInQuery}}
-      if ("{{{keyParamName}}}" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["{{{keyParamName}}}"]) > 0) {
-        queryParams['{{keyParamName}}'] <- paste(unlist(self$apiClient$apiKeys["{{keyParamName}}"]), collapse='')
+      if ("{{{keyParamName}}}" %in% names(self$api_client$api_keys) && nchar(self$api_client$api_keys["{{{keyParamName}}}"]) > 0) {
+        query_params["{{keyParamName}}"] <- paste(unlist(self$api_client$api_keys["{{keyParamName}}"]), collapse = "")
       }
       {{/isKeyInQuery}}
       {{/isApiKey}}
       {{#isOAuth}}
-      # OAuth token
-      headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
+      # OAuth-related settings
+      is_oauth <- TRUE
+      oauth_scopes <- "{{#scopes}}{{scope}}{{^-last}} {{/-last}}{{/scopes}}"
       {{/isOAuth}}
       {{/authMethods}}
 
-      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
+      # The Accept request HTTP header
+      local_var_accepts <- list({{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}})
+
+      # The Content-Type representation header
+      local_var_content_types <- list({{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}})
+
+      local_var_resp <- self$api_client$CallApi(url = paste0(self$api_client$base_path, local_var_url_path),
                                  method = "{{httpMethod}}",
-                                 queryParams = queryParams,
-                                 headerParams = headerParams,
-                                 body = body,
+                                 query_params = query_params,
+                                 header_params = header_params,
+                                 form_params = form_params,
+                                 file_params = file_params,
+                                 accepts = local_var_accepts,
+                                 content_types = local_var_content_types,
+                                 body = local_var_body,
+                                 is_oauth = is_oauth,
+                                 oauth_scopes = oauth_scopes,
+                                 {{#vendorExtensions.x-streaming}}
+                                 stream_callback = stream_callback,
+                                 {{/vendorExtensions.x-streaming}}
                                  ...)
 
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
+      {{#vendorExtensions.x-streaming}}
+      if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
+        return(invisible(NULL))
+      }
+
+      {{/vendorExtensions.x-streaming}}
+      if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         {{#returnType}}
         {{#isPrimitiveType}}
-        content <- httr::content(
-            resp, "text", encoding = "UTF-8", simplifyVector = FALSE
+        local_var_content <- local_var_resp$response
+          local_var_resp, "text", encoding = "UTF-8", simplifyVector = FALSE
         )
+        # save response in a file
+        if (!is.null(data_file)) {
+          write(local_var_content, data_file)
+        }
+
         ApiResponse$new(content,resp)
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "{{returnType}}", loadNamespace("{{packageName}}")),
-          error = function(e){
-           {{#useDefaultExceptionHandling}}
-             stop("Failed to deserialize response")
-           {{/useDefaultExceptionHandling}}
-           {{#useRlangExceptionHandling}}
-             rlang::abort(message = "Failed to deserialize response", .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
-           {{/useRlangExceptionHandling}}
+        # save response in a file
+        if (!is.null(data_file)) {
+          write(local_var_resp$response, data_file)
+        }
+
+        deserialized_resp_obj <- tryCatch(
+          self$api_client$deserialize(local_var_resp$response, "{{returnType}}", loadNamespace("{{packageName}}")),
+          error = function(e) {
+            {{#useDefaultExceptionHandling}}
+            stop("Failed to deserialize response")
+            {{/useDefaultExceptionHandling}}
+            {{#useRlangExceptionHandling}}
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
+            {{/useRlangExceptionHandling}}
           }
         )
-        ApiResponse$new(deserializedRespObj, resp)
+        local_var_resp$content <- deserialized_resp_obj
         {{/isPrimitiveType}}
         {{/returnType}}
         {{^returnType}}
         {{! Returning the ApiResponse object with NULL object when the endpoint doesn't return anything}}
-        ApiResponse$new(NULL, resp)
+        local_var_resp$content <- NULL
         {{/returnType}}
-      } else if (httr::status_code(resp) >= 300 && httr::status_code(resp) <= 399) {
+        local_var_resp
+      } else if (local_var_resp$status_code >= 300 && local_var_resp$status_code <= 399) {
       {{#returnExceptionOnFailure}}
-        errorMsg <- toString(content(resp))
-        if(errorMsg == ""){
-          errorMsg <- paste("Server returned " , httr::status_code(resp) , " response status code.")
+        local_var_error_msg <- local_var_resp$response
+        if (local_var_error_msg == "") {
+          local_var_error_msg <- paste("Server returned ", local_var_resp$status_code, " response status code.")
         }
         {{#useDefaultExceptionHandling}}
-        stop(errorMsg)
+        stop(local_var_error_msg)
         {{/useDefaultExceptionHandling}}
         {{#useRlangExceptionHandling}}
-        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = local_var_error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = local_var_resp))
         {{/useRlangExceptionHandling}}
-      {{/returnExceptionOnFailure}}
-      {{^returnExceptionOnFailure}}
-        ApiResponse$new(paste("Server returned " , httr::status_code(resp) , " response status code."), resp)
-      {{/returnExceptionOnFailure}}
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-      {{#returnExceptionOnFailure}}
-        errorMsg <- toString(content(resp))
-        if(errorMsg == ""){
-          errorMsg <- "Api client exception encountered."
+        {{/returnExceptionOnFailure}}
+        {{^returnExceptionOnFailure}}
+        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+        {{/returnExceptionOnFailure}}
+      } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
+        {{#returnExceptionOnFailure}}
+        local_var_error_msg <- local_var_resp$response
+        if (local_var_error_msg == "") {
+          local_var_error_msg <- "Api client exception encountered."
         }
         {{#useDefaultExceptionHandling}}
-        stop(errorMsg)
+        stop(local_var_error_msg)
         {{/useDefaultExceptionHandling}}
         {{#useRlangExceptionHandling}}
-        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = local_var_error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = local_var_resp))
         {{/useRlangExceptionHandling}}
-      {{/returnExceptionOnFailure}}
-      {{^returnExceptionOnFailure}}
-        ApiResponse$new("API client error", resp)
-      {{/returnExceptionOnFailure}}
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-      {{#returnExceptionOnFailure}}
-        errorMsg <- toString(content(resp))
-        if(errorMsg == ""){
-          errorMsg <- "Api server exception encountered."
+        {{/returnExceptionOnFailure}}
+        {{^returnExceptionOnFailure}}
+        ApiResponse$new("API client error", local_var_resp)
+        {{/returnExceptionOnFailure}}
+      } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
+        {{#returnExceptionOnFailure}}
+        local_var_error_msg <- local_var_resp$response
+        if (local_var_error_msg == "") {
+          local_var_error_msg <- "Api server exception encountered."
         }
         {{#useDefaultExceptionHandling}}
-        stop(errorMsg)
+        stop(local_var_error_msg)
         {{/useDefaultExceptionHandling}}
         {{#useRlangExceptionHandling}}
-        rlang::abort(message = errorMsg, .subclass = "ApiException", ApiException = ApiException$new(http_response = resp))
+        rlang::abort(message = error_msg,
+                     .subclass = "ApiException",
+                     ApiException = ApiException$new(http_response = local_var_resp))
         {{/useRlangExceptionHandling}}
-      {{/returnExceptionOnFailure}}
-      {{^returnExceptionOnFailure}}
-        ApiResponse$new("API server error", resp)
-      {{/returnExceptionOnFailure}}
+        {{/returnExceptionOnFailure}}
+        {{^returnExceptionOnFailure}}
+        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+          local_var_resp$response <- "API server error"
+        }
+        local_var_resp
+        {{/returnExceptionOnFailure}}
       }
     }{{^-last}},{{/-last}}
     {{/operation}}

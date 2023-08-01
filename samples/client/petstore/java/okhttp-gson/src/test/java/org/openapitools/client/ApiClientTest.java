@@ -1,18 +1,18 @@
 package org.openapitools.client;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
+
 import okhttp3.OkHttpClient;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.openapitools.client.auth.*;
 
 public class ApiClientTest {
     ApiClient apiClient;
     JSON json;
 
-    @Before
+    @BeforeEach
     public void setup() {
         apiClient = new ApiClient();
         json = apiClient.getJSON();
@@ -49,16 +49,16 @@ public class ApiClientTest {
         String[] accepts = {"application/json", "application/xml"};
         assertEquals("application/json", apiClient.selectHeaderAccept(accepts));
 
-        accepts = new String[] {"APPLICATION/XML", "APPLICATION/JSON"};
+        accepts = new String[]{"APPLICATION/XML", "APPLICATION/JSON"};
         assertEquals("APPLICATION/JSON", apiClient.selectHeaderAccept(accepts));
 
-        accepts = new String[] {"application/xml", "application/json; charset=UTF8"};
+        accepts = new String[]{"application/xml", "application/json; charset=UTF8"};
         assertEquals("application/json; charset=UTF8", apiClient.selectHeaderAccept(accepts));
 
-        accepts = new String[] {"text/plain", "application/xml"};
+        accepts = new String[]{"text/plain", "application/xml"};
         assertEquals("text/plain,application/xml", apiClient.selectHeaderAccept(accepts));
 
-        accepts = new String[] {};
+        accepts = new String[]{};
         assertNull(apiClient.selectHeaderAccept(accepts));
     }
 
@@ -67,17 +67,17 @@ public class ApiClientTest {
         String[] contentTypes = {"application/json", "application/xml"};
         assertEquals("application/json", apiClient.selectHeaderContentType(contentTypes));
 
-        contentTypes = new String[] {"APPLICATION/JSON", "APPLICATION/XML"};
+        contentTypes = new String[]{"APPLICATION/JSON", "APPLICATION/XML"};
         assertEquals("APPLICATION/JSON", apiClient.selectHeaderContentType(contentTypes));
 
-        contentTypes = new String[] {"application/xml", "application/json; charset=UTF8"};
+        contentTypes = new String[]{"application/xml", "application/json; charset=UTF8"};
         assertEquals(
                 "application/json; charset=UTF8", apiClient.selectHeaderContentType(contentTypes));
 
-        contentTypes = new String[] {"text/plain", "application/xml"};
+        contentTypes = new String[]{"text/plain", "application/xml"};
         assertEquals("text/plain", apiClient.selectHeaderContentType(contentTypes));
 
-        contentTypes = new String[] {};
+        contentTypes = new String[]{};
         assertNull(apiClient.selectHeaderContentType(contentTypes));
     }
 
@@ -334,12 +334,17 @@ public class ApiClientTest {
     public void testNewHttpClient() {
         OkHttpClient oldClient = apiClient.getHttpClient();
         apiClient.setHttpClient(oldClient.newBuilder().build());
-        assertThat(apiClient.getHttpClient(), is(not(oldClient)));
+        assertNotSame(apiClient.getHttpClient(), oldClient);
     }
 
-    /** Tests the invariant that the HttpClient for the ApiClient must never be null */
-    @Test(expected = NullPointerException.class)
+    /**
+     * Tests the invariant that the HttpClient for the ApiClient must never be null
+     */
+    @Test
     public void testNullHttpClient() {
-        apiClient.setHttpClient(null);
+        NullPointerException thrown = Assertions.assertThrows(NullPointerException.class, () -> {
+            apiClient.setHttpClient(null);
+        });
+        Assertions.assertEquals("HttpClient must not be null!", thrown.getMessage());
     }
 }

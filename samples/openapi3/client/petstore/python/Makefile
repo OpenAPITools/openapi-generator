@@ -1,3 +1,5 @@
+ #!/bin/bash
+
 REQUIREMENTS_FILE=dev-requirements.txt
 REQUIREMENTS_OUT=dev-requirements.txt.log
 SETUP_OUT=*.egg-info
@@ -13,4 +15,7 @@ clean:
 		find . -name "__pycache__" -delete
 
 test: clean
-		bash ./test_python.sh
+		bash ./test_python3.sh
+
+test-all: clean
+		bash ./test_python3.sh

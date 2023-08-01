@@ -1,7 +1,5 @@
 package org.openapitools.model
 
-import io.swagger.annotations.ApiModel
-import io.swagger.annotations.ApiModelProperty
 import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.List
@@ -14,20 +12,20 @@ import jakarta.inject.Inject
  */
 @MicronautTest
 public class ArrayOfArrayOfNumberOnlySpec extends Specification {
-    private final ArrayOfArrayOfNumberOnly model = new ArrayOfArrayOfNumberOnly()
+    private final ArrayOfArrayOfNumberOnly model = null
 
     /**
      * Model tests for ArrayOfArrayOfNumberOnly
      */
-    void "ArrayOfArrayOfNumberOnly test"() {
+    void 'ArrayOfArrayOfNumberOnly test'() {
         // TODO: test ArrayOfArrayOfNumberOnly
     }
 
     /**
      * Test the property 'arrayArrayNumber'
      */
-    void "ArrayOfArrayOfNumberOnly property arrayArrayNumber test"() {
-        // TODO: test arrayArrayNumber
+    void 'ArrayOfArrayOfNumberOnly property arrayArrayNumber test'() {
+        // TODO: test arrayArrayNumber property of ArrayOfArrayOfNumberOnly
     }
 
 }

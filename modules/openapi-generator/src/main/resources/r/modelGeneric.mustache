@@ -1,0 +1,682 @@
+#' Create a new {{{classname}}}
+#'
+#' @description
+#' {{{description}}}{{^description}}{{classname}} Class{{/description}}
+#'
+#' @docType class
+#' @title {{classname}}
+#' @description {{classname}} Class
+#' @format An \code{R6Class} generator object
+{{#vars}}
+#' @field {{name}} {{#lambdaRdocEscape}}{{{description}}}{{/lambdaRdocEscape}} {{{vendorExtensions.x-r-doc-type}}}{{^required}} [optional]{{/required}}
+{{/vars}}
+{{#isAdditionalPropertiesTrue}}
+#' @field _field_list a list of fields list(character)
+#' @field additional_properties additional properties list(character) [optional]
+{{/isAdditionalPropertiesTrue}}
+#' @importFrom R6 R6Class
+#' @importFrom jsonlite fromJSON toJSON
+#' @export
+{{classname}} <- R6::R6Class(
+  "{{classname}}",
+  {{#parent}}
+  inherit = {{{.}}},
+  {{/parent}}
+  public = list(
+    {{#vars}}
+    `{{{name}}}` = NULL,
+    {{/vars}}
+    {{#isAdditionalPropertiesTrue}}
+    `_field_list` = c({{#vars}}"{{{name}}}"{{^-last}}, {{/-last}}{{/vars}}),
+    `additional_properties` = list(),
+    {{/isAdditionalPropertiesTrue}}
+    {{#discriminator}}
+    `_discriminator_property_name` = '{{discriminator.propertyName}}',
+    {{#discriminator.mappedModels}}{{#-first}}`_discriminator_mapping_name` = c({{/-first}}'{{mappingName}}' = '{{modelName}}'{{^-last}}, {{/-last}}{{#-last}}),{{/-last}}{{/discriminator.mappedModels}}
+    {{/discriminator}}
+    #' Initialize a new {{{classname}}} class.
+    #'
+    #' @description
+    #' Initialize a new {{{classname}}} class.
+    #'
+    {{#requiredVars}}
+    #' @param {{name}} {{#lambdaRdocEscape}}{{{description}}}{{/lambdaRdocEscape}}{{^description}}{{{name}}}{{/description}}
+    {{/requiredVars}}
+    {{#optionalVars}}
+    #' @param {{name}} {{#lambdaRdocEscape}}{{{description}}}{{/lambdaRdocEscape}}{{^description}}{{{name}}}{{/description}}{{#defaultValue}}. Default to {{{.}}}.{{/defaultValue}}
+    {{/optionalVars}}
+    {{#isAdditionalPropertiesTrue}}
+    #' @param additional_properties additional properties (optional)
+    {{/isAdditionalPropertiesTrue}}
+    #' @param ... Other optional arguments.
+    #' @export
+    initialize = function({{#requiredVars}}`{{name}}`, {{/requiredVars}}{{#optionalVars}}`{{name}}` = {{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}{{#isAdditionalPropertiesTrue}}additional_properties = NULL, {{/isAdditionalPropertiesTrue}}...) {
+      {{#requiredVars}}
+      if (!missing(`{{name}}`)) {
+        {{^isContainer}}
+        {{#isEnumOrRef}}
+        if (!(`{{name}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+          stop(paste("Error! \"", `{{name}}`, "\" cannot be assigned to `{{name}}`. Must be {{#_enum}}\"{{{.}}}\"{{^-last}}, {{/-last}}{{/_enum}}.", sep = ""))
+        }
+        {{/isEnumOrRef}}
+        {{#isInteger}}
+        if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be an integer:", `{{name}}`))
+        }
+        {{/isInteger}}
+        {{#isLong}}
+        if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be an integer:", `{{name}}`))
+        }
+        {{/isLong}}
+        {{#isFloat}}
+        if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a number:", `{{name}}`))
+        }
+        {{/isFloat}}
+        {{#isDouble}}
+        if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a number:", `{{name}}`))
+        }
+        {{/isDouble}}
+        {{#isString}}
+        if (!(is.character(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        }
+        {{/isString}}
+        {{#isBoolean}}
+        if (!(is.logical(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a boolean:", `{{name}}`))
+        }
+        {{/isBoolean}}
+        {{#isDate}}
+        if (!(is.character(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        }
+        {{/isDate}}
+        {{#isDateTime}}
+        if (!(is.character(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        }
+        {{/isDateTime}}
+        {{#isUri}}
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a URL:", `{{name}}`))
+        }
+        {{/isUri}}
+        {{^isPrimitiveType}}
+        stopifnot(R6::is.R6(`{{name}}`))
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isContainer}}
+        stopifnot(is.vector(`{{name}}`), length(`{{name}}`) != 0)
+        sapply(`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}is.character(x){{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
+        {{#isArray}}
+        {{#uniqueItems}}
+        if (!identical(`{{name}}`, unique(`{{name}}`))) {
+          stop("Error! Items in `{{name}}` are not unique.")
+        }
+        {{/uniqueItems}}
+        {{/isArray}}
+        {{/isContainer}}
+        self$`{{name}}` <- `{{name}}`
+      }
+      {{/requiredVars}}
+      {{#optionalVars}}
+      if (!is.null(`{{name}}`)) {
+        {{^isContainer}}
+        {{#isEnumOrRef}}
+        if (!(`{{name}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+          stop(paste("Error! \"", `{{name}}`, "\" cannot be assigned to `{{name}}`. Must be {{#_enum}}\"{{{.}}}\"{{^-last}}, {{/-last}}{{/_enum}}.", sep = ""))
+        }
+        {{/isEnumOrRef}}
+        {{#isInteger}}
+        if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be an integer:", `{{name}}`))
+        }
+        {{/isInteger}}
+        {{#isLong}}
+        if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be an integer:", `{{name}}`))
+        }
+        {{/isLong}}
+        {{#isFloat}}
+        if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a number:", `{{name}}`))
+        }
+        {{/isFloat}}
+        {{#isDouble}}
+        if (!(is.numeric(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a number:", `{{name}}`))
+        }
+        {{/isDouble}}
+        {{#isString}}
+        if (!(is.character(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        }
+        {{/isString}}
+        {{#isBoolean}}
+        if (!(is.logical(`{{name}}`) && length(`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a boolean:", `{{name}}`))
+        }
+        {{/isBoolean}}
+        {{#isDate}}
+        if (!is.character(`{{name}}`)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        }
+        {{/isDate}}
+        {{#isDateTime}}
+        if (!is.character(`{{name}}`)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", `{{name}}`))
+        }
+        {{/isDateTime}}
+        {{#isUri}}
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a URL:", `{{name}}`))
+        }
+        {{/isUri}}
+        {{^isPrimitiveType}}
+        stopifnot(R6::is.R6(`{{name}}`))
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isContainer}}
+        stopifnot(is.vector(`{{name}}`), length(`{{name}}`) != 0)
+        sapply(`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}is.character(x){{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
+        {{#isArray}}
+        {{#uniqueItems}}
+        if (!identical(`{{name}}`, unique(`{{name}}`))) {
+          stop("Error! Items in `{{name}}` are not unique.")
+        }
+        {{/uniqueItems}}
+        {{/isArray}}
+        {{/isContainer}}
+        self$`{{name}}` <- `{{name}}`
+      }
+      {{/optionalVars}}
+      {{#isAdditionalPropertiesTrue}}
+      if (!is.null(additional_properties)) {
+        for (key in names(additional_properties)) {
+          self$additional_properties[[key]] <- additional_properties[[key]]
+        }
+      }
+      {{/isAdditionalPropertiesTrue}}
+    },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return {{{classname}}} in JSON format
+    #' @export
+    toJSON = function() {
+      {{classname}}Object <- list()
+      {{#vars}}
+      if (!is.null(self$`{{name}}`)) {
+        {{classname}}Object[["{{baseName}}"]] <-
+          {{#isContainer}}
+          {{#isArray}}
+          {{#isPrimitiveType}}
+          self$`{{name}}`
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}
+          lapply(self$`{{name}}`, function(x) x$toJSON())
+          {{/isPrimitiveType}}
+          {{/isArray}}
+          {{#isMap}}
+          {{#isPrimitiveType}}
+          self$`{{name}}`
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}
+          lapply(self$`{{name}}`, function(x) x$toJSON())
+          {{/isPrimitiveType}}
+          {{/isMap}}
+          {{/isContainer}}
+          {{^isContainer}}
+          {{#isPrimitiveType}}
+          self$`{{name}}`
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}
+          self$`{{name}}`$toJSON()
+          {{/isPrimitiveType}}
+          {{/isContainer}}
+      }
+      {{/vars}}
+      {{#isAdditionalPropertiesTrue}}
+      for (key in names(self$additional_properties)) {
+        {{classname}}Object[[key]] <- self$additional_properties[[key]]
+      }
+
+      {{/isAdditionalPropertiesTrue}}
+      {{classname}}Object
+    },
+    #' Deserialize JSON string into an instance of {{{classname}}}
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of {{{classname}}}
+    #'
+    #' @param input_json the JSON input
+    #' @return the instance of {{{classname}}}
+    #' @export
+    fromJSON = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      {{#vars}}
+      if (!is.null(this_object$`{{baseName}}`)) {
+        {{#isContainer}}
+        self$`{{name}}` <- ApiClient$new()$deserializeObj(this_object$`{{baseName}}`, "{{dataType}}", loadNamespace("{{packageName}}"))
+        {{#isArray}}
+        {{#uniqueItems}}
+        if (!identical(self$`{{name}}`, unique(self$`{{name}}`))) {
+          stop("Error! Items in `{{name}}` are not unique.")
+        }
+        {{/uniqueItems}}
+        {{/isArray}}
+        {{/isContainer}}
+        {{^isContainer}}
+        {{#isPrimitiveType}}
+        {{#isEnumOrRef}}
+        if (!is.null(this_object$`{{baseName}}`) && !(this_object$`{{baseName}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+          stop(paste("Error! \"", this_object$`{{baseName}}`, "\" cannot be assigned to `{{baseName}}`. Must be {{#_enum}}\"{{{.}}}\"{{^-last}}, {{/-last}}{{/_enum}}.", sep = ""))
+        }
+        {{/isEnumOrRef}}
+        {{#isUri}}
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(this_object$`{{baseName}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+          stop(paste("Error! Invalid data for `{{baseName}}`. Must be a URL:", this_object$`{{baseName}}`))
+        }
+        {{/isUri}}
+        self$`{{name}}` <- this_object$`{{baseName}}`
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        `{{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object` <- {{dataType}}$new()
+        `{{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object`$fromJSON(jsonlite::toJSON(this_object$`{{baseName}}`, auto_unbox = TRUE, digits = NA))
+        self$`{{name}}` <- `{{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}}_object`
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+      }
+      {{/vars}}
+      {{#isAdditionalPropertiesTrue}}
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
+      {{/isAdditionalPropertiesTrue}}
+      self
+    },
+    #' To JSON string
+    #'
+    #' @description
+    #' To JSON String
+    #'
+    #' @return {{{classname}}} in JSON format
+    #' @export
+    toJSONString = function() {
+      jsoncontent <- c(
+      {{#vars}}
+        if (!is.null(self$`{{name}}`)) {
+          sprintf(
+          '"{{baseName}}":
+          {{#isContainer}}
+          {{#isArray}}
+          {{#isPrimitiveType}}
+             {{#isNumeric}}[%d]{{/isNumeric}}{{^isNumeric}}[%s]{{/isNumeric}}
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}[%s]
+          {{/isPrimitiveType}}
+          {{/isArray}}
+          {{#isMap}}
+          {{#isPrimitiveType}}
+            {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}%s
+          {{/isPrimitiveType}}
+          {{/isMap}}
+          {{/isContainer}}
+          {{^isContainer}}
+          {{#isPrimitiveType}}
+            {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}%s
+          {{/isPrimitiveType}}
+          {{/isContainer}}',
+          {{#isContainer}}
+          {{#isArray}}
+          {{#isPrimitiveType}}
+          paste(unlist(lapply(self$`{{{name}}}`, function(x) paste0('"', x, '"'))), collapse = ",")
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}
+          paste(sapply(self$`{{{name}}}`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox = TRUE, digits = NA)), collapse = ",")
+          {{/isPrimitiveType}}
+          {{/isArray}}
+          {{#isMap}}
+          {{#isPrimitiveType}}
+          jsonlite::toJSON(lapply(self$`{{{name}}}`, function(x){ x }), auto_unbox = TRUE, digits = NA)
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}
+          jsonlite::toJSON(lapply(self$`{{{name}}}`, function(x){ x$toJSON() }), auto_unbox = TRUE, digits = NA)
+          {{/isPrimitiveType}}
+          {{/isMap}}
+          {{/isContainer}}
+          {{^isContainer}}
+          {{#isPrimitiveType}}
+          {{#isBoolean}}tolower({{/isBoolean}}self$`{{name}}`{{#isBoolean}}){{/isBoolean}}
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}
+          jsonlite::toJSON(self$`{{name}}`$toJSON(), auto_unbox = TRUE, digits = NA)
+          {{/isPrimitiveType}}
+          {{/isContainer}}
+          )
+        }{{^-last}},{{/-last}}
+      {{/vars}}
+      )
+      jsoncontent <- paste(jsoncontent, collapse = ",")
+      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+      {{#isAdditionalPropertiesTrue}}
+      json_obj <- jsonlite::fromJSON(json_string)
+      for (key in names(self$additional_properties)) {
+        json_obj[[key]] <- self$additional_properties[[key]]
+      }
+      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
+      {{/isAdditionalPropertiesTrue}}
+    },
+    #' Deserialize JSON string into an instance of {{{classname}}}
+    #'
+    #' @description
+    #' Deserialize JSON string into an instance of {{{classname}}}
+    #'
+    #' @param input_json the JSON input
+    #' @return the instance of {{{classname}}}
+    #' @export
+    fromJSONString = function(input_json) {
+      this_object <- jsonlite::fromJSON(input_json)
+      {{#vars}}
+      {{! AAPI - added condition for handling container type of parameters, map and array}}
+      {{#isContainer}}
+      self$`{{name}}` <- ApiClient$new()$deserializeObj(this_object$`{{name}}`, "{{dataType}}", loadNamespace("{{packageName}}"))
+      {{#isArray}}
+      {{#uniqueItems}}
+      if (!identical(self$`{{name}}`, unique(self$`{{name}}`))) {
+        stop("Error! Items in `{{name}}` are not unique.")
+      }
+      {{/uniqueItems}}
+      {{/isArray}}
+      {{/isContainer}}
+      {{^isContainer}}
+      {{#isPrimitiveType}}
+      {{#isEnumOrRef}}
+      if (!is.null(this_object$`{{baseName}}`) && !(this_object$`{{baseName}}` %in% c({{#_enum}}"{{{.}}}"{{^-last}}, {{/-last}}{{/_enum}}))) {
+        stop(paste("Error! \"", this_object$`{{baseName}}`, "\" cannot be assigned to `{{baseName}}`. Must be {{#_enum}}\"{{{.}}}\"{{^-last}}, {{/-last}}{{/_enum}}.", sep = ""))
+      }
+      {{/isEnumOrRef}}
+      {{#isUri}}
+      # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+      if (!stringr::str_detect(this_object$`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+        stop(paste("Error! Invalid data for `{{name}}`. Must be a URL:", this_object$`{{name}}`))
+      }
+      {{/isUri}}
+      self$`{{name}}` <- this_object$`{{name}}`
+      {{/isPrimitiveType}}
+      {{^isPrimitiveType}}
+      self$`{{name}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON(this_object$`{{name}}`, auto_unbox = TRUE, digits = NA))
+      {{/isPrimitiveType}}
+      {{/isContainer}}
+      {{/vars}}
+      {{#isAdditionalPropertiesTrue}}
+      # process additional properties/fields in the payload
+      for (key in names(this_object)) {
+        if (!(key %in% self$`_field_list`)) { # json key not in list of fields
+          self$additional_properties[[key]] <- this_object[[key]]
+        }
+      }
+
+      {{/isAdditionalPropertiesTrue}}
+      self
+    },
+    #' Validate JSON input with respect to {{classname}}
+    #'
+    #' @description
+    #' Validate JSON input with respect to {{classname}} and throw an exception if invalid
+    #'
+    #' @param input the JSON input
+    #' @export
+    validateJSON = function(input) {
+      input_json <- jsonlite::fromJSON(input)
+      {{#requiredVars}}
+      # check the required field `{{name}}`
+      if (!is.null(input_json$`{{name}}`)) {
+        {{^isContainer}}
+        {{#isInteger}}
+        if (!(is.numeric(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be an integer:", input_json$`{{name}}`))
+        }
+        {{/isInteger}}
+        {{#isLong}}
+        if (!(is.numeric(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be an integer:", input_json$`{{name}}`))
+        }
+        {{/isLong}}
+        {{#isFloat}}
+        if (!(is.numeric(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a number:", input_json$`{{name}}`))
+        }
+        {{/isFloat}}
+        {{#isDouble}}
+        if (!(is.numeric(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a number:", input_json$`{{name}}`))
+        }
+        {{/isDouble}}
+        {{#isString}}
+        if (!(is.character(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", input_json$`{{name}}`))
+        }
+        {{/isString}}
+        {{#isBoolean}}
+        if (!(is.logical(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a boolean:", input_json$`{{name}}`))
+        }
+        {{/isBoolean}}
+        {{#isDate}}
+        if (!(is.character(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", input_json$`{{name}}`))
+        }
+        {{/isDate}}
+        {{#isDateTime}}
+        if (!(is.character(input_json$`{{name}}`) && length(input_json$`{{name}}`) == 1)) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a string:", input_json$`{{name}}`))
+        }
+        {{/isDateTime}}
+        {{#isUri}}
+        # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+        if (!stringr::str_detect(input_json$`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+          stop(paste("Error! Invalid data for `{{name}}`. Must be a URL:", input_json$`{{name}}`))
+        }
+        {{/isUri}}
+        {{^isPrimitiveType}}
+        stopifnot(R6::is.R6(input_json$`{{name}}`))
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isContainer}}
+        stopifnot(is.vector(input_json$`{{name}}`), length(input_json$`{{name}}`) != 0)
+        {{#isArray}}
+        {{#uniqueItems}}
+        if (!identical(input_json$`{{name}}`, unique(input_json$`{{name}}`))) {
+          stop("Error! Items in `{{name}}` are not unique.")
+        }
+        {{/uniqueItems}}
+        {{/isArray}}
+        tmp <- sapply(input_json$`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}is.character(x){{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
+        {{/isContainer}}
+      } else {
+        stop(paste("The JSON input `", input, "` is invalid for {{classname}}: the required field `{{name}}` is missing."))
+      }
+      {{/requiredVars}}
+    },
+    #' To string (JSON format)
+    #'
+    #' @description
+    #' To string (JSON format)
+    #'
+    #' @return String representation of {{{classname}}}
+    #' @export
+    toString = function() {
+      self$toJSONString()
+    },
+    #' Return true if the values in all fields are valid.
+    #'
+    #' @description
+    #' Return true if the values in all fields are valid.
+    #'
+    #' @return true if the values in all fields are valid.
+    #' @export
+    isValid = function() {
+      {{#allVars}}
+      {{^isNullable}}
+      {{#required}}
+      # check if the required `{{{name}}}` is null
+      if (is.null(self$`{{{name}}}`)) {
+        return(FALSE)
+      }
+
+      {{/required}}
+      {{/isNullable}}
+      {{#hasValidation}}
+      {{#maxLength}}
+      if (nchar(self$`{{{name}}}`) > {{maxLength}}) {
+        return(FALSE)
+      }
+      {{/maxLength}}
+      {{#minLength}}
+      if (nchar(self$`{{{name}}}`) < {{minLength}}) {
+        return(FALSE)
+      }
+      {{/minLength}}
+      {{#maximum}}
+      if (self$`{{{name}}}` >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
+        return(FALSE)
+      }
+      {{/maximum}}
+      {{#minimum}}
+      if (self$`{{{name}}}` <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
+        return(FALSE)
+      }
+      {{/minimum}}
+      {{#pattern}}
+      if (!str_detect(self$`{{{name}}}`, "{{{pattern}}}")) {
+        return(FALSE)
+      }
+      {{/pattern}}
+      {{#isUri}}
+      # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+      if (!stringr::str_detect(self$`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+        return(FALSE)
+      }
+      {{/isUri}}
+      {{#maxItems}}
+      if (length(self$`{{{name}}}`) > {{maxItems}}) {
+        return(FALSE)
+      }
+      {{/maxItems}}
+      {{#minItems}}
+      if (length(self$`{{{name}}}`) < {{minItems}}) {
+        return(FALSE)
+      }
+      {{/minItems}}
+
+      {{/hasValidation}}
+      {{/allVars}}
+      TRUE
+    },
+    #' Return a list of invalid fields (if any).
+    #'
+    #' @description
+    #' Return a list of invalid fields (if any).
+    #'
+    #' @return A list of invalid fields (if any).
+    #' @export
+    getInvalidFields = function() {
+      invalid_fields <- list()
+      {{#allVars}}
+      {{^isNullable}}
+      {{#required}}
+      # check if the required `{{{name}}}` is null
+      if (is.null(self$`{{{name}}}`)) {
+        invalid_fields["{{{name}}}"] <- "Non-nullable required field `{{{name}}}` cannot be null."
+      }
+
+      {{/required}}
+      {{/isNullable}}
+      {{#hasValidation}}
+      {{#maxLength}}
+      if (nchar(self$`{{{name}}}`) > {{maxLength}}) {
+        invalid_fields["{{{name}}}"] <- "Invalid length for `{{{name}}}`, must be smaller than or equal to {{maxLength}}."
+      }
+      {{/maxLength}}
+      {{#minLength}}
+      if (nchar(self$`{{{name}}}`) < {{minLength}}) {
+        invalid_fields["{{{name}}}"] <- "Invalid length for `{{{name}}}`, must be bigger than or equal to {{minLength}}."
+      }
+      {{/minLength}}
+      {{#maximum}}
+      if (self$`{{{name}}}` >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
+        invalid_fields["{{{name}}}"] <- "Invalid value for `{{{name}}}`, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}."
+      }
+      {{/maximum}}
+      {{#minimum}}
+      if (self$`{{{name}}}` <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
+        invalid_fields["{{{name}}}"] <- "Invalid value for `{{{name}}}`, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}."
+      }
+      {{/minimum}}
+      {{#pattern}}
+      if (!str_detect(self$`{{{name}}}`, "{{{pattern}}}")) {
+        invalid_fields["{{{name}}}"] <- "Invalid value for `{{{name}}}`, must conform to the pattern {{{pattern}}}."
+      }
+      {{/pattern}}
+      {{#isUri}}
+      # to validate URL. ref: https://stackoverflow.com/questions/73952024/url-validation-in-r
+      if (!stringr::str_detect(self$`{{name}}`, "(https?|ftp)://[^ /$.?#].[^\\s]*")) {
+        invalid_fields["{{{name}}}"] <- "Invalid value for `{{{name}}}`, must be URL."
+      }
+      {{/isUri}}
+      {{#maxItems}}
+      if (length(self$`{{{name}}}`) > {{maxItems}}) {
+        invalid_fields["{{{name}}}"] <- "Invalid length for `{{{name}}}`, number of items must be less than or equal to {{maxItems}}."
+      }
+      {{/maxItems}}
+      {{#minItems}}
+      if (length(self$`{{{name}}}`) < {{minItems}}) {
+        invalid_fields["{{{name}}}"] <- "Invalid length for `{{{param}}}`, number of items must be greater than or equal to {{minItems}}."
+      }
+      {{/minItems}}
+
+      {{/hasValidation}}
+      {{/allVars}}
+      invalid_fields
+    },
+    #' Print the object
+    #'
+    #' @description
+    #' Print the object
+    #'
+    #' @export
+    print = function() {
+      print(jsonlite::prettify(self$toJSONString()))
+      invisible(self)
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
+)
+## Uncomment below to unlock the class to allow modifications of the method or field
+# {{classname}}$unlock()
+#
+## Below is an example to define the print function
+# {{classname}}$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
+## Uncomment below to lock the class to prevent modifications to the method or field
+# {{classname}}$lock()

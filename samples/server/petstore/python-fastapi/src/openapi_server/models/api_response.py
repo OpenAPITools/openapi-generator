@@ -6,7 +6,7 @@ from datetime import date, datetime  # noqa: F401
 import re  # noqa: F401
 from typing import Any, Dict, List, Optional  # noqa: F401
 
-from pydantic import AnyUrl, BaseModel, EmailStr, validator  # noqa: F401
+from pydantic import AnyUrl, BaseModel, EmailStr, Field, validator  # noqa: F401
 
 
 class ApiResponse(BaseModel):
@@ -21,8 +21,8 @@ class ApiResponse(BaseModel):
         message: The message of this ApiResponse [Optional].
     """
 
-    code: Optional[int] = None
-    type: Optional[str] = None
-    message: Optional[str] = None
+    code: Optional[int] = Field(alias="code", default=None)
+    type: Optional[str] = Field(alias="type", default=None)
+    message: Optional[str] = Field(alias="message", default=None)
 
 ApiResponse.update_forward_refs()

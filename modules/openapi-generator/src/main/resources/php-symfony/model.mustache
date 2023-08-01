@@ -4,7 +4,7 @@
 /**
  * {{classname}}
  *
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  {{modelPackage}}
@@ -35,5 +35,6 @@ use JMS\Serializer\Annotation\SerializedName;
  * @package {{modelPackage}}
  * @author  OpenAPI Generator team
  */
-{{>model_generic}}
+{{#isEnum}}{{>model_enum}}{{/isEnum}}
+{{^isEnum}}{{>model_generic}}{{/isEnum}}
 {{/model}}{{/models}}

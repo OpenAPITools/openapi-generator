@@ -23,6 +23,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -716,7 +718,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
         return postProcessModelsEnum(objs);
     }
@@ -732,19 +734,19 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize(sanitizeName("call_" + operationId), true);
+            String newOperationId = camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            String newOperationId = camelize(sanitizeName("call_" + operationId), true);
+            String newOperationId = camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
-        return camelize(sanitizeName(operationId), true);
+        return camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
     }
 
     @Override
@@ -851,8 +853,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty cm = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, boolean required) {
+        CodegenProperty cm = super.fromProperty(name, p, required);
         Schema ref = ModelUtils.getReferencedSchema(openAPI, p);
         if (ref != null) {
             if (ref.getEnum() != null) {

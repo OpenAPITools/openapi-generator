@@ -613,6 +613,7 @@ let opts = {
   'enumQueryString': "'-efg'", // String | Query parameter enum test (string)
   'enumQueryInteger': 56, // Number | Query parameter enum test (double)
   'enumQueryDouble': 3.4, // Number | Query parameter enum test (double)
+  'enumQueryModelArray': [new OpenApiPetstore.EnumClass()], // [EnumClass] | 
   'enumFormStringArray': ["'$'"], // [String] | Form parameter enum test (string array)
   'enumFormString': "'-efg'" // String | Form parameter enum test (string)
 };
@@ -635,6 +636,7 @@ Name | Type | Description  | Notes
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enumQueryInteger** | **Number**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **Number**| Query parameter enum test (double) | [optional] 
+ **enumQueryModelArray** | [**[EnumClass]**](EnumClass.md)|  | [optional] 
  **enumFormStringArray** | [**[String]**](String.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
@@ -718,6 +720,8 @@ null (empty response body)
 
 test inline additionalProperties
 
+
+
 ### Example
 
 ```javascript
@@ -759,6 +763,8 @@ No authorization required
 > testJsonFormData(param, param2)
 
 test json serialization of form data
+
+
 
 ### Example
 

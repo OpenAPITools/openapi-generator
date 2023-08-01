@@ -18,8 +18,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 {{#useOptional}}
 import java.util.Optional;
 {{/useOptional}}
-import javax.annotation.Generated;
-import javax.servlet.ServletContext;
+import {{javaxPackage}}.annotation.Generated;
+import {{javaxPackage}}.servlet.ServletContext;
 
 {{>generatedAnnotation}}
 @Configuration

@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import java.io.Serializable;
 import javax.validation.constraints.*;
@@ -18,10 +17,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("BigCat")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class BigCat extends Cat implements Serializable {
-  
-
-public enum KindEnum {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class BigCat extends Cat implements Serializable {
+  public enum KindEnum {
 
     LIONS(String.valueOf("lions")), TIGERS(String.valueOf("tigers")), LEOPARDS(String.valueOf("leopards")), JAGUARS(String.valueOf("jaguars"));
 
@@ -76,8 +74,6 @@ public enum KindEnum {
     this.kind = kind;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

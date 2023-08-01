@@ -26,7 +26,7 @@ import java.time.OffsetTime
 import java.util.Locale
 import com.squareup.moshi.adapter
 
-open class ApiClient(val baseUrl: String) {
+open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     companion object {
         protected const val ContentType = "Content-Type"
         protected const val Accept = "Accept"
@@ -44,7 +44,7 @@ open class ApiClient(val baseUrl: String) {
         const val baseUrlKey = "org.openapitools.client.baseUrl"
 
         @JvmStatic
-        val client: OkHttpClient by lazy {
+        val defaultClient: OkHttpClient by lazy {
             builder.build()
         }
 
@@ -63,51 +63,49 @@ open class ApiClient(val baseUrl: String) {
         return contentType ?: "application/octet-stream"
     }
 
-    protected inline fun <reified T> requestBody(content: T, mediaType: String = JsonMediaType): RequestBody =
+    protected inline fun <reified T> requestBody(content: T, mediaType: String?): RequestBody =
         when {
-            content is File -> RequestBody.create(MediaType.parse(mediaType), content)
-            mediaType == FormDataMediaType -> {
+            content is File -> RequestBody.create(MediaType.parse(mediaType ?: guessContentTypeFromFile(content)), content)
+            mediaType == FormDataMediaType ->
                 MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .apply {
-                        // content's type *must* be Map<String, Any?>
+                        // content's type *must* be Map<String, PartConfig<*>>
                         @Suppress("UNCHECKED_CAST")
-                        (content as Map<String, Any?>).forEach { (key, value) ->
-                            if (value is File) {
-                                val partHeaders = Headers.of(
-                                    "Content-Disposition",
-                                    "form-data; name=\"$key\"; filename=\"${value.name}\""
-                                )
-                                val fileMediaType = MediaType.parse(guessContentTypeFromFile(value))
-                                addPart(partHeaders, RequestBody.create(fileMediaType, value))
-                            } else {
-                                val partHeaders = Headers.of(
-                                    "Content-Disposition",
-                                    "form-data; name=\"$key\""
-                                )
+                        (content as Map<String, PartConfig<*>>).forEach { (name, part) ->
+                            if (part.body is File) {
+                                val partHeaders = part.headers.toMutableMap() +
+                                    ("Content-Disposition" to "form-data; name=\"$name\"; filename=\"${part.body.name}\"")
+                                val fileMediaType = MediaType.parse(guessContentTypeFromFile(part.body))
                                 addPart(
-                                    partHeaders,
-                                    RequestBody.create(null, parameterToString(value))
+                                    Headers.of(partHeaders),
+                                    RequestBody.create(fileMediaType, part.body)
+                                )
+                            } else {
+                                val partHeaders = part.headers.toMutableMap() +
+                                    ("Content-Disposition" to "form-data; name=\"$name\"")
+                                addPart(
+                                    Headers.of(partHeaders),
+                                    RequestBody.create(null, parameterToString(part.body))
                                 )
                             }
                         }
                     }.build()
-            }
             mediaType == FormUrlEncMediaType -> {
                 FormBody.Builder().apply {
-                    // content's type *must* be Map<String, Any?>
+                    // content's type *must* be Map<String, PartConfig<*>>
                     @Suppress("UNCHECKED_CAST")
-                    (content as Map<String, Any?>).forEach { (key, value) ->
-                        add(key, parameterToString(value))
+                    (content as Map<String, PartConfig<*>>).forEach { (name, part) ->
+                        add(name, parameterToString(part.body))
                     }
                 }.build()
             }
-            mediaType.startsWith("application/") && mediaType.endsWith("json") ->
+            mediaType == null || mediaType.startsWith("application/") && mediaType.endsWith("json") ->
                 if (content == null) {
                     EMPTY_REQUEST
                 } else {
                     RequestBody.create(
-                        MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
+                        MediaType.parse(mediaType ?: JsonMediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
                     )
                 }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
@@ -120,27 +118,35 @@ open class ApiClient(val baseUrl: String) {
         if(body == null) {
             return null
         }
+        if (T::class.java == File::class.java) {
+            // return tempFile
+            // Attention: if you are developing an android app that supports API Level 25 and bellow, please check flag supportAndroidApiLevel25AndBelow in https://openapi-generator.tech/docs/generators/kotlin#config-options
+            val tempFile = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
+            tempFile.deleteOnExit()
+            body.byteStream().use { inputStream ->
+                tempFile.outputStream().use { tempFileOutputStream ->
+                    inputStream.copyTo(tempFileOutputStream)
+                }
+            }
+            return tempFile as T
+        }
         val bodyContent = body.string()
         if (bodyContent.isEmpty()) {
             return null
         }
-        if (T::class.java == File::class.java) {
-            // return tempfile
-            val f = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
-            f.deleteOnExit()
-            val out = BufferedWriter(FileWriter(f))
-            out.write(bodyContent)
-            out.close()
-            return f as T
-        }
         return when {
-        mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
+            mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
                 Serializer.moshi.adapter<T>().fromJson(bodyContent)
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
 
     protected fun <T> updateAuthParams(requestConfig: RequestConfig<T>) {
+        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
+            accessToken?.let { accessToken ->
+                requestConfig.headers[Authorization] = "Bearer $accessToken "
+            }
+        }
         if (requestConfig.headers["api_key"].isNullOrEmpty()) {
             if (apiKey["api_key"] != null) {
                 if (apiKeyPrefix["api_key"] != null) {
@@ -148,11 +154,6 @@ open class ApiClient(val baseUrl: String) {
                 } else {
                     requestConfig.headers["api_key"] = apiKey["api_key"]!!
                 }
-            }
-        }
-        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            accessToken?.let { accessToken ->
-                requestConfig.headers[Authorization] = "Bearer $accessToken "
             }
         }
     }
@@ -164,7 +165,7 @@ open class ApiClient(val baseUrl: String) {
         updateAuthParams(requestConfig)
 
         val url = httpUrl.newBuilder()
-            .addPathSegments(requestConfig.path.trimStart('/'))
+            .addEncodedPathSegments(requestConfig.path.trimStart('/'))
             .apply {
                 requestConfig.query.forEach { query ->
                     query.value.forEach { queryValue ->
@@ -174,7 +175,7 @@ open class ApiClient(val baseUrl: String) {
             }.build()
 
         // take content-type/accept from spec or set to default (application/json) if not defined
-        if (requestConfig.headers[ContentType].isNullOrEmpty()) {
+        if (requestConfig.body != null && requestConfig.headers[ContentType].isNullOrEmpty()) {
             requestConfig.headers[ContentType] = JsonMediaType
         }
         if (requestConfig.headers[Accept].isNullOrEmpty()) {
@@ -182,16 +183,16 @@ open class ApiClient(val baseUrl: String) {
         }
         val headers = requestConfig.headers
 
-        if(headers[ContentType].isNullOrEmpty()) {
-            throw kotlin.IllegalStateException("Missing Content-Type header. This is required.")
-        }
-
-        if(headers[Accept].isNullOrEmpty()) {
+        if (headers[Accept].isNullOrEmpty()) {
             throw kotlin.IllegalStateException("Missing Accept header. This is required.")
         }
 
-        // TODO: support multiple contentType options here.
-        val contentType = (headers[ContentType] as String).substringBefore(";").lowercase(Locale.getDefault())
+        val contentType = if (headers[ContentType] != null) {
+            // TODO: support multiple contentType options here.
+            (headers[ContentType] as String).substringBefore(";").lowercase(Locale.US)
+        } else {
+            null
+        }
 
         val request = when (requestConfig.method) {
             RequestMethod.DELETE -> Request.Builder().url(url).delete(requestBody(requestConfig.body, contentType))
@@ -207,7 +208,7 @@ open class ApiClient(val baseUrl: String) {
 
         val response = client.newCall(request).execute()
 
-        val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.getDefault())
+        val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.US)
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         return when {

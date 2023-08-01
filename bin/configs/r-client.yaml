@@ -1,6 +1,13 @@
 generatorName: r
 outputDir: samples/client/petstore/R
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/r/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/r
+httpUserAgent: PetstoreAgent
 additionalProperties:
   packageName: petstore
+  exceptionPackage: rlang
+  useRlangExceptionHandling: true
+  returnExceptionOnFailure: true
+  errorObjectType: "ModelApiResponse"
+  operationIdNaming: PascalCase #default
+  disallowAdditionalPropertiesIfNotPresent: false

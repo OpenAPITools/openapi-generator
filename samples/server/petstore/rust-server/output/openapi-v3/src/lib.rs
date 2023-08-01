@@ -1,4 +1,6 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
+#![allow(unused_imports, unused_attributes)]
+#![allow(clippy::derive_partial_eq_without_eq, clippy::disallowed_names)]
 
 use async_trait::async_trait;
 use futures::Stream;
@@ -9,8 +11,8 @@ use serde::{Serialize, Deserialize};
 
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
-pub const BASE_PATH: &'static str = "";
-pub const API_VERSION: &'static str = "1.0.7";
+pub const BASE_PATH: &str = "";
+pub const API_VERSION: &str = "1.0.7";
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
@@ -25,7 +27,7 @@ pub enum AnyOfGetResponse {
     ,
     /// AnyOfSuccess
     AnyOfSuccess
-    (swagger::AnyOf2<models::StringObject,models::UuidObject>)
+    (models::AnyOfGet202Response)
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -74,7 +76,7 @@ pub enum MultigetGetResponse {
     ,
     /// XML rsp
     XMLRsp
-    (models::InlineResponse201)
+    (models::MultigetGet201Response)
     ,
     /// octet rsp
     OctetRsp
@@ -107,7 +109,7 @@ pub enum MultipleAuthSchemeGetResponse {
 pub enum OneOfGetResponse {
     /// Success
     Success
-    (swagger::OneOf2<i32,Vec<String>>)
+    (models::OneOfGet200Response)
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -272,6 +274,7 @@ pub enum GetRepoInfoResponse {
 
 /// API
 #[async_trait]
+#[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait Api<C: Send + Sync> {
     fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>> {
         Poll::Ready(Ok(()))
@@ -407,6 +410,7 @@ pub trait Api<C: Send + Sync> {
 
 /// API where `Context` isn't passed on every API call
 #[async_trait]
+#[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait ApiNoContext<C: Send + Sync> {
 
     fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>>;
@@ -545,7 +549,7 @@ pub trait ApiNoContext<C: Send + Sync> {
 pub trait ContextWrapperExt<C: Send + Sync> where Self: Sized
 {
     /// Binds this API to a context.
-    fn with_context(self: Self, context: C) -> ContextWrapper<Self, C>;
+    fn with_context(self, context: C) -> ContextWrapper<Self, C>;
 }
 
 impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ContextWrapperExt<C> for T {
@@ -853,7 +857,7 @@ pub trait CallbackApiNoContext<C: Send + Sync> {
 pub trait CallbackContextWrapperExt<C: Send + Sync> where Self: Sized
 {
     /// Binds this API to a context.
-    fn with_context(self: Self, context: C) -> ContextWrapper<Self, C>;
+    fn with_context(self, context: C) -> ContextWrapper<Self, C>;
 }
 
 impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackContextWrapperExt<C> for T {

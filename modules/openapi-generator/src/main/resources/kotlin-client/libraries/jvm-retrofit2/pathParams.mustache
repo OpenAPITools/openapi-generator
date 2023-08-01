@@ -1,1 +1,1 @@
-{{#isPathParam}}@Path("{{baseName}}") {{{paramName}}}: {{{dataType}}}{{/isPathParam}}
+{{#isPathParam}}@Path("{{baseName}}") {{{paramName}}}: {{{dataType}}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{#isNumber}}{{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{/isPathParam}}

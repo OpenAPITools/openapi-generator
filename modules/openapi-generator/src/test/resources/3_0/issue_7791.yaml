@@ -15,6 +15,16 @@ paths:
           description: Event Id
           schema:
             type: number
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                some_file:
+                  description: another file to upload
+                  format: binary
+                  type: string
+              type: object
       responses:
         200:
           description: success

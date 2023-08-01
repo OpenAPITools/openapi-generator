@@ -18,8 +18,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  **/
 @ApiModel(description = "Model for testing model with \"_class\" property")
 @JsonTypeName("ClassModel")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ClassModel  implements Serializable {
-  
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class ClassModel  implements Serializable {
   private @Valid String propertyClass;
 
   /**
@@ -28,8 +28,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.propertyClass = propertyClass;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")

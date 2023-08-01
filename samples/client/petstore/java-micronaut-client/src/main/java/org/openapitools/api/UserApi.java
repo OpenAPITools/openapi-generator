@@ -17,19 +17,18 @@ import io.micronaut.core.annotation.*;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 import javax.annotation.Generated;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen")
-@Client("${base-path}")
+@Client("${petstore-micronaut-base-path}")
 public interface UserApi {
     /**
      * Create user
@@ -38,33 +37,30 @@ public interface UserApi {
      * @param _body Created user object (required)
      */
     @Post(uri="/user")
-    @Produces(value={"application/json"})
-    @Consumes(value={"application/json"})
-    Mono<Object> createUser(
+    Mono<Void> createUser(
         @Body @NotNull @Valid User _body
-  );
+    );
+
     /**
      * Creates list of users with given input array
      *
      * @param _body List of user object (required)
      */
     @Post(uri="/user/createWithArray")
-    @Produces(value={"application/json"})
-    @Consumes(value={"application/json"})
-    Mono<Object> createUsersWithArrayInput(
+    Mono<Void> createUsersWithArrayInput(
         @Body @NotNull List<User> _body
-  );
+    );
+
     /**
      * Creates list of users with given input array
      *
      * @param _body List of user object (required)
      */
     @Post(uri="/user/createWithList")
-    @Produces(value={"application/json"})
-    @Consumes(value={"application/json"})
-    Mono<Object> createUsersWithListInput(
+    Mono<Void> createUsersWithListInput(
         @Body @NotNull List<User> _body
-  );
+    );
+
     /**
      * Delete user
      * This can only be done by the logged in user.
@@ -72,10 +68,10 @@ public interface UserApi {
      * @param username The name that needs to be deleted (required)
      */
     @Delete(uri="/user/{username}")
-    @Consumes(value={"application/json"})
-    Mono<Object> deleteUser(
+    Mono<Void> deleteUser(
         @PathVariable(name="username") @NotNull String username
-  );
+    );
+
     /**
      * Get user by user name
      *
@@ -83,10 +79,11 @@ public interface UserApi {
      * @return User
      */
     @Get(uri="/user/{username}")
-    @Consumes(value={"application/json"})
+    @Consumes({"application/xml", "application/json"})
     Mono<User> getUserByName(
         @PathVariable(name="username") @NotNull String username
-  );
+    );
+
     /**
      * Logs user into the system
      *
@@ -95,18 +92,19 @@ public interface UserApi {
      * @return String
      */
     @Get(uri="/user/login")
-    @Consumes(value={"application/json"})
+    @Consumes({"application/xml", "application/json"})
     Mono<String> loginUser(
         @QueryValue(value="username") @NotNull String username, 
         @QueryValue(value="password") @NotNull String password
-  );
+    );
+
     /**
      * Logs out current logged in user session
      *
      */
     @Get(uri="/user/logout")
-    @Consumes(value={"application/json"})
-    Mono<Object> logoutUser();
+    Mono<Void> logoutUser();
+
     /**
      * Updated user
      * This can only be done by the logged in user.
@@ -115,10 +113,9 @@ public interface UserApi {
      * @param _body Updated user object (required)
      */
     @Put(uri="/user/{username}")
-    @Produces(value={"application/json"})
-    @Consumes(value={"application/json"})
-    Mono<Object> updateUser(
+    Mono<Void> updateUser(
         @PathVariable(name="username") @NotNull String username, 
         @Body @NotNull @Valid User _body
-  );
+    );
+
 }

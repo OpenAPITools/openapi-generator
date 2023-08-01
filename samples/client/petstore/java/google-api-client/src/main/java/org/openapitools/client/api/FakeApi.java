@@ -970,7 +970,7 @@ public class FakeApi {
   /**
     * Fake endpoint to test group parameters (optional)
     * Fake endpoint to test group parameters (optional)
-    * <p><b>400</b> - Someting wrong
+    * <p><b>400</b> - Something wrong
     * @param requiredStringGroup Required String in group parameters
     * @param requiredBooleanGroup Required Boolean in group parameters
     * @param requiredInt64Group Required Integer in group parameters
@@ -986,7 +986,7 @@ public class FakeApi {
   /**
     * Fake endpoint to test group parameters (optional)
     * Fake endpoint to test group parameters (optional)
-    * <p><b>400</b> - Someting wrong
+    * <p><b>400</b> - Something wrong
     * @param requiredStringGroup Required String in group parameters
     * @param requiredBooleanGroup Required Boolean in group parameters
     * @param requiredInt64Group Required Integer in group parameters

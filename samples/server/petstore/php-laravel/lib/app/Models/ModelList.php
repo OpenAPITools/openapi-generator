@@ -10,6 +10,6 @@ namespace app\Models;
 class ModelList {
 
     /** @var string $_123list */
-    private $_123list;
+    public $_123list = "";
 
 }

@@ -1,13 +1,5 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-// @dart=2.7
-
-// ignore_for_file: unused_import
-
-import 'package:openapi/api.dart';
-import 'package:openapi/api/store_api.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 
 /// tests for StoreApi
@@ -35,7 +27,7 @@ void main() {
 
     // Find purchase order by ID
     //
-    // For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+    // For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
     //
     //Future<Order> getOrderById(int orderId) async
     test('test getOrderById', () async {
@@ -43,6 +35,8 @@ void main() {
     });
 
     // Place an order for a pet
+    //
+    // 
     //
     //Future<Order> placeOrder(Order order) async
     test('test placeOrder', () async {

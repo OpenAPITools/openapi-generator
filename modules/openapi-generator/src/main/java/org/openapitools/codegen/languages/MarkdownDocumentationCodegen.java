@@ -110,4 +110,17 @@ public class MarkdownDocumentationCodegen extends DefaultCodegen implements Code
 
     @Override
     public GeneratorLanguage generatorLanguage() { return null; }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        // do nothing as the output is just doc
+        return input;
+    }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // do nothing as the output is just doc
+        return input;
+    }
+
 }

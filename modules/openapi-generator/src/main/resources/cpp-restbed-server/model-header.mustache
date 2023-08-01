@@ -18,6 +18,10 @@
 #include <array>
 {{/hasEnums}}
 #include <boost/property_tree/ptree.hpp>
+{{#interfaces}}
+#include "{{{this}}}.h"
+{{/interfaces}}
+#include "helpers.h"
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
@@ -36,13 +40,28 @@ public:
     explicit {{classname}}(boost::property_tree::ptree const& pt);
     virtual ~{{classname}}() = default;
 
-    std::string toJsonString(bool prettyJson = false);
+    {{classname}}(const {{classname}}& other) = default; // copy constructor
+    {{classname}}({{classname}}&& other) noexcept = default; // move constructor
+
+    {{classname}}& operator=(const {{classname}}& other) = default; // copy assignment
+    {{classname}}& operator=({{classname}}&& other) noexcept = default; // move assignment
+
+    std::string toJsonString(bool prettyJson = false) const;
     void fromJsonString(std::string const& jsonString);
-    boost::property_tree::ptree toPropertyTree();
+    boost::property_tree::ptree toPropertyTree() const;
     void fromPropertyTree(boost::property_tree::ptree const& pt);
+
+    {{#isEnum}}
+    std::string toString() const;
+    void fromString(const std::string& str);
+    {{/isEnum}}
 
     /////////////////////////////////////////////
     /// {{classname}} members
+    {{#isEnum}}
+    {{{dataType}}} getEnumValue() const;
+    void setEnumValue(const {{{dataType}}}& val);
+    {{/isEnum}}
     {{#vars}}
 
     /// <summary>
@@ -53,17 +72,9 @@ public:
     {{/vars}}
 
 protected:
-    //////////////////////////////////////
-    // Override these for customization //
-    //////////////////////////////////////
-
-    virtual std::string toJsonString_internal(bool prettyJson = false);
-    virtual void fromJsonString_internal(std::string const& jsonString);
-    virtual boost::property_tree::ptree toPropertyTree_internal();
-    virtual void fromPropertyTree_internal(boost::property_tree::ptree const& pt);
-
-
-protected:
+    {{#isEnum}}
+    {{{dataType}}} m_{{{name}}}EnumValue;
+    {{/isEnum}}
     {{#vars}}
     {{^isContainer}}
     {{^isModel}}
@@ -77,17 +88,21 @@ protected:
     {{{dataType}}} m_{{name}};
     {{/isContainer}}
     {{/vars}}
-    {{#vars}}
-    {{#isEnum}}
-    const std::array<std::string, {{#allowableValues}}{{#enumVars}}{{#-last}}{{-index}}{{/-last}}{{/enumVars}}{{/allowableValues}}> m_{{enumName}} = {
-          {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
-    };
-
-    {{/isEnum}}
-    {{/vars}}
 };
 
 std::vector<{{classname}}> create{{classname}}VectorFromJsonString(const std::string& json);
+
+template<>
+inline boost::property_tree::ptree toPt<{{classname}}>(const {{classname}}& val) {
+    return val.toPropertyTree();
+}
+
+template<>
+inline {{classname}} fromPt<{{classname}}>(const boost::property_tree::ptree& pt) {
+    {{classname}} ret;
+    ret.fromPropertyTree(pt);
+    return ret;
+}
 
 {{#modelNamespaceDeclarations}}
 }

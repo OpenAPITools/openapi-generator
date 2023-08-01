@@ -1,0 +1,57 @@
+{{>licenseInfo}}
+
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+import {{rootJavaEEPackage}}.inject.Inject;
+import {{rootJavaEEPackage}}.ws.rs.client.WebTarget;
+
+import org.junit.jupiter.api.Test;
+
+import io.helidon.microprofile.tests.junit5.HelidonTest;
+
+import java.net.URL;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ {{#appName}}
+ * {{{.}}} Test
+ *
+ {{/appName}}
+ * API tests for {{classname}}
+ */
+@HelidonTest
+public class {{classname}}Test {
+
+    @Inject
+    private WebTarget target;
+
+    {{#operations}}{{#operation}}
+    /**
+     {{#summary}}
+     * {{summary}}
+     *
+     {{#notes}}
+     * {{.}}
+     *
+     {{/notes}}
+     {{/summary}}
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void {{operationId}}Test() throws Exception {
+        // TODO: test validations
+        {{#allParams}}
+        {{^isFile}}{{{dataType}}} {{paramName}} = null;{{/isFile}}
+        {{/allParams}}
+        //{{#returnType}}{{{.}}} response = {{/returnType}}target.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        //{{#returnType}}assertNotNull(response);{{/returnType}}
+    }
+    {{/operation}}{{/operations}}
+}

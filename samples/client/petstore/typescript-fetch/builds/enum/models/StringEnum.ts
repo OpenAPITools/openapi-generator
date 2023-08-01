@@ -12,16 +12,18 @@
  * Do not edit the class manually.
  */
 
+
 /**
  * 
  * @export
- * @enum {string}
  */
-export enum StringEnum {
-    One = 'one',
-    Two = 'two',
-    Three = 'three'
-}
+export const StringEnum = {
+    One: 'one',
+    Two: 'two',
+    Three: 'three'
+} as const;
+export type StringEnum = typeof StringEnum[keyof typeof StringEnum];
+
 
 export function StringEnumFromJSON(json: any): StringEnum {
     return StringEnumFromJSONTyped(json, false);

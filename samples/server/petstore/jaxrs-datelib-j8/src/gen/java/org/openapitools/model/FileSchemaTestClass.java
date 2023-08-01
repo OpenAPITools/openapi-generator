@@ -41,7 +41,7 @@ public class FileSchemaTestClass  implements Serializable {
 
   public static final String JSON_PROPERTY_FILES = "files";
   @JsonProperty(JSON_PROPERTY_FILES)
-  private List<ModelFile> files = null;
+  private List<ModelFile> files;
 
   public FileSchemaTestClass _file(ModelFile _file) {
     this._file = _file;
@@ -101,8 +101,8 @@ public class FileSchemaTestClass  implements Serializable {
       return false;
     }
     FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
-    return Objects.equals(this._file, fileSchemaTestClass._file) &&
-        Objects.equals(this.files, fileSchemaTestClass.files);
+    return Objects.equals(_file, fileSchemaTestClass._file) &&
+        Objects.equals(files, fileSchemaTestClass.files);
   }
 
   @Override

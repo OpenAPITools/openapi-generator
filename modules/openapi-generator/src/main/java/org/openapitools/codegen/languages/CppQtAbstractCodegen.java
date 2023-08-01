@@ -6,6 +6,9 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -187,7 +190,7 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isBinarySchema(p)) {
             return getSchemaType(p);
@@ -223,7 +226,7 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
             }
             return "0";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "QMap<QString, " + getTypeDeclaration(inner) + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -309,16 +312,15 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
 
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap objectMap = objs.getOperations();
+        List<CodegenOperation> operations = objectMap.getOperation();
 
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        List<Map<String, String>> imports = objs.getImports();
         Map<String, CodegenModel> codegenModels = new HashMap<>();
 
-        for (Object moObj : allModels) {
-            CodegenModel mo = ((Map<String, CodegenModel>) moObj).get("model");
+        for (ModelMap moObj : allModels) {
+            CodegenModel mo = moObj.getModel();
             if (mo.isEnum) {
                 codegenModels.put(mo.classname, mo);
             }

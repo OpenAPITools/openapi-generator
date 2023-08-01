@@ -171,7 +171,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     //region createUsersWithArrayInput
     /**
      * Creates list of users with given input array
-     * @param \App\DTO\Collection36 $requestContent
+     * @param \App\DTO\Collection10 $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return ResponseInterface
@@ -179,7 +179,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * @throws DT\Exception\InvalidData
      */
     public function createUsersWithArrayInputRaw(
-        \App\DTO\Collection36 $requestContent,
+        \App\DTO\Collection10 $requestContent,
         iterable $security = ['api_key' => []],
         string $requestMediaType = 'application/json'
     ): ResponseInterface
@@ -192,7 +192,7 @@ class ApiClient extends OAGAC\AbstractApiClient
 
     /**
      * Creates list of users with given input array
-     * @param \App\DTO\Collection36 $requestContent
+     * @param \App\DTO\Collection10 $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return array
@@ -201,7 +201,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * @throws OAGAC\Exception\InvalidResponseBodySchema
      */
     public function createUsersWithArrayInput(
-        \App\DTO\Collection36 $requestContent,
+        \App\DTO\Collection10 $requestContent,
         iterable $security = ['api_key' => []],
         string $requestMediaType = 'application/json'
     ): array
@@ -220,7 +220,7 @@ class ApiClient extends OAGAC\AbstractApiClient
 
     /**
      * Creates list of users with given input array
-     * @param \App\DTO\Collection36 $requestContent
+     * @param \App\DTO\Collection10 $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return mixed
@@ -230,7 +230,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * @throws OAGAC\Exception\UnsuccessfulResponse
      */
     public function createUsersWithArrayInputResult(
-        \App\DTO\Collection36 $requestContent,
+        \App\DTO\Collection10 $requestContent,
         iterable $security = ['api_key' => []],
         string $requestMediaType = 'application/json'
     )
@@ -242,7 +242,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     //region createUsersWithListInput
     /**
      * Creates list of users with given input array
-     * @param \App\DTO\Collection36 $requestContent
+     * @param \App\DTO\Collection10 $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return ResponseInterface
@@ -250,7 +250,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * @throws DT\Exception\InvalidData
      */
     public function createUsersWithListInputRaw(
-        \App\DTO\Collection36 $requestContent,
+        \App\DTO\Collection10 $requestContent,
         iterable $security = ['api_key' => []],
         string $requestMediaType = 'application/json'
     ): ResponseInterface
@@ -263,7 +263,7 @@ class ApiClient extends OAGAC\AbstractApiClient
 
     /**
      * Creates list of users with given input array
-     * @param \App\DTO\Collection36 $requestContent
+     * @param \App\DTO\Collection10 $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return array
@@ -272,7 +272,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * @throws OAGAC\Exception\InvalidResponseBodySchema
      */
     public function createUsersWithListInput(
-        \App\DTO\Collection36 $requestContent,
+        \App\DTO\Collection10 $requestContent,
         iterable $security = ['api_key' => []],
         string $requestMediaType = 'application/json'
     ): array
@@ -291,7 +291,7 @@ class ApiClient extends OAGAC\AbstractApiClient
 
     /**
      * Creates list of users with given input array
-     * @param \App\DTO\Collection36 $requestContent
+     * @param \App\DTO\Collection10 $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return mixed
@@ -301,7 +301,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * @throws OAGAC\Exception\UnsuccessfulResponse
      */
     public function createUsersWithListInputResult(
-        \App\DTO\Collection36 $requestContent,
+        \App\DTO\Collection10 $requestContent,
         iterable $security = ['api_key' => []],
         string $requestMediaType = 'application/json'
     )
@@ -546,7 +546,7 @@ class ApiClient extends OAGAC\AbstractApiClient
         {
             case 200:
                 /* successful operation */
-                $responseContent = new \App\DTO\Collection19();
+                $responseContent = new \App\DTO\Collection3();
                 break;
             case 400:
                 /* Invalid status value */
@@ -561,7 +561,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * @param \App\DTO\FindPetsByStatusParameterData $parameters
      * @param iterable|string[][] $security
      * @param string $responseMediaType
-     * @return \App\DTO\Collection19
+     * @return \App\DTO\Collection3
      * @throws ClientExceptionInterface
      * @throws DT\Exception\InvalidData
      * @throws OAGAC\Exception\InvalidResponseBodySchema
@@ -571,7 +571,7 @@ class ApiClient extends OAGAC\AbstractApiClient
         \App\DTO\FindPetsByStatusParameterData $parameters,
         iterable $security = ['petstore_auth' => ['read:pets', ]],
         string $responseMediaType = 'application/xml'
-    ): \App\DTO\Collection19
+    ): \App\DTO\Collection3
     {
         return $this->getSuccessfulContent(...$this->findPetsByStatus($parameters, $security, $responseMediaType));
     }
@@ -621,7 +621,7 @@ class ApiClient extends OAGAC\AbstractApiClient
         {
             case 200:
                 /* successful operation */
-                $responseContent = new \App\DTO\Collection26();
+                $responseContent = new \App\DTO\Collection6();
                 break;
             case 400:
                 /* Invalid tag value */
@@ -636,7 +636,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * @param \App\DTO\FindPetsByTagsParameterData $parameters
      * @param iterable|string[][] $security
      * @param string $responseMediaType
-     * @return \App\DTO\Collection26
+     * @return \App\DTO\Collection6
      * @throws ClientExceptionInterface
      * @throws DT\Exception\InvalidData
      * @throws OAGAC\Exception\InvalidResponseBodySchema
@@ -646,7 +646,7 @@ class ApiClient extends OAGAC\AbstractApiClient
         \App\DTO\FindPetsByTagsParameterData $parameters,
         iterable $security = ['petstore_auth' => ['read:pets', ]],
         string $responseMediaType = 'application/xml'
-    ): \App\DTO\Collection26
+    ): \App\DTO\Collection6
     {
         return $this->getSuccessfulContent(...$this->findPetsByTags($parameters, $security, $responseMediaType));
     }
@@ -692,7 +692,7 @@ class ApiClient extends OAGAC\AbstractApiClient
         {
             case 200:
                 /* successful operation */
-                $responseContent = new \App\DTO\Collection34();
+                $responseContent = new \App\DTO\Collection8();
                 break;
         }
         $this->parseBody($response, $responseContent);
@@ -703,7 +703,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * Returns pet inventories by status
      * @param iterable|string[][] $security
      * @param string $responseMediaType
-     * @return \App\DTO\Collection34
+     * @return \App\DTO\Collection8
      * @throws ClientExceptionInterface
      * @throws DT\Exception\InvalidData
      * @throws OAGAC\Exception\InvalidResponseBodySchema
@@ -712,7 +712,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     public function getInventoryResult(
         iterable $security = ['api_key' => []],
         string $responseMediaType = 'application/json'
-    ): \App\DTO\Collection34
+    ): \App\DTO\Collection8
     {
         return $this->getSuccessfulContent(...$this->getInventory($security, $responseMediaType));
     }
@@ -1230,7 +1230,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Updates a pet in the store with form data
      * @param \App\DTO\UpdatePetWithFormParameterData $parameters
-     * @param \App\DTO\InlineObject $requestContent
+     * @param \App\DTO\UpdatePetWithFormRequest $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return ResponseInterface
@@ -1239,7 +1239,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function updatePetWithFormRaw(
         \App\DTO\UpdatePetWithFormParameterData $parameters,
-        \App\DTO\InlineObject $requestContent,
+        \App\DTO\UpdatePetWithFormRequest $requestContent,
         iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
         string $requestMediaType = 'application/x-www-form-urlencoded'
     ): ResponseInterface
@@ -1253,7 +1253,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Updates a pet in the store with form data
      * @param \App\DTO\UpdatePetWithFormParameterData $parameters
-     * @param \App\DTO\InlineObject $requestContent
+     * @param \App\DTO\UpdatePetWithFormRequest $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return array
@@ -1263,7 +1263,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function updatePetWithForm(
         \App\DTO\UpdatePetWithFormParameterData $parameters,
-        \App\DTO\InlineObject $requestContent,
+        \App\DTO\UpdatePetWithFormRequest $requestContent,
         iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
         string $requestMediaType = 'application/x-www-form-urlencoded'
     ): array
@@ -1283,7 +1283,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Updates a pet in the store with form data
      * @param \App\DTO\UpdatePetWithFormParameterData $parameters
-     * @param \App\DTO\InlineObject $requestContent
+     * @param \App\DTO\UpdatePetWithFormRequest $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return mixed
@@ -1294,7 +1294,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function updatePetWithFormResult(
         \App\DTO\UpdatePetWithFormParameterData $parameters,
-        \App\DTO\InlineObject $requestContent,
+        \App\DTO\UpdatePetWithFormRequest $requestContent,
         iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
         string $requestMediaType = 'application/x-www-form-urlencoded'
     )
@@ -1387,7 +1387,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * uploads an image
      * @param \App\DTO\UploadFileParameterData $parameters
-     * @param \App\DTO\InlineObject1 $requestContent
+     * @param \App\DTO\UploadFileRequest $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @param string $responseMediaType
@@ -1397,7 +1397,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function uploadFileRaw(
         \App\DTO\UploadFileParameterData $parameters,
-        \App\DTO\InlineObject1 $requestContent,
+        \App\DTO\UploadFileRequest $requestContent,
         iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
         string $requestMediaType = 'multipart/form-data',
         string $responseMediaType = 'application/json'
@@ -1413,7 +1413,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * uploads an image
      * @param \App\DTO\UploadFileParameterData $parameters
-     * @param \App\DTO\InlineObject1 $requestContent
+     * @param \App\DTO\UploadFileRequest $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @param string $responseMediaType
@@ -1424,7 +1424,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function uploadFile(
         \App\DTO\UploadFileParameterData $parameters,
-        \App\DTO\InlineObject1 $requestContent,
+        \App\DTO\UploadFileRequest $requestContent,
         iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
         string $requestMediaType = 'multipart/form-data',
         string $responseMediaType = 'application/json'
@@ -1446,7 +1446,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * uploads an image
      * @param \App\DTO\UploadFileParameterData $parameters
-     * @param \App\DTO\InlineObject1 $requestContent
+     * @param \App\DTO\UploadFileRequest $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @param string $responseMediaType
@@ -1458,7 +1458,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      */
     public function uploadFileResult(
         \App\DTO\UploadFileParameterData $parameters,
-        \App\DTO\InlineObject1 $requestContent,
+        \App\DTO\UploadFileRequest $requestContent,
         iterable $security = ['petstore_auth' => ['write:pets', 'read:pets', ]],
         string $requestMediaType = 'multipart/form-data',
         string $responseMediaType = 'application/json'

@@ -25,6 +25,9 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +46,8 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";
     protected String resourcesFolder = "src/main/resources";
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
     protected String configKey = "apiRequest";
     protected int defaultTimeoutInMs = 5000;
     protected String configKeyPath = mainPackage;
@@ -85,6 +90,8 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         outputFolder = "generated-code/scala-akka";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "scala-akka-client";
         apiPackage = mainPackage + ".api";
         modelPackage = mainPackage + ".model";
@@ -116,6 +123,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         importMapping.remove("List");
         importMapping.remove("Set");
         importMapping.remove("Map");
+        importMapping.put("BigDecimal", "java.math.BigDecimal");
 
         typeMapping = new HashMap<>();
         typeMapping.put("array", "Seq");
@@ -151,19 +159,22 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         if (additionalProperties.containsKey("mainPackage")) {
             setMainPackage((String) additionalProperties.get("mainPackage"));
             additionalProperties.replace("configKeyPath", this.configKeyPath);
-            if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)){
+            if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
                 apiPackage = mainPackage + ".api";
                 additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
             }
-            if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)){
+            if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
                 modelPackage = mainPackage + ".model";
                 additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
             }
-            if (!additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)){
+            if (!additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
                 invokerPackage = mainPackage + ".core";
             }
         }
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
+        // make api and model doc path available in mustache template
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
@@ -204,13 +215,12 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         if (registerNonStandardStatusCodes) {
             try {
-                @SuppressWarnings("unchecked")
-                Map<String, ArrayList<CodegenOperation>> opsMap = (Map<String, ArrayList<CodegenOperation>>) objs.get("operations");
-                HashSet<Integer> unknownCodes = new HashSet<Integer>();
-                for (CodegenOperation operation : opsMap.get("operation")) {
+                OperationMap opsMap = objs.getOperations();
+                HashSet<Integer> unknownCodes = new HashSet<>();
+                for (CodegenOperation operation : opsMap.getOperation()) {
                     for (CodegenResponse response : operation.responses) {
                         if ("default".equals(response.code)) {
                             continue;
@@ -243,13 +253,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         }
 
         // Remove OAuth securities
-        Iterator<CodegenSecurity> it = codegenSecurities.iterator();
-        while (it.hasNext()) {
-            final CodegenSecurity security = it.next();
-            if (security.isOAuth) {
-                it.remove();
-            }
-        }
+        codegenSecurities.removeIf(security -> security.isOAuth);
         if (codegenSecurities.isEmpty()) {
             return null;
         }
@@ -258,6 +262,11 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         return formatIdentifier(name, false);
     }
 
@@ -283,7 +292,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         } else if (ModelUtils.isIntegerSchema(p)) {
             return null;
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(getAdditionalProperties(p));
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "Map[String, " + inner + "].empty ";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -299,16 +308,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         }
     }
 
-    private static abstract class CustomLambda implements Mustache.Lambda {
-        @Override
-        public void execute(Template.Fragment frag, Writer out) throws IOException {
-            final StringWriter tempWriter = new StringWriter();
-            frag.execute(tempWriter);
-            out.write(formatFragment(tempWriter.toString()));
-        }
-
-        public abstract String formatFragment(String fragment);
-    }
 
     private static class JavadocLambda extends CustomLambda {
         @Override
@@ -331,19 +330,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         }
     }
 
-    private static class CamelizeLambda extends CustomLambda {
-        private final boolean capitalizeFirst;
-
-        public CamelizeLambda(boolean capitalizeFirst) {
-            this.capitalizeFirst = capitalizeFirst;
-        }
-
-        @Override
-        public String formatFragment(String fragment) {
-            return camelize(fragment, !capitalizeFirst);
-        }
-    }
-
     private class EnumEntryLambda extends CustomLambda {
         @Override
         public String formatFragment(String fragment) {
@@ -359,5 +345,15 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
 
     public void setMainPackage(String mainPackage) {
         this.configKeyPath = this.mainPackage = mainPackage;
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + File.separator + apiDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + File.separator + modelDocPath).replace('/', File.separatorChar);
     }
 }

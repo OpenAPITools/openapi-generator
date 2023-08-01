@@ -209,10 +209,10 @@ public class XmlItem   {
   }
 
   public XmlItem addWrappedArrayItem(Integer wrappedArrayItem) {
-    if (wrappedArray == null) {
-      wrappedArray = new ArrayList<>();
+    if (this.wrappedArray == null) {
+      this.wrappedArray = new ArrayList<>();
     }
-    wrappedArray.add(wrappedArrayItem);
+    this.wrappedArray.add(wrappedArrayItem);
     return this;
   }
 
@@ -302,10 +302,10 @@ public class XmlItem   {
   }
 
   public XmlItem addNameArrayItem(Integer nameArrayItem) {
-    if (nameArray == null) {
-      nameArray = new ArrayList<>();
+    if (this.nameArray == null) {
+      this.nameArray = new ArrayList<>();
     }
-    nameArray.add(nameArrayItem);
+    this.nameArray.add(nameArrayItem);
     return this;
   }
 
@@ -327,10 +327,10 @@ public class XmlItem   {
   }
 
   public XmlItem addNameWrappedArrayItem(Integer nameWrappedArrayItem) {
-    if (nameWrappedArray == null) {
-      nameWrappedArray = new ArrayList<>();
+    if (this.nameWrappedArray == null) {
+      this.nameWrappedArray = new ArrayList<>();
     }
-    nameWrappedArray.add(nameWrappedArrayItem);
+    this.nameWrappedArray.add(nameWrappedArrayItem);
     return this;
   }
 
@@ -420,10 +420,10 @@ public class XmlItem   {
   }
 
   public XmlItem addPrefixArrayItem(Integer prefixArrayItem) {
-    if (prefixArray == null) {
-      prefixArray = new ArrayList<>();
+    if (this.prefixArray == null) {
+      this.prefixArray = new ArrayList<>();
     }
-    prefixArray.add(prefixArrayItem);
+    this.prefixArray.add(prefixArrayItem);
     return this;
   }
 
@@ -445,10 +445,10 @@ public class XmlItem   {
   }
 
   public XmlItem addPrefixWrappedArrayItem(Integer prefixWrappedArrayItem) {
-    if (prefixWrappedArray == null) {
-      prefixWrappedArray = new ArrayList<>();
+    if (this.prefixWrappedArray == null) {
+      this.prefixWrappedArray = new ArrayList<>();
     }
-    prefixWrappedArray.add(prefixWrappedArrayItem);
+    this.prefixWrappedArray.add(prefixWrappedArrayItem);
     return this;
   }
 
@@ -538,10 +538,10 @@ public class XmlItem   {
   }
 
   public XmlItem addNamespaceArrayItem(Integer namespaceArrayItem) {
-    if (namespaceArray == null) {
-      namespaceArray = new ArrayList<>();
+    if (this.namespaceArray == null) {
+      this.namespaceArray = new ArrayList<>();
     }
-    namespaceArray.add(namespaceArrayItem);
+    this.namespaceArray.add(namespaceArrayItem);
     return this;
   }
 
@@ -563,10 +563,10 @@ public class XmlItem   {
   }
 
   public XmlItem addNamespaceWrappedArrayItem(Integer namespaceWrappedArrayItem) {
-    if (namespaceWrappedArray == null) {
-      namespaceWrappedArray = new ArrayList<>();
+    if (this.namespaceWrappedArray == null) {
+      this.namespaceWrappedArray = new ArrayList<>();
     }
-    namespaceWrappedArray.add(namespaceWrappedArrayItem);
+    this.namespaceWrappedArray.add(namespaceWrappedArrayItem);
     return this;
   }
 
@@ -656,10 +656,10 @@ public class XmlItem   {
   }
 
   public XmlItem addPrefixNsArrayItem(Integer prefixNsArrayItem) {
-    if (prefixNsArray == null) {
-      prefixNsArray = new ArrayList<>();
+    if (this.prefixNsArray == null) {
+      this.prefixNsArray = new ArrayList<>();
     }
-    prefixNsArray.add(prefixNsArrayItem);
+    this.prefixNsArray.add(prefixNsArrayItem);
     return this;
   }
 
@@ -681,10 +681,10 @@ public class XmlItem   {
   }
 
   public XmlItem addPrefixNsWrappedArrayItem(Integer prefixNsWrappedArrayItem) {
-    if (prefixNsWrappedArray == null) {
-      prefixNsWrappedArray = new ArrayList<>();
+    if (this.prefixNsWrappedArray == null) {
+      this.prefixNsWrappedArray = new ArrayList<>();
     }
-    prefixNsWrappedArray.add(prefixNsWrappedArrayItem);
+    this.prefixNsWrappedArray.add(prefixNsWrappedArrayItem);
     return this;
   }
 

@@ -74,14 +74,14 @@ bool Pet::validate(std::stringstream& msg, const std::string& pathPrefix) const
          
     if (tagsIsSet())
     {
-        const std::vector<Tag>& value = m_Tags;
+        const std::vector<org::openapitools::server::model::Tag>& value = m_Tags;
         const std::string currentValuePath = _pathPrefix + ".tags";
                 
         
         { // Recursive validation of array elements
             const std::string oldValuePath = currentValuePath;
             int i = 0;
-            for (const Tag& value : value)
+            for (const org::openapitools::server::model::Tag& value : value)
             { 
                 const std::string currentValuePath = oldValuePath + "[" + std::to_string(i) + "]";
                         
@@ -129,7 +129,7 @@ bool Pet::operator!=(const Pet& rhs) const
 
 void to_json(nlohmann::json& j, const Pet& o)
 {
-    j = nlohmann::json();
+    j = nlohmann::json::object();
     if(o.idIsSet())
         j["id"] = o.m_Id;
     if(o.categoryIsSet())
@@ -187,11 +187,11 @@ void Pet::unsetId()
 {
     m_IdIsSet = false;
 }
-Category Pet::getCategory() const
+org::openapitools::server::model::Category Pet::getCategory() const
 {
     return m_Category;
 }
-void Pet::setCategory(Category const& value)
+void Pet::setCategory(org::openapitools::server::model::Category const& value)
 {
     m_Category = value;
     m_CategoryIsSet = true;
@@ -220,11 +220,11 @@ void Pet::setPhotoUrls(std::vector<std::string> const& value)
 {
     m_PhotoUrls = value;
 }
-std::vector<Tag> Pet::getTags() const
+std::vector<org::openapitools::server::model::Tag> Pet::getTags() const
 {
     return m_Tags;
 }
-void Pet::setTags(std::vector<Tag> const& value)
+void Pet::setTags(std::vector<org::openapitools::server::model::Tag> const& value)
 {
     m_Tags = value;
     m_TagsIsSet = true;

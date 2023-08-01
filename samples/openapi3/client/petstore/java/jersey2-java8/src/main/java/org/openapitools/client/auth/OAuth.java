@@ -110,7 +110,7 @@ public class OAuth implements Authentication {
                 return service.refreshAccessToken(refreshToken);
             }
         } catch (OAuthException | InterruptedException | ExecutionException | IOException e) {
-            log.log(Level.FINE, "Refreshing the access token using the refresh token failed", e);
+            throw new ApiException("Refreshing the access token using the refresh token failed: " + e.toString());
         }
         try {
             switch (flow) {
@@ -164,6 +164,19 @@ public class OAuth implements Authentication {
         } else {
             service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
+                .build(authApi);
+        }
+        return this;
+    }
+
+    public OAuth setCredentialsForPublicClient(String clientId, Boolean debug) {
+        if (Boolean.TRUE.equals(debug)) {
+            service = new ServiceBuilder(clientId)
+                .apiSecretIsEmptyStringUnsafe().debug()
+                .build(authApi);
+        } else {
+            service = new ServiceBuilder(clientId)
+                .apiSecretIsEmptyStringUnsafe()
                 .build(authApi);
         }
         return this;

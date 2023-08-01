@@ -1,7 +1,6 @@
 package org.openapitools.model
 
-import io.swagger.annotations.ApiModel
-import io.swagger.annotations.ApiModelProperty
+import com.fasterxml.jackson.annotation.JsonTypeName
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Specification
 import jakarta.inject.Inject
@@ -11,7 +10,7 @@ import jakarta.inject.Inject
  */
 @MicronautTest
 public class ModelFileSpec extends Specification {
-    private final ModelFile model = new ModelFile()
+    private final ModelFile model = null
 
     /**
      * Model tests for ModelFile
@@ -24,7 +23,7 @@ public class ModelFileSpec extends Specification {
      * Test the property 'sourceURI'
      */
     void 'ModelFile property sourceURI test'() {
-        // TODO: test sourceURI
+        // TODO: test sourceURI property of ModelFile
     }
 
 }

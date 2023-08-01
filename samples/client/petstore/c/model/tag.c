@@ -36,19 +36,19 @@ cJSON *tag_convertToJSON(tag_t *tag) {
     cJSON *item = cJSON_CreateObject();
 
     // tag->id
-    if(tag->id) { 
+    if(tag->id) {
     if(cJSON_AddNumberToObject(item, "id", tag->id) == NULL) {
     goto fail; //Numeric
     }
-     } 
+    }
 
 
     // tag->name
-    if(tag->name) { 
+    if(tag->name) {
     if(cJSON_AddStringToObject(item, "name", tag->name) == NULL) {
     goto fail; //String
     }
-     } 
+    }
 
     return item;
 fail:
@@ -74,7 +74,7 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
     // tag->name
     cJSON *name = cJSON_GetObjectItemCaseSensitive(tagJSON, "name");
     if (name) { 
-    if(!cJSON_IsString(name))
+    if(!cJSON_IsString(name) && !cJSON_IsNull(name))
     {
     goto end; //String
     }
@@ -83,7 +83,7 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
 
     tag_local_var = tag_create (
         id ? id->valuedouble : 0,
-        name ? strdup(name->valuestring) : NULL
+        name && !cJSON_IsNull(name) ? strdup(name->valuestring) : NULL
         );
 
     return tag_local_var;

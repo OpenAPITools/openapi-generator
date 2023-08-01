@@ -19,7 +19,7 @@
     "mocha": "^8.2.1",
     "typescript": "^4.1.2"
   },
-  "name": "typescript-fetch-test",
+  "name": "typescript-axios-test",
   "version": "1.0.0",
   "directories": {
     "test": "test"

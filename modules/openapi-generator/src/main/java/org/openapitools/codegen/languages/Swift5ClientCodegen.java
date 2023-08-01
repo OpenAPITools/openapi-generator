@@ -22,10 +22,14 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.text.WordUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,13 +37,12 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.time.OffsetDateTime;
 import java.time.Instant;
 import java.time.temporal.ChronoField;
 import java.util.concurrent.TimeUnit;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -58,7 +61,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String POD_SCREENSHOTS = "podScreenshots";
     public static final String POD_DOCUMENTATION_URL = "podDocumentationURL";
     public static final String READONLY_PROPERTIES = "readonlyProperties";
-    public static final String REMOVE_MIGRATION_PROJECT_NAME_CLASS = "removeMigrationProjectNameClass";
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
     public static final String DEFAULT_POD_AUTHORS = "OpenAPI Generator";
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
@@ -68,7 +70,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String USE_BACKTICK_ESCAPES = "useBacktickEscapes";
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
     public static final String HASHABLE_MODELS = "hashableModels";
+    public static final String USE_JSON_ENCODABLE = "useJsonEncodable";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
+    public static final String USE_CUSTOM_DATE_WITHOUT_TIME = "useCustomDateWithoutTime";
+    public static final String VALIDATABLE = "validatable";
     protected static final String LIBRARY_ALAMOFIRE = "alamofire";
     protected static final String LIBRARY_URLSESSION = "urlsession";
     protected static final String LIBRARY_VAPOR = "vapor";
@@ -83,7 +88,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean objcCompatible = false;
     protected boolean lenientTypeCast = false;
     protected boolean readonlyProperties = false;
-    protected boolean removeMigrationProjectNameClass = false;
     protected boolean swiftUseApiNamespace = false;
     protected boolean useSPMFileStructure = false;
     protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
@@ -91,7 +95,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean useBacktickEscapes = false;
     protected boolean generateModelAdditionalProperties = true;
     protected boolean hashableModels = true;
+    protected boolean useJsonEncodable = true;
     protected boolean mapFileBinaryToData = false;
+    protected boolean useCustomDateWithoutTime = false;
+    protected boolean validatable = true;
     protected String[] responseAs = new String[0];
     protected String sourceFolder = swiftPackagePath;
     protected HashSet objcReservedWords;
@@ -130,12 +137,14 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                         "String",
                         "Data",
                         "Date",
+                        "OpenAPIDateWithoutTime",
                         "Character",
                         "UUID",
                         "URL",
                         "AnyObject",
                         "Any",
-                        "Decimal")
+                        "Decimal",
+                        "AnyCodable") // from AnyCodable dependency
         );
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
@@ -217,7 +226,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("array", "Array");
         typeMapping.put("map", "Dictionary");
         typeMapping.put("set", "Set");
-        typeMapping.put("date", "Date");
         typeMapping.put("Date", "Date");
         typeMapping.put("DateTime", "Date");
         typeMapping.put("boolean", "Bool");
@@ -266,8 +274,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 "Documentation URL used for Podspec"));
         cliOptions.add(new CliOption(READONLY_PROPERTIES, "Make properties "
                 + "readonly (default: false)"));
-        cliOptions.add(new CliOption(REMOVE_MIGRATION_PROJECT_NAME_CLASS, "Make properties "
-                + "removeMigrationProjectNameClass (default: false)"));
         cliOptions.add(new CliOption(SWIFT_USE_API_NAMESPACE,
                 "Flag to make all the API classes inner-class "
                         + "of {{projectName}}API"));
@@ -294,12 +300,24 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(HASHABLE_MODELS,
-            "Make hashable models (default: true)")
-            .defaultValue(Boolean.TRUE.toString()));
+                "Make hashable models (default: true)")
+                .defaultValue(Boolean.TRUE.toString()));
+
+        cliOptions.add(new CliOption(USE_JSON_ENCODABLE,
+                "Make models conform to JSONEncodable protocol (default: true)")
+                .defaultValue(Boolean.TRUE.toString()));
 
         cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_DATA,
-            "[WARNING] This option will be removed and enabled by default in the future once we've enhanced the code to work with `Data` in all the different situations. Map File and Binary to Data (default: false)")
-            .defaultValue(Boolean.FALSE.toString()));
+                "[WARNING] This option will be removed and enabled by default in the future once we've enhanced the code to work with `Data` in all the different situations. Map File and Binary to Data (default: false)")
+                .defaultValue(Boolean.FALSE.toString()));
+
+        cliOptions.add(new CliOption(USE_CUSTOM_DATE_WITHOUT_TIME,
+                "Uses a custom type to decode and encode dates without time information to support OpenAPIs date format (default: false)")
+                .defaultValue(Boolean.FALSE.toString()));
+
+        cliOptions.add(new CliOption(VALIDATABLE,
+                "Make validation rules and validator for model properies (default: true)")
+                .defaultValue(Boolean.TRUE.toString()));
 
         supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");
         supportedLibraries.put(LIBRARY_ALAMOFIRE, "HTTP client: Alamofire");
@@ -371,7 +389,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel,
                                                        Schema schema) {
 
-        final Schema additionalProperties = getAdditionalProperties(schema);
+        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
 
         if (additionalProperties != null) {
             Schema inner = null;
@@ -379,7 +397,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 ArraySchema ap = (ArraySchema) schema;
                 inner = ap.getItems();
             } else if (ModelUtils.isMapSchema(schema)) {
-                inner = getAdditionalProperties(schema);
+                inner = ModelUtils.getAdditionalProperties(schema);
             }
 
             codegenModel.additionalPropertiesType = inner != null ? getTypeDeclaration(inner) : getSchemaType(additionalProperties);
@@ -455,12 +473,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         additionalProperties.put(READONLY_PROPERTIES, readonlyProperties);
 
-        // Setup removeMigrationProjectNameClass option, which keeps or remove the projectName class
-        if (additionalProperties.containsKey(REMOVE_MIGRATION_PROJECT_NAME_CLASS)) {
-            setRemoveMigrationProjectNameClass(convertPropertyToBooleanAndWriteBack(REMOVE_MIGRATION_PROJECT_NAME_CLASS));
-        }
-        additionalProperties.put(REMOVE_MIGRATION_PROJECT_NAME_CLASS, removeMigrationProjectNameClass);
-
         // Setup swiftUseApiNamespace option, which makes all the API
         // classes inner-class of {{projectName}}API
         if (additionalProperties.containsKey(SWIFT_USE_API_NAMESPACE)) {
@@ -476,8 +488,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             sourceFolder = "Sources" + File.separator + projectName;
         }
 
-        if (additionalProperties.containsKey(SWIFT_PACKAGE_PATH) && ((String)additionalProperties.get(SWIFT_PACKAGE_PATH)).length() > 0) {
-            setSwiftPackagePath((String)additionalProperties.get(SWIFT_PACKAGE_PATH));
+        if (additionalProperties.containsKey(SWIFT_PACKAGE_PATH) && ((String) additionalProperties.get(SWIFT_PACKAGE_PATH)).length() > 0) {
+            setSwiftPackagePath((String) additionalProperties.get(SWIFT_PACKAGE_PATH));
             sourceFolder = swiftPackagePath;
         }
 
@@ -495,6 +507,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         additionalProperties.put(HASHABLE_MODELS, hashableModels);
 
+        if (additionalProperties.containsKey(USE_JSON_ENCODABLE)) {
+            setUseJsonEncodable(convertPropertyToBooleanAndWriteBack(USE_JSON_ENCODABLE));
+        }
+        additionalProperties.put(USE_JSON_ENCODABLE, useJsonEncodable);
+
         if (additionalProperties.containsKey(MAP_FILE_BINARY_TO_DATA)) {
             setMapFileBinaryToData(convertPropertyToBooleanAndWriteBack(MAP_FILE_BINARY_TO_DATA));
         }
@@ -504,10 +521,25 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             typeMapping.put("binary", "Data");
         }
 
+        if (additionalProperties.containsKey(USE_CUSTOM_DATE_WITHOUT_TIME)) {
+            setUseCustomDateWithoutTime(convertPropertyToBooleanAndWriteBack(USE_CUSTOM_DATE_WITHOUT_TIME));
+        }
+        additionalProperties.put(USE_CUSTOM_DATE_WITHOUT_TIME, useCustomDateWithoutTime);
+        if (useCustomDateWithoutTime) {
+            typeMapping.put("date", "OpenAPIDateWithoutTime");
+        } else {
+            typeMapping.put("date", "Date");
+        }
+
         if (additionalProperties.containsKey(USE_CLASSES)) {
             setUseClasses(convertPropertyToBooleanAndWriteBack(USE_CLASSES));
         }
         additionalProperties.put(USE_CLASSES, useClasses);
+
+        if (additionalProperties.containsKey(VALIDATABLE)) {
+            setValidatable(convertPropertyToBooleanAndWriteBack(VALIDATABLE));
+        }
+        additionalProperties.put(VALIDATABLE, validatable);
 
         setLenientTypeCast(convertPropertyToBooleanAndWriteBack(LENIENT_TYPE_CAST));
 
@@ -525,9 +557,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             supportingFiles.add(new SupportingFile("CodableHelper.mustache",
                     sourceFolder,
                     "CodableHelper.swift"));
-            supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
-                    sourceFolder,
-                    "OpenISO8601DateFormatter.swift"));
             supportingFiles.add(new SupportingFile("JSONDataEncoding.mustache",
                     sourceFolder,
                     "JSONDataEncoding.swift"));
@@ -559,15 +588,31 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("Extensions.mustache",
                 sourceFolder,
                 "Extensions.swift"));
+        supportingFiles.add(new SupportingFile("OpenISO8601DateFormatter.mustache",
+                sourceFolder,
+                "OpenISO8601DateFormatter.swift"));
+        if (useCustomDateWithoutTime) {
+            supportingFiles.add(new SupportingFile("OpenAPIDateWithoutTime.mustache",
+                    sourceFolder,
+                    "OpenAPIDateWithoutTime.swift"));
+        }
         supportingFiles.add(new SupportingFile("APIs.mustache",
                 sourceFolder,
                 "APIs.swift"));
+        if (validatable) {
+            supportingFiles.add(new SupportingFile("Validation.mustache",
+                    sourceFolder,
+                    "Validation.swift"));
+        }
         supportingFiles.add(new SupportingFile("gitignore.mustache",
                 "",
                 ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache",
                 "",
                 "README.md"));
+        supportingFiles.add(new SupportingFile("swiftformat.mustache",
+                "",
+                ".swiftformat"));
 
         switch (getLibrary()) {
             case LIBRARY_ALAMOFIRE:
@@ -597,6 +642,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setMapFileBinaryToData(boolean mapFileBinaryToData) {
         this.mapFileBinaryToData = mapFileBinaryToData;
+    }
+
+    public void setUseCustomDateWithoutTime(boolean useCustomDateWithoutTime) {
+        this.useCustomDateWithoutTime = useCustomDateWithoutTime;
     }
 
     @Override
@@ -631,7 +680,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             Schema inner = ap.getItems();
             return ModelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">" : "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "[String: " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -673,11 +722,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         // FIXME parameter should not be assigned. Also declare it as "final"
         name = sanitizeName(name);
 
-        if (!StringUtils.isEmpty(modelNameSuffix)) { // set model suffix
+        if (!StringUtils.isEmpty(modelNameSuffix) && !isLanguageSpecificType(name)) { // set model suffix
             name = name + "_" + modelNameSuffix;
         }
 
-        if (!StringUtils.isEmpty(modelNamePrefix)) { // set model prefix
+        if (!StringUtils.isEmpty(modelNamePrefix) && !isLanguageSpecificType(name)) { // set model prefix
             name = modelNamePrefix + "_" + name;
         }
 
@@ -747,7 +796,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            return getSchemaType(getAdditionalProperties(p));
+            return getSchemaType(ModelUtils.getAdditionalProperties(p));
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
@@ -786,7 +835,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toOperationId(String operationId) {
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), LOWERCASE_FIRST_LETTER);
 
         // Throw exception if method name is empty.
         // This should not happen but keep the check just in case
@@ -796,15 +845,15 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize(("call_" + operationId), true);
+            String newOperationId = camelize(("call_" + operationId), LOWERCASE_FIRST_LETTER);
             LOGGER.warn("{} (reserved word) cannot be used as method name. Renamed to {}", operationId, newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), true));
-            operationId = camelize(sanitizeName("call_" + operationId), true);
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER));
+            operationId = camelize(sanitizeName("call_" + operationId), LOWERCASE_FIRST_LETTER);
         }
 
 
@@ -813,6 +862,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         // sanitize name
         name = sanitizeName(name);
 
@@ -823,7 +877,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // camelize the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved words surround with `` or append _
         if (isReservedWord(name)) {
@@ -840,6 +894,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         // sanitize name
         name = sanitizeName(name);
 
@@ -853,7 +912,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // camelize(lower) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved words surround with ``
         if (isReservedWord(name)) {
@@ -915,10 +974,6 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         this.readonlyProperties = readonlyProperties;
     }
 
-    public void setRemoveMigrationProjectNameClass(boolean removeMigrationProjectNameClass) {
-        this.removeMigrationProjectNameClass = removeMigrationProjectNameClass;
-    }
-
     public void setResponseAs(String[] responseAs) {
         this.responseAs = responseAs;
     }
@@ -951,6 +1006,14 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         this.hashableModels = hashableModels;
     }
 
+    public void setUseJsonEncodable(boolean useJsonEncodable) {
+        this.useJsonEncodable = useJsonEncodable;
+    }
+
+    public void setValidatable(boolean validatable) {
+        this.validatable = validatable;
+    }
+
     @Override
     public String toEnumValue(String value, String datatype) {
         // for string, array of string
@@ -974,7 +1037,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (enumUnknownDefaultCase) {
             if (name.equals(enumUnknownDefaultCaseName)) {
-                return camelize(name, true);
+                return camelize(name, LOWERCASE_FIRST_LETTER);
             }
         }
 
@@ -986,18 +1049,18 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // Prefix with underscore if name starts with number
         if (name.matches("\\d.*")) {
-            return "_" + replaceSpecialCharacters(camelize(name, true));
+            return "_" + replaceSpecialCharacters(camelize(name, LOWERCASE_FIRST_LETTER));
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), true);
+            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), LOWERCASE_FIRST_LETTER);
         }
-        
+
         // Camelize only when we have a structure defined below
-        Boolean camelized = false;
+        boolean camelized = false;
         if (name.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
-            name = camelize(name, true);
+            name = camelize(name, LOWERCASE_FIRST_LETTER);
             camelized = true;
         }
 
@@ -1017,7 +1080,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         char[] separators = {'-', '_', ' ', ':', '(', ')'};
         return camelize(replaceSpecialCharacters(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
                         .replaceAll("[-_ :\\(\\)]", "")),
-                true);
+                LOWERCASE_FIRST_LETTER);
+    }
+
+    private Boolean isLanguageSpecificType(String name) {
+        return languageSpecificPrimitives.contains(name);
     }
 
     private String replaceSpecialCharacters(String name) {
@@ -1084,8 +1151,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        Map<String, Object> postProcessedModelsEnum = postProcessModelsEnum(objs);
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        ModelsMap postProcessedModelsEnum = postProcessModelsEnum(objs);
 
         // We iterate through the list of models, and also iterate through each of the
         // properties for each model. For each property, if:
@@ -1100,10 +1167,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         //
         // CodegenModel.vendorExtensions["x-codegen-has-escaped-property-names"] = true
         //
-        List<Object> models = (List<Object>) postProcessedModelsEnum.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelMap mo : postProcessedModelsEnum.getModels()) {
+            CodegenModel cm = mo.getModel();
             boolean modelHasPropertyWithEscapedName = false;
             for (CodegenProperty prop : cm.allVars) {
                 if (!prop.name.equals(prop.baseName)) {
@@ -1184,17 +1249,16 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap objectMap = objs.getOperations();
 
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-        for (Object o : allModels) {
-            HashMap<String, Object> h = (HashMap<String, Object>) o;
-            CodegenModel m = (CodegenModel) h.get("model");
+        HashMap<String, CodegenModel> modelMaps = new HashMap<>();
+        for (ModelMap modelMap : allModels) {
+            CodegenModel m = modelMap.getModel();
             modelMaps.put(m.classname, m);
         }
 
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+        List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             for (CodegenParameter cp : operation.allParams) {
                 cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps, new HashSet<>()));
@@ -1322,5 +1386,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.SWIFT; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.SWIFT;
+    }
 }

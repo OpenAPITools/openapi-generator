@@ -32,4 +32,18 @@ paths:
                 items:
                   type: string
 
-
+  /api/v3/test:
+    post:
+      tags: [Test v3]
+      operationId: test3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                format: int64
+                type: integer
+      responses:
+        202:
+          description: OK

@@ -2,16 +2,16 @@
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
-[**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
-[**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
-[**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
-[**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
-[**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store |
+| [**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet |
+| [**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status |
+| [**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags |
+| [**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID |
+| [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet |
+| [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data |
+| [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image |
 
 
 <a name="addPet"></a>
@@ -20,11 +20,13 @@ Method | HTTP request | Description
 
 Add a new pet to the store
 
+    
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **Pet** | [**Pet**](../Models/Pet.md)| Pet object that needs to be added to the store |
+|Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **Pet** | [**Pet**](../Models/Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -45,12 +47,14 @@ Name | Type | Description  | Notes
 
 Deletes a pet
 
+    
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Long**| Pet id to delete | [default to null]
- **api\_key** | **String**|  | [optional] [default to null]
+|Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| Pet id to delete | [default to null] |
+| **api\_key** | **String**|  | [optional] [default to null] |
 
 ### Return type
 
@@ -75,9 +79,9 @@ Finds Pets by status
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **status** | [**List**](../Models/String.md)| Status values that need to be considered for filter | [default to null] [enum: available, pending, sold]
+|Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **status** | [**List**](../Models/String.md)| Status values that need to be considered for filter | [default to null] [enum: available, pending, sold] |
 
 ### Return type
 
@@ -102,9 +106,9 @@ Finds Pets by tags
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **tags** | [**List**](../Models/String.md)| Tags to filter by | [default to null]
+|Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **tags** | [**List**](../Models/String.md)| Tags to filter by | [default to null] |
 
 ### Return type
 
@@ -129,9 +133,9 @@ Find pet by ID
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet to return | [default to null]
+|Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| ID of pet to return | [default to null] |
 
 ### Return type
 
@@ -152,11 +156,13 @@ Name | Type | Description  | Notes
 
 Update an existing pet
 
+    
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **Pet** | [**Pet**](../Models/Pet.md)| Pet object that needs to be added to the store |
+|Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **Pet** | [**Pet**](../Models/Pet.md)| Pet object that needs to be added to the store | |
 
 ### Return type
 
@@ -177,13 +183,15 @@ Name | Type | Description  | Notes
 
 Updates a pet in the store with form data
 
+    
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet that needs to be updated | [default to null]
- **name** | **String**| Updated name of the pet | [optional] [default to null]
- **status** | **String**| Updated status of the pet | [optional] [default to null]
+|Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| ID of pet that needs to be updated | [default to null] |
+| **name** | **String**| Updated name of the pet | [optional] [default to null] |
+| **status** | **String**| Updated status of the pet | [optional] [default to null] |
 
 ### Return type
 
@@ -204,13 +212,15 @@ null (empty response body)
 
 uploads an image
 
+    
+
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet to update | [default to null]
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
- **file** | **File**| file to upload | [optional] [default to null]
+|Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| ID of pet to update | [default to null] |
+| **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null] |
+| **file** | **File**| file to upload | [optional] [default to null] |
 
 ### Return type
 

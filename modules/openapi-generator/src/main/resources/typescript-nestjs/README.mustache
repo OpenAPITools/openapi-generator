@@ -16,7 +16,7 @@ In your Nestjs project:
 ```
 // without configuring providers
 import { ApiModule } from '{{npmName}}';
-import { HttpModule } from '@nestjs/common';
+import { HttpModule } from '@nestjs/{{#useAxiosHttpModule}}axios{{/useAxiosHttpModule}}{{^useAxiosHttpModule}}common{{/useAxiosHttpModule}}';
 
 @Module({
     imports: [
@@ -66,7 +66,7 @@ in order to avoid naming conflicts:
 ```
 import { ApiModule } from 'my-api-path';
 import { ApiModule as OtherApiModule } from 'my-other-api-path';
-import { HttpModule } from '@nestjs/common';
+import { HttpModule } from '@nestjs/{{#useAxiosHttpModule}}axios{{/useAxiosHttpModule}}{{^useAxiosHttpModule}}common{{/useAxiosHttpModule}}';
 
 @Module({
   imports: [
@@ -105,6 +105,31 @@ import { BASE_PATH } from '{{npmName}}';
 export class AppModule {}
 ```
 
+### Configuring the module with `forRootAsync`
+
+You can also use the Nestjs Config Module/Service to configure your app with `forRootAsync`.
+
+```
+@Module({
+    imports: [
+      ApiModule.forRootAsync({
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        useFactory: (config: ConfigService): Configuration => {
+          const params: ConfigurationParameters = {
+            // set configuration parameters here.
+            basePath: config.get('API_URL'),
+          };
+          return new Configuration(params);
+        },
+      })
+    ],
+    declarations: [ AppComponent ],
+    providers: [],
+    bootstrap: [ AppComponent ]
+})
+export class AppModule {}
+```
 
 #### Using @nestjs/cli
 First extend your `src/environments/*.ts` files by adding the corresponding base path:

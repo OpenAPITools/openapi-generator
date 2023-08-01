@@ -16,6 +16,50 @@ class FakeApi {
 
   final ApiClient apiClient;
 
+  /// for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+  ///
+  /// Note: This method returns the HTTP [Response].
+  Future<Response> fakeBigDecimalMapWithHttpInfo() async {
+    // ignore: prefer_const_declarations
+    final path = r'/fake/BigDecimalMap';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+  Future<FakeBigDecimalMap200Response?> fakeBigDecimalMap() async {
+    final response = await fakeBigDecimalMapWithHttpInfo();
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'FakeBigDecimalMap200Response',) as FakeBigDecimalMap200Response;
+    
+    }
+    return null;
+  }
+
   /// Health check endpoint
   ///
   /// Note: This method returns the HTTP [Response].
@@ -30,7 +74,6 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>[];
 
 
@@ -42,7 +85,6 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -95,7 +137,6 @@ class FakeApi {
       headerParams[r'header_1'] = parameterToString(header1);
     }
 
-    const authNames = <String>['http_signature_test'];
     const contentTypes = <String>['application/json', 'application/xml'];
 
 
@@ -107,7 +148,6 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -149,7 +189,6 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -161,7 +200,6 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -205,7 +243,6 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -217,7 +254,6 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -261,7 +297,6 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -273,7 +308,6 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -317,7 +351,6 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -329,7 +362,6 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -373,7 +405,6 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -385,7 +416,6 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -429,7 +459,6 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>['image/png'];
 
 
@@ -441,7 +470,6 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -476,7 +504,6 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -488,7 +515,6 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -523,7 +549,6 @@ class FakeApi {
 
       queryParams.addAll(_queryParams('', 'query', query));
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -535,7 +560,6 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -572,7 +596,6 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -584,7 +607,6 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -671,7 +693,6 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>['http_basic_test'];
     const contentTypes = <String>['application/x-www-form-urlencoded'];
 
     if (integer != null) {
@@ -722,7 +743,6 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -806,12 +826,14 @@ class FakeApi {
   /// * [double] enumQueryDouble:
   ///   Query parameter enum test (double)
   ///
+  /// * [List<EnumClass>] enumQueryModelArray:
+  ///
   /// * [List<String>] enumFormStringArray:
   ///   Form parameter enum test (string array)
   ///
   /// * [String] enumFormString:
   ///   Form parameter enum test (string)
-  Future<Response> testEnumParametersWithHttpInfo({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<String>? enumFormStringArray, String? enumFormString, }) async {
+  Future<Response> testEnumParametersWithHttpInfo({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<EnumClass>? enumQueryModelArray, List<String>? enumFormStringArray, String? enumFormString, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake';
 
@@ -834,6 +856,9 @@ class FakeApi {
     if (enumQueryDouble != null) {
       queryParams.addAll(_queryParams('', 'enum_query_double', enumQueryDouble));
     }
+    if (enumQueryModelArray != null) {
+      queryParams.addAll(_queryParams('multi', 'enum_query_model_array', enumQueryModelArray));
+    }
 
     if (enumHeaderStringArray != null) {
       headerParams[r'enum_header_string_array'] = parameterToString(enumHeaderStringArray);
@@ -842,7 +867,6 @@ class FakeApi {
       headerParams[r'enum_header_string'] = parameterToString(enumHeaderString);
     }
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/x-www-form-urlencoded'];
 
     if (enumFormStringArray != null) {
@@ -860,7 +884,6 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -888,13 +911,15 @@ class FakeApi {
   /// * [double] enumQueryDouble:
   ///   Query parameter enum test (double)
   ///
+  /// * [List<EnumClass>] enumQueryModelArray:
+  ///
   /// * [List<String>] enumFormStringArray:
   ///   Form parameter enum test (string array)
   ///
   /// * [String] enumFormString:
   ///   Form parameter enum test (string)
-  Future<void> testEnumParameters({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<String>? enumFormStringArray, String? enumFormString, }) async {
-    final response = await testEnumParametersWithHttpInfo( enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, );
+  Future<void> testEnumParameters({ List<String>? enumHeaderStringArray, String? enumHeaderString, List<String>? enumQueryStringArray, String? enumQueryString, int? enumQueryInteger, double? enumQueryDouble, List<EnumClass>? enumQueryModelArray, List<String>? enumFormStringArray, String? enumFormString, }) async {
+    final response = await testEnumParametersWithHttpInfo( enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumQueryModelArray: enumQueryModelArray, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -950,7 +975,6 @@ class FakeApi {
       headerParams[r'boolean_group'] = parameterToString(booleanGroup);
     }
 
-    const authNames = <String>['bearer_test'];
     const contentTypes = <String>[];
 
 
@@ -962,7 +986,6 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -998,6 +1021,8 @@ class FakeApi {
 
   /// test inline additionalProperties
   ///
+  /// 
+  ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
@@ -1015,7 +1040,6 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -1027,11 +1051,12 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
   /// test inline additionalProperties
+  ///
+  /// 
   ///
   /// Parameters:
   ///
@@ -1045,6 +1070,8 @@ class FakeApi {
   }
 
   /// test json serialization of form data
+  ///
+  /// 
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -1066,7 +1093,6 @@ class FakeApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/x-www-form-urlencoded'];
 
     if (param != null) {
@@ -1084,11 +1110,12 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
   /// test json serialization of form data
+  ///
+  /// 
   ///
   /// Parameters:
   ///
@@ -1144,7 +1171,6 @@ class FakeApi {
     }
       queryParams.addAll(_queryParams('', 'allowEmpty', allowEmpty));
 
-    const authNames = <String>[];
     const contentTypes = <String>[];
 
 
@@ -1156,7 +1182,6 @@ class FakeApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 

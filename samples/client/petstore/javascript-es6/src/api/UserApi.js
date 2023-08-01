@@ -85,6 +85,7 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
+     * 
      * @param {Array.<module:model/User>} user List of user object
      * @param {module:api/UserApi~createUsersWithArrayInputCallback} callback The callback function, accepting three arguments: error, data, response
      */
@@ -125,6 +126,7 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
+     * 
      * @param {Array.<module:model/User>} user List of user object
      * @param {module:api/UserApi~createUsersWithListInputCallback} callback The callback function, accepting three arguments: error, data, response
      */
@@ -207,6 +209,7 @@ export default class UserApi {
 
     /**
      * Get user by user name
+     * 
      * @param {String} username The name that needs to be fetched. Use user1 for testing.
      * @param {module:api/UserApi~getUserByNameCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/User}
@@ -249,6 +252,7 @@ export default class UserApi {
 
     /**
      * Logs user into the system
+     * 
      * @param {String} username The user name for login
      * @param {String} password The password for login in clear text
      * @param {module:api/UserApi~loginUserCallback} callback The callback function, accepting three arguments: error, data, response
@@ -297,6 +301,7 @@ export default class UserApi {
 
     /**
      * Logs out current logged in user session
+     * 
      * @param {module:api/UserApi~logoutUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
     logoutUser(callback) {

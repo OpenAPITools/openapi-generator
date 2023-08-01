@@ -50,13 +50,13 @@
   describe('List', function() {
     it('should create an instance of List', function() {
       // uncomment below and update the code to test List
-      //var instane = new OpenApiPetstore.List();
+      //var instance = new OpenApiPetstore.List();
       //expect(instance).to.be.a(OpenApiPetstore.List);
     });
 
     it('should have the property _123list (base name: "123-list")', function() {
       // uncomment below and update the code to test the property _123list
-      //var instane = new OpenApiPetstore.List();
+      //var instance = new OpenApiPetstore.List();
       //expect(instance).to.be();
     });
 

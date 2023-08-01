@@ -18,9 +18,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.OuterEnum;
+import org.openapitools.client.model.OuterEnumDefaultValue;
+import org.openapitools.client.model.OuterEnumInteger;
+import org.openapitools.client.model.OuterEnumIntegerDefaultValue;
+import org.openapitools.jackson.nullable.JsonNullable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.openapitools.jackson.nullable.JsonNullable;
+import java.util.NoSuchElementException;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -78,6 +83,30 @@ public class EnumTestTest {
     @Test
     public void outerEnumTest() {
         // TODO: test outerEnum
+    }
+
+    /**
+     * Test the property 'outerEnumInteger'
+     */
+    @Test
+    public void outerEnumIntegerTest() {
+        // TODO: test outerEnumInteger
+    }
+
+    /**
+     * Test the property 'outerEnumDefaultValue'
+     */
+    @Test
+    public void outerEnumDefaultValueTest() {
+        // TODO: test outerEnumDefaultValue
+    }
+
+    /**
+     * Test the property 'outerEnumIntegerDefaultValue'
+     */
+    @Test
+    public void outerEnumIntegerDefaultValueTest() {
+        // TODO: test outerEnumIntegerDefaultValue
     }
 
 }

@@ -1,7 +1,5 @@
 package org.openapitools.model
 
-import io.swagger.annotations.ApiModel
-import io.swagger.annotations.ApiModelProperty
 import java.util.HashMap
 import java.util.List
 import java.util.Map
@@ -14,20 +12,20 @@ import jakarta.inject.Inject
  */
 @MicronautTest
 public class AdditionalPropertiesArraySpec extends Specification {
-    private final AdditionalPropertiesArray model = new AdditionalPropertiesArray()
+    private final AdditionalPropertiesArray model = null
 
     /**
      * Model tests for AdditionalPropertiesArray
      */
-    void "AdditionalPropertiesArray test"() {
+    void 'AdditionalPropertiesArray test'() {
         // TODO: test AdditionalPropertiesArray
     }
 
     /**
      * Test the property 'name'
      */
-    void "AdditionalPropertiesArray property name test"() {
-        // TODO: test name
+    void 'AdditionalPropertiesArray property name test'() {
+        // TODO: test name property of AdditionalPropertiesArray
     }
 
 }

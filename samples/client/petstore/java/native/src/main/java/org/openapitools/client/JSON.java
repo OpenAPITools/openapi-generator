@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class JSON {
   private ObjectMapper mapper;
 
@@ -33,6 +33,7 @@ public class JSON {
 
   /**
    * Set the date format for JSON (de)serialization with Date properties.
+   *
    * @param dateFormat Date format
    */
   public void setDateFormat(DateFormat dateFormat) {
@@ -52,6 +53,8 @@ public class JSON {
    *
    * @param node The input data.
    * @param modelClass The class that contains the discriminator mappings.
+   *
+   * @return the target model class.
    */
   public static Class<?> getClassForElement(JsonNode node, Class<?> modelClass) {
     ClassDiscriminatorMapping cdm = modelDiscriminators.get(modelClass);
@@ -111,6 +114,8 @@ public class JSON {
      *
      * @param node The input data.
      * @param visitedClasses The set of classes that have already been visited.
+     *
+     * @return the target model class.
      */
     Class<?> getClassForElement(JsonNode node, Set<Class<?>> visitedClasses) {
       if (visitedClasses.contains(modelClass)) {
@@ -157,6 +162,9 @@ public class JSON {
    *
    * @param modelClass A OpenAPI model class.
    * @param inst The instance object.
+   * @param visitedClasses The set of classes that have already been visited.
+   *
+   * @return true if inst is an instance of modelClass in the OpenAPI model hierarchy.
    */
   public static boolean isInstanceOf(Class<?> modelClass, Object inst, Set<Class<?>> visitedClasses) {
     if (modelClass.isInstance(inst)) {

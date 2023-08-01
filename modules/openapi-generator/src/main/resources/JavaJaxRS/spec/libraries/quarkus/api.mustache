@@ -1,0 +1,105 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import {{javaxPackage}}.ws.rs.*;
+import {{javaxPackage}}.ws.rs.core.Response;
+
+{{#useGzipFeature}}
+import org.jboss.resteasy.annotations.GZIP;
+{{/useGzipFeature}}
+
+{{#useSwaggerAnnotations}}
+import io.swagger.annotations.*;
+{{/useSwaggerAnnotations}}
+
+{{#supportAsync}}
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.CompletableFuture;
+{{/supportAsync}}
+
+import java.io.InputStream;
+import java.util.Map;
+import java.util.List;
+{{#useBeanValidation}}import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;{{/useBeanValidation}}
+
+{{#useMicroProfileOpenAPIAnnotations}}@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(
+   info = @org.eclipse.microprofile.openapi.annotations.info.Info(
+        title = "{{{operationTagName}}}", version="{{{version}}}", description="{{{operationTagDescription}}}"{{#license}},
+        license = @org.eclipse.microprofile.openapi.annotations.info.License(name = "{{{licenseInfo}}}", url = "{{{licenseUrl}}}"){{/license}}{{#contact}},
+        contact = @org.eclipse.microprofile.openapi.annotations.info.Contact(name = "{{{infoName}}}", email = "{{{infoEmail}}}"){{/contact}}
+   ),
+   tags = @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="{{{operationTagName}}}", description="{{{operationTagDescription}}}")
+){{#hasAuthMethods}}
+@org.eclipse.microprofile.openapi.annotations.tags.Tag(name="{{{operationTagName}}}", description="{{{operationTagDescription}}}")
+@org.eclipse.microprofile.openapi.annotations.security.SecuritySchemes(value = {
+    {{#authMethods}}{{#isOAuth}}@org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+         securitySchemeName = "{{name}}",
+         type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.OAUTH2,
+         description = "{{description}}",{{#isImplicit}}
+         flows = @org.eclipse.microprofile.openapi.annotations.security.OAuthFlows(
+            implicit = @org.eclipse.microprofile.openapi.annotations.security.OAuthFlow(authorizationUrl = "{{authorizationUrl}}",
+            tokenUrl = "{{tokenUrl}}",
+            refreshUrl = "{{refreshUrl}}",
+            scopes = {
+                {{#scopes}}@org.eclipse.microprofile.openapi.annotations.security.OAuthScope(name = "{{scope}}", description = "{{description}}"){{^-last}},{{/-last}}
+                {{/scopes}} })) {{/isImplicit}}{{#isCode}}
+         flows = @org.eclipse.microprofile.openapi.annotations.security.OAuthFlows(
+            authorizationCode = @org.eclipse.microprofile.openapi.annotations.security.OAuthFlow(authorizationUrl = "{{authorizationUrl}}",
+            tokenUrl = "{{tokenUrl}}",
+            refreshUrl = "{{refreshUrl}}",
+            scopes = {
+                {{#scopes}}@org.eclipse.microprofile.openapi.annotations.security.OAuthScope(name = "{{scope}}", description = "{{description}}"){{^-last}},{{/-last}}
+                {{/scopes}} })) {{/isCode}}{{#isPassword}}
+         flows = @org.eclipse.microprofile.openapi.annotations.security.OAuthFlows(
+            password = @org.eclipse.microprofile.openapi.annotations.security.OAuthFlow(authorizationUrl = "{{authorizationUrl}}",
+            tokenUrl = "{{tokenUrl}}",
+            refreshUrl = "{{refreshUrl}}",
+            scopes = {
+                {{#scopes}}@org.eclipse.microprofile.openapi.annotations.security.OAuthScope(name = "{{scope}}", description = "{{description}}"){{^-last}},{{/-last}}
+                {{/scopes}} })) {{/isPassword}}{{#isApplication}}
+         flows = @org.eclipse.microprofile.openapi.annotations.security.OAuthFlows(
+            clientCredentials = @org.eclipse.microprofile.openapi.annotations.security.OAuthFlow(authorizationUrl = "{{authorizationUrl}}",
+            tokenUrl = "{{tokenUrl}}",
+            refreshUrl = "{{refreshUrl}}",
+            scopes = {
+                {{#scopes}}@org.eclipse.microprofile.openapi.annotations.security.OAuthScope(name = "{{scope}}", description = "{{description}}"){{^-last}},{{/-last}}
+                {{/scopes}} })){{/isApplication}}
+    ){{^-last}}, {{/-last}}{{/isOAuth}}{{#isApiKey}}@org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+         securitySchemeName = "{{name}}",
+         type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.APIKEY,
+         description = "{{description}}",
+         apiKeyName = "{{keyParamName}}",
+         {{#isKeyInHeader}}in = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn.HEADER{{/isKeyInHeader}}{{#isKeyInQuery}}in = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn.QUERY{{/isKeyInQuery}}{{#isKeyInCookie}}in = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn.COOKIE{{/isKeyInCookie}}
+    ){{^-last}}, {{/-last}}{{/isApiKey}}{{#isBasicBasic}}@org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+         securitySchemeName = "{{name}}",
+         type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.HTTP,
+         description = "{{description}}",
+         scheme = "basic"
+    ){{^-last}}, {{/-last}}{{/isBasicBasic}}{{#isBasicBearer}}@org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+        securitySchemeName = "{{name}}",
+        type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.HTTP,
+        description = "{{description}}",
+        scheme = "bearer", bearerFormat = "{{bearerFormat}}"
+    ){{^-last}}, {{/-last}}{{/isBasicBearer}}{{#isOpenId}}@org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
+        securitySchemeName = "{{name}}",
+        type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.OPENIDCONNECT,
+        description = "{{description}}",
+        openIdConnectUrl = "{{openIdConnectUrl}}"
+    ){{^-last}}, {{/-last}}{{/isOpenId}}{{/authMethods}}
+}){{/hasAuthMethods}}{{/useMicroProfileOpenAPIAnnotations}}{{#useSwaggerAnnotations}}
+@Api(description = "the {{{baseName}}} API"){{/useSwaggerAnnotations}}
+@Path("{{commonPath}}"){{#hasConsumes}}
+@Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
+@Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
+{{>generatedAnnotation}}
+public {{#interfaceOnly}}interface{{/interfaceOnly}}{{^interfaceOnly}}class{{/interfaceOnly}} {{classname}} {
+{{#operations}}
+{{#operation}}
+
+{{#interfaceOnly}}{{>apiInterface}}{{/interfaceOnly}}{{^interfaceOnly}}{{>apiMethod}}{{/interfaceOnly}}
+{{/operation}}
+}
+{{/operations}}

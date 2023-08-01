@@ -177,6 +177,8 @@ class FakeApi extends Controller
 
         $enum_query_double = $input['enum_query_double'];
 
+        $enum_query_model_array = $input['enum_query_model_array'];
+
         $enum_form_string_array = $input['enum_form_string_array'];
 
         $enum_form_string = $input['enum_form_string'];
@@ -223,6 +225,25 @@ class FakeApi extends Controller
 
 
         return response('How about implementing testGroupParameters as a delete method ?');
+    }
+    /**
+     * Operation fakeBigDecimalMap
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function fakeBigDecimalMap()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing fakeBigDecimalMap as a get method ?');
     }
     /**
      * Operation testBodyWithBinary

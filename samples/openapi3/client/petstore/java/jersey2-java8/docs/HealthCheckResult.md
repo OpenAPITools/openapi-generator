@@ -6,9 +6,9 @@ Just a string to inform instance is up and running. Make it nullable in hope to 
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**nullableMessage** | **String** |  |  [optional]
+| Name | Type | Description | Notes |
+|------------ | ------------- | ------------- | -------------|
+|**nullableMessage** | **String** |  |  [optional] |
 
 
 

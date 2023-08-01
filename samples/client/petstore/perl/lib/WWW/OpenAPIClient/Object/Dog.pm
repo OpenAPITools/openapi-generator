@@ -31,7 +31,6 @@ use Date::Parse;
 use DateTime;
 
 use WWW::OpenAPIClient::Object::Animal;
-use WWW::OpenAPIClient::Object::DogAllOf;
 
 use base ("Class::Accessor", "Class::Data::Inheritable", "WWW::OpenAPIClient::Object::Animal");
 
@@ -108,7 +107,24 @@ sub TO_JSON {
     my $_data = {};
     foreach my $_key (keys %{$self->attribute_map}) {
         if (defined $self->{$_key}) {
-            $_data->{$self->attribute_map->{$_key}} = $self->{$_key};
+            my $_json_attribute = $self->attribute_map->{$_key};
+            my $_type = $self->openapi_types->{$_key};
+            my $_value = $self->{$_key};
+            if ($_type =~ /^array\[(.+)\]$/i) { # array
+                my $_subclass = $1;
+                $_data->{$_json_attribute} =  [ map { $self->_to_json_primitives($_subclass, $_) } @$_value ];
+            } elsif ($_type =~ /^hash\[string,(.+)\]$/i) { # hash
+                my $_subclass = $1;
+                my %_hash = ();
+                while (my($_key, $_element) = each %{$_value}) {
+                    $_hash{$_key} = $self->_to_json_primitives($_subclass, $_element);
+                }
+                $_data->{$_json_attribute} = \%_hash;
+            } elsif ( grep( /^$_type$/, ('int', 'double', 'string', 'boolean', 'DATE', 'DATE_TIME'))) {
+                $_data->{$_json_attribute} = $self->_to_json_primitives($_type, $_value);
+            } else {
+                $_data->{$_json_attribute} = $_value;
+            }
         }
     }
 
@@ -116,6 +132,42 @@ sub TO_JSON {
     $_data = { %$_data, %$self->WWW::OpenAPIClient::Object::Animal::TO_JSON };
 
     return $_data;
+}
+
+# to_json non-array data
+sub _to_json_primitives {
+    my ($self, $type, $data) = @_;
+    if ( grep( /^$type$/, ('int', 'double'))) {
+        # https://metacpan.org/pod/JSON#simple-scalars
+        # numify it, ensuring it will be dumped as a number
+        return undef unless defined $data;
+        return $data + 0;
+    } elsif ($type eq 'string') {
+        # https://metacpan.org/pod/JSON#simple-scalars
+        # stringified
+        return undef unless defined $data;
+        return $data . q();
+    } elsif ($type eq 'boolean') {
+        # https://metacpan.org/pod/JSON#JSON::true,-JSON::false,-JSON::null
+        return $data ? \1 : \0;
+    } elsif ($type eq 'DATE') {
+        return undef unless defined $data;
+        if (ref($data) eq 'DateTime') {
+            # https://metacpan.org/pod/DateTime#$dt-%3Eymd($optional_separator),-$dt-%3Emdy(...),-$dt-%3Edmy(...)
+            return $data->ymd;
+        }
+        return $data .q();
+    } elsif ($type eq 'DATE_TIME') {
+        return undef unless defined $data;
+        # the date-time notation as defined by RFC 3339, section 5.6, for example, 2017-07-21T17:32:28Z
+        if (ref($data) eq 'DateTime') {
+            # https://metacpan.org/pod/DateTime#$dt-%3Erfc3339
+            return $data->rfc3339;
+        }
+        return $data .q();
+    } else { # hash (model),  In this case, the TO_JSON of the $data object is executed
+        return $data;
+    }
 }
 
 # from Perl hashref
@@ -157,10 +209,16 @@ sub _deserialize {
     my ($self, $type, $data) = @_;
     $log->debugf("deserializing %s with %s",Dumper($data), $type);
 
-    if ($type eq 'DateTime') {
+    if (grep( /^$type$/ , ('DATE_TIME', 'DATE'))) {
         return DateTime->from_epoch(epoch => str2time($data));
-    } elsif ( grep( /^$type$/, ('int', 'double', 'string', 'boolean'))) {
-        return $data;
+    } elsif ( grep( /^$type$/, ('int', 'double'))) {
+        return undef unless defined $data;
+        return $data + 0;
+    } elsif ($type eq 'string') {
+        return undef unless defined $data;
+        return $data . q();
+    } elsif ($type eq 'boolean') {
+        return !!$data;
     } else { # hash(model)
         my $_instance = eval "WWW::OpenAPIClient::Object::$type->new()";
         return $_instance->from_hash($data);

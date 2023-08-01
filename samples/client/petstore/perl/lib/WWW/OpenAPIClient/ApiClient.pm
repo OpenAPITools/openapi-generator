@@ -122,16 +122,13 @@ sub call_api {
 
     }
     elsif ($method eq 'GET') {
-        my $headers = HTTP::Headers->new(%$header_params);
         $_request = GET($_url, %$header_params);
     }
     elsif ($method eq 'HEAD') {
-        my $headers = HTTP::Headers->new(%$header_params);
         $_request = HEAD($_url,%$header_params);
     }
     elsif ($method eq 'DELETE') { #TODO support form data
-        my $headers = HTTP::Headers->new(%$header_params);
-        $_request = DELETE($_url, %$headers);
+        $_request = DELETE($_url, %$header_params);
     }
     elsif ($method eq 'PATCH') { #TODO
     }
@@ -256,10 +253,18 @@ sub deserialize
             }
         }
         return \@_values;
-    } elsif ($class eq 'DateTime') {
+    } elsif (grep /^$class$/, ('DATE_TIME', 'DATE')) {
         return DateTime->from_epoch(epoch => str2time($data));
-    } elsif (grep /^$class$/, ('string', 'int', 'float', 'bool', 'object')) {
+    } elsif ($class eq 'string') {
+        return undef unless defined $data;
+        return $data . q();
+    } elsif ($class eq 'object') {
         return $data;
+    } elsif (grep /^$class$/, ('int', 'float', 'double')) {
+        return undef unless defined $data;
+        return $data + 0;
+    } elsif ($class eq 'bool') {
+        return !!$data;
     } else { # model
         my $_instance = use_module("WWW::OpenAPIClient::Object::$class")->new;
         if (ref $data eq "HASH") {
@@ -336,6 +341,11 @@ sub update_params_for_auth {
         if (!defined($auth)) {
             # TODO show warning about auth setting not defined
         }
+        elsif ($auth eq 'petstore_auth') {
+            if ($self->{config}{access_token}) {
+                $header_params->{'Authorization'} = 'Bearer ' . $self->{config}{access_token};
+            }
+        }
         elsif ($auth eq 'api_key') {
             my $api_key = $self->get_api_key_with_prefix('api_key');
             if ($api_key) {
@@ -348,23 +358,18 @@ sub update_params_for_auth {
                 $query_params->{'api_key_query'} = $api_key;
             }
         }
+        elsif ($auth eq 'http_basic_test') {
+            if ($self->{config}{username} || $self->{config}{password}) {
+                $header_params->{'Authorization'} = 'Basic ' . encode_base64($self->{config}{username} . ":" . $self->{config}{password});
+            }
+        }
         elsif ($auth eq 'bearer_test') {
             # this endpoint requires Bearer (JWT) authentication (access token)
             if ($self->{config}{access_token}) {
                 $header_params->{'Authorization'} = 'Bearer ' . $self->{config}{access_token};
             }
         }
-        elsif ($auth eq 'http_basic_test') {
-            if ($self->{config}{username} || $self->{config}{password}) {
-                $header_params->{'Authorization'} = 'Basic ' . encode_base64($self->{config}{username} . ":" . $self->{config}{password});
-            }
-        }
         elsif ($auth eq 'http_signature_test') {
-        }
-        elsif ($auth eq 'petstore_auth') {
-            if ($self->{config}{access_token}) {
-                $header_params->{'Authorization'} = 'Bearer ' . $self->{config}{access_token};
-            }
         }
         else {
            # TODO show warning about security definition not found

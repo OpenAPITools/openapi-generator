@@ -1,0 +1,73 @@
+#tag Class
+Protected Class {{classname}}
+{{#parentModel}}Inherits {{{.}}}{{/parentModel}}{{#allVars}}
+	#tag Property, Flags = &h{{^nonPublicApi}}0{{/nonPublicApi}}{{#nonPublicApi}}1{{/nonPublicApi}}
+{{#description}}		#tag Note
+			{{{.}}}
+		#tag EndNote
+{{/description}}
+		{{#deprecated}}Attributes( Deprecated ) {{/deprecated}}{{#nonPublicApi}}Protected {{/nonPublicApi}}{{{name}}}{{#isArray}}(){{/isArray}} As {{#isModel}}{{{projectName}}}.{{{modelPackage}}}.{{/isModel}}{{^required}}{{^isModel}}{{^isContainer}}{{^isDateTime}}{{^isDate}}{{^isAnyType}}{{^isObject}}{{^isFreeFormObject}}Xoson.O.Optional{{/isFreeFormObject}}{{/isObject}}{{/isAnyType}}{{/isDate}}{{/isDateTime}}{{/isContainer}}{{/isModel}}{{/required}}{{^isArray}}{{^isEnumRef}}{{{dataType}}}{{/isEnumRef}}{{#isEnumRef}}{{#allowableValues}}{{#enumVars}}{{#-first}}{{#isString}}String{{/isString}}{{^isString}}Integer{{/isString}}{{/-first}}{{/enumVars}}{{/allowableValues}}{{/isEnumRef}}{{/isArray}}{{#isArray}}{{#items}}{{#isModel}}{{{projectName}}}.{{{modelPackage}}}.{{/isModel}}{{{dataType}}}{{/items}}{{/isArray}}
+	#tag EndProperty
+
+{{/allVars}}
+
+{{#allVars}}{{#isEnum}}{{> modelInlineEnumDeclaration}}
+{{/isEnum}}{{/allVars}}
+{{#allVars}}{{#isEnum}}{{^isInteger}}	#tag {{#nonPublicApi}}Protected {{/nonPublicApi}}Method, Flags = &h{{^nonPublicApi}}0{{/nonPublicApi}}{{#nonPublicApi}}1{{/nonPublicApi}}
+		{{#nonPublicApi}}Protected {{/nonPublicApi}}Shared Function {{enumName}}ToString(value As {{enumName}}) As String
+		  Select Case value
+		    {{#allowableValues}}{{#enumVars}}
+		    Case {{enumName}}.{{{name}}}
+		      Return {{{value}}}{{/enumVars}}{{/allowableValues}}
+		    {{#enumUnknownDefaultCase}}Case {{{enumUnknownDefaultCaseName}}}
+		      Return "{{{enumUnknownDefaultCaseName}}}"{{/enumUnknownDefaultCase}}
+		  End Select
+		  Return ""
+		End Function
+	#tag EndMethod
+{{/isInteger}}{{/isEnum}}{{/allVars}}
+
+	#tag ViewBehavior
+		#tag ViewProperty
+			Name="Index"
+			Visible=true
+			Group="ID"
+			InitialValue="-2147483648"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Super"
+			Visible=true
+			Group="ID"
+			InitialValue=""
+			Type="String"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Left"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Top"
+			Visible=true
+			Group="Position"
+			InitialValue="0"
+			Type="Integer"
+			EditorType=""
+		#tag EndViewProperty{{#allVars}}{{^isEnum}}{{^isByteArray}}
+		#tag ViewProperty
+			Name="{{{name}}}"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="{{{datatype}}}"
+			EditorType="{{#isStringSchema}}MultiLineEditor{{/isStringSchema}}"
+		#tag EndViewProperty{{/isByteArray}}{{/isEnum}}{{/allVars}}
+	#tag EndViewBehavior
+End Class
+#tag EndClass

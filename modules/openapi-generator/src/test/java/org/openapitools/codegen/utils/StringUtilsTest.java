@@ -3,6 +3,8 @@ package org.openapitools.codegen.utils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_CHAR;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class StringUtilsTest {
@@ -21,14 +23,18 @@ public class StringUtilsTest {
         Assert.assertEquals(camelize("some_value"), "SomeValue");
         Assert.assertEquals(camelize("$type"), "$Type");
 
-        Assert.assertEquals(camelize("abcd", true), "abcd");
-        Assert.assertEquals(camelize("some-value", true), "someValue");
-        Assert.assertEquals(camelize("some_value", true), "someValue");
-        Assert.assertEquals(camelize("Abcd", true), "abcd");
-        Assert.assertEquals(camelize("$type", true), "$type");
+        Assert.assertEquals(camelize("abcd", LOWERCASE_FIRST_LETTER), "abcd");
+        Assert.assertEquals(camelize("some-value", LOWERCASE_FIRST_LETTER), "someValue");
+        Assert.assertEquals(camelize("some_value", LOWERCASE_FIRST_LETTER), "someValue");
+        Assert.assertEquals(camelize("Abcd", LOWERCASE_FIRST_LETTER), "abcd");
+        Assert.assertEquals(camelize("$type", LOWERCASE_FIRST_LETTER), "$type");
 
-        Assert.assertEquals(camelize("123", true), "123");
-        Assert.assertEquals(camelize("$123", true), "$123");
+        Assert.assertEquals(camelize("123", LOWERCASE_FIRST_LETTER), "123");
+        Assert.assertEquals(camelize("$123", LOWERCASE_FIRST_LETTER), "$123");
+
+
+        Assert.assertEquals(camelize("some-value", LOWERCASE_FIRST_CHAR), "someValue");
+        Assert.assertEquals(camelize("$type", LOWERCASE_FIRST_CHAR), "$Type");
     }
 
     @Test

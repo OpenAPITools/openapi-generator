@@ -33,6 +33,17 @@ export interface ItemId {
     type: string;
 }
 
+/**
+ * Check if a given object implements the ItemId interface.
+ */
+export function instanceOfItemId(value: object): boolean {
+    let isInstance = true;
+    isInstance = isInstance && "id" in value;
+    isInstance = isInstance && "type" in value;
+
+    return isInstance;
+}
+
 export function ItemIdFromJSON(json: any): ItemId {
     return ItemIdFromJSONTyped(json, false);
 }

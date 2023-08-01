@@ -1,4 +1,6 @@
 generatorName: php-symfony
 outputDir: samples/server/petstore/php-symfony/SymfonyBundle-php
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/php-symfony/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/php-symfony
+gitUserId: openapitools
+gitRepoId: petstore

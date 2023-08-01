@@ -10,6 +10,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.ResponseObjectWithDifferentFieldNames;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
 
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -50,7 +53,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(xmlItem).then(Mono.empty());
 
     }
 
@@ -66,7 +69,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -74,11 +77,11 @@ public interface FakeApiDelegate {
      * POST /fake/outer/composite
      * Test serialization of object with outer number type
      *
-     * @param body Input composite as post body (optional)
+     * @param outerComposite Input composite as post body (optional)
      * @return Output composite (status code 200)
      * @see FakeApi#fakeOuterCompositeSerialize
      */
-    default Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(Mono<OuterComposite> body,
+    default Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(Mono<OuterComposite> outerComposite,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -89,7 +92,7 @@ public interface FakeApiDelegate {
                 break;
             }
         }
-        return result.then(Mono.empty());
+        return result.then(outerComposite).then(Mono.empty());
 
     }
 
@@ -105,7 +108,7 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(body).then(Mono.empty());
 
     }
 
@@ -121,6 +124,28 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return result.then(body).then(Mono.empty());
+
+    }
+
+    /**
+     * GET /fake/{petId}/response-object-different-names
+     *
+     * @param petId ID of pet to update (required)
+     * @return successful operation (status code 200)
+     * @see FakeApi#responseObjectDifferentNames
+     */
+    default Mono<ResponseEntity<ResponseObjectWithDifferentFieldNames>> responseObjectDifferentNames(Long petId,
+        ServerWebExchange exchange) {
+        Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                String exampleString = "{ \"UPPER_CASE_PROPERTY_SNAKE\" : \"UPPER_CASE_PROPERTY_SNAKE\", \"lower-case-property-dashes\" : \"lower-case-property-dashes\", \"property name with spaces\" : \"property name with spaces\", \"normalPropertyName\" : \"normalPropertyName\" }";
+                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
+                break;
+            }
+        }
         return result.then(Mono.empty());
 
     }
@@ -129,15 +154,15 @@ public interface FakeApiDelegate {
      * PUT /fake/body-with-file-schema
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *
-     * @param body  (required)
+     * @param fileSchemaTestClass  (required)
      * @return Success (status code 200)
      * @see FakeApi#testBodyWithFileSchema
      */
-    default Mono<ResponseEntity<Void>> testBodyWithFileSchema(Mono<FileSchemaTestClass> body,
+    default Mono<ResponseEntity<Void>> testBodyWithFileSchema(Mono<FileSchemaTestClass> fileSchemaTestClass,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(fileSchemaTestClass).then(Mono.empty());
 
     }
 
@@ -145,16 +170,16 @@ public interface FakeApiDelegate {
      * PUT /fake/body-with-query-params
      *
      * @param query  (required)
-     * @param body  (required)
+     * @param user  (required)
      * @return Success (status code 200)
      * @see FakeApi#testBodyWithQueryParams
      */
     default Mono<ResponseEntity<Void>> testBodyWithQueryParams(String query,
-        Mono<User> body,
+        Mono<User> user,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(user).then(Mono.empty());
 
     }
 
@@ -162,11 +187,11 @@ public interface FakeApiDelegate {
      * PATCH /fake : To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
      *
-     * @param body client model (required)
+     * @param client client model (required)
      * @return successful operation (status code 200)
      * @see FakeApi#testClientModel
      */
-    default Mono<ResponseEntity<Client>> testClientModel(Mono<Client> body,
+    default Mono<ResponseEntity<Client>> testClientModel(Mono<Client> client,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -177,7 +202,7 @@ public interface FakeApiDelegate {
                 break;
             }
         }
-        return result.then(Mono.empty());
+        return result.then(client).then(Mono.empty());
 
     }
 
@@ -265,7 +290,7 @@ public interface FakeApiDelegate {
      * @param stringGroup String in group parameters (optional)
      * @param booleanGroup Boolean in group parameters (optional)
      * @param int64Group Integer in group parameters (optional)
-     * @return Someting wrong (status code 400)
+     * @return Something wrong (status code 400)
      * @see FakeApi#testGroupParameters
      */
     default Mono<ResponseEntity<Void>> testGroupParameters(Integer requiredStringGroup,
@@ -283,21 +308,23 @@ public interface FakeApiDelegate {
 
     /**
      * POST /fake/inline-additionalProperties : test inline additionalProperties
+     * 
      *
-     * @param param request body (required)
+     * @param requestBody request body (required)
      * @return successful operation (status code 200)
      * @see FakeApi#testInlineAdditionalProperties
      */
-    default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(Mono<Map<String, String>> param,
+    default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(Mono<Map<String, String>> requestBody,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        return result.then(Mono.empty());
+        return result.then(requestBody).then(Mono.empty());
 
     }
 
     /**
      * GET /fake/jsonFormData : test json serialization of form data
+     * 
      *
      * @param param field1 (required)
      * @param param2 field2 (required)
@@ -318,7 +345,6 @@ public interface FakeApiDelegate {
      * To test the collection format in query parameters
      *
      * @param pipe  (required)
-     * @param ioutil  (required)
      * @param http  (required)
      * @param url  (required)
      * @param context  (required)
@@ -326,7 +352,6 @@ public interface FakeApiDelegate {
      * @see FakeApi#testQueryParameterCollectionFormat
      */
     default Mono<ResponseEntity<Void>> testQueryParameterCollectionFormat(List<String> pipe,
-        List<String> ioutil,
         List<String> http,
         List<String> url,
         List<String> context,
@@ -339,6 +364,7 @@ public interface FakeApiDelegate {
 
     /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
+     * 
      *
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)

@@ -16,8 +16,8 @@ apiClient_t *apiClient_create() {
     apiClient->progress_func = NULL;
     apiClient->progress_data = NULL;
     apiClient->response_code = 0;
-    apiClient->apiKeys_api_key = NULL;
     apiClient->accessToken = NULL;
+    apiClient->apiKeys_api_key = NULL;
 
     return apiClient;
 }
@@ -45,6 +45,7 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     apiClient->progress_func = NULL;
     apiClient->progress_data = NULL;
     apiClient->response_code = 0;
+    apiClient->accessToken = NULL;
     if(apiKeys_api_key!= NULL) {
         apiClient->apiKeys_api_key = list_createList();
         listEntry_t *listEntry = NULL;
@@ -56,7 +57,6 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
     }else{
         apiClient->apiKeys_api_key = NULL;
     }
-    apiClient->accessToken = NULL;
 
     return apiClient;
 }
@@ -68,6 +68,9 @@ void apiClient_free(apiClient_t *apiClient) {
     apiClient->data_callback_func = NULL;
     apiClient->progress_func = NULL;
     apiClient->progress_data = NULL;
+    if(apiClient->accessToken) {
+        free(apiClient->accessToken);
+    }
     if(apiClient->apiKeys_api_key) {
         listEntry_t *listEntry = NULL;
         list_ForEach(listEntry, apiClient->apiKeys_api_key) {
@@ -81,9 +84,6 @@ void apiClient_free(apiClient_t *apiClient) {
             keyValuePair_free(pair);
         }
         list_freeList(apiClient->apiKeys_api_key);
-    }
-    if(apiClient->accessToken) {
-        free(apiClient->accessToken);
     }
     free(apiClient);
 }
@@ -124,8 +124,8 @@ void replaceSpaceWithPlus(char *stringToProcess) {
     }
 }
 
-char *assembleTargetUrl(char    *basePath,
-                        char    *operationParameter,
+char *assembleTargetUrl(const char  *basePath,
+                        const char  *operationParameter,
                         list_t    *queryParameters) {
     int neededBufferSizeForQueryParameters = 0;
     listEntry_t *listEntry;
@@ -187,7 +187,7 @@ char *assembleHeaderField(char *key, char *value) {
     return header;
 }
 
-void postData(CURL *handle, char *bodyParameters) {
+void postData(CURL *handle, const char *bodyParameters) {
     curl_easy_setopt(handle, CURLOPT_POSTFIELDS, bodyParameters);
     curl_easy_setopt(handle, CURLOPT_POSTFIELDSIZE_LARGE,
                      strlen(bodyParameters));
@@ -206,14 +206,14 @@ int lengthOfKeyPair(keyValuePair_t *keyPair) {
 
 
 void apiClient_invoke(apiClient_t    *apiClient,
-                      char        *operationParameter,
+                      const char    *operationParameter,
                       list_t        *queryParameters,
                       list_t        *headerParameters,
                       list_t        *formParameters,
                       list_t        *headerType,
                       list_t        *contentType,
-                      char        *bodyParameters,
-                      char        *requestType) {
+                      const char    *bodyParameters,
+                      const char    *requestType) {
     CURL *handle = curl_easy_init();
     CURLcode res;
 
@@ -447,7 +447,7 @@ void apiClient_invoke(apiClient_t    *apiClient,
 
         res = curl_easy_perform(handle);
 
-        curl_slist_freeList_all(headers);
+        curl_slist_free_all(headers);
 
         free(targetUrl);
 

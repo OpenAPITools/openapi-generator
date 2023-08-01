@@ -1,5 +1,4 @@
 {{>partial_header}}
-
 #' ApiClient Class
 #'
 #' Generic API client for OpenAPI client library builds.
@@ -16,52 +15,109 @@
 #' @title ApiClient
 #' @description ApiClient Class
 #' @format An \code{R6Class} generator object
-#' @field basePath Base url
-#' @field userAgent Default user agent
-#' @field defaultHeaders
+#' @field base_path Base url
+#' @field user_agent Default user agent
+#' @field default_headers Default headers
 #' @field username Username for HTTP basic authentication
 #' @field password Password for HTTP basic authentication
-#' @field apiKeys
-#' @field accessToken
+#' @field api_keys API keys
+{{#hasOAuthMethods}}
+#' @field access_token Access token
+#' @field oauth_client_id OAuth client ID
+#' @field oauth_secret OAuth secret
+#' @field oauth_refresh_token OAuth refresh token
+{{#authMethods}}
+{{#isOAuth}}
+#' @field oauth_flow_type OAuth flow type
+#' @field oauth_authorization_url Authoriziation URL
+#' @field oauth_token_url Token URL
+#' @field oauth_pkce Boolean flag to enable PKCE
+{{/isOAuth}}
+{{/authMethods}}
+{{/hasOAuthMethods}}
+#' @field bearer_token Bearer token
 #' @field timeout Default timeout in seconds
-#' @field retryStatusCodes vector of status codes to retry
-#' @field maxRetryAttempts maximum number of retries for the status codes
+#' @field retry_status_codes vector of status codes to retry
+#' @field max_retry_attempts maximum number of retries for the status codes
 #' @importFrom httr add_headers accept timeout content
 {{#useRlangExceptionHandling}}
 #' @importFrom rlang abort
 {{/useRlangExceptionHandling}}
 #' @export
-ApiClient  <- R6::R6Class(
-  'ApiClient',
+ApiClient <- R6::R6Class(
+  "ApiClient",
   public = list(
     # base path of all requests
-    basePath = "{{{basePath}}}",
+    base_path = "{{{basePath}}}",
     # user agent in the HTTP request
-    userAgent = "{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/r{{/httpUserAgent}}",
+    user_agent = "{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/r{{/httpUserAgent}}",
     # default headers in the HTTP request
-    defaultHeaders = NULL,
+    default_headers = NULL,
     # username (HTTP basic authentication)
     username = NULL,
     # password (HTTP basic authentication)
     password = NULL,
     # API keys
-    apiKeys = NULL,
+    api_keys = NULL,
+    {{#hasOAuthMethods}}
     # Access token
-    accessToken = NULL,
+    access_token = NULL,
+    # OAuth2 client ID
+    oauth_client_id = NULL,
+    # OAuth2 secret
+    oauth_secret = NULL,
+    # OAuth2 refresh token
+    oauth_refresh_token = NULL,
+    # OAuth2
+    {{#authMethods}}
+    {{#isOAuth}}
+    # Flow type
+    oauth_flow_type = "{{flow}}",
+    # Authoriziation URL
+    oauth_authorization_url = "{{authorizationUrl}}",
+    # Token URL
+    oauth_token_url = "{{tokenUrl}}",
+    # Enable PKCE?
+    oauth_pkce = TRUE,
+    {{/isOAuth}}
+    {{/authMethods}}
+    {{/hasOAuthMethods}}
+    # Bearer token
+    bearer_token = NULL,
     # Time Out (seconds)
     timeout = NULL,
     # Vector of status codes to retry
-    retryStatusCodes=NULL,
+    retry_status_codes = NULL,
     # Maximum number of retry attempts for the retry status codes
-    maxRetryAttempts = NULL,
-    # constructor
-    initialize = function(basePath=NULL, userAgent=NULL, defaultHeaders=NULL, username=NULL, password=NULL, apiKeys=NULL, accessToken=NULL, timeout=NULL,  retryStatusCodes=NULL, maxRetryAttempts=NULL){
-      if (!is.null(basePath)) {
-        self$basePath <- basePath
+    max_retry_attempts = NULL,
+    #' Initialize a new ApiClient.
+    #'
+    #' @description
+    #' Initialize a new ApiClient.
+    #'
+    #' @param base_path Base path.
+    #' @param user_agent User agent.
+    #' @param default_headers Default headers.
+    #' @param username User name.
+    #' @param password Password.
+    #' @param api_keys API keys.
+    #' @param access_token Access token.
+    #' @param bearer_token Bearer token.
+    #' @param timeout Timeout.
+    #' @param retry_status_codes Status codes for retry.
+    #' @param max_retry_attempts Maxmium number of retry.
+    #' @export
+    initialize = function(base_path = NULL, user_agent = NULL,
+                          default_headers = NULL,
+                          username = NULL, password = NULL, api_keys = NULL,
+                          access_token = NULL, bearer_token = NULL, timeout = NULL,
+                          retry_status_codes = NULL, max_retry_attempts = NULL) {
+      if (!is.null(base_path)) {
+        self$base_path <- base_path
       }
 
-      if (!is.null(defaultHeaders)) {
-        self$defaultHeaders <- defaultHeaders
+      if (!is.null(default_headers)) {
+        self$default_headers <- default_headers
       }
 
       if (!is.null(username)) {
@@ -72,150 +128,312 @@ ApiClient  <- R6::R6Class(
         self$password <- password
       }
 
-      if (!is.null(accessToken)) {
-        self$accessToken <- accessToken
+      if (!is.null(access_token)) {
+        self$access_token <- access_token
       }
 
-      if (!is.null(apiKeys)) {
-        self$apiKeys <- apiKeys
+      if (!is.null(bearer_token)) {
+        self$bearer_token <- bearer_token
+      }
+
+      if (!is.null(api_keys)) {
+        self$api_keys <- api_keys
       } else {
-        self$apiKeys <- list()
+        self$api_keys <- list()
       }
 
-      if (!is.null(userAgent)) {
-        self$`userAgent` <- userAgent
+      if (!is.null(user_agent)) {
+        self$`user_agent` <- user_agent
       }
 
       if (!is.null(timeout)) {
         self$timeout <- timeout
       }
 
-      if (!is.null(retryStatusCodes)) {
-        self$retryStatusCodes <- retryStatusCodes
+      if (!is.null(retry_status_codes)) {
+        self$retry_status_codes <- retry_status_codes
       }
 
-      if (!is.null(maxRetryAttempts)) {
-        self$maxRetryAttempts <- maxRetryAttempts
+      if (!is.null(max_retry_attempts)) {
+        self$max_retry_attempts <- max_retry_attempts
       }
     },
+    #' Prepare to make an API call with the retry logic.
+    #'
+    #' @description
+    #' Prepare to make an API call with the retry logic.
+    #'
+    #' @param url URL.
+    #' @param method HTTP method.
+    #' @param query_params The query parameters.
+    #' @param header_params The header parameters.
+    #' @param form_params The form parameters.
+    #' @param file_params The form parameters for uploading files.
+    #' @param accepts The list of Accept headers.
+    #' @param content_types The list of Content-Type headers.
+    #' @param body The HTTP request body.
+    #' @param stream_callback Callback function to process the data stream
+    #' @param ... Other optional arguments.
+    #' @return HTTP response
+    #' @export
+    CallApi = function(url, method, query_params, header_params, form_params,
+                       file_params, accepts, content_types,
+                       body, stream_callback = NULL, ...) {
 
-    CallApi = function(url, method, queryParams, headerParams, body, ...){
+      resp <- self$Execute(url, method, query_params, header_params,
+                           form_params, file_params,
+                           accepts, content_types,
+                           body, stream_callback = stream_callback, ...)
 
-      resp <- self$Execute(url, method, queryParams, headerParams, body, ...)
-      statusCode <- httr::status_code(resp)
-
-      if (is.null(self$maxRetryAttempts)) {
-        self$maxRetryAttempts = 3
+      if (is.null(self$max_retry_attempts)) {
+        self$max_retry_attempts <- 3
       }
 
-      if (!is.null(self$retryStatusCodes)) {
+      if (!is.null(self$retry_status_codes)) {
 
-        for (i in 1 : self$maxRetryAttempts) {
-          if (statusCode %in% self$retryStatusCodes) {
+        for (i in 1 : self$max_retry_attempts) {
+          if (resp$status_code %in% self$retry_status_codes) {
             Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
-            resp <- self$Execute(url, method, queryParams, headerParams, body, ...)
-            statusCode <- httr::status_code(resp)
+            resp <- self$Execute(url, method, query_params, header_params,
+                                 form_params, file_params, accepts, content_types,
+                                 body, stream_callback = stream_callback, ...)
           } else {
-            break;
+            break
           }
         }
       }
 
       resp
     },
-
-    Execute = function(url, method, queryParams, headerParams, body, ...){
-      headers <- httr::add_headers(c(headerParams, self$defaultHeaders))
+    #' Make an API call
+    #'
+    #' @description
+    #' Make an API call
+    #'
+    #' @param url URL.
+    #' @param method HTTP method.
+    #' @param query_params The query parameters.
+    #' @param header_params The header parameters.
+    #' @param form_params The form parameters.
+    #' @param file_params The form parameters for uploading files.
+    #' @param accepts The list of Accept headers
+    #' @param content_types The list of Content-Type headers
+    #' @param body The HTTP request body.
+    #' @param stream_callback Callback function to process data stream
+    #' @param ... Other optional arguments.
+    #' @return HTTP response
+    #' @export
+    Execute = function(url, method, query_params, header_params,
+                       form_params, file_params,
+                       accepts, content_types,
+                       body, stream_callback = NULL, ...) {
+      headers <- httr::add_headers(c(header_params, self$default_headers))
 
       {{! Adding timeout that can be set at the apiClient object level}}
-      httpTimeout <- NULL
+      http_timeout <- NULL
       if (!is.null(self$timeout)) {
-        httpTimeout <- httr::timeout(self$timeout)
+        http_timeout <- httr::timeout(self$timeout)
       }
 
-      if (method == "GET") {
-        httr::GET(url, query = queryParams, headers, httpTimeout, httr::user_agent(self$`userAgent`), ...)
-      } else if (method == "POST") {
-        httr::POST(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httpTimeout, httr::user_agent(self$`userAgent`), ...)
-      } else if (method == "PUT") {
-        httr::PUT(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httpTimeout, httpTimeout, httr::user_agent(self$`userAgent`), ...)
-      } else if (method == "PATCH") {
-        httr::PATCH(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httpTimeout, httpTimeout, httr::user_agent(self$`userAgent`), ...)
-      } else if (method == "HEAD") {
-        httr::HEAD(url, query = queryParams, headers, httpTimeout, httpTimeout, httr::user_agent(self$`userAgent`), ...)
-      } else if (method == "DELETE") {
-        httr::DELETE(url, query = queryParams, headers, httpTimeout, httpTimeout, httr::user_agent(self$`userAgent`), ...)
-      } else {
-        errMsg <- "Http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`."
-        {{#useDefaultExceptionHandling}}
-        stop(errMsg)
-        {{/useDefaultExceptionHandling}}
-        {{#useRlangExceptionHandling}}
-        rlang::abort(message = errMsg, .subclass = "ApiException", ApiException = ApiException$new(status = 0, reason = errMsg))
-        {{/useRlangExceptionHandling}}
+      # set HTTP accept header
+      accept = self$select_header(accepts)
+      if (!is.null(accept)) {
+        headers['Accept'] = accept
+      }
+
+      # set HTTP content-type header
+      content_type = self$select_header(content_types)
+      if (!is.null(content_type)) {
+        headers['Content-Type'] = content_type
+      }
+
+      if (typeof(stream_callback) == "closure") { # stream data
+        if (method == "GET") {
+          httr::GET(url, query = query_params, headers, http_timeout,
+                    httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
+        } else if (method == "POST") {
+          httr::POST(url, query = query_params, headers, body = body,
+                     httr::content_type("application/json"), http_timeout,
+                     httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
+        } else if (method == "PUT") {
+          httr::PUT(url, query = query_params, headers, body = body,
+                    httr::content_type("application/json"), http_timeout,
+                    http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
+        } else if (method == "PATCH") {
+          httr::PATCH(url, query = query_params, headers, body = body,
+                      httr::content_type("application/json"), http_timeout,
+                      http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
+        } else if (method == "HEAD") {
+          httr::HEAD(url, query = query_params, headers, http_timeout,
+                     http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
+        } else if (method == "DELETE") {
+          httr::DELETE(url, query = query_params, headers, http_timeout,
+                       http_timeout, httr::user_agent(self$`user_agent`), write_stream(stream_callback), ...)
+        } else {
+          err_msg <- "Http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`."
+          {{#useDefaultExceptionHandling}}
+          stop(err_msg)
+          {{/useDefaultExceptionHandling}}
+          {{#useRlangExceptionHandling}}
+          rlang::abort(message = err_msg,
+                       .subclass = "ApiException",
+                       ApiException = ApiException$new(status = 0, reason = err_msg))
+          {{/useRlangExceptionHandling}}
+        }
+      } else { # no streaming
+        if (method == "GET") {
+          httr_response <- httr::GET(url, query = query_params, headers, http_timeout,
+                    httr::user_agent(self$`user_agent`), ...)
+        } else if (method == "POST") {
+          httr_response <- httr::POST(url, query = query_params, headers, body = body,
+                     httr::content_type("application/json"), http_timeout,
+                     httr::user_agent(self$`user_agent`), ...)
+        } else if (method == "PUT") {
+          httr_response <- httr::PUT(url, query = query_params, headers, body = body,
+                    httr::content_type("application/json"), http_timeout,
+                    http_timeout, httr::user_agent(self$`user_agent`), ...)
+        } else if (method == "PATCH") {
+          httr_response <- httr::PATCH(url, query = query_params, headers, body = body,
+                      httr::content_type("application/json"), http_timeout,
+                      http_timeout, httr::user_agent(self$`user_agent`), ...)
+        } else if (method == "HEAD") {
+          httr_response <- httr::HEAD(url, query = query_params, headers, http_timeout,
+                     http_timeout, httr::user_agent(self$`user_agent`), ...)
+        } else if (method == "DELETE") {
+          httr_response <- httr::DELETE(url, query = query_params, headers, http_timeout,
+                       http_timeout, httr::user_agent(self$`user_agent`), ...)
+        } else {
+          err_msg <- "Http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`."
+          {{#useDefaultExceptionHandling}}
+          stop(err_msg)
+          {{/useDefaultExceptionHandling}}
+          {{#useRlangExceptionHandling}}
+          rlang::abort(message = err_msg,
+                       .subclass = "ApiException",
+                       ApiException = ApiException$new(status = 0, reason = err_msg))
+          {{/useRlangExceptionHandling}}
+        }
+
+        # return ApiResponse
+        api_response <- ApiResponse$new()
+        api_response$status_code <- httr::status_code(httr_response) 
+        api_response$status_code_desc <- httr::http_status(httr_response)$reason
+        api_response$response <- httr::content(httr_response, "text", encoding = "UTF-8")
+        api_response$headers <- httr::headers(httr_response)
+
+        api_response
       }
     },
-
-    # Deserialize the content of api response to the given type.
-    deserialize = function(resp, returnType, pkgEnv) {
-      respObj <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
-      self$deserializeObj(respObj, returnType, pkgEnv)
+    #' Deserialize the content of API response to the given type.
+    #'
+    #' @description
+    #' Deserialize the content of API response to the given type.
+    #'
+    #' @param raw_response Raw response.
+    #' @param return_type R return type.
+    #' @param pkg_env Package environment.
+    #' @return Deserialized object.
+    #' @export
+    deserialize = function(raw_response, return_type, pkg_env) {
+      resp_obj <- jsonlite::fromJSON(raw_response)
+      self$deserializeObj(resp_obj, return_type, pkg_env)
     },
-
-
-    # Deserialize the response from jsonlite object based on the given type
-    # by handling complex and nested types by iterating recursively
-    # Example returnTypes will be like "array[integer]", "map(Pet)", "array[map(Tag)]", etc.,
-
-    deserializeObj = function(obj, returnType, pkgEnv) {
-      returnObj <- NULL
-      primitiveTypes <- c("character", "numeric", "integer", "logical", "complex")
+    #' Deserialize the response from jsonlite object based on the given type
+    #'
+    #' @description
+    #' Deserialize the response from jsonlite object based on the given type
+    #' by handling complex and nested types by iterating recursively
+    #' Example return_types will be like "array[integer]", "map(Pet)", "array[map(Tag)]", etc.,
+    #'
+    #' @param obj Response object.
+    #' @param return_type R return type.
+    #' @param pkg_env Package environment.
+    #' @return Deserialized object.
+    #' @export
+    deserializeObj = function(obj, return_type, pkg_env) {
+      return_obj <- NULL
+      primitive_types <- c("character", "numeric", "integer", "logical", "complex")
 
       # To handle the "map" type
-      if (startsWith(returnType, "map(")) {
-        innerReturnType <- regmatches(returnType, regexec(pattern = "map\\((.*)\\)", returnType))[[1]][2]
-        returnObj <- lapply(names(obj), function(name) {
-          self$deserializeObj(obj[[name]], innerReturnType, pkgEnv)
+      if (startsWith(return_type, "map(")) {
+        inner_return_type <- regmatches(return_type,
+                                        regexec(pattern = "map\\((.*)\\)", return_type))[[1]][2]
+        return_obj <- lapply(names(obj), function(name) {
+          self$deserializeObj(obj[[name]], inner_return_type, pkg_env)
         })
-        names(returnObj) <- names(obj)
-      }
-
-      # To handle the "array" type
-      else if (startsWith(returnType, "array[")) {
-        innerReturnType <- regmatches(returnType, regexec(pattern = "array\\[(.*)\\]", returnType))[[1]][2]
-        if (c(innerReturnType) %in% primitiveTypes) {
-          returnObj <- vector("list", length = length(obj))
+        names(return_obj) <- names(obj)
+      } else if (startsWith(return_type, "array[")) {
+        # To handle the "array" type
+        inner_return_type <- regmatches(return_type,
+                                        regexec(pattern = "array\\[(.*)\\]", return_type))[[1]][2]
+        if (c(inner_return_type) %in% primitive_types) {
+          return_obj <- vector("list", length = length(obj))
           if (length(obj) > 0) {
             for (row in 1:length(obj)) {
-              returnObj[[row]] <- self$deserializeObj(obj[row], innerReturnType, pkgEnv)
+              return_obj[[row]] <- self$deserializeObj(obj[row], inner_return_type, pkg_env)
             }
           }
         } else {
-          if(!is.null(nrow(obj))){
-            returnObj <- vector("list", length = nrow(obj))
+          if (!is.null(nrow(obj))) {
+            return_obj <- vector("list", length = nrow(obj))
             if (nrow(obj) > 0) {
               for (row in 1:nrow(obj)) {
-                returnObj[[row]] <- self$deserializeObj(obj[row, , drop = FALSE], innerReturnType, pkgEnv)
+                return_obj[[row]] <- self$deserializeObj(obj[row, , drop = FALSE],
+                                                         inner_return_type, pkg_env)
               }
             }
           }
         }
-      }
-
-      # To handle model objects which are not array or map containers. Ex:"Pet"
-      else if (exists(returnType, pkgEnv) && !(c(returnType) %in% primitiveTypes)) {
-        returnType <- get(returnType, envir = as.environment(pkgEnv))
-        returnObj <- returnType$new()
-        returnObj$fromJSON(
+      } else if (exists(return_type, pkg_env) && !(c(return_type) %in% primitive_types)) {
+        # To handle model objects which are not array or map containers. Ex:"Pet"
+        return_type <- get(return_type, envir = as.environment(pkg_env))
+        return_obj <- return_type$new()
+        # check if discriminator is defined
+        if (!is.null(return_obj$`_discriminator_property_name`)) {
+          data_type <- return_obj$`_discriminator_property_name`
+          # use discriminator mapping if provided
+          if (!is.null(return_obj$`_discriminator_mapping_name`)) {
+            data_type <- (return_obj$`_discriminator_mapping_name`)[[obj[[data_type]]]]
+          } else {
+            # no mapping provided, use the value directly
+            data_type <- obj[[data_type]]
+          }
+          # create an object of the mapped type (e.g. Cat)
+          return_type <- get(data_type, envir = as.environment(pkg_env))
+          return_obj <- return_type$new()
+        }
+        return_obj$fromJSON(
           jsonlite::toJSON(obj, digits = NA, auto_unbox = TRUE)
         )
+      } else {
+        # To handle primitive type
+        return_obj <- obj
       }
+      return_obj
+    },
+    #' Return a property header (for accept or content-type).
+    #'
+    #' @description
+    #' Return a property header (for accept or content-type). If JSON-related MIME is found,
+    #' return it. Otherwise, return the first one, if any.
+    #'
+    #' @param headers A list of headers
+    #' @return A header (e.g. 'application/json')
+    #' @export
+    select_header = function(headers) {
+      if (length(headers) == 0) {
+        return(invisible(NULL))
+      } else {
+        for (header in headers) {
+          if (str_detect(header, "(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$")) {
+            # return JSON-related MIME
+            return(header)
+          }
+        }
 
-      # To handle primitive type
-      else {
-        returnObj <- obj
+        # not json mime type, simply return the first one
+        return(headers[1])
       }
-      returnObj
     }
   )
 )

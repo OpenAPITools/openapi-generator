@@ -37,15 +37,21 @@ namespace
 bool validateRfc3339_date(const std::string& str) {
     std::smatch match;
     const bool found = std::regex_search(str, match, regexRfc3339_date);
-    return found && validateDateValues(std::stoi(match[1]), std::stoi(match[2]), std::stoi(match[3]));
+    return found && validateDateValues(static_cast<uint16_t>(std::stoi(match[1])),
+                                       static_cast<uint16_t>(std::stoi(match[2])),
+                                       static_cast<uint16_t>(std::stoi(match[3])));
 }
 
 bool validateRfc3339_date_time(const std::string& str) {
     std::smatch match;
     const bool found = std::regex_search(str, match, regexRfc3339_date_time);
     return found
-        && validateDateValues(std::stoi(match[1]), std::stoi(match[2]), std::stoi(match[3]))
-        && validateTimeValues(std::stoi(match[4]), std::stoi(match[5]), std::stoi(match[6]));
+        && validateDateValues(static_cast<uint16_t>(std::stoi(match[1])),
+                              static_cast<uint16_t>(std::stoi(match[2])),
+                              static_cast<uint16_t>(std::stoi(match[3])))
+        && validateTimeValues(static_cast<uint16_t>(std::stoi(match[4])),
+                              static_cast<uint16_t>(std::stoi(match[5])),
+                              static_cast<uint16_t>(std::stoi(match[6])));
 }
 
 std::string toStringValue(const std::string &value){

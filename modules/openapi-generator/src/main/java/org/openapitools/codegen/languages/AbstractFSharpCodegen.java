@@ -25,6 +25,10 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -34,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -312,12 +317,10 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         super.postProcessModels(objs);
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
             for (CodegenProperty var : cm.vars) {
                 // check to see if model name is same as the property name
                 // which will result in compilation error
@@ -338,8 +341,8 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
      * @return (ew) modified state of the codegen object model.
      */
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        final Map<String, Object> processed = super.postProcessAllModels(objs);
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
         postProcessEnumRefs(processed);
         return postProcessDependencyOrders(processed);
     }
@@ -349,8 +352,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
      * Output of CodeGen models must therefore be in dependency order (rather than alphabetical order, which seems to be the default).
      * This could probably be made more efficient if absolutely needed.
      */
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> postProcessDependencyOrders(final Map<String, Object> objs) {
+    public Map<String, ModelsMap> postProcessDependencyOrders(final Map<String, ModelsMap> objs) {
 
         Map<String, Set<String>> dependencies = new HashMap<>();
 
@@ -381,7 +383,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
             }
         }
 
-        Map<String, Object> sorted = new LinkedHashMap<>();
+        Map<String, ModelsMap> sorted = new LinkedHashMap<>();
         for (int i = sortedKeys.length - 1; i >= 0; i--) {
             Object k = sortedKeys[i];
             sorted.put(k.toString(), objs.get(k));
@@ -401,17 +403,16 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
      * @param models processed models to be further processed for enum references
      */
     @SuppressWarnings("unchecked")
-    private void postProcessEnumRefs(final Map<String, Object> models) {
+    private void postProcessEnumRefs(final Map<String, ModelsMap> models) {
         Map<String, CodegenModel> enumRefs = new HashMap<>();
-        for (Map.Entry<String, Object> entry : models.entrySet()) {
-            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
+        for (String key : models.keySet()) {
+            CodegenModel model = ModelUtils.getModelByName(key, models);
             if (model.isEnum) {
-                enumRefs.put(entry.getKey(), model);
+                enumRefs.put(key, model);
             }
         }
 
-        for (Map.Entry<String, Object> entry : models.entrySet()) {
-            String openAPIName = entry.getKey();
+        for (String openAPIName : models.keySet()) {
             CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
             if (model != null) {
                 for (CodegenProperty var : model.allVars) {
@@ -514,12 +515,12 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         if (objs != null) {
-            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+            OperationMap operations = objs.getOperations();
             if (operations != null) {
-                List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+                List<CodegenOperation> ops = operations.getOperation();
                 for (CodegenOperation operation : ops) {
 
                     // Check return types for collection
@@ -565,8 +566,8 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                     if (!isSupportNullable()) {
                         for (CodegenParameter parameter : operation.allParams) {
                             CodegenModel model = null;
-                            for (Object modelHashMap : allModels) {
-                                CodegenModel codegenModel = ((HashMap<String, CodegenModel>) modelHashMap).get("model");
+                            for (ModelMap modelHashMap : allModels) {
+                                CodegenModel codegenModel = modelHashMap.getModel();
                                 if (codegenModel.getClassname().equals(parameter.dataType)) {
                                     model = codegenModel;
                                     break;
@@ -661,7 +662,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return camelize(name, LOWERCASE_FIRST_LETTER);
             case PascalCase:
                 return camelize(name);
             case snake_case:
@@ -707,7 +708,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         // camelize(lower) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -879,7 +880,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
             return getArrayTypeDeclaration((ArraySchema) p);
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);

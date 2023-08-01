@@ -1,0 +1,134 @@
+openapi: 3.0.1
+info:
+  title: ByRefOrValue
+  description: >
+    This tests for a oneOf interface representation
+  version: 0.0.1
+servers:
+  - url: "http://localhost:8080"
+tags:
+  - name: Foo
+paths:
+  /foo:
+    get:
+      tags:
+        - Foo
+      summary: GET all Foos
+      operationId: getAllFoos
+      responses:
+        '200':
+          $ref: '#/components/responses/200FooArray'
+    post:
+      tags:
+        - Foo
+      summary: Create a Foo
+      operationId: createFoo
+      requestBody:
+        $ref: '#/components/requestBodies/Foo'
+      responses:
+        '201':
+          $ref: '#/components/responses/201Foo'
+
+components:
+  schemas:
+    Entity:
+      type: object
+      allOf:
+        - "$ref": "#/components/schemas/Addressable"
+        - "$ref": "#/components/schemas/Extensible"
+
+    EntityRef:
+      description: Entity reference schema to be use for all entityRef class.
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the related entity.
+        '@referredType':
+          type: string
+          description: The actual type of the target instance when needed for disambiguation.
+      allOf:
+        - $ref: '#/components/schemas/Addressable'
+        - "$ref": "#/components/schemas/Extensible"
+
+
+    Addressable:
+      type: object
+      properties:
+        href:
+          type: string
+          description: Hyperlink reference
+        id:
+          type: string
+          description: unique identifier
+      description: Base schema for addressable entities
+    Extensible:
+      type: object
+      properties:
+        "@schemaLocation":
+          type: string
+          description: A URI to a JSON-Schema file that defines additional attributes
+            and relationships
+        "@baseType":
+          type: string
+          description: When sub-classing, this defines the super-class
+        "@type":
+          type: string
+          description: When sub-classing, this defines the sub-class Extensible name
+      required:
+        - '@type'
+
+    FooRefOrValue:
+      type: object
+      oneOf:
+        - $ref: "#/components/schemas/Foo"
+        - $ref: "#/components/schemas/FooRef"
+      discriminator:
+        propertyName: "@type"
+        mapping:
+          Foo: "#/components/schemas/Foo"
+          FooRef: "#/components/schemas/FooRef"
+
+    Foo:
+      type: object
+      properties:
+        fooPropA:
+          type: string
+        fooPropB:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Entity'
+
+    FooRef:
+      type: object
+      properties:
+        foorefPropA:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/EntityRef'
+
+  requestBodies:
+    Foo:
+      description: The Foo to be created
+      content:
+        application/json;charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/Foo'
+  responses:
+    '204':
+      description: Deleted
+      content: { }
+    201Foo:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FooRefOrValue'
+    200FooArray:
+      description: Success
+      content:
+        application/json;charset=utf-8:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/FooRefOrValue'

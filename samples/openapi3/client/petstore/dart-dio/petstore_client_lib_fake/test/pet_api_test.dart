@@ -1,13 +1,5 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-// @dart=2.7
-
-// ignore_for_file: unused_import
-
-import 'package:openapi/api.dart';
-import 'package:openapi/api/pet_api.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 
 /// tests for PetApi
@@ -17,12 +9,16 @@ void main() {
   group(PetApi, () {
     // Add a new pet to the store
     //
+    // 
+    //
     //Future addPet(Pet pet) async
     test('test addPet', () async {
       // TODO
     });
 
     // Deletes a pet
+    //
+    // 
     //
     //Future deletePet(int petId, { String apiKey }) async
     test('test deletePet', () async {
@@ -58,12 +54,16 @@ void main() {
 
     // Update an existing pet
     //
+    // 
+    //
     //Future updatePet(Pet pet) async
     test('test updatePet', () async {
       // TODO
     });
 
     // Updates a pet in the store with form data
+    //
+    // 
     //
     //Future updatePetWithForm(int petId, { String name, String status }) async
     test('test updatePetWithForm', () async {
@@ -72,14 +72,18 @@ void main() {
 
     // uploads an image
     //
-    //Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, Uint8List file }) async
+    // 
+    //
+    //Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file }) async
     test('test uploadFile', () async {
       // TODO
     });
 
     // uploads an image (required)
     //
-    //Future<ApiResponse> uploadFileWithRequiredFile(int petId, Uint8List requiredFile, { String additionalMetadata }) async
+    // 
+    //
+    //Future<ApiResponse> uploadFileWithRequiredFile(int petId, MultipartFile requiredFile, { String additionalMetadata }) async
     test('test uploadFileWithRequiredFile', () async {
       // TODO
     });

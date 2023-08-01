@@ -30,13 +30,20 @@
         <!-- Dependencies are automatically installed when the package is installed -->
         <dependencies>
 
-            <dependency id="NewtonSoft.Json" version="{{newtonsoft-json.version}}" />
-            <dependency id="JsonSubTypes" version="{{json-subtypes.version}}" />
-            <dependency id="RestSharp" version="{{restsharp.version}}" />
-            {{#generatePropertyChanged}}
-            <dependency id="Fody" version="{{fody.version}}" />
-            <dependency id="PropertyChanged.Fody" version="{{propertychanged-fody.version}}" />
-            {{/generatePropertyChanged}}
+            <dependency id="Newtonsoft.Json" version="13.0.3" />
+            {{#useRestSharp}}
+            <dependency id="RestSharp" version="110.2.0" />
+            {{/useRestSharp}}
+            {{#useCompareNetObjects}}
+            <dependency id="CompareNETObjects" version="4.61.0" />
+            {{/useCompareNetObjects}}
+            <dependency id="JsonSubTypes" version="2.0.1" />
+            {{#validatable}}
+            <dependency id="System.ComponentModel.Annotations" version="5.0.0" />
+            {{/validatable}}
+            {{#supportsRetry}}
+            <dependency id="Polly" version="7.2.3" />
+            {{/supportsRetry}}
 
         </dependencies>
     </metadata>
@@ -45,9 +52,6 @@
         <!-- A readme.txt will be displayed when the package is installed -->
         <file src="..\..\README.md" target="" />
         <file src="..\..\docs\**\*.*" target="docs" />
-        {{#generatePropertyChanged}}
-        <file src="..\..\packages\Fody.1.29.4\build\portable-net+sl+win+wpa+wp\Fody.targets" target="build" />
-        {{/generatePropertyChanged}}
 
     </files>
 </package>

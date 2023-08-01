@@ -2,26 +2,27 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
-[**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
-[**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
-[**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
-[**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
-[**getArrayOfEnums**](FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums
-[**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
-[**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
-[**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-[**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
-[**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
-[**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-[**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
-[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint |
+| [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean |  |
+| [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite |  |
+| [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number |  |
+| [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
+| [**getArrayOfEnums**](FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums |
+| [**getParameterNameMapping**](FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test |
+| [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema |  |
+| [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params |  |
+| [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model |
+| [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  |
+| [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters |
+| [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional) |
+| [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties |
+| [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data |
+| [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
 
 
-<a name="fakeHealthGet"></a>
+<a id="fakeHealthGet"></a>
 # **fakeHealthGet**
 > HealthCheckResult fakeHealthGet()
 
@@ -75,9 +76,9 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | The instance started successfully |  -  |
+| **200** | The instance started successfully |  -  |
 
-<a name="fakeOuterBooleanSerialize"></a>
+<a id="fakeOuterBooleanSerialize"></a>
 # **fakeOuterBooleanSerialize**
 > Boolean fakeOuterBooleanSerialize(body)
 
@@ -117,9 +118,9 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **Boolean**| Input boolean as post body | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **body** | **Boolean**| Input boolean as post body | [optional] |
 
 ### Return type
 
@@ -137,9 +138,9 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Output boolean |  -  |
+| **200** | Output boolean |  -  |
 
-<a name="fakeOuterCompositeSerialize"></a>
+<a id="fakeOuterCompositeSerialize"></a>
 # **fakeOuterCompositeSerialize**
 > OuterComposite fakeOuterCompositeSerialize(outerComposite)
 
@@ -179,9 +180,9 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] |
 
 ### Return type
 
@@ -199,9 +200,9 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Output composite |  -  |
+| **200** | Output composite |  -  |
 
-<a name="fakeOuterNumberSerialize"></a>
+<a id="fakeOuterNumberSerialize"></a>
 # **fakeOuterNumberSerialize**
 > BigDecimal fakeOuterNumberSerialize(body)
 
@@ -241,13 +242,13 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **BigDecimal**| Input number as post body | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **body** | **BigDecimal**| Input number as post body | [optional] |
 
 ### Return type
 
-[**BigDecimal**](BigDecimal.md)
+**BigDecimal**
 
 ### Authorization
 
@@ -261,9 +262,9 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Output number |  -  |
+| **200** | Output number |  -  |
 
-<a name="fakeOuterStringSerialize"></a>
+<a id="fakeOuterStringSerialize"></a>
 # **fakeOuterStringSerialize**
 > String fakeOuterStringSerialize(body)
 
@@ -303,9 +304,9 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **String**| Input string as post body | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **body** | **String**| Input string as post body | [optional] |
 
 ### Return type
 
@@ -323,9 +324,9 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Output string |  -  |
+| **200** | Output string |  -  |
 
-<a name="getArrayOfEnums"></a>
+<a id="getArrayOfEnums"></a>
 # **getArrayOfEnums**
 > List&lt;OuterEnum&gt; getArrayOfEnums()
 
@@ -379,9 +380,72 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Got named array of enums |  -  |
+| **200** | Got named array of enums |  -  |
 
-<a name="testBodyWithFileSchema"></a>
+<a id="getParameterNameMapping"></a>
+# **getParameterNameMapping**
+> getParameterNameMapping(underscoreType, type, typeWithUnderscore)
+
+parameter name mapping test
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    Long underscoreType = 56L; // Long | _type
+    String type = "type_example"; // String | type
+    String typeWithUnderscore = "typeWithUnderscore_example"; // String | type_
+    try {
+      apiInstance.getParameterNameMapping(underscoreType, type, typeWithUnderscore);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#getParameterNameMapping");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **underscoreType** | **Long**| _type | |
+| **type** | **String**| type | |
+| **typeWithUnderscore** | **String**| type_ | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+
+<a id="testBodyWithFileSchema"></a>
 # **testBodyWithFileSchema**
 > testBodyWithFileSchema(fileSchemaTestClass)
 
@@ -420,9 +484,9 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | |
 
 ### Return type
 
@@ -440,9 +504,9 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Success |  -  |
+| **200** | Success |  -  |
 
-<a name="testBodyWithQueryParams"></a>
+<a id="testBodyWithQueryParams"></a>
 # **testBodyWithQueryParams**
 > testBodyWithQueryParams(query, user)
 
@@ -480,10 +544,10 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **query** | **String**|  |
- **user** | [**User**](User.md)|  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **query** | **String**|  | |
+| **user** | [**User**](User.md)|  | |
 
 ### Return type
 
@@ -501,9 +565,9 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Success |  -  |
+| **200** | Success |  -  |
 
-<a name="testClientModel"></a>
+<a id="testClientModel"></a>
 # **testClientModel**
 > Client testClientModel(client)
 
@@ -543,9 +607,9 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **client** | [**Client**](Client.md)| client model | |
 
 ### Return type
 
@@ -563,9 +627,9 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation |  -  |
+| **200** | successful operation |  -  |
 
-<a name="testEndpointParameters"></a>
+<a id="testEndpointParameters"></a>
 # **testEndpointParameters**
 > testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
 
@@ -623,22 +687,22 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **number** | **BigDecimal**| None |
- **_double** | **Double**| None |
- **patternWithoutDelimiter** | **String**| None |
- **_byte** | **byte[]**| None |
- **integer** | **Integer**| None | [optional]
- **int32** | **Integer**| None | [optional]
- **int64** | **Long**| None | [optional]
- **_float** | **Float**| None | [optional]
- **string** | **String**| None | [optional]
- **binary** | **File**| None | [optional]
- **date** | **LocalDate**| None | [optional]
- **dateTime** | **OffsetDateTime**| None | [optional] [default to 2010-02-01T10:20:10.111110+01:00]
- **password** | **String**| None | [optional]
- **paramCallback** | **String**| None | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **number** | **BigDecimal**| None | |
+| **_double** | **Double**| None | |
+| **patternWithoutDelimiter** | **String**| None | |
+| **_byte** | **byte[]**| None | |
+| **integer** | **Integer**| None | [optional] |
+| **int32** | **Integer**| None | [optional] |
+| **int64** | **Long**| None | [optional] |
+| **_float** | **Float**| None | [optional] |
+| **string** | **String**| None | [optional] |
+| **binary** | **File**| None | [optional] |
+| **date** | **LocalDate**| None | [optional] |
+| **dateTime** | **OffsetDateTime**| None | [optional] [default to 2010-02-01T10:20:10.111110+01:00] |
+| **password** | **String**| None | [optional] |
+| **paramCallback** | **String**| None | [optional] |
 
 ### Return type
 
@@ -656,10 +720,10 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**400** | Invalid username supplied |  -  |
-**404** | User not found |  -  |
+| **400** | Invalid username supplied |  -  |
+| **404** | User not found |  -  |
 
-<a name="testEnumParameters"></a>
+<a id="testEnumParameters"></a>
 # **testEnumParameters**
 > testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
 
@@ -705,16 +769,16 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**List&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] [enum: >, $]
- **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
- **enumQueryStringArray** | [**List&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] [enum: >, $]
- **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
- **enumQueryInteger** | **Integer**| Query parameter enum test (double) | [optional] [enum: 1, -2]
- **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2]
- **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [enum: >, $]
- **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **enumHeaderStringArray** | [**List&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] [enum: >, $] |
+| **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)] |
+| **enumQueryStringArray** | [**List&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] [enum: >, $] |
+| **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)] |
+| **enumQueryInteger** | **Integer**| Query parameter enum test (double) | [optional] [enum: 1, -2] |
+| **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2] |
+| **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [enum: >, $] |
+| **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)] |
 
 ### Return type
 
@@ -732,10 +796,10 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**400** | Invalid request |  -  |
-**404** | Not found |  -  |
+| **400** | Invalid request |  -  |
+| **404** | Not found |  -  |
 
-<a name="testGroupParameters"></a>
+<a id="testGroupParameters"></a>
 # **testGroupParameters**
 > testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group).stringGroup(stringGroup).booleanGroup(booleanGroup).int64Group(int64Group).execute();
 
@@ -788,14 +852,14 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **requiredStringGroup** | **Integer**| Required String in group parameters |
- **requiredBooleanGroup** | **Boolean**| Required Boolean in group parameters |
- **requiredInt64Group** | **Long**| Required Integer in group parameters |
- **stringGroup** | **Integer**| String in group parameters | [optional]
- **booleanGroup** | **Boolean**| Boolean in group parameters | [optional]
- **int64Group** | **Long**| Integer in group parameters | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **requiredStringGroup** | **Integer**| Required String in group parameters | |
+| **requiredBooleanGroup** | **Boolean**| Required Boolean in group parameters | |
+| **requiredInt64Group** | **Long**| Required Integer in group parameters | |
+| **stringGroup** | **Integer**| String in group parameters | [optional] |
+| **booleanGroup** | **Boolean**| Boolean in group parameters | [optional] |
+| **int64Group** | **Long**| Integer in group parameters | [optional] |
 
 ### Return type
 
@@ -813,13 +877,15 @@ null (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**400** | Someting wrong |  -  |
+| **400** | Something wrong |  -  |
 
-<a name="testInlineAdditionalProperties"></a>
+<a id="testInlineAdditionalProperties"></a>
 # **testInlineAdditionalProperties**
 > testInlineAdditionalProperties(requestBody)
 
 test inline additionalProperties
+
+
 
 ### Example
 ```java
@@ -852,9 +918,9 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **requestBody** | [**Map&lt;String, String&gt;**](String.md)| request body |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **requestBody** | [**Map&lt;String, String&gt;**](String.md)| request body | |
 
 ### Return type
 
@@ -872,13 +938,15 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation |  -  |
+| **200** | successful operation |  -  |
 
-<a name="testJsonFormData"></a>
+<a id="testJsonFormData"></a>
 # **testJsonFormData**
 > testJsonFormData(param, param2)
 
 test json serialization of form data
+
+
 
 ### Example
 ```java
@@ -912,10 +980,10 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **param** | **String**| field1 |
- **param2** | **String**| field2 |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **param** | **String**| field1 | |
+| **param2** | **String**| field2 | |
 
 ### Return type
 
@@ -933,9 +1001,9 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation |  -  |
+| **200** | successful operation |  -  |
 
-<a name="testQueryParameterCollectionFormat"></a>
+<a id="testQueryParameterCollectionFormat"></a>
 # **testQueryParameterCollectionFormat**
 > testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
 
@@ -978,13 +1046,13 @@ public class Example {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pipe** | [**List&lt;String&gt;**](String.md)|  |
- **ioutil** | [**List&lt;String&gt;**](String.md)|  |
- **http** | [**List&lt;String&gt;**](String.md)|  |
- **url** | [**List&lt;String&gt;**](String.md)|  |
- **context** | [**List&lt;String&gt;**](String.md)|  |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **pipe** | [**List&lt;String&gt;**](String.md)|  | |
+| **ioutil** | [**List&lt;String&gt;**](String.md)|  | |
+| **http** | [**List&lt;String&gt;**](String.md)|  | |
+| **url** | [**List&lt;String&gt;**](String.md)|  | |
+| **context** | [**List&lt;String&gt;**](String.md)|  | |
 
 ### Return type
 
@@ -1002,5 +1070,5 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Success |  -  |
+| **200** | Success |  -  |
 

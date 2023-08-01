@@ -19,6 +19,8 @@
 #define UserApi_H_
 
 
+#include "ApiBase.h"
+
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
@@ -33,11 +35,11 @@
 namespace org::openapitools::server::api
 {
 
-class  UserApi {
+class  UserApi : public ApiBase {
 public:
     explicit UserApi(const std::shared_ptr<Pistache::Rest::Router>& rtr);
-    virtual ~UserApi() = default;
-    void init();
+    ~UserApi() override = default;
+    void init() override;
 
     static const std::string base;
 
@@ -53,8 +55,6 @@ private:
     void logout_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void update_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void user_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
-
-    const std::shared_ptr<Pistache::Rest::Router> router;
 
     /// <summary>
     /// Helper function to handle unexpected Exceptions during Parameter parsing and validation.
@@ -85,7 +85,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="body">List of user object</param>
-    virtual void create_users_with_array_input(const std::vector<User> &body, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_users_with_array_input(const std::vector<org::openapitools::server::model::User> &body, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Creates list of users with given input array
     /// </summary>
@@ -93,7 +93,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="body">List of user object</param>
-    virtual void create_users_with_list_input(const std::vector<User> &body, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_users_with_list_input(const std::vector<org::openapitools::server::model::User> &body, Pistache::Http::ResponseWriter &response) = 0;
     /// <summary>
     /// Delete user
     /// </summary>

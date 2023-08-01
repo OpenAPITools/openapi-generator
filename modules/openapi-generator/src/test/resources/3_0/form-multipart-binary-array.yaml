@@ -55,8 +55,11 @@ paths:
             schema:
               type: object
               required:
+                - status
                 - file
               properties:
+                status:
+                  $ref: '#/components/schemas/MultipartMixedStatus'
                 marker:
                   description: "additional object"
                   type: object
@@ -67,6 +70,20 @@ paths:
                   description: "a file"
                   type: string
                   format: binary
+                statusArray:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MultipartMixedStatus'
       responses:
         '204':
           description: Successful operation
+components:
+  schemas:
+    MultipartMixedStatus:
+      description: "additional field as Enum"
+      type: string
+      enum:
+        - ALLOWED
+        - IN_PROGRESS
+        - REJECTED
+      example: REJECTED

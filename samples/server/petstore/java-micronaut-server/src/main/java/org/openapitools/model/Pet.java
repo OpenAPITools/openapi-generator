@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.Category;
@@ -26,11 +24,12 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 import io.micronaut.core.annotation.*;
 import javax.annotation.Generated;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * A pet for sale in the pet store
  */
-@ApiModel(description = "A pet for sale in the pet store")
+@Schema(name = "Pet", description = "A pet for sale in the pet store")
 @JsonPropertyOrder({
   Pet.JSON_PROPERTY_ID,
   Pet.JSON_PROPERTY_CATEGORY,
@@ -110,16 +109,16 @@ public class Pet {
      * @return id
      **/
     @Nullable
-    @ApiModelProperty(value = "")
+    @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Long getId() {
+    public Long getId() {
         return id;
     }
 
     @JsonProperty(JSON_PROPERTY_ID)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -134,16 +133,16 @@ public class Pet {
      **/
     @Valid
     @Nullable
-    @ApiModelProperty(value = "")
+    @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_CATEGORY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public Category getCategory() {
+    public Category getCategory() {
         return category;
     }
 
     @JsonProperty(JSON_PROPERTY_CATEGORY)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setCategory(Category category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
@@ -157,16 +156,16 @@ public class Pet {
      * @return name
      **/
     @NotNull
-    @ApiModelProperty(example = "doggie", required = true, value = "")
+    @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public String getName() {
+    public String getName() {
         return name;
     }
 
     @JsonProperty(JSON_PROPERTY_NAME)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -185,16 +184,16 @@ public class Pet {
      * @return photoUrls
      **/
     @NotNull
-    @ApiModelProperty(required = true, value = "")
+    @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
     @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public List<String> getPhotoUrls() {
+    public List<String> getPhotoUrls() {
         return photoUrls;
     }
 
     @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
     @JsonInclude(value = JsonInclude.Include.ALWAYS)
-       public void setPhotoUrls(List<String> photoUrls) {
+    public void setPhotoUrls(List<String> photoUrls) {
         this.photoUrls = photoUrls;
     }
 
@@ -216,16 +215,16 @@ public class Pet {
      * @return tags
      **/
     @Nullable
-    @ApiModelProperty(value = "")
+    @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_TAGS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public List<Tag> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
     @JsonProperty(JSON_PROPERTY_TAGS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setTags(List<Tag> tags) {
+    public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 
@@ -239,16 +238,16 @@ public class Pet {
      * @return status
      **/
     @Nullable
-    @ApiModelProperty(value = "pet status in the store")
+    @Schema(name = "status", description = "pet status in the store", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public StatusEnum getStatus() {
+    public StatusEnum getStatus() {
         return status;
     }
 
     @JsonProperty(JSON_PROPERTY_STATUS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setStatus(StatusEnum status) {
+    public void setStatus(StatusEnum status) {
         this.status = status;
     }
 
@@ -300,3 +299,4 @@ public class Pet {
     }
 
 }
+

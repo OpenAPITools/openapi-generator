@@ -12,16 +12,18 @@
  * Do not edit the class manually.
  */
 
+
 /**
  * Behavior type of a pet
  * @export
- * @enum {string}
  */
-export enum BehaviorType {
-    Voluntary = 'Voluntary',
-    Involuntary = 'Involuntary',
-    Overt = 'Overt'
-}
+export const BehaviorType = {
+    Voluntary: 'Voluntary',
+    Involuntary: 'Involuntary',
+    Overt: 'Overt'
+} as const;
+export type BehaviorType = typeof BehaviorType[keyof typeof BehaviorType];
+
 
 export function BehaviorTypeFromJSON(json: any): BehaviorType {
     return BehaviorTypeFromJSONTyped(json, false);

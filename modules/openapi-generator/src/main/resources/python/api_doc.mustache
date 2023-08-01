@@ -11,7 +11,7 @@ Method | HTTP request | Description
 {{#operations}}
 {{#operation}}
 # **{{{operationId}}}**
-> {{#returnType}}{{{.}}} {{/returnType}}{{{operationId}}}({{#requiredParams}}{{^defaultValue}}{{paramName}}{{^-last}}, {{/-last}}{{/defaultValue}}{{/requiredParams}})
+> {{#returnType}}{{{.}}} {{/returnType}}{{{operationId}}}({{#allParams}}{{#required}}{{{paramName}}}{{/required}}{{^required}}{{{paramName}}}={{{paramName}}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
 
 {{{summary}}}{{#notes}}
 
@@ -37,17 +37,14 @@ Method | HTTP request | Description
 {{/isOAuth }}
 {{/authMethods}}
 {{/hasAuthMethods}}
-
 {{> api_doc_example }}
 
 ### Parameters
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#requiredParams}}{{^defaultValue}} **{{paramName}}** | {{^baseType}}**{{dataType}}**{{/baseType}}{{#baseType}}[**{{dataType}}**]({{baseType}}.md){{/baseType}}| {{description}} |
-{{/defaultValue}}{{/requiredParams}}{{#requiredParams}}{{#defaultValue}} **{{paramName}}** | {{^baseType}}**{{dataType}}**{{/baseType}}{{#baseType}}[**{{dataType}}**]({{baseType}}.md){{/baseType}}| {{description}} | defaults to {{{.}}}
-{{/defaultValue}}{{/requiredParams}}{{#optionalParams}} **{{paramName}}** | {{^baseType}}**{{dataType}}**{{/baseType}}{{#baseType}}[**{{dataType}}**]({{baseType}}.md){{/baseType}}| {{description}} | [optional]{{#defaultValue}} if omitted the server will use the default value of {{{.}}}{{/defaultValue}}
-{{/optionalParams}}
+{{#allParams}} **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{baseType}}.md){{/isPrimitiveType}}{{/isFile}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{.}}]{{/defaultValue}}
+{{/allParams}}
 
 ### Return type
 
@@ -63,9 +60,7 @@ Name | Type | Description  | Notes
  - **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
 
 {{#responses.0}}
-
 ### HTTP response details
-
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 {{#responses}}

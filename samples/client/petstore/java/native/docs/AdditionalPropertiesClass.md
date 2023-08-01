@@ -5,19 +5,16 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**mapString** | **Map&lt;String, String&gt;** |  |  [optional]
-**mapNumber** | **Map&lt;String, BigDecimal&gt;** |  |  [optional]
-**mapInteger** | **Map&lt;String, Integer&gt;** |  |  [optional]
-**mapBoolean** | **Map&lt;String, Boolean&gt;** |  |  [optional]
-**mapArrayInteger** | **Map&lt;String, List&lt;Integer&gt;&gt;** |  |  [optional]
-**mapArrayAnytype** | **Map&lt;String, List&lt;Object&gt;&gt;** |  |  [optional]
-**mapMapString** | **Map&lt;String, Map&lt;String, String&gt;&gt;** |  |  [optional]
-**mapMapAnytype** | **Map&lt;String, Map&lt;String, Object&gt;&gt;** |  |  [optional]
-**anytype1** | **Object** |  |  [optional]
-**anytype2** | **Object** |  |  [optional]
-**anytype3** | **Object** |  |  [optional]
+| Name | Type | Description | Notes |
+|------------ | ------------- | ------------- | -------------|
+|**mapProperty** | **Map&lt;String, String&gt;** |  |  [optional] |
+|**mapOfMapProperty** | **Map&lt;String, Map&lt;String, String&gt;&gt;** |  |  [optional] |
+|**anytype1** | **Object** |  |  [optional] |
+|**mapWithUndeclaredPropertiesAnytype1** | **Object** |  |  [optional] |
+|**mapWithUndeclaredPropertiesAnytype2** | **Object** |  |  [optional] |
+|**mapWithUndeclaredPropertiesAnytype3** | **Map&lt;String, Object&gt;** |  |  [optional] |
+|**emptyMap** | **Object** | an object with no declared properties and no undeclared properties, hence it&#39;s an empty map. |  [optional] |
+|**mapWithUndeclaredPropertiesString** | **Map&lt;String, String&gt;** |  |  [optional] |
 
 
 

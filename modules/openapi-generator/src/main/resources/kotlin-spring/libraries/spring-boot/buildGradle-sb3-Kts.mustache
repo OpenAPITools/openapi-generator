@@ -1,0 +1,57 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+group = "{{groupId}}"
+version = "{{artifactVersion}}"
+java.sourceCompatibility = JavaVersion.VERSION_17
+
+repositories {
+    mavenCentral()
+    maven { url = uri("https://repo.spring.io/milestone") }
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "17"
+}
+
+plugins {
+    val kotlinVersion = "1.7.10"
+    id("org.jetbrains.kotlin.jvm") version kotlinVersion
+    id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
+    id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
+    id("org.springframework.boot") version "3.0.2"
+    id("io.spring.dependency-management") version "1.0.14.RELEASE"
+}
+
+dependencies {
+{{#reactive}}    val kotlinxCoroutinesVersion = "1.6.1"
+{{/reactive}}    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlin:kotlin-reflect"){{^reactive}}
+        implementation("org.springframework.boot:spring-boot-starter-web"){{/reactive}}{{#reactive}}
+        implementation("org.springframework.boot:spring-boot-starter-webflux")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinxCoroutinesVersion"){{/reactive}}{{#springDocDocumentationProvider}}{{#useSwaggerUI}}
+        implementation("org.springdoc:springdoc-openapi-starter-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-ui:2.0.0-M5"){{/useSwaggerUI}}{{^useSwaggerUI}}
+        implementation("org.springdoc:springdoc-openapi-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-core:2.0.0-M5"){{/useSwaggerUI}}{{/springDocDocumentationProvider}}{{#springFoxDocumentationProvider}}
+        implementation("io.springfox:springfox-swagger2:2.9.2"){{/springFoxDocumentationProvider}}{{#useSwaggerUI}}{{^springDocDocumentationProvider}}
+        implementation("org.webjars:swagger-ui:4.10.3")
+        implementation("org.webjars:webjars-locator-core"){{/springDocDocumentationProvider}}{{/useSwaggerUI}}{{^springFoxDocumentationProvider}}{{^springDocDocumentationProvider}}{{#swagger1AnnotationLibrary}}
+        implementation("io.swagger:swagger-annotations:1.6.6"){{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}
+        implementation("io.swagger.core.v3:swagger-annotations:2.2.0"){{/swagger2AnnotationLibrary}}{{/springDocDocumentationProvider}}{{/springFoxDocumentationProvider}}
+
+    implementation("com.google.code.findbugs:jsr305:3.0.2")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+{{#useBeanValidation}}
+    implementation("jakarta.validation:jakarta.validation-api"){{/useBeanValidation}}
+    implementation("jakarta.annotation:jakarta.annotation-api:2.1.0")
+
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(module = "junit")
+    }
+{{#reactive}}
+    testImplementation`("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesVersion")
+{{/reactive}}
+}

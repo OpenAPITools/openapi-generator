@@ -57,14 +57,25 @@ export interface Order {
     complete?: boolean;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum OrderStatusEnum {
-    Placed = 'placed',
-    Approved = 'approved',
-    Delivered = 'delivered'
+ * @export
+ */
+export const OrderStatusEnum = {
+    Placed: 'placed',
+    Approved: 'approved',
+    Delivered: 'delivered'
+} as const;
+export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
+
+
+/**
+ * Check if a given object implements the Order interface.
+ */
+export function instanceOfOrder(value: object): boolean {
+    let isInstance = true;
+
+    return isInstance;
 }
 
 export function OrderFromJSON(json: any): Order {

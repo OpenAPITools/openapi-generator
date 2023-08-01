@@ -29,8 +29,8 @@ find_package(Boost REQUIRED)
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
-file(GLOB_RECURSE HEADER_FILES "*.h")
-file(GLOB_RECURSE SOURCE_FILES "*.cpp")
+file(GLOB_RECURSE HEADER_FILES "include/*.h")
+file(GLOB_RECURSE SOURCE_FILES "src/*.cpp")
 
 add_library(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
 
@@ -42,7 +42,7 @@ target_compile_options(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>  
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>  
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
@@ -76,9 +76,8 @@ install(
 )
 
 install(
-    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
-    FILES_MATCHING PATTERN "*.h"
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
 install(

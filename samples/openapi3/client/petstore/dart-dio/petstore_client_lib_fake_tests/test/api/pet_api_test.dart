@@ -1,35 +1,32 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:dio/dio.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
-import 'package:openapi/api.dart';
-import 'package:openapi/api/pet_api.dart';
-import 'package:openapi/model/category.dart';
-import 'package:openapi/model/pet.dart';
-import 'package:openapi/model/tag.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:openapi/openapi.dart';
 import 'package:test/test.dart';
 
 void main() {
   const photo1 = 'https://localhost/photo1.jpg';
   const photo2 = 'https://localhost/photo2.jpg';
 
-  Openapi client;
-  DioAdapter server;
+  late Openapi client;
+  late DioAdapter tester;
 
   setUp(() {
-    server = DioAdapter();
-    client = Openapi(dio: Dio()..httpClientAdapter = server);
+    client = Openapi(dio: Dio());
+    tester = DioAdapter(dio: client.dio);
   });
 
   tearDown(() {
-    server.close();
+    tester.close();
   });
 
   group(PetApi, () {
     group('getPetById', () {
       test('complete', () async {
-        server.onGet(
+        tester.onGet(
           '/pet/5',
-          (request) => request.reply(200, {
+          (server) => server.reply(200, {
             'id': 5,
             'name': 'Paula',
             'status': 'sold',
@@ -54,47 +51,47 @@ void main() {
           }),
         );
 
-        final response = await client.getPetApi().getPetById(5);
+        final response = await client.getPetApi().getPetById(petId: 5);
 
         expect(response.statusCode, 200);
         expect(response.data, isNotNull);
-        expect(response.data.id, 5);
-        expect(response.data.name, 'Paula');
-        expect(response.data.status, PetStatusEnum.sold);
-        expect(response.data.category.id, 1);
-        expect(response.data.category.name, 'dog');
-        expect(response.data.photoUrls.length, 2);
-        expect(response.data.tags.length, 2);
+        expect(response.data!.id, 5);
+        expect(response.data!.name, 'Paula');
+        expect(response.data!.status, PetStatusEnum.sold);
+        expect(response.data!.category?.id, 1);
+        expect(response.data!.category?.name, 'dog');
+        expect(response.data!.photoUrls, hasLength(2));
+        expect(response.data!.tags, hasLength(2));
       });
 
       test('minimal', () async {
-        server.onGet(
+        tester.onGet(
           '/pet/5',
-          (request) => request.reply(200, {
+          (server) => server.reply(200, {
             'id': 5,
             'name': 'Paula',
             'photoUrls': <String>[],
           }),
         );
 
-        final response = await client.getPetApi().getPetById(5);
+        final response = await client.getPetApi().getPetById(petId: 5);
 
         expect(response.statusCode, 200);
         expect(response.data, isNotNull);
-        expect(response.data.id, 5);
-        expect(response.data.name, 'Paula');
-        expect(response.data.status, isNull);
-        expect(response.data.category, isNull);
-        expect(response.data.photoUrls, isNotNull);
-        expect(response.data.photoUrls, isEmpty);
+        expect(response.data!.id, 5);
+        expect(response.data!.name, 'Paula');
+        expect(response.data!.status, isNull);
+        expect(response.data!.category, isNull);
+        expect(response.data!.photoUrls, isNotNull);
+        expect(response.data!.photoUrls, isEmpty);
       });
     });
 
     group('addPet', () {
       test('complete', () async {
-        server.onPost(
+        tester.onPost(
           '/pet',
-          (request) => request.reply(200, ''),
+          (server) => server.reply(200, ''),
           data: {
             'id': 5,
             'name': 'Paula',
@@ -118,50 +115,52 @@ void main() {
               },
             ]
           },
-          headers: {
-            'content-type': 'application/json',
-            'content-length': 204,
+          headers: <String, dynamic>{
+            Headers.contentTypeHeader: Matchers.pattern('application/json'),
+            Headers.contentLengthHeader: Matchers.integer,
           },
         );
 
-        final response = await client.getPetApi().addPet(Pet((p) => p
-          ..id = 5
-          ..name = 'Paula'
-          ..status = PetStatusEnum.sold
-          ..category = (CategoryBuilder()
-            ..id = 1
-            ..name = 'dog')
-          ..photoUrls = SetBuilder<String>(<String>[photo1, photo2])
-          ..tags = ListBuilder<Tag>(<Tag>[
-            Tag((t) => t
-              ..id = 3
-              ..name = 'smart'),
-            Tag((t) => t
-              ..id = 4
-              ..name = 'cute'),
-          ])));
+        final response = await client.getPetApi().addPet(
+            pet: Pet((p) => p
+              ..id = 5
+              ..name = 'Paula'
+              ..status = PetStatusEnum.sold
+              ..category = (CategoryBuilder()
+                ..id = 1
+                ..name = 'dog')
+              ..photoUrls = SetBuilder<String>(<String>[photo1, photo2])
+              ..tags = ListBuilder<Tag>(<Tag>[
+                Tag((t) => t
+                  ..id = 3
+                  ..name = 'smart'),
+                Tag((t) => t
+                  ..id = 4
+                  ..name = 'cute'),
+              ])));
 
         expect(response.statusCode, 200);
       });
 
       test('minimal', () async {
-        server.onPost(
+        tester.onPost(
           '/pet',
-          (request) => request.reply(200, ''),
+          (server) => server.reply(200, ''),
           data: {
             'id': 5,
             'name': 'Paula',
             'photoUrls': <String>[],
           },
-          headers: {
-            'content-type': 'application/json',
-            'content-length': 38,
+          headers: <String, dynamic>{
+            Headers.contentTypeHeader: Matchers.pattern('application/json'),
+            Headers.contentLengthHeader: Matchers.integer,
           },
         );
 
-        final response = await client.getPetApi().addPet(Pet((p) => p
-          ..id = 5
-          ..name = 'Paula'));
+        final response = await client.getPetApi().addPet(
+            pet: Pet((p) => p
+              ..id = 5
+              ..name = 'Paula'));
 
         expect(response.statusCode, 200);
       });
@@ -169,9 +168,9 @@ void main() {
 
     group('getMultiplePets', () {
       test('findByStatus', () async {
-        server.onRoute(
+        tester.onRoute(
           '/pet/findByStatus',
-          (request) => request.reply(200, [
+          (server) => server.reply(200, [
             {
               'id': 5,
               'name': 'Paula',
@@ -188,16 +187,19 @@ void main() {
           request: Request(
             method: RequestMethods.get,
             queryParameters: <String, dynamic>{
-              'status': <String>[
-                'available',
-                'sold',
-              ],
+              'status': Matchers.listParam<dynamic>(
+                ListParam<dynamic>(
+                  <dynamic>['available', 'sold'],
+                  ListFormat.csv,
+                ),
+              ),
             },
           ),
         );
 
         final response = await client.getPetApi().findPetsByStatus(
-              ListBuilder<String>(<String>[
+              // ignore: deprecated_member_use
+              status: ListBuilder<String>(<String>[
                 PetStatusEnum.available.name,
                 PetStatusEnum.sold.name,
               ]).build(),
@@ -205,13 +207,91 @@ void main() {
 
         expect(response.statusCode, 200);
         expect(response.data, isNotNull);
-        expect(response.data.length, 2);
-        expect(response.data[0].id, 5);
-        expect(response.data[0].name, 'Paula');
-        expect(response.data[0].status, PetStatusEnum.sold);
-        expect(response.data[1].id, 1);
-        expect(response.data[1].name, 'Mickey');
-        expect(response.data[1].status, PetStatusEnum.available);
+        expect(response.data, hasLength(2));
+        expect(response.data![0].id, 5);
+        expect(response.data![0].name, 'Paula');
+        expect(response.data![0].status, PetStatusEnum.sold);
+        expect(response.data![1].id, 1);
+        expect(response.data![1].name, 'Mickey');
+        expect(response.data![1].status, PetStatusEnum.available);
+      });
+    });
+
+    group('uploadFile', () {
+      test('uploadFileWithRequiredFile', () async {
+        final file = MultipartFile.fromBytes(
+          [1, 2, 3, 4],
+          filename: 'test.png',
+          contentType: MediaType.parse('image/png'),
+        );
+
+        tester.onRoute(
+          '/fake/5/uploadImageWithRequiredFile',
+          (server) => server.reply(200, {
+            'code': 200,
+            'type': 'success',
+            'message': 'File uploaded',
+          }),
+          request: Request(
+            method: RequestMethods.post,
+            headers: <String, dynamic>{
+              Headers.contentTypeHeader:
+                  Matchers.pattern('multipart/form-data'),
+              Headers.contentLengthHeader: Matchers.integer,
+            },
+            data: Matchers.formData(
+              FormData.fromMap(<String, dynamic>{
+                r'requiredFile': file,
+              }),
+            ),
+          ),
+        );
+        final response = await client.getPetApi().uploadFileWithRequiredFile(
+              petId: 5,
+              requiredFile: file,
+            );
+
+        expect(response.statusCode, 200);
+        expect(response.data?.message, 'File uploaded');
+      });
+
+      test('uploadFileWithRequiredFile & additionalMetadata', () async {
+        final file = MultipartFile.fromBytes(
+          [1, 2, 3, 4],
+          filename: 'test.png',
+          contentType: MediaType.parse('image/png'),
+        );
+
+        tester.onRoute(
+          '/fake/3/uploadImageWithRequiredFile',
+          (server) => server.reply(200, {
+            'code': 200,
+            'type': 'success',
+            'message': 'File uploaded',
+          }),
+          request: Request(
+            method: RequestMethods.post,
+            headers: <String, dynamic>{
+              Headers.contentTypeHeader:
+                  Matchers.pattern('multipart/form-data'),
+              Headers.contentLengthHeader: Matchers.integer,
+            },
+            data: Matchers.formData(
+              FormData.fromMap(<String, dynamic>{
+                'additionalMetadata': 'foo',
+                r'requiredFile': file,
+              }),
+            ),
+          ),
+        );
+        final response = await client.getPetApi().uploadFileWithRequiredFile(
+              petId: 3,
+              requiredFile: file,
+              additionalMetadata: 'foo',
+            );
+
+        expect(response.statusCode, 200);
+        expect(response.data?.message, 'File uploaded');
       });
     });
   });

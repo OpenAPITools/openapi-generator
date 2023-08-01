@@ -10,9 +10,9 @@ namespace app\Models;
 class EnumArrays {
 
     /** @var string $justSymbol */
-    private $justSymbol;
+    public $justSymbol = "";
 
     /** @var string[] $arrayEnum */
-    private $arrayEnum;
+    public $arrayEnum = [];
 
 }

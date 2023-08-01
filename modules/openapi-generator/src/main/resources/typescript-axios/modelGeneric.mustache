@@ -5,7 +5,7 @@
  */
 export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#additionalPropertiesType}}
-    [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};
+    [key: string]: {{{additionalPropertiesType}}}{{^additionalPropertiesIsAnyType}}{{#hasVars}} | any{{/hasVars}}{{/additionalPropertiesIsAnyType}};
 
 {{/additionalPropertiesType}}
 {{#vars}}

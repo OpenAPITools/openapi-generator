@@ -1,6 +1,6 @@
 generatorName: powershell
 outputDir: samples/client/petstore/powershell
-inputSpec: modules/openapi-generator/src/test/resources/3_0/powershell/petstore.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/powershell/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
 templateDir: modules/openapi-generator/src/main/resources/powershell
 additionalProperties:
   packageGuid: a27b908d-2a20-467f-bc32-af6f3a654ac5

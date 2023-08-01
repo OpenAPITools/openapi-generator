@@ -17,7 +17,6 @@ import org.openapitools.client.ApiException;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
 import org.junit.Test;
 import org.junit.Ignore;
 
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -46,9 +46,9 @@ public class PetApiTest {
      */
     @Test
     public void addPetTest() throws ApiException {
-        Pet body = null;
+        Pet pet = null;
         
-        api.addPet(body);
+        api.addPet(pet);
         
         // TODO: test validations
     }
@@ -98,8 +98,8 @@ public class PetApiTest {
      */
     @Test
     public void findPetsByTagsTest() throws ApiException {
-        Set<String> tags = null;
-        Set<Pet> response = 
+        List<String> tags = null;
+        List<Pet> response = 
         api.findPetsByTags(tags);
         
         // TODO: test validations
@@ -132,9 +132,9 @@ public class PetApiTest {
      */
     @Test
     public void updatePetTest() throws ApiException {
-        Pet body = null;
+        Pet pet = null;
         
-        api.updatePet(body);
+        api.updatePet(pet);
         
         // TODO: test validations
     }
@@ -170,9 +170,9 @@ public class PetApiTest {
     public void uploadFileTest() throws ApiException {
         Long petId = null;
         String additionalMetadata = null;
-        File file = null;
+        File _file = null;
         ModelApiResponse response = 
-        api.uploadFile(petId, additionalMetadata, file);
+        api.uploadFile(petId, additionalMetadata, _file);
         
         // TODO: test validations
     }

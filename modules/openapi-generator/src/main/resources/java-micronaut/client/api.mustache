@@ -8,54 +8,56 @@ import io.micronaut.http.client.annotation.Client;
 import {{invokerPackage}}.auth.Authorization;
 {{/configureAuth}}
 import io.micronaut.core.convert.format.Format;
+{{#reactive}}
 import reactor.core.publisher.Mono;
-{{#imports}}import {{import}};
+{{/reactive}}
+{{#wrapInHttpResponse}}
+import io.micronaut.http.HttpResponse;
+{{/wrapInHttpResponse}}
+{{#imports}}
+import {{import}};
 {{/imports}}
-import javax.annotation.Generated;
-{{^fullJavaUtil}}
+import {{javaxPackage}}.annotation.Generated;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{/fullJavaUtil}}{{#useBeanValidation}}
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
 {{/useBeanValidation}}
+{{#generateSwagger1Annotations}}
+import io.swagger.annotations.*;
+{{/generateSwagger1Annotations}}
+{{#generateSwagger2Annotations}}
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+{{/generateSwagger2Annotations}}
 
+{{#additionalClientTypeAnnotations}}
+	{{{.}}}
+{{/additionalClientTypeAnnotations}}
 {{>common/generatedAnnotation}}
-@Client("${base-path}")
+@Client({{#configureClientId}}
+  id = "{{clientId}}",
+  path = {{/configureClientId}}"${{openbrace}}{{{applicationName}}}{{basePathSeparator}}base-path{{closebrace}}")
 public interface {{classname}} {
 {{#operations}}
     {{#operation}}
-    /**
-        {{#summary}}
-     * {{summary}}
-        {{/summary}}
-        {{#notes}}
-     * {{notes}}
-        {{/notes}}
-        {{^summary}}
-            {{^notes}}
-     * {{nickname}}
-            {{/notes}}
-        {{/summary}}
-     *
-        {{#allParams}}
-     * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-        {{/allParams}}
-        {{#returnType}}
-     * @return {{returnType}}
-        {{/returnType}}
-        {{#externalDocs}}
-     * {{description}}
-     * @see <a href="{{url}}">{{summary}} Documentation</a>
-{{/externalDocs}}
-     */
-    @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
-        {{#vendorExtensions.x-contentType}}
-    @Produces(value={"{{vendorExtensions.x-contentType}}"})
-        {{/vendorExtensions.x-contentType}}
-    @Consumes(value={"{{vendorExtensions.x-accepts}}"})
+{{>common/operationAnnotations}}{{!
+}}    @{{#lambda.pascalcase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.pascalcase}}(uri="{{{path}}}")
+    {{#hasProduces}}
+    {{#produces}}{{#-first}}@Consumes({{openbrace}}{{/-first}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{#-last}}{{closebrace}}){{/-last}}{{/produces}}
+    {{/hasProduces}}
+    {{#hasConsumes}}
+    {{#consumes}}{{#-first}}@Produces({{openbrace}}{{/-first}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{#-last}}{{closebrace}}){{/-last}}{{/consumes}}
+    {{/hasConsumes}}
     {{!auth methods}}
         {{#configureAuth}}
             {{#authMethods}}
@@ -63,9 +65,10 @@ public interface {{classname}} {
             {{/authMethods}}
         {{/configureAuth}}
     {{!the method definition}}
-    {{#returnType}}Mono<{{{returnType}}}>{{/returnType}}{{^returnType}}Mono<Object>{{/returnType}} {{nickname}}({{^allParams}});{{/allParams}}{{#allParams}}
+    {{>common/operationReturnType}} {{nickname}}({{#allParams}}
         {{>client/params/queryParams}}{{>client/params/pathParams}}{{>client/params/headerParams}}{{>client/params/bodyParams}}{{>client/params/formParams}}{{>client/params/cookieParams}}{{^-last}}, {{/-last}}{{#-last}}
-  );{{/-last}}{{/allParams}}
+    {{/-last}}{{/allParams}});
+
     {{/operation}}
 {{/operations}}
 }

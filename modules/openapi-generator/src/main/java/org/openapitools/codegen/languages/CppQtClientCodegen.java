@@ -24,13 +24,18 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
+import java.util.List;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenConfig {
     public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate client.pri.";
+    public static final String DEFAULT_PACKAGE_NAME = "QtOpenAPIClient";
+    protected String packageName = "";
     // source folder where to write the files
     protected String sourceFolder = "client";
     protected boolean optionalProjectFileFlag = true;
@@ -89,7 +94,10 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
          */
         embeddedTemplateDir = templateDir = "cpp-qt-client";
 
+        // CLI options
+        addOption(CodegenConstants.PACKAGE_NAME, "C++ package (library) name.", DEFAULT_PACKAGE_NAME);
         addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE, OPTIONAL_PROJECT_FILE_DESC, this.optionalProjectFileFlag);
+
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, PREFIX + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder, PREFIX + "Helpers.cpp"));
         supportingFiles.add(new SupportingFile("HttpRequest.h.mustache", sourceFolder, PREFIX + "HttpRequest.h"));
@@ -103,23 +111,30 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("oauth.cpp.mustache", sourceFolder, PREFIX + "Oauth.cpp"));
         supportingFiles.add(new SupportingFile("oauth.h.mustache", sourceFolder, PREFIX + "Oauth.h"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("CMakeConfig.mustache", sourceFolder, "Config.cmake.in"));
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
         if (optionalProjectFileFlag) {
             supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, "client.pri"));
         }
         typeMapping.put("file", PREFIX + "HttpFileElement");
+        typeMapping.put("AnyType", "QJsonValue");
         importMapping.put(PREFIX + "HttpFileElement", "#include \"" + PREFIX + "HttpFileElement.h\"");
+        importMapping.put("QJsonValue", "#include <QJsonValue>");
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
 
+        packageName = (String) additionalProperties.getOrDefault(CodegenConstants.PACKAGE_NAME, DEFAULT_PACKAGE_NAME);
+
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE)) {
             setOptionalProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));
         } else {
             additionalProperties.put(CodegenConstants.OPTIONAL_PROJECT_FILE, optionalProjectFileFlag);
         }
+
+        additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
 
         if (additionalProperties.containsKey("modelNamePrefix")) {
             supportingFiles.clear();
@@ -136,11 +151,14 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
             supportingFiles.add(new SupportingFile("oauth.cpp.mustache", sourceFolder, modelNamePrefix + "Oauth.cpp"));
             supportingFiles.add(new SupportingFile("oauth.h.mustache", sourceFolder, modelNamePrefix + "Oauth.h"));
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+            supportingFiles.add(new SupportingFile("CMakeConfig.mustache", sourceFolder, "Config.cmake.in"));
             supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
 
 
             typeMapping.put("file", modelNamePrefix + "HttpFileElement");
+            typeMapping.put("AnyType", "QJsonValue");
             importMapping.put(modelNamePrefix + "HttpFileElement", "#include \"" + modelNamePrefix + "HttpFileElement.h\"");
+            importMapping.put("QJsonValue", "#include <QJsonValue>");
             if (optionalProjectFileFlag) {
                 supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, modelNamePrefix + "client.pri"));
             }
@@ -205,5 +223,12 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
 
     public void setOptionalProjectFileFlag(boolean flag) {
         this.optionalProjectFileFlag = flag;
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+        removeImport(objs, "#include <QList>");
+        return objs;
     }
 }

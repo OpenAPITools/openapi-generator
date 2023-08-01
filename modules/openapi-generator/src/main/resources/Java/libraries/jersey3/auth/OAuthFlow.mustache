@@ -1,0 +1,13 @@
+{{>licenseInfo}}
+
+package {{invokerPackage}}.auth;
+
+/**
+ * OAuth flows that are supported by this client
+ */
+public enum OAuthFlow {
+    ACCESS_CODE,
+    IMPLICIT,
+    PASSWORD,
+    APPLICATION
+}

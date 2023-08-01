@@ -2,10 +2,11 @@
 {{#oneOf}}
 import {
     {{{.}}},
+    instanceOf{{{.}}},
     {{{.}}}FromJSON,
     {{{.}}}FromJSONTyped,
     {{{.}}}ToJSON,
-} from './{{.}}';
+} from './{{.}}{{importFileExtension}}';
 {{/oneOf}}
 
 {{/hasImports}}
@@ -20,7 +21,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         return json;
     }
 {{#discriminator}}
-    switch (json['{{discriminator.propertyName}}']) {
+    switch (json['{{discriminator.propertyBaseName}}']) {
 {{#discriminator.mappedModels}}
         case '{{mappingName}}':
             return {...{{modelName}}FromJSONTyped(json, true), {{discriminator.propertyName}}: '{{mappingName}}'};
@@ -51,7 +52,14 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
             throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${value['{{discriminator.propertyName}}']}'`);
     }
 {{/discriminator}}
+
 {{^discriminator}}
-    return { {{#oneOf}}...{{{.}}}ToJSON(value){{^-last}}, {{/-last}}{{/oneOf}} };
+    {{#oneOf}}
+    if (instanceOf{{{.}}}(value)) {
+        return {{{.}}}ToJSON(value as {{{.}}});
+    }
+    {{/oneOf}}
+
+    return {};
 {{/discriminator}}
 }

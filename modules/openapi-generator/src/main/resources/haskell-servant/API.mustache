@@ -6,6 +6,9 @@
 {-# LANGUAGE FlexibleInstances          #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE OverloadedStrings          #-}
+{{#useCustomMonad}}
+{-# LANGUAGE RankNTypes                 #-}
+{{/useCustomMonad}}
 {-# LANGUAGE RecordWildCards            #-}
 {-# LANGUAGE TypeFamilies               #-}
 {-# LANGUAGE TypeOperators              #-}
@@ -29,6 +32,12 @@ module {{title}}.API
   , {{title}}API
   -- ** Plain WAI Application
   , serverWaiApplication{{title}}
+{{#hasAuthMethods}}
+  -- ** Authentication
+  , {{title}}Auth(..)
+  , clientAuth
+  , Protected
+{{/hasAuthMethods}}
   ) where
 
 import           {{title}}.Types
@@ -38,6 +47,14 @@ import           Control.Monad.Except               (ExceptT, runExceptT)
 import           Control.Monad.IO.Class
 import           Control.Monad.Trans.Reader         (ReaderT (..))
 import           Data.Aeson                         (Value)
+{{#authMethods}}
+{{#isApiKey}}
+import           Data.ByteString                    (ByteString)
+{{/isApiKey}}
+{{#isBasicBearer}}
+import           Data.ByteString                    (ByteString)
+{{/isBasicBearer}}
+{{/authMethods}}
 import           Data.Coerce                        (coerce)
 import           Data.Data                          (Data)
 import           Data.Function                      ((&))
@@ -54,17 +71,38 @@ import           GHC.Generics                       (Generic)
 import           Network.HTTP.Client                (Manager, newManager)
 import           Network.HTTP.Client.TLS            (tlsManagerSettings)
 import           Network.HTTP.Types.Method          (methodOptions)
-import           Network.Wai                        (Middleware)
+import           Network.Wai                        (Middleware{{#hasAuthMethods}}, Request, requestHeaders{{/hasAuthMethods}})
 import qualified Network.Wai.Handler.Warp           as Warp
-import           Servant                            (ServerError, serve)
-import           Servant.API
+{{#authMethods}}
+{{#isBasicBearer}}
+import           Network.Wai.Middleware.HttpAuth    (extractBearerAuth)
+{{/isBasicBearer}}
+{{#isBasicBasic}}
+import           Network.Wai.Middleware.HttpAuth    (extractBasicAuth)
+{{/isBasicBasic}}
+{{/authMethods}}
+import           Servant                            (ServerError, serveWithContextT{{#hasAuthMethods}}, throwError{{/hasAuthMethods}})
+import           Servant.API                        hiding (addHeader)
+{{#authMethods}}
+{{#isBasicBasic}}
+import           Servant.API.BasicAuth              (BasicAuthData (..))
+{{/isBasicBasic}}
+{{/authMethods}}
 import           Servant.API.Verbs                  (StdMethod (..), Verb)
+{{#hasAuthMethods}}
+import           Servant.API.Experimental.Auth      (AuthProtect)
+{{/hasAuthMethods}}
 import           Servant.Client                     (ClientEnv, Scheme (Http), ClientError, client,
                                                      mkClientEnv, parseBaseUrl)
-import           Servant.Client.Core                (baseUrlPort, baseUrlHost)
+import           Servant.Client.Core                (baseUrlPort, baseUrlHost{{#authMethods}}{{#isBasicBasic}}, basicAuthReq{{/isBasicBasic}}, AuthClientData, AuthenticatedRequest, addHeader, mkAuthenticatedRequest{{/authMethods}})
 import           Servant.Client.Internal.HttpClient (ClientM (..))
-import           Servant.Server                     (Handler (..), Application){{#serveStatic}}
-import           Servant.Server.StaticFiles         (serveDirectoryFileServer){{/serveStatic}}
+import           Servant.Server                     (Handler (..), Application, Context ({{#hasAuthMethods}}(:.), {{/hasAuthMethods}}EmptyContext))
+{{#hasAuthMethods}}
+import           Servant.Server.Experimental.Auth   (AuthHandler, AuthServerData, mkAuthHandler)
+{{/hasAuthMethods}}
+{{#serveStatic}}
+import           Servant.Server.StaticFiles         (serveDirectoryFileServer)
+{{/serveStatic}}
 import           Web.FormUrlEncoded
 import           Web.HttpApiData
 
@@ -132,10 +170,10 @@ formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toQueryPa
 {{#apiInfo}}
 -- | Servant type-level API, generated from the OpenAPI spec for {{title}}.
 type {{title}}API
-    =    {{#apis}}{{#operations}}{{#operation}}{{& vendorExtensions.x-route-type}} -- '{{operationId}}' route{{^-last}}
+    =    {{#apis}}{{#operations}}{{#operation}}{{#hasAuthMethods}}Protected :> {{/hasAuthMethods}}{{& vendorExtensions.x-route-type}} -- '{{operationId}}' route{{^-last}}
     :<|> {{/-last}}{{/operation}}{{/operations}}{{^-last}}
     :<|> {{/-last}}{{/apis}}{{#serveStatic}}
-    :<|> Raw {{/serveStatic}}
+    :<|> Raw{{/serveStatic}}
 {{/apiInfo}}
 
 
@@ -156,11 +194,38 @@ newtype {{title}}ClientError = {{title}}ClientError ClientError
 -- The backend can be used both for the client and the server. The client generated from the {{title}} OpenAPI spec
 -- is a backend that executes actions by sending HTTP requests (see @create{{title}}Client@). Alternatively, provided
 -- a backend, the API can be served using @run{{title}}MiddlewareServer@.
-data {{title}}Backend m = {{title}}Backend
-  { {{#apis}}{{#operations}}{{#operation}}{{operationId}} :: {{& vendorExtensions.x-client-type}}{- ^ {{& notes}} -}{{^-last}}
+data {{title}}Backend{{#hasAuthMethods}} a{{/hasAuthMethods}} m = {{title}}Backend
+  { {{#apis}}{{#operations}}{{#operation}}{{operationId}} :: {{#hasAuthMethods}}a -> {{/hasAuthMethods}}{{& vendorExtensions.x-client-type}}{- ^ {{& notes}} -}{{^-last}}
   , {{/-last}}{{/operation}}{{/operations}}{{^-last}}
   , {{/-last}}{{/apis}}
   }
+
+{{#authMethods}}
+{{^isOAuth}}
+-- | Authentication settings for {{title}}.
+-- lookupUser is used to retrieve a user given a header value. The data type can be specified by providing an
+-- type instance for AuthServerData. authError is a function that given a request returns a custom error that
+-- is returned when the header is not found.
+{{/isOAuth}}
+{{#isApiKey}}
+data {{title}}Auth = {{title}}Auth
+  { lookupUser :: ByteString -> Handler AuthServer
+  , authError :: Request -> ServerError
+  }
+{{/isApiKey}}
+{{#isBasicBearer}}
+data {{title}}Auth = {{title}}Auth
+  { lookupUser :: ByteString -> Handler AuthServer
+  , authError :: Request -> ServerError
+  }
+{{/isBasicBearer}}
+{{#isBasicBasic}}
+data {{title}}Auth = {{title}}Auth
+  { lookupUser :: BasicAuthData -> Handler AuthServer
+  , authError :: Request -> ServerError
+  }
+{{/isBasicBasic}}
+{{/authMethods}}
 
 newtype {{title}}Client a = {{title}}Client
   { runClient :: ClientEnv -> ExceptT ClientError IO a
@@ -182,7 +247,7 @@ instance MonadIO {{title}}Client where
 {{/apiInfo}}
 
 {{#apiInfo}}
-create{{title}}Client :: {{title}}Backend {{title}}Client
+create{{title}}Client :: {{title}}Backend{{#hasAuthMethods}} AuthClient{{/hasAuthMethods}} {{title}}Client
 create{{title}}Client = {{title}}Backend{..}
   where
     ({{#apis}}{{#operations}}{{#operation}}(coerce -> {{operationId}}){{^-last}} :<|>
@@ -222,29 +287,93 @@ requestMiddlewareId a = a
 -- | Run the {{title}} server at the provided host and port.
 run{{title}}Server
   :: (MonadIO m, MonadThrow m)
-  => Config -> {{title}}Backend (ExceptT ServerError IO) -> m ()
-run{{title}}Server config backend = run{{title}}MiddlewareServer config requestMiddlewareId backend
+  => Config -> {{#useCustomMonad}}(forall x . n x -> Handler x) -> {{/useCustomMonad}}{{#hasAuthMethods}}{{title}}Auth -> {{/hasAuthMethods}}{{title}}Backend {{#hasAuthMethods}}AuthServer {{/hasAuthMethods}}{{^useCustomMonad}}(ExceptT ServerError IO){{/useCustomMonad}}{{#useCustomMonad}}n{{/useCustomMonad}} -> m ()
+run{{title}}Server config {{#useCustomMonad}}nat {{/useCustomMonad}}{{#hasAuthMethods}}auth {{/hasAuthMethods}}backend = run{{title}}MiddlewareServer config requestMiddlewareId {{#useCustomMonad}}nat {{/useCustomMonad}}{{#hasAuthMethods}}auth {{/hasAuthMethods}}backend
 
 -- | Run the {{title}} server at the provided host and port.
 run{{title}}MiddlewareServer
   :: (MonadIO m, MonadThrow m)
-  => Config -> Middleware -> {{title}}Backend (ExceptT ServerError IO) -> m ()
-run{{title}}MiddlewareServer Config{..} middleware backend = do
+  => Config -> Middleware -> {{#useCustomMonad}}(forall x . n x -> Handler x) -> {{/useCustomMonad}}{{#hasAuthMethods}}{{title}}Auth -> {{/hasAuthMethods}}{{title}}Backend{{#hasAuthMethods}} AuthServer{{/hasAuthMethods}} {{^useCustomMonad}}(ExceptT ServerError IO){{/useCustomMonad}}{{#useCustomMonad}}n{{/useCustomMonad}} -> m ()
+run{{title}}MiddlewareServer Config{..} middleware{{#useCustomMonad}} nat{{/useCustomMonad}}{{#hasAuthMethods}} auth{{/hasAuthMethods}} backend = do
   url <- parseBaseUrl configUrl
   let warpSettings = Warp.defaultSettings
         & Warp.setPort (baseUrlPort url)
         & Warp.setHost (fromString $ baseUrlHost url)
-  liftIO $ Warp.runSettings warpSettings $ middleware $ serverWaiApplication{{title}} backend
+  liftIO $ Warp.runSettings warpSettings $ middleware $ serverWaiApplication{{title}}{{#useCustomMonad}} nat{{/useCustomMonad}}{{#hasAuthMethods}} auth{{/hasAuthMethods}} backend
 
 -- | Plain "Network.Wai" Application for the {{title}} server.
 --
 -- Can be used to implement e.g. tests that call the API without a full webserver.
-serverWaiApplication{{title}} :: {{title}}Backend (ExceptT ServerError IO) -> Application
-serverWaiApplication{{title}} backend = serve (Proxy :: Proxy {{title}}API) (serverFromBackend backend)
+serverWaiApplication{{title}} :: {{#useCustomMonad}}(forall x . n x -> Handler x) -> {{/useCustomMonad}}{{#hasAuthMethods}}{{title}}Auth -> {{/hasAuthMethods}}{{title}}Backend {{#hasAuthMethods}}AuthServer {{/hasAuthMethods}}{{^useCustomMonad}}(ExceptT ServerError IO){{/useCustomMonad}}{{#useCustomMonad}}n{{/useCustomMonad}} -> Application
+serverWaiApplication{{title}} {{#useCustomMonad}}nat {{/useCustomMonad}}{{#hasAuthMethods}}auth {{/hasAuthMethods}}backend = serveWithContextT (Proxy :: Proxy {{title}}API) context {{^useCustomMonad}}id {{/useCustomMonad}}{{#useCustomMonad}}nat {{/useCustomMonad}}(serverFromBackend backend)
   where
+    context = serverContext{{#hasAuthMethods}} auth{{/hasAuthMethods}}
     serverFromBackend {{title}}Backend{..} =
       ({{#apis}}{{#operations}}{{#operation}}coerce {{operationId}}{{^-last}} :<|>
        {{/-last}}{{/operation}}{{/operations}}{{^-last}} :<|>
        {{/-last}}{{/apis}}{{#serveStatic}} :<|>
        serveDirectoryFileServer "static"{{/serveStatic}})
 {{/apiInfo}}
+
+{{#authMethods}}
+{{^isOAuth}}
+-- Authentication is implemented with servants generalized authentication:
+-- https://docs.servant.dev/en/stable/tutorial/Authentication.html#generalized-authentication
+
+{{/isOAuth}}
+{{#isApiKey}}
+authHandler :: {{title}}Auth -> AuthHandler Request AuthServer
+authHandler {{title}}Auth{..} = mkAuthHandler handler
+  where
+    handler req = case lookup "{{keyParamName}}" (requestHeaders req) of
+      Just header -> lookupUser header
+      Nothing -> throwError (authError req)
+
+type Protected = AuthProtect "apikey"
+type AuthServer = AuthServerData Protected
+type AuthClient = AuthenticatedRequest Protected
+type instance AuthClientData Protected = Text
+
+clientAuth :: Text -> AuthClient
+clientAuth key = mkAuthenticatedRequest key (addHeader "{{keyParamName}}")
+{{/isApiKey}}
+{{#isBasicBearer}}
+authHandler :: {{title}}Auth -> AuthHandler Request AuthServer
+authHandler {{title}}Auth{..} = mkAuthHandler handler
+  where
+    handler req = case lookup "Authorization" (requestHeaders req) of
+      Just header -> case extractBearerAuth header of
+        Just key -> lookupUser key
+        Nothing -> throwError (authError req)
+      Nothing -> throwError (authError req)
+
+type Protected = AuthProtect "bearer"
+type AuthServer = AuthServerData Protected
+type AuthClient = AuthenticatedRequest Protected
+type instance AuthClientData Protected = Text
+
+clientAuth :: Text -> AuthClient
+clientAuth key = mkAuthenticatedRequest ("Bearer " <> key) (addHeader "Authorization")
+{{/isBasicBearer}}
+{{#isBasicBasic}}
+authHandler :: {{title}}Auth -> AuthHandler Request AuthServer
+authHandler {{title}}Auth{..} = mkAuthHandler handler
+  where
+    handler req = case lookup "Authorization" (requestHeaders req) of
+      Just header -> case extractBasicAuth header of
+        Just (user, password) -> lookupUser (BasicAuthData user password)
+        Nothing -> throwError (authError req)
+      Nothing -> throwError (authError req)
+
+type Protected = AuthProtect "basic"
+type AuthServer = AuthServerData Protected
+type AuthClient = AuthenticatedRequest Protected
+type instance AuthClientData Protected = BasicAuthData
+
+clientAuth :: BasicAuthData -> AuthClient
+clientAuth key = mkAuthenticatedRequest key basicAuthReq
+{{/isBasicBasic}}
+{{/authMethods}}
+
+serverContext :: {{#hasAuthMethods}}{{title}}Auth -> {{/hasAuthMethods}}Context ({{#hasAuthMethods}}AuthHandler Request AuthServer ': {{/hasAuthMethods}}'[])
+serverContext {{#hasAuthMethods}}auth {{/hasAuthMethods}}= {{#hasAuthMethods}}authHandler auth :. {{/hasAuthMethods}}EmptyContext

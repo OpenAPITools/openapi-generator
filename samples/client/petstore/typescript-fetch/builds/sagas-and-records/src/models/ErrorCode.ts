@@ -12,31 +12,33 @@
  * Do not edit the class manually.
  */
 
+
 /**
  * Error code returned when an error occurs
  * @export
- * @enum {string}
  */
-export enum ErrorCode {
-    VolumeRangeAtLowestValue = 'Volume_Range_At_Lowest_Value',
-    MusicVolumeBlocksVolumeRangeDecrease = 'Music_Volume_Blocks_Volume_Range_Decrease',
-    VolumeRangeAtHighestValue = 'Volume_Range_At_Highest_Value',
-    MaximumVolumeBlocksVolumeRangeIncrease = 'Maximum_Volume_Blocks_Volume_Range_Increase',
-    MusicVolumeBlocksMaximumVolumeDecrease = 'Music_Volume_Blocks_Maximum_Volume_Decrease',
-    MaximumVolumeAtLowestValue = 'Maximum_Volume_At_Lowest_Value',
-    VolumeRangeBlocksMaximumVolumeDecrease = 'Volume_Range_Blocks_Maximum_Volume_Decrease',
-    MaximumVolumeAtHighestValue = 'Maximum_Volume_At_Highest_Value',
-    MessageGainBlocksMaximumVolumeIncrease = 'Message_Gain_Blocks_Maximum_Volume_Increase',
-    MusicVolumeBlocksMaximumVolumeIncrease = 'Music_Volume_Blocks_Maximum_Volume_Increase',
-    MaximumVolumeBlocksMessageGainDecrease = 'Maximum_Volume_Blocks_Message_Gain_Decrease',
-    MessageGainAtHighestValue = 'Message_Gain_At_Highest_Value',
-    MusicVolumeBlocksMessageGain = 'Music_Volume_Blocks_Message_Gain',
-    MaximumMessageGainLowerThanMinimum = 'Maximum_Message_Gain_Lower_Than_Minimum',
-    MaximumMessageGainHigherThanMaximum = 'Maximum_Message_Gain_Higher_Than_Maximum',
-    MaximumMessageGainLowerThanMessageGain = 'Maximum_Message_Gain_Lower_Than_Message_Gain',
-    MinimumVolumeBlocksMusicVolumeDecrease = 'Minimum_Volume_Blocks_Music_Volume_Decrease',
-    MaximumVolumeBlocksMusicVolumeIncrease = 'Maximum_Volume_Blocks_Music_Volume_Increase'
-}
+export const ErrorCode = {
+    VolumeRangeAtLowestValue: 'Volume_Range_At_Lowest_Value',
+    MusicVolumeBlocksVolumeRangeDecrease: 'Music_Volume_Blocks_Volume_Range_Decrease',
+    VolumeRangeAtHighestValue: 'Volume_Range_At_Highest_Value',
+    MaximumVolumeBlocksVolumeRangeIncrease: 'Maximum_Volume_Blocks_Volume_Range_Increase',
+    MusicVolumeBlocksMaximumVolumeDecrease: 'Music_Volume_Blocks_Maximum_Volume_Decrease',
+    MaximumVolumeAtLowestValue: 'Maximum_Volume_At_Lowest_Value',
+    VolumeRangeBlocksMaximumVolumeDecrease: 'Volume_Range_Blocks_Maximum_Volume_Decrease',
+    MaximumVolumeAtHighestValue: 'Maximum_Volume_At_Highest_Value',
+    MessageGainBlocksMaximumVolumeIncrease: 'Message_Gain_Blocks_Maximum_Volume_Increase',
+    MusicVolumeBlocksMaximumVolumeIncrease: 'Music_Volume_Blocks_Maximum_Volume_Increase',
+    MaximumVolumeBlocksMessageGainDecrease: 'Maximum_Volume_Blocks_Message_Gain_Decrease',
+    MessageGainAtHighestValue: 'Message_Gain_At_Highest_Value',
+    MusicVolumeBlocksMessageGain: 'Music_Volume_Blocks_Message_Gain',
+    MaximumMessageGainLowerThanMinimum: 'Maximum_Message_Gain_Lower_Than_Minimum',
+    MaximumMessageGainHigherThanMaximum: 'Maximum_Message_Gain_Higher_Than_Maximum',
+    MaximumMessageGainLowerThanMessageGain: 'Maximum_Message_Gain_Lower_Than_Message_Gain',
+    MinimumVolumeBlocksMusicVolumeDecrease: 'Minimum_Volume_Blocks_Music_Volume_Decrease',
+    MaximumVolumeBlocksMusicVolumeIncrease: 'Maximum_Volume_Blocks_Music_Volume_Increase'
+} as const;
+export type ErrorCode = typeof ErrorCode[keyof typeof ErrorCode];
+
 
 export function ErrorCodeFromJSON(json: any): ErrorCode {
     return ErrorCodeFromJSONTyped(json, false);

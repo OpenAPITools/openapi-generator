@@ -9,6 +9,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**fakeBigDecimalMap**](FakeApi.md#fakebigdecimalmap) | **GET** /fake/BigDecimalMap | 
 [**fakeHealthGet**](FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 [**fakeHttpSignatureTest**](FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 [**fakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
@@ -27,6 +28,45 @@ Method | HTTP request | Description
 [**testJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 [**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 
+
+# **fakeBigDecimalMap**
+> FakeBigDecimalMap200Response fakeBigDecimalMap()
+
+
+
+for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api_instance = FakeApi();
+
+try {
+    final result = api_instance.fakeBigDecimalMap();
+    print(result);
+} catch (e) {
+    print('Exception when calling FakeApi->fakeBigDecimalMap: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**FakeBigDecimalMap200Response**](FakeBigDecimalMap200Response.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fakeHealthGet**
 > HealthCheckResult fakeHealthGet()
@@ -565,7 +605,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **testEnumParameters**
-> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
+> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString)
 
 To test enum parameters
 
@@ -582,11 +622,12 @@ final enumQueryStringArray = []; // List<String> | Query parameter enum test (st
 final enumQueryString = enumQueryString_example; // String | Query parameter enum test (string)
 final enumQueryInteger = 56; // int | Query parameter enum test (double)
 final enumQueryDouble = 1.2; // double | Query parameter enum test (double)
+final enumQueryModelArray = []; // List<EnumClass> | 
 final enumFormStringArray = []; // List<String> | Form parameter enum test (string array)
 final enumFormString = enumFormString_example; // String | Form parameter enum test (string)
 
 try {
-    api_instance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+    api_instance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
 } catch (e) {
     print('Exception when calling FakeApi->testEnumParameters: $e\n');
 }
@@ -602,6 +643,7 @@ Name | Type | Description  | Notes
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to '-efg']
  **enumQueryInteger** | **int**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double**| Query parameter enum test (double) | [optional] 
+ **enumQueryModelArray** | [**List<EnumClass>**](EnumClass.md)|  | [optional] [default to const []]
  **enumFormStringArray** | [**List<String>**](String.md)| Form parameter enum test (string array) | [optional] [default to '$']
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to '-efg']
 
@@ -683,6 +725,8 @@ void (empty response body)
 
 test inline additionalProperties
 
+
+
 ### Example
 ```dart
 import 'package:openapi/api.dart';
@@ -722,6 +766,8 @@ No authorization required
 > testJsonFormData(param, param2)
 
 test json serialization of form data
+
+
 
 ### Example
 ```dart

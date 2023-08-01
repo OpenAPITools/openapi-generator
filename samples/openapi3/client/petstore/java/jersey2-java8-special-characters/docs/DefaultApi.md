@@ -2,9 +2,9 @@
 
 All URIs are relative to *http://localhost*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**testPost**](DefaultApi.md#testPost) | **POST** /test | 
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**testPost**](DefaultApi.md#testPost) | **POST** /test |  |
 
 
 
@@ -48,9 +48,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **mySchemaNameCharacters** | [**MySchemaNameCharacters**](MySchemaNameCharacters.md)|  | [optional]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **mySchemaNameCharacters** | [**MySchemaNameCharacters**](MySchemaNameCharacters.md)|  | [optional] |
 
 ### Return type
 

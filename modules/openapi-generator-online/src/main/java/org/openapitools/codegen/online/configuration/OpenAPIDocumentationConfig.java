@@ -28,15 +28,23 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Properties;
+import java.util.Set;
+import java.util.HashSet;
 
 
 @Configuration
 @EnableSwagger2
 public class OpenAPIDocumentationConfig {
+    private final Logger LOGGER = LoggerFactory.getLogger(OpenAPIDocumentationConfig.class);
 
     ApiInfo apiInfo() {
         final Properties properties = new Properties();
@@ -63,7 +71,7 @@ public class OpenAPIDocumentationConfig {
 
     @Bean
     public Docket customImplementation(){
-        return new Docket(DocumentationType.SWAGGER_2)
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("org.openapitools.codegen.online.api"))
                     .build()
@@ -74,6 +82,29 @@ public class OpenAPIDocumentationConfig {
                 .ignoredParameterTypes(Resource.class)
                 .ignoredParameterTypes(InputStream.class)
                 .apiInfo(apiInfo());
+
+        String hostString = System.getenv("GENERATOR_HOST");
+        if (!StringUtils.isBlank(hostString)) {
+            try {
+                URI hostURI = new URI(hostString);
+                String scheme = hostURI.getScheme();
+                if (scheme != null) {
+                    Set<String> protocols = new HashSet<String>();
+                    protocols.add(scheme);
+                    docket.protocols(protocols);
+                }
+                String authority = hostURI.getAuthority();
+                if (authority != null) {
+                    // In OpenAPI `host` refers to host _and_ port, a.k.a. the URI authority
+                    docket.host(authority);
+                }
+                docket.pathMapping(hostURI.getPath());
+            } catch(URISyntaxException e) {
+                LOGGER.warn("Could not parse configured GENERATOR_HOST '" + hostString + "': " + e.getMessage());
+            }
+        }
+
+        return docket;
     }
 
 }

@@ -56,10 +56,11 @@ public class ModelUtilsTest {
                 "SomeObj15",
                 "SomeMapObj16",
                 "MapItem16",
+                "p17_200_response",
                 "SomeObj17",
                 "SomeObj18",
                 "Common18",
-                "SomeObj18_allOf",
+                "_some_p19_patch_request",
                 "Obj19ByAge",
                 "Obj19ByType",
                 "SomeObj20",
@@ -78,7 +79,7 @@ public class ModelUtilsTest {
                 "AChild30",
                 "BChild30"
         );
-        Assert.assertEquals(allUsedSchemas.size(), expectedAllUsedSchemas.size());
+        Assert.assertEquals(allUsedSchemas, expectedAllUsedSchemas);
         Assert.assertTrue(allUsedSchemas.containsAll(expectedAllUsedSchemas));
     }
 
@@ -93,9 +94,7 @@ public class ModelUtilsTest {
                 "UnusedObj4",
                 "Parent29",
                 "AChild29",
-                "BChild29",
-                "AChild29_allOf",
-                "BChild29_allOf"
+                "BChild29"
         );
         Assert.assertEquals(unusedSchemas.size(), expectedUnusedSchemas.size());
         Assert.assertTrue(unusedSchemas.containsAll(expectedUnusedSchemas));
@@ -134,7 +133,7 @@ public class ModelUtilsTest {
         Schema commandSchema = ModelUtils.getSchema(openAPI, "Command");
 
         Assert.assertTrue(ModelUtils.isModel(commandSchema));
-        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, commandSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(commandSchema));
     }
 
     @Test
@@ -204,7 +203,8 @@ public class ModelUtilsTest {
      */
     @Test
     public void testComposedSchemasAreNotUnaliased() {
-        ComposedSchema composedSchema = new ComposedSchema().allOf(Arrays.asList(
+        ComposedSchema composedSchema = new ComposedSchema();
+        composedSchema.allOf(Arrays.asList(
                 new Schema<>().$ref("#/components/schemas/SomeSchema"),
                 new ObjectSchema()
         ));
@@ -216,15 +216,15 @@ public class ModelUtilsTest {
     }
 
     @Test
-    public void testAliasedTypeIsNotUnaliasedIfUsedForImportMapping(){
+    public void testAliasedTypeIsNotUnaliasedIfUsedForImportMapping() {
         Schema emailSchema = new Schema().$ref("#/components/schemas/Email").type("string");
         StringSchema stringSchema = new StringSchema();
-        HashMap<String, String> importMappings = new HashMap<>();
-        importMappings.put("Email","foo.bar.Email");
+        HashMap<String, String> schemaMappings = new HashMap<>();
+        schemaMappings.put("Email", "foo.bar.Email");
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Email", stringSchema);
 
-        Assert.assertEquals(emailSchema, ModelUtils.unaliasSchema(openAPI, emailSchema, importMappings));
+        Assert.assertEquals(emailSchema, ModelUtils.unaliasSchema(openAPI, emailSchema, schemaMappings));
         Assert.assertEquals(stringSchema, ModelUtils.unaliasSchema(openAPI, emailSchema, new HashMap<>()));
     }
 
@@ -238,23 +238,23 @@ public class ModelUtilsTest {
         OpenAPI openAPI = new OpenAPI().openapi("3.0.0");
         // Create initial "empty" object schema.
         ObjectSchema objSchema = new ObjectSchema();
-        Assert.assertTrue(ModelUtils.isFreeFormObject(openAPI, objSchema));
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
 
         // Set additionalProperties to an empty ObjectSchema.
         objSchema.setAdditionalProperties(new ObjectSchema());
-        Assert.assertTrue(ModelUtils.isFreeFormObject(openAPI, objSchema));
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
 
         // Add a single property to the schema (no longer a free-form object).
         Map<String, Schema> props = new HashMap<>();
         props.put("prop1", new StringSchema());
         objSchema.setProperties(props);
-        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, objSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(objSchema));
 
         // Test a non-object schema
-        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, new StringSchema()));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(new StringSchema()));
 
         // Test a null schema
-        Assert.assertFalse(ModelUtils.isFreeFormObject(openAPI, null));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(null));
     }
 
     @Test

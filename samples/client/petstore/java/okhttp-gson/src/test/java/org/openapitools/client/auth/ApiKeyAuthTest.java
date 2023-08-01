@@ -1,12 +1,12 @@
 package org.openapitools.client.auth;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Pair;
 

@@ -27,7 +27,7 @@ import java.io.Writer;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
- * Strips trailing ? from a text fragement
+ * Strips trailing ? from a text fragment
  *
  * Register:
  * <pre>

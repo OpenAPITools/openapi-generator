@@ -14,6 +14,7 @@
 package org.openapitools.model;
 
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -97,8 +98,8 @@ public class Animal   {
       return false;
     }
     Animal animal = (Animal) o;
-    return Objects.equals(this.className, animal.className) &&
-        Objects.equals(this.color, animal.color);
+    return Objects.equals(className, animal.className) &&
+        Objects.equals(color, animal.color);
   }
 
   @Override

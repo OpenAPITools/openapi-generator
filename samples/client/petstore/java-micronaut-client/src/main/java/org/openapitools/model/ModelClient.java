@@ -15,8 +15,6 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -49,16 +47,15 @@ public class ModelClient {
      * @return _client
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_CLIENT)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getClient() {
+    public String getClient() {
         return _client;
     }
 
     @JsonProperty(JSON_PROPERTY_CLIENT)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setClient(String _client) {
+    public void setClient(String _client) {
         this._client = _client;
     }
 
@@ -100,3 +97,4 @@ public class ModelClient {
     }
 
 }
+

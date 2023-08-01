@@ -1,13 +1,12 @@
 package org.openapitools.api;
 
-import org.openapitools.model.*;
 import org.openapitools.api.FooApiService;
 import org.openapitools.api.factories.FooApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import org.openapitools.model.InlineResponseDefault;
+import org.openapitools.model.FooGetDefaultResponse;
 
 import java.util.Map;
 import java.util.List;
@@ -55,13 +54,13 @@ public class FooApi  {
       this.delegate = delegate;
    }
 
-    @GET
+    @javax.ws.rs.GET
     
     
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "", notes = "", response = InlineResponseDefault.class, tags={  })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "", response = FooGetDefaultResponse.class, tags={  })
     @io.swagger.annotations.ApiResponses(value = {
-        @io.swagger.annotations.ApiResponse(code = 200, message = "response", response = InlineResponseDefault.class)
+        @io.swagger.annotations.ApiResponse(code = 200, message = "response", response = FooGetDefaultResponse.class)
     })
     public Response fooGet(@Context SecurityContext securityContext)
     throws NotFoundException {

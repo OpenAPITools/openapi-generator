@@ -22,35 +22,28 @@ if [ "$NODE_INDEX" = "1" ]; then
   echo "Running node $NODE_INDEX to test 'samples.circleci' defined in pom.xml ..."
   java -version
 
-  mvn --no-snapshot-updates --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  ./mvnw --no-snapshot-updates --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 elif [ "$NODE_INDEX" = "2" ]; then
-  echo "Running node $NODE_INDEX to test haskell"
+  echo "Running node $NODE_INDEX to test Go"
   # install haskell
   #curl -sSLk https://get.haskellstack.org/ | sh
   #stack upgrade
   #stack --version
-  # prepare r
-  sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
-  gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
-  gpg -a --export E084DAB9 | sudo apt-key add -
-  sudo apt-get update
-  sudo apt-get -y install r-base
-  R --version
 
   # install curl
-  sudo apt-get -y build-dep libcurl4-gnutls-dev
-  sudo apt-get -y install libcurl4-gnutls-dev
+  #sudo apt-get -y build-dep libcurl4-gnutls-dev
+  #sudo apt-get -y install libcurl4-gnutls-dev
 
-  # Install golang version 1.14
+  # Install golang version 1.18
   go version
-  sudo mkdir /usr/local/go1.14
-  wget -c https://dl.google.com/go/go1.14.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local/go1.14
-  export PATH="/usr/local/go1.14/go/bin:$PATH"
+  sudo mkdir /usr/local/go1.18
+  wget -c https://dl.google.com/go/go1.18.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local/go1.18
+  export PATH="/usr/local/go1.18/go/bin:$PATH"
   go version
 
   # run integration tests
-  mvn --no-snapshot-updates --quiet verify -Psamples.misc -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  ./mvnw --no-snapshot-updates --quiet verify -Psamples.misc -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 elif [ "$NODE_INDEX" = "3" ]; then
 
   echo "Running node $NODE_INDEX to test 'samples.circleci.node3' defined in pom.xml ..."
@@ -60,9 +53,9 @@ elif [ "$NODE_INDEX" = "3" ]; then
   #./configure --enable-optimizations
   #sudo make altinstall
   pyenv install --list 
-  pyenv install 3.6.3
-  pyenv install 2.7.14
-  pyenv global 3.6.3
+  pyenv install 3.7.12
+  #pyenv install 2.7.14 #python2 no longer supported
+  pyenv global 3.7.12
 
   # Install node@stable (for angular 6)
   set +e
@@ -79,29 +72,23 @@ elif [ "$NODE_INDEX" = "3" ]; then
   echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
   echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
 
-  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  ./mvnw --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 elif [ "$NODE_INDEX" = "4" ]; then
-
   echo "Running node $NODE_INDEX to test 'samples.circleci.node4' defined in pom.xml ..."
 
-  # install maven and java so we can use them to run our tests
-  apt-get update && apt-get install -y default-jdk maven sudo
-  java -version
-  export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
-  echo $JAVA_HOME
-  # show os version
-  uname -a
-
-  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node4 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  #mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node4 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  #(cd samples/openapi3/client/petstore/python && make test)
+  # comment out due to ModuleNotFoundError: No module named 'urllib3.request'
+  #(cd samples/openapi3/client/petstore/python-prior && make test)
+  #(cd samples/openapi3/client/3_0_3_unit_test/python && make test)
 
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
-  #sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
   java -version
 
-  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  mvn --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  ./mvnw --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  ./mvnw --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
 
 

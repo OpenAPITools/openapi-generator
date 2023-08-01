@@ -12,9 +12,7 @@ import io.swagger.annotations.*;
 @ApiModel(description="A category for a pet")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen")
 public class Category   {
   
-
   private Long id;
-
   private String name;
 
   /**

@@ -2,7 +2,7 @@
 
 {{#operations}}/**
  * {{controllerName}}
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  {{controllerPackage}}
@@ -97,10 +97,10 @@ class {{controllerName}} extends Controller
         $security{{name}} = $request->cookies->get('{{keyParamName}}');
         {{/isKeyInCookie}}
         {{/isApiKey}}
-        {{#isBasic}}
+        {{#isBasicBasic}}
         // HTTP basic authentication required
         $security{{name}} = $request->headers->get('authorization');
-        {{/isBasic}}
+        {{/isBasicBasic}}
         {{#isOAuth}}
         // Oauth required
         $security{{name}} = $request->headers->get('authorization');
@@ -109,17 +109,17 @@ class {{controllerName}} extends Controller
 
         // Read out all input parameter values into variables
         {{#queryParams}}
-        ${{paramName}} = $request->query->get('{{paramName}}');
+        ${{paramName}} = $request->query->get('{{paramName}}'{{#defaultValue}}, {{{.}}}{{/defaultValue}});
         {{/queryParams}}
         {{#headerParams}}
-        ${{paramName}} = $request->headers->get('{{baseName}}');
+        ${{paramName}} = $request->headers->get('{{baseName}}'{{#defaultValue}}, {{{.}}}{{/defaultValue}});
         {{/headerParams}}
         {{#formParams}}
         {{#isFile}}
-        ${{paramName}} = $request->files->get('{{paramName}}');
+        ${{paramName}} = $request->files->get('{{paramName}}'{{#defaultValue}}, {{{.}}}{{/defaultValue}});
         {{/isFile}}
         {{^isFile}}
-        ${{paramName}} = $request->request->get('{{paramName}}');
+        ${{paramName}} = $request->request->get('{{paramName}}'{{#defaultValue}}, {{{.}}}{{/defaultValue}});
         {{/isFile}}
         {{/formParams}}
         {{#bodyParams}}
@@ -175,7 +175,8 @@ class {{controllerName}} extends Controller
             // Make the call to the business logic
             $responseCode = {{#returnType}}200{{/returnType}}{{^returnType}}204{{/returnType}};
             $responseHeaders = [];
-            $result = $handler->{{operationId}}({{#allParams}}${{paramName}}, {{/allParams}}$responseCode, $responseHeaders);
+
+            {{#returnType}}$result = {{/returnType}}$handler->{{operationId}}({{#allParams}}${{paramName}}, {{/allParams}}$responseCode, $responseHeaders);
 
             // Find default response message
             $message = '{{#responses}}{{#isDefault}}{{message}}{{/isDefault}}{{/responses}}';
@@ -202,7 +203,7 @@ class {{controllerName}} extends Controller
                     ]
                 )
             );
-        } catch (Exception $fallthrough) {
+        } catch (\Throwable $fallthrough) {
             return $this->createErrorResponse(new HttpException(500, 'An unsuspected error occurred.', $fallthrough));
         }
     }

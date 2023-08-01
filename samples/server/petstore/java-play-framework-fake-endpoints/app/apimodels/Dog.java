@@ -1,7 +1,6 @@
 package apimodels;
 
 import apimodels.Animal;
-import apimodels.DogAllOf;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;

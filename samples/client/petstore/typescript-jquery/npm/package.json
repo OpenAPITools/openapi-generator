@@ -2,6 +2,10 @@
     "name": "@openapitools/jquery-typescript-petstore",
     "version": "0.0.1",
     "description": "JQuery client for @openapitools/jquery-typescript-petstore",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/GIT_USER_ID/GIT_REPO_ID.git"
+    },
     "main": "api.js",
     "scripts": {
         "build": "tsc"
@@ -15,7 +19,7 @@
     },
     "devDependencies": {
         "@types/jquery": "^3.1",
-        "typescript": "^2.4"
+        "typescript": "^4.0"
     },
     "publishConfig": {
         "registry": "https://skimdb.npmjs.com/registry"

@@ -22,7 +22,7 @@ using namespace org::openapitools::server::model;
 const std::string StoreApi::base = "/v2";
 
 StoreApi::StoreApi(const std::shared_ptr<Pistache::Rest::Router>& rtr)
-    : router(rtr)
+    : ApiBase(rtr)
 {
 }
 

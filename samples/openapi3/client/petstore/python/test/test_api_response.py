@@ -10,12 +10,14 @@
 """
 
 
-import sys
+from __future__ import absolute_import
+
 import unittest
+import datetime
 
 import petstore_api
-from petstore_api.model.api_response import ApiResponse
-
+from petstore_api.models.api_response import ApiResponse  # noqa: E501
+from petstore_api.rest import ApiException
 
 class TestApiResponse(unittest.TestCase):
     """ApiResponse unit test stubs"""
@@ -26,12 +28,26 @@ class TestApiResponse(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def make_instance(self, include_optional):
+        """Test ApiResponse
+            include_option is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # model = petstore_api.models.api_response.ApiResponse()  # noqa: E501
+        if include_optional :
+            return ApiResponse(
+                code = 56, 
+                type = '', 
+                message = ''
+            )
+        else :
+            return ApiResponse(
+        )
+
     def testApiResponse(self):
         """Test ApiResponse"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = ApiResponse()  # noqa: E501
-        pass
-
+        inst_req_only = self.make_instance(include_optional=False)
+        inst_req_and_optional = self.make_instance(include_optional=True)
 
 if __name__ == '__main__':
     unittest.main()

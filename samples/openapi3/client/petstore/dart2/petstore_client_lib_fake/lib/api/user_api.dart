@@ -37,7 +37,6 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -49,7 +48,6 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -70,6 +68,8 @@ class UserApi {
 
   /// Creates list of users with given input array
   ///
+  /// 
+  ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
@@ -87,7 +87,6 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -99,11 +98,12 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
   /// Creates list of users with given input array
+  ///
+  /// 
   ///
   /// Parameters:
   ///
@@ -117,6 +117,8 @@ class UserApi {
   }
 
   /// Creates list of users with given input array
+  ///
+  /// 
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -135,7 +137,6 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -147,11 +148,12 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
   /// Creates list of users with given input array
+  ///
+  /// 
   ///
   /// Parameters:
   ///
@@ -186,7 +188,6 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>[];
 
 
@@ -198,7 +199,6 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
@@ -219,6 +219,8 @@ class UserApi {
 
   /// Get user by user name
   ///
+  /// 
+  ///
   /// Note: This method returns the HTTP [Response].
   ///
   /// Parameters:
@@ -237,7 +239,6 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>[];
 
 
@@ -249,11 +250,12 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
   /// Get user by user name
+  ///
+  /// 
   ///
   /// Parameters:
   ///
@@ -275,6 +277,8 @@ class UserApi {
   }
 
   /// Logs user into the system
+  ///
+  /// 
   ///
   /// Note: This method returns the HTTP [Response].
   ///
@@ -299,7 +303,6 @@ class UserApi {
       queryParams.addAll(_queryParams('', 'username', username));
       queryParams.addAll(_queryParams('', 'password', password));
 
-    const authNames = <String>[];
     const contentTypes = <String>[];
 
 
@@ -311,11 +314,12 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
   /// Logs user into the system
+  ///
+  /// 
   ///
   /// Parameters:
   ///
@@ -341,6 +345,8 @@ class UserApi {
 
   /// Logs out current logged in user session
   ///
+  /// 
+  ///
   /// Note: This method returns the HTTP [Response].
   Future<Response> logoutUserWithHttpInfo() async {
     // ignore: prefer_const_declarations
@@ -353,7 +359,6 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>[];
 
 
@@ -365,11 +370,12 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 
   /// Logs out current logged in user session
+  ///
+  /// 
   Future<void> logoutUser() async {
     final response = await logoutUserWithHttpInfo();
     if (response.statusCode >= HttpStatus.badRequest) {
@@ -402,7 +408,6 @@ class UserApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
-    const authNames = <String>[];
     const contentTypes = <String>['application/json'];
 
 
@@ -414,7 +419,6 @@ class UserApi {
       headerParams,
       formParams,
       contentTypes.isEmpty ? null : contentTypes.first,
-      authNames,
     );
   }
 

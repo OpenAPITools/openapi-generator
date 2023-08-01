@@ -1,12 +1,5 @@
-//
-// AUTO-GENERATED FILE, DO NOT MODIFY!
-//
-// @dart=2.7
-
-// ignore_for_file: unused_import
-
-import 'package:openapi/model/format_test.dart';
 import 'package:test/test.dart';
+import 'package:openapi/openapi.dart';
 
 // tests for FormatTest
 void main() {
@@ -64,7 +57,7 @@ void main() {
       // TODO
     });
 
-    // DateTime date
+    // Date date
     test('to test the property `date`', () async {
       // TODO
     });
@@ -96,7 +89,5 @@ void main() {
       // TODO
     });
 
-
   });
-
 }

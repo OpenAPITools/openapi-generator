@@ -1,7 +1,6 @@
 package org.openapitools.model
 
-import io.swagger.annotations.ApiModel
-import io.swagger.annotations.ApiModelProperty
+import com.fasterxml.jackson.annotation.JsonTypeName
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Specification
 import jakarta.inject.Inject
@@ -11,7 +10,7 @@ import jakarta.inject.Inject
  */
 @MicronautTest
 public class ModelListSpec extends Specification {
-    private final ModelList model = new ModelList()
+    private final ModelList model = null
 
     /**
      * Model tests for ModelList
@@ -24,7 +23,7 @@ public class ModelListSpec extends Specification {
      * Test the property '_123list'
      */
     void 'ModelList property _123list test'() {
-        // TODO: test _123list
+        // TODO: test _123list property of ModelList
     }
 
 }

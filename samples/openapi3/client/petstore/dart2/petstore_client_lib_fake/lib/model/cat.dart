@@ -48,10 +48,12 @@ class Cat {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'className'] = className;
-      json[r'color'] = color;
-    if (declawed != null) {
-      json[r'declawed'] = declawed;
+      json[r'className'] = this.className;
+      json[r'color'] = this.color;
+    if (this.declawed != null) {
+      json[r'declawed'] = this.declawed;
+    } else {
+      json[r'declawed'] = null;
     }
     return json;
   }
@@ -83,7 +85,7 @@ class Cat {
     return null;
   }
 
-  static List<Cat>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<Cat> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <Cat>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -114,12 +116,10 @@ class Cat {
   static Map<String, List<Cat>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<Cat>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = Cat.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = Cat.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

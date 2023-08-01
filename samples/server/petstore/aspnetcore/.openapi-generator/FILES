@@ -23,6 +23,7 @@ src/Org.OpenAPITools/Org.OpenAPITools.csproj
 src/Org.OpenAPITools/Program.cs
 src/Org.OpenAPITools/Properties/launchSettings.json
 src/Org.OpenAPITools/Startup.cs
+src/Org.OpenAPITools/appsettings.Development.json
 src/Org.OpenAPITools/appsettings.json
 src/Org.OpenAPITools/wwwroot/README.md
 src/Org.OpenAPITools/wwwroot/index.html

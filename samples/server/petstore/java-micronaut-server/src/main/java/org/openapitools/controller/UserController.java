@@ -16,7 +16,9 @@ import io.micronaut.http.annotation.*;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
-import java.time.LocalDateTime;
+import io.micronaut.http.HttpStatus;
+import io.micronaut.http.exceptions.HttpStatusException;
+import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 import javax.annotation.Generated;
 import java.util.ArrayList;
@@ -25,10 +27,18 @@ import java.util.List;
 import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen")
-@Controller("${context-path}")
+@Controller
+@Tag(name = "User", description = "The User API")
 public class UserController {
     /**
      * Create user
@@ -36,76 +46,89 @@ public class UserController {
      *
      * @param user Created user object (required)
      */
-    @ApiOperation(
-        value = "Create user",
-        nickname = "createUser",
-        notes = "This can only be done by the logged in user.",
-        authorizations = {
-            @Authorization(value = "api_key")
+    @Operation(
+        operationId = "createUser",
+        summary = "Create user",
+        responses = {
+            @ApiResponse(responseCode = "0", description = "successful operation")
         },
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 0, message = "successful operation")})
+        parameters = {
+            @Parameter(name = "user", description = "Created user object", required = true)
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
+    )
     @Post(uri="/user")
     @Produces(value = {})
     @Consumes(value = {"application/json"})
-    public Mono<Object> createUser(
+    public Mono<Void> createUser(
         @Body @NotNull @Valid User user
     ) {
-        // TODO implement createUser() body;
-        Mono<Object> result = Mono.empty();
-        return result;
+        // TODO implement createUser();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Creates list of users with given input array
+     * 
      *
      * @param user List of user object (required)
      */
-    @ApiOperation(
-        value = "Creates list of users with given input array",
-        nickname = "createUsersWithArrayInput",
-        authorizations = {
-            @Authorization(value = "api_key")
+    @Operation(
+        operationId = "createUsersWithArrayInput",
+        summary = "Creates list of users with given input array",
+        responses = {
+            @ApiResponse(responseCode = "0", description = "successful operation")
         },
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 0, message = "successful operation")})
+        parameters = {
+            @Parameter(name = "user", description = "List of user object", required = true)
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
+    )
     @Post(uri="/user/createWithArray")
     @Produces(value = {})
     @Consumes(value = {"application/json"})
-    public Mono<Object> createUsersWithArrayInput(
+    public Mono<Void> createUsersWithArrayInput(
         @Body @NotNull List<User> user
     ) {
-        // TODO implement createUsersWithArrayInput() body;
-        Mono<Object> result = Mono.empty();
-        return result;
+        // TODO implement createUsersWithArrayInput();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Creates list of users with given input array
+     * 
      *
      * @param user List of user object (required)
      */
-    @ApiOperation(
-        value = "Creates list of users with given input array",
-        nickname = "createUsersWithListInput",
-        authorizations = {
-            @Authorization(value = "api_key")
+    @Operation(
+        operationId = "createUsersWithListInput",
+        summary = "Creates list of users with given input array",
+        responses = {
+            @ApiResponse(responseCode = "0", description = "successful operation")
         },
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 0, message = "successful operation")})
+        parameters = {
+            @Parameter(name = "user", description = "List of user object", required = true)
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
+    )
     @Post(uri="/user/createWithList")
     @Produces(value = {})
     @Consumes(value = {"application/json"})
-    public Mono<Object> createUsersWithListInput(
+    public Mono<Void> createUsersWithListInput(
         @Body @NotNull List<User> user
     ) {
-        // TODO implement createUsersWithListInput() body;
-        Mono<Object> result = Mono.empty();
-        return result;
+        // TODO implement createUsersWithListInput();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Delete user
@@ -113,100 +136,118 @@ public class UserController {
      *
      * @param username The name that needs to be deleted (required)
      */
-    @ApiOperation(
-        value = "Delete user",
-        nickname = "deleteUser",
-        notes = "This can only be done by the logged in user.",
-        authorizations = {
-            @Authorization(value = "api_key")
+    @Operation(
+        operationId = "deleteUser",
+        summary = "Delete user",
+        responses = {
+            @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
+            @ApiResponse(responseCode = "404", description = "User not found")
         },
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 400, message = "Invalid username supplied"),
-        @ApiResponse(code = 404, message = "User not found")})
+        parameters = {
+            @Parameter(name = "username", description = "The name that needs to be deleted", required = true)
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
+    )
     @Delete(uri="/user/{username}")
     @Produces(value = {})
-    public Mono<Object> deleteUser(
+    public Mono<Void> deleteUser(
         @PathVariable(value="username") @NotNull String username
     ) {
-        // TODO implement deleteUser() body;
-        Mono<Object> result = Mono.empty();
-        return result;
+        // TODO implement deleteUser();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Get user by user name
+     * 
      *
      * @param username The name that needs to be fetched. Use user1 for testing. (required)
      * @return User
      */
-    @ApiOperation(
-        value = "Get user by user name",
-        nickname = "getUserByName",
-        response = User.class,
-        authorizations = {},
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "successful operation", response = User.class),
-        @ApiResponse(code = 400, message = "Invalid username supplied"),
-        @ApiResponse(code = 404, message = "User not found")})
+    @Operation(
+        operationId = "getUserByName",
+        summary = "Get user by user name",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+        },
+        parameters = {
+            @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true)
+        }
+    )
     @Get(uri="/user/{username}")
     @Produces(value = {"application/xml", "application/json"})
     public Mono<User> getUserByName(
         @PathVariable(value="username") @NotNull String username
     ) {
-        // TODO implement getUserByName() body;
-        Mono<User> result = Mono.empty();
-        return result;
+        // TODO implement getUserByName();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Logs user into the system
+     * 
      *
      * @param username The user name for login (required)
      * @param password The password for login in clear text (required)
      * @return String
      */
-    @ApiOperation(
-        value = "Logs user into the system",
-        nickname = "loginUser",
-        response = String.class,
-        authorizations = {},
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "successful operation", response = String.class),
-        @ApiResponse(code = 400, message = "Invalid username/password supplied")})
+    @Operation(
+        operationId = "loginUser",
+        summary = "Logs user into the system",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", schema = @Schema(implementation = String.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid username/password supplied")
+        },
+        parameters = {
+            @Parameter(name = "username", description = "The user name for login", required = true),
+            @Parameter(name = "password", description = "The password for login in clear text", required = true)
+        }
+    )
     @Get(uri="/user/login")
     @Produces(value = {"application/xml", "application/json"})
     public Mono<String> loginUser(
         @QueryValue(value="username") @NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String username, 
         @QueryValue(value="password") @NotNull String password
     ) {
-        // TODO implement loginUser() body;
-        Mono<String> result = Mono.empty();
-        return result;
+        // TODO implement loginUser();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Logs out current logged in user session
+     * 
      *
      */
-    @ApiOperation(
-        value = "Logs out current logged in user session",
-        nickname = "logoutUser",
-        authorizations = {
-            @Authorization(value = "api_key")
+    @Operation(
+        operationId = "logoutUser",
+        summary = "Logs out current logged in user session",
+        responses = {
+            @ApiResponse(responseCode = "0", description = "successful operation")
         },
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 0, message = "successful operation")})
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
+    )
     @Get(uri="/user/logout")
     @Produces(value = {})
-    public Mono<Object> logoutUser() {
-        // TODO implement logoutUser() body;
-        Mono<Object> result = Mono.empty();
-        return result;
+    public Mono<Void> logoutUser() {
+        // TODO implement logoutUser();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 
     /**
      * Updated user
@@ -215,26 +256,30 @@ public class UserController {
      * @param username name that need to be deleted (required)
      * @param user Updated user object (required)
      */
-    @ApiOperation(
-        value = "Updated user",
-        nickname = "updateUser",
-        notes = "This can only be done by the logged in user.",
-        authorizations = {
-            @Authorization(value = "api_key")
+    @Operation(
+        operationId = "updateUser",
+        summary = "Updated user",
+        responses = {
+            @ApiResponse(responseCode = "400", description = "Invalid user supplied"),
+            @ApiResponse(responseCode = "404", description = "User not found")
         },
-        tags={})
-    @ApiResponses(value = {
-        @ApiResponse(code = 400, message = "Invalid user supplied"),
-        @ApiResponse(code = 404, message = "User not found")})
+        parameters = {
+            @Parameter(name = "username", description = "name that need to be deleted", required = true),
+            @Parameter(name = "user", description = "Updated user object", required = true)
+        },
+        security = {
+            @SecurityRequirement(name = "api_key")
+        }
+    )
     @Put(uri="/user/{username}")
     @Produces(value = {})
     @Consumes(value = {"application/json"})
-    public Mono<Object> updateUser(
+    public Mono<Void> updateUser(
         @PathVariable(value="username") @NotNull String username, 
         @Body @NotNull @Valid User user
     ) {
-        // TODO implement updateUser() body;
-        Mono<Object> result = Mono.empty();
-        return result;
+        // TODO implement updateUser();
+        return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
     }
+
 }

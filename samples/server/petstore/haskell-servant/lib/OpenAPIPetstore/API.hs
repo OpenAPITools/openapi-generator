@@ -29,6 +29,10 @@ module OpenAPIPetstore.API
   , OpenAPIPetstoreAPI
   -- ** Plain WAI Application
   , serverWaiApplicationOpenAPIPetstore
+  -- ** Authentication
+  , OpenAPIPetstoreAuth(..)
+  , clientAuth
+  , Protected
   ) where
 
 import           OpenAPIPetstore.Types
@@ -38,6 +42,7 @@ import           Control.Monad.Except               (ExceptT, runExceptT)
 import           Control.Monad.IO.Class
 import           Control.Monad.Trans.Reader         (ReaderT (..))
 import           Data.Aeson                         (Value)
+import           Data.ByteString                    (ByteString)
 import           Data.Coerce                        (coerce)
 import           Data.Data                          (Data)
 import           Data.Function                      ((&))
@@ -54,16 +59,18 @@ import           GHC.Generics                       (Generic)
 import           Network.HTTP.Client                (Manager, newManager)
 import           Network.HTTP.Client.TLS            (tlsManagerSettings)
 import           Network.HTTP.Types.Method          (methodOptions)
-import           Network.Wai                        (Middleware)
+import           Network.Wai                        (Middleware, Request, requestHeaders)
 import qualified Network.Wai.Handler.Warp           as Warp
-import           Servant                            (ServerError, serve)
-import           Servant.API
+import           Servant                            (ServerError, serveWithContextT, throwError)
+import           Servant.API                        hiding (addHeader)
 import           Servant.API.Verbs                  (StdMethod (..), Verb)
+import           Servant.API.Experimental.Auth      (AuthProtect)
 import           Servant.Client                     (ClientEnv, Scheme (Http), ClientError, client,
                                                      mkClientEnv, parseBaseUrl)
-import           Servant.Client.Core                (baseUrlPort, baseUrlHost)
+import           Servant.Client.Core                (baseUrlPort, baseUrlHost, AuthClientData, AuthenticatedRequest, addHeader, mkAuthenticatedRequest, AuthClientData, AuthenticatedRequest, addHeader, mkAuthenticatedRequest)
 import           Servant.Client.Internal.HttpClient (ClientM (..))
-import           Servant.Server                     (Handler (..), Application)
+import           Servant.Server                     (Handler (..), Application, Context ((:.), EmptyContext))
+import           Servant.Server.Experimental.Auth   (AuthHandler, AuthServerData, mkAuthHandler)
 import           Servant.Server.StaticFiles         (serveDirectoryFileServer)
 import           Web.FormUrlEncoded
 import           Web.HttpApiData
@@ -139,16 +146,16 @@ formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toQueryPa
 
 -- | Servant type-level API, generated from the OpenAPI spec for OpenAPIPetstore.
 type OpenAPIPetstoreAPI
-    =    "pet" :> ReqBody '[JSON] Pet :> Verb 'POST 200 '[JSON] NoContent -- 'addPet' route
-    :<|> "pet" :> Capture "petId" Integer :> Header "api_key" Text :> Verb 'DELETE 200 '[JSON] NoContent -- 'deletePet' route
-    :<|> "pet" :> "findByStatus" :> QueryParam "status" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByStatus' route
-    :<|> "pet" :> "findByTags" :> QueryParam "tags" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByTags' route
-    :<|> "pet" :> Capture "petId" Integer :> Verb 'GET 200 '[JSON] Pet -- 'getPetById' route
-    :<|> "pet" :> ReqBody '[JSON] Pet :> Verb 'PUT 200 '[JSON] NoContent -- 'updatePet' route
-    :<|> "pet" :> Capture "petId" Integer :> ReqBody '[FormUrlEncoded] FormUpdatePetWithForm :> Verb 'POST 200 '[JSON] NoContent -- 'updatePetWithForm' route
-    :<|> "pet" :> Capture "petId" Integer :> "uploadImage" :> ReqBody '[FormUrlEncoded] FormUploadFile :> Verb 'POST 200 '[JSON] ApiResponse -- 'uploadFile' route
+    =    Protected :> "pet" :> ReqBody '[JSON] Pet :> Verb 'POST 200 '[JSON] NoContent -- 'addPet' route
+    :<|> Protected :> "pet" :> Capture "petId" Integer :> Header "api_key" Text :> Verb 'DELETE 200 '[JSON] NoContent -- 'deletePet' route
+    :<|> Protected :> "pet" :> "findByStatus" :> QueryParam "status" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByStatus' route
+    :<|> Protected :> "pet" :> "findByTags" :> QueryParam "tags" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByTags' route
+    :<|> Protected :> "pet" :> Capture "petId" Integer :> Verb 'GET 200 '[JSON] Pet -- 'getPetById' route
+    :<|> Protected :> "pet" :> ReqBody '[JSON] Pet :> Verb 'PUT 200 '[JSON] NoContent -- 'updatePet' route
+    :<|> Protected :> "pet" :> Capture "petId" Integer :> ReqBody '[FormUrlEncoded] FormUpdatePetWithForm :> Verb 'POST 200 '[JSON] NoContent -- 'updatePetWithForm' route
+    :<|> Protected :> "pet" :> Capture "petId" Integer :> "uploadImage" :> ReqBody '[FormUrlEncoded] FormUploadFile :> Verb 'POST 200 '[JSON] ApiResponse -- 'uploadFile' route
     :<|> "store" :> "order" :> Capture "orderId" Text :> Verb 'DELETE 200 '[JSON] NoContent -- 'deleteOrder' route
-    :<|> "store" :> "inventory" :> Verb 'GET 200 '[JSON] ((Map.Map String Int)) -- 'getInventory' route
+    :<|> Protected :> "store" :> "inventory" :> Verb 'GET 200 '[JSON] ((Map.Map String Int)) -- 'getInventory' route
     :<|> "store" :> "order" :> Capture "orderId" Integer :> Verb 'GET 200 '[JSON] Order -- 'getOrderById' route
     :<|> "store" :> "order" :> ReqBody '[JSON] Order :> Verb 'POST 200 '[JSON] Order -- 'placeOrder' route
     :<|> "user" :> ReqBody '[JSON] User :> Verb 'POST 200 '[JSON] NoContent -- 'createUser' route
@@ -156,10 +163,10 @@ type OpenAPIPetstoreAPI
     :<|> "user" :> "createWithList" :> ReqBody '[JSON] [User] :> Verb 'POST 200 '[JSON] NoContent -- 'createUsersWithListInput' route
     :<|> "user" :> Capture "username" Text :> Verb 'DELETE 200 '[JSON] NoContent -- 'deleteUser' route
     :<|> "user" :> Capture "username" Text :> Verb 'GET 200 '[JSON] User -- 'getUserByName' route
-    :<|> "user" :> "login" :> QueryParam "username" Text :> QueryParam "password" Text :> Verb 'GET 200 '[JSON] Text -- 'loginUser' route
+    :<|> "user" :> "login" :> QueryParam "username" Text :> QueryParam "password" Text :> Verb 'GET 200 '[JSON] (Headers '[Header "X-Rate-Limit" Int, Header "X-Expires-After" UTCTime] Text) -- 'loginUser' route
     :<|> "user" :> "logout" :> Verb 'GET 200 '[JSON] NoContent -- 'logoutUser' route
     :<|> "user" :> Capture "username" Text :> ReqBody '[JSON] User :> Verb 'PUT 200 '[JSON] NoContent -- 'updateUser' route
-    :<|> Raw 
+    :<|> Raw
 
 
 -- | Server or client configuration, specifying the host and port to query or serve on.
@@ -178,27 +185,36 @@ newtype OpenAPIPetstoreClientError = OpenAPIPetstoreClientError ClientError
 -- The backend can be used both for the client and the server. The client generated from the OpenAPIPetstore OpenAPI spec
 -- is a backend that executes actions by sending HTTP requests (see @createOpenAPIPetstoreClient@). Alternatively, provided
 -- a backend, the API can be served using @runOpenAPIPetstoreMiddlewareServer@.
-data OpenAPIPetstoreBackend m = OpenAPIPetstoreBackend
-  { addPet :: Pet -> m NoContent{- ^  -}
-  , deletePet :: Integer -> Maybe Text -> m NoContent{- ^  -}
-  , findPetsByStatus :: Maybe [Text] -> m [Pet]{- ^ Multiple status values can be provided with comma separated strings -}
-  , findPetsByTags :: Maybe [Text] -> m [Pet]{- ^ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. -}
-  , getPetById :: Integer -> m Pet{- ^ Returns a single pet -}
-  , updatePet :: Pet -> m NoContent{- ^  -}
-  , updatePetWithForm :: Integer -> FormUpdatePetWithForm -> m NoContent{- ^  -}
-  , uploadFile :: Integer -> FormUploadFile -> m ApiResponse{- ^  -}
+data OpenAPIPetstoreBackend a m = OpenAPIPetstoreBackend
+  { addPet :: a -> Pet -> m NoContent{- ^  -}
+  , deletePet :: a -> Integer -> Maybe Text -> m NoContent{- ^  -}
+  , findPetsByStatus :: a -> Maybe [Text] -> m [Pet]{- ^ Multiple status values can be provided with comma separated strings -}
+  , findPetsByTags :: a -> Maybe [Text] -> m [Pet]{- ^ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. -}
+  , getPetById :: a -> Integer -> m Pet{- ^ Returns a single pet -}
+  , updatePet :: a -> Pet -> m NoContent{- ^  -}
+  , updatePetWithForm :: a -> Integer -> FormUpdatePetWithForm -> m NoContent{- ^  -}
+  , uploadFile :: a -> Integer -> FormUploadFile -> m ApiResponse{- ^  -}
   , deleteOrder :: Text -> m NoContent{- ^ For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors -}
-  , getInventory :: m ((Map.Map String Int)){- ^ Returns a map of status codes to quantities -}
-  , getOrderById :: Integer -> m Order{- ^ For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions -}
+  , getInventory :: a -> m ((Map.Map String Int)){- ^ Returns a map of status codes to quantities -}
+  , getOrderById :: Integer -> m Order{- ^ For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions -}
   , placeOrder :: Order -> m Order{- ^  -}
   , createUser :: User -> m NoContent{- ^ This can only be done by the logged in user. -}
   , createUsersWithArrayInput :: [User] -> m NoContent{- ^  -}
   , createUsersWithListInput :: [User] -> m NoContent{- ^  -}
   , deleteUser :: Text -> m NoContent{- ^ This can only be done by the logged in user. -}
   , getUserByName :: Text -> m User{- ^  -}
-  , loginUser :: Maybe Text -> Maybe Text -> m Text{- ^  -}
+  , loginUser :: Maybe Text -> Maybe Text -> m (Headers '[Header "X-Rate-Limit" Int, Header "X-Expires-After" UTCTime] Text){- ^  -}
   , logoutUser :: m NoContent{- ^  -}
   , updateUser :: Text -> User -> m NoContent{- ^ This can only be done by the logged in user. -}
+  }
+
+-- | Authentication settings for OpenAPIPetstore.
+-- lookupUser is used to retrieve a user given a header value. The data type can be specified by providing an
+-- type instance for AuthServerData. authError is a function that given a request returns a custom error that
+-- is returned when the header is not found.
+data OpenAPIPetstoreAuth = OpenAPIPetstoreAuth
+  { lookupUser :: ByteString -> Handler AuthServer
+  , authError :: Request -> ServerError
   }
 
 newtype OpenAPIPetstoreClient a = OpenAPIPetstoreClient
@@ -219,7 +235,7 @@ instance Monad OpenAPIPetstoreClient where
 instance MonadIO OpenAPIPetstoreClient where
   liftIO io = OpenAPIPetstoreClient (\_ -> liftIO io)
 
-createOpenAPIPetstoreClient :: OpenAPIPetstoreBackend OpenAPIPetstoreClient
+createOpenAPIPetstoreClient :: OpenAPIPetstoreBackend AuthClient OpenAPIPetstoreClient
 createOpenAPIPetstoreClient = OpenAPIPetstoreBackend{..}
   where
     ((coerce -> addPet) :<|>
@@ -274,26 +290,27 @@ requestMiddlewareId a = a
 -- | Run the OpenAPIPetstore server at the provided host and port.
 runOpenAPIPetstoreServer
   :: (MonadIO m, MonadThrow m)
-  => Config -> OpenAPIPetstoreBackend (ExceptT ServerError IO) -> m ()
-runOpenAPIPetstoreServer config backend = runOpenAPIPetstoreMiddlewareServer config requestMiddlewareId backend
+  => Config -> OpenAPIPetstoreAuth -> OpenAPIPetstoreBackend AuthServer (ExceptT ServerError IO) -> m ()
+runOpenAPIPetstoreServer config auth backend = runOpenAPIPetstoreMiddlewareServer config requestMiddlewareId auth backend
 
 -- | Run the OpenAPIPetstore server at the provided host and port.
 runOpenAPIPetstoreMiddlewareServer
   :: (MonadIO m, MonadThrow m)
-  => Config -> Middleware -> OpenAPIPetstoreBackend (ExceptT ServerError IO) -> m ()
-runOpenAPIPetstoreMiddlewareServer Config{..} middleware backend = do
+  => Config -> Middleware -> OpenAPIPetstoreAuth -> OpenAPIPetstoreBackend AuthServer (ExceptT ServerError IO) -> m ()
+runOpenAPIPetstoreMiddlewareServer Config{..} middleware auth backend = do
   url <- parseBaseUrl configUrl
   let warpSettings = Warp.defaultSettings
         & Warp.setPort (baseUrlPort url)
         & Warp.setHost (fromString $ baseUrlHost url)
-  liftIO $ Warp.runSettings warpSettings $ middleware $ serverWaiApplicationOpenAPIPetstore backend
+  liftIO $ Warp.runSettings warpSettings $ middleware $ serverWaiApplicationOpenAPIPetstore auth backend
 
 -- | Plain "Network.Wai" Application for the OpenAPIPetstore server.
 --
 -- Can be used to implement e.g. tests that call the API without a full webserver.
-serverWaiApplicationOpenAPIPetstore :: OpenAPIPetstoreBackend (ExceptT ServerError IO) -> Application
-serverWaiApplicationOpenAPIPetstore backend = serve (Proxy :: Proxy OpenAPIPetstoreAPI) (serverFromBackend backend)
+serverWaiApplicationOpenAPIPetstore :: OpenAPIPetstoreAuth -> OpenAPIPetstoreBackend AuthServer (ExceptT ServerError IO) -> Application
+serverWaiApplicationOpenAPIPetstore auth backend = serveWithContextT (Proxy :: Proxy OpenAPIPetstoreAPI) context id (serverFromBackend backend)
   where
+    context = serverContext auth
     serverFromBackend OpenAPIPetstoreBackend{..} =
       (coerce addPet :<|>
        coerce deletePet :<|>
@@ -316,3 +333,24 @@ serverWaiApplicationOpenAPIPetstore backend = serve (Proxy :: Proxy OpenAPIPetst
        coerce logoutUser :<|>
        coerce updateUser :<|>
        serveDirectoryFileServer "static")
+
+-- Authentication is implemented with servants generalized authentication:
+-- https://docs.servant.dev/en/stable/tutorial/Authentication.html#generalized-authentication
+
+authHandler :: OpenAPIPetstoreAuth -> AuthHandler Request AuthServer
+authHandler OpenAPIPetstoreAuth{..} = mkAuthHandler handler
+  where
+    handler req = case lookup "api_key" (requestHeaders req) of
+      Just header -> lookupUser header
+      Nothing -> throwError (authError req)
+
+type Protected = AuthProtect "apikey"
+type AuthServer = AuthServerData Protected
+type AuthClient = AuthenticatedRequest Protected
+type instance AuthClientData Protected = Text
+
+clientAuth :: Text -> AuthClient
+clientAuth key = mkAuthenticatedRequest key (addHeader "api_key")
+
+serverContext :: OpenAPIPetstoreAuth -> Context (AuthHandler Request AuthServer ': '[])
+serverContext auth = authHandler auth :. EmptyContext

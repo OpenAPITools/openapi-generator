@@ -2,9 +2,9 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**testClassname**](FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**testClassname**](FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case |
 
 
 ## Creating FakeClassnameTags123Api
@@ -35,7 +35,7 @@ Note that the class needs to be annotated with one of Micronaut's [scope annotat
 
 More information can be found inside [Inversion of Control guide section](https://docs.micronaut.io/latest/guide/#ioc).
 
-<a name="testClassname"></a>
+<a id="testClassname"></a>
 # **testClassname**
 ```java
 Mono<ModelClient> FakeClassnameTags123Api.testClassname(_body)
@@ -46,9 +46,9 @@ To test class name in snake case
 To test class name in snake case
 
 ### Parameters
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **_body** | [**ModelClient**](ModelClient.md)| client model |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **_body** | [**ModelClient**](ModelClient.md)| client model | |
 
 
 ### Return type

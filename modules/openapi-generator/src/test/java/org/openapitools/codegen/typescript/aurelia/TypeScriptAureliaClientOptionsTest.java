@@ -21,10 +21,13 @@ import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptAureliaClientCodegen;
 import org.openapitools.codegen.options.TypeScriptAureliaClientOptionsProvider;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
+import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_AURELIA})
 public class TypeScriptAureliaClientOptionsTest extends AbstractOptionsTest {
     private TypeScriptAureliaClientCodegen clientCodegen = mock(TypeScriptAureliaClientCodegen.class, mockSettings);
 

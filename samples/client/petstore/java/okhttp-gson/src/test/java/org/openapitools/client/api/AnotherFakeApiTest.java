@@ -13,13 +13,13 @@
 package org.openapitools.client.api;
 
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Client;
 
 /** API tests for AnotherFakeApi */
-@Ignore
+@Disabled
 public class AnotherFakeApiTest {
 
     private final AnotherFakeApi api = new AnotherFakeApi();

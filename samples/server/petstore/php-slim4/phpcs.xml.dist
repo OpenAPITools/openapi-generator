@@ -8,6 +8,9 @@
     <!-- Don't need to inspect installed packages -->
     <exclude-pattern>./vendor</exclude-pattern>
 
+    <!-- Don't need to scan logs -->
+    <exclude-pattern>./logs</exclude-pattern>
+
     <!-- <basepath>     A path to strip from the front of file paths inside reports -->
     <arg name="basepath" value="."/>
 

@@ -31,9 +31,8 @@ public class AnotherFakeApiServiceImpl implements AnotherFakeApi {
      */
     public Client call123testSpecialTags(Client body) {
         // TODO: Implement...
-        
+
         return null;
     }
-    
-}
 
+}

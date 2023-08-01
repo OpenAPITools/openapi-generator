@@ -181,6 +181,8 @@ class FakeController extends Controller
 
         $enumQueryDouble = $input['enumQueryDouble'];
 
+        $enumQueryModelArray = $input['enumQueryModelArray'];
+
         $enumFormStringArray = $input['enumFormStringArray'];
 
         $enumFormString = $input['enumFormString'];
@@ -227,6 +229,25 @@ class FakeController extends Controller
 
 
         return response('How about implementing testGroupParameters as a delete method ?');
+    }
+    /**
+     * Operation fakeBigDecimalMap
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function fakeBigDecimalMap()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing fakeBigDecimalMap as a get method ?');
     }
     /**
      * Operation testBodyWithBinary

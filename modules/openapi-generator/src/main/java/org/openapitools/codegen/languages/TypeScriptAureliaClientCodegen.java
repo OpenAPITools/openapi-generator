@@ -18,6 +18,12 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.util.*;
 
@@ -27,6 +33,10 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
 
     public TypeScriptAureliaClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .securityFeatures(EnumSet.of(SecurityFeature.ApiKey)));
 
         apiTemplateFiles.put("api.mustache", ".ts");
 
@@ -82,12 +92,12 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
     }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
 
         HashSet<String> modelImports = new HashSet<>();
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        OperationMap operations = objs.getOperations();
+        List<CodegenOperation> operationList = operations.getOperation();
         for (CodegenOperation op : operationList) {
             // Aurelia uses "asGet", "asPost", ... methods; change the method format
             op.httpMethod = camelize(op.httpMethod.toLowerCase(Locale.ROOT));
@@ -109,13 +119,12 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
-        List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            cm.imports = new TreeSet(cm.imports);
+        List<ModelMap> models = postProcessModelsEnum(objs).getModels();
+        for (ModelMap mo : models) {
+            CodegenModel cm = mo.getModel();
+            cm.imports = new TreeSet<>(cm.imports);
             for (CodegenProperty var : cm.vars) {
                 // name enum with model name, e.g. StatusEnum => PetStatusEnum
                 if (Boolean.TRUE.equals(var.isEnum)) {

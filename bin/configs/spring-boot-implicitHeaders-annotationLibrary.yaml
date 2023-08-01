@@ -1,0 +1,10 @@
+generatorName: spring
+outputDir: samples/server/petstore/springboot-implicitHeaders-annotationLibrary
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  artifactId: springboot-implicitHeaders-annotationLibrary
+  documentationProvider: none
+  annotationLibrary: none
+  hideGenerationTimestamp: "true"
+  implicitHeadersRegex: .*

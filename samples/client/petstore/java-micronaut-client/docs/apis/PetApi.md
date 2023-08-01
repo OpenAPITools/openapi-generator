@@ -2,17 +2,17 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
-[**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
-[**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
-[**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
-[**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
-[**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
-[**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
-[**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**addPet**](PetApi.md#addPet) | **POST** /pet | Add a new pet to the store |
+| [**deletePet**](PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet |
+| [**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status |
+| [**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags |
+| [**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID |
+| [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet |
+| [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data |
+| [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image |
+| [**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
 
 
 ## Creating PetApi
@@ -43,7 +43,7 @@ Note that the class needs to be annotated with one of Micronaut's [scope annotat
 
 More information can be found inside [Inversion of Control guide section](https://docs.micronaut.io/latest/guide/#ioc).
 
-<a name="addPet"></a>
+<a id="addPet"></a>
 # **addPet**
 ```java
 Mono<Void> PetApi.addPet(_body)
@@ -52,9 +52,9 @@ Mono<Void> PetApi.addPet(_body)
 Add a new pet to the store
 
 ### Parameters
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **_body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **_body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 
 
@@ -66,7 +66,7 @@ Name | Type | Description  | Notes
  - **Content-Type**: `application/json`, `application/xml`
  - **Accept**: Not defined
 
-<a name="deletePet"></a>
+<a id="deletePet"></a>
 # **deletePet**
 ```java
 Mono<Void> PetApi.deletePet(petIdapiKey)
@@ -75,10 +75,10 @@ Mono<Void> PetApi.deletePet(petIdapiKey)
 Deletes a pet
 
 ### Parameters
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | `Long`| Pet id to delete |
- **apiKey** | `String`|  | [optional parameter]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | `Long`| Pet id to delete | |
+| **apiKey** | `String`|  | [optional parameter] |
 
 
 
@@ -90,7 +90,7 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="findPetsByStatus"></a>
+<a id="findPetsByStatus"></a>
 # **findPetsByStatus**
 ```java
 Mono<List<Pet>> PetApi.findPetsByStatus(status)
@@ -101,9 +101,9 @@ Finds Pets by status
 Multiple status values can be provided with comma separated strings
 
 ### Parameters
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [enum: `available`, `pending`, `sold`]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [enum: `available`, `pending`, `sold`] |
 
 
 ### Return type
@@ -116,7 +116,7 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: `application/xml`, `application/json`
 
-<a name="findPetsByTags"></a>
+<a id="findPetsByTags"></a>
 # **findPetsByTags**
 ```java
 Mono<Set<Pet>> PetApi.findPetsByTags(tags)
@@ -127,9 +127,9 @@ Finds Pets by tags
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
 ### Parameters
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by | |
 
 
 ### Return type
@@ -142,7 +142,7 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: `application/xml`, `application/json`
 
-<a name="getPetById"></a>
+<a id="getPetById"></a>
 # **getPetById**
 ```java
 Mono<Pet> PetApi.getPetById(petId)
@@ -153,9 +153,9 @@ Find pet by ID
 Returns a single pet
 
 ### Parameters
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | `Long`| ID of pet to return |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | `Long`| ID of pet to return | |
 
 
 ### Return type
@@ -168,7 +168,7 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: `application/xml`, `application/json`
 
-<a name="updatePet"></a>
+<a id="updatePet"></a>
 # **updatePet**
 ```java
 Mono<Void> PetApi.updatePet(_body)
@@ -177,9 +177,9 @@ Mono<Void> PetApi.updatePet(_body)
 Update an existing pet
 
 ### Parameters
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **_body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **_body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | |
 
 
 
@@ -191,7 +191,7 @@ Name | Type | Description  | Notes
  - **Content-Type**: `application/json`, `application/xml`
  - **Accept**: Not defined
 
-<a name="updatePetWithForm"></a>
+<a id="updatePetWithForm"></a>
 # **updatePetWithForm**
 ```java
 Mono<Void> PetApi.updatePetWithForm(petIdnamestatus)
@@ -200,11 +200,11 @@ Mono<Void> PetApi.updatePetWithForm(petIdnamestatus)
 Updates a pet in the store with form data
 
 ### Parameters
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | `Long`| ID of pet that needs to be updated |
- **name** | `String`| Updated name of the pet | [optional parameter]
- **status** | `String`| Updated status of the pet | [optional parameter]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | `Long`| ID of pet that needs to be updated | |
+| **name** | `String`| Updated name of the pet | [optional parameter] |
+| **status** | `String`| Updated status of the pet | [optional parameter] |
 
 
 
@@ -216,7 +216,7 @@ Name | Type | Description  | Notes
  - **Content-Type**: `application/x-www-form-urlencoded`
  - **Accept**: Not defined
 
-<a name="uploadFile"></a>
+<a id="uploadFile"></a>
 # **uploadFile**
 ```java
 Mono<ModelApiResponse> PetApi.uploadFile(petIdadditionalMetadata_file)
@@ -225,11 +225,11 @@ Mono<ModelApiResponse> PetApi.uploadFile(petIdadditionalMetadata_file)
 uploads an image
 
 ### Parameters
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | `Long`| ID of pet to update |
- **additionalMetadata** | `String`| Additional data to pass to server | [optional parameter]
- **_file** | `File`| file to upload | [optional parameter]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | `Long`| ID of pet to update | |
+| **additionalMetadata** | `String`| Additional data to pass to server | [optional parameter] |
+| **_file** | `File`| file to upload | [optional parameter] |
 
 
 ### Return type
@@ -242,7 +242,7 @@ Name | Type | Description  | Notes
  - **Content-Type**: `multipart/form-data`
  - **Accept**: `application/json`
 
-<a name="uploadFileWithRequiredFile"></a>
+<a id="uploadFileWithRequiredFile"></a>
 # **uploadFileWithRequiredFile**
 ```java
 Mono<ModelApiResponse> PetApi.uploadFileWithRequiredFile(petIdrequiredFileadditionalMetadata)
@@ -251,11 +251,11 @@ Mono<ModelApiResponse> PetApi.uploadFileWithRequiredFile(petIdrequiredFileadditi
 uploads an image (required)
 
 ### Parameters
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | `Long`| ID of pet to update |
- **requiredFile** | `File`| file to upload |
- **additionalMetadata** | `String`| Additional data to pass to server | [optional parameter]
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | `Long`| ID of pet to update | |
+| **requiredFile** | `File`| file to upload | |
+| **additionalMetadata** | `String`| Additional data to pass to server | [optional parameter] |
 
 
 ### Return type

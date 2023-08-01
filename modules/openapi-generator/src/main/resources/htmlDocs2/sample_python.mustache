@@ -5,10 +5,10 @@ from {{{pythonPackageName}}}.rest import ApiException
 from pprint import pprint
 {{#hasAuthMethods}}
 {{#authMethods}}
-{{^isBasicBearer}}{{#isBasic}}
+{{#isBasicBasic}}
 # Configure HTTP basic authorization: {{{name}}}
 {{{pythonPackageName}}}.configuration.username = 'YOUR_USERNAME'
-{{{pythonPackageName}}}.configuration.password = 'YOUR_PASSWORD'{{/isBasic}}{{/isBasicBearer}}{{#isBasicBearer}}
+{{{pythonPackageName}}}.configuration.password = 'YOUR_PASSWORD'{{/isBasicBasic}}{{#isBasicBearer}}
 # Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
 {{{pythonPackageName}}}.configuration.access_token = 'YOUR_ACCESS_TOKEN'{{/isBasicBearer}}{{#isApiKey}}
 # Configure API key authorization: {{{name}}}

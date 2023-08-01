@@ -14,8 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.validation.constraints.*;
@@ -47,10 +45,9 @@ public class ReadOnlyFirst {
      * @return bar
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_BAR)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getBar() {
+    public String getBar() {
         return bar;
     }
 
@@ -64,16 +61,15 @@ public class ReadOnlyFirst {
      * @return baz
      **/
     @Nullable
-    @ApiModelProperty(value = "")
     @JsonProperty(JSON_PROPERTY_BAZ)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public String getBaz() {
+    public String getBaz() {
         return baz;
     }
 
     @JsonProperty(JSON_PROPERTY_BAZ)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-       public void setBaz(String baz) {
+    public void setBaz(String baz) {
         this.baz = baz;
     }
 
@@ -117,3 +113,4 @@ public class ReadOnlyFirst {
     }
 
 }
+

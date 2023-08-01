@@ -10,10 +10,12 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptNestjsClientCodegen;
+import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 
+@Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_NESTJS})
 public class TypeScriptNestjsClientCodegenTest {
     @Test
     public void testModelFileSuffix() {

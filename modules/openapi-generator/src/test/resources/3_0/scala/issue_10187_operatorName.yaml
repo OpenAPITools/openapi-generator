@@ -1,0 +1,50 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example - The comparison operator
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /report:
+    get:
+      operationId: getReport
+      responses:
+        '200':
+          description: get Report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reports'
+components:
+  schemas:
+    Reports:
+      properties:
+        name:
+          type: string
+        expression:
+          items:
+            $ref: '#/components/schemas/Condition'
+          type: array
+    Condition:
+      example:
+        variable: variable
+        operator: =
+        comparison_value: comparison_value
+      properties:
+        variable:
+          type: string
+        comparison_value:
+          type: string
+        operator:
+          description: The comparison operator.
+          enum:
+          - =
+          - '!='
+          - >
+          - <
+          - '>='
+          - <=
+          type: string
+      type: object

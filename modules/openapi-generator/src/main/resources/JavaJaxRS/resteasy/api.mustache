@@ -15,15 +15,15 @@ import {{package}}.NotFoundException;
 
 import java.io.InputStream;
 
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.*;
-import javax.inject.Inject;
+import {{javaxPackage}}.ws.rs.core.Context;
+import {{javaxPackage}}.ws.rs.core.Response;
+import {{javaxPackage}}.ws.rs.core.SecurityContext;
+import {{javaxPackage}}.ws.rs.*;
+import {{javaxPackage}}.inject.Inject;
 
 {{#useBeanValidation}}
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 {{/useBeanValidation}}
 {{#operations}}{{#operation}}{{#isMultipart}}import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 {{/isMultipart}}{{/operation}}{{/operations}}
@@ -49,6 +49,13 @@ public class {{classname}}  {
         }{{/isOAuth}}){{^-last}},
         {{/-last}}{{/authMethods}}
     }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}",{{/vendorExtensions.x-tags}} })
+    {{#implicitHeadersParams.0}}
+    @io.swagger.annotations.ApiImplicitParams({
+        {{#implicitHeadersParams}}
+        @io.swagger.annotations.ApiImplicitParam(name = "{{{baseName}}}", value = "{{{description}}}", {{#required}}required = true,{{/required}} dataType = "{{{dataType}}}", paramType = "header"){{^-last}},{{/-last}}
+        {{/implicitHeadersParams}}
+    })
+    {{/implicitHeadersParams.0}}
     @io.swagger.annotations.ApiResponses(value = { {{#responses}}
         @io.swagger.annotations.ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},
         {{/-last}}{{/responses}} })

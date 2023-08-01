@@ -66,24 +66,25 @@ public class ApiClient {
     this();
     for(String authName : authNames) {
       {{#hasAuthMethods}}
-      Interceptor auth;
+      Interceptor auth = null;
       {{#authMethods}}if ("{{name}}".equals(authName)) {
-        {{#isBasic}}{{#isBasicBasic}}
+        {{#isBasicBasic}}
         auth = new HttpBasicAuth();
-        {{/isBasicBasic}}{{^isBasicBasic}}
+        {{/isBasicBasic}}{{#isBasicBearer}}
         auth = new HttpBearerAuth("{{scheme}}");
-        {{/isBasicBasic}}{{/isBasic}}
+        {{/isBasicBearer}}
         {{#isApiKey}}
         auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}");
         {{/isApiKey}}
         {{#isOAuth}}
-        auth = new OAuth(OAuthFlow.{{#lambda.uppercase}}{{#lambda.snakecase}}{{flow}}{{/lambda.snakecase}}{{/lambda.uppercase}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}");
+        auth = new OAuth(OAuthFlow.{{#lambda.uppercase}}{{#lambda.snakecase}}{{flow}}{{/lambda.snakecase}}{{/lambda.uppercase}}, "{{{authorizationUrl}}}", "{{{tokenUrl}}}", "{{#scopes}}{{scope}}{{^-last}}, {{/-last}}{{/scopes}}");
         {{/isOAuth}}
       } else {{/authMethods}}{
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }
-
-      addAuthorization(authName, auth);
+      if (auth != null) {
+        addAuthorization(authName, auth);
+      }
       {{/hasAuthMethods}}
       {{^hasAuthMethods}}
       throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");

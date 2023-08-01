@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports -fno-warn-unused-matches #-}
 
 module Instances where
@@ -12,6 +13,7 @@ import qualified Data.Set as Set
 import qualified Data.Text as T
 import qualified Data.Time as TI
 import qualified Data.Vector as V
+import Data.String (fromString)
 
 import Control.Monad
 import Data.Char (isSpace)
@@ -51,9 +53,16 @@ instance Arbitrary Date where
     arbitrary = Date <$> arbitrary
     shrink (Date xs) = Date <$> shrink xs
 
+#if MIN_VERSION_aeson(2,0,0)
+#else
 -- | A naive Arbitrary instance for A.Value:
 instance Arbitrary A.Value where
-  arbitrary = frequency [(3, simpleTypes), (1, arrayTypes), (1, objectTypes)]
+  arbitrary = arbitraryValue
+#endif
+
+arbitraryValue :: Gen A.Value
+arbitraryValue =
+  frequency [(3, simpleTypes), (1, arrayTypes), (1, objectTypes)]
     where
       simpleTypes :: Gen A.Value
       simpleTypes =
@@ -63,7 +72,7 @@ instance Arbitrary A.Value where
           , (2, liftM (A.Number . fromIntegral) (arbitrary :: Gen Int))
           , (2, liftM (A.String . T.pack) (arbitrary :: Gen String))
           ]
-      mapF (k, v) = (T.pack k, v)
+      mapF (k, v) = (fromString k, v)
       simpleAndArrays = frequency [(1, sized sizedArray), (4, simpleTypes)]
       arrayTypes = sized sizedArray
       objectTypes = sized sizedObject
@@ -234,14 +243,6 @@ genBigCat n =
     <*> arbitraryReducedMaybe n -- bigCatDeclawed :: Maybe Bool
     <*> arbitraryReducedMaybe n -- bigCatKind :: Maybe E'Kind
   
-instance Arbitrary BigCatAllOf where
-  arbitrary = sized genBigCatAllOf
-
-genBigCatAllOf :: Int -> Gen BigCatAllOf
-genBigCatAllOf n =
-  BigCatAllOf
-    <$> arbitraryReducedMaybe n -- bigCatAllOfKind :: Maybe E'Kind
-  
 instance Arbitrary Capitalization where
   arbitrary = sized genCapitalization
 
@@ -264,14 +265,6 @@ genCat n =
     <$> arbitrary -- catClassName :: Text
     <*> arbitraryReducedMaybe n -- catColor :: Maybe Text
     <*> arbitraryReducedMaybe n -- catDeclawed :: Maybe Bool
-  
-instance Arbitrary CatAllOf where
-  arbitrary = sized genCatAllOf
-
-genCatAllOf :: Int -> Gen CatAllOf
-genCatAllOf n =
-  CatAllOf
-    <$> arbitraryReducedMaybe n -- catAllOfDeclawed :: Maybe Bool
   
 instance Arbitrary Category where
   arbitrary = sized genCategory
@@ -307,14 +300,6 @@ genDog n =
     <$> arbitrary -- dogClassName :: Text
     <*> arbitraryReducedMaybe n -- dogColor :: Maybe Text
     <*> arbitraryReducedMaybe n -- dogBreed :: Maybe Text
-  
-instance Arbitrary DogAllOf where
-  arbitrary = sized genDogAllOf
-
-genDogAllOf :: Int -> Gen DogAllOf
-genDogAllOf n =
-  DogAllOf
-    <$> arbitraryReducedMaybe n -- dogAllOfBreed :: Maybe Text
   
 instance Arbitrary EnumArrays where
   arbitrary = sized genEnumArrays

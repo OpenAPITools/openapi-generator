@@ -1,0 +1,182 @@
+{{>licenseInfo}}
+package {{package}};
+
+import java.util.Objects;
+import {{invokerPackage}}.ApiResponse;
+
+{{#jsonb}}
+import {{rootJavaEEPackage}}.json.bind.JsonbBuilder;
+{{/jsonb}}
+{{#jackson}}
+import com.fasterxml.jackson.databind.ObjectMapper;
+{{/jackson}}
+
+import io.helidon.common.GenericType;
+import io.helidon.common.http.MediaType;
+import io.helidon.common.reactive.Single;
+import io.helidon.config.Config;
+import io.helidon.media.common.MediaSupport;
+{{#jsonb}}import io.helidon.media.jsonb.JsonbSupport;{{/jsonb}}
+{{#jackson}}import io.helidon.media.jackson.JacksonSupport;{{/jackson}}
+import io.helidon.webclient.WebClientRequestBuilder;
+import io.helidon.webclient.WebClientResponse;
+
+import {{invokerPackage}}.ApiClient;
+
+{{#x-helidon-implImports}}import {{import}};
+{{/x-helidon-implImports}}
+
+{{#appName}}
+/**
+ * {{{appName}}}
+ *
+ {{#appDescription}}
+ * <p>{{{.}}}
+ {{/appDescription}}
+ */
+{{/appName}}
+public class {{classname}}Impl implements {{classname}} {
+
+  private final ApiClient apiClient;
+
+{{#operations}}
+    {{#operation}}
+  protected static final GenericType<{{>operationResponseTypeDecl}}> RESPONSE_TYPE_{{operationId}} = ResponseType.create({{#isArray}}List.class, {{/isArray}}{{#isMap}}Map.class, String.class, {{/isMap}}{{#returnBaseType}}{{returnBaseType}}{{/returnBaseType}}{{^returnBaseType}}Void{{/returnBaseType}}.class);
+    {{/operation}}
+{{/operations}}
+
+  /**
+   * Creates a new instance of {{classname}}Impl initialized with the specified {@link ApiClient}.
+   *
+   */
+  public static {{classname}}Impl create(ApiClient apiClient) {
+    return new {{classname}}Impl(apiClient);
+  }
+
+  protected {{classname}}Impl(ApiClient apiClient) {
+    this.apiClient = apiClient;
+  }
+
+{{#operations}}
+{{#operation}}
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  @Override
+  public {{>operationResponseSig}} {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+    {{#requiredParams}}
+    Objects.requireNonNull({{paramName}}, "Required parameter '{{paramName}}' not specified");
+    {{/requiredParams}}
+    WebClientRequestBuilder webClientRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    return {{operationId}}Submit(webClientRequestBuilder{{#allParams}}, {{paramName}}{{/allParams}});
+  }
+
+  /**
+   * Creates a {@code WebClientRequestBuilder} for the {{operationId}} operation.
+   * Optional customization point for subclasses.
+   *
+   {{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   {{/allParams}}
+   * @return WebClientRequestBuilder for {{operationId}}
+   */
+  protected WebClientRequestBuilder {{operationId}}RequestBuilder({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+    WebClientRequestBuilder webClientRequestBuilder = apiClient.webClient()
+            .method("{{httpMethod}}");
+
+    {{#hasQueryParams}}
+    List<Pair> queryParams = new ArrayList<>();
+        {{#queryParams}}
+            {{#collectionFormat}}
+    queryParams.addAll(ApiClient.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));
+            {{/collectionFormat}}
+            {{^collectionFormat}}
+                {{#isDeepObject}}
+    if ({{paramName}} != null) {
+                    {{#items.vars}}
+      queryParams.addAll(ApiClient.parameterToPairs({{#isArray}}"csv", {{/isArray}}"{{baseName}}", {{paramName}}.{{getter}}()));
+                    {{/items.vars}}
+    }
+                {{/isDeepObject}}
+                {{^isDeepObject}}
+                    {{#isExplode}}
+                        {{#hasVars}}
+                            {{#vars}}
+    queryParams.addAll(ApiClent.parameterToPairs("{{baseName}}", {{paramName}}.{{getter}}()));
+                            {{/vars}}
+                        {{/hasVars}}
+                        {{^hasVars}}
+    queryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}));
+                        {{/hasVars}}
+                    {{/isExplode}}
+                    {{^isExplode}}
+    queryParams.addAll(ApiClient.parameterToPairs("{{baseName}}", {{paramName}}));
+                    {{/isExplode}}
+                {{/isDeepObject}}
+            {{/collectionFormat}}
+        {{/queryParams}}
+    queryParams.forEach(p -> webClientRequestBuilder.queryParam(p.getName(), p.getValue()));
+
+    {{/hasQueryParams}}
+    {{#hasHeaderParams}}
+    WebClientRequestHeaders headers = webClientRequestBuilder.headers();
+        {{#headerParams}}
+    if ({{paramName}} != null) {
+      headers.put("{{baseName}}", {{paramName}}{{^isString}}.toString(){{/isString}});
+    }
+        {{/headerParams}}
+
+    {{/hasHeaderParams}}
+    {{#hasCookieParams}}
+    String cookies = new StringJoiner("; ")
+        {{#cookieParams}}
+            .add("{{{baseName}}}=" + {{{paramName}}})
+        {{/cookieParams}}
+            .toString();
+    webClientRequestBuilder.headers().add("Cookie", cookies);
+
+    {{/hasCookieParams}}
+    {{#hasPathParams}}
+    String path = "{{{path}}}"
+    {{! Switch delimiters from double braces to <% and %> for baseName so we can use curly braces in the string as literals and not have mustache
+      interpret them, then switch back. }}
+        {{#pathParams}}
+            .replace({{=<% %>=}}"{<%baseName%>}"<%={{ }}=%>, ApiClient.urlEncode({{{paramName}}}{{^isString}}.toString(){{/isString}})){{/pathParams}};
+    {{/hasPathParams}}
+    webClientRequestBuilder.path({{#hasPathParams}}path{{/hasPathParams}}{{^hasPathParams}}"{{{path}}}"{{/hasPathParams}});
+    {{#bodyParam}}
+    webClientRequestBuilder.contentType(MediaType.APPLICATION_JSON);
+    {{/bodyParam}}
+    {{#hasFormParams}}
+    webClientRequestBuilder.contentType(MediaType.APPLICATION_FORM_URLENCODED);
+    {{/hasFormParams}}
+    webClientRequestBuilder.accept(MediaType.APPLICATION_JSON);
+
+    return webClientRequestBuilder;
+  }
+
+  /**
+   * Initiates the request for the {{operationId}} operation.
+   * Optional customization point for subclasses.
+   *
+   * @param webClientRequestBuilder the request builder to use for submitting the request
+   {{#allParams}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   {{/allParams}}
+   * @return {@code {{>operationResponseSig}}} for the submitted request
+   */
+  protected {{>operationResponseSig}} {{operationId}}Submit(WebClientRequestBuilder webClientRequestBuilder{{#allParams}}, {{{dataType}}} {{paramName}}{{/allParams}}) {
+    {{#hasFormParams}}
+    String formParams = new StringJoiner("&")
+        {{#formParams}}
+            .add("{{{baseName}}}=" + {{paramName}})
+        {{/formParams}}
+            .toString();
+    {{/hasFormParams}}
+    Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit({{#bodyParam}}{{paramName}}{{/bodyParam}}{{#hasFormParams}}formParams{{/hasFormParams}});
+    return ApiResponse.create(RESPONSE_TYPE_{{operationId}}, webClientResponse);
+  }
+
+{{/operation}}
+{{/operations}}
+}

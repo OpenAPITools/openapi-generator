@@ -19,11 +19,20 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ArrayTest")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ArrayTest  implements Serializable {
-  
-  private @Valid List<String> arrayOfString = new ArrayList<>();
-  private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
-  private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class ArrayTest  implements Serializable {
+  private @Valid List<String> arrayOfString;
+  private @Valid List<List<Long>> arrayArrayOfInteger;
+  private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel;
+
+  protected ArrayTest(ArrayTestBuilder<?, ?> b) {
+    this.arrayOfString = b.arrayOfString;
+    this.arrayArrayOfInteger = b.arrayArrayOfInteger;
+    this.arrayArrayOfModel = b.arrayArrayOfModel;
+  }
+
+  public ArrayTest() {
+  }
 
   /**
    **/
@@ -31,8 +40,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
     this.arrayOfString = arrayOfString;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -62,14 +69,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
     return this;
   }
-/**
+  /**
    **/
   public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -99,14 +104,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
     return this;
   }
-/**
+  /**
    **/
   public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -180,5 +183,43 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   }
 
 
+  public static ArrayTestBuilder<?, ?> builder() {
+    return new ArrayTestBuilderImpl();
+  }
+
+  private static final class ArrayTestBuilderImpl extends ArrayTestBuilder<ArrayTest, ArrayTestBuilderImpl> {
+
+    @Override
+    protected ArrayTestBuilderImpl self() {
+      return this;
+    }
+
+    @Override
+    public ArrayTest build() {
+      return new ArrayTest(this);
+    }
+  }
+
+  public static abstract class ArrayTestBuilder<C extends ArrayTest, B extends ArrayTestBuilder<C, B>>  {
+    private List<String> arrayOfString;
+    private List<List<Long>> arrayArrayOfInteger;
+    private List<List<ReadOnlyFirst>> arrayArrayOfModel;
+    protected abstract B self();
+
+    public abstract C build();
+
+    public B arrayOfString(List<String> arrayOfString) {
+      this.arrayOfString = arrayOfString;
+      return self();
+    }
+    public B arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+      this.arrayArrayOfInteger = arrayArrayOfInteger;
+      return self();
+    }
+    public B arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+      this.arrayArrayOfModel = arrayArrayOfModel;
+      return self();
+    }
+  }
 }
 

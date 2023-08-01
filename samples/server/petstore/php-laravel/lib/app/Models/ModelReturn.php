@@ -6,10 +6,11 @@ namespace app\Models;
 
 /**
  * ModelReturn
+ * @description Model for testing reserved words
  */
 class ModelReturn {
 
     /** @var int $return */
-    private $return;
+    public $return = 0;
 
 }

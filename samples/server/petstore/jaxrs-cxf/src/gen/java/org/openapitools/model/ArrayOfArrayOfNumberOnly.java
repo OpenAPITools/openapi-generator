@@ -7,13 +7,15 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class ArrayOfArrayOfNumberOnly  {
   
   @ApiModelProperty(value = "")
   @Valid
-  private List<List<BigDecimal>> arrayArrayNumber = null;
+  private List<List<BigDecimal>> arrayArrayNumber;
  /**
    * Get arrayArrayNumber
    * @return arrayArrayNumber
@@ -37,6 +39,22 @@ public class ArrayOfArrayOfNumberOnly  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ArrayOfArrayOfNumberOnly arrayOfArrayOfNumberOnly = (ArrayOfArrayOfNumberOnly) o;
+    return Objects.equals(arrayArrayNumber, arrayOfArrayOfNumberOnly.arrayArrayNumber);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(arrayArrayNumber);
+  }
 
   @Override
   public String toString() {

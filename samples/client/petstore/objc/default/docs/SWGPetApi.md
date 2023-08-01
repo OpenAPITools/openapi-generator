@@ -22,6 +22,8 @@ Method | HTTP request | Description
 
 Add a new pet to the store
 
+
+
 ### Example
 ```objc
 SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
@@ -72,6 +74,8 @@ void (empty response body)
 ```
 
 Deletes a pet
+
+
 
 ### Example
 ```objc
@@ -242,13 +246,13 @@ Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error cond
 ```objc
 SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 
+// Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
 // Configure API key authorization: (authentication scheme: api_key)
 [apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"api_key"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
-
-// Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
-[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
 NSNumber* petId = @56; // ID of pet that needs to be fetched
@@ -279,7 +283,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key), [petstore_auth](../README.md#petstore_auth)
+[petstore_auth](../README.md#petstore_auth), [api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -295,6 +299,8 @@ Name | Type | Description  | Notes
 ```
 
 Update an existing pet
+
+
 
 ### Example
 ```objc
@@ -347,6 +353,8 @@ void (empty response body)
 ```
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 ```objc
@@ -405,6 +413,8 @@ void (empty response body)
 ```
 
 uploads an image
+
+
 
 ### Example
 ```objc

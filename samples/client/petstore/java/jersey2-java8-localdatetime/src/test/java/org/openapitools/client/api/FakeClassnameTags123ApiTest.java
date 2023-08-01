@@ -16,10 +16,10 @@ package org.openapitools.client.api;
 import org.openapitools.client.*;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.model.Client;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,8 +38,7 @@ public class FakeClassnameTags123ApiTest {
      *
      * To test class name in snake case
      *
-     * @throws ApiException
-     *          if the Api call fails
+     * @throws ApiException if the Api call fails
      */
     @Test
     public void testClassnameTest() throws ApiException {

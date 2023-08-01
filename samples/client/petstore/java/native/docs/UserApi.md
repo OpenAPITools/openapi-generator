@@ -2,30 +2,30 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**createUser**](UserApi.md#createUser) | **POST** /user | Create user
-[**createUserWithHttpInfo**](UserApi.md#createUserWithHttpInfo) | **POST** /user | Create user
-[**createUsersWithArrayInput**](UserApi.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
-[**createUsersWithArrayInputWithHttpInfo**](UserApi.md#createUsersWithArrayInputWithHttpInfo) | **POST** /user/createWithArray | Creates list of users with given input array
-[**createUsersWithListInput**](UserApi.md#createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
-[**createUsersWithListInputWithHttpInfo**](UserApi.md#createUsersWithListInputWithHttpInfo) | **POST** /user/createWithList | Creates list of users with given input array
-[**deleteUser**](UserApi.md#deleteUser) | **DELETE** /user/{username} | Delete user
-[**deleteUserWithHttpInfo**](UserApi.md#deleteUserWithHttpInfo) | **DELETE** /user/{username} | Delete user
-[**getUserByName**](UserApi.md#getUserByName) | **GET** /user/{username} | Get user by user name
-[**getUserByNameWithHttpInfo**](UserApi.md#getUserByNameWithHttpInfo) | **GET** /user/{username} | Get user by user name
-[**loginUser**](UserApi.md#loginUser) | **GET** /user/login | Logs user into the system
-[**loginUserWithHttpInfo**](UserApi.md#loginUserWithHttpInfo) | **GET** /user/login | Logs user into the system
-[**logoutUser**](UserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
-[**logoutUserWithHttpInfo**](UserApi.md#logoutUserWithHttpInfo) | **GET** /user/logout | Logs out current logged in user session
-[**updateUser**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
-[**updateUserWithHttpInfo**](UserApi.md#updateUserWithHttpInfo) | **PUT** /user/{username} | Updated user
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**createUser**](UserApi.md#createUser) | **POST** /user | Create user |
+| [**createUserWithHttpInfo**](UserApi.md#createUserWithHttpInfo) | **POST** /user | Create user |
+| [**createUsersWithArrayInput**](UserApi.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array |
+| [**createUsersWithArrayInputWithHttpInfo**](UserApi.md#createUsersWithArrayInputWithHttpInfo) | **POST** /user/createWithArray | Creates list of users with given input array |
+| [**createUsersWithListInput**](UserApi.md#createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array |
+| [**createUsersWithListInputWithHttpInfo**](UserApi.md#createUsersWithListInputWithHttpInfo) | **POST** /user/createWithList | Creates list of users with given input array |
+| [**deleteUser**](UserApi.md#deleteUser) | **DELETE** /user/{username} | Delete user |
+| [**deleteUserWithHttpInfo**](UserApi.md#deleteUserWithHttpInfo) | **DELETE** /user/{username} | Delete user |
+| [**getUserByName**](UserApi.md#getUserByName) | **GET** /user/{username} | Get user by user name |
+| [**getUserByNameWithHttpInfo**](UserApi.md#getUserByNameWithHttpInfo) | **GET** /user/{username} | Get user by user name |
+| [**loginUser**](UserApi.md#loginUser) | **GET** /user/login | Logs user into the system |
+| [**loginUserWithHttpInfo**](UserApi.md#loginUserWithHttpInfo) | **GET** /user/login | Logs user into the system |
+| [**logoutUser**](UserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session |
+| [**logoutUserWithHttpInfo**](UserApi.md#logoutUserWithHttpInfo) | **GET** /user/logout | Logs out current logged in user session |
+| [**updateUser**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user |
+| [**updateUserWithHttpInfo**](UserApi.md#updateUserWithHttpInfo) | **PUT** /user/{username} | Updated user |
 
 
 
 ## createUser
 
-> void createUser(body)
+> void createUser(user)
 
 Create user
 
@@ -47,9 +47,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        User body = new User(); // User | Created user object
+        User user = new User(); // User | Created user object
         try {
-            apiInstance.createUser(body);
+            apiInstance.createUser(user);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUser");
             System.err.println("Status code: " + e.getCode());
@@ -64,9 +64,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **user** | [**User**](User.md)| Created user object | |
 
 ### Return type
 
@@ -79,7 +79,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 ### HTTP response details
@@ -89,7 +89,7 @@ No authorization required
 
 ## createUserWithHttpInfo
 
-> ApiResponse<Void> createUser createUserWithHttpInfo(body)
+> ApiResponse<Void> createUser createUserWithHttpInfo(user)
 
 Create user
 
@@ -112,9 +112,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        User body = new User(); // User | Created user object
+        User user = new User(); // User | Created user object
         try {
-            ApiResponse<Void> response = apiInstance.createUserWithHttpInfo(body);
+            ApiResponse<Void> response = apiInstance.createUserWithHttpInfo(user);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
@@ -131,9 +131,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **user** | [**User**](User.md)| Created user object | |
 
 ### Return type
 
@@ -146,7 +146,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 ### HTTP response details
@@ -157,9 +157,11 @@ No authorization required
 
 ## createUsersWithArrayInput
 
-> void createUsersWithArrayInput(body)
+> void createUsersWithArrayInput(user)
 
 Creates list of users with given input array
+
+
 
 ### Example
 
@@ -177,9 +179,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        List<User> body = Arrays.asList(); // List<User> | List of user object
+        List<User> user = Arrays.asList(); // List<User> | List of user object
         try {
-            apiInstance.createUsersWithArrayInput(body);
+            apiInstance.createUsersWithArrayInput(user);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUsersWithArrayInput");
             System.err.println("Status code: " + e.getCode());
@@ -194,9 +196,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **user** | [**List&lt;User&gt;**](User.md)| List of user object | |
 
 ### Return type
 
@@ -209,7 +211,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 ### HTTP response details
@@ -219,9 +221,11 @@ No authorization required
 
 ## createUsersWithArrayInputWithHttpInfo
 
-> ApiResponse<Void> createUsersWithArrayInput createUsersWithArrayInputWithHttpInfo(body)
+> ApiResponse<Void> createUsersWithArrayInput createUsersWithArrayInputWithHttpInfo(user)
 
 Creates list of users with given input array
+
+
 
 ### Example
 
@@ -240,9 +244,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        List<User> body = Arrays.asList(); // List<User> | List of user object
+        List<User> user = Arrays.asList(); // List<User> | List of user object
         try {
-            ApiResponse<Void> response = apiInstance.createUsersWithArrayInputWithHttpInfo(body);
+            ApiResponse<Void> response = apiInstance.createUsersWithArrayInputWithHttpInfo(user);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
@@ -259,9 +263,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **user** | [**List&lt;User&gt;**](User.md)| List of user object | |
 
 ### Return type
 
@@ -274,7 +278,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 ### HTTP response details
@@ -285,9 +289,11 @@ No authorization required
 
 ## createUsersWithListInput
 
-> void createUsersWithListInput(body)
+> void createUsersWithListInput(user)
 
 Creates list of users with given input array
+
+
 
 ### Example
 
@@ -305,9 +311,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        List<User> body = Arrays.asList(); // List<User> | List of user object
+        List<User> user = Arrays.asList(); // List<User> | List of user object
         try {
-            apiInstance.createUsersWithListInput(body);
+            apiInstance.createUsersWithListInput(user);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUsersWithListInput");
             System.err.println("Status code: " + e.getCode());
@@ -322,9 +328,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **user** | [**List&lt;User&gt;**](User.md)| List of user object | |
 
 ### Return type
 
@@ -337,7 +343,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 ### HTTP response details
@@ -347,9 +353,11 @@ No authorization required
 
 ## createUsersWithListInputWithHttpInfo
 
-> ApiResponse<Void> createUsersWithListInput createUsersWithListInputWithHttpInfo(body)
+> ApiResponse<Void> createUsersWithListInput createUsersWithListInputWithHttpInfo(user)
 
 Creates list of users with given input array
+
+
 
 ### Example
 
@@ -368,9 +376,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        List<User> body = Arrays.asList(); // List<User> | List of user object
+        List<User> user = Arrays.asList(); // List<User> | List of user object
         try {
-            ApiResponse<Void> response = apiInstance.createUsersWithListInputWithHttpInfo(body);
+            ApiResponse<Void> response = apiInstance.createUsersWithListInputWithHttpInfo(user);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
@@ -387,9 +395,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **user** | [**List&lt;User&gt;**](User.md)| List of user object | |
 
 ### Return type
 
@@ -402,7 +410,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 ### HTTP response details
@@ -452,9 +460,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be deleted |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **username** | **String**| The name that needs to be deleted | |
 
 ### Return type
 
@@ -520,9 +528,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be deleted |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **username** | **String**| The name that needs to be deleted | |
 
 ### Return type
 
@@ -550,6 +558,8 @@ No authorization required
 > User getUserByName(username)
 
 Get user by user name
+
+
 
 ### Example
 
@@ -585,9 +595,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing. |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **username** | **String**| The name that needs to be fetched. Use user1 for testing. | |
 
 ### Return type
 
@@ -615,6 +625,8 @@ No authorization required
 > ApiResponse<User> getUserByName getUserByNameWithHttpInfo(username)
 
 Get user by user name
+
+
 
 ### Example
 
@@ -653,9 +665,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing. |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **username** | **String**| The name that needs to be fetched. Use user1 for testing. | |
 
 ### Return type
 
@@ -684,6 +696,8 @@ No authorization required
 > String loginUser(username, password)
 
 Logs user into the system
+
+
 
 ### Example
 
@@ -720,10 +734,10 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **String**| The user name for login |
- **password** | **String**| The password for login in clear text |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **username** | **String**| The user name for login | |
+| **password** | **String**| The password for login in clear text | |
 
 ### Return type
 
@@ -750,6 +764,8 @@ No authorization required
 > ApiResponse<String> loginUser loginUserWithHttpInfo(username, password)
 
 Logs user into the system
+
+
 
 ### Example
 
@@ -789,10 +805,10 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **String**| The user name for login |
- **password** | **String**| The password for login in clear text |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **username** | **String**| The user name for login | |
+| **password** | **String**| The password for login in clear text | |
 
 ### Return type
 
@@ -820,6 +836,8 @@ No authorization required
 > void logoutUser()
 
 Logs out current logged in user session
+
+
 
 ### Example
 
@@ -879,6 +897,8 @@ No authorization required
 
 Logs out current logged in user session
 
+
+
 ### Example
 
 ```java
@@ -937,7 +957,7 @@ No authorization required
 
 ## updateUser
 
-> void updateUser(username, body)
+> void updateUser(username, user)
 
 Updated user
 
@@ -960,9 +980,9 @@ public class Example {
 
         UserApi apiInstance = new UserApi(defaultClient);
         String username = "username_example"; // String | name that need to be deleted
-        User body = new User(); // User | Updated user object
+        User user = new User(); // User | Updated user object
         try {
-            apiInstance.updateUser(username, body);
+            apiInstance.updateUser(username, user);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#updateUser");
             System.err.println("Status code: " + e.getCode());
@@ -977,10 +997,10 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted |
- **body** | [**User**](User.md)| Updated user object |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **username** | **String**| name that need to be deleted | |
+| **user** | [**User**](User.md)| Updated user object | |
 
 ### Return type
 
@@ -993,7 +1013,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 ### HTTP response details
@@ -1004,7 +1024,7 @@ No authorization required
 
 ## updateUserWithHttpInfo
 
-> ApiResponse<Void> updateUser updateUserWithHttpInfo(username, body)
+> ApiResponse<Void> updateUser updateUserWithHttpInfo(username, user)
 
 Updated user
 
@@ -1028,9 +1048,9 @@ public class Example {
 
         UserApi apiInstance = new UserApi(defaultClient);
         String username = "username_example"; // String | name that need to be deleted
-        User body = new User(); // User | Updated user object
+        User user = new User(); // User | Updated user object
         try {
-            ApiResponse<Void> response = apiInstance.updateUserWithHttpInfo(username, body);
+            ApiResponse<Void> response = apiInstance.updateUserWithHttpInfo(username, user);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
         } catch (ApiException e) {
@@ -1047,10 +1067,10 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted |
- **body** | [**User**](User.md)| Updated user object |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **username** | **String**| name that need to be deleted | |
+| **user** | [**User**](User.md)| Updated user object | |
 
 ### Return type
 
@@ -1063,7 +1083,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 ### HTTP response details

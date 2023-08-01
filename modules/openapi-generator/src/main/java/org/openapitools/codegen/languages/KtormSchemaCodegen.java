@@ -20,6 +20,8 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -161,8 +163,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         typeMapping.put("short", "kotlin.Short");
         typeMapping.put("char", "kotlin.String");
         typeMapping.put("real", "kotlin.Double");
-        typeMapping.put("UUID", "java.util.UUID"); //be explict
-        typeMapping.put("URI", "java.net.URI"); //be explict
+        typeMapping.put("UUID", "java.util.UUID"); //be explicit
+        typeMapping.put("URI", "java.net.URI"); //be explicit
         typeMapping.put("decimal", "java.math.BigDecimal");
         typeMapping.put("BigDecimal", "java.math.BigDecimal");
         typeMapping.put("AnyType", "kotlin.Any");
@@ -282,19 +284,17 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+    public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModels(objs);
 
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel model = (CodegenModel) mo.get("model");
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel model = mo.getModel();
             String modelName = model.getName();
             String tableName = toTableName(modelName);
             String modelDescription = model.getDescription();
             Map<String, Object> modelVendorExtensions = model.getVendorExtensions();
-            Map<String, Object> ktormSchema = new HashMap<String, Object>();
-            Map<String, Object> tableDefinition = new HashMap<String, Object>();
+            Map<String, Object> ktormSchema = new HashMap<>();
+            Map<String, Object> tableDefinition = new HashMap<>();
 
             if (getIdentifierNamingConvention().equals("snake_case") && !modelName.equals(tableName)) {
                 // add original name in table comment
@@ -323,7 +323,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
                 }
                 if (!hasPrimaryKey) {
                     final IntegerSchema schema = new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT);
-                    CodegenProperty cp = super.fromProperty(primaryKeyConvention, schema);
+                    CodegenProperty cp = super.fromProperty(primaryKeyConvention, schema, false);
                     cp.setRequired(true);
                     model.vars.add(0, cp);
                     model.allVars.add(0, cp);

@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Controllers
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<Dictionary<string, int>>(exampleJson)
-            : default(Dictionary<string, int>);
+            : new Dictionary<string, int>();
             //TODO: Change the data returned
             return new ObjectResult(example);
         }
@@ -78,7 +78,7 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Find purchase order by ID
         /// </summary>
-        /// <remarks>For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions</remarks>
+        /// <remarks>For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions</remarks>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid ID supplied</response>
@@ -111,15 +111,16 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Place an order for a pet
         /// </summary>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid Order</response>
         [HttpPost]
         [Route("/v2/store/order")]
+        [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("PlaceOrder")]
         [SwaggerResponse(statusCode: 200, type: typeof(Order), description: "successful operation")]
-        public virtual IActionResult PlaceOrder([FromBody]Order body)
+        public virtual IActionResult PlaceOrder([FromBody]Order order)
         {
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...

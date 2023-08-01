@@ -1,8 +1,8 @@
 package org.openapitools.client;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
 public class ConfigurationTest {
     @Test

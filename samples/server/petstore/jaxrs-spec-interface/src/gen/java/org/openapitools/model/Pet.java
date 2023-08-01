@@ -23,15 +23,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Pet  implements Serializable {
-  
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public class Pet  implements Serializable {
   private @Valid Long id;
   private @Valid Category category;
   private @Valid String name;
   private @Valid Set<String> photoUrls = new LinkedHashSet<>();
-  private @Valid List<Tag> tags = new ArrayList<>();
-
-public enum StatusEnum {
+  private @Valid List<Tag> tags;
+  public enum StatusEnum {
 
     AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
 
@@ -88,8 +87,6 @@ public enum StatusEnum {
   }
 
   
-
-  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
@@ -101,14 +98,12 @@ public enum StatusEnum {
     this.id = id;
   }
 
-/**
+  /**
    **/
   public Pet category(Category category) {
     this.category = category;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -122,14 +117,12 @@ public enum StatusEnum {
     this.category = category;
   }
 
-/**
+  /**
    **/
   public Pet name(String name) {
     this.name = name;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(example = "doggie", required = true, value = "")
@@ -144,14 +137,12 @@ public enum StatusEnum {
     this.name = name;
   }
 
-/**
+  /**
    **/
   public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -183,14 +174,12 @@ public enum StatusEnum {
 
     return this;
   }
-/**
+  /**
    **/
   public Pet tags(List<Tag> tags) {
     this.tags = tags;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "")
@@ -220,15 +209,13 @@ public enum StatusEnum {
 
     return this;
   }
-/**
+  /**
    * pet status in the store
    **/
   public Pet status(StatusEnum status) {
     this.status = status;
     return this;
   }
-
-  
 
   
   @ApiModelProperty(value = "pet status in the store")

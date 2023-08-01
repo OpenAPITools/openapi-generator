@@ -58,6 +58,20 @@ private:
     QJsonObject jObj;
 };
 
+inline bool operator==(const PFXObject& left, const PFXObject& right){  
+    return (left.asJsonObject() == right.asJsonObject());  
+}
+
+inline
+#if QT_VERSION < 0x060000
+uint
+#else
+size_t
+#endif
+qHash(const PFXObject& obj, uint seed = 0) noexcept{
+    return qHash(obj.asJsonObject(), seed);
+}
+
 } // namespace test_namespace
 
 Q_DECLARE_METATYPE(test_namespace::PFXObject)

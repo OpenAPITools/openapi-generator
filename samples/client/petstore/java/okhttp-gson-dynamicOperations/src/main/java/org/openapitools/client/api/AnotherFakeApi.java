@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.core.GenericType;
 
 public class AnotherFakeApi {
     private ApiClient localVarApiClient;
@@ -143,15 +142,12 @@ public class AnotherFakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call call123testSpecialTagsValidateBeforeCall(Client body, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling call123testSpecialTags(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = call123testSpecialTagsCall(body, _callback);
-        return localVarCall;
+        return call123testSpecialTagsCall(body, _callback);
 
     }
 
@@ -186,14 +182,8 @@ public class AnotherFakeApi {
      */
     public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client body) throws ApiException {
         okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(body, null);
-        try {
-            Type localVarReturnType = new TypeToken<Client>(){}.getType();
-            return localVarApiClient.execute(localVarCall, localVarReturnType);
-        } catch (ApiException e) {
-            e.setErrorObject(localVarApiClient.getJSON().getGson().fromJson(e.getResponseBody(), new TypeToken<Client>(){}.getType()));
-            e.setErrorObjectType(new GenericType<Client>(){});
-            throw e;
-        }
+        Type localVarReturnType = new TypeToken<Client>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**

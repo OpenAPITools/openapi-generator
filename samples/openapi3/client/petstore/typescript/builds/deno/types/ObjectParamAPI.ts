@@ -1,5 +1,4 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http.ts';
-import * as models from '../models/all.ts';
 import { Configuration} from '../configuration.ts'
 
 import { ApiResponse } from '../models/ApiResponse.ts';
@@ -122,6 +121,7 @@ export class ObjectPetApi {
     }
 
     /**
+     * 
      * Add a new pet to the store
      * @param param the request object
      */
@@ -130,6 +130,7 @@ export class ObjectPetApi {
     }
 
     /**
+     * 
      * Deletes a pet
      * @param param the request object
      */
@@ -165,6 +166,7 @@ export class ObjectPetApi {
     }
 
     /**
+     * 
      * Update an existing pet
      * @param param the request object
      */
@@ -173,6 +175,7 @@ export class ObjectPetApi {
     }
 
     /**
+     * 
      * Updates a pet in the store with form data
      * @param param the request object
      */
@@ -181,6 +184,7 @@ export class ObjectPetApi {
     }
 
     /**
+     * 
      * uploads an image
      * @param param the request object
      */
@@ -249,7 +253,7 @@ export class ObjectStoreApi {
     }
 
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * Find purchase order by ID
      * @param param the request object
      */
@@ -258,6 +262,7 @@ export class ObjectStoreApi {
     }
 
     /**
+     * 
      * Place an order for a pet
      * @param param the request object
      */
@@ -365,6 +370,7 @@ export class ObjectUserApi {
     }
 
     /**
+     * 
      * Creates list of users with given input array
      * @param param the request object
      */
@@ -373,6 +379,7 @@ export class ObjectUserApi {
     }
 
     /**
+     * 
      * Creates list of users with given input array
      * @param param the request object
      */
@@ -390,6 +397,7 @@ export class ObjectUserApi {
     }
 
     /**
+     * 
      * Get user by user name
      * @param param the request object
      */
@@ -398,6 +406,7 @@ export class ObjectUserApi {
     }
 
     /**
+     * 
      * Logs user into the system
      * @param param the request object
      */
@@ -406,6 +415,7 @@ export class ObjectUserApi {
     }
 
     /**
+     * 
      * Logs out current logged in user session
      * @param param the request object
      */

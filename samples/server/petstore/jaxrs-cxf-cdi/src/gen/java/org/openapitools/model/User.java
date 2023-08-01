@@ -33,7 +33,6 @@ public class User   {
 
   private Integer userStatus;
 
-
   /**
    **/
   public User id(Long id) {

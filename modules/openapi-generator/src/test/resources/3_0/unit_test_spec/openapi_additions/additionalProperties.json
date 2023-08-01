@@ -1,0 +1,18 @@
+[
+    {
+        "description": "additionalProperties should not look in applicators",
+        "schema": {
+            "allOf": [
+                {"properties": {"foo": {}}}
+            ],
+            "additionalProperties": {"type": "boolean"}
+        },
+        "tests": [
+            {
+                "description": "valid test case",
+                "data": {"foo": false, "bar": true},
+                "valid": true
+            }
+        ]
+    }
+]

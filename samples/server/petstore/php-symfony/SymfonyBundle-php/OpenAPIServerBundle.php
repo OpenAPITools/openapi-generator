@@ -2,7 +2,7 @@
 /**
  * OpenAPIServerBundle
  *
- * PHP version 7.1.3
+ * PHP version 8.1.1
  *
  * @category Class
  * @package  OpenAPI\Server
@@ -43,7 +43,7 @@ use OpenAPI\Server\DependencyInjection\Compiler\OpenAPIServerApiPass;
  */
 class OpenAPIServerBundle extends Bundle
 {
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new OpenAPIServerApiPass());
     }

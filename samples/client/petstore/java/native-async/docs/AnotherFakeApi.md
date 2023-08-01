@@ -2,16 +2,16 @@
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**call123testSpecialTags**](AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
-[**call123testSpecialTagsWithHttpInfo**](AnotherFakeApi.md#call123testSpecialTagsWithHttpInfo) | **PATCH** /another-fake/dummy | To test special tags
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**call123testSpecialTags**](AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags |
+| [**call123testSpecialTagsWithHttpInfo**](AnotherFakeApi.md#call123testSpecialTagsWithHttpInfo) | **PATCH** /another-fake/dummy | To test special tags |
 
 
 
 ## call123testSpecialTags
 
-> CompletableFuture<Client> call123testSpecialTags(body)
+> CompletableFuture<Client> call123testSpecialTags(client)
 
 To test special tags
 
@@ -34,9 +34,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
-        Client body = new Client(); // Client | client model
+        Client client = new Client(); // Client | client model
         try {
-            CompletableFuture<Client> result = apiInstance.call123testSpecialTags(body);
+            CompletableFuture<Client> result = apiInstance.call123testSpecialTags(client);
             System.out.println(result.get());
         } catch (ApiException e) {
             System.err.println("Exception when calling AnotherFakeApi#call123testSpecialTags");
@@ -52,9 +52,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **client** | [**Client**](Client.md)| client model | |
 
 ### Return type
 
@@ -77,7 +77,7 @@ No authorization required
 
 ## call123testSpecialTagsWithHttpInfo
 
-> CompletableFuture<ApiResponse<Client>> call123testSpecialTags call123testSpecialTagsWithHttpInfo(body)
+> CompletableFuture<ApiResponse<Client>> call123testSpecialTags call123testSpecialTagsWithHttpInfo(client)
 
 To test special tags
 
@@ -101,9 +101,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
-        Client body = new Client(); // Client | client model
+        Client client = new Client(); // Client | client model
         try {
-            CompletableFuture<ApiResponse<Client>> response = apiInstance.call123testSpecialTagsWithHttpInfo(body);
+            CompletableFuture<ApiResponse<Client>> response = apiInstance.call123testSpecialTagsWithHttpInfo(client);
             System.out.println("Status code: " + response.get().getStatusCode());
             System.out.println("Response headers: " + response.get().getHeaders());
             System.out.println("Response body: " + response.get().getData());
@@ -128,9 +128,9 @@ public class Example {
 ### Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model |
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **client** | [**Client**](Client.md)| client model | |
 
 ### Return type
 

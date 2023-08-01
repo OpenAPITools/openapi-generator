@@ -29,7 +29,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-@Component("org.openapitools.client.api.PetApi")
 public class PetApi {
     private ApiClient apiClient;
 
@@ -37,7 +36,6 @@ public class PetApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public PetApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -188,6 +186,7 @@ public class PetApi {
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "status", status));
 
+
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
          };
@@ -241,6 +240,7 @@ public class PetApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "tags", tags));
+
 
         final String[] localVarAccepts = { 
             "application/xml", "application/json"

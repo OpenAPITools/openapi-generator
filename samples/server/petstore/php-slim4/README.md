@@ -98,6 +98,27 @@ Switch your app environment to development in `public/.htaccess` file:
 </IfModule>
 ```
 
+## Mock Server
+Since this feature should be used for development only, change environment to `development` and send additional HTTP header `X-OpenAPIServer-Mock: ping` with any request to get mocked response.
+CURL example:
+```console
+curl --request GET \
+    --url 'http://localhost:8888/v2/pet/findByStatus?status=available' \
+    --header 'accept: application/json' \
+    --header 'X-OpenAPIServer-Mock: ping'
+[{"id":-8738629417578509312,"category":{"id":-4162503862215270400,"name":"Lorem ipsum dol"},"name":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem i","photoUrls":["Lor"],"tags":[{"id":-3506202845849391104,"name":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectet"}],"status":"pending"}]
+```
+
+Used packages:
+* [Openapi Data Mocker](https://github.com/ybelenko/openapi-data-mocker) - first implementation of OAS3 fake data generator.
+* [Openapi Data Mocker Server Middleware](https://github.com/ybelenko/openapi-data-mocker-server-middleware) - PSR-15 HTTP server middleware.
+* [Openapi Data Mocker Interfaces](https://github.com/ybelenko/openapi-data-mocker-interfaces) - package with mocking interfaces.
+
+## Logging
+
+Build contains pre-configured [`monolog/monolog`](https://github.com/Seldaek/monolog) package. Make sure that `logs` folder is writable.
+Add required log handlers/processors/formatters in `lib/App/RegisterDependencies.php`.
+
 ## API Endpoints
 
 All URIs are relative to *http://petstore.swagger.io/v2*
@@ -165,15 +186,15 @@ Class | Method | HTTP request | Description
 
 ## Authentication
 
-### Security schema `api_key`
-> Important! To make ApiKey authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.
-
 ### Security schema `petstore_auth`
 > Important! To make OAuth authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\OAuthAuthenticator](./src/Auth/OAuthAuthenticator.php) class.
 
 Scope list:
 * `write:pets` - modify pets in your account
 * `read:pets` - read your pets
+
+### Security schema `api_key`
+> Important! To make ApiKey authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.
 
 ### Advanced middleware configuration
 Ref to used Slim Token Middleware [dyorg/slim-token-authentication](https://github.com/dyorg/slim-token-authentication/tree/1.x#readme)

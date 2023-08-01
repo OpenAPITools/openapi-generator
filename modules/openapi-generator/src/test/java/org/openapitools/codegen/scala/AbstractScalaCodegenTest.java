@@ -1,9 +1,16 @@
 package org.openapitools.codegen.scala;
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.AbstractScalaCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -99,19 +106,28 @@ public class AbstractScalaCodegenTest {
     }
 
     @Test
-    void checkScalaTypeDeclaration() {
-
-        final AbstractScalaCodegen codegen = new P_AbstractScalaCodegen();
-
+    void checkTypeDeclarationWithByteString() {
         Schema<?> byteArraySchema = new ObjectSchema();
         byteArraySchema.setType("string");
         byteArraySchema.setFormat("byte");
         byteArraySchema.setDescription("Schema with byte string");
 
-        Assert.assertEquals(codegen.getTypeDeclaration(byteArraySchema), "Array[Byte]",
+        Assert.assertEquals(fakeScalaCodegen.getTypeDeclaration(byteArraySchema), "Array[Byte]",
                 "OpenApi File type represented as byte string should be represented as Array[Byte] scala type");
-
     }
 
+    @Test
+    void checkTypeDeclarationWithStringToArrayModelMapping() {
+        // Create an alias to an array schema
+        final Schema<?> nestedArraySchema = new ArraySchema().items(new StringSchema());
+        // Create a map schema with additionalProperties type set to array alias
+        final Schema<?> mapSchema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
+        fakeScalaCodegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("NestedArray", nestedArraySchema)));
 
+        ModelUtils.setGenerateAliasAsModel(false);
+        Assert.assertEquals(fakeScalaCodegen.getTypeDeclaration(mapSchema), "Map[String, List[String]]");
+
+        ModelUtils.setGenerateAliasAsModel(true);
+        Assert.assertEquals(fakeScalaCodegen.getTypeDeclaration(mapSchema), "Map[String, NestedArray]");
+    }
 }

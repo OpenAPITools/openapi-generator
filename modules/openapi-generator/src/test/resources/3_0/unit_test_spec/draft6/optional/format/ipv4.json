@@ -1,0 +1,84 @@
+[
+    {
+        "description": "validation of IP addresses",
+        "schema": { "format": "ipv4" },
+        "tests": [
+            {
+                "description": "all string formats ignore integers",
+                "data": 12,
+                "valid": true
+            },
+            {
+                "description": "all string formats ignore floats",
+                "data": 13.7,
+                "valid": true
+            },
+            {
+                "description": "all string formats ignore objects",
+                "data": {},
+                "valid": true
+            },
+            {
+                "description": "all string formats ignore arrays",
+                "data": [],
+                "valid": true
+            },
+            {
+                "description": "all string formats ignore booleans",
+                "data": false,
+                "valid": true
+            },
+            {
+                "description": "all string formats ignore nulls",
+                "data": null,
+                "valid": true
+            },
+            {
+                "description": "a valid IP address",
+                "data": "192.168.0.1",
+                "valid": true
+            },
+            {
+                "description": "an IP address with too many components",
+                "data": "127.0.0.0.1",
+                "valid": false
+            },
+            {
+                "description": "an IP address with out-of-range values",
+                "data": "256.256.256.256",
+                "valid": false
+            },
+            {
+                "description": "an IP address without 4 components",
+                "data": "127.0",
+                "valid": false
+            },
+            {
+                "description": "an IP address as an integer",
+                "data": "0x7f000001",
+                "valid": false
+            },
+            {
+                "description": "an IP address as an integer (decimal)",
+                "data": "2130706433",
+                "valid": false
+            },
+            {
+                "description": "leading zeroes should be rejected, as they are treated as octals",
+                "comment": "see https://sick.codes/universal-netmask-npm-package-used-by-270000-projects-vulnerable-to-octal-input-data-server-side-request-forgery-remote-file-inclusion-local-file-inclusion-and-more-cve-2021-28918/",
+                "data": "087.10.0.1",
+                "valid": false
+            },
+            {
+                "description": "value without leading zero is valid",
+                "data": "87.10.0.1",
+                "valid": true
+            },
+            {
+                "description": "non-ascii digits should be rejected",
+                "data": "1২7.0.0.1",
+                "valid": false
+            }
+        ]
+    }
+]

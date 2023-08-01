@@ -6,9 +6,8 @@ defmodule {{moduleName}}.Api.{{classname}} do
 
   alias {{moduleName}}.Connection
   import {{moduleName}}.RequestBuilder
-
 {{#operations}}
-  {{#operation}}
+{{#operation}}
 
   @doc """
   {{#summary}}
@@ -18,25 +17,26 @@ defmodule {{moduleName}}.Api.{{classname}} do
   {{&notes}}
   {{/notes}}
 
-  ## Parameters
+  ### Parameters
 
-  - connection ({{&moduleName}}.Connection): Connection to server
+  - `connection` ({{&moduleName}}.Connection): Connection to server
 {{#requiredParams}}
-  - {{#underscored}}{{&paramName}}{{/underscored}} ({{&dataType}}): {{&description}}
+  - `{{#underscored}}{{&paramName}}{{/underscored}}` ({{&dataType}}): {{&description}}
 {{/requiredParams}}
-  - opts (KeywordList): [optional] Optional parameters
+  - `opts` (keyword): Optional parameters
 {{#optionalParams}}
 {{#isBodyParam}}
-    - :body ({{dataType}}): {{&description}}
+    - `:body` ({{dataType}}): {{&description}}
 {{/isBodyParam}}
 {{^isBodyParam}}
-    - {{#underscored}}:{{&paramName}}{{/underscored}} ({{&dataType}}): {{&description}}
+    - `{{#atom}}{{&baseName}}{{/atom}}` ({{&dataType}}): {{&description}}
 {{/isBodyParam}}
 {{/optionalParams}}
-  ## Returns
 
-  {:ok, {{#isArray}}[%{{&returnBaseType}}{}, ...]{{/isArray}}{{#isMap}}%{}{{/isMap}}{{^returnType}}nil{{/returnType}}{{#returnSimpleType}}{{#returnType}}{{{.}}}{{/returnType}}{{/returnSimpleType}}} on success
-  {:error, Tesla.Env.t} on failure
+  ### Returns
+
+  - `{:ok, {{#isArray}}[%{{&returnBaseType}}{}, ...]{{/isArray}}{{#isMap}}%{}{{/isMap}}{{^returnType}}nil{{/returnType}}{{#returnSimpleType}}{{#returnType}}{{{.}}}{{/returnType}}{{/returnSimpleType}}}` on success
+  - `{:error, Tesla.Env.t}` on failure
   """
   {{{typespec}}}
   def {{{operationId}}}(connection, {{#requiredParams}}{{#underscored}}{{{paramName}}}{{/underscored}}, {{/requiredParams}}{{^hasOptionalParams}}_{{/hasOptionalParams}}opts \\ []) do
@@ -48,33 +48,37 @@ defmodule {{moduleName}}.Api.{{classname}} do
       :body => :body
 {{/isBodyParam}}
 {{^isBodyParam}}
-      :"{{baseName}}" => {{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{^-last}},{{/-last}}
+      {{#atom}}{{baseName}}{{/atom}} => {{#isFormParam}}:form{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}{{^-last}},{{/-last}}
 {{/isBodyParam}}
 {{#-last}}
     }
+
 {{/-last}}
 {{/optionalParams}}
-    %{}
-    |> method(:{{#underscored}}{{httpMethod}}{{/underscored}})
-    |> url("{{replacedPathName}}")
+    request =
+      %{}
+      |> method({{#atom}}{{#underscored}}{{httpMethod}}{{/underscored}}{{/atom}})
+      |> url("{{replacedPathName}}")
 {{#requiredParams}}
 {{^isPathParam}}
-    |> add_param({{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}{{#isMultipart}}{{#isFile}}:file{{/isFile}}{{^isFile}}:form{{/isFile}}{{/isMultipart}}{{^isMultipart}}:form{{/isMultipart}}{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}, {{#isBodyParam}}:body, {{/isBodyParam}}{{^isBodyParam}}:"{{baseName}}", {{/isBodyParam}}{{#underscored}}{{paramName}}{{/underscored}})
+      |> add_param({{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}{{#isMultipart}}{{#isFile}}:file{{/isFile}}{{^isFile}}:form{{/isFile}}{{/isMultipart}}{{^isMultipart}}:form{{/isMultipart}}{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}, {{#isBodyParam}}:body{{/isBodyParam}}{{^isBodyParam}}{{#atom}}{{baseName}}{{/atom}}{{/isBodyParam}}, {{#underscored}}{{paramName}}{{/underscored}})
 {{/isPathParam}}
 {{/requiredParams}}
 {{#optionalParams}}
 {{#-first}}
-    |> add_optional_params(optional_params, opts)
+      |> add_optional_params(optional_params, opts)
 {{/-first}}
 {{/optionalParams}}
 {{#requiresHttpcWorkaround}}
-    |> ensure_body()
+      |> ensure_body()
 {{/requiresHttpcWorkaround}}
-    |> Enum.into([])
-    |> (&Connection.request(connection, &1)).()
+      |> Enum.into([])
+
+    connection
+    |> Connection.request(request)
     |> evaluate_response({{#responses}}{{#-first}}[
 {{/-first}}
-      { {{& codeMappingKey}}, {{decodedStruct}}}{{^-last}},{{/-last}}
+      {{=<% %>=}}{<%& codeMappingKey%>, <%decodedStruct%>}<%={{ }}=%>{{^-last}},{{/-last}}
 {{#-last}}    ]{{/-last}}{{/responses}})
   end
   {{/operation}}

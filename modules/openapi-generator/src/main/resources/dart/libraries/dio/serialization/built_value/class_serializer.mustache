@@ -1,0 +1,307 @@
+class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
+  @override
+  final Iterable<Type> types = const [{{classname}}{{^vendorExtensions.x-is-parent}}, _${{classname}}{{/vendorExtensions.x-is-parent}}];
+
+  @override
+  final String wireName = r'{{classname}}';
+
+  Iterable<Object?> _serializeProperties(
+    Serializers serializers,
+    {{{classname}}} object, {
+    FullType specifiedType = FullType.unspecified,
+  }) sync* {
+    {{#vendorExtensions.x-self-and-ancestor-only-props}}
+    {{#required}}
+    {{!
+        A required property need to always be part of the serialized output.
+        When it is nullable, null is serialized, otherwise it is an error if it is null.
+    }}
+    yield r'{{baseName}}';
+    yield {{#isNullable}}object.{{{name}}} == null ? null : {{/isNullable}}serializers.serialize(
+      object.{{{name}}},
+      specifiedType: const {{>serialization/built_value/variable_serializer_type}},
+    );
+    {{/required}}
+    {{^required}}
+    if (object.{{{name}}} != null) {
+      {{! Non-required properties are only serialized if not null. }}
+      yield r'{{baseName}}';
+      yield serializers.serialize(
+        object.{{{name}}},
+        specifiedType: const {{>serialization/built_value/variable_serializer_type}},
+      );
+    }
+    {{/required}}
+    {{/vendorExtensions.x-self-and-ancestor-only-props}}
+  }
+
+  @override
+  Object serialize(
+    Serializers serializers,
+    {{{classname}}} object, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    {{! oneOf }}
+    {{#oneOf}}
+    {{#-first}}
+    final oneOf = object.oneOf;
+    {{#vendorExtensions.x-self-and-ancestor-only-props}}
+    final result = _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    result.addAll(serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType)) as Iterable<Object?>);
+    return result;
+    {{/vendorExtensions.x-self-and-ancestor-only-props}}
+    {{^vendorExtensions.x-self-and-ancestor-only-props}}
+    return serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType))!;
+    {{/vendorExtensions.x-self-and-ancestor-only-props}}
+    {{/-first}}
+    {{/oneOf}}
+    {{! anyOf }}
+    {{#anyOf}}
+    {{#-first}}
+    final anyOf = object.anyOf;
+    {{#vendorExtensions.x-self-and-ancestor-only-props}}
+    final result = _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    final serialized = serializers.serialize(anyOf, specifiedType: FullType(AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList()));
+    result.addAll((serialized is Map ? serialized.entries.map((e) => <dynamic>[e.key, e.value]).expand<dynamic>((e) => e) : serialized) as Iterable<Object?>);
+    return result;
+    {{/vendorExtensions.x-self-and-ancestor-only-props}}
+    {{^vendorExtensions.x-self-and-ancestor-only-props}}
+    return serializers.serialize(anyOf, specifiedType: FullType(AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList()))!;
+    {{/vendorExtensions.x-self-and-ancestor-only-props}}
+    {{/-first}}
+    {{/anyOf}}
+    {{^oneOf}}
+    {{^anyOf}}
+    {{#hasDiscriminatorWithNonEmptyMapping}}
+    {{#discriminator}}
+    {{! handle discriminator }}
+    {{#mappedModels}}
+    if (object is {{modelName}}) {
+      return serializers.serialize(object, specifiedType: FullType({{modelName}}))!;
+    }
+    {{/mappedModels}}
+    {{/discriminator}}
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    {{/anyOf}}
+    {{/oneOf}}
+  }
+
+{{#vendorExtensions.x-has-self-and-ancestor-only-props}}{{^vendorExtensions.x-is-parent}}{{>serialization/built_value/deserialize_properties}}
+
+{{/vendorExtensions.x-is-parent}}{{/vendorExtensions.x-has-self-and-ancestor-only-props}}  @override
+  {{classname}} deserialize(
+    Serializers serializers,
+    Object serialized, {
+    FullType specifiedType = FullType.unspecified,
+  }) {
+    {{! oneOf }}
+    {{#oneOf}}
+    {{#-first}}
+    final result = {{#vendorExtensions.x-is-parent}}${{/vendorExtensions.x-is-parent}}{{classname}}Builder();
+    Object? oneOfDataSrc;
+    {{#hasDiscriminatorWithNonEmptyMapping}}
+    {{#discriminator}}
+    {{! has props, assign them to result, and extract unhandled }}
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final discIndex = serializedList.indexOf({{classname}}.discriminatorFieldName) + 1;
+    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
+    {{#vendorExtensions.x-has-self-and-ancestor-only-props}}
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result
+    );
+    {{! only deserialize unhandled props }}
+    oneOfDataSrc = unhandled;
+    {{/vendorExtensions.x-has-self-and-ancestor-only-props}}
+    {{^vendorExtensions.x-has-self-and-ancestor-only-props}}
+    oneOfDataSrc = serialized;
+    {{! has no probs at all, pass the serialized as is }}
+    {{/vendorExtensions.x-has-self-and-ancestor-only-props}}
+    final oneOfTypes = [{{#mappedModels}}{{modelName}}, {{/mappedModels}}{{#vendorExtensions.x-is-parent}}${{classname}}{{/vendorExtensions.x-is-parent}}];
+    Object oneOfResult;
+    Type oneOfType;
+    switch (discValue) {
+      {{#mappedModels}}
+      case r'{{mappingName}}':
+        oneOfResult = serializers.deserialize(
+          oneOfDataSrc,
+          specifiedType: FullType({{modelName}}),
+        ) as {{modelName}};
+        oneOfType = {{modelName}};
+        break;
+      {{/mappedModels}}
+      default:
+        {{#vendorExtensions.x-is-parent}}
+        oneOfResult = serializers.deserialize(
+          oneOfDataSrc,
+          specifiedType: FullType(${{classname}}),
+        ) as ${{classname}};
+        oneOfType = ${{classname}};
+        {{/vendorExtensions.x-is-parent}}
+        {{^vendorExtensions.x-is-parent}}
+        throw UnsupportedError("Couldn't deserialize oneOf for the discriminator value: ${discValue}");
+        {{/vendorExtensions.x-is-parent}}
+    }
+    result.oneOf = OneOfDynamic(typeIndex: oneOfTypes.indexOf(oneOfType), types: oneOfTypes, value: oneOfResult);
+    {{/discriminator}}
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{^hasDiscriminatorWithNonEmptyMapping}}
+    {{! use the OneOfSerializer when there is no discriminator }}
+    final targetType = const FullType(OneOf, [{{#composedSchemas}}{{#oneOf}}{{>serialization/built_value/variable_serializer_type}}, {{/oneOf}}{{/composedSchemas}}]);
+    {{#vendorExtensions.x-has-self-and-ancestor-only-props}}
+    {{! has props, assign them to result, and extract unhandled }}
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    {{! only deserialize unhandled props }}
+    oneOfDataSrc = unhandled;
+    {{/vendorExtensions.x-has-self-and-ancestor-only-props}}
+    {{^vendorExtensions.x-has-self-and-ancestor-only-props}}
+    {{! has no probs at all, pass the serialized as is }}
+    oneOfDataSrc = serialized;
+    {{/vendorExtensions.x-has-self-and-ancestor-only-props}}
+    result.oneOf = serializers.deserialize(oneOfDataSrc, specifiedType: targetType) as OneOf;
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+    return result.build();
+    {{/-first}}
+    {{/oneOf}}
+    {{! anyOf }}
+    {{#anyOf}}
+    {{#-first}}
+    final result = {{#vendorExtensions.x-is-parent}}${{/vendorExtensions.x-is-parent}}{{classname}}Builder();
+    Object? anyOfDataSrc;
+    {{#hasDiscriminatorWithNonEmptyMapping}}
+    {{#discriminator}}
+    {{! has props, assign them to result, and extract unhandled }}
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final discIndex = serializedList.indexOf({{classname}}.discriminatorFieldName) + 1;
+    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
+    {{#vendorExtensions.x-has-self-and-ancestor-only-props}}
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    {{! only deserialize unhandled props }}
+    anyOfDataSrc = unhandled;
+    {{/vendorExtensions.x-has-self-and-ancestor-only-props}}
+    {{^vendorExtensions.x-has-self-and-ancestor-only-props}}
+    anyOfDataSrc = serialized;
+    {{! has no probs at all, pass the serialized as is }}
+    {{/vendorExtensions.x-has-self-and-ancestor-only-props}}
+    final anyOfTypes = [{{#mappedModels}}{{modelName}}, {{/mappedModels}}{{#vendorExtensions.x-is-parent}}${{classname}}{{/vendorExtensions.x-is-parent}}];
+    Object anyOfResult;
+    Type anyOfType;
+    switch (discValue) {
+      {{#mappedModels}}
+      case r'{{mappingName}}':
+        anyOfResult = serializers.deserialize(anyOfDataSrc, specifiedType: FullType({{modelName}})) as {{modelName}};
+        anyOfType = {{modelName}};
+        break;
+      {{/mappedModels}}
+      default:
+        {{#vendorExtensions.x-is-parent}}
+        anyOfResult = serializers.deserialize(anyOfDataSrc, specifiedType: FullType(${{classname}})) as ${{classname}};
+        anyOfType = ${{classname}};
+        {{/vendorExtensions.x-is-parent}}
+        {{^vendorExtensions.x-is-parent}}
+        throw UnsupportedError("Couldn't deserialize anyOf for the discriminator value: ${discValue}");
+        {{/vendorExtensions.x-is-parent}}
+    }
+    result.anyOf = AnyOfDynamic(values: {anyOfTypes.indexOf(anyOfType): anyOfResult}, types: anyOfTypes);
+    {{/discriminator}}
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{^hasDiscriminatorWithNonEmptyMapping}}
+    {{! use the OneOfSerializer when there is no discriminator }}
+    final targetType = const FullType(AnyOf, [{{#composedSchemas}}{{#anyOf}}{{>serialization/built_value/variable_serializer_type}}, {{/anyOf}}{{/composedSchemas}}]);
+    {{#vendorExtensions.x-has-self-and-ancestor-only-props}}
+    {{! has props, assign them to result, and extract unhandled }}
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    {{! only deserialize unhandled props }}
+    anyOfDataSrc = unhandled;
+    {{/vendorExtensions.x-has-self-and-ancestor-only-props}}
+    {{^vendorExtensions.x-has-self-and-ancestor-only-props}}
+    {{! has no probs at all, pass the serialized as is }}
+    anyOfDataSrc = serialized;
+    {{/vendorExtensions.x-has-self-and-ancestor-only-props}}
+    result.anyOf = serializers.deserialize(anyOfDataSrc, specifiedType: targetType) as AnyOf;
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+    return result.build();
+    {{/-first}}
+    {{/anyOf}}
+    {{! no anyOf nor oneOf, handles allOf trees }}
+    {{^oneOf}}
+    {{^anyOf}}
+    {{#vendorExtensions.x-is-parent}}
+    {{!
+        parent classes don't have builder
+        so they must delegate to another serializer using
+        1) discriminator + mapping
+        2) concrete implementation ($classname)
+    }}
+    {{#hasDiscriminatorWithNonEmptyMapping}}
+    {{#discriminator}}
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    final discIndex = serializedList.indexOf({{classname}}.discriminatorFieldName) + 1;
+    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
+    switch (discValue) {
+      {{#mappedModels}}
+      case r'{{mappingName}}':
+        return serializers.deserialize(serialized, specifiedType: FullType({{modelName}})) as {{modelName}};
+      {{/mappedModels}}
+      default:
+        return serializers.deserialize(serialized, specifiedType: FullType(${{classname}})) as ${{classname}};
+    }
+    {{/discriminator}}
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{^hasDiscriminatorWithNonEmptyMapping}}
+    return serializers.deserialize(serialized, specifiedType: FullType(${{classname}})) as ${{classname}};
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{/vendorExtensions.x-is-parent}}
+    {{^vendorExtensions.x-is-parent}}
+    final result = {{classname}}Builder();
+    final serializedList = (serialized as Iterable<Object?>).toList();
+    {{#vendorExtensions.x-has-self-and-ancestor-only-props}}
+    {{! has props, assign them to result, and extract unhandled }}
+    final unhandled = <Object?>[];
+    _deserializeProperties(
+      serializers,
+      serialized,
+      specifiedType: specifiedType,
+      serializedList: serializedList,
+      unhandled: unhandled,
+      result: result,
+    );
+    {{/vendorExtensions.x-has-self-and-ancestor-only-props}}
+    return result.build();
+    {{/vendorExtensions.x-is-parent}}
+    {{/anyOf}}
+    {{/oneOf}}
+  }
+}

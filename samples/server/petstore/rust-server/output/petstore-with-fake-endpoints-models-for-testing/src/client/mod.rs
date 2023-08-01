@@ -90,7 +90,7 @@ fn into_base_path(input: impl TryInto<Uri, Error=hyper::http::uri::InvalidUri>, 
         }
     }
 
-    let host = uri.host().ok_or_else(|| ClientInitError::MissingHost)?;
+    let host = uri.host().ok_or(ClientInitError::MissingHost)?;
     let port = uri.port_u16().map(|x| format!(":{}", x)).unwrap_or_default();
     Ok(format!("{}://{}{}{}", scheme, host, port, uri.path().trim_end_matches('/')))
 }
@@ -229,7 +229,7 @@ impl<C> Client<DropContextService<HyperClient, C>, C> where
             "https" => {
                 let connector = connector.https()
                    .build()
-                   .map_err(|e| ClientInitError::SslError(e))?;
+                   .map_err(ClientInitError::SslError)?;
                 HyperClient::Https(hyper::client::Client::builder().build(connector))
             },
             _ => {
@@ -281,7 +281,7 @@ impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C
         let https_connector = Connector::builder()
             .https()
             .build()
-            .map_err(|e| ClientInitError::SslError(e))?;
+            .map_err(ClientInitError::SslError)?;
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 
@@ -302,7 +302,7 @@ impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C
             .https()
             .pin_server_certificate(ca_certificate)
             .build()
-            .map_err(|e| ClientInitError::SslError(e))?;
+            .map_err(ClientInitError::SslError)?;
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 
@@ -330,7 +330,7 @@ impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C
             .pin_server_certificate(ca_certificate)
             .client_authentication(client_key, client_certificate)
             .build()
-            .map_err(|e| ClientInitError::SslError(e))?;
+            .map_err(ClientInitError::SslError)?;
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 }
@@ -462,24 +462,26 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<models::Client>(body)?;
+                let body = serde_json::from_str::<models::Client>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(TestSpecialTagsResponse::SuccessfulOperation
                     (body)
                 )
@@ -488,7 +490,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -537,18 +539,17 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
                 Ok(
                     Call123exampleResponse::Success
                 )
@@ -557,7 +558,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -619,24 +620,26 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<bool>(body)?;
+                let body = serde_json::from_str::<bool>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(FakeOuterBooleanSerializeResponse::OutputBoolean
                     (body)
                 )
@@ -645,7 +648,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -707,24 +710,26 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<models::OuterComposite>(body)?;
+                let body = serde_json::from_str::<models::OuterComposite>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(FakeOuterCompositeSerializeResponse::OutputComposite
                     (body)
                 )
@@ -733,7 +738,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -795,24 +800,26 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<f64>(body)?;
+                let body = serde_json::from_str::<f64>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(FakeOuterNumberSerializeResponse::OutputNumber
                     (body)
                 )
@@ -821,7 +828,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -883,24 +890,26 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<String>(body)?;
+                let body = serde_json::from_str::<String>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(FakeOuterStringSerializeResponse::OutputString
                     (body)
                 )
@@ -909,7 +918,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -958,18 +967,17 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
                 Ok(
                     FakeResponseWithNumericalDescriptionResponse::Status200
                 )
@@ -978,7 +986,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1029,18 +1037,17 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
                 Ok(
                     HyphenParamResponse::Success
                 )
@@ -1049,7 +1056,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1081,7 +1088,7 @@ impl<S, C> Api<C> for Client<S, C> where
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
                 query_string.append_pair("query",
-                    &param_query.to_string());
+                    &param_query);
             query_string.finish()
         };
         if !query_string.is_empty() {
@@ -1110,18 +1117,17 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
                 Ok(
                     TestBodyWithQueryParamsResponse::Success
                 )
@@ -1130,7 +1136,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1188,24 +1194,26 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<models::Client>(body)?;
+                let body = serde_json::from_str::<models::Client>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(TestClientModelResponse::SuccessfulOperation
                     (body)
                 )
@@ -1214,7 +1222,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1301,14 +1309,16 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
         *request.body_mut() = Body::from(body.into_bytes());
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Basic(ref basic_header) => {
                     let auth = swagger::auth::Header(basic_header.clone());
@@ -1324,18 +1334,16 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             400 => {
-                let body = response.into_body();
                 Ok(
                     TestEndpointParametersResponse::InvalidUsernameSupplied
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     TestEndpointParametersResponse::UserNotFound
                 )
@@ -1344,7 +1352,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1386,7 +1394,7 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             if let Some(param_enum_query_string) = param_enum_query_string {
                 query_string.append_pair("enum_query_string",
-                    &param_enum_query_string.to_string());
+                    &param_enum_query_string);
             }
             if let Some(param_enum_query_integer) = param_enum_query_integer {
                 query_string.append_pair("enum_query_integer",
@@ -1427,17 +1435,19 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
         *request.body_mut() = Body::from(body.into_bytes());
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
         // Header parameters
+        #[allow(clippy::single_match)]
         match param_enum_header_string_array {
             Some(param_enum_header_string_array) => {
         request.headers_mut().append(
             HeaderName::from_static("enum_header_string_array"),
+            #[allow(clippy::redundant_clone)]
             match header::IntoHeaderValue(param_enum_header_string_array.clone()).try_into() {
                 Ok(header) => header,
                 Err(e) => {
@@ -1449,10 +1459,12 @@ impl<S, C> Api<C> for Client<S, C> where
             None => {}
         }
 
+        #[allow(clippy::single_match)]
         match param_enum_header_string {
             Some(param_enum_header_string) => {
         request.headers_mut().append(
             HeaderName::from_static("enum_header_string"),
+            #[allow(clippy::redundant_clone)]
             match header::IntoHeaderValue(param_enum_header_string.clone()).try_into() {
                 Ok(header) => header,
                 Err(e) => {
@@ -1464,18 +1476,16 @@ impl<S, C> Api<C> for Client<S, C> where
             None => {}
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             400 => {
-                let body = response.into_body();
                 Ok(
                     TestEnumParametersResponse::InvalidRequest
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     TestEnumParametersResponse::NotFound
                 )
@@ -1484,7 +1494,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1542,18 +1552,17 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
                 Ok(
                     TestInlineAdditionalPropertiesResponse::SuccessfulOperation
                 )
@@ -1562,7 +1571,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1625,18 +1634,17 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
         *request.body_mut() = Body::from(body.into_bytes());
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
-                let body = response.into_body();
                 Ok(
                     TestJsonFormDataResponse::SuccessfulOperation
                 )
@@ -1645,7 +1653,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1675,10 +1683,8 @@ impl<S, C> Api<C> for Client<S, C> where
         // Query parameters
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-            if let Some(auth_data) = (context as &dyn Has<Option<AuthData>>).get().as_ref() {
-                if let AuthData::ApiKey(ref api_key) = *auth_data {
-                    query_string.append_pair("api_key_query", api_key);
-                }
+            if let Some(AuthData::ApiKey(ref api_key)) = (context as &dyn Has<Option<AuthData>>).get().as_ref() {
+                query_string.append_pair("api_key_query", api_key);
             }
             query_string.finish()
         };
@@ -1711,31 +1717,35 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 _ => {}
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<models::Client>(body)?;
+                let body = serde_json::from_str::<models::Client>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(TestClassnameResponse::SuccessfulOperation
                     (body)
                 )
@@ -1744,7 +1754,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1795,7 +1805,7 @@ impl<S, C> Api<C> for Client<S, C> where
         };
 
         // Body parameter
-        let body = param_body.to_xml();
+        let body = param_body.as_xml();
                 *request.body_mut() = Body::from(body);
 
         let header = "application/json";
@@ -1803,14 +1813,16 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
@@ -1826,12 +1838,11 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             405 => {
-                let body = response.into_body();
                 Ok(
                     AddPetResponse::InvalidInput
                 )
@@ -1840,7 +1851,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1892,14 +1903,16 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
@@ -1916,10 +1929,12 @@ impl<S, C> Api<C> for Client<S, C> where
         }
 
         // Header parameters
+        #[allow(clippy::single_match)]
         match param_api_key {
             Some(param_api_key) => {
         request.headers_mut().append(
             HeaderName::from_static("api_key"),
+            #[allow(clippy::redundant_clone)]
             match header::IntoHeaderValue(param_api_key.clone()).try_into() {
                 Ok(header) => header,
                 Err(e) => {
@@ -1931,12 +1946,11 @@ impl<S, C> Api<C> for Client<S, C> where
             None => {}
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             400 => {
-                let body = response.into_body();
                 Ok(
                     DeletePetResponse::InvalidPetValue
                 )
@@ -1945,7 +1959,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -1997,14 +2011,16 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
@@ -2020,14 +2036,14 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -2040,7 +2056,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 )
             }
             400 => {
-                let body = response.into_body();
                 Ok(
                     FindPetsByStatusResponse::InvalidStatusValue
                 )
@@ -2049,7 +2064,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2101,14 +2116,16 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
@@ -2124,14 +2141,14 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -2144,7 +2161,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 )
             }
             400 => {
-                let body = response.into_body();
                 Ok(
                     FindPetsByTagsResponse::InvalidTagValue
                 )
@@ -2153,7 +2169,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2204,27 +2220,29 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 _ => {}
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -2237,13 +2255,11 @@ impl<S, C> Api<C> for Client<S, C> where
                 )
             }
             400 => {
-                let body = response.into_body();
                 Ok(
                     GetPetByIdResponse::InvalidIDSupplied
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     GetPetByIdResponse::PetNotFound
                 )
@@ -2252,7 +2268,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2302,7 +2318,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let body = param_body.to_xml();
+        let body = param_body.as_xml();
                 *request.body_mut() = Body::from(body);
 
         let header = "application/json";
@@ -2310,14 +2326,16 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
@@ -2333,24 +2351,21 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             400 => {
-                let body = response.into_body();
                 Ok(
                     UpdatePetResponse::InvalidIDSupplied
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     UpdatePetResponse::PetNotFound
                 )
             }
             405 => {
-                let body = response.into_body();
                 Ok(
                     UpdatePetResponse::ValidationException
                 )
@@ -2359,7 +2374,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2424,14 +2439,16 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
         *request.body_mut() = Body::from(body.into_bytes());
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
@@ -2447,12 +2464,11 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             405 => {
-                let body = response.into_body();
                 Ok(
                     UpdatePetWithFormResponse::InvalidInput
                 )
@@ -2461,7 +2477,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2569,14 +2585,16 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", multipart_header, e)))
         });
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
@@ -2592,18 +2610,20 @@ impl<S, C> Api<C> for Client<S, C> where
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<models::ApiResponse>(body)?;
+                let body = serde_json::from_str::<models::ApiResponse>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(UploadFileResponse::SuccessfulOperation
                     (body)
                 )
@@ -2612,7 +2632,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2663,24 +2683,22 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             400 => {
-                let body = response.into_body();
                 Ok(
                     DeleteOrderResponse::InvalidIDSupplied
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     DeleteOrderResponse::OrderNotFound
                 )
@@ -2689,7 +2707,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2738,31 +2756,35 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
+        #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             // Currently only authentication with Basic and Bearer are supported
+            #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
                 _ => {}
             }
         }
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
-                let body = serde_json::from_str::<std::collections::HashMap<String, i32>>(body)?;
+                let body = serde_json::from_str::<std::collections::HashMap<String, i32>>(body).map_err(|e| {
+                    ApiError(format!("Response body did not match the schema: {}", e))
+                })?;
                 Ok(GetInventoryResponse::SuccessfulOperation
                     (body)
                 )
@@ -2771,7 +2793,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2822,20 +2844,20 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -2848,13 +2870,11 @@ impl<S, C> Api<C> for Client<S, C> where
                 )
             }
             400 => {
-                let body = response.into_body();
                 Ok(
                     GetOrderByIdResponse::InvalidIDSupplied
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     GetOrderByIdResponse::OrderNotFound
                 )
@@ -2863,7 +2883,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -2923,20 +2943,20 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -2949,7 +2969,6 @@ impl<S, C> Api<C> for Client<S, C> where
                 )
             }
             400 => {
-                let body = response.into_body();
                 Ok(
                     PlaceOrderResponse::InvalidOrder
                 )
@@ -2958,7 +2977,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3017,18 +3036,17 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             0 => {
-                let body = response.into_body();
                 Ok(
                     CreateUserResponse::SuccessfulOperation
                 )
@@ -3037,7 +3055,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3095,18 +3113,17 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             0 => {
-                let body = response.into_body();
                 Ok(
                     CreateUsersWithArrayInputResponse::SuccessfulOperation
                 )
@@ -3115,7 +3132,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3173,18 +3190,17 @@ impl<S, C> Api<C> for Client<S, C> where
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             0 => {
-                let body = response.into_body();
                 Ok(
                     CreateUsersWithListInputResponse::SuccessfulOperation
                 )
@@ -3193,7 +3209,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3244,24 +3260,22 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             400 => {
-                let body = response.into_body();
                 Ok(
                     DeleteUserResponse::InvalidUsernameSupplied
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     DeleteUserResponse::UserNotFound
                 )
@@ -3270,7 +3284,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3321,20 +3335,20 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -3347,13 +3361,11 @@ impl<S, C> Api<C> for Client<S, C> where
                 )
             }
             400 => {
-                let body = response.into_body();
                 Ok(
                     GetUserByNameResponse::InvalidUsernameSupplied
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     GetUserByNameResponse::UserNotFound
                 )
@@ -3362,7 +3374,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3394,9 +3406,9 @@ impl<S, C> Api<C> for Client<S, C> where
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
                 query_string.append_pair("username",
-                    &param_username.to_string());
+                    &param_username);
                 query_string.append_pair("password",
-                    &param_password.to_string());
+                    &param_password);
             query_string.finish()
         };
         if !query_string.is_empty() {
@@ -3417,13 +3429,13 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -3437,8 +3449,7 @@ impl<S, C> Api<C> for Client<S, C> where
                                 return Err(ApiError(format!("Invalid response header X-Rate-Limit for response 200 - {}", e)));
                             },
                         };
-                        let response_x_rate_limit = response_x_rate_limit.0;
-                        Some(response_x_rate_limit)
+                        Some(response_x_rate_limit.0)
                         },
                     None => None,
                 };
@@ -3452,15 +3463,14 @@ impl<S, C> Api<C> for Client<S, C> where
                                 return Err(ApiError(format!("Invalid response header X-Expires-After for response 200 - {}", e)));
                             },
                         };
-                        let response_x_expires_after = response_x_expires_after.0;
-                        Some(response_x_expires_after)
+                        Some(response_x_expires_after.0)
                         },
                     None => None,
                 };
 
                 let body = response.into_body();
                 let body = body
-                        .to_raw()
+                        .into_raw()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e))).await?;
                 let body = str::from_utf8(&body)
                     .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))?;
@@ -3470,14 +3480,13 @@ impl<S, C> Api<C> for Client<S, C> where
                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))?;
                 Ok(LoginUserResponse::SuccessfulOperation
                     {
-                        body: body,
+                        body,
                         x_rate_limit: response_x_rate_limit,
                         x_expires_after: response_x_expires_after,
                     }
                 )
             }
             400 => {
-                let body = response.into_body();
                 Ok(
                     LoginUserResponse::InvalidUsername
                 )
@@ -3486,7 +3495,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3535,18 +3544,17 @@ impl<S, C> Api<C> for Client<S, C> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             0 => {
-                let body = response.into_body();
                 Ok(
                     LogoutUserResponse::SuccessfulOperation
                 )
@@ -3555,7 +3563,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,
@@ -3617,24 +3625,22 @@ impl<S, C> Api<C> for Client<S, C> where
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", header, e)))
         });
 
-        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call((request, context.clone()))
+        let response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             400 => {
-                let body = response.into_body();
                 Ok(
                     UpdateUserResponse::InvalidUserSupplied
                 )
             }
             404 => {
-                let body = response.into_body();
                 Ok(
                     UpdateUserResponse::UserNotFound
                 )
@@ -3643,7 +3649,7 @@ impl<S, C> Api<C> for Client<S, C> where
                 let headers = response.headers().clone();
                 let body = response.into_body()
                        .take(100)
-                       .to_raw().await;
+                       .into_raw().await;
                 Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
                     code,
                     headers,

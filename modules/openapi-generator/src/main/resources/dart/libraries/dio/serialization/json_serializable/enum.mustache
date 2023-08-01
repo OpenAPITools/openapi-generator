@@ -1,0 +1,17 @@
+import 'package:json_annotation/json_annotation.dart';
+
+{{#description}}/// {{{description}}}{{/description}}
+{{#isDeprecated}}
+@Deprecated('{{{classname}}} has been deprecated')
+{{/isDeprecated}}
+enum {{{classname}}} {
+{{#allowableValues}}
+{{#enumVars}}
+  {{#description}}
+  /// {{{.}}}
+  {{/description}}
+  @JsonValue({{#isString}}r{{/isString}}{{{value}}})
+  {{{name}}},
+{{/enumVars}}
+{{/allowableValues}}
+}

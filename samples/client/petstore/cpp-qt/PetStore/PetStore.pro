@@ -6,8 +6,6 @@
 
 QT       += core gui testlib network
 
-QT       -= gui
-
 TARGET = PetStore
 CONFIG   += console
 CONFIG   -= app_bundle

@@ -69,7 +69,7 @@ No authorization required
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **nested_response** | [**InlineObject**](InlineObject.md)|  | 
+  **nested_response** | [**DummyPutRequest**](DummyPutRequest.md)|  | 
 
 ### Return type
 

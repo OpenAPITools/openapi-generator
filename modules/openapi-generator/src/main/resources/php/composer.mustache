@@ -1,9 +1,9 @@
 {
     {{#composerPackageName}}
-    "name": "{{.}}",
+    "name": "{{{.}}}",
     {{/composerPackageName}}
     {{#artifactVersion}}
-    "version": "{{.}}",
+    "version": "{{{.}}}",
     {{/artifactVersion}}
     "description": "{{{appDescription}}}",
     "keywords": [
@@ -15,16 +15,16 @@
         "rest",
         "api"
     ],
-    "homepage": "https://openapi-generator.tech",
-    "license": "unlicense",
+    "homepage": "{{{artifactUrl}}}",
+    "license": "{{{licenseName}}}",
     "authors": [
         {
-            "name": "OpenAPI-Generator contributors",
-            "homepage": "https://openapi-generator.tech"
+            "name": "{{{developerOrganization}}}",
+            "homepage": "{{{developerOrganizationUrl}}}"
         }
     ],
     "require": {
-        "php": "^7.3 || ^8.0",
+        "php": "^7.4 || ^8.0",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
@@ -33,12 +33,12 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^8.0 || ^9.0",
-        "friendsofphp/php-cs-fixer": "^2.12"
+        "friendsofphp/php-cs-fixer": "^3.5"
     },
     "autoload": {
-        "psr-4": { "{{escapedInvokerPackage}}\\" : "{{srcBasePath}}/" }
+        "psr-4": { "{{{escapedInvokerPackage}}}\\" : "{{{srcBasePath}}}/" }
     },
     "autoload-dev": {
-        "psr-4": { "{{escapedInvokerPackage}}\\Test\\" : "{{testBasePath}}/" }
+        "psr-4": { "{{{escapedInvokerPackage}}}\\Test\\" : "{{{testBasePath}}}/" }
     }
 }

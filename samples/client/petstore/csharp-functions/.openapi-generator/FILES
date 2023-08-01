@@ -1,0 +1,17 @@
+README.md
+build.bat
+build.sh
+src/Org.OpenAPITools/.gitignore
+src/Org.OpenAPITools/Converters/CustomEnumConverter.cs
+src/Org.OpenAPITools/Functions/PetApi.cs
+src/Org.OpenAPITools/Functions/StoreApi.cs
+src/Org.OpenAPITools/Functions/UserApi.cs
+src/Org.OpenAPITools/Models/ApiResponse.cs
+src/Org.OpenAPITools/Models/Category.cs
+src/Org.OpenAPITools/Models/Order.cs
+src/Org.OpenAPITools/Models/Pet.cs
+src/Org.OpenAPITools/Models/Tag.cs
+src/Org.OpenAPITools/Models/User.cs
+src/Org.OpenAPITools/OpenApi/TypeExtensions.cs
+src/Org.OpenAPITools/host.json
+src/Org.OpenAPITools/local.settings.json

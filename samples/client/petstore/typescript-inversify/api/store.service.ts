@@ -87,7 +87,7 @@ export class StoreService {
 
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * @param orderId ID of pet that needs to be fetched
      
      */

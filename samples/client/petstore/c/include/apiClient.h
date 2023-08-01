@@ -28,8 +28,8 @@ typedef struct apiClient_t {
     int (*progress_func)(void *, curl_off_t, curl_off_t, curl_off_t, curl_off_t);
     void *progress_data;
     long response_code;
-    list_t *apiKeys_api_key;
     char *accessToken;
+    list_t *apiKeys_api_key;
 } apiClient_t;
 
 apiClient_t* apiClient_create();
@@ -41,7 +41,7 @@ apiClient_t* apiClient_create_with_base_path(const char *basePath
 
 void apiClient_free(apiClient_t *apiClient);
 
-void apiClient_invoke(apiClient_t *apiClient,char* operationParameter, list_t *queryParameters, list_t *headerParameters, list_t *formParameters,list_t *headerType,list_t *contentType, char *bodyParameters, char *requestType);
+void apiClient_invoke(apiClient_t *apiClient,const char* operationParameter, list_t *queryParameters, list_t *headerParameters, list_t *formParameters,list_t *headerType,list_t *contentType, const char *bodyParameters, const char *requestType);
 
 sslConfig_t *sslConfig_create(const char *clientCertFile, const char *clientKeyFile, const char *CACertFile, int insecureSkipTlsVerify);
 

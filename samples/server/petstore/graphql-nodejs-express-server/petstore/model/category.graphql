@@ -18,3 +18,4 @@ input CategoryInput {
     id: Int!
     name: String!
 }
+

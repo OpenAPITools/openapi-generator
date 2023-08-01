@@ -21,6 +21,8 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Add a new pet to the store
 
+
+
 ### Examples
 
 ```ruby
@@ -86,6 +88,8 @@ nil (empty response body)
 > delete_pet(pet_id, opts)
 
 Deletes a pet
+
+
 
 ### Examples
 
@@ -366,6 +370,8 @@ end
 
 Update an existing pet
 
+
+
 ### Examples
 
 ```ruby
@@ -431,6 +437,8 @@ nil (empty response body)
 > update_pet_with_form(pet_id, opts)
 
 Updates a pet in the store with form data
+
+
 
 ### Examples
 
@@ -504,6 +512,8 @@ nil (empty response body)
 
 uploads an image
 
+
+
 ### Examples
 
 ```ruby
@@ -576,6 +586,8 @@ end
 > <ApiResponse> upload_file_with_required_file(pet_id, required_file, opts)
 
 uploads an image (required)
+
+
 
 ### Examples
 

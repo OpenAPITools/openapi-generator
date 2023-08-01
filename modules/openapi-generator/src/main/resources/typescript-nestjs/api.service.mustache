@@ -1,7 +1,13 @@
 {{>licenseInfo}}
 /* tslint:disable:no-unused-variable member-ordering */
 
+{{#useAxiosHttpModule}}
+import { Inject, Injectable, Optional } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+{{/useAxiosHttpModule}}
+{{^useAxiosHttpModule}}
 import { HttpService, Inject, Injectable, Optional } from '@nestjs/common';
+{{/useAxiosHttpModule}}
 import { AxiosResponse } from 'axios';
 import { Observable } from 'rxjs';
 {{#imports}}
@@ -70,7 +76,7 @@ export class {{classname}} {
 {{/allParams}}
 
 {{#hasQueryParams}}
-        let queryParameters = {};
+        let queryParameters = new URLSearchParams();
 {{#queryParams}}
         {{#isArray}}
         if ({{paramName}}) {
@@ -87,17 +93,17 @@ export class {{classname}} {
         {{^isArray}}
         if ({{paramName}} !== undefined && {{paramName}} !== null) {
         {{#isDateTime}}
-            queryParameters['{{baseName}}'] = <any>{{paramName}}.toISOString();
+            queryParameters.append('{{baseName}}', <any>{{paramName}}.toISOString());
         {{/isDateTime}}
         {{^isDateTime}}
-            queryParameters['{{baseName}}'] = <any>{{paramName}};
+            queryParameters.append('{{baseName}}', <any>{{paramName}});
         {{/isDateTime}}
         }
         {{/isArray}}
 {{/queryParams}}
 
 {{/hasQueryParams}}
-        let headers = this.defaultHeaders;
+        let headers = {...this.defaultHeaders};
 {{#headerParams}}
         {{#isArray}}
         if ({{paramName}}) {
@@ -121,18 +127,21 @@ export class {{classname}} {
 
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
+        {{^hasQueryParams}}
+        let queryParameters = new URLSearchParams();
+        {{/hasQueryParams}}
         if (this.configuration.apiKeys["{{keyParamName}}"]) {
-            queryParameters['{{keyParamName}}'] = this.configuration.apiKeys["{{keyParamName}}"];
+            queryParameters.append('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
         }
 
 {{/isKeyInQuery}}
 {{/isApiKey}}
-{{#isBasic}}
+{{#isBasicBasic}}
         if (this.configuration.username || this.configuration.password) {
             headers['Authorization'] = 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password);
         }
 
-{{/isBasic}}
+{{/isBasicBasic}}
 {{#isOAuth}}
         if (this.configuration.accessToken) {
             const accessToken = typeof this.configuration.accessToken === 'function'

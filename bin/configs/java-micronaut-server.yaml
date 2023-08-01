@@ -8,3 +8,5 @@ additionalProperties:
   test: "spock"
   requiredPropertiesInConstructor: "true"
   useAuth: "false"
+  generateControllerAsAbstract: "false"
+  generateOperationsToReturnNotImplemented: "true"

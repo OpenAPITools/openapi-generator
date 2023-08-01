@@ -742,18 +742,18 @@ ${BOLD}${WHITE}Usage${OFF}
 EOF
     echo -e "${BOLD}${WHITE}Authentication methods${OFF}"
     echo -e ""
-    echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key:<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
-    echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
-    echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key_query=<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
-    echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
-    echo -e "  - ${BLUE}Basic AUTH${OFF} - add '-u <username>:<password>' before ${YELLOW}<operation>${OFF}"
-    echo -e "                 or export ${RED}PETSTORE_BASIC_AUTH='<username>:<password>'${OFF}"
     echo -e "  - ${MAGENTA}OAuth2 (flow: implicit)${OFF}"
     echo -e "      Authorization URL: "
     echo -e "        * http://petstore.swagger.io/api/oauth/dialog"
     echo -e "      Scopes:"
     echo -e "        * write:pets - modify pets in your account"
     echo -e "        * read:pets - read your pets"
+    echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key:<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
+    echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
+    echo -e "  - ${BLUE}Api-key${OFF} - add '${RED}api_key_query=<api-key>${OFF}' after ${YELLOW}<operation>${OFF}"
+    echo -e "              or export ${RED}PETSTORE_API_KEY='<api-key>'${OFF}"
+    echo -e "  - ${BLUE}Basic AUTH${OFF} - add '-u <username>:<password>' before ${YELLOW}<operation>${OFF}"
+    echo -e "                 or export ${RED}PETSTORE_BASIC_AUTH='<username>:<password>'${OFF}"
     echo ""
     echo -e "${BOLD}${WHITE}Operations (grouped by tags)${OFF}"
     echo ""
@@ -1127,7 +1127,7 @@ print_testGroupParameters_help() {
     echo ""
     echo -e "${BOLD}${WHITE}Responses${OFF}"
     code=400
-    echo -e "${result_color_table[${code:0:1}]}  400;Someting wrong${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    echo -e "${result_color_table[${code:0:1}]}  400;Something wrong${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 }
 ##############################################################################
 #
@@ -1425,7 +1425,7 @@ print_getOrderById_help() {
     echo ""
     echo -e "${BOLD}${WHITE}getOrderById - Find purchase order by ID${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
-    echo -e "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions" | paste -sd' ' | fold -sw 80
+    echo -e "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions" | paste -sd' ' | fold -sw 80
     echo -e ""
     echo -e "${BOLD}${WHITE}Parameters${OFF}"
     echo -e "  * ${GREEN}order_id${OFF} ${BLUE}[integer]${OFF} ${RED}(required)${OFF} ${CYAN}(default: null)${OFF} - ID of pet that needs to be fetched ${YELLOW}Specify as: order_id=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'

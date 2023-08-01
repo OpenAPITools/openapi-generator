@@ -19,35 +19,50 @@ import org.openapitools.client.Pair;
 
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
+import org.openapitools.client.model.HealthCheckResult;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterEnum;
 import org.openapitools.client.model.User;
-import org.openapitools.client.model.XmlItem;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+
 import java.io.InputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.http.HttpRequest;
+import java.nio.channels.Channels;
+import java.nio.channels.Pipe;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.function.Consumer;
 
 import java.util.ArrayList;
 import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import java.util.concurrent.CompletableFuture;
 
-@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -84,21 +99,28 @@ public class FakeApi {
   }
 
   /**
-   * creates an XmlItem
-   * this route creates an XmlItem
-   * @param xmlItem XmlItem Body (required)
+   * 
+   * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+   * @return CompletableFuture&lt;FakeBigDecimalMap200Response&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> createXmlItem(XmlItem xmlItem) throws ApiException {
+  public CompletableFuture<FakeBigDecimalMap200Response> fakeBigDecimalMap() throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = createXmlItemRequestBuilder(xmlItem);
+      HttpRequest.Builder localVarRequestBuilder = fakeBigDecimalMapRequestBuilder();
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(getApiException("createXmlItem", localVarResponse));
+              return CompletableFuture.failedFuture(getApiException("fakeBigDecimalMap", localVarResponse));
             }
-            return CompletableFuture.completedFuture(null);
+            try {
+              String responseBody = localVarResponse.body();
+              return CompletableFuture.completedFuture(
+                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<FakeBigDecimalMap200Response>() {})
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
       });
     }
     catch (ApiException e) {
@@ -107,15 +129,14 @@ public class FakeApi {
   }
 
   /**
-   * creates an XmlItem
-   * this route creates an XmlItem
-   * @param xmlItem XmlItem Body (required)
-   * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
+   * 
+   * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+   * @return CompletableFuture&lt;ApiResponse&lt;FakeBigDecimalMap200Response&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Void>> createXmlItemWithHttpInfo(XmlItem xmlItem) throws ApiException {
+  public CompletableFuture<ApiResponse<FakeBigDecimalMap200Response>> fakeBigDecimalMapWithHttpInfo() throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = createXmlItemRequestBuilder(xmlItem);
+      HttpRequest.Builder localVarRequestBuilder = fakeBigDecimalMapRequestBuilder();
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -123,11 +144,19 @@ public class FakeApi {
               memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(getApiException("createXmlItem", localVarResponse));
+              return CompletableFuture.failedFuture(getApiException("fakeBigDecimalMap", localVarResponse));
             }
-            return CompletableFuture.completedFuture(
-                new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
-            );
+            try {
+              String responseBody = localVarResponse.body();
+              return CompletableFuture.completedFuture(
+                  new ApiResponse<FakeBigDecimalMap200Response>(
+                      localVarResponse.statusCode(),
+                      localVarResponse.headers().map(),
+                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<FakeBigDecimalMap200Response>() {}))
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
         }
       );
     }
@@ -136,27 +165,103 @@ public class FakeApi {
     }
   }
 
-  private HttpRequest.Builder createXmlItemRequestBuilder(XmlItem xmlItem) throws ApiException {
-    // verify the required parameter 'xmlItem' is set
-    if (xmlItem == null) {
-      throw new ApiException(400, "Missing the required parameter 'xmlItem' when calling createXmlItem");
-    }
+  private HttpRequest.Builder fakeBigDecimalMapRequestBuilder() throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
-    String localVarPath = "/fake/create_xml_item";
+    String localVarPath = "/fake/BigDecimalMap";
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
 
-    localVarRequestBuilder.header("Content-Type", "application/xml");
+    localVarRequestBuilder.header("Accept", "*/*");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+  /**
+   * Health check endpoint
+   * 
+   * @return CompletableFuture&lt;HealthCheckResult&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<HealthCheckResult> fakeHealthGet() throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = fakeHealthGetRequestBuilder();
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("fakeHealthGet", localVarResponse));
+            }
+            try {
+              String responseBody = localVarResponse.body();
+              return CompletableFuture.completedFuture(
+                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<HealthCheckResult>() {})
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+      });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Health check endpoint
+   * 
+   * @return CompletableFuture&lt;ApiResponse&lt;HealthCheckResult&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<HealthCheckResult>> fakeHealthGetWithHttpInfo() throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = fakeHealthGetRequestBuilder();
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (memberVarAsyncResponseInterceptor != null) {
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
+            }
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("fakeHealthGet", localVarResponse));
+            }
+            try {
+              String responseBody = localVarResponse.body();
+              return CompletableFuture.completedFuture(
+                  new ApiResponse<HealthCheckResult>(
+                      localVarResponse.statusCode(),
+                      localVarResponse.headers().map(),
+                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<HealthCheckResult>() {}))
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+        }
+      );
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  private HttpRequest.Builder fakeHealthGetRequestBuilder() throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/fake/health";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
     localVarRequestBuilder.header("Accept", "application/json");
 
-    try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(xmlItem);
-      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException e) {
-      throw new ApiException(e);
-    }
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
@@ -182,8 +287,9 @@ public class FakeApi {
               return CompletableFuture.failedFuture(getApiException("fakeOuterBooleanSerialize", localVarResponse));
             }
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Boolean>() {})
+                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Boolean>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -215,11 +321,12 @@ public class FakeApi {
               return CompletableFuture.failedFuture(getApiException("fakeOuterBooleanSerialize", localVarResponse));
             }
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<Boolean>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Boolean>() {}))
+                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Boolean>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -260,13 +367,13 @@ public class FakeApi {
   /**
    * 
    * Test serialization of object with outer number type
-   * @param body Input composite as post body (optional)
+   * @param outerComposite Input composite as post body (optional)
    * @return CompletableFuture&lt;OuterComposite&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body) throws ApiException {
+  public CompletableFuture<OuterComposite> fakeOuterCompositeSerialize(OuterComposite outerComposite) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = fakeOuterCompositeSerializeRequestBuilder(body);
+      HttpRequest.Builder localVarRequestBuilder = fakeOuterCompositeSerializeRequestBuilder(outerComposite);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -274,8 +381,9 @@ public class FakeApi {
               return CompletableFuture.failedFuture(getApiException("fakeOuterCompositeSerialize", localVarResponse));
             }
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<OuterComposite>() {})
+                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<OuterComposite>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -290,13 +398,13 @@ public class FakeApi {
   /**
    * 
    * Test serialization of object with outer number type
-   * @param body Input composite as post body (optional)
+   * @param outerComposite Input composite as post body (optional)
    * @return CompletableFuture&lt;ApiResponse&lt;OuterComposite&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<OuterComposite>> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite body) throws ApiException {
+  public CompletableFuture<ApiResponse<OuterComposite>> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = fakeOuterCompositeSerializeRequestBuilder(body);
+      HttpRequest.Builder localVarRequestBuilder = fakeOuterCompositeSerializeRequestBuilder(outerComposite);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -307,11 +415,12 @@ public class FakeApi {
               return CompletableFuture.failedFuture(getApiException("fakeOuterCompositeSerialize", localVarResponse));
             }
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<OuterComposite>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<OuterComposite>() {}))
+                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<OuterComposite>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -324,7 +433,7 @@ public class FakeApi {
     }
   }
 
-  private HttpRequest.Builder fakeOuterCompositeSerializeRequestBuilder(OuterComposite body) throws ApiException {
+  private HttpRequest.Builder fakeOuterCompositeSerializeRequestBuilder(OuterComposite outerComposite) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -336,7 +445,7 @@ public class FakeApi {
     localVarRequestBuilder.header("Accept", "*/*");
 
     try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(outerComposite);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);
@@ -366,8 +475,9 @@ public class FakeApi {
               return CompletableFuture.failedFuture(getApiException("fakeOuterNumberSerialize", localVarResponse));
             }
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<BigDecimal>() {})
+                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<BigDecimal>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -399,11 +509,12 @@ public class FakeApi {
               return CompletableFuture.failedFuture(getApiException("fakeOuterNumberSerialize", localVarResponse));
             }
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<BigDecimal>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<BigDecimal>() {}))
+                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<BigDecimal>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -458,8 +569,9 @@ public class FakeApi {
               return CompletableFuture.failedFuture(getApiException("fakeOuterStringSerialize", localVarResponse));
             }
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {})
+                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<String>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -491,11 +603,12 @@ public class FakeApi {
               return CompletableFuture.failedFuture(getApiException("fakeOuterStringSerialize", localVarResponse));
             }
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<String>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {}))
+                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<String>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -519,12 +632,93 @@ public class FakeApi {
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "*/*");
 
-    try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
-      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException e) {
-      throw new ApiException(e);
+    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofString(body));
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+  /**
+   * Array of Enums
+   * 
+   * @return CompletableFuture&lt;List&lt;OuterEnum&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<List<OuterEnum>> getArrayOfEnums() throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = getArrayOfEnumsRequestBuilder();
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("getArrayOfEnums", localVarResponse));
+            }
+            try {
+              String responseBody = localVarResponse.body();
+              return CompletableFuture.completedFuture(
+                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<List<OuterEnum>>() {})
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+      });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Array of Enums
+   * 
+   * @return CompletableFuture&lt;ApiResponse&lt;List&lt;OuterEnum&gt;&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<List<OuterEnum>>> getArrayOfEnumsWithHttpInfo() throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = getArrayOfEnumsRequestBuilder();
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (memberVarAsyncResponseInterceptor != null) {
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
+            }
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("getArrayOfEnums", localVarResponse));
+            }
+            try {
+              String responseBody = localVarResponse.body();
+              return CompletableFuture.completedFuture(
+                  new ApiResponse<List<OuterEnum>>(
+                      localVarResponse.statusCode(),
+                      localVarResponse.headers().map(),
+                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<List<OuterEnum>>() {}))
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+        }
+      );
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  private HttpRequest.Builder getArrayOfEnumsRequestBuilder() throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/fake/array-of-enums";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
@@ -536,12 +730,13 @@ public class FakeApi {
   /**
    * 
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-   * @param body  (required)
+   * @param fileSchemaTestClass  (required)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> testBodyWithFileSchema(FileSchemaTestClass body) throws ApiException {
+  public CompletableFuture<Void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = testBodyWithFileSchemaRequestBuilder(body);
+      HttpRequest.Builder localVarRequestBuilder = testBodyWithFileSchemaRequestBuilder(fileSchemaTestClass);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -559,13 +754,13 @@ public class FakeApi {
   /**
    * 
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-   * @param body  (required)
+   * @param fileSchemaTestClass  (required)
    * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Void>> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass body) throws ApiException {
+  public CompletableFuture<ApiResponse<Void>> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = testBodyWithFileSchemaRequestBuilder(body);
+      HttpRequest.Builder localVarRequestBuilder = testBodyWithFileSchemaRequestBuilder(fileSchemaTestClass);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -586,10 +781,10 @@ public class FakeApi {
     }
   }
 
-  private HttpRequest.Builder testBodyWithFileSchemaRequestBuilder(FileSchemaTestClass body) throws ApiException {
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithFileSchema");
+  private HttpRequest.Builder testBodyWithFileSchemaRequestBuilder(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
+    // verify the required parameter 'fileSchemaTestClass' is set
+    if (fileSchemaTestClass == null) {
+      throw new ApiException(400, "Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -602,7 +797,7 @@ public class FakeApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(fileSchemaTestClass);
       localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);
@@ -619,12 +814,13 @@ public class FakeApi {
    * 
    * 
    * @param query  (required)
-   * @param body  (required)
+   * @param user  (required)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> testBodyWithQueryParams(String query, User body) throws ApiException {
+  public CompletableFuture<Void> testBodyWithQueryParams(String query, User user) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = testBodyWithQueryParamsRequestBuilder(query, body);
+      HttpRequest.Builder localVarRequestBuilder = testBodyWithQueryParamsRequestBuilder(query, user);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -643,13 +839,13 @@ public class FakeApi {
    * 
    * 
    * @param query  (required)
-   * @param body  (required)
+   * @param user  (required)
    * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Void>> testBodyWithQueryParamsWithHttpInfo(String query, User body) throws ApiException {
+  public CompletableFuture<ApiResponse<Void>> testBodyWithQueryParamsWithHttpInfo(String query, User user) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = testBodyWithQueryParamsRequestBuilder(query, body);
+      HttpRequest.Builder localVarRequestBuilder = testBodyWithQueryParamsRequestBuilder(query, user);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -670,14 +866,14 @@ public class FakeApi {
     }
   }
 
-  private HttpRequest.Builder testBodyWithQueryParamsRequestBuilder(String query, User body) throws ApiException {
+  private HttpRequest.Builder testBodyWithQueryParamsRequestBuilder(String query, User user) throws ApiException {
     // verify the required parameter 'query' is set
     if (query == null) {
       throw new ApiException(400, "Missing the required parameter 'query' when calling testBodyWithQueryParams");
     }
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithQueryParams");
+    // verify the required parameter 'user' is set
+    if (user == null) {
+      throw new ApiException(400, "Missing the required parameter 'user' when calling testBodyWithQueryParams");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -685,11 +881,17 @@ public class FakeApi {
     String localVarPath = "/fake/body-with-query-params";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "query";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("query", query));
 
-    if (!localVarQueryParams.isEmpty()) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -699,7 +901,7 @@ public class FakeApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(user);
       localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);
@@ -715,13 +917,13 @@ public class FakeApi {
   /**
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
-   * @param body client model (required)
+   * @param client client model (required)
    * @return CompletableFuture&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Client> testClientModel(Client body) throws ApiException {
+  public CompletableFuture<Client> testClientModel(Client client) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = testClientModelRequestBuilder(body);
+      HttpRequest.Builder localVarRequestBuilder = testClientModelRequestBuilder(client);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -729,8 +931,9 @@ public class FakeApi {
               return CompletableFuture.failedFuture(getApiException("testClientModel", localVarResponse));
             }
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
-                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})
+                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Client>() {})
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -745,13 +948,13 @@ public class FakeApi {
   /**
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
-   * @param body client model (required)
+   * @param client client model (required)
    * @return CompletableFuture&lt;ApiResponse&lt;Client&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Client>> testClientModelWithHttpInfo(Client body) throws ApiException {
+  public CompletableFuture<ApiResponse<Client>> testClientModelWithHttpInfo(Client client) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = testClientModelRequestBuilder(body);
+      HttpRequest.Builder localVarRequestBuilder = testClientModelRequestBuilder(client);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -762,11 +965,12 @@ public class FakeApi {
               return CompletableFuture.failedFuture(getApiException("testClientModel", localVarResponse));
             }
             try {
+              String responseBody = localVarResponse.body();
               return CompletableFuture.completedFuture(
                   new ApiResponse<Client>(
                       localVarResponse.statusCode(),
                       localVarResponse.headers().map(),
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {}))
+                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Client>() {}))
               );
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
@@ -779,10 +983,10 @@ public class FakeApi {
     }
   }
 
-  private HttpRequest.Builder testClientModelRequestBuilder(Client body) throws ApiException {
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling testClientModel");
+  private HttpRequest.Builder testClientModelRequestBuilder(Client client) throws ApiException {
+    // verify the required parameter 'client' is set
+    if (client == null) {
+      throw new ApiException(400, "Missing the required parameter 'client' when calling testClientModel");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -795,7 +999,7 @@ public class FakeApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(client);
       localVarRequestBuilder.method("PATCH", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);
@@ -809,8 +1013,8 @@ public class FakeApi {
     return localVarRequestBuilder;
   }
   /**
-   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
@@ -822,9 +1026,10 @@ public class FakeApi {
    * @param string None (optional)
    * @param binary None (optional)
    * @param date None (optional)
-   * @param dateTime None (optional)
+   * @param dateTime None (optional, default to 2010-02-01T10:20:10.111110+01:00)
    * @param password None (optional)
    * @param paramCallback None (optional)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
@@ -845,8 +1050,8 @@ public class FakeApi {
   }
 
   /**
-   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
@@ -858,7 +1063,7 @@ public class FakeApi {
    * @param string None (optional)
    * @param binary None (optional)
    * @param date None (optional)
-   * @param dateTime None (optional)
+   * @param dateTime None (optional, default to 2010-02-01T10:20:10.111110+01:00)
    * @param password None (optional)
    * @param paramCallback None (optional)
    * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
@@ -913,7 +1118,60 @@ public class FakeApi {
 
     localVarRequestBuilder.header("Accept", "application/json");
 
-    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.noBody());
+    List<NameValuePair> formValues = new ArrayList<>();
+    if (integer != null) {
+        formValues.add(new BasicNameValuePair("integer", integer.toString()));
+    }
+    if (int32 != null) {
+        formValues.add(new BasicNameValuePair("int32", int32.toString()));
+    }
+    if (int64 != null) {
+        formValues.add(new BasicNameValuePair("int64", int64.toString()));
+    }
+    if (number != null) {
+        formValues.add(new BasicNameValuePair("number", number.toString()));
+    }
+    if (_float != null) {
+        formValues.add(new BasicNameValuePair("float", _float.toString()));
+    }
+    if (_double != null) {
+        formValues.add(new BasicNameValuePair("double", _double.toString()));
+    }
+    if (string != null) {
+        formValues.add(new BasicNameValuePair("string", string.toString()));
+    }
+    if (patternWithoutDelimiter != null) {
+        formValues.add(new BasicNameValuePair("pattern_without_delimiter", patternWithoutDelimiter.toString()));
+    }
+    if (_byte != null) {
+        formValues.add(new BasicNameValuePair("byte", _byte.toString()));
+    }
+    if (binary != null) {
+        formValues.add(new BasicNameValuePair("binary", binary.toString()));
+    }
+    if (date != null) {
+        formValues.add(new BasicNameValuePair("date", date.toString()));
+    }
+    if (dateTime != null) {
+        formValues.add(new BasicNameValuePair("dateTime", dateTime.toString()));
+    }
+    if (password != null) {
+        formValues.add(new BasicNameValuePair("password", password.toString()));
+    }
+    if (paramCallback != null) {
+        formValues.add(new BasicNameValuePair("callback", paramCallback.toString()));
+    }
+    HttpEntity entity = new UrlEncodedFormEntity(formValues, java.nio.charset.StandardCharsets.UTF_8);
+    ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
+    try {
+        entity.writeTo(formOutputStream);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+    localVarRequestBuilder
+        .header("Content-Type", entity.getContentType().getValue())
+        .method("POST", HttpRequest.BodyPublishers
+            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray())));
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
@@ -933,6 +1191,7 @@ public class FakeApi {
    * @param enumQueryDouble Query parameter enum test (double) (optional)
    * @param enumFormStringArray Form parameter enum test (string array) (optional
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
@@ -996,14 +1255,23 @@ public class FakeApi {
     String localVarPath = "/fake";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "enum_query_string_array", enumQueryStringArray));
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "enum_query_string_array";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "enum_query_string_array", enumQueryStringArray));
+    localVarQueryParameterBaseName = "enum_query_string";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("enum_query_string", enumQueryString));
+    localVarQueryParameterBaseName = "enum_query_integer";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("enum_query_integer", enumQueryInteger));
+    localVarQueryParameterBaseName = "enum_query_double";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("enum_query_double", enumQueryDouble));
 
-    if (!localVarQueryParams.isEmpty()) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -1017,7 +1285,26 @@ public class FakeApi {
     }
     localVarRequestBuilder.header("Accept", "application/json");
 
-    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    List<NameValuePair> formValues = new ArrayList<>();
+    for (int i=0; i < enumFormStringArray.size(); i++) {
+        if (enumFormStringArray.get(i) != null) {
+            formValues.add(new BasicNameValuePair("enum_form_string_array", enumFormStringArray.get(i).toString()));
+        }
+    }
+    if (enumFormString != null) {
+        formValues.add(new BasicNameValuePair("enum_form_string", enumFormString.toString()));
+    }
+    HttpEntity entity = new UrlEncodedFormEntity(formValues, java.nio.charset.StandardCharsets.UTF_8);
+    ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
+    try {
+        entity.writeTo(formOutputStream);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+    localVarRequestBuilder
+        .header("Content-Type", entity.getContentType().getValue())
+        .method("GET", HttpRequest.BodyPublishers
+            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray())));
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
@@ -1030,6 +1317,7 @@ public class FakeApi {
    * Fake endpoint to test group parameters (optional)
    * Fake endpoint to test group parameters (optional)
    * @param apiRequest {@link APItestGroupParametersRequest}
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> testGroupParameters(APItestGroupParametersRequest apiRequest) throws ApiException {
@@ -1068,6 +1356,7 @@ public class FakeApi {
    * @param stringGroup String in group parameters (optional)
    * @param booleanGroup Boolean in group parameters (optional)
    * @param int64Group Integer in group parameters (optional)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
@@ -1141,14 +1430,23 @@ public class FakeApi {
     String localVarPath = "/fake";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "required_string_group";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("required_string_group", requiredStringGroup));
+    localVarQueryParameterBaseName = "required_int64_group";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("required_int64_group", requiredInt64Group));
+    localVarQueryParameterBaseName = "string_group";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("string_group", stringGroup));
+    localVarQueryParameterBaseName = "int64_group";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("int64_group", int64Group));
 
-    if (!localVarQueryParams.isEmpty()) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
@@ -1251,12 +1549,13 @@ public class FakeApi {
   /**
    * test inline additionalProperties
    * 
-   * @param param request body (required)
+   * @param requestBody request body (required)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> testInlineAdditionalProperties(Map<String, String> param) throws ApiException {
+  public CompletableFuture<Void> testInlineAdditionalProperties(Map<String, String> requestBody) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = testInlineAdditionalPropertiesRequestBuilder(param);
+      HttpRequest.Builder localVarRequestBuilder = testInlineAdditionalPropertiesRequestBuilder(requestBody);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -1274,13 +1573,13 @@ public class FakeApi {
   /**
    * test inline additionalProperties
    * 
-   * @param param request body (required)
+   * @param requestBody request body (required)
    * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Void>> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> param) throws ApiException {
+  public CompletableFuture<ApiResponse<Void>> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = testInlineAdditionalPropertiesRequestBuilder(param);
+      HttpRequest.Builder localVarRequestBuilder = testInlineAdditionalPropertiesRequestBuilder(requestBody);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -1301,10 +1600,10 @@ public class FakeApi {
     }
   }
 
-  private HttpRequest.Builder testInlineAdditionalPropertiesRequestBuilder(Map<String, String> param) throws ApiException {
-    // verify the required parameter 'param' is set
-    if (param == null) {
-      throw new ApiException(400, "Missing the required parameter 'param' when calling testInlineAdditionalProperties");
+  private HttpRequest.Builder testInlineAdditionalPropertiesRequestBuilder(Map<String, String> requestBody) throws ApiException {
+    // verify the required parameter 'requestBody' is set
+    if (requestBody == null) {
+      throw new ApiException(400, "Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -1317,7 +1616,7 @@ public class FakeApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(param);
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(requestBody);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);
@@ -1335,6 +1634,7 @@ public class FakeApi {
    * 
    * @param param field1 (required)
    * @param param2 field2 (required)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> testJsonFormData(String param, String param2) throws ApiException {
@@ -1403,7 +1703,24 @@ public class FakeApi {
 
     localVarRequestBuilder.header("Accept", "application/json");
 
-    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    List<NameValuePair> formValues = new ArrayList<>();
+    if (param != null) {
+        formValues.add(new BasicNameValuePair("param", param.toString()));
+    }
+    if (param2 != null) {
+        formValues.add(new BasicNameValuePair("param2", param2.toString()));
+    }
+    HttpEntity entity = new UrlEncodedFormEntity(formValues, java.nio.charset.StandardCharsets.UTF_8);
+    ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
+    try {
+        entity.writeTo(formOutputStream);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+    localVarRequestBuilder
+        .header("Content-Type", entity.getContentType().getValue())
+        .method("GET", HttpRequest.BodyPublishers
+            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray())));
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
@@ -1420,6 +1737,7 @@ public class FakeApi {
    * @param http  (required)
    * @param url  (required)
    * @param context  (required)
+   * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws ApiException {
@@ -1500,15 +1818,25 @@ public class FakeApi {
     String localVarPath = "/fake/test-query-parameters";
 
     List<Pair> localVarQueryParams = new ArrayList<>();
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "pipe", pipe));
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "pipe";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "pipe", pipe));
+    localVarQueryParameterBaseName = "ioutil";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "ioutil", ioutil));
+    localVarQueryParameterBaseName = "http";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("ssv", "http", http));
+    localVarQueryParameterBaseName = "url";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "url", url));
+    localVarQueryParameterBaseName = "context";
     localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "context", context));
 
-    if (!localVarQueryParams.isEmpty()) {
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
       StringJoiner queryJoiner = new StringJoiner("&");
       localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
     } else {
       localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));

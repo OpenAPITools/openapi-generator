@@ -14,7 +14,7 @@ class ResourcesApp(implicit protected val swagger: OpenAPIApp)
   }
 }
 
-class OpenAPIApp extends Swagger(apiInfo = OpenAPIInfo.apiInfo, apiVersion = "1.0", swaggerVersion = Swagger.SpecVersion)
+class OpenAPIApp extends Swagger(apiInfo = OpenAPIInfo.apiInfo, apiVersion = "{{apiVersion}}", swaggerVersion = Swagger.SpecVersion)
 
 object OpenAPIInfo {
   val apiInfo = ApiInfo(

@@ -14,13 +14,13 @@ package org.openapitools.client.api;
 
 
 import java.util.List;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.User;
 
 /** API tests for UserApi */
-@Ignore
+@Disabled
 public class UserApiTest {
 
     private final UserApi api = new UserApi();
