@@ -188,6 +188,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_additional_propertie_any_type.py
-test/test_additional_propertie_object.py
 tox.ini
