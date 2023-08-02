@@ -51,9 +51,13 @@
         <influx.port>{{ influxPort }}</influx.port>
         <influx.protocol>{{ influxProtocol }}</influx.protocol>
         <graphitePrefix>{{ graphitePrefix }}</graphitePrefix>
+
+        <!-- Database configuration to take Test Data-->
         <db.url>{{ dbUrl }}</db.url>
         <db.username>{{ dbUsername }}</db.username>
         <db.password>{{ dbPassword }}</db.password>
+
+        <ahIdpUrl>http://idp.ah-acc.k8s.digitaldev.nl</ahIdpUrl>
     </properties>
 
     <dependencies>
@@ -76,54 +80,13 @@
                 <configuration>
                     <jvmArgs combine.children="append">
                         <jvmArg>-DtestEnvironment=${testEnvironment}</jvmArg>
-                        <jvmArg>-DidpUrl=${idpUrl}</jvmArg>
+                        <jvmArg>-DidpUrl=${ahIdpUrl}</jvmArg>
                         <jvmArg>-Ddb.url=${db.url}</jvmArg>
                         <jvmArg>-Ddb.username=${db.username}</jvmArg>
                         <jvmArg>-Ddb.password=${db.password}</jvmArg>
                         <jvmArg>-Xms1g</jvmArg>
                         <jvmArg>-Xmx4g</jvmArg>
                     </jvmArgs>
-                    <eventSchedulerConfig>
-                        <debugEnabled>false</debugEnabled>
-                        <schedulerEnabled>${eventsEnabled}</schedulerEnabled>
-                        <failOnError>true</failOnError>
-                        <continueOnEventCheckFailure>true</continueOnEventCheckFailure>
-                        <scheduleScript>
-                            ${eventScheduleScript}
-                        </scheduleScript>
-                        <eventConfigs>
-                            <eventConfig implementation="io.perfana.event.PerfanaEventConfig">
-                                <name>PerfanaEvent</name>
-                                <perfanaUrl>${perfanaUrl}</perfanaUrl>
-                                <enabled>${perfanaEnabled}</enabled>
-                                <apiKey>${apiKey}</apiKey>
-                                <assertResultsEnabled>${assertResultsEnabled}</assertResultsEnabled>
-                                <variables>
-                                    <perfana-applications>${perfanaApplications}</perfana-applications>
-                                </variables>
-                                <testConfig>
-                                    <systemUnderTest>${systemUnderTest}</systemUnderTest>
-                                    <version>${version}</version>
-                                    <workload>${workload}</workload>
-                                    <testEnvironment>${testEnvironment}</testEnvironment>
-                                    <testRunId>${testRunId}</testRunId>
-                                    <buildResultsUrl>${buildResultsUrl}</buildResultsUrl>
-                                    <rampupTimeInSeconds>${rampupTimeInSeconds}</rampupTimeInSeconds>
-                                    <constantLoadTimeInSeconds>${constantLoadTimeInSeconds}</constantLoadTimeInSeconds>
-                                    <annotations>${annotations}</annotations>
-                                    <tags>${tags}</tags>
-                                </testConfig>
-                            </eventConfig>
-                            <eventConfig implementation="io.perfana.events.testrunconfigcommand.TestRunConfigCommandEventConfig">
-                                <name>KubernetesGetDeployment</name>
-                                <command>kubectl get deployment ${systemUnderTest} -n ah -ojson</command>
-                                <includes>resources,image,replicas,strategy,kubernetes</includes>
-                                <excludes>status,password,TOKEN,env</excludes>
-                                <output>keys</output>
-                                <tags>kubernetes,${systemUnderTest}</tags>
-                            </eventConfig>
-                        </eventConfigs>
-                    </eventSchedulerConfig>
                 </configuration>
             </plugin>
         </plugins>
@@ -145,7 +108,7 @@
             <id>tst</id>
             <properties>
                 <targetBaseUrl>{{ targetBaseUrl }}</targetBaseUrl>
-                <idpUrl>http://idp.ah-tst.k8s.digitaldev.nl</idpUrl>
+                <idpUrl>${ahIdpUrl}</idpUrl>
                 <testEnvironment>tst</testEnvironment>
             </properties>
         </profile>
@@ -154,7 +117,7 @@
             <id>ah</id>
             <properties>
                 <targetBaseUrl>{{ targetBaseUrl }}</targetBaseUrl>
-                <idpUrl>http://idp.ah-acc.k8s.digitaldev.nl</idpUrl>
+                <idpUrl>${ahIdpUrl}</idpUrl>
                 <testEnvironment>ah</testEnvironment>
             </properties>
         </profile>
@@ -178,9 +141,9 @@
             <properties>
                 <workload>load</workload>
                 <initialUsersPerSecond>1</initialUsersPerSecond>
-                <targetUsersPerSecond>2</targetUsersPerSecond>
-                <rampupTimeInSeconds>30</rampupTimeInSeconds>
-                <constantLoadTimeInSeconds>1200</constantLoadTimeInSeconds>
+                <targetUsersPerSecond>30</targetUsersPerSecond>
+                <rampupTimeInSeconds>60</rampupTimeInSeconds>
+                <constantLoadTimeInSeconds>900</constantLoadTimeInSeconds>
                 <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${maven.build.timestamp}</testRunId>
                 <tags>gatling,load-test</tags>
             </properties>
