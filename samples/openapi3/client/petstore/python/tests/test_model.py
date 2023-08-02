@@ -529,3 +529,8 @@ class ModelTests(unittest.TestCase):
         a2.additional_properties = { "efg": 45.6 }
         self.assertEqual(a2.to_dict(), {"efg": 45.6})
         self.assertEqual(a2.to_json(), "{\"efg\": 45.6}")
+
+        a3 = petstore_api.AdditionalPropertiesWithDescriptionOnly()
+        a3.additional_properties = { "xyz": 45.6 }
+        self.assertEqual(a3.to_dict(), {"xyz": 45.6})
+        self.assertEqual(a3.to_json(), "{\"xyz\": 45.6}")

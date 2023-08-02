@@ -2285,3 +2285,10 @@ components:
         name:
           type: string
       additionalProperties: {}
+    AdditionalPropertieWithDescriptionOnly:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        description: This is what the additional property is

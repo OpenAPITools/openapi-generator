@@ -40,6 +40,7 @@ from petstore_api.signing import HttpSigningConfiguration
 # import models into sdk package
 from petstore_api.models.additional_propertie_any_type import AdditionalPropertieAnyType
 from petstore_api.models.additional_propertie_object import AdditionalPropertieObject
+from petstore_api.models.additional_propertie_with_description_only import AdditionalPropertieWithDescriptionOnly
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
 from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef
 from petstore_api.models.animal import Animal

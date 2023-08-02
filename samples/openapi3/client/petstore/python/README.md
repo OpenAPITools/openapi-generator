@@ -134,6 +134,7 @@ Class | Method | HTTP request | Description
 
  - [AdditionalPropertieAnyType](docs/AdditionalPropertieAnyType.md)
  - [AdditionalPropertieObject](docs/AdditionalPropertieObject.md)
+ - [AdditionalPropertieWithDescriptionOnly](docs/AdditionalPropertieWithDescriptionOnly.md)
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [Animal](docs/Animal.md)
