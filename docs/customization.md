@@ -422,10 +422,11 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 ```
 will rename the Tag schema to Label instead.
 
-
 (Not all generators support thess features yet. Please give it a try to confirm the behaviour and open an issue (ticket) to let us know which generators you would like to have this feature enabled and we'll prioritize accordingly.)
 
 Related PRs: #16209 (modelNameMappings), #16194, #16206 (nameMappings, parameterNameMappings)
+
+NOTE: some generators use `baseName` (original name obtained direclty from OpenAPI spec, e.g. `shipping-date`) mustache tag in the templates so the mapping feature won't work.
 
 ## Schema Mapping
 
