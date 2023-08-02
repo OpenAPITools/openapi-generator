@@ -1,9 +1,9 @@
-# OpenApiPetstore.HealthCheckResult
+# OpenApiPetstore.HealthCheckStatus
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**nullableMessage** | **String** |  | [optional] 
+**nullable_field** | **String** |  | [optional] 
 
 

@@ -38,7 +38,7 @@ import Foo from './model/Foo';
 import FooGetDefaultResponse from './model/FooGetDefaultResponse';
 import FormatTest from './model/FormatTest';
 import HasOnlyReadOnly from './model/HasOnlyReadOnly';
-import HealthCheckResult from './model/HealthCheckResult';
+import HealthCheckStatus from './model/HealthCheckStatus';
 import List from './model/List';
 import MapTest from './model/MapTest';
 import MixedPropertiesAndAdditionalPropertiesClass from './model/MixedPropertiesAndAdditionalPropertiesClass';
@@ -262,10 +262,10 @@ export {
     HasOnlyReadOnly,
 
     /**
-     * The HealthCheckResult model constructor.
-     * @property {module:model/HealthCheckResult}
+     * The HealthCheckStatus model constructor.
+     * @property {module:model/HealthCheckStatus}
      */
-    HealthCheckResult,
+    HealthCheckStatus,
 
     /**
      * The List model constructor.

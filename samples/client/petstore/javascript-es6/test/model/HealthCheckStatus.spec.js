@@ -28,7 +28,7 @@
   var instance;
 
   beforeEach(function() {
-    instance = new OpenApiPetstore.HealthCheckResult();
+    instance = new OpenApiPetstore.HealthCheckStatus();
   });
 
   var getProperty = function(object, getter, property) {
@@ -47,16 +47,16 @@
       object[property] = value;
   }
 
-  describe('HealthCheckResult', function() {
-    it('should create an instance of HealthCheckResult', function() {
-      // uncomment below and update the code to test HealthCheckResult
-      //var instance = new OpenApiPetstore.HealthCheckResult();
-      //expect(instance).to.be.a(OpenApiPetstore.HealthCheckResult);
+  describe('HealthCheckStatus', function() {
+    it('should create an instance of HealthCheckStatus', function() {
+      // uncomment below and update the code to test HealthCheckStatus
+      //var instance = new OpenApiPetstore.HealthCheckStatus();
+      //expect(instance).to.be.a(OpenApiPetstore.HealthCheckStatus);
     });
 
-    it('should have the property nullableMessage (base name: "NullableMessage")', function() {
-      // uncomment below and update the code to test the property nullableMessage
-      //var instance = new OpenApiPetstore.HealthCheckResult();
+    it('should have the property nullable_field (base name: "NullableMessage")', function() {
+      // uncomment below and update the code to test the property nullable_field
+      //var instance = new OpenApiPetstore.HealthCheckStatus();
       //expect(instance).to.be();
     });
 
