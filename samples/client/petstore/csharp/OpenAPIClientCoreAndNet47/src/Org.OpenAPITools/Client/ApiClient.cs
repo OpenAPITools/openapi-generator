@@ -38,7 +38,6 @@ namespace Org.OpenAPITools.Client
     internal class CustomJsonCodec : IRestSerializer, ISerializer, IDeserializer
     {
         private readonly IReadableConfiguration _configuration;
-        private static readonly string _contentType = "application/json";
         private readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
         {
             // OpenAPI generated types generally hide default constructors.
@@ -151,17 +150,13 @@ namespace Org.OpenAPITools.Client
         public ISerializer Serializer => this;
         public IDeserializer Deserializer => this;
 
-        public string[] AcceptedContentTypes => RestSharp.Serializers.ContentType.JsonAccept;
+        public string[] AcceptedContentTypes => RestSharp.ContentType.JsonAccept;
 
         public SupportsContentType SupportsContentType => contentType =>
-            contentType.EndsWith("json", StringComparison.InvariantCultureIgnoreCase) ||
-            contentType.EndsWith("javascript", StringComparison.InvariantCultureIgnoreCase);
+            contentType.Value.EndsWith("json", StringComparison.InvariantCultureIgnoreCase) ||
+            contentType.Value.EndsWith("javascript", StringComparison.InvariantCultureIgnoreCase);
 
-        public string ContentType
-        {
-            get { return _contentType; }
-            set { throw new InvalidOperationException("Not allowed to set content type."); }
-        }
+        public ContentType ContentType { get; set; } = RestSharp.ContentType.Json;
 
         public DataFormat DataFormat => DataFormat.Json;
     }
@@ -434,7 +429,7 @@ namespace Org.OpenAPITools.Client
             return transformed;
         }
 
-        private ApiResponse<T> Exec<T>(RestRequest req, RequestOptions options, IReadableConfiguration configuration)
+        private ApiResponse<T> Exec<T>(RestRequest request, RequestOptions options, IReadableConfiguration configuration)
         {
             var baseUrl = configuration.GetOperationServerUrl(options.Operation, options.OperationIndex) ?? _baseUrl;
 
@@ -459,8 +454,8 @@ namespace Org.OpenAPITools.Client
                 RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback
             };
 
-            RestClient client = new RestClient(clientOptions)
-                .UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration));
+            RestClient client = new RestClient(clientOptions,
+                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration)));
 
             if (!string.IsNullOrEmpty(configuration.OAuthTokenUrl) &&
                 !string.IsNullOrEmpty(configuration.OAuthClientId) &&
@@ -476,22 +471,21 @@ namespace Org.OpenAPITools.Client
                     configuration));
             }
 
-            InterceptRequest(req);
+            InterceptRequest(request);
 
             RestResponse<T> response;
             if (RetryConfiguration.RetryPolicy != null)
             {
                 var policy = RetryConfiguration.RetryPolicy;
-                var policyResult = policy.ExecuteAndCapture(() => client.Execute(req));
-                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
+                var policyResult = policy.ExecuteAndCapture(() => client.Execute(request));
+                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>(request)
                 {
-                    Request = req,
                     ErrorException = policyResult.FinalException
                 };
             }
             else
             {
-                response = client.Execute<T>(req);
+                response = client.Execute<T>(request);
             }
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
@@ -519,7 +513,7 @@ namespace Org.OpenAPITools.Client
                 response.Data = (T)(object)response.Content;
             }
 
-            InterceptResponse(req, response);
+            InterceptResponse(request, response);
 
             var result = ToApiResponse(response);
             if (response.ErrorMessage != null)
@@ -556,7 +550,7 @@ namespace Org.OpenAPITools.Client
             return result;
         }
 
-        private async Task<ApiResponse<T>> ExecAsync<T>(RestRequest req, RequestOptions options, IReadableConfiguration configuration, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        private async Task<ApiResponse<T>> ExecAsync<T>(RestRequest request, RequestOptions options, IReadableConfiguration configuration, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var baseUrl = configuration.GetOperationServerUrl(options.Operation, options.OperationIndex) ?? _baseUrl;
 
@@ -569,8 +563,8 @@ namespace Org.OpenAPITools.Client
                 UseDefaultCredentials = configuration.UseDefaultCredentials
             };
 
-            RestClient client = new RestClient(clientOptions)
-                .UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration));
+            RestClient client = new RestClient(clientOptions,
+                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration)));
 
             if (!string.IsNullOrEmpty(configuration.OAuthTokenUrl) &&
                 !string.IsNullOrEmpty(configuration.OAuthClientId) &&
@@ -586,22 +580,21 @@ namespace Org.OpenAPITools.Client
                     configuration));
             }
 
-            InterceptRequest(req);
+            InterceptRequest(request);
 
             RestResponse<T> response;
             if (RetryConfiguration.AsyncRetryPolicy != null)
             {
                 var policy = RetryConfiguration.AsyncRetryPolicy;
-                var policyResult = await policy.ExecuteAndCaptureAsync((ct) => client.ExecuteAsync(req, ct), cancellationToken).ConfigureAwait(false);
-                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
+                var policyResult = await policy.ExecuteAndCaptureAsync((ct) => client.ExecuteAsync(request, ct), cancellationToken).ConfigureAwait(false);
+                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>(request)
                 {
-                    Request = req,
                     ErrorException = policyResult.FinalException
                 };
             }
             else
             {
-                response = await client.ExecuteAsync<T>(req, cancellationToken).ConfigureAwait(false);
+                response = await client.ExecuteAsync<T>(request, cancellationToken).ConfigureAwait(false);
             }
 
             // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
@@ -618,7 +611,7 @@ namespace Org.OpenAPITools.Client
                 response.Data = (T)(object)response.RawBytes;
             }
 
-            InterceptResponse(req, response);
+            InterceptResponse(request, response);
 
             var result = ToApiResponse(response);
             if (response.ErrorMessage != null)

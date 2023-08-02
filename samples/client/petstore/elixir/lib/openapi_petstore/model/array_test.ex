@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.ArrayTest do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :array_of_string,
     :array_array_of_integer,
@@ -18,10 +18,8 @@ defmodule OpenapiPetstore.Model.ArrayTest do
     :array_array_of_integer => [[integer()]] | nil,
     :array_array_of_model => [[OpenapiPetstore.Model.ReadOnlyFirst.t]] | nil
   }
-end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.ArrayTest do
-  def decode(value, _options) do
+  def decode(value) do
     value
   end
 end

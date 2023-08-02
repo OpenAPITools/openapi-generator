@@ -32,6 +32,8 @@ from petstore_api.models.circular_reference_model import CircularReferenceModel
 from petstore_api.models.class_model import ClassModel
 from petstore_api.models.client import Client
 from petstore_api.models.color import Color
+from petstore_api.models.creature import Creature
+from petstore_api.models.creature_info import CreatureInfo
 from petstore_api.models.danish_pig import DanishPig
 from petstore_api.models.deprecated_object import DeprecatedObject
 from petstore_api.models.dog import Dog
@@ -61,6 +63,7 @@ from petstore_api.models.name import Name
 from petstore_api.models.nullable_class import NullableClass
 from petstore_api.models.nullable_property import NullableProperty
 from petstore_api.models.number_only import NumberOnly
+from petstore_api.models.object_to_test_additional_properties import ObjectToTestAdditionalProperties
 from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields
 from petstore_api.models.one_of_enum_string import OneOfEnumString
 from petstore_api.models.order import Order
@@ -74,6 +77,7 @@ from petstore_api.models.parent import Parent
 from petstore_api.models.parent_with_optional_dict import ParentWithOptionalDict
 from petstore_api.models.pet import Pet
 from petstore_api.models.pig import Pig
+from petstore_api.models.property_name_collision import PropertyNameCollision
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.second_ref import SecondRef
 from petstore_api.models.self_reference_model import SelfReferenceModel
@@ -82,5 +86,6 @@ from petstore_api.models.special_character_enum import SpecialCharacterEnum
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.special_name import SpecialName
 from petstore_api.models.tag import Tag
+from petstore_api.models.tiger import Tiger
 from petstore_api.models.user import User
 from petstore_api.models.with_nested_one_of import WithNestedOneOf

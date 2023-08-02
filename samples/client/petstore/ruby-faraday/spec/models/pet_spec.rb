@@ -20,7 +20,7 @@ require 'date'
 describe 'Pet' do
   before do
     # run before each test
-    @instance = Petstore::Pet.new
+    @instance = Petstore::Pet.new({ name: 'Kitty', photo_urls: ['www.photo-url.test'] })
   end
 
   after do

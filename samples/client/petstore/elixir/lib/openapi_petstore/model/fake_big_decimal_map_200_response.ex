@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.FakeBigDecimalMap200Response do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :someId,
     :someMap
@@ -16,10 +16,8 @@ defmodule OpenapiPetstore.Model.FakeBigDecimalMap200Response do
     :someId => float() | nil,
     :someMap => %{optional(String.t) => float()} | nil
   }
-end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.FakeBigDecimalMap200Response do
-  def decode(value, _options) do
+  def decode(value) do
     value
   end
 end

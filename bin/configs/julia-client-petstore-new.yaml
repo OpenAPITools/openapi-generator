@@ -4,6 +4,6 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/julia-client
 additionalProperties:
   hideGenerationTimestamp: "true"
-  packageName: PetStoreClient
+  packageName: OpenAPIGenPetStoreClient
   exportOperations: "true"
   exportModels: "true"

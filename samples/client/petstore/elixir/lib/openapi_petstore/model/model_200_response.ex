@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.Model200Response do
   Model for testing model name starting with number
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :name,
     :class
@@ -16,10 +16,8 @@ defmodule OpenapiPetstore.Model.Model200Response do
     :name => integer() | nil,
     :class => String.t | nil
   }
-end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.Model200Response do
-  def decode(value, _options) do
+  def decode(value) do
     value
   end
 end

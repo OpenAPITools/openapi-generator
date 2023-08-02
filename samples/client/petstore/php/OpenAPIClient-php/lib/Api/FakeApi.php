@@ -96,6 +96,9 @@ class FakeApi
         'fakePropertyEnumIntegerSerialize' => [
             'application/json',
         ],
+        'getParameterNameMapping' => [
+            'application/json',
+        ],
         'testBodyWithBinary' => [
             'image/png',
         ],
@@ -2285,6 +2288,305 @@ class FakeApi
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getParameterNameMapping
+     *
+     * parameter name mapping test
+     *
+     * @param  int $underscore_type _type (required)
+     * @param  string $type type (required)
+     * @param  string $type_with_underscore type_ (required)
+     * @param  string $type_with_dash type- (required)
+     * @param  string $http_debug_option http debug option (to test parameter naming option) (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getParameterNameMapping'] to see the possible values for this operation
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return void
+     */
+    public function getParameterNameMapping($underscore_type, $type, $type_with_underscore, $type_with_dash, $http_debug_option, string $contentType = self::contentTypes['getParameterNameMapping'][0])
+    {
+        $this->getParameterNameMappingWithHttpInfo($underscore_type, $type, $type_with_underscore, $type_with_dash, $http_debug_option, $contentType);
+    }
+
+    /**
+     * Operation getParameterNameMappingWithHttpInfo
+     *
+     * parameter name mapping test
+     *
+     * @param  int $underscore_type _type (required)
+     * @param  string $type type (required)
+     * @param  string $type_with_underscore type_ (required)
+     * @param  string $type_with_dash type- (required)
+     * @param  string $http_debug_option http debug option (to test parameter naming option) (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getParameterNameMapping'] to see the possible values for this operation
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getParameterNameMappingWithHttpInfo($underscore_type, $type, $type_with_underscore, $type_with_dash, $http_debug_option, string $contentType = self::contentTypes['getParameterNameMapping'][0])
+    {
+        $request = $this->getParameterNameMappingRequest($underscore_type, $type, $type_with_underscore, $type_with_dash, $http_debug_option, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getParameterNameMappingAsync
+     *
+     * parameter name mapping test
+     *
+     * @param  int $underscore_type _type (required)
+     * @param  string $type type (required)
+     * @param  string $type_with_underscore type_ (required)
+     * @param  string $type_with_dash type- (required)
+     * @param  string $http_debug_option http debug option (to test parameter naming option) (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getParameterNameMapping'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getParameterNameMappingAsync($underscore_type, $type, $type_with_underscore, $type_with_dash, $http_debug_option, string $contentType = self::contentTypes['getParameterNameMapping'][0])
+    {
+        return $this->getParameterNameMappingAsyncWithHttpInfo($underscore_type, $type, $type_with_underscore, $type_with_dash, $http_debug_option, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getParameterNameMappingAsyncWithHttpInfo
+     *
+     * parameter name mapping test
+     *
+     * @param  int $underscore_type _type (required)
+     * @param  string $type type (required)
+     * @param  string $type_with_underscore type_ (required)
+     * @param  string $type_with_dash type- (required)
+     * @param  string $http_debug_option http debug option (to test parameter naming option) (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getParameterNameMapping'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getParameterNameMappingAsyncWithHttpInfo($underscore_type, $type, $type_with_underscore, $type_with_dash, $http_debug_option, string $contentType = self::contentTypes['getParameterNameMapping'][0])
+    {
+        $returnType = '';
+        $request = $this->getParameterNameMappingRequest($underscore_type, $type, $type_with_underscore, $type_with_dash, $http_debug_option, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getParameterNameMapping'
+     *
+     * @param  int $underscore_type _type (required)
+     * @param  string $type type (required)
+     * @param  string $type_with_underscore type_ (required)
+     * @param  string $type_with_dash type- (required)
+     * @param  string $http_debug_option http debug option (to test parameter naming option) (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getParameterNameMapping'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getParameterNameMappingRequest($underscore_type, $type, $type_with_underscore, $type_with_dash, $http_debug_option, string $contentType = self::contentTypes['getParameterNameMapping'][0])
+    {
+
+        // verify the required parameter 'underscore_type' is set
+        if ($underscore_type === null || (is_array($underscore_type) && count($underscore_type) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $underscore_type when calling getParameterNameMapping'
+            );
+        }
+
+        // verify the required parameter 'type' is set
+        if ($type === null || (is_array($type) && count($type) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $type when calling getParameterNameMapping'
+            );
+        }
+
+        // verify the required parameter 'type_with_underscore' is set
+        if ($type_with_underscore === null || (is_array($type_with_underscore) && count($type_with_underscore) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $type_with_underscore when calling getParameterNameMapping'
+            );
+        }
+
+        // verify the required parameter 'type_with_dash' is set
+        if ($type_with_dash === null || (is_array($type_with_dash) && count($type_with_dash) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $type_with_dash when calling getParameterNameMapping'
+            );
+        }
+
+        // verify the required parameter 'http_debug_option' is set
+        if ($http_debug_option === null || (is_array($http_debug_option) && count($http_debug_option) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $http_debug_option when calling getParameterNameMapping'
+            );
+        }
+
+
+        $resourcePath = '/fake/parameter-name-mapping';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $type,
+            'type', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            true // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $http_debug_option,
+            'http_debug_option', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            true // required
+        ) ?? []);
+
+        // header params
+        if ($underscore_type !== null) {
+            $headerParams['_type'] = ObjectSerializer::toHeaderValue($underscore_type);
+        }
+        // header params
+        if ($type_with_underscore !== null) {
+            $headerParams['type_'] = ObjectSerializer::toHeaderValue($type_with_underscore);
+        }
+        // header params
+        if ($type_with_dash !== null) {
+            $headerParams['type-'] = ObjectSerializer::toHeaderValue($type_with_dash);
+        }
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            [],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody

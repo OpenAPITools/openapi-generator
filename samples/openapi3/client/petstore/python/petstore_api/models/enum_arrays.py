@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, StrictStr, conlist, validator
 
 class EnumArrays(BaseModel):
@@ -102,4 +102,5 @@ class EnumArrays(BaseModel):
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj
+
 

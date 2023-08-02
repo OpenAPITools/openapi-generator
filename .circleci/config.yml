@@ -38,9 +38,18 @@ commands: # a reusable command with parameters
       - run:
           command: 'sudo docker info >/dev/null 2>&1 || sudo service docker start; '
       - run:
-          command: |-
-            printf '127.0.0.1       petstore.swagger.io
-            ' | sudo tee -a /etc/hosts
+          command: |
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       path.v1.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       path.v2.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.111     path.v3.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       operation.v1.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       operation.v2.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.111     operation.v3.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       server.v1.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       server.v2.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.111     server.v3.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       petstore.swagger.io"
+            cat /etc/hosts
       #    - run: docker pull openapitools/openapi-petstore
       #    - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 80:8080 openapitools/openapi-petstore
       - run: docker pull swaggerapi/petstore
@@ -195,8 +204,8 @@ jobs:
       - command_build_and_test:
           nodeNo: "3"
   node4:
-    docker:
-      - image: fkrull/multi-python
+    machine:
+      image: ubuntu-2004:202201-02
     working_directory: ~/OpenAPITools/openapi-generator
     shell: /bin/bash --login
     environment:
@@ -206,7 +215,7 @@ jobs:
       DOCKER_CODEGEN_CLI_IMAGE_NAME: openapitools/openapi-generator-cli
     steps:
       - checkout
-      - command_docker_build_and_test:
+      - command_build_and_test:
           nodeNo: "4"
 workflows:
   version: 2

@@ -164,8 +164,12 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> inlineSchemaNameMapping = new HashMap<>();
     // a map to store the inline schema naming conventions
     protected Map<String, String> inlineSchemaOption = new HashMap<>();
-    // a map to store the mapping between property, parameter name and the name provided by the user
+    // a map to store the mapping between property name and the name provided by the user
     protected Map<String, String> nameMapping = new HashMap<>();
+    // a map to store the mapping between parameter name and the name provided by the user
+    protected Map<String, String> parameterNameMapping = new HashMap<>();
+    // a map to store the mapping between model name and the name provided by the user
+    protected Map<String, String> modelNameMapping = new HashMap<>();
     // a map to store the rules in OpenAPI Normalizer
     protected Map<String, String> openapiNormalizer = new HashMap<>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
@@ -240,7 +244,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected String httpUserAgent;
     protected Boolean hideGenerationTimestamp = true;
     // How to encode special characters like $
-    // They are translated to words like "Dollar" and prefixed with '
+    // They are translated to words like "Dollar"
     // Then translated back during JSON encoding and decoding
     protected Map<String, String> specialCharReplacements = new LinkedHashMap<>();
     // When a model is an alias for a simple type
@@ -1207,6 +1211,16 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public Map<String, String> parameterNameMapping() {
+        return parameterNameMapping;
+    }
+
+    @Override
+    public Map<String, String> modelNameMapping() {
+        return modelNameMapping;
+    }
+
+    @Override
     public Map<String, String> openapiNormalizer() {
         return openapiNormalizer;
     }
@@ -1610,6 +1624,11 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the sanitized variable name
      */
     public String toVarName(final String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
         } else if (name.chars().anyMatch(character -> specialCharReplacements.containsKey(String.valueOf((char) character)))) {
@@ -1627,6 +1646,11 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         name = removeNonNameElementToCamelCase(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
@@ -2599,6 +2623,11 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String toModelName(final String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         if (schemaKeyToModelNameCache.containsKey(name)) {
             return schemaKeyToModelNameCache.get(name);
         }

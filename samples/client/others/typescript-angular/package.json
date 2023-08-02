@@ -1,0 +1,24 @@
+{
+  "name": "typescript-angular-composed-schemas",
+  "version": "0.0.0",
+  "scripts": {
+    "compile": "tsc"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^16.1.2",
+    "@angular/common": "^16.1.2",
+    "@angular/compiler": "^16.1.2",
+    "@angular/core": "^16.1.2",
+    "@angular/platform-browser": "^16.1.2",
+    "@angular/platform-browser-dynamic": "^16.1.2",
+    "rxjs": "^7.8.1",
+    "tslib": "^2.5.3"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^16.1.1",
+    "@angular/cli": "^16.1.1",
+    "@angular/compiler-cli": "^16.1.2",
+    "typescript": "^5.1.3"
+  }
+}

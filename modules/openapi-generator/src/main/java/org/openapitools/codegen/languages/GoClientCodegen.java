@@ -101,7 +101,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
         outputFolder = "generated-code/go";
         embeddedTemplateDir = templateDir = "go";
-        usesOptionals = false;
 
         apiTemplateFiles.put("api.mustache", ".go");
         modelTemplateFiles.put("model.mustache", ".go");

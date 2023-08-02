@@ -13,6 +13,7 @@ require 'date'
 {{#model}}
 describe {{moduleName}}::{{classname}} do
 {{^oneOf}}
+{{^anyOf}}
   let(:instance) { {{moduleName}}::{{classname}}.new }
 
   describe 'test an instance of {{classname}}' do
@@ -37,6 +38,7 @@ describe {{moduleName}}::{{classname}} do
   end
 
 {{/vars}}
+{{/anyOf}}
 {{/oneOf}}
 {{#oneOf}}
 {{#-first}}

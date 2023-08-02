@@ -184,6 +184,63 @@ package body Samples.Petstore.Models is
 
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
+                        Value : in Samples.Petstore.Models.PropertyNameMapping_Type) is
+   begin
+      Into.Start_Entity (Name);
+      if not Value.P_HTTPDebugOperation.Is_Null then
+         Into.Write_Entity ("http_debug_operation", Value.P_HTTPDebugOperation);
+      end if;
+      if not Value.P_UnderscoreType.Is_Null then
+         Into.Write_Entity ("_type", Value.P_UnderscoreType);
+      end if;
+      if not Value.P_Type.Is_Null then
+         Into.Write_Entity ("type", Value.P_Type);
+      end if;
+      if not Value.P_TypeWithUnderscore.Is_Null then
+         Into.Write_Entity ("type_", Value.P_TypeWithUnderscore);
+      end if;
+      Into.End_Entity (Name);
+   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in PropertyNameMapping_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Samples.Petstore.Models.PropertyNameMapping_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Swagger.Streams.Deserialize (Object, "http_debug_operation", Value.P_HTTPDebugOperation);
+      Swagger.Streams.Deserialize (Object, "_type", Value.P_UnderscoreType);
+      Swagger.Streams.Deserialize (Object, "type", Value.P_Type);
+      Swagger.Streams.Deserialize (Object, "type_", Value.P_TypeWithUnderscore);
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : in out PropertyNameMapping_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : Samples.Petstore.Models.PropertyNameMapping_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
                         Value : in Samples.Petstore.Models.Tag_Type) is
    begin
       Into.Start_Entity (Name);

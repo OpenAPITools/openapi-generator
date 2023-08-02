@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import date, datetime
-from typing import Optional, Union
+from typing import Any, Dict, Optional, Union
 from pydantic import BaseModel, Field, StrictBytes, StrictInt, StrictStr, condecimal, confloat, conint, constr, validator
 
 class FormatTest(BaseModel):
@@ -151,4 +151,5 @@ class FormatTest(BaseModel):
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj
+
 

@@ -133,6 +133,8 @@ module Petstore
 
       if attributes.key?(:'number')
         self.number = attributes[:'number']
+      else
+        self.number = nil
       end
 
       if attributes.key?(:'float')
@@ -153,6 +155,8 @@ module Petstore
 
       if attributes.key?(:'byte')
         self.byte = attributes[:'byte']
+      else
+        self.byte = nil
       end
 
       if attributes.key?(:'binary')
@@ -161,6 +165,8 @@ module Petstore
 
       if attributes.key?(:'date')
         self.date = attributes[:'date']
+      else
+        self.date = nil
       end
 
       if attributes.key?(:'date_time')
@@ -173,6 +179,8 @@ module Petstore
 
       if attributes.key?(:'password')
         self.password = attributes[:'password']
+      else
+        self.password = nil
       end
 
       if attributes.key?(:'pattern_with_digits')
@@ -187,6 +195,7 @@ module Petstore
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
+      warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
       if !@integer.nil? && @integer > 100
         invalid_properties.push('invalid value for "integer", must be smaller than or equal to 100.')
@@ -273,6 +282,7 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if !@integer.nil? && @integer > 100
       return false if !@integer.nil? && @integer < 10
       return false if !@int32.nil? && @int32 > 200
@@ -298,11 +308,15 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] integer Value to be assigned
     def integer=(integer)
-      if !integer.nil? && integer > 100
+      if integer.nil?
+        fail ArgumentError, 'integer cannot be nil'
+      end
+
+      if integer > 100
         fail ArgumentError, 'invalid value for "integer", must be smaller than or equal to 100.'
       end
 
-      if !integer.nil? && integer < 10
+      if integer < 10
         fail ArgumentError, 'invalid value for "integer", must be greater than or equal to 10.'
       end
 
@@ -312,11 +326,15 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] int32 Value to be assigned
     def int32=(int32)
-      if !int32.nil? && int32 > 200
+      if int32.nil?
+        fail ArgumentError, 'int32 cannot be nil'
+      end
+
+      if int32 > 200
         fail ArgumentError, 'invalid value for "int32", must be smaller than or equal to 200.'
       end
 
-      if !int32.nil? && int32 < 20
+      if int32 < 20
         fail ArgumentError, 'invalid value for "int32", must be greater than or equal to 20.'
       end
 
@@ -344,11 +362,15 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] float Value to be assigned
     def float=(float)
-      if !float.nil? && float > 987.6
+      if float.nil?
+        fail ArgumentError, 'float cannot be nil'
+      end
+
+      if float > 987.6
         fail ArgumentError, 'invalid value for "float", must be smaller than or equal to 987.6.'
       end
 
-      if !float.nil? && float < 54.3
+      if float < 54.3
         fail ArgumentError, 'invalid value for "float", must be greater than or equal to 54.3.'
       end
 
@@ -358,11 +380,15 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] double Value to be assigned
     def double=(double)
-      if !double.nil? && double > 123.4
+      if double.nil?
+        fail ArgumentError, 'double cannot be nil'
+      end
+
+      if double > 123.4
         fail ArgumentError, 'invalid value for "double", must be smaller than or equal to 123.4.'
       end
 
-      if !double.nil? && double < 67.8
+      if double < 67.8
         fail ArgumentError, 'invalid value for "double", must be greater than or equal to 67.8.'
       end
 
@@ -372,8 +398,12 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] string Value to be assigned
     def string=(string)
+      if string.nil?
+        fail ArgumentError, 'string cannot be nil'
+      end
+
       pattern = Regexp.new(/[a-z]/i)
-      if !string.nil? && string !~ pattern
+      if string !~ pattern
         fail ArgumentError, "invalid value for \"string\", must conform to the pattern #{pattern}."
       end
 
@@ -401,8 +431,12 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] pattern_with_digits Value to be assigned
     def pattern_with_digits=(pattern_with_digits)
+      if pattern_with_digits.nil?
+        fail ArgumentError, 'pattern_with_digits cannot be nil'
+      end
+
       pattern = Regexp.new(/^\d{10}$/)
-      if !pattern_with_digits.nil? && pattern_with_digits !~ pattern
+      if pattern_with_digits !~ pattern
         fail ArgumentError, "invalid value for \"pattern_with_digits\", must conform to the pattern #{pattern}."
       end
 
@@ -412,8 +446,12 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] pattern_with_digits_and_delimiter Value to be assigned
     def pattern_with_digits_and_delimiter=(pattern_with_digits_and_delimiter)
+      if pattern_with_digits_and_delimiter.nil?
+        fail ArgumentError, 'pattern_with_digits_and_delimiter cannot be nil'
+      end
+
       pattern = Regexp.new(/^image_\d{1,3}$/i)
-      if !pattern_with_digits_and_delimiter.nil? && pattern_with_digits_and_delimiter !~ pattern
+      if pattern_with_digits_and_delimiter !~ pattern
         fail ArgumentError, "invalid value for \"pattern_with_digits_and_delimiter\", must conform to the pattern #{pattern}."
       end
 
@@ -459,37 +497,30 @@ module Petstore
     # @param [Hash] attributes Model attributes in the form of hash
     # @return [Object] Returns the model itself
     def self.build_from_hash(attributes)
-      new.build_from_hash(attributes)
-    end
-
-    # Builds the object from hash
-    # @param [Hash] attributes Model attributes in the form of hash
-    # @return [Object] Returns the model itself
-    def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
       attributes = attributes.transform_keys(&:to_sym)
-      self.class.openapi_types.each_pair do |key, type|
-        if attributes[self.class.attribute_map[key]].nil? && self.class.openapi_nullable.include?(key)
-          self.send("#{key}=", nil)
+      transformed_hash = {}
+      openapi_types.each_pair do |key, type|
+        if attributes.key?(attribute_map[key]) && attributes[attribute_map[key]].nil?
+          transformed_hash["#{key}"] = nil
         elsif type =~ /\AArray<(.*)>/i
           # check to ensure the input is an array given that the attribute
           # is documented as an array but the input is not
-          if attributes[self.class.attribute_map[key]].is_a?(Array)
-            self.send("#{key}=", attributes[self.class.attribute_map[key]].map { |v| _deserialize($1, v) })
+          if attributes[attribute_map[key]].is_a?(Array)
+            transformed_hash["#{key}"] = attributes[attribute_map[key]].map { |v| _deserialize($1, v) }
           end
-        elsif !attributes[self.class.attribute_map[key]].nil?
-          self.send("#{key}=", _deserialize(type, attributes[self.class.attribute_map[key]]))
+        elsif !attributes[attribute_map[key]].nil?
+          transformed_hash["#{key}"] = _deserialize(type, attributes[attribute_map[key]])
         end
       end
-
-      self
+      new(transformed_hash)
     end
 
     # Deserializes the data based on type
     # @param string type Data type
     # @param string value Value to be deserialized
     # @return [Object] Deserialized data
-    def _deserialize(type, value)
+    def self._deserialize(type, value)
       case type.to_sym
       when :Time
         Time.parse(value)

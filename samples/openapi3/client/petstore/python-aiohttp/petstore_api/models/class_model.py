@@ -68,3 +68,4 @@ class ClassModel(BaseModel):
         })
         return _obj
 
+

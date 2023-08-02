@@ -71,3 +71,4 @@ class Bird(BaseModel):
         })
         return _obj
 
+
