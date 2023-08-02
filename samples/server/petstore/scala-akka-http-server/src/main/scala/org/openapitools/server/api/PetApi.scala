@@ -126,10 +126,13 @@ trait PetApiService {
 
   def findPetsByTags200(responsePetarray: Seq[Pet])(implicit toEntityMarshallerPetarray: ToEntityMarshaller[Seq[Pet]]): Route =
     complete((200, responsePetarray))
+  def findPetsByTags206(responsePetarray: Seq[Pet])(implicit toEntityMarshallerPetarray: ToEntityMarshaller[Seq[Pet]]): Route =
+    complete((206, responsePetarray))
   def findPetsByTags400: Route =
     complete((400, "Invalid tag value"))
   /**
    * Code: 200, Message: successful operation, DataType: Seq[Pet]
+   * Code: 206, Message: successful operation, DataType: Seq[Pet]
    * Code: 400, Message: Invalid tag value
    */
   def findPetsByTags(tags: String)

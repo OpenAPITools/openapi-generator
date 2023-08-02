@@ -37,7 +37,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  *
  */
 
-@RegisterRestClient(configKey="petstore")
+@RegisterRestClient(configKey="pet-api")
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/pet")
 public interface PetApi  {
@@ -45,14 +45,19 @@ public interface PetApi  {
     /**
      * Add a new pet to the store
      *
+     * 
+     *
      */
     @POST
     
     @Consumes({ "application/json", "application/xml" })
-    void addPet(Pet body) throws ApiException, ProcessingException;
+    @Produces({ "application/xml", "application/json" })
+    Pet addPet(Pet pet) throws ApiException, ProcessingException;
 
     /**
      * Deletes a pet
+     *
+     * 
      *
      */
     @DELETE
@@ -97,14 +102,19 @@ public interface PetApi  {
     /**
      * Update an existing pet
      *
+     * 
+     *
      */
     @PUT
     
     @Consumes({ "application/json", "application/xml" })
-    void updatePet(Pet body) throws ApiException, ProcessingException;
+    @Produces({ "application/xml", "application/json" })
+    Pet updatePet(Pet pet) throws ApiException, ProcessingException;
 
     /**
      * Updates a pet in the store with form data
+     *
+     * 
      *
      */
     @POST
@@ -114,6 +124,8 @@ public interface PetApi  {
 
     /**
      * uploads an image
+     *
+     * 
      *
      */
     @POST

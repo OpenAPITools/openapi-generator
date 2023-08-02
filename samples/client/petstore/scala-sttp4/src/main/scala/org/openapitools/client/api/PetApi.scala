@@ -76,6 +76,7 @@ class PetApi(baseUrl: String) {
    * 
    * Expected answers:
    *   code 200 : Seq[Pet] (successful operation)
+   *   code 206 : Seq[Pet] (successful operation)
    *   code 400 :  (Invalid tag value)
    * 
    * @param tags Tags to filter by

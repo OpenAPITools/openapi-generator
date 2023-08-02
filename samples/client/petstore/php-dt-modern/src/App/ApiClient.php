@@ -171,7 +171,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     //region createUsersWithArrayInput
     /**
      * Creates list of users with given input array
-     * @param \App\DTO\Collection10 $requestContent
+     * @param \App\DTO\Collection12 $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return ResponseInterface
@@ -179,7 +179,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * @throws DT\Exception\InvalidData
      */
     public function createUsersWithArrayInputRaw(
-        \App\DTO\Collection10 $requestContent,
+        \App\DTO\Collection12 $requestContent,
         iterable $security = ['api_key' => []],
         string $requestMediaType = 'application/json'
     ): ResponseInterface
@@ -192,7 +192,7 @@ class ApiClient extends OAGAC\AbstractApiClient
 
     /**
      * Creates list of users with given input array
-     * @param \App\DTO\Collection10 $requestContent
+     * @param \App\DTO\Collection12 $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return array
@@ -201,7 +201,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * @throws OAGAC\Exception\InvalidResponseBodySchema
      */
     public function createUsersWithArrayInput(
-        \App\DTO\Collection10 $requestContent,
+        \App\DTO\Collection12 $requestContent,
         iterable $security = ['api_key' => []],
         string $requestMediaType = 'application/json'
     ): array
@@ -220,7 +220,7 @@ class ApiClient extends OAGAC\AbstractApiClient
 
     /**
      * Creates list of users with given input array
-     * @param \App\DTO\Collection10 $requestContent
+     * @param \App\DTO\Collection12 $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return mixed
@@ -230,7 +230,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * @throws OAGAC\Exception\UnsuccessfulResponse
      */
     public function createUsersWithArrayInputResult(
-        \App\DTO\Collection10 $requestContent,
+        \App\DTO\Collection12 $requestContent,
         iterable $security = ['api_key' => []],
         string $requestMediaType = 'application/json'
     ): mixed
@@ -242,7 +242,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     //region createUsersWithListInput
     /**
      * Creates list of users with given input array
-     * @param \App\DTO\Collection10 $requestContent
+     * @param \App\DTO\Collection12 $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return ResponseInterface
@@ -250,7 +250,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * @throws DT\Exception\InvalidData
      */
     public function createUsersWithListInputRaw(
-        \App\DTO\Collection10 $requestContent,
+        \App\DTO\Collection12 $requestContent,
         iterable $security = ['api_key' => []],
         string $requestMediaType = 'application/json'
     ): ResponseInterface
@@ -263,7 +263,7 @@ class ApiClient extends OAGAC\AbstractApiClient
 
     /**
      * Creates list of users with given input array
-     * @param \App\DTO\Collection10 $requestContent
+     * @param \App\DTO\Collection12 $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return array
@@ -272,7 +272,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * @throws OAGAC\Exception\InvalidResponseBodySchema
      */
     public function createUsersWithListInput(
-        \App\DTO\Collection10 $requestContent,
+        \App\DTO\Collection12 $requestContent,
         iterable $security = ['api_key' => []],
         string $requestMediaType = 'application/json'
     ): array
@@ -291,7 +291,7 @@ class ApiClient extends OAGAC\AbstractApiClient
 
     /**
      * Creates list of users with given input array
-     * @param \App\DTO\Collection10 $requestContent
+     * @param \App\DTO\Collection12 $requestContent
      * @param iterable|string[][] $security
      * @param string $requestMediaType
      * @return mixed
@@ -301,7 +301,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * @throws OAGAC\Exception\UnsuccessfulResponse
      */
     public function createUsersWithListInputResult(
-        \App\DTO\Collection10 $requestContent,
+        \App\DTO\Collection12 $requestContent,
         iterable $security = ['api_key' => []],
         string $requestMediaType = 'application/json'
     ): mixed
@@ -623,6 +623,10 @@ class ApiClient extends OAGAC\AbstractApiClient
                 /* successful operation */
                 $responseContent = new \App\DTO\Collection6();
                 break;
+            case 206:
+                /* successful operation */
+                $responseContent = new \App\DTO\Collection8();
+                break;
             case 400:
                 /* Invalid tag value */
                 break;
@@ -692,7 +696,7 @@ class ApiClient extends OAGAC\AbstractApiClient
         {
             case 200:
                 /* successful operation */
-                $responseContent = new \App\DTO\Collection8();
+                $responseContent = new \App\DTO\Collection10();
                 break;
         }
         $this->parseBody($response, $responseContent);
@@ -703,7 +707,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * Returns pet inventories by status
      * @param iterable|string[][] $security
      * @param string $responseMediaType
-     * @return \App\DTO\Collection8
+     * @return \App\DTO\Collection10
      * @throws ClientExceptionInterface
      * @throws DT\Exception\InvalidData
      * @throws OAGAC\Exception\InvalidResponseBodySchema
@@ -712,7 +716,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     public function getInventoryResult(
         iterable $security = ['api_key' => []],
         string $responseMediaType = 'application/json'
-    ): \App\DTO\Collection8
+    ): \App\DTO\Collection10
     {
         return $this->getSuccessfulContent(...$this->getInventory($security, $responseMediaType));
     }

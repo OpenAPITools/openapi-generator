@@ -203,6 +203,7 @@ public class PetApi {
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * <p><b>200</b> - successful operation
+     * <p><b>206</b> - successful operation
      * <p><b>400</b> - Invalid tag value
      * @param tags Tags to filter by (required)
      * @return List&lt;Pet&gt;
@@ -218,6 +219,7 @@ public class PetApi {
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * <p><b>200</b> - successful operation
+     * <p><b>206</b> - successful operation
      * <p><b>400</b> - Invalid tag value
      * @param tags Tags to filter by (required)
      * @return ResponseEntity&lt;List&lt;Pet&gt;&gt;

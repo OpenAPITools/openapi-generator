@@ -443,6 +443,8 @@ validate_response('FindPetsByStatus', 400, Body, ValidatorState) ->
 
 validate_response('FindPetsByTags', 200, Body, ValidatorState) ->
     validate_response_body('list', 'Pet', Body, ValidatorState);
+validate_response('FindPetsByTags', 206, Body, ValidatorState) ->
+    validate_response_body('list', 'Pet', Body, ValidatorState);
 validate_response('FindPetsByTags', 400, Body, ValidatorState) ->
     validate_response_body('', '', Body, ValidatorState);
 

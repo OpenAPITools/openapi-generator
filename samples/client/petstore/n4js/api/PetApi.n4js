@@ -99,6 +99,7 @@ export public async function PetApi__findPetsByStatus(fe : ApiExecuterI, status:
  * @param fe Callback interface that runs the fetch query
  * @param tags Tags to filter by
  * @response 200 [Pet[]] successful operation
+ * @response 206 [Pet[]] successful operation
  * @response 400 [undefined] Invalid tag value
  */
 export public async function PetApi__findPetsByTags(fe : ApiExecuterI, tags: string[]) : Promise<Pet[], Object | ApiError<>> {

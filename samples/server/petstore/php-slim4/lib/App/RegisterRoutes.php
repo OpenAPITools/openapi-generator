@@ -170,6 +170,29 @@ class RegisterRoutes
   }
 }',
                 ],
+                '206' => [
+                    'jsonSchema' => '{
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Pet"
+        }
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Pet"
+        }
+      }
+    }
+  }
+}',
+                ],
                 '400' => [
                     'jsonSchema' => '{
   "description" : "Invalid tag value"

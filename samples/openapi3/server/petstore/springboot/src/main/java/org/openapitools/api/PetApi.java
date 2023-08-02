@@ -185,6 +185,7 @@ public interface PetApi {
      *
      * @param tags Tags to filter by (required)
      * @return successful operation (status code 200)
+     *         or successful operation (status code 206)
      *         or Invalid tag value (status code 400)
      * @deprecated
      */
@@ -196,6 +197,10 @@ public interface PetApi {
         tags = { "pet" },
         responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Pet.class))),
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Pet.class)))
+            }),
+            @ApiResponse(responseCode = "206", description = "successful operation", content = {
                 @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Pet.class))),
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Pet.class)))
             }),

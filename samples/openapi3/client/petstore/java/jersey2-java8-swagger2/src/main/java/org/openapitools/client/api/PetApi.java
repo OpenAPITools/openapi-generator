@@ -203,6 +203,7 @@ public class PetApi {
      <table summary="Response Details" border="1">
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 206 </td><td> successful operation </td><td>  -  </td></tr>
        <tr><td> 400 </td><td> Invalid tag value </td><td>  -  </td></tr>
      </table>
    * @deprecated
@@ -222,6 +223,7 @@ public class PetApi {
      <table summary="Response Details" border="1">
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+       <tr><td> 206 </td><td> successful operation </td><td>  -  </td></tr>
        <tr><td> 400 </td><td> Invalid tag value </td><td>  -  </td></tr>
      </table>
    * @deprecated

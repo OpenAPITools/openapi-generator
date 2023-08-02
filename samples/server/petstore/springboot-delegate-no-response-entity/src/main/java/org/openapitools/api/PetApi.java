@@ -147,6 +147,7 @@ public interface PetApi {
      *
      * @param tags Tags to filter by (required)
      * @return successful operation (status code 200)
+     *         or successful operation (status code 206)
      *         or Invalid tag value (status code 400)
      * @deprecated
      */
@@ -166,6 +167,7 @@ public interface PetApi {
     )
     @ApiResponses({
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
+        @ApiResponse(code = 206, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid tag value")
     })
     @RequestMapping(

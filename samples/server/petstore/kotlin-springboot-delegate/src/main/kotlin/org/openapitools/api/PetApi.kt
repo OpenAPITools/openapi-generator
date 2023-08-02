@@ -102,6 +102,7 @@ interface PetApi {
         description = """Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.""",
         responses = [
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Pet::class))]),
+            ApiResponse(responseCode = "206", description = "successful operation", content = [Content(schema = Schema(implementation = Pet::class))]),
             ApiResponse(responseCode = "400", description = "Invalid tag value")
         ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "read:pets" ]) ]

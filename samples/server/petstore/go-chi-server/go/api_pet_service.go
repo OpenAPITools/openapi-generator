@@ -75,6 +75,9 @@ func (s *PetAPIService) FindPetsByTags(ctx context.Context, tags []string) (Impl
 	// TODO: Uncomment the next line to return response Response(200, []Pet{}) or use other options such as http.Ok ...
 	// return Response(200, []Pet{}), nil
 
+	// TODO: Uncomment the next line to return response Response(206, []Pet{}) or use other options such as http.Ok ...
+	// return Response(206, []Pet{}), nil
+
 	// TODO: Uncomment the next line to return response Response(400, {}) or use other options such as http.Ok ...
 	// return Response(400, nil),nil
 

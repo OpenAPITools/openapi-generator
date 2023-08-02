@@ -301,6 +301,7 @@ public class Example {
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | successful operation |  -  |
+| **206** | successful operation |  -  |
 | **400** | Invalid tag value |  -  |
 
 
