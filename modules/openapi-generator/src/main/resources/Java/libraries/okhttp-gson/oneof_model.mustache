@@ -34,7 +34,7 @@ import com.google.gson.JsonParseException;
 import {{invokerPackage}}.JSON;
 
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
-public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}}, {{{.}}}{{/vendorExtensions.x-implements}} {
+public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}} implements {{{.}}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-implements}} {
     private static final Logger log = Logger.getLogger({{classname}}.class.getName());
 
     public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
