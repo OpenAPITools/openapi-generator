@@ -8,9 +8,14 @@ void main() {
 
   group(HasOnlyReadOnly, () {
     // String bar
-    test('to test the property `bar`', () async {});
+    test('to test the property `bar`', () async {
+      
+    });
 
     // String foo
-    test('to test the property `foo`', () async {});
+    test('to test the property `foo`', () async {
+      
+    });
+
   });
 }

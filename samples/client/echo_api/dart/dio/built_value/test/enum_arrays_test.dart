@@ -8,9 +8,14 @@ void main() {
 
   group(EnumArrays, () {
     // String justSymbol
-    test('to test the property `justSymbol`', () async {});
+    test('to test the property `justSymbol`', () async {
+      
+    });
 
     // BuiltList<String> arrayEnum
-    test('to test the property `arrayEnum`', () async {});
+    test('to test the property `arrayEnum`', () async {
+      
+    });
+
   });
 }

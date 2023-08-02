@@ -13,7 +13,6 @@ import 'package:openapi/models.dart';
 import 'package:openapi/src/model/bar.dart';
 import 'package:openapi/src/model/bar_create.dart';
 
-part 'bar_api.g.dart';
 
 class BarApi {
 
@@ -46,7 +45,7 @@ class BarApi {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, barCreate, const TypeInfo(
+    _bodyData = await encodeBodyParameter(_repository, barCreate, const TypeInfo(
         
     
     BarCreate
@@ -70,7 +69,7 @@ class BarApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
         
     Bar
     

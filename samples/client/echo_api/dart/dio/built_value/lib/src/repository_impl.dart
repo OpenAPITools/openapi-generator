@@ -2,7 +2,7 @@
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
 
-
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 

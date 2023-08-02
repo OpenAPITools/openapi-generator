@@ -8,22 +8,35 @@ void main() {
 
   group(Pet, () {
     // int id
-    test('to test the property `id`', () async {});
+    test('to test the property `id`', () async {
+      
+    });
 
     // Category category
-    test('to test the property `category`', () async {});
+    test('to test the property `category`', () async {
+      
+    });
 
     // String name
-    test('to test the property `name`', () async {});
+    test('to test the property `name`', () async {
+      
+    });
 
     // BuiltSet<String> photoUrls
-    test('to test the property `photoUrls`', () async {});
+    test('to test the property `photoUrls`', () async {
+      
+    });
 
     // BuiltList<Tag> tags
-    test('to test the property `tags`', () async {});
+    test('to test the property `tags`', () async {
+      
+    });
 
     // pet status in the store
     // String status
-    test('to test the property `status`', () async {});
+    test('to test the property `status`', () async {
+      
+    });
+
   });
 }

@@ -12,7 +12,6 @@ import 'package:openapi/src/api_util.dart';
 import 'package:openapi/models.dart';
 import 'package:openapi/src/model/model_client.dart';
 
-part 'fake_classname_tags123_api.g.dart';
 
 class FakeClassnameTags123Api {
 
@@ -45,7 +44,7 @@ class FakeClassnameTags123Api {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, modelClient, const TypeInfo(
+    _bodyData = await encodeBodyParameter(_repository, modelClient, const TypeInfo(
         
     
     ModelClient
@@ -69,7 +68,7 @@ class FakeClassnameTags123Api {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
         
     ModelClient
     

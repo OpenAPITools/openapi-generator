@@ -8,28 +8,45 @@ void main() {
 
   group(User, () {
     // int id
-    test('to test the property `id`', () async {});
+    test('to test the property `id`', () async {
+      
+    });
 
     // String username
-    test('to test the property `username`', () async {});
+    test('to test the property `username`', () async {
+      
+    });
 
     // String firstName
-    test('to test the property `firstName`', () async {});
+    test('to test the property `firstName`', () async {
+      
+    });
 
     // String lastName
-    test('to test the property `lastName`', () async {});
+    test('to test the property `lastName`', () async {
+      
+    });
 
     // String email
-    test('to test the property `email`', () async {});
+    test('to test the property `email`', () async {
+      
+    });
 
     // String password
-    test('to test the property `password`', () async {});
+    test('to test the property `password`', () async {
+      
+    });
 
     // String phone
-    test('to test the property `phone`', () async {});
+    test('to test the property `phone`', () async {
+      
+    });
 
     // User Status
     // int userStatus
-    test('to test the property `userStatus`', () async {});
+    test('to test the property `userStatus`', () async {
+      
+    });
+
   });
 }

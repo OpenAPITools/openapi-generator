@@ -8,9 +8,14 @@ void main() {
 
   group(Model200Response, () {
     // int name
-    test('to test the property `name`', () async {});
+    test('to test the property `name`', () async {
+      
+    });
 
     // String classField
-    test('to test the property `classField`', () async {});
+    test('to test the property `classField`', () async {
+      
+    });
+
   });
 }

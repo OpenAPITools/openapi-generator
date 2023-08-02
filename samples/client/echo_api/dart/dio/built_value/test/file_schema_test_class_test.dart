@@ -8,9 +8,14 @@ void main() {
 
   group(FileSchemaTestClass, () {
     // ModelFile file
-    test('to test the property `file`', () async {});
+    test('to test the property `file`', () async {
+      
+    });
 
     // BuiltList<ModelFile> files
-    test('to test the property `files`', () async {});
+    test('to test the property `files`', () async {
+      
+    });
+
   });
 }

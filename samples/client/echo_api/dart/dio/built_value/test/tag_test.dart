@@ -8,9 +8,14 @@ void main() {
 
   group(Tag, () {
     // int id
-    test('to test the property `id`', () async {});
+    test('to test the property `id`', () async {
+      
+    });
 
     // String name
-    test('to test the property `name`', () async {});
+    test('to test the property `name`', () async {
+      
+    });
+
   });
 }

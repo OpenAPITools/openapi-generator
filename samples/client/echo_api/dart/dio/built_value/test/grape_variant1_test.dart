@@ -8,6 +8,9 @@ void main() {
 
   group(GrapeVariant1, () {
     // String color
-    test('to test the property `color`', () async {});
+    test('to test the property `color`', () async {
+      
+    });
+
   });
 }

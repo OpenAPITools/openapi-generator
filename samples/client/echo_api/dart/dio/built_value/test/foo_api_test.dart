@@ -1,6 +1,7 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
+
 /// tests for FooApi
 void main() {
   final instance = Openapi().getFooApi();
@@ -9,11 +10,16 @@ void main() {
     // Create a Foo
     //
     //Future<FooRefOrValue> createFoo({ Foo foo }) async
-    test('test createFoo', () async {});
+    test('test createFoo', () async {
+      
+    });
 
     // GET all Foos
     //
     //Future<BuiltList<FooRefOrValue>> getAllFoos() async
-    test('test getAllFoos', () async {});
+    test('test getAllFoos', () async {
+      
+    });
+
   });
 }

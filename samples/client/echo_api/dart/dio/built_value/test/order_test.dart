@@ -8,22 +8,35 @@ void main() {
 
   group(Order, () {
     // int id
-    test('to test the property `id`', () async {});
+    test('to test the property `id`', () async {
+      
+    });
 
     // int petId
-    test('to test the property `petId`', () async {});
+    test('to test the property `petId`', () async {
+      
+    });
 
     // int quantity
-    test('to test the property `quantity`', () async {});
+    test('to test the property `quantity`', () async {
+      
+    });
 
     // DateTime shipDate
-    test('to test the property `shipDate`', () async {});
+    test('to test the property `shipDate`', () async {
+      
+    });
 
     // Order Status
     // String status
-    test('to test the property `status`', () async {});
+    test('to test the property `status`', () async {
+      
+    });
 
     // bool complete (default value: false)
-    test('to test the property `complete`', () async {});
+    test('to test the property `complete`', () async {
+      
+    });
+
   });
 }

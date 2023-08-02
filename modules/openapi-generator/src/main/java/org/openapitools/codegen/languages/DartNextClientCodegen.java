@@ -740,8 +740,8 @@ public class DartNextClientCodegen extends DartNextAbstractCodegen {
     /// setLegacyDiscriminatorBehavior(false)
     /// this ensures 1-1 schema mapping instead of 1-many
     @Override
-    protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema, OpenAPI openAPI) {
-        CodegenDiscriminator sub = super.createDiscriminator(schemaName, schema, openAPI);
+    protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
+        CodegenDiscriminator sub = super.createDiscriminator(schemaName, schema);
         Discriminator originalDiscriminator = schema.getDiscriminator();
         if (originalDiscriminator != null) {
             Map<String, String> originalMapping = originalDiscriminator.getMapping();

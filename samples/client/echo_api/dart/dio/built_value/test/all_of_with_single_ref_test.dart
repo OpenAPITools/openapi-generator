@@ -8,9 +8,14 @@ void main() {
 
   group(AllOfWithSingleRef, () {
     // String username
-    test('to test the property `username`', () async {});
+    test('to test the property `username`', () async {
+      
+    });
 
     // SingleRefType singleRefType
-    test('to test the property `singleRefType`', () async {});
+    test('to test the property `singleRefType`', () async {
+      
+    });
+
   });
 }

@@ -8,6 +8,9 @@ void main() {
 
   group(OneOfPrimitiveChild, () {
     // String name
-    test('to test the property `name`', () async {});
+    test('to test the property `name`', () async {
+      
+    });
+
   });
 }

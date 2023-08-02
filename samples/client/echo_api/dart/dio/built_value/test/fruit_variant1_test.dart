@@ -8,9 +8,14 @@ void main() {
 
   group(FruitVariant1, () {
     // String color
-    test('to test the property `color`', () async {});
+    test('to test the property `color`', () async {
+      
+    });
 
     // String kind
-    test('to test the property `kind`', () async {});
+    test('to test the property `kind`', () async {
+      
+    });
+
   });
 }

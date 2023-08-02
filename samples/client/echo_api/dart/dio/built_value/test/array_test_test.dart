@@ -8,12 +8,19 @@ void main() {
 
   group(ArrayTest, () {
     // BuiltList<String> arrayOfString
-    test('to test the property `arrayOfString`', () async {});
+    test('to test the property `arrayOfString`', () async {
+      
+    });
 
     // BuiltList<BuiltList<int>> arrayArrayOfInteger
-    test('to test the property `arrayArrayOfInteger`', () async {});
+    test('to test the property `arrayArrayOfInteger`', () async {
+      
+    });
 
     // BuiltList<BuiltList<ReadOnlyFirst>> arrayArrayOfModel
-    test('to test the property `arrayArrayOfModel`', () async {});
+    test('to test the property `arrayArrayOfModel`', () async {
+      
+    });
+
   });
 }

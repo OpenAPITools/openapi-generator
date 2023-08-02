@@ -9,6 +9,9 @@ void main() {
   group(ModelFile, () {
     // Test capitalization
     // String sourceURI
-    test('to test the property `sourceURI`', () async {});
+    test('to test the property `sourceURI`', () async {
+      
+    });
+
   });
 }

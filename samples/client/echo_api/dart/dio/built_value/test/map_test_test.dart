@@ -8,15 +8,24 @@ void main() {
 
   group(MapTest, () {
     // BuiltMap<String, BuiltMap<String, String>> mapMapOfString
-    test('to test the property `mapMapOfString`', () async {});
+    test('to test the property `mapMapOfString`', () async {
+      
+    });
 
     // BuiltMap<String, String> mapOfEnumString
-    test('to test the property `mapOfEnumString`', () async {});
+    test('to test the property `mapOfEnumString`', () async {
+      
+    });
 
     // BuiltMap<String, bool> directMap
-    test('to test the property `directMap`', () async {});
+    test('to test the property `directMap`', () async {
+      
+    });
 
     // BuiltMap<String, bool> indirectMap
-    test('to test the property `indirectMap`', () async {});
+    test('to test the property `indirectMap`', () async {
+      
+    });
+
   });
 }

@@ -1,6 +1,7 @@
 import 'package:test/test.dart';
 import 'package:openapi/openapi.dart';
 
+
 /// tests for StoreApi
 void main() {
   final instance = Openapi().getStoreApi();
@@ -11,27 +12,36 @@ void main() {
     // For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
     //
     //Future deleteOrder(String orderId) async
-    test('test deleteOrder', () async {});
+    test('test deleteOrder', () async {
+      
+    });
 
     // Returns pet inventories by status
     //
     // Returns a map of status codes to quantities
     //
     //Future<BuiltMap<String, int>> getInventory() async
-    test('test getInventory', () async {});
+    test('test getInventory', () async {
+      
+    });
 
     // Find purchase order by ID
     //
     // For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
     //
     //Future<Order> getOrderById(int orderId) async
-    test('test getOrderById', () async {});
+    test('test getOrderById', () async {
+      
+    });
 
     // Place an order for a pet
     //
-    //
+    // 
     //
     //Future<Order> placeOrder(Order order) async
-    test('test placeOrder', () async {});
+    test('test placeOrder', () async {
+      
+    });
+
   });
 }

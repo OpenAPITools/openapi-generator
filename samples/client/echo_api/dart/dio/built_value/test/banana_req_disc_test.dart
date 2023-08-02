@@ -8,9 +8,14 @@ void main() {
 
   group(BananaReqDisc, () {
     // int length
-    test('to test the property `length`', () async {});
+    test('to test the property `length`', () async {
+      
+    });
 
     // String fruitType
-    test('to test the property `fruitType`', () async {});
+    test('to test the property `fruitType`', () async {
+      
+    });
+
   });
 }

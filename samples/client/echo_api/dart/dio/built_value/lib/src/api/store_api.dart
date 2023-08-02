@@ -13,7 +13,6 @@ import 'package:openapi/models.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:openapi/src/model/order.dart';
 
-part 'store_api.g.dart';
 
 class StoreApi {
 
@@ -48,7 +47,7 @@ class StoreApi {
 
     final _response = await rawApi.deleteOrder(
       
-      orderId: encodeStringParameter(_repository, orderId, const TypeInfo(
+      orderId: await encodeStringParameter(_repository, orderId, const TypeInfo(
         
     
     String
@@ -104,7 +103,7 @@ class StoreApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
     BuiltMap, [
         TypeInfo(String), 
         const TypeInfo(
@@ -165,7 +164,7 @@ class StoreApi {
 
     final _response = await rawApi.getOrderById(
       
-      orderId: encodeStringParameter(_repository, orderId, const TypeInfo(
+      orderId: await encodeStringParameter(_repository, orderId, const TypeInfo(
         
     
     int
@@ -185,7 +184,7 @@ class StoreApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
         
     Order
     
@@ -238,7 +237,7 @@ class StoreApi {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, order, const TypeInfo(
+    _bodyData = await encodeBodyParameter(_repository, order, const TypeInfo(
         
     
     Order
@@ -262,7 +261,7 @@ class StoreApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
         
     Order
     

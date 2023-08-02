@@ -8,12 +8,19 @@ void main() {
 
   group(OuterComposite, () {
     // num myNumber
-    test('to test the property `myNumber`', () async {});
+    test('to test the property `myNumber`', () async {
+      
+    });
 
     // String myString
-    test('to test the property `myString`', () async {});
+    test('to test the property `myString`', () async {
+      
+    });
 
     // bool myBoolean
-    test('to test the property `myBoolean`', () async {});
+    test('to test the property `myBoolean`', () async {
+      
+    });
+
   });
 }

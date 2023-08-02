@@ -68,7 +68,7 @@ class FakeApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
         
     HealthCheckResult
     
@@ -125,7 +125,7 @@ class FakeApi {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, pet, const TypeInfo(
+    _bodyData = await encodeBodyParameter(_repository, pet, const TypeInfo(
         
     
     Pet
@@ -135,14 +135,14 @@ class FakeApi {
 
     final _response = await rawApi.fakeHttpSignatureTest(
             
-      query1: encodeQueryParameter(_repository, query1, const TypeInfo(
+      query1: await encodeQueryParameter(_repository, query1, const TypeInfo(
         
     
     String
     )
 
 , ),
-      header1: encodeStringParameter(_repository, header1, const TypeInfo(
+      header1: await encodeStringParameter(_repository, header1, const TypeInfo(
         
     
     String
@@ -186,7 +186,7 @@ class FakeApi {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, body, const TypeInfo(
+    _bodyData = await encodeBodyParameter(_repository, body, const TypeInfo(
         
     
     bool
@@ -210,7 +210,7 @@ class FakeApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
         
     bool
     
@@ -263,7 +263,7 @@ class FakeApi {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, outerComposite, const TypeInfo(
+    _bodyData = await encodeBodyParameter(_repository, outerComposite, const TypeInfo(
         
     
     OuterComposite
@@ -287,7 +287,7 @@ class FakeApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
         
     OuterComposite
     
@@ -340,7 +340,7 @@ class FakeApi {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, body, const TypeInfo(
+    _bodyData = await encodeBodyParameter(_repository, body, const TypeInfo(
         
     
     num
@@ -364,7 +364,7 @@ class FakeApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
         
     num
     
@@ -417,7 +417,7 @@ class FakeApi {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, body, const TypeInfo(
+    _bodyData = await encodeBodyParameter(_repository, body, const TypeInfo(
         
     
     String
@@ -441,7 +441,7 @@ class FakeApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
         
     String
     
@@ -494,7 +494,7 @@ class FakeApi {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, outerObjectWithEnumProperty, const TypeInfo(
+    _bodyData = await encodeBodyParameter(_repository, outerObjectWithEnumProperty, const TypeInfo(
         
     
     OuterObjectWithEnumProperty
@@ -518,7 +518,7 @@ class FakeApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
         
     OuterObjectWithEnumProperty
     
@@ -571,7 +571,7 @@ class FakeApi {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, body, const TypeInfo.nullable(
+    _bodyData = await encodeBodyParameter(_repository, body, const TypeInfo.nullable(
         
     
     MultipartFile
@@ -618,7 +618,7 @@ class FakeApi {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, fileSchemaTestClass, const TypeInfo(
+    _bodyData = await encodeBodyParameter(_repository, fileSchemaTestClass, const TypeInfo(
         
     
     FileSchemaTestClass
@@ -667,7 +667,7 @@ class FakeApi {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, user, const TypeInfo(
+    _bodyData = await encodeBodyParameter(_repository, user, const TypeInfo(
         
     
     User
@@ -677,7 +677,7 @@ class FakeApi {
 
     final _response = await rawApi.testBodyWithQueryParams(
             
-      query: encodeQueryParameter(_repository, query, const TypeInfo(
+      query: await encodeQueryParameter(_repository, query, const TypeInfo(
         
     
     String
@@ -721,7 +721,7 @@ class FakeApi {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, modelClient, const TypeInfo(
+    _bodyData = await encodeBodyParameter(_repository, modelClient, const TypeInfo(
         
     
     ModelClient
@@ -745,7 +745,7 @@ class FakeApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
         
     ModelClient
     
@@ -825,98 +825,98 @@ class FakeApi {
   }) async {    
     Object? _bodyData;
     final _bodyMap = <String, dynamic>{
-      if (integer != null) r'integer': encodeFormParameter(_repository, integer, const TypeInfo(
+      if (integer != null) r'integer': await encodeFormParameter(_repository, integer, const TypeInfo(
         
     
     int
     )
 
 ),
-      if (int32 != null) r'int32': encodeFormParameter(_repository, int32, const TypeInfo(
+      if (int32 != null) r'int32': await encodeFormParameter(_repository, int32, const TypeInfo(
         
     
     int
     )
 
 ),
-      if (int64 != null) r'int64': encodeFormParameter(_repository, int64, const TypeInfo(
+      if (int64 != null) r'int64': await encodeFormParameter(_repository, int64, const TypeInfo(
         
     
     int
     )
 
 ),
-      r'number': encodeFormParameter(_repository, number, const TypeInfo(
+      r'number': await encodeFormParameter(_repository, number, const TypeInfo(
         
     
     num
     )
 
 ),
-      if (float != null) r'float': encodeFormParameter(_repository, float, const TypeInfo(
+      if (float != null) r'float': await encodeFormParameter(_repository, float, const TypeInfo(
         
     
     double
     )
 
 ),
-      r'double': encodeFormParameter(_repository, double_, const TypeInfo(
+      r'double': await encodeFormParameter(_repository, double_, const TypeInfo(
         
     
     double
     )
 
 ),
-      if (string != null) r'string': encodeFormParameter(_repository, string, const TypeInfo(
+      if (string != null) r'string': await encodeFormParameter(_repository, string, const TypeInfo(
         
     
     String
     )
 
 ),
-      r'pattern_without_delimiter': encodeFormParameter(_repository, patternWithoutDelimiter, const TypeInfo(
+      r'pattern_without_delimiter': await encodeFormParameter(_repository, patternWithoutDelimiter, const TypeInfo(
         
     
     String
     )
 
 ),
-      r'byte': encodeFormParameter(_repository, byte, const TypeInfo(
+      r'byte': await encodeFormParameter(_repository, byte, const TypeInfo(
         
     
     String
     )
 
 ),
-      if (binary != null) r'binary': encodeFormParameter(_repository, binary, const TypeInfo(
+      if (binary != null) r'binary': await encodeFormParameter(_repository, binary, const TypeInfo(
         
     
     Uint8List
     )
 
 ),
-      if (date != null) r'date': encodeFormParameter(_repository, date, const TypeInfo(
+      if (date != null) r'date': await encodeFormParameter(_repository, date, const TypeInfo(
         
     
     Date
     )
 
 ),
-      if (dateTime != null) r'dateTime': encodeFormParameter(_repository, dateTime, const TypeInfo(
+      if (dateTime != null) r'dateTime': await encodeFormParameter(_repository, dateTime, const TypeInfo(
         
     
     DateTime
     )
 
 ),
-      if (password != null) r'password': encodeFormParameter(_repository, password, const TypeInfo(
+      if (password != null) r'password': await encodeFormParameter(_repository, password, const TypeInfo(
         
     
     String
     )
 
 ),
-      if (callback != null) r'callback': encodeFormParameter(_repository, callback, const TypeInfo(
+      if (callback != null) r'callback': await encodeFormParameter(_repository, callback, const TypeInfo(
         
     
     String
@@ -982,7 +982,7 @@ class FakeApi {
   }) async {    
     Object? _bodyData;
     final _bodyMap = <String, dynamic>{
-      if (enumFormStringArray != null) r'enum_form_string_array': encodeFormParameter(_repository, enumFormStringArray, const TypeInfo(
+      if (enumFormStringArray != null) r'enum_form_string_array': await encodeFormParameter(_repository, enumFormStringArray, const TypeInfo(
     BuiltList, [
         
         const TypeInfo(
@@ -995,7 +995,7 @@ class FakeApi {
     ])
 
 ),
-      if (enumFormString != null) r'enum_form_string': encodeFormParameter(_repository, enumFormString, const TypeInfo(
+      if (enumFormString != null) r'enum_form_string': await encodeFormParameter(_repository, enumFormString, const TypeInfo(
         
     EnumFormStringEnum
     
@@ -1007,7 +1007,7 @@ class FakeApi {
 
     final _response = await rawApi.testEnumParameters(
       
-      enumHeaderStringArray: encodeStringParameter(_repository, enumHeaderStringArray, const TypeInfo(
+      enumHeaderStringArray: await encodeStringParameter(_repository, enumHeaderStringArray, const TypeInfo(
     BuiltList, [
         
         const TypeInfo(
@@ -1020,14 +1020,14 @@ class FakeApi {
     ])
 
 ), 
-      enumHeaderString: encodeStringParameter(_repository, enumHeaderString, const TypeInfo(
+      enumHeaderString: await encodeStringParameter(_repository, enumHeaderString, const TypeInfo(
         
     EnumHeaderStringEnum
     
     )
 
 ),       
-      enumQueryStringArray: encodeQueryParameter(_repository, enumQueryStringArray, const TypeInfo(
+      enumQueryStringArray: await encodeQueryParameter(_repository, enumQueryStringArray, const TypeInfo(
     BuiltList, [
         
         const TypeInfo(
@@ -1040,28 +1040,28 @@ class FakeApi {
     ])
 
 , format: ListFormat.multi,),      
-      enumQueryString: encodeQueryParameter(_repository, enumQueryString, const TypeInfo(
+      enumQueryString: await encodeQueryParameter(_repository, enumQueryString, const TypeInfo(
         
     EnumQueryStringEnum
     
     )
 
 , ),      
-      enumQueryInteger: encodeQueryParameter(_repository, enumQueryInteger, const TypeInfo(
+      enumQueryInteger: await encodeQueryParameter(_repository, enumQueryInteger, const TypeInfo(
         
     EnumQueryIntegerEnum
     
     )
 
 , ),      
-      enumQueryDouble: encodeQueryParameter(_repository, enumQueryDouble, const TypeInfo(
+      enumQueryDouble: await encodeQueryParameter(_repository, enumQueryDouble, const TypeInfo(
         
     EnumQueryDoubleEnum
     
     )
 
 , ),      
-      enumQueryModelArray: encodeQueryParameter(_repository, enumQueryModelArray, const TypeInfo(
+      enumQueryModelArray: await encodeQueryParameter(_repository, enumQueryModelArray, const TypeInfo(
     BuiltList, [
         
         const TypeInfo(
@@ -1123,42 +1123,42 @@ class FakeApi {
 
     final _response = await rawApi.testGroupParameters(
             
-      requiredStringGroup: encodeQueryParameter(_repository, requiredStringGroup, const TypeInfo(
+      requiredStringGroup: await encodeQueryParameter(_repository, requiredStringGroup, const TypeInfo(
         
     
     int
     )
 
 , ),
-      requiredBooleanGroup: encodeStringParameter(_repository, requiredBooleanGroup, const TypeInfo(
+      requiredBooleanGroup: await encodeStringParameter(_repository, requiredBooleanGroup, const TypeInfo(
         
     
     bool
     )
 
 ),       
-      requiredInt64Group: encodeQueryParameter(_repository, requiredInt64Group, const TypeInfo(
+      requiredInt64Group: await encodeQueryParameter(_repository, requiredInt64Group, const TypeInfo(
         
     
     int
     )
 
 , ),      
-      stringGroup: encodeQueryParameter(_repository, stringGroup, const TypeInfo(
+      stringGroup: await encodeQueryParameter(_repository, stringGroup, const TypeInfo(
         
     
     int
     )
 
 , ),
-      booleanGroup: encodeStringParameter(_repository, booleanGroup, const TypeInfo(
+      booleanGroup: await encodeStringParameter(_repository, booleanGroup, const TypeInfo(
         
     
     bool
     )
 
 ),       
-      int64Group: encodeQueryParameter(_repository, int64Group, const TypeInfo(
+      int64Group: await encodeQueryParameter(_repository, int64Group, const TypeInfo(
         
     
     int
@@ -1201,7 +1201,7 @@ class FakeApi {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, requestBody, const TypeInfo(
+    _bodyData = await encodeBodyParameter(_repository, requestBody, const TypeInfo(
     BuiltMap, [
         TypeInfo(String), 
         const TypeInfo(
@@ -1257,14 +1257,14 @@ class FakeApi {
   }) async {    
     Object? _bodyData;
     final _bodyMap = <String, dynamic>{
-      r'param': encodeFormParameter(_repository, param, const TypeInfo(
+      r'param': await encodeFormParameter(_repository, param, const TypeInfo(
         
     
     String
     )
 
 ),
-      r'param2': encodeFormParameter(_repository, param2, const TypeInfo(
+      r'param2': await encodeFormParameter(_repository, param2, const TypeInfo(
         
     
     String
@@ -1327,7 +1327,7 @@ class FakeApi {
 
     final _response = await rawApi.testQueryParameterCollectionFormat(
             
-      pipe: encodeQueryParameter(_repository, pipe, const TypeInfo(
+      pipe: await encodeQueryParameter(_repository, pipe, const TypeInfo(
     BuiltList, [
         
         const TypeInfo(
@@ -1340,7 +1340,7 @@ class FakeApi {
     ])
 
 , format: ListFormat.pipes,),      
-      ioutil: encodeQueryParameter(_repository, ioutil, const TypeInfo(
+      ioutil: await encodeQueryParameter(_repository, ioutil, const TypeInfo(
     BuiltList, [
         
         const TypeInfo(
@@ -1353,7 +1353,7 @@ class FakeApi {
     ])
 
 , format: ListFormat.csv,),      
-      http: encodeQueryParameter(_repository, http, const TypeInfo(
+      http: await encodeQueryParameter(_repository, http, const TypeInfo(
     BuiltList, [
         
         const TypeInfo(
@@ -1366,7 +1366,7 @@ class FakeApi {
     ])
 
 , format: ListFormat.ssv,),      
-      url: encodeQueryParameter(_repository, url, const TypeInfo(
+      url: await encodeQueryParameter(_repository, url, const TypeInfo(
     BuiltList, [
         
         const TypeInfo(
@@ -1379,7 +1379,7 @@ class FakeApi {
     ])
 
 , format: ListFormat.csv,),      
-      context: encodeQueryParameter(_repository, context, const TypeInfo(
+      context: await encodeQueryParameter(_repository, context, const TypeInfo(
     BuiltList, [
         
         const TypeInfo(
@@ -1392,14 +1392,14 @@ class FakeApi {
     ])
 
 , format: ListFormat.multi,),      
-      allowEmpty: encodeQueryParameter(_repository, allowEmpty, const TypeInfo(
+      allowEmpty: await encodeQueryParameter(_repository, allowEmpty, const TypeInfo(
         
     
     String
     )
 
 , ),      
-      language: encodeQueryParameter(_repository, language, const TypeInfo(
+      language: await encodeQueryParameter(_repository, language, const TypeInfo(
     BuiltMap, [
         TypeInfo(String), 
         const TypeInfo(

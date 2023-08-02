@@ -8,15 +8,24 @@ void main() {
 
   group(Name, () {
     // int name
-    test('to test the property `name`', () async {});
+    test('to test the property `name`', () async {
+      
+    });
 
     // int snakeCase
-    test('to test the property `snakeCase`', () async {});
+    test('to test the property `snakeCase`', () async {
+      
+    });
 
     // String property
-    test('to test the property `property`', () async {});
+    test('to test the property `property`', () async {
+      
+    });
 
     // int n123number
-    test('to test the property `n123number`', () async {});
+    test('to test the property `n123number`', () async {
+      
+    });
+
   });
 }

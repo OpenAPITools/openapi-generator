@@ -8,12 +8,19 @@ void main() {
 
   group(MixedPropertiesAndAdditionalPropertiesClass, () {
     // String uuid
-    test('to test the property `uuid`', () async {});
+    test('to test the property `uuid`', () async {
+      
+    });
 
     // DateTime dateTime
-    test('to test the property `dateTime`', () async {});
+    test('to test the property `dateTime`', () async {
+      
+    });
 
     // BuiltMap<String, Animal> map
-    test('to test the property `map`', () async {});
+    test('to test the property `map`', () async {
+      
+    });
+
   });
 }

@@ -8,6 +8,9 @@ void main() {
 
   group(ModelClient, () {
     // String client
-    test('to test the property `client`', () async {});
+    test('to test the property `client`', () async {
+      
+    });
+
   });
 }

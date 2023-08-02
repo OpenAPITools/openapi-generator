@@ -8,6 +8,9 @@ void main() {
 
   group(FruitAllOfDisc, () {
     // String fruitType
-    test('to test the property `fruitType`', () async {});
+    test('to test the property `fruitType`', () async {
+      
+    });
+
   });
 }

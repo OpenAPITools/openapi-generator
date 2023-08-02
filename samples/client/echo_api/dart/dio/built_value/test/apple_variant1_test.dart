@@ -8,6 +8,9 @@ void main() {
 
   group(AppleVariant1, () {
     // String kind
-    test('to test the property `kind`', () async {});
+    test('to test the property `kind`', () async {
+      
+    });
+
   });
 }

@@ -8,12 +8,19 @@ void main() {
 
   group(Dog, () {
     // String className
-    test('to test the property `className`', () async {});
+    test('to test the property `className`', () async {
+      
+    });
 
     // String color (default value: 'red')
-    test('to test the property `color`', () async {});
+    test('to test the property `color`', () async {
+      
+    });
 
     // String breed
-    test('to test the property `breed`', () async {});
+    test('to test the property `breed`', () async {
+      
+    });
+
   });
 }

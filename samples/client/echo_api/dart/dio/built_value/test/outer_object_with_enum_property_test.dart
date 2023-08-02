@@ -8,6 +8,9 @@ void main() {
 
   group(OuterObjectWithEnumProperty, () {
     // OuterEnumInteger value
-    test('to test the property `value`', () async {});
+    test('to test the property `value`', () async {
+      
+    });
+
   });
 }

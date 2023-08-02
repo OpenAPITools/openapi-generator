@@ -10,10 +10,10 @@ import 'package:built_value/serializer.dart';
 import 'package:openapi/src/repository_base.dart';
 import 'package:openapi/src/api_util.dart';
 import 'package:openapi/models.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:openapi/src/model/foo.dart';
 import 'package:openapi/src/model/foo_ref_or_value.dart';
 
-part 'foo_api.g.dart';
 
 class FooApi {
 
@@ -46,7 +46,7 @@ class FooApi {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, foo, const TypeInfo(
+    _bodyData = await encodeBodyParameter(_repository, foo, const TypeInfo(
         
     
     Foo
@@ -70,7 +70,7 @@ class FooApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
         
     FooRefOrValue
     
@@ -136,7 +136,7 @@ class FooApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
     BuiltList, [
         
         const TypeInfo(

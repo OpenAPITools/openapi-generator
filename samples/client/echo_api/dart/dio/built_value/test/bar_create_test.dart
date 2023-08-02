@@ -8,32 +8,49 @@ void main() {
 
   group(BarCreate, () {
     // String barPropA
-    test('to test the property `barPropA`', () async {});
+    test('to test the property `barPropA`', () async {
+      
+    });
 
     // String fooPropB
-    test('to test the property `fooPropB`', () async {});
+    test('to test the property `fooPropB`', () async {
+      
+    });
 
     // FooRefOrValue foo
-    test('to test the property `foo`', () async {});
+    test('to test the property `foo`', () async {
+      
+    });
 
     // Hyperlink reference
     // String href
-    test('to test the property `href`', () async {});
+    test('to test the property `href`', () async {
+      
+    });
 
     // unique identifier
     // String id
-    test('to test the property `id`', () async {});
+    test('to test the property `id`', () async {
+      
+    });
 
     // A URI to a JSON-Schema file that defines additional attributes and relationships
     // String atSchemaLocation
-    test('to test the property `atSchemaLocation`', () async {});
+    test('to test the property `atSchemaLocation`', () async {
+      
+    });
 
     // When sub-classing, this defines the super-class
     // String atBaseType
-    test('to test the property `atBaseType`', () async {});
+    test('to test the property `atBaseType`', () async {
+      
+    });
 
     // When sub-classing, this defines the sub-class Extensible name
     // String atType
-    test('to test the property `atType`', () async {});
+    test('to test the property `atType`', () async {
+      
+    });
+
   });
 }

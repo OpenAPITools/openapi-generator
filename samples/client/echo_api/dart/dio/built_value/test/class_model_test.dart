@@ -8,6 +8,9 @@ void main() {
 
   group(ClassModel, () {
     // String classField
-    test('to test the property `classField`', () async {});
+    test('to test the property `classField`', () async {
+      
+    });
+
   });
 }

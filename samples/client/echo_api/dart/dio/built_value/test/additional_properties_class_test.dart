@@ -8,9 +8,14 @@ void main() {
 
   group(AdditionalPropertiesClass, () {
     // BuiltMap<String, String> mapProperty
-    test('to test the property `mapProperty`', () async {});
+    test('to test the property `mapProperty`', () async {
+      
+    });
 
     // BuiltMap<String, BuiltMap<String, String>> mapOfMapProperty
-    test('to test the property `mapOfMapProperty`', () async {});
+    test('to test the property `mapOfMapProperty`', () async {
+      
+    });
+
   });
 }

@@ -8,9 +8,14 @@ void main() {
 
   group(Animal, () {
     // String className
-    test('to test the property `className`', () async {});
+    test('to test the property `className`', () async {
+      
+    });
 
     // String color (default value: 'red')
-    test('to test the property `color`', () async {});
+    test('to test the property `color`', () async {
+      
+    });
+
   });
 }

@@ -47,7 +47,7 @@ class PetApi {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, pet, const TypeInfo(
+    _bodyData = await encodeBodyParameter(_repository, pet, const TypeInfo(
         
     
     Pet
@@ -98,14 +98,14 @@ class PetApi {
 
     final _response = await rawApi.deletePet(
       
-      petId: encodeStringParameter(_repository, petId, const TypeInfo(
+      petId: await encodeStringParameter(_repository, petId, const TypeInfo(
         
     
     int
     )
 
 ),
-      apiKey: encodeStringParameter(_repository, apiKey, const TypeInfo(
+      apiKey: await encodeStringParameter(_repository, apiKey, const TypeInfo(
         
     
     String
@@ -150,7 +150,7 @@ class PetApi {
 
     final _response = await rawApi.findPetsByStatus(
             
-      status: encodeQueryParameter(_repository, status, const TypeInfo(
+      status: await encodeQueryParameter(_repository, status, const TypeInfo(
     BuiltList, [
         
         const TypeInfo(
@@ -176,7 +176,7 @@ class PetApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
     BuiltList, [
         
         const TypeInfo(
@@ -238,7 +238,7 @@ class PetApi {
 
     final _response = await rawApi.findPetsByTags(
             
-      tags: encodeQueryParameter(_repository, tags, const TypeInfo(
+      tags: await encodeQueryParameter(_repository, tags, const TypeInfo(
     BuiltSet, [
         
         const TypeInfo(
@@ -264,7 +264,7 @@ class PetApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
     BuiltSet, [
         
         const TypeInfo(
@@ -325,7 +325,7 @@ class PetApi {
 
     final _response = await rawApi.getPetById(
       
-      petId: encodeStringParameter(_repository, petId, const TypeInfo(
+      petId: await encodeStringParameter(_repository, petId, const TypeInfo(
         
     
     int
@@ -345,7 +345,7 @@ class PetApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
         
     Pet
     
@@ -398,7 +398,7 @@ class PetApi {
     ProgressCallback? onReceiveProgress,
   }) async {    
     Object? _bodyData;
-    _bodyData = encodeBodyParameter(_repository, pet, const TypeInfo(
+    _bodyData = await encodeBodyParameter(_repository, pet, const TypeInfo(
         
     
     Pet
@@ -450,14 +450,14 @@ class PetApi {
   }) async {    
     Object? _bodyData;
     final _bodyMap = <String, dynamic>{
-      if (name != null) r'name': encodeFormParameter(_repository, name, const TypeInfo(
+      if (name != null) r'name': await encodeFormParameter(_repository, name, const TypeInfo(
         
     
     String
     )
 
 ),
-      if (status != null) r'status': encodeFormParameter(_repository, status, const TypeInfo(
+      if (status != null) r'status': await encodeFormParameter(_repository, status, const TypeInfo(
         
     
     String
@@ -469,7 +469,7 @@ class PetApi {
 
     final _response = await rawApi.updatePetWithForm(
       
-      petId: encodeStringParameter(_repository, petId, const TypeInfo(
+      petId: await encodeStringParameter(_repository, petId, const TypeInfo(
         
     
     int
@@ -518,14 +518,14 @@ class PetApi {
   }) async {    
     Object? _bodyData;
     final _bodyMap = <String, dynamic>{
-      if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_repository, additionalMetadata, const TypeInfo(
+      if (additionalMetadata != null) r'additionalMetadata': await encodeFormParameter(_repository, additionalMetadata, const TypeInfo(
         
     
     String
     )
 
 ),
-      if (file != null) r'file': encodeFormParameter(_repository, file, const TypeInfo(
+      if (file != null) r'file': await encodeFormParameter(_repository, file, const TypeInfo(
         
     
     MultipartFile
@@ -537,7 +537,7 @@ class PetApi {
 
     final _response = await rawApi.uploadFile(
       
-      petId: encodeStringParameter(_repository, petId, const TypeInfo(
+      petId: await encodeStringParameter(_repository, petId, const TypeInfo(
         
     
     int
@@ -558,7 +558,7 @@ class PetApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
         
     ApiResponse
     
@@ -616,14 +616,14 @@ class PetApi {
   }) async {    
     Object? _bodyData;
     final _bodyMap = <String, dynamic>{
-      if (additionalMetadata != null) r'additionalMetadata': encodeFormParameter(_repository, additionalMetadata, const TypeInfo(
+      if (additionalMetadata != null) r'additionalMetadata': await encodeFormParameter(_repository, additionalMetadata, const TypeInfo(
         
     
     String
     )
 
 ),
-      r'requiredFile': encodeFormParameter(_repository, requiredFile, const TypeInfo(
+      r'requiredFile': await encodeFormParameter(_repository, requiredFile, const TypeInfo(
         
     
     MultipartFile
@@ -635,7 +635,7 @@ class PetApi {
 
     final _response = await rawApi.uploadFileWithRequiredFile(
       
-      petId: encodeStringParameter(_repository, petId, const TypeInfo(
+      petId: await encodeStringParameter(_repository, petId, const TypeInfo(
         
     
     int
@@ -656,7 +656,7 @@ class PetApi {
 
     try {
       final rawResponse = _response.data;
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, const TypeInfo(
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, const TypeInfo(
         
     ApiResponse
     

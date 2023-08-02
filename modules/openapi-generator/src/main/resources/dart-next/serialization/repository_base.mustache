@@ -1,3 +1,5 @@
+import 'dart:async';
+
 /// The general rule for implementing this class is
 /// json == serialize<T>(deserialize<T>(json))
 /// object == deserialize<T>(serialize<T>(object))
@@ -6,8 +8,8 @@
 abstract class SerializationRepositoryBase {
     const SerializationRepositoryBase();
     
-    FutureOr<Object?> serialize<T>(T src, TypeInfo inputTypeInfo, {Object? context,});
-    FutureOr<T> deserialize<T>(Object? value, TypeInfo targetTypeInfo, {Object? context,});
+    FutureOr<Object?> serialize<T extends Object?>(T src, TypeInfo inputTypeInfo, {Object? context,});
+    FutureOr<T> deserialize<T extends Object?>(Object? value, TypeInfo targetTypeInfo, {Object? context,});
 }
 
 /// A modified version of `built_value`'s `FullType` class, found here

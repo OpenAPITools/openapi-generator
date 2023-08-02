@@ -43,7 +43,7 @@ class {{classname}} {
     {{#hasFormParams}}
     final _bodyMap = <String, dynamic>{
       {{#formParams}}
-      {{^required}}if ({{{paramName}}} != null) {{/required}}r'{{{baseName}}}': encodeFormParameter(_repository, {{{paramName}}}, {{>types/recursion_type_info}}),
+      {{^required}}if ({{{paramName}}} != null) {{/required}}r'{{{baseName}}}': await encodeFormParameter(_repository, {{{paramName}}}, {{>types/recursion_type_info}}),
       {{/formParams}}
     };
     {{#isMultipart}}
@@ -54,15 +54,15 @@ class {{classname}} {
     {{/isMultipart}}
     {{/hasFormParams}}
     {{#bodyParam}}
-    _bodyData = encodeBodyParameter(_repository, {{{paramName}}}, {{>types/recursion_type_info}});    
+    _bodyData = await encodeBodyParameter(_repository, {{{paramName}}}, {{>types/recursion_type_info}});    
     {{/bodyParam}}
     {{/hasBodyOrFormParams}}
 
     final _response = await rawApi.{{nickname}}(
       {{#allParams}}{{#isPathParam}}
-      {{paramName}}: encodeStringParameter(_repository, {{paramName}}, {{>types/recursion_type_info}}),{{/isPathParam}}{{#isQueryParam}}      
-      {{paramName}}: encodeQueryParameter(_repository, {{paramName}}, {{>types/recursion_type_info}}, {{#collectionFormat}}format: ListFormat.{{.}},{{/collectionFormat}}),{{/isQueryParam}}{{#isHeaderParam}}
-      {{paramName}}: encodeStringParameter(_repository, {{paramName}}, {{>types/recursion_type_info}}), {{/isHeaderParam}}{{/allParams}}
+      {{paramName}}: await encodeStringParameter(_repository, {{paramName}}, {{>types/recursion_type_info}}),{{/isPathParam}}{{#isQueryParam}}      
+      {{paramName}}: await encodeQueryParameter(_repository, {{paramName}}, {{>types/recursion_type_info}}, {{#collectionFormat}}format: ListFormat.{{.}},{{/collectionFormat}}),{{/isQueryParam}}{{#isHeaderParam}}
+      {{paramName}}: await encodeStringParameter(_repository, {{paramName}}, {{>types/recursion_type_info}}), {{/isHeaderParam}}{{/allParams}}
       {{#hasConsumes}}
       body: _bodyData,
       requestContentType: '{{#prioritizedContentTypes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/prioritizedContentTypes}}',{{/hasConsumes}}
@@ -83,7 +83,7 @@ class {{classname}} {
     try {
       final rawResponse = _response.data;
       {{#returnProperty}}
-       _responseData = rawResponse == null ? null : decodeResponse(_repository, rawResponse, {{>types/recursion_type_info}});     
+       _responseData = rawResponse == null ? null : await decodeResponse(_repository, rawResponse, {{>types/recursion_type_info}});     
       {{/returnProperty}}
     } catch (error, stackTrace) {
       throw DioException(

@@ -8,6 +8,9 @@ void main() {
 
   group(HealthCheckResult, () {
     // String nullableMessage
-    test('to test the property `nullableMessage`', () async {});
+    test('to test the property `nullableMessage`', () async {
+      
+    });
+
   });
 }

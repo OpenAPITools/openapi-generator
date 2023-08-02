@@ -8,9 +8,14 @@ void main() {
 
   group(AppleReqDisc, () {
     // int seeds
-    test('to test the property `seeds`', () async {});
+    test('to test the property `seeds`', () async {
+      
+    });
 
     // String fruitType
-    test('to test the property `fruitType`', () async {});
+    test('to test the property `fruitType`', () async {
+      
+    });
+
   });
 }

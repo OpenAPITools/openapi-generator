@@ -8,6 +8,9 @@ void main() {
 
   group(FooBasicGetDefaultResponse, () {
     // Foo string
-    test('to test the property `string`', () async {});
+    test('to test the property `string`', () async {
+      
+    });
+
   });
 }
