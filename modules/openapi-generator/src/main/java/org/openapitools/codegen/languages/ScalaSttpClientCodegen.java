@@ -398,6 +398,11 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         return formatIdentifier(name, false);
     }
 
@@ -423,7 +428,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         } else if (ModelUtils.isIntegerSchema(p)) {
             return null;
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(getAdditionalProperties(p));
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "Map[String, " + inner + "].empty ";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;

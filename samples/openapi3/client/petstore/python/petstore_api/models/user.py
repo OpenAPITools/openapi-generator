@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr
 
 class User(BaseModel):
@@ -93,4 +93,5 @@ class User(BaseModel):
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj
+
 

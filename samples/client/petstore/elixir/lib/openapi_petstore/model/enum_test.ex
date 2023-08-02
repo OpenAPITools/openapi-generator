@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.EnumTest do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :enum_string,
     :enum_string_required,
@@ -28,16 +28,15 @@ defmodule OpenapiPetstore.Model.EnumTest do
     :outerEnumDefaultValue => OpenapiPetstore.Model.OuterEnumDefaultValue.t | nil,
     :outerEnumIntegerDefaultValue => OpenapiPetstore.Model.OuterEnumIntegerDefaultValue.t | nil
   }
-end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.EnumTest do
-  import OpenapiPetstore.Deserializer
-  def decode(value, options) do
+  alias OpenapiPetstore.Deserializer
+
+  def decode(value) do
     value
-    |> deserialize(:outerEnum, :struct, OpenapiPetstore.Model.OuterEnum, options)
-    |> deserialize(:outerEnumInteger, :struct, OpenapiPetstore.Model.OuterEnumInteger, options)
-    |> deserialize(:outerEnumDefaultValue, :struct, OpenapiPetstore.Model.OuterEnumDefaultValue, options)
-    |> deserialize(:outerEnumIntegerDefaultValue, :struct, OpenapiPetstore.Model.OuterEnumIntegerDefaultValue, options)
+     |> Deserializer.deserialize(:outerEnum, :struct, OpenapiPetstore.Model.OuterEnum)
+     |> Deserializer.deserialize(:outerEnumInteger, :struct, OpenapiPetstore.Model.OuterEnumInteger)
+     |> Deserializer.deserialize(:outerEnumDefaultValue, :struct, OpenapiPetstore.Model.OuterEnumDefaultValue)
+     |> Deserializer.deserialize(:outerEnumIntegerDefaultValue, :struct, OpenapiPetstore.Model.OuterEnumIntegerDefaultValue)
   end
 end
 

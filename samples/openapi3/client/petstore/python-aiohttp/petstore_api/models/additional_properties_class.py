@@ -70,3 +70,4 @@ class AdditionalPropertiesClass(BaseModel):
         })
         return _obj
 
+

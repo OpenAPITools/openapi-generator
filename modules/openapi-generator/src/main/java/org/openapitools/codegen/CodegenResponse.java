@@ -33,6 +33,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public String dataType;
     public String baseType;
     public String containerType;
+    public String containerTypeMapped; // language-specified container type (e.g. `dict` in python for map)
     public boolean hasHeaders;
     public boolean isString;
     public boolean isNumeric;
@@ -98,7 +99,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     @Override
     public int hashCode() {
-        return Objects.hash(headers, code, message, examples, dataType, baseType, containerType, hasHeaders,
+        return Objects.hash(headers, code, message, examples, dataType, baseType, containerType, containerTypeMapped, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isPassword, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
@@ -174,6 +175,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 Objects.equals(dataType, that.dataType) &&
                 Objects.equals(baseType, that.baseType) &&
                 Objects.equals(containerType, that.containerType) &&
+                Objects.equals(containerTypeMapped, that.containerTypeMapped) &&
                 Objects.equals(schema, that.schema) &&
                 Objects.equals(jsonSchema, that.jsonSchema) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions) &&
@@ -555,6 +557,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", dataType='").append(dataType).append('\'');
         sb.append(", baseType='").append(baseType).append('\'');
         sb.append(", containerType='").append(containerType).append('\'');
+        sb.append(", containerTypeMapped='").append(containerTypeMapped).append('\'');
         sb.append(", hasHeaders=").append(hasHeaders);
         sb.append(", isString=").append(isString);
         sb.append(", isNumeric=").append(isNumeric);
@@ -729,6 +732,16 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     @Override
     public void setIsAnyType(boolean isAnyType) {
         this.isAnyType = isAnyType;
+    }
+
+    @Override
+    public boolean getIsFreeFormObject() {
+        return isFreeFormObject;
+    }
+
+    @Override
+    public void setIsFreeFormObject(boolean isFreeFormObject) {
+        this.isFreeFormObject = isFreeFormObject;
     }
 
     @Override

@@ -38,13 +38,13 @@ data ApiResponse = ApiResponse
   } deriving (Show, Eq, Generic, Data)
 
 instance FromJSON ApiResponse where
-  parseJSON = genericParseJSON (removeFieldLabelPrefix True "apiResponse")
+  parseJSON = genericParseJSON (removeFieldLabelPrefix "apiResponse")
 instance ToJSON ApiResponse where
-  toJSON = genericToJSON (removeFieldLabelPrefix False "apiResponse")
+  toJSON = genericToJSON (removeFieldLabelPrefix "apiResponse")
 instance ToSchema ApiResponse where
   declareNamedSchema = Swagger.genericDeclareNamedSchema
     $ Swagger.fromAesonOptions
-    $ removeFieldLabelPrefix False "apiResponse"
+    $ removeFieldLabelPrefix "apiResponse"
 
 
 -- | A category for a pet
@@ -54,13 +54,13 @@ data Category = Category
   } deriving (Show, Eq, Generic, Data)
 
 instance FromJSON Category where
-  parseJSON = genericParseJSON (removeFieldLabelPrefix True "category")
+  parseJSON = genericParseJSON (removeFieldLabelPrefix "category")
 instance ToJSON Category where
-  toJSON = genericToJSON (removeFieldLabelPrefix False "category")
+  toJSON = genericToJSON (removeFieldLabelPrefix "category")
 instance ToSchema Category where
   declareNamedSchema = Swagger.genericDeclareNamedSchema
     $ Swagger.fromAesonOptions
-    $ removeFieldLabelPrefix False "category"
+    $ removeFieldLabelPrefix "category"
 
 
 -- | An order for a pets from the pet store
@@ -74,13 +74,13 @@ data Order = Order
   } deriving (Show, Eq, Generic, Data)
 
 instance FromJSON Order where
-  parseJSON = genericParseJSON (removeFieldLabelPrefix True "order")
+  parseJSON = genericParseJSON (removeFieldLabelPrefix "order")
 instance ToJSON Order where
-  toJSON = genericToJSON (removeFieldLabelPrefix False "order")
+  toJSON = genericToJSON (removeFieldLabelPrefix "order")
 instance ToSchema Order where
   declareNamedSchema = Swagger.genericDeclareNamedSchema
     $ Swagger.fromAesonOptions
-    $ removeFieldLabelPrefix False "order"
+    $ removeFieldLabelPrefix "order"
 
 
 -- | A pet for sale in the pet store
@@ -94,13 +94,13 @@ data Pet = Pet
   } deriving (Show, Eq, Generic, Data)
 
 instance FromJSON Pet where
-  parseJSON = genericParseJSON (removeFieldLabelPrefix True "pet")
+  parseJSON = genericParseJSON (removeFieldLabelPrefix "pet")
 instance ToJSON Pet where
-  toJSON = genericToJSON (removeFieldLabelPrefix False "pet")
+  toJSON = genericToJSON (removeFieldLabelPrefix "pet")
 instance ToSchema Pet where
   declareNamedSchema = Swagger.genericDeclareNamedSchema
     $ Swagger.fromAesonOptions
-    $ removeFieldLabelPrefix False "pet"
+    $ removeFieldLabelPrefix "pet"
 
 
 -- | A tag for a pet
@@ -110,13 +110,13 @@ data Tag = Tag
   } deriving (Show, Eq, Generic, Data)
 
 instance FromJSON Tag where
-  parseJSON = genericParseJSON (removeFieldLabelPrefix True "tag")
+  parseJSON = genericParseJSON (removeFieldLabelPrefix "tag")
 instance ToJSON Tag where
-  toJSON = genericToJSON (removeFieldLabelPrefix False "tag")
+  toJSON = genericToJSON (removeFieldLabelPrefix "tag")
 instance ToSchema Tag where
   declareNamedSchema = Swagger.genericDeclareNamedSchema
     $ Swagger.fromAesonOptions
-    $ removeFieldLabelPrefix False "tag"
+    $ removeFieldLabelPrefix "tag"
 
 
 -- | A User who is purchasing from the pet store
@@ -132,13 +132,13 @@ data User = User
   } deriving (Show, Eq, Generic, Data)
 
 instance FromJSON User where
-  parseJSON = genericParseJSON (removeFieldLabelPrefix True "user")
+  parseJSON = genericParseJSON (removeFieldLabelPrefix "user")
 instance ToJSON User where
-  toJSON = genericToJSON (removeFieldLabelPrefix False "user")
+  toJSON = genericToJSON (removeFieldLabelPrefix "user")
 instance ToSchema User where
   declareNamedSchema = Swagger.genericDeclareNamedSchema
     $ Swagger.fromAesonOptions
-    $ removeFieldLabelPrefix False "user"
+    $ removeFieldLabelPrefix "user"
 
 
 uncapitalize :: String -> String
@@ -147,59 +147,51 @@ uncapitalize [] = []
 
 -- | Remove a field label prefix during JSON parsing.
 --   Also perform any replacements for special characters.
---   The @forParsing@ parameter is to distinguish between the cases in which we're using this
---   to power a @FromJSON@ or a @ToJSON@ instance. In the first case we're parsing, and we want
---   to replace special characters with their quoted equivalents (because we cannot have special
---   chars in identifier names), while we want to do vice versa when sending data instead.
-removeFieldLabelPrefix :: Bool -> String -> Options
-removeFieldLabelPrefix forParsing prefix =
+removeFieldLabelPrefix :: String -> Options
+removeFieldLabelPrefix prefix =
   defaultOptions
     { omitNothingFields  = True
-    , fieldLabelModifier = uncapitalize . fromMaybe (error ("did not find prefix " ++ prefix)) . stripPrefix prefix . replaceSpecialChars
+    , fieldLabelModifier = uncapitalize . replaceSpecialChars . fromMaybe (error ("did not find prefix " ++ prefix)) . stripPrefix prefix
     }
   where
     replaceSpecialChars field = foldl (&) field (map mkCharReplacement specialChars)
     specialChars =
-      [ ("$", "'Dollar")
-      , ("^", "'Caret")
-      , ("|", "'Pipe")
-      , ("=", "'Equal")
-      , ("*", "'Star")
-      , ("-", "'Dash")
-      , ("&", "'Ampersand")
-      , ("%", "'Percent")
-      , ("#", "'Hash")
-      , ("@", "'At")
-      , ("!", "'Exclamation")
-      , ("+", "'Plus")
-      , (":", "'Colon")
-      , (";", "'Semicolon")
-      , (">", "'GreaterThan")
-      , ("<", "'LessThan")
-      , (".", "'Period")
-      , ("_", "'Underscore")
-      , ("?", "'Question_Mark")
-      , (",", "'Comma")
-      , ("'", "'Quote")
-      , ("/", "'Slash")
-      , ("(", "'Left_Parenthesis")
-      , (")", "'Right_Parenthesis")
-      , ("{", "'Left_Curly_Bracket")
-      , ("}", "'Right_Curly_Bracket")
-      , ("[", "'Left_Square_Bracket")
-      , ("]", "'Right_Square_Bracket")
-      , ("~", "'Tilde")
-      , ("`", "'Backtick")
-      , ("<=", "'Less_Than_Or_Equal_To")
-      , (">=", "'Greater_Than_Or_Equal_To")
-      , ("!=", "'Not_Equal")
-      , ("<>", "'Not_Equal")
-      , ("~=", "'Tilde_Equal")
-      , ("\\", "'Back_Slash")
-      , ("\"", "'Double_Quote")
+      [ ("$", "Dollar")
+      , ("^", "Caret")
+      , ("|", "Pipe")
+      , ("=", "Equal")
+      , ("*", "Star")
+      , ("-", "Dash")
+      , ("&", "Ampersand")
+      , ("%", "Percent")
+      , ("#", "Hash")
+      , ("@", "At")
+      , ("!", "Exclamation")
+      , ("+", "Plus")
+      , (":", "Colon")
+      , (";", "Semicolon")
+      , (">", "GreaterThan")
+      , ("<", "LessThan")
+      , (".", "Period")
+      , ("_", "Underscore")
+      , ("?", "Question_Mark")
+      , (",", "Comma")
+      , ("'", "Quote")
+      , ("/", "Slash")
+      , ("(", "Left_Parenthesis")
+      , (")", "Right_Parenthesis")
+      , ("{", "Left_Curly_Bracket")
+      , ("}", "Right_Curly_Bracket")
+      , ("[", "Left_Square_Bracket")
+      , ("]", "Right_Square_Bracket")
+      , ("~", "Tilde")
+      , ("`", "Backtick")
+      , ("<=", "Less_Than_Or_Equal_To")
+      , (">=", "Greater_Than_Or_Equal_To")
+      , ("!=", "Not_Equal")
+      , ("<>", "Not_Equal")
+      , ("~=", "Tilde_Equal")
+      , ("\\", "Back_Slash")
+      , ("\"", "Double_Quote")
       ]
-    mkCharReplacement (replaceStr, searchStr) = T.unpack . replacer (T.pack searchStr) (T.pack replaceStr) . T.pack
-    replacer =
-      if forParsing
-        then flip T.replace
-        else T.replace
+    mkCharReplacement (replaceStr, searchStr) = T.unpack . T.replace (T.pack searchStr) (T.pack replaceStr) . T.pack

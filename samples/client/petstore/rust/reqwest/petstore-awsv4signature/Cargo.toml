@@ -12,7 +12,7 @@ serde_derive = "^1.0"
 serde_with = "^2.0"
 serde_json = "^1.0"
 url = "^2.2"
-uuid = { version = "^1.0", features = ["serde"] }
+uuid = { version = "^1.0", features = ["serde", "v4"] }
 aws-sigv4 = "0.3.0"
 http = "0.2.5"
 secrecy = "0.8.0"

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.examples.Example;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -134,7 +135,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             variables.add(new PostmanVariable()
                     .addName(parameter.paramName)
                     .addType(mapToPostmanType(parameter.dataType))
-                    .addExample(parameter.example));
+                    .addeDefaultValue(parameter.defaultValue));
         }
     }
 
@@ -151,7 +152,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             variables.entrySet().stream().forEach(serverVariableEntry -> this.variables.add(new PostmanVariable()
                     .addName(serverVariableEntry.getKey())
                     .addType("string")
-                    .addExample(serverVariableEntry.getValue().getDefault())));
+                    .addeDefaultValue(serverVariableEntry.getValue().getDefault())));
         }
 
         return super.fromServerVariables(variables);
@@ -226,6 +227,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                 // produces mediaType as `Accept` header (use first mediaType only)
                 String mediaType = codegenOperation.produces.get(0).get("mediaType");
                 CodegenParameter acceptHeader = new CodegenParameter();
+                acceptHeader.baseName = "Accept";
                 acceptHeader.paramName = "Accept";
                 CodegenProperty schema = new CodegenProperty();
                 schema.defaultValue = mediaType;
@@ -237,6 +239,8 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                 // consumes mediaType as `Content-Type` header (use first mediaType only)
                 String mediaType = codegenOperation.consumes.get(0).get("mediaType");
                 CodegenParameter contentTypeHeader = new CodegenParameter();
+
+                contentTypeHeader.baseName = "Content-Type";
                 contentTypeHeader.paramName = "Content-Type";
                 CodegenProperty schema = new CodegenProperty();
                 schema.defaultValue = mediaType;
@@ -398,7 +402,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                 variables.add(new PostmanVariable()
                         .addName(var)
                         .addType("string")
-                        .addExample(""));
+                        .addeDefaultValue(""));
             }
         }
 
@@ -457,6 +461,24 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     public String escapeUnsafeCharacters(String input) {
         //TODO: check that this logic is safe to escape unsafe characters to avoid code injection
         return input;
+    }
+
+    /**
+     * Return the default value of the property
+     * <p>
+     * Return null when the default is not defined
+     *
+     * @param schema Property schema
+     * @return string presentation of the default value of the property
+     */
+    @SuppressWarnings("static-method")
+    @Override
+    public String toDefaultValue(Schema schema) {
+        if (schema.getDefault() != null) {
+            return schema.getDefault().toString();
+        }
+
+        return null;
     }
 
     /**
@@ -567,9 +589,10 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      * @return Formatted text
      */
     public String formatDescription(String description) {
-
-        description = description.replace("\n", JSON_ESCAPE_NEW_LINE);
-        description = description.replace("\"", JSON_ESCAPE_DOUBLE_QUOTE);
+        if (description != null) {
+            description = description.replace("\n", JSON_ESCAPE_NEW_LINE);
+            description = description.replace("\"", JSON_ESCAPE_DOUBLE_QUOTE);
+        }
 
         return description;
     }
@@ -776,7 +799,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
         private String name;
         private String type;
-        private String example;
+        private String defaultValue;
 
         public PostmanVariable addName(String name) {
             this.name = name;
@@ -788,8 +811,8 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             return this;
         }
 
-        public PostmanVariable addExample(String example) {
-            this.example = example;
+        public PostmanVariable addeDefaultValue(String defaultValue) {
+            this.defaultValue = defaultValue;
             return this;
         }
 
@@ -809,12 +832,12 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             this.type = type;
         }
 
-        public String getExample() {
-            return example;
+        public String getDefaultValue() {
+            return defaultValue;
         }
 
-        public void setExample(String example) {
-            this.example = example;
+        public void setDefaultValue(String defaultValue) {
+            this.defaultValue = defaultValue;
         }
 
         @Override
@@ -835,7 +858,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             return "PostmanVariable{" +
                     "name='" + name + '\'' +
                     ", type='" + type + '\'' +
-                    ", example='" + example + '\'' +
+                    ", defaultValue='" + defaultValue + '\'' +
                     '}';
         }
     }

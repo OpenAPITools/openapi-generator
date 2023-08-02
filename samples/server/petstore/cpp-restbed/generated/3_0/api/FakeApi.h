@@ -42,6 +42,7 @@
 #include "User.h"
 #include <map>
 #include <string>
+#include <vector>
 
 namespace org {
 namespace openapitools {

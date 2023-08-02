@@ -85,6 +85,7 @@ Class | Method | HTTP request | Description
 *Petstore::FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *Petstore::FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 *Petstore::FakeApi* | [**fake_property_enum_integer_serialize**](docs/FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
+*Petstore::FakeApi* | [**get_parameter_name_mapping**](docs/FakeApi.md#get_parameter_name_mapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
 *Petstore::FakeApi* | [**test_body_with_binary**](docs/FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
 *Petstore::FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *Petstore::FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
@@ -147,6 +148,9 @@ Class | Method | HTTP request | Description
  - [Petstore::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [Petstore::HealthCheckResult](docs/HealthCheckResult.md)
  - [Petstore::List](docs/List.md)
+ - [Petstore::Mammal](docs/Mammal.md)
+ - [Petstore::MammalAnyof](docs/MammalAnyof.md)
+ - [Petstore::MammalWithoutDiscriminator](docs/MammalWithoutDiscriminator.md)
  - [Petstore::MapTest](docs/MapTest.md)
  - [Petstore::MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Petstore::Model200Response](docs/Model200Response.md)
@@ -163,11 +167,14 @@ Class | Method | HTTP request | Description
  - [Petstore::OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [Petstore::OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
  - [Petstore::Pet](docs/Pet.md)
+ - [Petstore::PropertyNameMapping](docs/PropertyNameMapping.md)
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Petstore::SingleRefType](docs/SingleRefType.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
  - [Petstore::Tag](docs/Tag.md)
  - [Petstore::User](docs/User.md)
+ - [Petstore::Whale](docs/Whale.md)
+ - [Petstore::Zebra](docs/Zebra.md)
 
 
 ## Documentation for Authorization

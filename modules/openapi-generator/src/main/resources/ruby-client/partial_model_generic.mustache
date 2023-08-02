@@ -146,6 +146,12 @@
       else
         self.{{{name}}} = {{{defaultValue}}}
       {{/defaultValue}}
+      {{^defaultValue}}
+      {{#required}}
+      else
+        self.{{{name}}} = nil
+      {{/required}}
+      {{/defaultValue}}
       end
       {{/vars}}
     end
@@ -153,6 +159,7 @@
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
+      warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = {{^parent}}Array.new{{/parent}}{{#parent}}super{{/parent}}
       {{#vars}}
       {{^isNullable}}
@@ -215,6 +222,7 @@
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      warn '[DEPRECATED] the `valid?` method is obsolete'
       {{#vars}}
       {{^isNullable}}
       {{#required}}
@@ -291,52 +299,50 @@
     # @param [Object] {{{name}}} Value to be assigned
     def {{{name}}}=({{{name}}})
       {{^isNullable}}
-      {{#required}}
       if {{{name}}}.nil?
         fail ArgumentError, '{{{name}}} cannot be nil'
       end
 
-      {{/required}}
       {{/isNullable}}
       {{#maxLength}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.to_s.length > {{{maxLength}}}
+      if {{#isNullable}}!{{{name}}}.nil? && {{/isNullable}}{{{name}}}.to_s.length > {{{maxLength}}}
         fail ArgumentError, 'invalid value for "{{{name}}}", the character length must be smaller than or equal to {{{maxLength}}}.'
       end
 
       {{/maxLength}}
       {{#minLength}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.to_s.length < {{{minLength}}}
+      if {{#isNullable}}!{{{name}}}.nil? && {{/isNullable}}{{{name}}}.to_s.length < {{{minLength}}}
         fail ArgumentError, 'invalid value for "{{{name}}}", the character length must be great than or equal to {{{minLength}}}.'
       end
 
       {{/minLength}}
       {{#maximum}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
+      if {{#isNullable}}!{{{name}}}.nil? && {{/isNullable}}{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
         fail ArgumentError, 'invalid value for "{{{name}}}", must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}.'
       end
 
       {{/maximum}}
       {{#minimum}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
+      if {{#isNullable}}!{{{name}}}.nil? && {{/isNullable}}{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
         fail ArgumentError, 'invalid value for "{{{name}}}", must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}.'
       end
 
       {{/minimum}}
       {{#pattern}}
       pattern = Regexp.new({{{pattern}}})
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} !~ pattern
+      if {{#isNullable}}!{{{name}}}.nil? && {{/isNullable}}{{{name}}} !~ pattern
         fail ArgumentError, "invalid value for \"{{{name}}}\", must conform to the pattern #{pattern}."
       end
 
       {{/pattern}}
       {{#maxItems}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.length > {{{maxItems}}}
+      if {{#isNullable}}!{{{name}}}.nil? && {{/isNullable}}{{{name}}}.length > {{{maxItems}}}
         fail ArgumentError, 'invalid value for "{{{name}}}", number of items must be less than or equal to {{{maxItems}}}.'
       end
 
       {{/maxItems}}
       {{#minItems}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.length < {{{minItems}}}
+      if {{#isNullable}}!{{{name}}}.nil? && {{/isNullable}}{{{name}}}.length < {{{minItems}}}
         fail ArgumentError, 'invalid value for "{{{name}}}", number of items must be greater than or equal to {{{minItems}}}.'
       end
 

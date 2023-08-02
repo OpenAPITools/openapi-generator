@@ -33,6 +33,7 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.SneakyThrows;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -114,9 +115,9 @@ public class JavaClientCodegenTest {
         body3.setDescription("A list of points");
         body3.setContent(new Content().addMediaType("application/json", new MediaType().schema(new ArraySchema().items(new ObjectSchema().$ref("#/components/schemas/Point")))));
         ObjectSchema point = new ObjectSchema();
-        point.addProperties("message", new StringSchema());
-        point.addProperties("x", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
-        point.addProperties("y", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
+        point.addProperty("message", new StringSchema());
+        point.addProperty("x", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
+        point.addProperty("y", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
         CodegenParameter codegenParameter3 = codegen.fromRequestBody(body3, new HashSet<String>(), null);
         Assert.assertEquals(codegenParameter3.description, "A list of points");
         Assert.assertEquals(codegenParameter3.dataType, "List<Point>");
@@ -871,7 +872,7 @@ public class JavaClientCodegenTest {
         // map
         // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp4 = cm2.vars.get(3);
-        Assert.assertEquals(cp4.baseName, "map_any_value");
+        Assert.assertEquals(cp4.baseName, "map_free_form_object");
         Assert.assertEquals(cp4.dataType, "Map<String, Object>");
         Assert.assertFalse(cp4.required);
         Assert.assertTrue(cp4.isPrimitiveType);
@@ -879,6 +880,7 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp4.isMap);
         Assert.assertTrue(cp4.isFreeFormObject);
         Assert.assertFalse(cp4.isAnyType);
+        Assert.assertFalse(cp4.isModel);
 
         // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp5 = cm2.vars.get(4);
@@ -890,6 +892,7 @@ public class JavaClientCodegenTest {
         Assert.assertTrue(cp5.isMap);
         Assert.assertTrue(cp5.isFreeFormObject);
         Assert.assertFalse(cp5.isAnyType);
+        Assert.assertFalse(cp5.isModel);
 
         // Should allow in any type including map, https://github.com/swagger-api/swagger-parser/issues/1603
         final CodegenProperty cp6 = cm2.vars.get(5);
@@ -1771,6 +1774,28 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testReturnTypeMapping() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_0/issue14525.yaml")
+                .addTypeMapping("array","Stack")
+                .addImportMapping("Stack","java.util.Stack")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/api/DefaultApi.java"),
+                "import java.util.Stack;"
+        );
+
+    }
+
+    @Test
     public void testNativeClientExplodedQueryParamWithArrayProperty() throws IOException {
         Map<String, Object> properties = new HashMap<>();
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
@@ -1944,6 +1969,50 @@ public class JavaClientCodegenTest {
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Cat.class, name = \"Cat\")");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Dog.class, name = \"Dog\")");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"), "@JsonSubTypes.Type(value = Lizard.class, name = \"Lizard\")");
+    }
+
+    @Test
+    public void shouldProperlyExplodeRestTemplateQueryParameters_issue907() {
+
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/explode-query-parameter.yaml",
+                JavaClientCodegen.RESTTEMPLATE
+        );
+
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .printFileContent()
+                .assertMethod("searchWithHttpInfo")
+                .bodyContainsLines("localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"regular-param\", regularParam));")
+                .bodyContainsLines("localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someString\", objectParam.getSomeString()));")
+                .bodyContainsLines("localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someBoolean\", objectParam.getSomeBoolean()));")
+                .bodyContainsLines("localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someInteger\", objectParam.getSomeInteger()));")
+        ;
+    }
+
+    private static Map<String, File> generateFromContract(final String pathToSpecification, final String library) {
+        return generateFromContract(pathToSpecification, library, new HashMap<>());
+    }
+
+    @SneakyThrows
+    private static Map<String, File> generateFromContract(
+            final String pathToSpecification,
+            final String library,
+            final Map<String, Object> properties
+    ) {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(library)
+                .setAdditionalProperties(properties)
+                .setInputSpec(pathToSpecification)
+                .setOutputDir(output.getAbsolutePath());
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        return generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
     }
 
     @Test
@@ -2185,4 +2254,27 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileContains(petApi, "@Component");
     }
 
+    @Test
+    public void testLogicToAvoidStackOverflow() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.GENERATE_CLIENT_AS_BEAN, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue_12929.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // shouldn't throw stackoverflow exception
+    }
 }

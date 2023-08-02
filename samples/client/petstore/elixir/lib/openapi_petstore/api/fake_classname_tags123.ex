@@ -36,7 +36,7 @@ defmodule OpenapiPetstore.Api.FakeClassnameTags123 do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.Client{}}
+      {200, OpenapiPetstore.Model.Client}
     ])
   end
 end

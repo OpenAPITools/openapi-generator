@@ -32,7 +32,7 @@ defmodule OpenapiPetstore.Api.Default do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {:default, %OpenapiPetstore.Model.FooGetDefaultResponse{}}
+      {:default, OpenapiPetstore.Model.FooGetDefaultResponse}
     ])
   end
 end

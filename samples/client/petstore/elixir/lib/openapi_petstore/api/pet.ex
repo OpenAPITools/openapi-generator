@@ -105,7 +105,7 @@ defmodule OpenapiPetstore.Api.Pet do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, [%OpenapiPetstore.Model.Pet{}]},
+      {200, OpenapiPetstore.Model.Pet},
       {400, false}
     ])
   end
@@ -137,7 +137,7 @@ defmodule OpenapiPetstore.Api.Pet do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, [%OpenapiPetstore.Model.Pet{}]},
+      {200, OpenapiPetstore.Model.Pet},
       {400, false}
     ])
   end
@@ -168,7 +168,7 @@ defmodule OpenapiPetstore.Api.Pet do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.Pet{}},
+      {200, OpenapiPetstore.Model.Pet},
       {400, false},
       {404, false}
     ])
@@ -283,7 +283,7 @@ defmodule OpenapiPetstore.Api.Pet do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.ApiResponse{}}
+      {200, OpenapiPetstore.Model.ApiResponse}
     ])
   end
 
@@ -321,7 +321,7 @@ defmodule OpenapiPetstore.Api.Pet do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.ApiResponse{}}
+      {200, OpenapiPetstore.Model.ApiResponse}
     ])
   end
 end

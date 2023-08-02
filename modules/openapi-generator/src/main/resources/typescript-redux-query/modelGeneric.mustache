@@ -92,7 +92,7 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
         {{#vars}}
         {{^isReadOnly}}
         {{#isPrimitiveType}}
-        '{{baseName}}': {{#isDate}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString().substr(0,10){{/isDate}}{{#isDateTime}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString(){{/isDateTime}}{{^isDate}}{{^isDateTime}}value.{{name}}{{/isDateTime}}{{/isDate}},
+        '{{baseName}}': {{#isDate}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString().substring(0,10){{/isDate}}{{#isDateTime}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString(){{/isDateTime}}{{^isDate}}{{^isDateTime}}value.{{name}}{{/isDateTime}}{{/isDate}},
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isArray}}

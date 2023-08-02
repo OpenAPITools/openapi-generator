@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.ClassModel do
   Model for testing model with \"_class\" property
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :_class
   ]
@@ -14,10 +14,8 @@ defmodule OpenapiPetstore.Model.ClassModel do
   @type t :: %__MODULE__{
     :_class => String.t | nil
   }
-end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.ClassModel do
-  def decode(value, _options) do
+  def decode(value) do
     value
   end
 end

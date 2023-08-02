@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-
+from typing import Any, Dict
 from pydantic import BaseModel, Field, StrictStr
 
 class BasquePig(BaseModel):
@@ -81,4 +81,5 @@ class BasquePig(BaseModel):
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj
+
 

@@ -1,0 +1,27 @@
+{
+  "name": "@openapitools/zapier",
+  "version": "0.0.1",
+  "description": "OpenAPI client for @openapitools/zapier",
+  "author": "OpenAPI-Generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --recursive -t 10000"
+  },
+  "engines": {
+    "node": ">=v16",
+    "npm": ">=5.6.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "zapier-platform-core": "15.0.1",
+    "form-data": "2.1.4"
+  },
+  "devDependencies": {
+    "mocha": "^10.2.0",
+    "should": "^13.2.0"
+  },
+  "private": true,
+  "zapier": {
+    "convertedByCLIVersion": "14.1.1"
+  }
+}

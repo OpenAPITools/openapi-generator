@@ -2062,14 +2062,14 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
             if (requiredBooleanGroup != null) {
-                localVarHeaderParameter['required_boolean_group'] = typeof requiredBooleanGroup === 'string' 
-                    ? requiredBooleanGroup 
+                localVarHeaderParameter['required_boolean_group'] = typeof requiredBooleanGroup === 'string'
+                    ? requiredBooleanGroup
                     : JSON.stringify(requiredBooleanGroup);
             }
 
             if (booleanGroup != null) {
-                localVarHeaderParameter['boolean_group'] = typeof booleanGroup === 'string' 
-                    ? booleanGroup 
+                localVarHeaderParameter['boolean_group'] = typeof booleanGroup === 'string'
+                    ? booleanGroup
                     : JSON.stringify(booleanGroup);
             }
 

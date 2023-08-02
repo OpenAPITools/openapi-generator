@@ -988,7 +988,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             String innerType = getTypeDeclaration(inner);
             return typeMapping.get("array") + "<" + innerType + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             String innerType = getTypeDeclaration(inner);
             StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
             typeDeclaration.append(innerType).append(">");
@@ -1022,7 +1022,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             Schema inner = ap.getItems();
             return instantiationTypes.get("array") + "<" + getSchemaType(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return instantiationTypes.get("map") + "<" + typeMapping.get("string") + ", " + getSchemaType(inner) + ">";
         } else {
             return null;
@@ -1084,7 +1084,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             additionalProperties.put("usesXmlNamespaces", true);
         }
 
-        Schema additionalProperties = getAdditionalProperties(model);
+        Schema additionalProperties = ModelUtils.getAdditionalProperties(model);
 
         if (additionalProperties != null) {
             mdl.additionalPropertiesType = getTypeDeclaration(additionalProperties);
@@ -1286,7 +1286,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         if (Objects.equals(property.baseType, "integer")) {
 
             BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
-            BigInteger maximum =  Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
+            BigInteger maximum = Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
 
             boolean unsigned = canFitIntoUnsigned(minimum, property.getExclusiveMinimum());
 
@@ -1467,7 +1467,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
-    protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema){
+    protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema) {
         /**
          * we have a custom version of this function to set isString to false for uuid
          */

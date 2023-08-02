@@ -50,6 +50,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public String defaultValueWithParam;
     public String baseType;
     public String containerType;
+    public String containerTypeMapped; // language-specified container type (e.g. `dict` in python for map)
+
     /**
      * The value of the 'title' attribute in the OpenAPI schema.
      */
@@ -390,6 +392,15 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public void setContainerType(String containerType) {
         this.containerType = containerType;
     }
+
+    public String getContainerTypeMapped() {
+        return containerTypeMapped;
+    }
+
+    public void setContainerTypeMapped(String containerTypeMapped) {
+        this.containerTypeMapped = containerTypeMapped;
+    }
+
 
     public String getTitle() {
         return title;
@@ -979,6 +990,16 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     }
 
     @Override
+    public boolean getIsFreeFormObject() {
+        return isFreeFormObject;
+    }
+
+    @Override
+    public void setIsFreeFormObject(boolean isFreeFormObject) {
+        this.isFreeFormObject = isFreeFormObject;
+    }
+
+    @Override
     public boolean getHasMultipleTypes() {
         return hasMultipleTypes;
     }
@@ -1034,6 +1055,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", defaultValueWithParam='").append(defaultValueWithParam).append('\'');
         sb.append(", baseType='").append(baseType).append('\'');
         sb.append(", containerType='").append(containerType).append('\'');
+        sb.append(", containerTypeMapped='").append(containerTypeMapped).append('\'');
         sb.append(", title='").append(title).append('\'');
         sb.append(", unescapedDescription='").append(unescapedDescription).append('\'');
         sb.append(", maxLength=").append(maxLength);
@@ -1217,6 +1239,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(defaultValueWithParam, that.defaultValueWithParam) &&
                 Objects.equals(baseType, that.baseType) &&
                 Objects.equals(containerType, that.containerType) &&
+                Objects.equals(containerTypeMapped, that.containerTypeMapped) &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(unescapedDescription, that.unescapedDescription) &&
                 Objects.equals(maxLength, that.maxLength) &&
@@ -1251,7 +1274,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
 
         return Objects.hash(openApiType, baseName, complexType, getter, setter, description,
                 dataType, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
-                defaultValueWithParam, baseType, containerType, title, unescapedDescription,
+                defaultValueWithParam, baseType, containerType, containerTypeMapped, title, unescapedDescription,
                 maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
                 exclusiveMinimum, exclusiveMaximum, required, deprecated,
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,

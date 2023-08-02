@@ -68,3 +68,4 @@ class InnerDictWithProperty(BaseModel):
         })
         return _obj
 
+

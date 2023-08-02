@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.Order do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :id,
     :petId,
@@ -24,11 +24,12 @@ defmodule OpenapiPetstore.Model.Order do
     :status => String.t | nil,
     :complete => boolean() | nil
   }
-end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.Order do
-  def decode(value, _options) do
+  alias OpenapiPetstore.Deserializer
+
+  def decode(value) do
     value
+     |> Deserializer.deserialize(:shipDate, :datetime, nil)
   end
 end
 

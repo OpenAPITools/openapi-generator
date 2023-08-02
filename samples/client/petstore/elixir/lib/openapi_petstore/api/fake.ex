@@ -33,7 +33,7 @@ defmodule OpenapiPetstore.Api.Fake do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.FakeBigDecimalMap200Response{}}
+      {200, OpenapiPetstore.Model.FakeBigDecimalMap200Response}
     ])
   end
 
@@ -61,7 +61,7 @@ defmodule OpenapiPetstore.Api.Fake do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.HealthCheckResult{}}
+      {200, OpenapiPetstore.Model.HealthCheckResult}
     ])
   end
 
@@ -117,7 +117,7 @@ defmodule OpenapiPetstore.Api.Fake do
   - `{:ok, boolean()}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec fake_outer_boolean_serialize(Tesla.Env.client, keyword()) :: {:ok, Boolean.t} | {:error, Tesla.Env.t}
+  @spec fake_outer_boolean_serialize(Tesla.Env.client, keyword()) :: {:ok, boolean()} | {:error, Tesla.Env.t}
   def fake_outer_boolean_serialize(connection, opts \\ []) do
     optional_params = %{
       :body => :body
@@ -169,7 +169,7 @@ defmodule OpenapiPetstore.Api.Fake do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.OuterComposite{}}
+      {200, OpenapiPetstore.Model.OuterComposite}
     ])
   end
 
@@ -187,7 +187,7 @@ defmodule OpenapiPetstore.Api.Fake do
   - `{:ok, float()}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec fake_outer_number_serialize(Tesla.Env.client, keyword()) :: {:ok, Float.t} | {:error, Tesla.Env.t}
+  @spec fake_outer_number_serialize(Tesla.Env.client, keyword()) :: {:ok, float()} | {:error, Tesla.Env.t}
   def fake_outer_number_serialize(connection, opts \\ []) do
     optional_params = %{
       :body => :body
@@ -269,7 +269,7 @@ defmodule OpenapiPetstore.Api.Fake do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.OuterObjectWithEnumProperty{}}
+      {200, OpenapiPetstore.Model.OuterObjectWithEnumProperty}
     ])
   end
 
@@ -391,7 +391,7 @@ defmodule OpenapiPetstore.Api.Fake do
     connection
     |> Connection.request(request)
     |> evaluate_response([
-      {200, %OpenapiPetstore.Model.Client{}}
+      {200, OpenapiPetstore.Model.Client}
     ])
   end
 

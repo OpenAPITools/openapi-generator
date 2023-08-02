@@ -269,13 +269,7 @@ public class DefaultGenerator implements Generator {
         if (config.getUseInlineModelResolver()) {
             InlineModelResolver inlineModelResolver = new InlineModelResolver();
             inlineModelResolver.setInlineSchemaNameMapping(config.inlineSchemaNameMapping());
-            inlineModelResolver.setInlineSchemaNameDefaults(config.inlineSchemaNameDefault());
-            if (inlineModelResolver.refactorAllOfInlineSchemas == null &&  // option not set
-                    config instanceof CSharpClientCodegen) { // default to true for csharp-netcore generator
-                inlineModelResolver.refactorAllOfInlineSchemas = true;
-                LOGGER.info("inlineModelResolver.refactorAllOfInlineSchemas is default to true instead of false for `csharp-netcore` generator." +
-                        "Add --inline-schema-name-defaults REFACTOR_ALLOF_INLINE_SCHEMAS=false in CLI for example to set it to false instead.");
-            }
+            inlineModelResolver.setInlineSchemaOptions(config.inlineSchemaOption());
 
             inlineModelResolver.flatten(openAPI);
         }
@@ -494,7 +488,7 @@ public class DefaultGenerator implements Generator {
 
                 Schema schema = schemas.get(name);
 
-                if (ModelUtils.isFreeFormObject(this.openAPI, schema)) { // check to see if it's a free-form object
+                if (ModelUtils.isFreeFormObject(schema)) { // check to see if it's a free-form object
                     // there are 3 free form use cases
                     // 1. free form with no validation that is not allOf included in any composed schemas
                     // 2. free form with validation

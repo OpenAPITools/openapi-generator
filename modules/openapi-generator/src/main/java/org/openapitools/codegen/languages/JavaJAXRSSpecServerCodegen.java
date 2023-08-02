@@ -21,9 +21,12 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
@@ -312,6 +315,13 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         if (property.isByteArray) {
             model.imports.add("Arrays");
         }
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+        removeImport(objs, "java.util.List");
+        return objs;
     }
 
 }

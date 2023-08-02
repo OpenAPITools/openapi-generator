@@ -140,3 +140,4 @@ class EnumTest(BaseModel):
         })
         return _obj
 
+

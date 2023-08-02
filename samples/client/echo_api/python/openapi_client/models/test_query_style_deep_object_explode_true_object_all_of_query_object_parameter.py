@@ -75,3 +75,4 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseMod
         })
         return _obj
 
+

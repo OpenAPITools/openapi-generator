@@ -59,9 +59,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
     String supportedElixirVersion = "1.10";
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
-            "{:tesla, \"~> 1.4\"}",
-            "{:poison, \"~> 3.0\"}",
-            "{:ex_doc, \"~> 0.28\", only: :dev, runtime: false}"
+            "{:tesla, \"~> 1.7\"}",
+            "{:jason, \"~> 1.4\"}",
+            "{:ex_doc, \"~> 0.30\", only: :dev, runtime: false}",
+            "{:dialyxir, \"~> 1.3\", only: [:dev, :test], runtime: false}"
     );
 
     public ElixirClientCodegen() {
@@ -194,7 +195,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
                         "AnyType",
                         "Tuple",
                         "PID",
-                        "DateTime",
                         "map()", // This is a workaround, since the DefaultCodeGen uses our elixir TypeSpec datetype to evaluate the primitive
                         "any()"
                 )
@@ -210,7 +210,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
         typeMapping.put("string", "String");
         typeMapping.put("byte", "Integer");
         typeMapping.put("boolean", "Boolean");
-        typeMapping.put("Date", "DateTime");
+        typeMapping.put("Date", "Date");
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("file", "String");
         typeMapping.put("map", "Map");
@@ -550,7 +550,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "%{optional(String.t) => " + getTypeDeclaration(inner) + "}";
         } else if (ModelUtils.isPasswordSchema(p)) {
             return "String.t";
@@ -575,7 +575,12 @@ public class ElixirClientCodegen extends DefaultCodegen {
         } else if (ModelUtils.isBooleanSchema(p)) {
             return "boolean()";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return this.moduleName + ".Model." + super.getTypeDeclaration(p) + ".t";
+            switch (super.getTypeDeclaration(p)) {
+                case "String":
+                    return "String.t";
+                default:
+                    return this.moduleName + ".Model." + super.getTypeDeclaration(p) + ".t";
+            }
         } else if (ModelUtils.isFileSchema(p)) {
             return "String.t";
         } else if (ModelUtils.isStringSchema(p)) {
@@ -662,28 +667,23 @@ public class ElixirClientCodegen extends DefaultCodegen {
         }
 
         public String decodedStruct() {
-            // Let Poison decode the entire response into a generic blob
+            // Let Jason decode the entire response into a generic blob
             if (isMap) {
                 return "%{}";
             }
+
             // Primitive return type, don't even try to decode
             if (baseType == null || (containerType == null && primitiveType)) {
                 return "false";
             } else if (isArray && languageSpecificPrimitives().contains(baseType)) {
                 return "[]";
             }
+
             StringBuilder sb = new StringBuilder();
-            if (isArray) {
-                sb.append("[");
-            }
-            sb.append("%");
             sb.append(moduleName);
             sb.append(".Model.");
             sb.append(baseType);
-            sb.append("{}");
-            if (isArray) {
-                sb.append("]");
-            }
+
             return sb.toString();
         }
 
@@ -768,6 +768,24 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.replacedPathName = replacedPathName;
         }
 
+        private void translateBaseType(StringBuilder returnEntry, String baseType) {
+            switch (baseType) {
+                case "AnyType":
+                    returnEntry.append("any()");
+                    break;
+                case "Boolean":
+                    returnEntry.append("boolean()");
+                    break;
+                case "Float":
+                    returnEntry.append("float()");
+                    break;
+                default:
+                    returnEntry.append(baseType);
+                    returnEntry.append(".t");
+                    break;
+            }
+        }
+
         public String typespec() {
             StringBuilder sb = new StringBuilder("@spec ");
             sb.append(underscore(operationId));
@@ -793,12 +811,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
                         returnEntry.append(".Model.");
                     }
 
-                    if (exResponse.baseType.equals("AnyType")) {
-                        returnEntry.append("any()");
-                    }else {
-                        returnEntry.append(exResponse.baseType);
-                        returnEntry.append(".t");
-                    }
+                    translateBaseType(returnEntry, exResponse.baseType);
                 } else {
                     if (exResponse.containerType.equals("array") ||
                             exResponse.containerType.equals("set")) {
@@ -808,12 +821,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
                             returnEntry.append(".Model.");
                         }
 
-                        if (exResponse.baseType.equals("AnyType")) {
-                            returnEntry.append("any())");
-                        }else {
-                            returnEntry.append(exResponse.baseType);
-                            returnEntry.append(".t)");
-                        }
+                        translateBaseType(returnEntry, exResponse.baseType);
+                        returnEntry.append(")");
                     } else if (exResponse.containerType.equals("map")) {
                         returnEntry.append("map()");
                     }

@@ -3,6 +3,12 @@ outputDir: samples/client/petstore/java/okhttp-gson
 library: okhttp-gson
 inputSpec: modules/openapi-generator/src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-okhttp-gson.yaml
 templateDir: modules/openapi-generator/src/main/resources/Java
+nameMappings:
+  _type: underscoreType
+  type_: typeWithUnderscore
+parameterNameMappings:
+  _type: underscoreType
+  type_: typeWithUnderscore
 additionalProperties:
   artifactId: petstore-okhttp-gson
   hideGenerationTimestamp: "true"

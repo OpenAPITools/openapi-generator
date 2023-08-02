@@ -73,3 +73,6 @@ class FirstRef(BaseModel):
         })
         return _obj
 
+from petstore_api.models.second_ref import SecondRef
+FirstRef.update_forward_refs()
+

@@ -121,6 +121,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**getArrayOfEnums**](docs/FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums
+*FakeApi* | [**getParameterNameMapping**](docs/FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
 *FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**testClientModel**](docs/FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -152,6 +153,7 @@ Class | Method | HTTP request | Description
 *UserApi* | [**loginUser**](docs/UserApi.md#loginUser) | **GET** /user/login | Logs user into the system
 *UserApi* | [**logoutUser**](docs/UserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
 *UserApi* | [**updateUser**](docs/UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
+*ValuesApi* | [**getSomeValues**](docs/ValuesApi.md#getSomeValues) | **GET** /values | Get some primitive variable values
 
 
 ## Documentation for Models
@@ -160,6 +162,7 @@ Class | Method | HTTP request | Description
  - [Animal](docs/Animal.md)
  - [Apple](docs/Apple.md)
  - [AppleReq](docs/AppleReq.md)
+ - [ArrayDefault](docs/ArrayDefault.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfInlineAllOf](docs/ArrayOfInlineAllOf.md)
  - [ArrayOfInlineAllOfArrayAllofDogPropertyInner](docs/ArrayOfInlineAllOfArrayAllofDogPropertyInner.md)
@@ -203,6 +206,9 @@ Class | Method | HTTP request | Description
  - [ModelList](docs/ModelList.md)
  - [ModelReturn](docs/ModelReturn.md)
  - [Name](docs/Name.md)
+ - [NewPet](docs/NewPet.md)
+ - [NewPetCategoryInlineAllof](docs/NewPetCategoryInlineAllof.md)
+ - [NewPetCategoryInlineAllofAllOfCategoryTag](docs/NewPetCategoryInlineAllofAllOfCategoryTag.md)
  - [NullableClass](docs/NullableClass.md)
  - [NullableShape](docs/NullableShape.md)
  - [NumberOnly](docs/NumberOnly.md)
@@ -217,9 +223,11 @@ Class | Method | HTTP request | Description
  - [Pet](docs/Pet.md)
  - [PetWithRequiredTags](docs/PetWithRequiredTags.md)
  - [Pig](docs/Pig.md)
+ - [PropertyNameCollision](docs/PropertyNameCollision.md)
  - [Quadrilateral](docs/Quadrilateral.md)
  - [QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [Scalar](docs/Scalar.md)
  - [ScaleneTriangle](docs/ScaleneTriangle.md)
  - [Shape](docs/Shape.md)
  - [ShapeInterface](docs/ShapeInterface.md)
@@ -230,6 +238,8 @@ Class | Method | HTTP request | Description
  - [Triangle](docs/Triangle.md)
  - [TriangleInterface](docs/TriangleInterface.md)
  - [User](docs/User.md)
+ - [Value](docs/Value.md)
+ - [Variable](docs/Variable.md)
  - [Whale](docs/Whale.md)
  - [Zebra](docs/Zebra.md)
 

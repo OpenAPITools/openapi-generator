@@ -1,0 +1,51 @@
+{{>partial_header}}
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Xunit;
+using Microsoft.Extensions.DependencyInjection;
+using {{packageName}}.{{apiPackage}};{{#hasImport}}
+using {{packageName}}.{{modelPackage}};{{/hasImport}}
+
+
+{{>testInstructions}}
+
+
+namespace {{packageName}}.Test.{{apiPackage}}
+{
+    /// <summary>
+    ///  Class for testing {{classname}}
+    /// </summary>
+    public sealed class {{classname}}Tests : ApiTestsBase
+    {
+        private readonly {{interfacePrefix}}{{classname}} _instance;
+
+        public {{classname}}Tests(): base(Array.Empty<string>())
+        {
+            _instance = _host.Services.GetRequiredService<{{interfacePrefix}}{{classname}}>();
+        }
+        {{#operations}}
+        {{#operation}}
+
+        /// <summary>
+        /// Test {{operationId}}
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task {{operationId}}AsyncTest()
+        {
+            {{#allParams}}
+            {{^required}}Client.Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}} = default{{nrt!}};
+            {{/allParams}}
+            {{#returnType}}
+            var response = await _instance.{{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+            var model = response.AsModel();
+            Assert.IsType<{{{.}}}>(model);
+            {{/returnType}}
+            {{^returnType}}
+            await _instance.{{operationId}}Async({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+            {{/returnType}}
+        }
+        {{/operation}}
+        {{/operations}}
+    }
+}

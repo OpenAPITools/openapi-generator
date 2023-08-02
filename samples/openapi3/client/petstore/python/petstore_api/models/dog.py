@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
-from pydantic import BaseModel, StrictStr
+from typing import Any, Dict, Optional
+from pydantic import StrictStr
 from petstore_api.models.animal import Animal
 
 class Dog(Animal):
@@ -82,4 +82,5 @@ class Dog(Animal):
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj
+
 

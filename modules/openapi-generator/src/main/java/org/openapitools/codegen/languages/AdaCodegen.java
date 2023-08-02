@@ -36,26 +36,6 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
 
     public AdaCodegen() {
         super();
-    }
-
-    @Override
-    public CodegenType getTag() {
-        return CodegenType.CLIENT;
-    }
-
-    @Override
-    public String getName() {
-        return "ada";
-    }
-
-    @Override
-    public String getHelp() {
-        return "Generates an Ada client implementation (beta).";
-    }
-
-    @Override
-    public void processOpts() {
-        super.processOpts();
 
         modifyFeatureSet(features -> features
                 .excludeDocumentationFeatures(DocumentationFeature.Readme)
@@ -82,6 +62,26 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
                 )
                 .includeClientModificationFeatures(ClientModificationFeature.BasePath)
         );
+    }
+
+    @Override
+    public CodegenType getTag() {
+        return CodegenType.CLIENT;
+    }
+
+    @Override
+    public String getName() {
+        return "ada";
+    }
+
+    @Override
+    public String getHelp() {
+        return "Generates an Ada client implementation (beta).";
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             packageName = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
@@ -120,6 +120,7 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
         additionalProperties.put("isServer", false);
         additionalProperties.put("httpClientPackageName", httpClientPackageName);
         additionalProperties.put("openApiPackageName", openApiPackageName);
+        additionalProperties.put("openApiGprName", openApiPackageName.toLowerCase(Locale.ROOT));
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
 
         String[] names = this.modelPackage.split("\\.");

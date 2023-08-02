@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
+import org.mozilla.javascript.optimizer.Codegen;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -92,7 +93,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NET_6_0,
             FrameworkStrategy.NET_7_0
     );
-    private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
+    private static FrameworkStrategy latestFramework = frameworkStrategies.get(frameworkStrategies.size() - 1);
     protected final Map<String, String> frameworks;
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Client";
@@ -101,8 +102,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected String modelDocPath = "docs" + File.separator;
 
     // Defines TargetFrameworkVersion in csproj files
-    protected String targetFramework = defaultFramework.name;
-    protected String testTargetFramework = defaultFramework.testTargetFramework;
+    protected String targetFramework = latestFramework.name;
+    protected String testTargetFramework = latestFramework.testTargetFramework;
 
     // Defines nuget identifiers for target framework
     protected String targetFrameworkNuget = targetFramework;
@@ -113,6 +114,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsFileParameters = Boolean.TRUE;
 
     protected boolean validatable = Boolean.TRUE;
+    protected boolean equatable = Boolean.TRUE;
     protected Map<Character, String> regexModifiers;
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
@@ -164,7 +166,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         apiTemplateFiles.put("api.mustache", ".cs");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-        embeddedTemplateDir = templateDir = "csharp-netcore";
+        embeddedTemplateDir = templateDir = "csharp";
 
         cliOptions.clear();
 
@@ -317,6 +319,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
                 this.caseInsensitiveResponseHeaders);
 
+        addSwitch(CodegenConstants.EQUATABLE,
+                CodegenConstants.EQUATABLE_DESC,
+                this.equatable);
+
         regexModifiers = new HashMap<>();
         regexModifiers.put('i', "IgnoreCase");
         regexModifiers.put('m', "Multiline");
@@ -342,42 +348,21 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Deprecated
     @Override
     protected Set<String> getNullableTypes() {
-        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
-            "DateTime", "DateTimeOffset", "Guid"));
+        return GENERICHOST.equals(getLibrary())
+                ? super.getNullableTypes()
+                : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
     }
 
     @Override
     protected Set<String> getValueTypes() {
-        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
+        return GENERICHOST.equals(getLibrary())
+                ? super.getValueTypes()
+                : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
     }
 
     @Override
     protected void setTypeMapping() {
-        typeMapping = new HashMap<>();
-        // mapped non-nullable type without ?
-        typeMapping = new HashMap<String, String>();
-        typeMapping.put("string", "string");
-        typeMapping.put("binary", "byte[]");
-        typeMapping.put("ByteArray", "byte[]");
-        typeMapping.put("boolean", "bool");
-        typeMapping.put("integer", "int");
-        typeMapping.put("long", "long");
-        typeMapping.put("UnsignedInteger", "uint");
-        typeMapping.put("UnsignedLong", "ulong");
-        typeMapping.put("float", "float");
-        typeMapping.put("double", "double");
-        typeMapping.put("number", "decimal");
-        typeMapping.put("decimal", "decimal");
-        typeMapping.put("DateTime", "DateTime");
-        typeMapping.put("date", "DateTime");
-        typeMapping.put("file", "System.IO.Stream");
-        typeMapping.put("array", "List");
-        typeMapping.put("list", "List");
-        typeMapping.put("map", "Dictionary");
-        typeMapping.put("object", "Object");
-        typeMapping.put("UUID", "Guid");
-        typeMapping.put("URI", "string");
-        typeMapping.put("AnyType", "Object");
+        super.setTypeMapping();
 
         if (HTTPCLIENT.equals(getLibrary())) {
             typeMapping.put("file", "FileParameter");
@@ -386,7 +371,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
-        super.updateCodegenParameterEnum(parameter, model);
+        if (GENERICHOST.equals(getLibrary())) {
+            super.updateCodegenParameterEnum(parameter, model);
+            return;
+        }
+
+        super.updateCodegenParameterEnumLegacy(parameter, model);
 
         if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
             parameter.dataType = parameter.dataType + "?";
@@ -564,7 +554,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String getName() {
-        return "csharp-netcore";
+        return "csharp";
     }
 
     public String getNameUsingModelPropertyNaming(String name) {
@@ -586,6 +576,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String getNullableType(Schema p, String type) {
+        if (GENERICHOST.equals(getLibrary())) {
+            return super.getNullableType(p, type);
+        }
+
         if (languageSpecificPrimitives.contains(type)) {
             if (isSupportNullable() && ModelUtils.isNullable(p) && this.getNullableTypes().contains(type)) {
                 return type + "?";
@@ -637,7 +631,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
         postProcessEmitDefaultValue(parameter.vendorExtensions);
 
-        if (!parameter.dataType.endsWith("?") && !parameter.required && (nullReferenceTypesFlag || this.getNullableTypes().contains(parameter.dataType))) {
+        if (!GENERICHOST.equals(getLibrary()) && !parameter.dataType.endsWith("?") && !parameter.required && (nullReferenceTypesFlag || this.getNullableTypes().contains(parameter.dataType))) {
             parameter.dataType = parameter.dataType + "?";
         }
 
@@ -763,7 +757,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient, and generichost are supported.");
         }
 
-        String inputFramework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
+        String inputFramework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, latestFramework.name);
         String[] frameworks;
         List<FrameworkStrategy> strategies = new ArrayList<>();
 
@@ -831,6 +825,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         syncBooleanProperty(additionalProperties, "netStandard", this::setNetStandard, this.netStandard);
 
+        syncBooleanProperty(additionalProperties, CodegenConstants.EQUATABLE, this::setEquatable, this.equatable);
         syncBooleanProperty(additionalProperties, CodegenConstants.VALIDATABLE, this::setValidatable, this.validatable);
         syncBooleanProperty(additionalProperties, CodegenConstants.SUPPORTS_ASYNC, this::setSupportsAsync, this.supportsAsync);
         syncBooleanProperty(additionalProperties, SUPPORTS_RETRY, this::setSupportsRetry, this.supportsRetry);
@@ -1036,9 +1031,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ApiFactory.mustache", clientPackageDir, "ApiFactory.cs"));
         supportingFiles.add(new SupportingFile("DateTimeJsonConverter.mustache", clientPackageDir, "DateTimeJsonConverter.cs"));
         supportingFiles.add(new SupportingFile("DateTimeNullableJsonConverter.mustache", clientPackageDir, "DateTimeNullableJsonConverter.cs"));
-        supportingFiles.add(new SupportingFile("ApiResponseEventArgs.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
+        supportingFiles.add(new SupportingFile("ApiResponseEventArgs`1.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
+        supportingFiles.add(new SupportingFile("ExceptionEventArgs.mustache", clientPackageDir, "ExceptionEventArgs.cs"));
         supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
         supportingFiles.add(new SupportingFile("CookieContainer.mustache", clientPackageDir, "CookieContainer.cs"));
+        supportingFiles.add(new SupportingFile("Option.mustache", clientPackageDir, "Option.cs"));
 
         supportingFiles.add(new SupportingFile("IApi.mustache", sourceFolder + File.separator + packageName + File.separator + apiPackage(), getInterfacePrefix() + "Api.cs"));
 
@@ -1192,6 +1189,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         this.validatable = validatable;
     }
 
+    public void setEquatable(boolean equatable) {
+        this.equatable = equatable;
+    }
+
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
     }
@@ -1258,6 +1259,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         // sanitize name
         name = sanitizeName(name);
 
@@ -1505,7 +1511,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     public String toInstantiationType(Schema schema) {
         if (ModelUtils.isMapSchema(schema)) {
-            Schema additionalProperties = getAdditionalProperties(schema);
+            Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
             String inner = getSchemaType(additionalProperties);
             if (ModelUtils.isMapSchema(additionalProperties)) {
                 inner = toInstantiationType(additionalProperties);
@@ -1517,6 +1523,30 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             return instantiationTypes.get("array") + "<" + inner + ">";
         } else {
             return null;
+        }
+    }
+
+    @Override
+    protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
+        super.patchProperty(enumRefs, model, property);
+
+        if (!GENERICHOST.equals(getLibrary())) {
+            if (!property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
+                property.vendorExtensions.put("x-csharp-value-type", true);
+            }
+        } else {
+            if (model.parentModel != null && model.parentModel.allVars.stream().anyMatch(v -> v.baseName.equals(property.baseName))) {
+                property.isInherited = true;
+            }
+        }
+    }
+
+    @Override
+    protected void patchVendorExtensionNullableValueType(CodegenParameter parameter) {
+        if (getLibrary().equals(GENERICHOST)) {
+            super.patchVendorExtensionNullableValueType(parameter);
+        } else {
+            super.patchVendorExtensionNullableValueTypeLegacy(parameter);
         }
     }
 
@@ -1564,73 +1594,40 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return objs;
     }
 
-    /**
-     * ISSUE: https://github.com/OpenAPITools/openapi-generator/issues/11846
-     * Ensures that a model has all inherited properties
-     * Check modules\openapi-generator\src\test\resources\3_0\java\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
-     * Without this method, property petType in GrandparentAnimal will not make it through ParentPet and into ChildCat
-     */
-    private void ensureInheritedPropertiesArePresent(CodegenModel derivedModel) {
-        // every c# generator should definitely want this, or we should fix the issue
-        // still, lets avoid breaking changes :(
-        if (Boolean.FALSE.equals(GENERICHOST.equals(getLibrary()))) {
-            return;
-        }
-
-        if (derivedModel.parentModel == null) {
-            return;
-        }
-
-        for (CodegenProperty parentProperty : derivedModel.parentModel.allVars) {
-            if (Boolean.FALSE.equals(derivedModel.allVars.stream().anyMatch(v -> v.baseName.equals(parentProperty.baseName)))) {
-                CodegenProperty clone = parentProperty.clone();
-                clone.isInherited = true;
-                LOGGER.debug("Inherited property " + clone.name + " from model" + derivedModel.parentModel.classname + " was not found in " + derivedModel.classname + ". Adding a clone now.");
-                derivedModel.allVars.add(clone);
-            }
-        }
-
-        ensureInheritedPropertiesArePresent(derivedModel.parentModel);
-    }
-
-    /**
-     * Invoked by {@link DefaultGenerator} after all models have been post-processed, allowing for a last pass of codegen-specific model cleanup.
-     *
-     * @param objs Current state of codegen object model.
-     * @return An in-place modified state of the codegen object model.
-     */
+    // https://github.com/OpenAPITools/openapi-generator/issues/15867
     @Override
-    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
-        objs = super.postProcessAllModels(objs);
-
-        // other libraries probably want these fixes, but lets avoid breaking changes for now
-        if (Boolean.FALSE.equals(GENERICHOST.equals(getLibrary()))) {
-            return objs;
+    protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {
+        if (!GENERICHOST.equals(getLibrary())) {
+            return;
         }
 
-        ArrayList<CodegenModel> allModels = new ArrayList<>();
-        for (String key : objs.keySet()) {
-            CodegenModel model = ModelUtils.getModelByName(key, objs);
-            allModels.add(model);
-        }
+        String discriminatorName = model.discriminator == null
+                ? null
+                : model.discriminator.getPropertyName();
 
-        for (CodegenModel cm : allModels) {
-            cm.anyOf.forEach(anyOf -> removePropertiesDeclaredInComposedClass(anyOf, allModels, cm));
-            cm.oneOf.forEach(oneOf -> removePropertiesDeclaredInComposedClass(oneOf, allModels, cm));
-            cm.allOf.forEach(allOf -> removePropertiesDeclaredInComposedClass(allOf, allModels, cm));
-
-            if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getAllOf() != null && !cm.getComposedSchemas().getAllOf().isEmpty()) {
-                cm.getComposedSchemas().getAllOf().forEach(allOf -> {
-                    if (allOf.dataType.equals(cm.parent)) {
-                        allOf.isInherited = true;
+        for (CodegenProperty oneOfProperty : composedProperties) {
+            String ref = oneOfProperty.getRef();
+            if (ref != null) {
+                for (Map.Entry<String, ModelsMap> composedEntry : objs.entrySet()) {
+                    CodegenModel composedModel = ModelUtils.getModelByName(composedEntry.getKey(), objs);
+                    if (ref.endsWith("/" + composedModel.name)) {
+                        for (CodegenProperty composedProperty : composedModel.allVars) {
+                            if (discriminatorName != null && composedProperty.name.equals(discriminatorName)) {
+                                continue;
+                            }
+                            model.vars.removeIf(v -> v.name.equals(composedProperty.name));
+                            model.allVars.removeIf(v -> v.name.equals(composedProperty.name));
+                            model.readOnlyVars.removeIf(v -> v.name.equals(composedProperty.name));
+                            model.nonNullableVars.removeIf(v -> v.name.equals(composedProperty.name));
+                            model.optionalVars.removeIf(v -> v.name.equals(composedProperty.name));
+                            model.parentRequiredVars.removeIf(v -> v.name.equals(composedProperty.name));
+                            model.readWriteVars.removeIf(v -> v.name.equals(composedProperty.name));
+                            model.requiredVars.removeIf(v -> v.name.equals(composedProperty.name));
+                        }
                     }
-                });
+                }
             }
-
-            ensureInheritedPropertiesArePresent(cm);
         }
-
-        return objs;
     }
 
     /**
@@ -1643,32 +1640,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean isValueType(CodegenProperty var) {
         // this is temporary until x-csharp-value-type is removed
         return this.getLibrary().equals("generichost")
-            ? this.getNullableTypes().contains(var.dataType) || var.isEnum
-            : this.getValueTypes().contains(var.dataType) || var.isEnum;
-    }
-
-    /**
-     * Removes properties from a model which are also defined in a composed class.
-     *
-     * @param className The name which may be a composed model
-     * @param allModels A collection of all CodegenModel
-     * @param cm        The CodegenModel to correct
-     */
-    private void removePropertiesDeclaredInComposedClass(String className, List<CodegenModel> allModels, CodegenModel cm) {
-        CodegenModel otherModel = allModels.stream().filter(m -> m.classname.equals(className)).findFirst().orElse(null);
-        if (otherModel == null) {
-            return;
-        }
-
-        otherModel.readWriteVars.stream().filter(v -> cm.readWriteVars.stream().anyMatch(cmV -> cmV.baseName.equals(v.baseName))).collect(Collectors.toList())
-                .forEach(v -> {
-                    cm.readWriteVars.removeIf(item -> item.baseName.equals(v.baseName));
-                    cm.vars.removeIf(item -> item.baseName.equals(v.baseName));
-                    cm.readOnlyVars.removeIf(item -> item.baseName.equals(v.baseName));
-                    cm.requiredVars.removeIf(item -> item.baseName.equals(v.baseName));
-                    cm.allVars.removeIf(item -> item.baseName.equals(v.baseName));
-                    cm.nonNullableVars.removeIf(item -> item.baseName.equals(v.baseName));
-                });
+                ? super.isValueType(var)
+                : this.getValueTypes().contains(var.dataType) || var.isEnum;
     }
 
     @Override
@@ -1699,7 +1672,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             addAdditionPropertiesToCodeGenModel(m, schema);
         } else {
             m.setIsMap(false);
-            if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+            if (ModelUtils.isFreeFormObject(schema)) {
                 // non-composed object type with no properties + additionalProperties
                 // additionalProperties must be null, ObjectSchema, or empty Schema
                 addAdditionPropertiesToCodeGenModel(m, schema);

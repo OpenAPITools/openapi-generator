@@ -87,6 +87,7 @@ module Petstore
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
+      warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
       invalid_properties = Array.new
       if !@array_of_string.nil? && @array_of_string.length > 3
         invalid_properties.push('invalid value for "array_of_string", number of items must be less than or equal to 3.')
@@ -102,6 +103,7 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if !@array_of_string.nil? && @array_of_string.length > 3
       return false if !@array_of_string.nil? && @array_of_string.length < 0
       true
@@ -110,11 +112,15 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] array_of_string Value to be assigned
     def array_of_string=(array_of_string)
-      if !array_of_string.nil? && array_of_string.length > 3
+      if array_of_string.nil?
+        fail ArgumentError, 'array_of_string cannot be nil'
+      end
+
+      if array_of_string.length > 3
         fail ArgumentError, 'invalid value for "array_of_string", number of items must be less than or equal to 3.'
       end
 
-      if !array_of_string.nil? && array_of_string.length < 0
+      if array_of_string.length < 0
         fail ArgumentError, 'invalid value for "array_of_string", number of items must be greater than or equal to 0.'
       end
 
@@ -147,37 +153,30 @@ module Petstore
     # @param [Hash] attributes Model attributes in the form of hash
     # @return [Object] Returns the model itself
     def self.build_from_hash(attributes)
-      new.build_from_hash(attributes)
-    end
-
-    # Builds the object from hash
-    # @param [Hash] attributes Model attributes in the form of hash
-    # @return [Object] Returns the model itself
-    def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
       attributes = attributes.transform_keys(&:to_sym)
-      self.class.openapi_types.each_pair do |key, type|
-        if attributes[self.class.attribute_map[key]].nil? && self.class.openapi_nullable.include?(key)
-          self.send("#{key}=", nil)
+      transformed_hash = {}
+      openapi_types.each_pair do |key, type|
+        if attributes.key?(attribute_map[key]) && attributes[attribute_map[key]].nil?
+          transformed_hash["#{key}"] = nil
         elsif type =~ /\AArray<(.*)>/i
           # check to ensure the input is an array given that the attribute
           # is documented as an array but the input is not
-          if attributes[self.class.attribute_map[key]].is_a?(Array)
-            self.send("#{key}=", attributes[self.class.attribute_map[key]].map { |v| _deserialize($1, v) })
+          if attributes[attribute_map[key]].is_a?(Array)
+            transformed_hash["#{key}"] = attributes[attribute_map[key]].map { |v| _deserialize($1, v) }
           end
-        elsif !attributes[self.class.attribute_map[key]].nil?
-          self.send("#{key}=", _deserialize(type, attributes[self.class.attribute_map[key]]))
+        elsif !attributes[attribute_map[key]].nil?
+          transformed_hash["#{key}"] = _deserialize(type, attributes[attribute_map[key]])
         end
       end
-
-      self
+      new(transformed_hash)
     end
 
     # Deserializes the data based on type
     # @param string type Data type
     # @param string value Value to be deserialized
     # @return [Object] Deserialized data
-    def _deserialize(type, value)
+    def self._deserialize(type, value)
       case type.to_sym
       when :Time
         Time.parse(value)

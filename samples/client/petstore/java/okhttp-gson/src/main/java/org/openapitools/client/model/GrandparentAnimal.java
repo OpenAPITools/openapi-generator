@@ -180,22 +180,22 @@ public class GrandparentAnimal {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to GrandparentAnimal
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to GrandparentAnimal
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!GrandparentAnimal.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!GrandparentAnimal.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in GrandparentAnimal is not found in the empty JSON string", GrandparentAnimal.openapiRequiredFields.toString()));
         }
       }
 
-      String discriminatorValue = jsonObj.get("pet_type").getAsString();
+      String discriminatorValue = jsonElement.getAsJsonObject().get("pet_type").getAsString();
       switch (discriminatorValue) {
         case "ParentPet":
-          ParentPet.validateJsonObject(jsonObj);
+          ParentPet.validateJsonElement(jsonElement);
           break;
         default:
           throw new IllegalArgumentException(String.format("The value of the `pet_type` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));

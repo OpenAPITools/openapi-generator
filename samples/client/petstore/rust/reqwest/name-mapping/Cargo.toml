@@ -1,0 +1,15 @@
+[package]
+name = "petstore-name-mapping"
+version = "1.0.0"
+authors = ["OpenAPI Generator team and contributors"]
+description = "rust name mapping test"
+license = "Apache-2.0"
+edition = "2018"
+
+[dependencies]
+serde = "^1.0"
+serde_derive = "^1.0"
+serde_json = "^1.0"
+url = "^2.2"
+uuid = { version = "^1.0", features = ["serde", "v4"] }
+reqwest = "~0.9"

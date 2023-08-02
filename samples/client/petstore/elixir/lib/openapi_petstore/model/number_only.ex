@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.NumberOnly do
   
   """
 
-  @derive [Poison.Encoder]
+  @derive Jason.Encoder
   defstruct [
     :JustNumber
   ]
@@ -14,10 +14,8 @@ defmodule OpenapiPetstore.Model.NumberOnly do
   @type t :: %__MODULE__{
     :JustNumber => float() | nil
   }
-end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.NumberOnly do
-  def decode(value, _options) do
+  def decode(value) do
     value
   end
 end

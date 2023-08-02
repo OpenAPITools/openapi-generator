@@ -36,6 +36,9 @@ docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/List.md
+docs/Mammal.md
+docs/MammalAnyof.md
+docs/MammalWithoutDiscriminator.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
@@ -53,6 +56,7 @@ docs/OuterEnumIntegerDefaultValue.md
 docs/OuterObjectWithEnumProperty.md
 docs/Pet.md
 docs/PetApi.md
+docs/PropertyNameMapping.md
 docs/ReadOnlyFirst.md
 docs/SingleRefType.md
 docs/SpecialModelName.md
@@ -60,6 +64,8 @@ docs/StoreApi.md
 docs/Tag.md
 docs/User.md
 docs/UserApi.md
+docs/Whale.md
+docs/Zebra.md
 git_push.sh
 lib/petstore.rb
 lib/petstore/api/another_fake_api.rb
@@ -98,6 +104,9 @@ lib/petstore/models/format_test.rb
 lib/petstore/models/has_only_read_only.rb
 lib/petstore/models/health_check_result.rb
 lib/petstore/models/list.rb
+lib/petstore/models/mammal.rb
+lib/petstore/models/mammal_anyof.rb
+lib/petstore/models/mammal_without_discriminator.rb
 lib/petstore/models/map_test.rb
 lib/petstore/models/mixed_properties_and_additional_properties_class.rb
 lib/petstore/models/model200_response.rb
@@ -114,11 +123,14 @@ lib/petstore/models/outer_enum_integer.rb
 lib/petstore/models/outer_enum_integer_default_value.rb
 lib/petstore/models/outer_object_with_enum_property.rb
 lib/petstore/models/pet.rb
+lib/petstore/models/property_name_mapping.rb
 lib/petstore/models/read_only_first.rb
 lib/petstore/models/single_ref_type.rb
 lib/petstore/models/special_model_name.rb
 lib/petstore/models/tag.rb
 lib/petstore/models/user.rb
+lib/petstore/models/whale.rb
+lib/petstore/models/zebra.rb
 lib/petstore/version.rb
 petstore.gemspec
 spec/api_client_spec.rb

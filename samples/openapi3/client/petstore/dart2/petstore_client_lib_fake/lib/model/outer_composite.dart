@@ -97,9 +97,7 @@ class OuterComposite {
       }());
 
       return OuterComposite(
-        myNumber: json[r'my_number'] == null
-            ? null
-            : num.parse(json[r'my_number'].toString()),
+        myNumber: num.parse('${json[r'my_number']}'),
         myString: mapValueOfType<String>(json, r'my_string'),
         myBoolean: mapValueOfType<bool>(json, r'my_boolean'),
       );
