@@ -14,19 +14,19 @@
 import ApiClient from '../ApiClient';
 
 /**
- * The HealthCheckResult model module.
- * @module model/HealthCheckResult
+ * The HealthCheckStatus model module.
+ * @module model/HealthCheckStatus
  * @version 1.0.0
  */
-class HealthCheckResult {
+class HealthCheckStatus {
     /**
-     * Constructs a new <code>HealthCheckResult</code>.
+     * Constructs a new <code>HealthCheckStatus</code>.
      * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
-     * @alias module:model/HealthCheckResult
+     * @alias module:model/HealthCheckStatus
      */
     constructor() { 
         
-        HealthCheckResult.initialize(this);
+        HealthCheckStatus.initialize(this);
     }
 
     /**
@@ -38,15 +38,15 @@ class HealthCheckResult {
     }
 
     /**
-     * Constructs a <code>HealthCheckResult</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>HealthCheckStatus</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/HealthCheckResult} obj Optional instance to populate.
-     * @return {module:model/HealthCheckResult} The populated <code>HealthCheckResult</code> instance.
+     * @param {module:model/HealthCheckStatus} obj Optional instance to populate.
+     * @return {module:model/HealthCheckStatus} The populated <code>HealthCheckStatus</code> instance.
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new HealthCheckResult();
+            obj = obj || new HealthCheckStatus();
 
             if (data.hasOwnProperty('NullableMessage')) {
                 obj['NullableMessage'] = ApiClient.convertToType(data['NullableMessage'], 'String');
@@ -56,9 +56,9 @@ class HealthCheckResult {
     }
 
     /**
-     * Validates the JSON data with respect to <code>HealthCheckResult</code>.
+     * Validates the JSON data with respect to <code>HealthCheckStatus</code>.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>HealthCheckResult</code>.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>HealthCheckStatus</code>.
      */
     static validateJSON(data) {
         // ensure the json data is a string
@@ -77,12 +77,12 @@ class HealthCheckResult {
 /**
  * @member {String} NullableMessage
  */
-HealthCheckResult.prototype['NullableMessage'] = undefined;
+HealthCheckStatus.prototype['NullableMessage'] = undefined;
 
 
 
 
 
 
-export default HealthCheckResult;
+export default HealthCheckStatus;
 

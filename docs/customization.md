@@ -413,19 +413,18 @@ One can map the property name using `nameMappings` option and parameter name usi
 
 Here is an example to use `nameMappings` and `parameterNameMapping` in CLI:
 ```sh
-java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-okhttp-gson.yaml  -o /tmp/java2/ --name-mappings _type=underscoreType, type_=typeWithUnderscore, --parameter-name-mappings _type=paramType, type_=typeParam
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-okhttp-gson.yaml  -o /tmp/java2/ --name-mappings _type=underscoreType,type_=typeWithUnderscore, --parameter-name-mappings _type=paramType,type_=typeParam
 ```
 
 To map model names, use `modelNameMappings` option, e.g.
 ```sh
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g csharp -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml  -o /tmp/csharp/ --model-name-mappings Tag=Label
 ```
-will rename the Tag schema to Label instead.
+will rename the `Tag` schema to `Label` instead.
 
+Not all generators support thess features yet. Please give it a try to confirm the behaviour and open an issue (ticket) to let us know which generators you would like to have this feature enabled and we'll prioritize accordingly. We also welcome PRs to add these features to generators. Related PRs for reference: #16209, #16234 (modelNameMappings), #16194, #16206 (nameMappings, parameterNameMappings).
 
-(Not all generators support thess features yet. Please give it a try to confirm the behaviour and open an issue (ticket) to let us know which generators you would like to have this feature enabled and we'll prioritize accordingly.)
-
-Related PRs: #16209 (modelNameMappings), #16194, #16206 (nameMappings, parameterNameMappings)
+NOTE: some generators use `baseName` (original name obtained direclty from OpenAPI spec, e.g. `shipping-date`) mustache tag in the templates so the mapping feature won't work.
 
 ## Schema Mapping
 

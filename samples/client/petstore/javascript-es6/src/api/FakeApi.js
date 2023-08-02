@@ -16,7 +16,7 @@ import ApiClient from "../ApiClient";
 import Client from '../model/Client';
 import EnumClass from '../model/EnumClass';
 import FileSchemaTestClass from '../model/FileSchemaTestClass';
-import HealthCheckResult from '../model/HealthCheckResult';
+import HealthCheckStatus from '../model/HealthCheckStatus';
 import OuterComposite from '../model/OuterComposite';
 import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
 import Pet from '../model/Pet';
@@ -45,14 +45,14 @@ export default class FakeApi {
      * Callback function to receive the result of the fakeHealthGet operation.
      * @callback module:api/FakeApi~fakeHealthGetCallback
      * @param {String} error Error message, if any.
-     * @param {module:model/HealthCheckResult} data The data returned by the service call.
+     * @param {module:model/HealthCheckStatus} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
      * Health check endpoint
      * @param {module:api/FakeApi~fakeHealthGetCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link module:model/HealthCheckResult}
+     * data is of type: {@link module:model/HealthCheckStatus}
      */
     fakeHealthGet(callback) {
       let postBody = null;
@@ -69,7 +69,7 @@ export default class FakeApi {
       let authNames = [];
       let contentTypes = [];
       let accepts = ['application/json'];
-      let returnType = HealthCheckResult;
+      let returnType = HealthCheckStatus;
       return this.apiClient.callApi(
         '/fake/health', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
@@ -89,7 +89,7 @@ export default class FakeApi {
      * test http signature authentication
      * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @param {Object} opts Optional parameters
-     * @param {String} [query1] query parameter
+     * @param {String} [queryOne] query parameter
      * @param {String} [header1] header parameter
      * @param {module:api/FakeApi~fakeHttpSignatureTestCallback} callback The callback function, accepting three arguments: error, data, response
      */
@@ -104,7 +104,7 @@ export default class FakeApi {
       let pathParams = {
       };
       let queryParams = {
-        'query_1': opts['query1']
+        'query_1': opts['queryOne']
       };
       let headerParams = {
         'header_1': opts['header1']
