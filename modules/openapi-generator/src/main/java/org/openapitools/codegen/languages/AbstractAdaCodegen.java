@@ -831,7 +831,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 //LOGGER.debug("Compare " + name + " with " + second.name + "=-1");
                 return -1;
             }
-            if (depend != null && (depend == null ? 0 : depend.size()) != (second.depend == null ? 0 : second.depend.size())) {
+            if (depend != null && depend.size() != (second.depend == null ? 0 : second.depend.size())) {
                 //LOGGER.debug("Compare " + name + " with " + second.name + "=D"
                 //        + (depend.size() - second.depend.size()));
                 return depend.size() - second.depend.size();
