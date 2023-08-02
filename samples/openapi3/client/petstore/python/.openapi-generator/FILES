@@ -190,4 +190,3 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_additional_propertie_with_description_only.py
