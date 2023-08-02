@@ -423,6 +423,34 @@ paths:
               schema:
                 type: string
                 format: binary
+  # Array of binary in multipart mime tests
+  /body/application/octetstream/array_of_binary:
+    post:
+      tags:
+        - body
+      summary: Test array of binary in multipart mime
+      description: Test array of binary in multipart mime
+      operationId: test/body/multipart/formdata/array_of_binary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - files
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
 
 components:
   requestBodies:

@@ -20,6 +20,8 @@ on:
       - samples/client/petstore/csharp/OpenAPIClient-net5.0/**
       # build C# API client (.net 5.0 with ConditionalSerialization)
       - samples/client/petstore/csharp/OpenAPIClient-ConditionalSerialization/**
+      # build C# API client (property, parameter name mappings)
+      - samples/client/petstore/csharp-restsharp-name-parameter-mappings/**
   pull_request:
     paths:
       # build C# API client (multiple frameworks)
@@ -39,6 +41,8 @@ on:
       - samples/client/petstore/csharp/OpenAPIClient-net5.0/**
       # build C# API client (.net 5.0 with ConditionalSerialization)
       - samples/client/petstore/csharp/OpenAPIClient-ConditionalSerialization/**
+      # build C# API client (property, parameter name mappings)
+      - samples/client/petstore/csharp-restsharp-name-parameter-mappings/**
 jobs:
   build:
     name: Build .Net clients
@@ -65,6 +69,8 @@ jobs:
           - samples/client/petstore/csharp/OpenAPIClient-net5.0/
           # build C# API client (.net 5.0 with ConditionalSerialization)
           - samples/client/petstore/csharp/OpenAPIClient-ConditionalSerialization/
+          # build C# API client (property, parameter name mappings)
+          - samples/client/petstore/csharp-restsharp-name-parameter-mappings
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-dotnet@v3.2.0

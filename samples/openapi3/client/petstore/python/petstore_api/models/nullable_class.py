@@ -147,3 +147,4 @@ class NullableClass(BaseModel):
         })
         return _obj
 
+

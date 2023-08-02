@@ -19,7 +19,7 @@ import json
 
 
 from typing import Optional
-from pydantic import BaseModel, StrictStr
+from pydantic import StrictStr
 from petstore_api.models.animal import Animal
 
 class Dog(Animal):
@@ -70,4 +70,5 @@ class Dog(Animal):
             "breed": obj.get("breed")
         })
         return _obj
+
 

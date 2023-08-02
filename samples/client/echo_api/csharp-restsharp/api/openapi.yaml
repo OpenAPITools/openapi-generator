@@ -404,6 +404,25 @@ paths:
       summary: Test binary (gif) response body
       tags:
       - body
+  /body/application/octetstream/array_of_binary:
+    post:
+      description: Test array of binary in multipart mime
+      operationId: test/body/multipart/formdata/array_of_binary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/test_body_multipart_formdata_array_of_binary_request'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test array of binary in multipart mime
+      tags:
+      - body
 components:
   requestBodies:
     Pet:
@@ -634,4 +653,14 @@ components:
       allOf:
       - $ref: '#/components/schemas/Bird'
       - $ref: '#/components/schemas/Category'
+    test_body_multipart_formdata_array_of_binary_request:
+      properties:
+        files:
+          items:
+            format: binary
+            type: string
+          type: array
+      required:
+      - files
+      type: object
 

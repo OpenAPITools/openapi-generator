@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 
@@ -92,4 +92,5 @@ class Parent(BaseModel):
                 _obj.additional_properties[_key] = obj.get(_key)
 
         return _obj
+
 

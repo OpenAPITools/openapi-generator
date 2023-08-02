@@ -168,9 +168,19 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val inlineSchemaOptions = project.objects.mapProperty<String, String>()
 
     /**
-     * Specifies mappings between a property, parameter name and the new name
+     * Specifies mappings between a property name and the new name
      */
     val nameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between a parameter name and the new name
+     */
+    val parameterNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between a model name and the new name
+     */
+    val modelNameMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies mappings (rules) in OpenAPI normalizer

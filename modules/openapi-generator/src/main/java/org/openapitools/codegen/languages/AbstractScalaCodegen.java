@@ -276,6 +276,11 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         String varName = sanitizeName(name);
 
         if ("_".equals(varName)) {

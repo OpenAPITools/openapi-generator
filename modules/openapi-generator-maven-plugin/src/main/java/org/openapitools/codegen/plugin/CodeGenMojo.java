@@ -333,10 +333,22 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> inlineSchemaOptions;
 
     /**
-     * A map of property, parameter  names and the new names
+     * A map of property names and the new names
      */
     @Parameter(name = "nameMappings", property = "openapi.generator.maven.plugin.nameMappings")
     private List<String> nameMappings;
+
+    /**
+     * A map of parameter names and the new names
+     */
+    @Parameter(name = "parameterNameMappings", property = "openapi.generator.maven.plugin.parameterNameMappings")
+    private List<String> parameterNameMappings;
+
+    /**
+     * A map of model names and the new names
+     */
+    @Parameter(name = "modelNameMappings", property = "openapi.generator.maven.plugin.modelNameMappings")
+    private List<String> modelNameMappings;
 
     /**
      * A set of rules for OpenAPI normalizer
@@ -805,6 +817,21 @@ public class CodeGenMojo extends AbstractMojo {
             // Apply Inline Schema Options
             if (inlineSchemaOptions != null && (configOptions == null || !configOptions.containsKey("inline-schema-options"))) {
                 applyInlineSchemaOptionsKvpList(inlineSchemaOptions, configurator);
+            }
+
+            // Apply Name Mappings
+            if (nameMappings != null && (configOptions == null || !configOptions.containsKey("name-mappings"))) {
+                applyNameMappingsKvpList(nameMappings, configurator);
+            }
+
+            // Apply Parameter Name Mappings
+            if (parameterNameMappings != null && (configOptions == null || !configOptions.containsKey("paramter-name-mappings"))) {
+                applyParameterNameMappingsKvpList(parameterNameMappings, configurator);
+            }
+
+            // Apply Model Name Mappings
+            if (modelNameMappings != null && (configOptions == null || !configOptions.containsKey("model-name-mappings"))) {
+                applyModelNameMappingsKvpList(modelNameMappings, configurator);
             }
 
             // Apply OpenAPI normalizer rules

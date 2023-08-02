@@ -82,6 +82,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/Api/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/Api/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/Api/FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**getParameterNameMapping**](docs/Api/FakeApi.md#getparameternamemapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
 *FakeApi* | [**testBodyWithBinary**](docs/Api/FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**testBodyWithFileSchema**](docs/Api/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/Api/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
@@ -159,6 +160,7 @@ Class | Method | HTTP request | Description
 - [OuterEnumIntegerDefaultValue](docs/Model/OuterEnumIntegerDefaultValue.md)
 - [OuterObjectWithEnumProperty](docs/Model/OuterObjectWithEnumProperty.md)
 - [Pet](docs/Model/Pet.md)
+- [PropertyNameMapping](docs/Model/PropertyNameMapping.md)
 - [ReadOnlyFirst](docs/Model/ReadOnlyFirst.md)
 - [SingleRefType](docs/Model/SingleRefType.md)
 - [SpecialModelName](docs/Model/SpecialModelName.md)

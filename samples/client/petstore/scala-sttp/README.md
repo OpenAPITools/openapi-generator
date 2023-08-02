@@ -65,6 +65,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FakeApi* | **getParameterNameMapping** | **GET** /fake/parameter-name-mapping | parameter name mapping test
 *PetApi* | **addPet** | **POST** /pet | Add a new pet to the store
 *PetApi* | **deletePet** | **DELETE** /pet/${petId} | Deletes a pet
 *PetApi* | **findPetsByStatus** | **GET** /pet/findByStatus | Finds Pets by status
@@ -94,6 +95,7 @@ Class | Method | HTTP request | Description
  - [EnumTest](EnumTest.md)
  - [Order](Order.md)
  - [Pet](Pet.md)
+ - [PropertyNameMapping](PropertyNameMapping.md)
  - [Tag](Tag.md)
  - [User](User.md)
 

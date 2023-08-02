@@ -1192,8 +1192,8 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/ruby-faraday</module>
                 <module>samples/client/petstore/ruby</module>
+                <module>samples/client/petstore/ruby-faraday</module>
                 <module>samples/client/petstore/ruby-autoload</module>
             </modules>
         </profile>
@@ -1227,6 +1227,7 @@
                 <module>samples/client/petstore/typescript-nestjs-v6-provided-in-root</module>-->
                 <!-- comment out due to error `npm run build`
                 <module>samples/client/petstore/typescript-jquery/npm</module>-->
+                <module>samples/client/others/typescript-angular</module>
                 <module>samples/client/petstore/typescript-angular-v12-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v13-provided-in-root</module>
                 <module>samples/client/petstore/typescript-angular-v14-provided-in-root</module>
@@ -1460,7 +1461,6 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-
         <archunit.version>0.23.1</archunit.version>
         <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
         <commons-cli.version>1.5.0</commons-cli.version>

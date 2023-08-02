@@ -12,6 +12,7 @@ All URIs are relative to http://petstore.swagger.io:80/v2, except if the operati
 | [**fakeOuterNumberSerialize()**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number |  |
 | [**fakeOuterStringSerialize()**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
 | [**fakePropertyEnumIntegerSerialize()**](FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int |  |
+| [**getParameterNameMapping()**](FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test |
 | [**testBodyWithBinary()**](FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary |  |
 | [**testBodyWithFileSchema()**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema |  |
 | [**testBodyWithQueryParams()**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params |  |
@@ -462,6 +463,67 @@ No authorization required
 
 - **Content-Type**: `application/json`
 - **Accept**: `*/*`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `getParameterNameMapping()`
+
+```php
+getParameterNameMapping($underscore_type, $type, $type_with_underscore, $type_with_dash, $http_debug_option)
+```
+
+parameter name mapping test
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$underscore_type = 56; // int | _type
+$type = 'type_example'; // string | type
+$type_with_underscore = 'type_with_underscore_example'; // string | type_
+$type_with_dash = 'type_with_dash_example'; // string | type-
+$http_debug_option = 'http_debug_option_example'; // string | http debug option (to test parameter naming option)
+
+try {
+    $apiInstance->getParameterNameMapping($underscore_type, $type, $type_with_underscore, $type_with_dash, $http_debug_option);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->getParameterNameMapping: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **underscore_type** | **int**| _type | |
+| **type** | **string**| type | |
+| **type_with_underscore** | **string**| type_ | |
+| **type_with_dash** | **string**| type- | |
+| **http_debug_option** | **string**| http debug option (to test parameter naming option) | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)

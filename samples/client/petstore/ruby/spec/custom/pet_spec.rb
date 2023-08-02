@@ -60,6 +60,49 @@ describe "Pet" do
       expect(pet.category.name).to eq("category test")
     end
 
+    it "should fetch a pet object using invalid operation path" do
+      # backup index
+      index_backup = @pet_api.api_client.config.server_operation_index
+      expect(index_backup).to eq({})
+      # test operation index 1 (invalid path)
+      @pet_api.api_client.config.server_operation_index = {
+        :'PetApi.get_pet_by_id' => 1
+      }
+
+      expect(@pet_api.api_client.config.base_url(:'PetApi.get_pet_by_id')).to eq('http://path-server-test.petstore.local/v2')
+
+      expect {
+        pet = @pet_api.get_pet_by_id(@pet_id)
+      }.to raise_error(Petstore::ApiError) # path-server-test.petstore.local is invalid (not defined in host table)
+
+      # restore index
+      @pet_api.api_client.config.server_operation_index = index_backup
+      expect(@pet_api.api_client.config.server_operation_index).to eq({})
+    end
+
+    it "should fetch a pet object using operation path" do
+      # backup index
+      index_backup = @pet_api.api_client.config.server_operation_index
+      expect(index_backup).to eq({})
+      # test operation index 3
+      @pet_api.api_client.config.server_operation_index = {
+        :'PetApi.get_pet_by_id' => 3
+      }
+
+      expect(@pet_api.api_client.config.base_url(:'PetApi.get_pet_by_id')).to eq('http://path.v2.test.openapi-generator.tech/v2')
+
+      pet = @pet_api.get_pet_by_id(@pet_id)
+      expect(pet).to be_a(Petstore::Pet)
+      expect(pet.id).to eq(@pet_id)
+      expect(pet.name).to eq("RUBY UNIT TESTING")
+      expect(pet.tags[0].name).to eq("tag test")
+      expect(pet.category.name).to eq("category test")
+      # restore index
+      @pet_api.api_client.config.server_operation_index = index_backup
+      expect(@pet_api.api_client.config.server_operation_index).to eq({})
+      expect(@pet_api.api_client.config.base_url(:'PetApi.get_pet_by_id')).to eq('http://petstore.swagger.io/v2')
+    end
+
     it "should fetch a pet object with http info" do
       pet, status_code, headers = @pet_api.get_pet_by_id_with_http_info(@pet_id)
       expect(status_code).to eq(200)

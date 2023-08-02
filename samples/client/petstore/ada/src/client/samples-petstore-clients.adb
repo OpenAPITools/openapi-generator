@@ -26,18 +26,39 @@ package body Samples.Petstore.Clients is
      1 => Mime_1'Access   );
 
 
+   --  parameter name mapping test
+   procedure Get_Parameter_Name_Mapping
+      (Client : in out Client_Type;
+       UnderscoreType : in Swagger.Long;
+       P_Type : in Swagger.UString;
+       TypeWithUnderscore : in Swagger.UString;
+       Http_Debug_Option : in Swagger.UString) is
+      URI   : Swagger.Clients.URI_Type;
+   begin
+
+
+      URI.Add_Param ("type", P_Type);
+      URI.Add_Param ("http_debug_option", Http_Debug_Option);
+      URI.Set_Path ("/fake/parameter-name-mapping");
+      Client.Call (Swagger.Clients.GET, URI);
+   end Get_Parameter_Name_Mapping;
+
    --  Add a new pet to the store
    procedure Add_Pet
       (Client : in out Client_Type;
-       P_Body : in Samples.Petstore.Models.Pet_Type) is
+       Pet_Type : in Samples.Petstore.Models.Pet_Type;
+       Result : out Samples.Petstore.Models.Pet_Type) is
       URI   : Swagger.Clients.URI_Type;
       Req   : Swagger.Clients.Request_Type;
+      Reply : Swagger.Value_Type;
    begin
+      Client.Set_Accept (Media_List_1);
       Client.Initialize (Req, Media_List_1);
-      Samples.Petstore.Models.Serialize (Req.Stream, "", P_Body);
+      Samples.Petstore.Models.Serialize (Req.Stream, "", Pet_Type);
 
       URI.Set_Path ("/pet");
-      Client.Call (Swagger.Clients.POST, URI, Req);
+      Client.Call (Swagger.Clients.POST, URI, Req, Reply);
+      Samples.Petstore.Models.Deserialize (Reply, "", Result);
    end Add_Pet;
 
    --  Deletes a pet
@@ -111,15 +132,19 @@ package body Samples.Petstore.Clients is
    --  Update an existing pet
    procedure Update_Pet
       (Client : in out Client_Type;
-       P_Body : in Samples.Petstore.Models.Pet_Type) is
+       Pet_Type : in Samples.Petstore.Models.Pet_Type;
+       Result : out Samples.Petstore.Models.Pet_Type) is
       URI   : Swagger.Clients.URI_Type;
       Req   : Swagger.Clients.Request_Type;
+      Reply : Swagger.Value_Type;
    begin
+      Client.Set_Accept (Media_List_1);
       Client.Initialize (Req, Media_List_1);
-      Samples.Petstore.Models.Serialize (Req.Stream, "", P_Body);
+      Samples.Petstore.Models.Serialize (Req.Stream, "", Pet_Type);
 
       URI.Set_Path ("/pet");
-      Client.Call (Swagger.Clients.PUT, URI, Req);
+      Client.Call (Swagger.Clients.PUT, URI, Req, Reply);
+      Samples.Petstore.Models.Deserialize (Reply, "", Result);
    end Update_Pet;
 
    --  Updates a pet in the store with form data
@@ -156,7 +181,7 @@ package body Samples.Petstore.Clients is
 
       Client.Initialize (Req, Media_List_4);
       Req.Stream.Write_Entity ("additionalMetadata", Additional_Metadata);
---      Req.Stream.Write_Entity ("file", File);
+      Req.Stream.Write_Entity ("file", File);
 
       URI.Set_Path ("/pet/{petId}/uploadImage");
       URI.Set_Path_Param ("petId", Swagger.To_String (Pet_Id));
@@ -215,15 +240,15 @@ package body Samples.Petstore.Clients is
    --  Place an order for a pet
    procedure Place_Order
       (Client : in out Client_Type;
-       P_Body : in Samples.Petstore.Models.Order_Type;
+       Order_Type : in Samples.Petstore.Models.Order_Type;
        Result : out Samples.Petstore.Models.Order_Type) is
       URI   : Swagger.Clients.URI_Type;
       Req   : Swagger.Clients.Request_Type;
       Reply : Swagger.Value_Type;
    begin
       Client.Set_Accept (Media_List_1);
-      Client.Initialize (Req);
-      Samples.Petstore.Models.Serialize (Req.Stream, "", P_Body);
+      Client.Initialize (Req, Media_List_2);
+      Samples.Petstore.Models.Serialize (Req.Stream, "", Order_Type);
 
       URI.Set_Path ("/store/order");
       Client.Call (Swagger.Clients.POST, URI, Req, Reply);
@@ -234,12 +259,12 @@ package body Samples.Petstore.Clients is
    --  This can only be done by the logged in user.
    procedure Create_User
       (Client : in out Client_Type;
-       P_Body : in Samples.Petstore.Models.User_Type) is
+       User_Type : in Samples.Petstore.Models.User_Type) is
       URI   : Swagger.Clients.URI_Type;
       Req   : Swagger.Clients.Request_Type;
    begin
-      Client.Initialize (Req);
-      Samples.Petstore.Models.Serialize (Req.Stream, "", P_Body);
+      Client.Initialize (Req, Media_List_2);
+      Samples.Petstore.Models.Serialize (Req.Stream, "", User_Type);
 
       URI.Set_Path ("/user");
       Client.Call (Swagger.Clients.POST, URI, Req);
@@ -248,12 +273,12 @@ package body Samples.Petstore.Clients is
    --  Creates list of users with given input array
    procedure Create_Users_With_Array_Input
       (Client : in out Client_Type;
-       P_Body : in Samples.Petstore.Models.User_Type_Vectors.Vector) is
+       User : in Samples.Petstore.Models.User_Type_Vectors.Vector) is
       URI   : Swagger.Clients.URI_Type;
       Req   : Swagger.Clients.Request_Type;
    begin
-      Client.Initialize (Req);
-      Samples.Petstore.Models.Serialize (Req.Stream, "", P_Body);
+      Client.Initialize (Req, Media_List_2);
+      Samples.Petstore.Models.Serialize (Req.Stream, "", User);
 
       URI.Set_Path ("/user/createWithArray");
       Client.Call (Swagger.Clients.POST, URI, Req);
@@ -262,12 +287,12 @@ package body Samples.Petstore.Clients is
    --  Creates list of users with given input array
    procedure Create_Users_With_List_Input
       (Client : in out Client_Type;
-       P_Body : in Samples.Petstore.Models.User_Type_Vectors.Vector) is
+       User : in Samples.Petstore.Models.User_Type_Vectors.Vector) is
       URI   : Swagger.Clients.URI_Type;
       Req   : Swagger.Clients.Request_Type;
    begin
-      Client.Initialize (Req);
-      Samples.Petstore.Models.Serialize (Req.Stream, "", P_Body);
+      Client.Initialize (Req, Media_List_2);
+      Samples.Petstore.Models.Serialize (Req.Stream, "", User);
 
       URI.Set_Path ("/user/createWithList");
       Client.Call (Swagger.Clients.POST, URI, Req);
@@ -339,12 +364,12 @@ package body Samples.Petstore.Clients is
    procedure Update_User
       (Client : in out Client_Type;
        Username : in Swagger.UString;
-       P_Body : in Samples.Petstore.Models.User_Type) is
+       User_Type : in Samples.Petstore.Models.User_Type) is
       URI   : Swagger.Clients.URI_Type;
       Req   : Swagger.Clients.Request_Type;
    begin
-      Client.Initialize (Req);
-      Samples.Petstore.Models.Serialize (Req.Stream, "", P_Body);
+      Client.Initialize (Req, Media_List_2);
+      Samples.Petstore.Models.Serialize (Req.Stream, "", User_Type);
 
       URI.Set_Path ("/user/{username}");
       URI.Set_Path_Param ("username", Username);

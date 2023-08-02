@@ -48,6 +48,15 @@ paths:
             - 80
             - 8080
           default: 80
+    - url: 'http://path.{version}.test.openapi-generator.tech/v2'
+      description: test server with variables
+      variables:
+        version:
+          description: target server
+          enum:
+            - 'v1'
+            - 'v2'
+          default: 'v2'
     post:
       tags:
         - pet
@@ -178,6 +187,33 @@ paths:
             - 'read:pets'
       deprecated: true
   '/pet/{petId}':
+    servers:
+    - url: 'http://petstore.swagger.io/v2'
+    - url: 'http://path-server-test.petstore.local/v2'
+    - url: 'http://{server}.swagger.io:{port}/v2'
+      description: test server with variables
+      variables:
+        server:
+          description: target server
+          enum:
+            - 'petstore'
+            - 'qa-petstore'
+            - 'dev-petstore'
+          default: 'petstore'
+        port:
+          enum:
+            - 80
+            - 8080
+          default: 80
+    - url: 'http://path.{version}.test.openapi-generator.tech/v2'
+      description: test server with variables
+      variables:
+        version:
+          description: target server
+          enum:
+            - 'v1'
+            - 'v2'
+          default: 'v2'
     get:
       tags:
         - pet
@@ -1231,6 +1267,41 @@ paths:
       responses:
         200:
           description: The instance started successfully
+  /fake/parameter-name-mapping:
+    get:
+      tags:
+        - fake
+      summary: parameter name mapping test
+      operationId: getParameterNameMapping
+      parameters:
+        - name: _type
+          in: header 
+          description: _type
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: type
+          in: query
+          description: type
+          required: true
+          schema:
+            type: string
+        - name: type_
+          in: header 
+          description: type_
+          required: true
+          schema:
+            type: string
+        - name: http_debug_option
+          in: query
+          description: http debug option (to test parameter naming option)
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1256,6 +1327,15 @@ servers:
         default: 'v2'
   - url: https://127.0.0.1/no_varaible
     description: The local server without variables
+  - url: http://server.{version}.openapi-generator.tech
+    description: The openapi-generator test server
+    variables:
+      version:
+        description: target server
+        enum:
+          - 'v1'
+          - 'v2'
+        default: 'v2'
 components:
   requestBodies:
     UserArray:
@@ -2000,3 +2080,13 @@ components:
       required:
         - classname
       additionalProperties: true
+    PropertyNameMapping:
+      properties: 
+        http_debug_operation: 
+          type: string
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string

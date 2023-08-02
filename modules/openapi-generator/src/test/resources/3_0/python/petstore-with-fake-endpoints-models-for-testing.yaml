@@ -2238,3 +2238,38 @@ components:
         type_:
           type: string
       type: object
+    ObjectToTestAdditionalProperties:
+      description: Minimal object
+      type: object
+      properties:
+        property:
+          description: Property
+          type: boolean
+          default: false
+    Creature:
+      type: object
+      required:
+        - info
+        - type
+      properties:
+        info:
+          $ref: "#/components/schemas/CreatureInfo"
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+    CreatureInfo:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+    Tiger:
+      allOf:
+        - $ref: "#/components/schemas/Tiger"
+        - type: object
+          properties:
+            skill:
+              type: string
+

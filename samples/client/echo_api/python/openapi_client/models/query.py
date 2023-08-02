@@ -71,3 +71,4 @@ class Query(BaseModel):
     def from_dict(cls, obj: dict) -> Query:
         """Create an instance of Query from a dict"""
 
+
