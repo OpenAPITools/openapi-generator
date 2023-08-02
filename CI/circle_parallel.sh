@@ -10,10 +10,12 @@ set -e
 export NODE_ENV=test
 
 function cleanup {
+  # comment out below as it shown errors:
+  # Error response from daemon: pull access denied for fkrull/multi-python
   # Show logs of 'petstore.swagger' container to troubleshoot Unit Test failures, if any.
-  if [ "$NODE_INDEX" != "4" ]; then
-    docker logs petstore.swagger # container name specified in circle.yml
-  fi
+  #if [ "$NODE_INDEX" != "4" ]; then
+  #  docker logs petstore.swagger # container name specified in circle.yml
+  #fi
 }
 
 trap cleanup EXIT
