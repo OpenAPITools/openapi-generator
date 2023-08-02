@@ -13,7 +13,17 @@ import 'package:{{pubName}}/models.dart';
 {{#imports}}import '{{.}}';
 {{/imports}}
 
+{{#operation}}
+{{#allParams}}
+{{^isModel}}
+{{#enumName}}
+{{#-first}}
 part '{{classFilename}}.g.dart';
+{{/-first}}
+{{/enumName}}
+{{/isModel}}
+{{/allParams}}
+{{/operation}}
 
 {{>libraries/dio/api_typed}}
 {{>libraries/dio/api_raw}}
