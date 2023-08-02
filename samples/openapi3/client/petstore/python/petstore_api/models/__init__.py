@@ -14,10 +14,10 @@
 
 
 # import models into model package
-from petstore_api.models.additional_propertie_any_type import AdditionalPropertieAnyType
-from petstore_api.models.additional_propertie_object import AdditionalPropertieObject
-from petstore_api.models.additional_propertie_with_description_only import AdditionalPropertieWithDescriptionOnly
+from petstore_api.models.additional_properties_any_type import AdditionalPropertiesAnyType
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
+from petstore_api.models.additional_properties_object import AdditionalPropertiesObject
+from petstore_api.models.additional_properties_with_description_only import AdditionalPropertiesWithDescriptionOnly
 from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef
 from petstore_api.models.animal import Animal
 from petstore_api.models.any_of_color import AnyOfColor

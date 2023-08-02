@@ -16,11 +16,11 @@ import unittest
 import datetime
 
 import petstore_api
-from petstore_api.models.additional_propertie_any_type import AdditionalPropertieAnyType  # noqa: E501
+from petstore_api.models.additional_properties_any_type import AdditionalPropertiesAnyType  # noqa: E501
 from petstore_api.rest import ApiException
 
-class TestAdditionalPropertieAnyType(unittest.TestCase):
-    """AdditionalPropertieAnyType unit test stubs"""
+class TestAdditionalPropertiesAnyType(unittest.TestCase):
+    """AdditionalPropertiesAnyType unit test stubs"""
 
     def setUp(self):
         pass
@@ -29,24 +29,24 @@ class TestAdditionalPropertieAnyType(unittest.TestCase):
         pass
 
     def make_instance(self, include_optional):
-        """Test AdditionalPropertieAnyType
+        """Test AdditionalPropertiesAnyType
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `AdditionalPropertieAnyType`
+        # uncomment below to create an instance of `AdditionalPropertiesAnyType`
         """
-        model = petstore_api.models.additional_propertie_any_type.AdditionalPropertieAnyType()  # noqa: E501
+        model = petstore_api.models.additional_properties_any_type.AdditionalPropertiesAnyType()  # noqa: E501
         if include_optional :
-            return AdditionalPropertieAnyType(
+            return AdditionalPropertiesAnyType(
                 name = ''
             )
         else :
-            return AdditionalPropertieAnyType(
+            return AdditionalPropertiesAnyType(
         )
         """
 
-    def testAdditionalPropertieAnyType(self):
-        """Test AdditionalPropertieAnyType"""
+    def testAdditionalPropertiesAnyType(self):
+        """Test AdditionalPropertiesAnyType"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

@@ -21,9 +21,9 @@ import json
 from typing import Optional
 from pydantic import BaseModel, StrictStr
 
-class AdditionalPropertieObject(BaseModel):
+class AdditionalPropertiesWithDescriptionOnly(BaseModel):
     """
-    AdditionalPropertieObject
+    AdditionalPropertiesWithDescriptionOnly
     """
     name: Optional[StrictStr] = None
     additional_properties: Dict[str, Any] = {}
@@ -43,8 +43,8 @@ class AdditionalPropertieObject(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> AdditionalPropertieObject:
-        """Create an instance of AdditionalPropertieObject from a JSON string"""
+    def from_json(cls, json_str: str) -> AdditionalPropertiesWithDescriptionOnly:
+        """Create an instance of AdditionalPropertiesWithDescriptionOnly from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self):
@@ -62,15 +62,15 @@ class AdditionalPropertieObject(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> AdditionalPropertieObject:
-        """Create an instance of AdditionalPropertieObject from a dict"""
+    def from_dict(cls, obj: dict) -> AdditionalPropertiesWithDescriptionOnly:
+        """Create an instance of AdditionalPropertiesWithDescriptionOnly from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return AdditionalPropertieObject.parse_obj(obj)
+            return AdditionalPropertiesWithDescriptionOnly.parse_obj(obj)
 
-        _obj = AdditionalPropertieObject.parse_obj({
+        _obj = AdditionalPropertiesWithDescriptionOnly.parse_obj({
             "name": obj.get("name")
         })
         # store additional fields in additional_properties

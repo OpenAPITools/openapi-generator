@@ -132,10 +132,10 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [AdditionalPropertieAnyType](docs/AdditionalPropertieAnyType.md)
- - [AdditionalPropertieObject](docs/AdditionalPropertieObject.md)
- - [AdditionalPropertieWithDescriptionOnly](docs/AdditionalPropertieWithDescriptionOnly.md)
+ - [AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
+ - [AdditionalPropertiesWithDescriptionOnly](docs/AdditionalPropertiesWithDescriptionOnly.md)
  - [AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [Animal](docs/Animal.md)
  - [AnyOfColor](docs/AnyOfColor.md)

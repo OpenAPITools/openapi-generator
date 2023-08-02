@@ -16,11 +16,11 @@ import unittest
 import datetime
 
 import petstore_api
-from petstore_api.models.additional_propertie_object import AdditionalPropertieObject  # noqa: E501
+from petstore_api.models.additional_properties_with_description_only import AdditionalPropertiesWithDescriptionOnly  # noqa: E501
 from petstore_api.rest import ApiException
 
-class TestAdditionalPropertieObject(unittest.TestCase):
-    """AdditionalPropertieObject unit test stubs"""
+class TestAdditionalPropertiesWithDescriptionOnly(unittest.TestCase):
+    """AdditionalPropertiesWithDescriptionOnly unit test stubs"""
 
     def setUp(self):
         pass
@@ -29,24 +29,24 @@ class TestAdditionalPropertieObject(unittest.TestCase):
         pass
 
     def make_instance(self, include_optional):
-        """Test AdditionalPropertieObject
+        """Test AdditionalPropertiesWithDescriptionOnly
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # uncomment below to create an instance of `AdditionalPropertieObject`
+        # uncomment below to create an instance of `AdditionalPropertiesWithDescriptionOnly`
         """
-        model = petstore_api.models.additional_propertie_object.AdditionalPropertieObject()  # noqa: E501
+        model = petstore_api.models.additional_properties_with_description_only.AdditionalPropertiesWithDescriptionOnly()  # noqa: E501
         if include_optional :
-            return AdditionalPropertieObject(
+            return AdditionalPropertiesWithDescriptionOnly(
                 name = ''
             )
         else :
-            return AdditionalPropertieObject(
+            return AdditionalPropertiesWithDescriptionOnly(
         )
         """
 
-    def testAdditionalPropertieObject(self):
-        """Test AdditionalPropertieObject"""
+    def testAdditionalPropertiesWithDescriptionOnly(self):
+        """Test AdditionalPropertiesWithDescriptionOnly"""
         # inst_req_only = self.make_instance(include_optional=False)
         # inst_req_and_optional = self.make_instance(include_optional=True)
 

@@ -2272,20 +2272,20 @@ components:
           properties:
             skill:
               type: string
-    AdditionalPropertieObject:
+    AdditionalPropertiesObject:
       type: object
       properties:
         name:
           type: string
       additionalProperties:
         type: object
-    AdditionalPropertieAnyType:
+    AdditionalPropertiesAnyType:
       type: object
       properties:
         name:
           type: string
       additionalProperties: {}
-    AdditionalPropertieWithDescriptionOnly:
+    AdditionalPropertiesWithDescriptionOnly:
       type: object
       properties:
         name:
