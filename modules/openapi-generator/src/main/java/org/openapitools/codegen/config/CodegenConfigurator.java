@@ -746,6 +746,11 @@ public class CodegenConfigurator {
             config.additionalProperties().put(CodegenConstants.TEMPLATE_DIR, workflowSettings.getTemplateDir());
         }
 
+        // if library is found in additionalProperties, set the library option accordingly
+        if (config.additionalProperties().containsKey("library")) {
+            config.setLibrary(String.valueOf(config.additionalProperties().get("library")));
+        }
+
         ClientOptInput input = new ClientOptInput()
                 .config(config)
                 .userDefinedTemplates(userDefinedTemplates);
