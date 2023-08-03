@@ -13,7 +13,7 @@ module {{title}}.Types (
 
 import Data.Data (Data)
 import Data.UUID (UUID)
-import Data.List (stripPrefix)
+import Data.List (lookup)
 import Data.Maybe (fromMaybe)
 import Data.Aeson (Value, FromJSON(..), ToJSON(..), genericToJSON, genericParseJSON)
 import Data.Aeson.Types (Options(..), defaultOptions)
@@ -26,7 +26,6 @@ import qualified Data.Char as Char
 import qualified Data.Text as T
 import qualified Data.Map as Map
 import GHC.Generics (Generic)
-import Data.Function ((&))
 {{#imports}}import {{import}}
 {{/imports}}
 
@@ -42,15 +41,27 @@ import Data.Function ((&))
   } deriving (Show, Eq, Generic, Data)
 
 instance FromJSON {{classname}} where
-  parseJSON = genericParseJSON (removeFieldLabelPrefix "{{vendorExtensions.x-prefix}}")
+  parseJSON = genericParseJSON options{{classname}}
 instance ToJSON {{classname}} where
-  toJSON = genericToJSON (removeFieldLabelPrefix "{{vendorExtensions.x-prefix}}")
+  toJSON = genericToJSON options{{classname}}
 {{#generateToSchema}}
 instance ToSchema {{classname}} where
   declareNamedSchema = Swagger.genericDeclareNamedSchema
     $ Swagger.fromAesonOptions
-    $ removeFieldLabelPrefix "{{vendorExtensions.x-prefix}}"
+    $ options{{classname}}
 {{/generateToSchema}}
+
+options{{classname}} :: Options
+options{{classname}} =
+  defaultOptions
+    { omitNothingFields  = True
+    , fieldLabelModifier = \s -> fromMaybe ("did not find JSON field name for " ++ show s) $ lookup s table
+    }
+  where
+    table =
+      [ {{#vars}}("{{& name}}", {{& vendorExtensions.x-base-name-string-literal}}){{^-last}}
+      , {{/-last}}{{/vars}}
+      ]
 
 {{/parent}}
 {{#parent}}
@@ -63,23 +74,3 @@ newtype {{classname}} = {{classname}} {{vendorExtensions.x-custom-newtype}} deri
 {{/vendorExtensions.x-custom-newtype}}
 {{/model}}
 {{/models}}
-
-uncapitalize :: String -> String
-uncapitalize (first:rest) = Char.toLower first : rest
-uncapitalize [] = []
-
--- | Remove a field label prefix during JSON parsing.
---   Also perform any replacements for special characters.
-removeFieldLabelPrefix :: String -> Options
-removeFieldLabelPrefix prefix =
-  defaultOptions
-    { omitNothingFields  = True
-    , fieldLabelModifier = uncapitalize . replaceSpecialChars . fromMaybe (error ("did not find prefix " ++ prefix)) . stripPrefix prefix
-    }
-  where
-    replaceSpecialChars field = foldl (&) field (map mkCharReplacement specialChars)
-    specialChars =
-      [ {{#specialCharReplacements}}("{{&char}}", "{{&replacement}}"){{^-last}}
-      , {{/-last}}{{/specialCharReplacements}}
-      ]
-    mkCharReplacement (replaceStr, searchStr) = T.unpack . T.replace (T.pack searchStr) (T.pack replaceStr) . T.pack
