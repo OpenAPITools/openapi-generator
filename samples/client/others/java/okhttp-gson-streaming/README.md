@@ -124,6 +124,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [SimpleOneOf](docs/SimpleOneOf.md)
  - [SomeObj](docs/SomeObj.md)
 
 
