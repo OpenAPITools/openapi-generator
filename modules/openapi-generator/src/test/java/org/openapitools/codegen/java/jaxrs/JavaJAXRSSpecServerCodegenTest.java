@@ -252,6 +252,33 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     @Test
+    public void testGeneratePingDefaultArrayValue() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("jaxrs-spec")
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/ping-array-default.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        validateJavaSourceFiles(files);
+
+        TestUtils.ensureContainsFile(files, output, "src/main/openapi/openapi.yaml");
+
+        Path path = Paths.get(output.toPath() + "/src/gen/java/org/openapitools/model/AnArrayOfString.java");
+
+        assertFileContains(path , "\nimport java.util.Arrays;\n");
+
+        output.deleteOnExit();
+    }
+
+    @Test
     public void testGeneratePingNoSpecFile() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, "");
