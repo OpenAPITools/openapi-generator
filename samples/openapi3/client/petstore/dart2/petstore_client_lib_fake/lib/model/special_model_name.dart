@@ -26,7 +26,7 @@ class SpecialModelName {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is SpecialModelName &&
-     other.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
+    other.dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket == dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket;
 
   @override
   int get hashCode =>
