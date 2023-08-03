@@ -26,11 +26,11 @@ part 'auth/http_bearer_auth.dart';
 
 const _delimiters = {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
 const _dateEpochMarker = 'epoch';
+const _deepEquality = DeepCollectionEquality();
 final _dateFormatter = DateFormat('yyyy-MM-dd');
 final _regList = RegExp(r'^List<(.*)>$');
 final _regSet = RegExp(r'^Set<(.*)>$');
 final _regMap = RegExp(r'^Map<String,(.*)>$');
-final _deepEquality = DeepCollectionEquality();
 
 ApiClient defaultApiClient = ApiClient();
 
