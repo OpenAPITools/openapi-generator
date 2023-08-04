@@ -1,4 +1,4 @@
-import { ResponseContext, RequestContext, HttpFile, ApiResponse } from '../http/http';
+import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
 import { Configuration} from '../configuration'
 import { Observable, of, from } from '../rxjsStub';
 import {mergeMap, map} from  '../rxjsStub';
@@ -22,7 +22,7 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public uniqueItemsWithHttpInfo(_options?: Configuration): Observable<ApiResponse<Response>> {
+    public uniqueItemsWithHttpInfo(_options?: Configuration): Observable<HttpInfo<Response>> {
         const requestContextPromise = this.requestFactory.uniqueItems(_options);
 
         // build promise chain
@@ -44,7 +44,7 @@ export class ObservableDefaultApi {
     /**
      */
     public uniqueItems(_options?: Configuration): Observable<Response> {
-        return this.uniqueItemsWithHttpInfo(_options).pipe(map((apiResponse: ApiResponse<Response>) => apiResponse.data));
+        return this.uniqueItemsWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Response>) => apiResponse.data));
     }
 
 }

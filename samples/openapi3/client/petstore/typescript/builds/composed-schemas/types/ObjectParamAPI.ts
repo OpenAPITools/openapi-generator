@@ -1,4 +1,4 @@
-import { ResponseContext, RequestContext, HttpFile, ApiResponse } from '../http/http';
+import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
 import { Configuration} from '../configuration'
 
 import { Cat } from '../models/Cat';
@@ -49,7 +49,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public filePostWithHttpInfo(param: DefaultApiFilePostRequest = {}, options?: Configuration): Promise<ApiResponse<void>> {
+    public filePostWithHttpInfo(param: DefaultApiFilePostRequest = {}, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.filePostWithHttpInfo(param.filePostRequest,  options).toPromise();
     }
 
@@ -63,7 +63,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public petsFilteredPatchWithHttpInfo(param: DefaultApiPetsFilteredPatchRequest = {}, options?: Configuration): Promise<ApiResponse<void>> {
+    public petsFilteredPatchWithHttpInfo(param: DefaultApiPetsFilteredPatchRequest = {}, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.petsFilteredPatchWithHttpInfo(param.petsFilteredPatchRequest,  options).toPromise();
     }
 
@@ -77,7 +77,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public petsPatchWithHttpInfo(param: DefaultApiPetsPatchRequest = {}, options?: Configuration): Promise<ApiResponse<void>> {
+    public petsPatchWithHttpInfo(param: DefaultApiPetsPatchRequest = {}, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.petsPatchWithHttpInfo(param.petsPatchRequest,  options).toPromise();
     }
 

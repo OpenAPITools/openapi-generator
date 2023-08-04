@@ -309,7 +309,7 @@ export function wrapHttpLibrary(promiseHttpLibrary: PromiseHttpLibrary): HttpLib
   }
 }
 
-export class ApiResponse<T> extends ResponseContext {
+export class HttpInfo<T> extends ResponseContext {
     public constructor(
         public httpStatusCode: number,
         public headers: { [key: string]: string },

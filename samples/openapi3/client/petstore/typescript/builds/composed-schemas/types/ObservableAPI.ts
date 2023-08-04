@@ -1,4 +1,4 @@
-import { ResponseContext, RequestContext, HttpFile, ApiResponse } from '../http/http';
+import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
 import { Configuration} from '../configuration'
 import { Observable, of, from } from '../rxjsStub';
 import {mergeMap, map} from  '../rxjsStub';
@@ -29,7 +29,7 @@ export class ObservableDefaultApi {
     /**
      * @param filePostRequest 
      */
-    public filePostWithHttpInfo(filePostRequest?: FilePostRequest, _options?: Configuration): Observable<ApiResponse<void>> {
+    public filePostWithHttpInfo(filePostRequest?: FilePostRequest, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.filePost(filePostRequest, _options);
 
         // build promise chain
@@ -52,13 +52,13 @@ export class ObservableDefaultApi {
      * @param filePostRequest 
      */
     public filePost(filePostRequest?: FilePostRequest, _options?: Configuration): Observable<void> {
-        return this.filePostWithHttpInfo(filePostRequest, _options).pipe(map((apiResponse: ApiResponse<void>) => apiResponse.data));
+        return this.filePostWithHttpInfo(filePostRequest, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param petsFilteredPatchRequest 
      */
-    public petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Observable<ApiResponse<void>> {
+    public petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.petsFilteredPatch(petsFilteredPatchRequest, _options);
 
         // build promise chain
@@ -81,13 +81,13 @@ export class ObservableDefaultApi {
      * @param petsFilteredPatchRequest 
      */
     public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Observable<void> {
-        return this.petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest, _options).pipe(map((apiResponse: ApiResponse<void>) => apiResponse.data));
+        return this.petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param petsPatchRequest 
      */
-    public petsPatchWithHttpInfo(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Observable<ApiResponse<void>> {
+    public petsPatchWithHttpInfo(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.petsPatch(petsPatchRequest, _options);
 
         // build promise chain
@@ -110,7 +110,7 @@ export class ObservableDefaultApi {
      * @param petsPatchRequest 
      */
     public petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Observable<void> {
-        return this.petsPatchWithHttpInfo(petsPatchRequest, _options).pipe(map((apiResponse: ApiResponse<void>) => apiResponse.data));
+        return this.petsPatchWithHttpInfo(petsPatchRequest, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
 }

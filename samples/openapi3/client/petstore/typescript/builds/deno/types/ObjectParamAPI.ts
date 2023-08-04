@@ -1,4 +1,4 @@
-import { ResponseContext, RequestContext, HttpFile, ApiResponse } from '../http/http.ts';
+import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http.ts';
 import { Configuration} from '../configuration.ts'
 
 import { ApiResponse } from '../models/ApiResponse.ts';
@@ -125,7 +125,7 @@ export class ObjectPetApi {
      * Add a new pet to the store
      * @param param the request object
      */
-    public addPetWithHttpInfo(param: PetApiAddPetRequest, options?: Configuration): Promise<ApiResponse<Pet>> {
+    public addPetWithHttpInfo(param: PetApiAddPetRequest, options?: Configuration): Promise<HttpInfo<Pet>> {
         return this.api.addPetWithHttpInfo(param.pet,  options).toPromise();
     }
 
@@ -143,7 +143,7 @@ export class ObjectPetApi {
      * Deletes a pet
      * @param param the request object
      */
-    public deletePetWithHttpInfo(param: PetApiDeletePetRequest, options?: Configuration): Promise<ApiResponse<void>> {
+    public deletePetWithHttpInfo(param: PetApiDeletePetRequest, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.deletePetWithHttpInfo(param.petId, param.apiKey,  options).toPromise();
     }
 
@@ -161,7 +161,7 @@ export class ObjectPetApi {
      * Finds Pets by status
      * @param param the request object
      */
-    public findPetsByStatusWithHttpInfo(param: PetApiFindPetsByStatusRequest, options?: Configuration): Promise<ApiResponse<Array<Pet>>> {
+    public findPetsByStatusWithHttpInfo(param: PetApiFindPetsByStatusRequest, options?: Configuration): Promise<HttpInfo<Array<Pet>>> {
         return this.api.findPetsByStatusWithHttpInfo(param.status,  options).toPromise();
     }
 
@@ -179,7 +179,7 @@ export class ObjectPetApi {
      * Finds Pets by tags
      * @param param the request object
      */
-    public findPetsByTagsWithHttpInfo(param: PetApiFindPetsByTagsRequest, options?: Configuration): Promise<ApiResponse<Array<Pet>>> {
+    public findPetsByTagsWithHttpInfo(param: PetApiFindPetsByTagsRequest, options?: Configuration): Promise<HttpInfo<Array<Pet>>> {
         return this.api.findPetsByTagsWithHttpInfo(param.tags,  options).toPromise();
     }
 
@@ -197,7 +197,7 @@ export class ObjectPetApi {
      * Find pet by ID
      * @param param the request object
      */
-    public getPetByIdWithHttpInfo(param: PetApiGetPetByIdRequest, options?: Configuration): Promise<ApiResponse<Pet>> {
+    public getPetByIdWithHttpInfo(param: PetApiGetPetByIdRequest, options?: Configuration): Promise<HttpInfo<Pet>> {
         return this.api.getPetByIdWithHttpInfo(param.petId,  options).toPromise();
     }
 
@@ -215,7 +215,7 @@ export class ObjectPetApi {
      * Update an existing pet
      * @param param the request object
      */
-    public updatePetWithHttpInfo(param: PetApiUpdatePetRequest, options?: Configuration): Promise<ApiResponse<Pet>> {
+    public updatePetWithHttpInfo(param: PetApiUpdatePetRequest, options?: Configuration): Promise<HttpInfo<Pet>> {
         return this.api.updatePetWithHttpInfo(param.pet,  options).toPromise();
     }
 
@@ -233,7 +233,7 @@ export class ObjectPetApi {
      * Updates a pet in the store with form data
      * @param param the request object
      */
-    public updatePetWithFormWithHttpInfo(param: PetApiUpdatePetWithFormRequest, options?: Configuration): Promise<ApiResponse<void>> {
+    public updatePetWithFormWithHttpInfo(param: PetApiUpdatePetWithFormRequest, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.updatePetWithFormWithHttpInfo(param.petId, param.name, param.status,  options).toPromise();
     }
 
@@ -251,7 +251,7 @@ export class ObjectPetApi {
      * uploads an image
      * @param param the request object
      */
-    public uploadFileWithHttpInfo(param: PetApiUploadFileRequest, options?: Configuration): Promise<ApiResponse<ApiResponse>> {
+    public uploadFileWithHttpInfo(param: PetApiUploadFileRequest, options?: Configuration): Promise<HttpInfo<ApiResponse>> {
         return this.api.uploadFileWithHttpInfo(param.petId, param.additionalMetadata, param.file,  options).toPromise();
     }
 
@@ -311,7 +311,7 @@ export class ObjectStoreApi {
      * Delete purchase order by ID
      * @param param the request object
      */
-    public deleteOrderWithHttpInfo(param: StoreApiDeleteOrderRequest, options?: Configuration): Promise<ApiResponse<void>> {
+    public deleteOrderWithHttpInfo(param: StoreApiDeleteOrderRequest, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.deleteOrderWithHttpInfo(param.orderId,  options).toPromise();
     }
 
@@ -329,7 +329,7 @@ export class ObjectStoreApi {
      * Returns pet inventories by status
      * @param param the request object
      */
-    public getInventoryWithHttpInfo(param: StoreApiGetInventoryRequest = {}, options?: Configuration): Promise<ApiResponse<{ [key: string]: number; }>> {
+    public getInventoryWithHttpInfo(param: StoreApiGetInventoryRequest = {}, options?: Configuration): Promise<HttpInfo<{ [key: string]: number; }>> {
         return this.api.getInventoryWithHttpInfo( options).toPromise();
     }
 
@@ -347,7 +347,7 @@ export class ObjectStoreApi {
      * Find purchase order by ID
      * @param param the request object
      */
-    public getOrderByIdWithHttpInfo(param: StoreApiGetOrderByIdRequest, options?: Configuration): Promise<ApiResponse<Order>> {
+    public getOrderByIdWithHttpInfo(param: StoreApiGetOrderByIdRequest, options?: Configuration): Promise<HttpInfo<Order>> {
         return this.api.getOrderByIdWithHttpInfo(param.orderId,  options).toPromise();
     }
 
@@ -365,7 +365,7 @@ export class ObjectStoreApi {
      * Place an order for a pet
      * @param param the request object
      */
-    public placeOrderWithHttpInfo(param: StoreApiPlaceOrderRequest, options?: Configuration): Promise<ApiResponse<Order>> {
+    public placeOrderWithHttpInfo(param: StoreApiPlaceOrderRequest, options?: Configuration): Promise<HttpInfo<Order>> {
         return this.api.placeOrderWithHttpInfo(param.order,  options).toPromise();
     }
 
@@ -473,7 +473,7 @@ export class ObjectUserApi {
      * Create user
      * @param param the request object
      */
-    public createUserWithHttpInfo(param: UserApiCreateUserRequest, options?: Configuration): Promise<ApiResponse<void>> {
+    public createUserWithHttpInfo(param: UserApiCreateUserRequest, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.createUserWithHttpInfo(param.user,  options).toPromise();
     }
 
@@ -491,7 +491,7 @@ export class ObjectUserApi {
      * Creates list of users with given input array
      * @param param the request object
      */
-    public createUsersWithArrayInputWithHttpInfo(param: UserApiCreateUsersWithArrayInputRequest, options?: Configuration): Promise<ApiResponse<void>> {
+    public createUsersWithArrayInputWithHttpInfo(param: UserApiCreateUsersWithArrayInputRequest, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.createUsersWithArrayInputWithHttpInfo(param.user,  options).toPromise();
     }
 
@@ -509,7 +509,7 @@ export class ObjectUserApi {
      * Creates list of users with given input array
      * @param param the request object
      */
-    public createUsersWithListInputWithHttpInfo(param: UserApiCreateUsersWithListInputRequest, options?: Configuration): Promise<ApiResponse<void>> {
+    public createUsersWithListInputWithHttpInfo(param: UserApiCreateUsersWithListInputRequest, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.createUsersWithListInputWithHttpInfo(param.user,  options).toPromise();
     }
 
@@ -527,7 +527,7 @@ export class ObjectUserApi {
      * Delete user
      * @param param the request object
      */
-    public deleteUserWithHttpInfo(param: UserApiDeleteUserRequest, options?: Configuration): Promise<ApiResponse<void>> {
+    public deleteUserWithHttpInfo(param: UserApiDeleteUserRequest, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.deleteUserWithHttpInfo(param.username,  options).toPromise();
     }
 
@@ -545,7 +545,7 @@ export class ObjectUserApi {
      * Get user by user name
      * @param param the request object
      */
-    public getUserByNameWithHttpInfo(param: UserApiGetUserByNameRequest, options?: Configuration): Promise<ApiResponse<User>> {
+    public getUserByNameWithHttpInfo(param: UserApiGetUserByNameRequest, options?: Configuration): Promise<HttpInfo<User>> {
         return this.api.getUserByNameWithHttpInfo(param.username,  options).toPromise();
     }
 
@@ -563,7 +563,7 @@ export class ObjectUserApi {
      * Logs user into the system
      * @param param the request object
      */
-    public loginUserWithHttpInfo(param: UserApiLoginUserRequest, options?: Configuration): Promise<ApiResponse<string>> {
+    public loginUserWithHttpInfo(param: UserApiLoginUserRequest, options?: Configuration): Promise<HttpInfo<string>> {
         return this.api.loginUserWithHttpInfo(param.username, param.password,  options).toPromise();
     }
 
@@ -581,7 +581,7 @@ export class ObjectUserApi {
      * Logs out current logged in user session
      * @param param the request object
      */
-    public logoutUserWithHttpInfo(param: UserApiLogoutUserRequest = {}, options?: Configuration): Promise<ApiResponse<void>> {
+    public logoutUserWithHttpInfo(param: UserApiLogoutUserRequest = {}, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.logoutUserWithHttpInfo( options).toPromise();
     }
 
@@ -599,7 +599,7 @@ export class ObjectUserApi {
      * Updated user
      * @param param the request object
      */
-    public updateUserWithHttpInfo(param: UserApiUpdateUserRequest, options?: Configuration): Promise<ApiResponse<void>> {
+    public updateUserWithHttpInfo(param: UserApiUpdateUserRequest, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.updateUserWithHttpInfo(param.username, param.user,  options).toPromise();
     }
 

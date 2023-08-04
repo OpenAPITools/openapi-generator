@@ -1,4 +1,4 @@
-import { ResponseContext, RequestContext, HttpFile, ApiResponse } from '../http/http';
+import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
 import { Configuration} from '../configuration'
 
 import { Response } from '../models/Response';
@@ -18,7 +18,7 @@ export class PromiseDefaultApi {
 
     /**
      */
-    public uniqueItemsWithHttpInfo(_options?: Configuration): Promise<ApiResponse<Response>> {
+    public uniqueItemsWithHttpInfo(_options?: Configuration): Promise<HttpInfo<Response>> {
         const result = this.api.uniqueItemsWithHttpInfo(_options);
         return result.toPromise();
     }
