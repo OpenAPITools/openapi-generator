@@ -27,13 +27,6 @@ type OrderInfo struct {
 	ShipDate time.Time `json:"shipDate,omitempty"`
 }
 
-// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (m *OrderInfo) UnmarshalJSON(data []byte) error {
-
-	type Alias OrderInfo // To avoid infinite recursion
-    return json.Unmarshal(data, (*Alias)(m))
-}
-
 // AssertOrderInfoRequired checks if the required fields are not zero-ed
 func AssertOrderInfoRequired(obj OrderInfo) error {
 	return nil

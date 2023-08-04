@@ -24,13 +24,6 @@ type SpecialInfo struct {
 	Type string `json:"type,omitempty"`
 }
 
-// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (m *SpecialInfo) UnmarshalJSON(data []byte) error {
-
-	type Alias SpecialInfo // To avoid infinite recursion
-    return json.Unmarshal(data, (*Alias)(m))
-}
-
 // AssertSpecialInfoRequired checks if the required fields are not zero-ed
 func AssertSpecialInfoRequired(obj SpecialInfo) error {
 	return nil

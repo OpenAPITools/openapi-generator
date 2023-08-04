@@ -37,13 +37,6 @@ type User struct {
 	UserStatus int32 `json:"userStatus,omitempty"`
 }
 
-// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (m *User) UnmarshalJSON(data []byte) error {
-
-	type Alias User // To avoid infinite recursion
-    return json.Unmarshal(data, (*Alias)(m))
-}
-
 // AssertUserRequired checks if the required fields are not zero-ed
 func AssertUserRequired(obj User) error {
 	return nil

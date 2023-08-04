@@ -25,13 +25,6 @@ type AnObject struct {
 	Pet []Pet `json:"Pet,omitempty"`
 }
 
-// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (m *AnObject) UnmarshalJSON(data []byte) error {
-
-	type Alias AnObject // To avoid infinite recursion
-    return json.Unmarshal(data, (*Alias)(m))
-}
-
 // AssertAnObjectRequired checks if the required fields are not zero-ed
 func AssertAnObjectRequired(obj AnObject) error {
 	if err := AssertTagRequired(obj.Tag); err != nil {

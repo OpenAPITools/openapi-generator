@@ -34,14 +34,6 @@ type Order struct {
 	Complete bool `json:"complete,omitempty"`
 }
 
-// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (m *Order) UnmarshalJSON(data []byte) error {
-	m.Complete = false
-
-	type Alias Order // To avoid infinite recursion
-    return json.Unmarshal(data, (*Alias)(m))
-}
-
 // AssertOrderRequired checks if the required fields are not zero-ed
 func AssertOrderRequired(obj Order) error {
 	return nil

@@ -33,13 +33,6 @@ type Pet struct {
 	Status string `json:"status,omitempty"`
 }
 
-// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (m *Pet) UnmarshalJSON(data []byte) error {
-
-	type Alias Pet // To avoid infinite recursion
-    return json.Unmarshal(data, (*Alias)(m))
-}
-
 // AssertPetRequired checks if the required fields are not zero-ed
 func AssertPetRequired(obj Pet) error {
 	elements := map[string]interface{}{

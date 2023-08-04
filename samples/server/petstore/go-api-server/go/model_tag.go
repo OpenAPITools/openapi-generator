@@ -24,13 +24,6 @@ type Tag struct {
 	Name string `json:"name,omitempty"`
 }
 
-// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (m *Tag) UnmarshalJSON(data []byte) error {
-
-	type Alias Tag // To avoid infinite recursion
-    return json.Unmarshal(data, (*Alias)(m))
-}
-
 // AssertTagRequired checks if the required fields are not zero-ed
 func AssertTagRequired(obj Tag) error {
 	return nil
