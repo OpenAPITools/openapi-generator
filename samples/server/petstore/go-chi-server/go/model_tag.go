@@ -9,6 +9,13 @@
 
 package petstoreserver
 
+
+import (
+	"encoding/json"
+)
+
+
+
 // Tag - A tag for a pet
 type Tag struct {
 
@@ -17,19 +24,19 @@ type Tag struct {
 	Name string `json:"name,omitempty"`
 }
 
+// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
+func (m *Tag) UnmarshalJSON(data []byte) error {
+
+	type Alias Tag // To avoid infinite recursion
+    return json.Unmarshal(data, (*Alias)(m))
+}
+
 // AssertTagRequired checks if the required fields are not zero-ed
 func AssertTagRequired(obj Tag) error {
 	return nil
 }
 
-// AssertRecurseTagRequired recursively checks if required fields are not zero-ed in a nested slice.
-// Accepts only nested slice of Tag (e.g. [][]Tag), otherwise ErrTypeAssertionError is thrown.
-func AssertRecurseTagRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
-		aTag, ok := obj.(Tag)
-		if !ok {
-			return ErrTypeAssertionError
-		}
-		return AssertTagRequired(aTag)
-	})
+// AssertTagConstraints checks if the values respects the defined constraints
+func AssertTagConstraints(obj Tag) error {
+	return nil
 }

@@ -28,6 +28,15 @@ buildscript {
     {{#jvm-vertx}}
     ext.vertx_version = "4.3.3"
     {{/jvm-vertx}}
+    {{#jvm-spring-webclient}}
+    {{#useSpringBoot3}}
+    ext.spring_boot_version = "3.1.0"
+    {{/useSpringBoot3}}
+    {{^useSpringBoot3}}
+    ext.spring_boot_version = "2.7.12"
+    {{/useSpringBoot3}}
+    ext.reactor_version = "3.5.6"
+    {{/jvm-spring-webclient}}
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -73,7 +82,13 @@ idea {
     }
 }
 {{/idea}}
-
+{{#jvm-spring-webclient}}{{#useSpringBoot3}}
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+{{/useSpringBoot3}}{{/jvm-spring-webclient}}
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     {{^doNotUseRxAndCoroutines}}
@@ -122,6 +137,10 @@ dependencies {
     {{#jvm-okhttp4}}
     implementation "com.squareup.okhttp3:okhttp:4.10.0"
     {{/jvm-okhttp4}}
+    {{#jvm-spring-webclient}}
+    implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
+    implementation "io.projectreactor:reactor-core:$reactor_version"
+    {{/jvm-spring-webclient}}
     {{#threetenbp}}
     implementation "org.threeten:threetenbp:1.5.1"
     {{/threetenbp}}

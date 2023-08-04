@@ -795,4 +795,96 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"requiredYesReadonlyNo\""))
                 .containsWithName("NotNull");
     }
+
+    @Test
+    public void generateSpecInterfaceWithMicroprofileOpenApiAnnotations() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, true); //And only interfaces are generated
+        codegen.additionalProperties().put(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, true); //And only interfaces are generated
+        codegen.additionalProperties().put(USE_TAGS, true); //And use tags to generate everything in several API files
+        codegen.additionalProperties().put(RETURN_RESPONSE, true); // Retrieve HTTP Response
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true); // Use Jakarta
+        codegen.setLibrary(QUARKUS_LIBRARY); // Set Quarkus
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen); //using JavaJAXRSSpecServerCodegen
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate(); //When generating files
+
+        //Then the java files are compilable
+        validateJavaSourceFiles(files);
+
+        //And the generated interfaces contains CompletionStage
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PetApi.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
+                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n" +
+                        "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n" +
+                        "        title = \"pet\", version=\"1.0.0\", description=\"Everything about your Pets\",");
+
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/StoreApi.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/StoreApi.java"),
+                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n" +
+                        "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n" +
+                        "        title = \"store\", version=\"1.0.0\", description=\"Access to Petstore orders\",");
+
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/UserApi.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/UserApi.java"),
+                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n" +
+                        "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n" +
+                        "        title = \"user\", version=\"1.0.0\", description=\"Operations about user\",");
+    }
+
+    @Test
+    public void generateSpecNonInterfaceWithMicroprofileOpenApiAnnotations() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, false); //And only interfaces are generated
+        codegen.additionalProperties().put(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, true); //And only interfaces are generated
+        codegen.additionalProperties().put(USE_TAGS, true); //And use tags to generate everything in several API files
+        codegen.additionalProperties().put(RETURN_RESPONSE, true); // Retrieve HTTP Response
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true); // Use Jakarta
+        codegen.setLibrary(QUARKUS_LIBRARY); // Set Quarkus
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen); //using JavaJAXRSSpecServerCodegen
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate(); //When generating files
+
+        //Then the java files are compilable
+        validateJavaSourceFiles(files);
+
+        //And the generated interfaces contains CompletionStage
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PetApi.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
+                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n" +
+                        "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n" +
+                        "        title = \"pet\", version=\"1.0.0\", description=\"Everything about your Pets\",");
+
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/StoreApi.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/StoreApi.java"),
+                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n" +
+                        "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n" +
+                        "        title = \"store\", version=\"1.0.0\", description=\"Access to Petstore orders\",");
+
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/UserApi.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/UserApi.java"),
+                "@org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(\n" +
+                        "   info = @org.eclipse.microprofile.openapi.annotations.info.Info(\n" +
+                        "        title = \"user\", version=\"1.0.0\", description=\"Operations about user\",");
+    }
 }

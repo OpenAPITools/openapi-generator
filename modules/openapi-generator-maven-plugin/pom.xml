@@ -5,7 +5,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>6.6.0-SNAPSHOT</version>
+        <version>7.0.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
@@ -114,6 +114,24 @@
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <configuration>
                     <configLocation>${project.parent.basedir}${file.separator}google_checkstyle.xml</configLocation>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.source}</target>
+                    <annotationProcessorPaths>
+                        <processorPath>
+                            <groupId>org.eclipse.sisu</groupId>
+                            <artifactId>org.eclipse.sisu.inject</artifactId>
+                            <version>0.3.5</version>
+                        </processorPath>
+                    </annotationProcessorPaths>
+                    <annotationProcessors>
+                        org.eclipse.sisu.space.SisuIndexAPT6
+                    </annotationProcessors>
                 </configuration>
             </plugin>
         </plugins>

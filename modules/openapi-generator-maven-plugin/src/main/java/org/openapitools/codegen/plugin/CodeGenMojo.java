@@ -116,7 +116,7 @@ public class CodeGenMojo extends AbstractMojo {
     private String inputSpecRootDirectory;
 
     /**
-     * Name of the file that will contains all merged specs
+     * Name of the file that will contain all merged specs
      */
     @Parameter(name = "mergedFileName", property = "openapi.generator.maven.plugin.mergedFileName", defaultValue = "_merged_spec")
     private String mergedFileName;
@@ -327,10 +327,28 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> inlineSchemaNameMappings;
 
     /**
-     * A map of inline scheme naming convention and the value
+     * A map of inline scheme option and the value
      */
-    @Parameter(name = "inlineSchemaNameDefaults", property = "openapi.generator.maven.plugin.inlineSchemaNameDefaults")
-    private List<String> inlineSchemaNameDefaults;
+    @Parameter(name = "inlineSchemaOptions", property = "openapi.generator.maven.plugin.inlineSchemaOptions")
+    private List<String> inlineSchemaOptions;
+
+    /**
+     * A map of property names and the new names
+     */
+    @Parameter(name = "nameMappings", property = "openapi.generator.maven.plugin.nameMappings")
+    private List<String> nameMappings;
+
+    /**
+     * A map of parameter names and the new names
+     */
+    @Parameter(name = "parameterNameMappings", property = "openapi.generator.maven.plugin.parameterNameMappings")
+    private List<String> parameterNameMappings;
+
+    /**
+     * A map of model names and the new names
+     */
+    @Parameter(name = "modelNameMappings", property = "openapi.generator.maven.plugin.modelNameMappings")
+    private List<String> modelNameMappings;
 
     /**
      * A set of rules for OpenAPI normalizer
@@ -459,6 +477,9 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "false", property = "openapi.generator.maven.plugin.addTestCompileSourceRoot")
     private boolean addTestCompileSourceRoot = false;
+
+    @Parameter(defaultValue = "false", property = "openapi.generator.maven.plugin.dryRun")
+    private Boolean dryRun = false;
 
     // TODO: Rename to global properties in version 5.1
     @Parameter
@@ -733,9 +754,9 @@ public class CodeGenMojo extends AbstractMojo {
                             configurator);
                 }
 
-                // Retained for backwards-compatibility with configOptions -> inline-schema-name-defaults
-                if (inlineSchemaNameDefaults == null && configOptions.containsKey("inline-schema-name-defaults")) {
-                    applyInlineSchemaNameDefaultsKvp(configOptions.get("inline-schema-name-defaults").toString(),
+                // Retained for backwards-compatibility with configOptions -> inline-schema-options
+                if (inlineSchemaOptions == null && configOptions.containsKey("inline-schema-options")) {
+                    applyInlineSchemaOptionsKvp(configOptions.get("inline-schema-options").toString(),
                             configurator);
                 }
 
@@ -793,9 +814,24 @@ public class CodeGenMojo extends AbstractMojo {
                 applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
             }
 
-            // Apply Inline Schema Name Defaults
-            if (inlineSchemaNameDefaults != null && (configOptions == null || !configOptions.containsKey("inline-schema-name-defaults"))) {
-                applyInlineSchemaNameDefaultsKvpList(inlineSchemaNameDefaults, configurator);
+            // Apply Inline Schema Options
+            if (inlineSchemaOptions != null && (configOptions == null || !configOptions.containsKey("inline-schema-options"))) {
+                applyInlineSchemaOptionsKvpList(inlineSchemaOptions, configurator);
+            }
+
+            // Apply Name Mappings
+            if (nameMappings != null && (configOptions == null || !configOptions.containsKey("name-mappings"))) {
+                applyNameMappingsKvpList(nameMappings, configurator);
+            }
+
+            // Apply Parameter Name Mappings
+            if (parameterNameMappings != null && (configOptions == null || !configOptions.containsKey("paramter-name-mappings"))) {
+                applyParameterNameMappingsKvpList(parameterNameMappings, configurator);
+            }
+
+            // Apply Model Name Mappings
+            if (modelNameMappings != null && (configOptions == null || !configOptions.containsKey("model-name-mappings"))) {
+                applyModelNameMappingsKvpList(modelNameMappings, configurator);
             }
 
             // Apply OpenAPI normalizer rules
@@ -867,7 +903,7 @@ public class CodeGenMojo extends AbstractMojo {
                 return;
             }
             adjustAdditionalProperties(config);
-            new DefaultGenerator().opts(input).generate();
+            new DefaultGenerator(dryRun).opts(input).generate();
 
             if (buildContext != null) {
                 buildContext.refresh(new File(getCompileSourceRoot()));

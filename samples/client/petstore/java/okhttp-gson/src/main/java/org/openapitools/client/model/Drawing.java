@@ -39,6 +39,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -85,7 +89,6 @@ public class Drawing {
    * @return mainShape
   **/
   @javax.annotation.Nullable
-
   public Shape getMainShape() {
     return mainShape;
   }
@@ -107,7 +110,6 @@ public class Drawing {
    * @return shapeOrNull
   **/
   @javax.annotation.Nullable
-
   public ShapeOrNull getShapeOrNull() {
     return shapeOrNull;
   }
@@ -129,7 +131,6 @@ public class Drawing {
    * @return nullableShape
   **/
   @javax.annotation.Nullable
-
   public NullableShape getNullableShape() {
     return nullableShape;
   }
@@ -159,7 +160,6 @@ public class Drawing {
    * @return shapes
   **/
   @javax.annotation.Nullable
-
   public List<Shape> getShapes() {
     return shapes;
   }
@@ -242,36 +242,37 @@ public class Drawing {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to Drawing
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to Drawing
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!Drawing.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!Drawing.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in Drawing is not found in the empty JSON string", Drawing.openapiRequiredFields.toString()));
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
         if (!Drawing.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Drawing` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `Drawing` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       // validate the optional field `mainShape`
       if (jsonObj.get("mainShape") != null && !jsonObj.get("mainShape").isJsonNull()) {
-        Shape.validateJsonObject(jsonObj.getAsJsonObject("mainShape"));
+        Shape.validateJsonElement(jsonObj.get("mainShape"));
       }
       // validate the optional field `shapeOrNull`
       if (jsonObj.get("shapeOrNull") != null && !jsonObj.get("shapeOrNull").isJsonNull()) {
-        ShapeOrNull.validateJsonObject(jsonObj.getAsJsonObject("shapeOrNull"));
+        ShapeOrNull.validateJsonElement(jsonObj.get("shapeOrNull"));
       }
       // validate the optional field `nullableShape`
       if (jsonObj.get("nullableShape") != null && !jsonObj.get("nullableShape").isJsonNull()) {
-        NullableShape.validateJsonObject(jsonObj.getAsJsonObject("nullableShape"));
+        NullableShape.validateJsonElement(jsonObj.get("nullableShape"));
       }
       if (jsonObj.get("shapes") != null && !jsonObj.get("shapes").isJsonNull()) {
         JsonArray jsonArrayshapes = jsonObj.getAsJsonArray("shapes");
@@ -283,7 +284,7 @@ public class Drawing {
 
           // validate the optional field `shapes` (array)
           for (int i = 0; i < jsonArrayshapes.size(); i++) {
-            Shape.validateJsonObject(jsonArrayshapes.get(i).getAsJsonObject());
+            Shape.validateJsonElement(jsonArrayshapes.get(i));
           };
         }
       }
@@ -309,9 +310,9 @@ public class Drawing {
 
            @Override
            public Drawing read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
-             return thisAdapter.fromJsonTree(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             return thisAdapter.fromJsonTree(jsonElement);
            }
 
        }.nullSafe();

@@ -280,17 +280,15 @@ class FormatTest {
         integer: mapValueOfType<int>(json, r'integer'),
         int32: mapValueOfType<int>(json, r'int32'),
         int64: mapValueOfType<int>(json, r'int64'),
-        number: json[r'number'] == null
-            ? null
-            : num.parse(json[r'number'].toString()),
+        number: num.parse('${json[r'number']}'),
         float: mapValueOfType<double>(json, r'float'),
         double_: mapValueOfType<double>(json, r'double'),
         decimal: mapValueOfType<double>(json, r'decimal'),
         string: mapValueOfType<String>(json, r'string'),
         byte: mapValueOfType<String>(json, r'byte')!,
         binary: null, // No support for decoding binary content from JSON
-        date: mapDateTime(json, r'date', '')!,
-        dateTime: mapDateTime(json, r'dateTime', ''),
+        date: mapDateTime(json, r'date', r'')!,
+        dateTime: mapDateTime(json, r'dateTime', r''),
         uuid: mapValueOfType<String>(json, r'uuid'),
         password: mapValueOfType<String>(json, r'password')!,
         patternWithDigits: mapValueOfType<String>(json, r'pattern_with_digits'),
@@ -300,7 +298,7 @@ class FormatTest {
     return null;
   }
 
-  static List<FormatTest>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<FormatTest> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <FormatTest>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -331,12 +329,10 @@ class FormatTest {
   static Map<String, List<FormatTest>> mapListFromJson(dynamic json, {bool growable = false,}) {
     final map = <String, List<FormatTest>>{};
     if (json is Map && json.isNotEmpty) {
-      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        final value = FormatTest.listFromJson(entry.value, growable: growable,);
-        if (value != null) {
-          map[entry.key] = value;
-        }
+        map[entry.key] = FormatTest.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

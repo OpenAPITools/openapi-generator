@@ -101,13 +101,12 @@ public class BigCat extends Cat  {
       return false;
     }
     BigCat bigCat = (BigCat) o;
-    return Objects.equals(this.kind, bigCat.kind) &&
-        super.equals(o);
+    return super.equals(o) && Objects.equals(kind, bigCat.kind);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(kind, super.hashCode());
+    return Objects.hash(super.hashCode(), kind);
   }
 
   @Override

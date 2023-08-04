@@ -35,8 +35,6 @@ model/Capitalization.cpp
 model/Capitalization.h
 model/Cat.cpp
 model/Cat.h
-model/Cat_allOf.cpp
-model/Cat_allOf.h
 model/Category.cpp
 model/Category.h
 model/ClassModel.cpp
@@ -47,14 +45,14 @@ model/DeprecatedObject.cpp
 model/DeprecatedObject.h
 model/Dog.cpp
 model/Dog.h
-model/Dog_allOf.cpp
-model/Dog_allOf.h
 model/EnumArrays.cpp
 model/EnumArrays.h
 model/EnumClass.cpp
 model/EnumClass.h
 model/Enum_Test.cpp
 model/Enum_Test.h
+model/FakeBigDecimalMap_200_response.cpp
+model/FakeBigDecimalMap_200_response.h
 model/File.cpp
 model/File.h
 model/FileSchemaTestClass.cpp

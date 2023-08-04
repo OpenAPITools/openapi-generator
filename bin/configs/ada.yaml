@@ -1,0 +1,15 @@
+generatorName: ada
+outputDir: samples/client/petstore/ada
+inputSpec: modules/openapi-generator/src/test/resources/3_0/ada/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/Ada
+nameMappings:
+  _type: P_UnderscoreType
+  type_: P_TypeWithUnderscore
+  http_debug_operation: P_HTTPDebugOperation
+parameterNameMappings:
+  _type: UnderscoreType
+  type_: TypeWithUnderscore
+  http_debug_operation: HttpDebugOperation 
+additionalProperties:
+  modelPackage: Samples.Petstore
+  projectName: Petstore

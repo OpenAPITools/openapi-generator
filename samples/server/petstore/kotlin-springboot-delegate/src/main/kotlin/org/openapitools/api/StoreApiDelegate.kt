@@ -13,7 +13,7 @@ import java.util.Optional
  * A delegate to be called by the {@link StoreApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@jakarta.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
+@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"])
 interface StoreApiDelegate {
 
     fun getRequest(): Optional<NativeWebRequest> = Optional.empty()

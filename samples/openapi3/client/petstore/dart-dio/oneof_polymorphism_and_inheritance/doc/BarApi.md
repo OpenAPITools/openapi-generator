@@ -27,7 +27,7 @@ final BarCreate barCreate = ; // BarCreate |
 try {
     final response = api.createBar(barCreate);
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling BarApi->createBar: $e\n');
 }
 ```

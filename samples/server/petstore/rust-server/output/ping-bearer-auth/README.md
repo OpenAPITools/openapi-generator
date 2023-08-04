@@ -104,7 +104,8 @@ Method | HTTP request | Description
 
 ## Documentation For Authorization
 
-## bearerAuth
+Authentication schemes defined for the API:
+### bearerAuth
 - **Type**: Bearer token authentication
 
 Example

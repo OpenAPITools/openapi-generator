@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**Invoke-PSFooGet**](PSDefaultApi.md#Invoke-PSFooGet) | **GET** /foo | 
 
 
-<a name="Invoke-PSFooGet"></a>
+<a id="Invoke-PSFooGet"></a>
 # **Invoke-PSFooGet**
 > FooGetDefaultResponse Invoke-PSFooGet<br>
 

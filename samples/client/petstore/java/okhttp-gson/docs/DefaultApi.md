@@ -7,7 +7,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**fooGet**](DefaultApi.md#fooGet) | **GET** /foo |  |
 
 
-<a name="fooGet"></a>
+<a id="fooGet"></a>
 # **fooGet**
 > FooGetDefaultResponse fooGet()
 

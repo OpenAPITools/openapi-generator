@@ -35,9 +35,9 @@ class {{{classname}}} {
           // maximum: {{{maximum}}}
       {{/maximum}}
   {{/isEnum}}
-  {{#isDeprecated}}
+  {{#deprecated}}
   @Deprecated('{{{name}}} has been deprecated')
-  {{/isDeprecated}}
+  {{/deprecated}}
   {{^isBinary}}
   @JsonKey(
     {{#defaultValue}}defaultValue: {{{defaultValue}}},{{/defaultValue}}

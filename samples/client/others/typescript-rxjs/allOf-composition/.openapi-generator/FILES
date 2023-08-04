@@ -5,9 +5,7 @@ index.ts
 models/Hero.ts
 models/Human.ts
 models/SuperBaby.ts
-models/SuperBabyAllOf.ts
 models/SuperBoy.ts
-models/SuperBoyAllOf.ts
 models/SuperMan.ts
 models/index.ts
 runtime.ts

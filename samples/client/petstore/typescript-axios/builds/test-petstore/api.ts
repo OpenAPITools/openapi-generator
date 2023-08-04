@@ -315,19 +315,6 @@ export interface Cat extends Animal {
 /**
  * 
  * @export
- * @interface CatAllOf
- */
-export interface CatAllOf {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CatAllOf
-     */
-    'declawed'?: boolean;
-}
-/**
- * 
- * @export
  * @interface Category
  */
 export interface Category {
@@ -369,32 +356,6 @@ export const ChildCatPetTypeEnum = {
 } as const;
 
 export type ChildCatPetTypeEnum = typeof ChildCatPetTypeEnum[keyof typeof ChildCatPetTypeEnum];
-
-/**
- * 
- * @export
- * @interface ChildCatAllOf
- */
-export interface ChildCatAllOf {
-    /**
-     * 
-     * @type {string}
-     * @memberof ChildCatAllOf
-     */
-    'name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ChildCatAllOf
-     */
-    'pet_type'?: ChildCatAllOfPetTypeEnum;
-}
-
-export const ChildCatAllOfPetTypeEnum = {
-    ChildCat: 'ChildCat'
-} as const;
-
-export type ChildCatAllOfPetTypeEnum = typeof ChildCatAllOfPetTypeEnum[keyof typeof ChildCatAllOfPetTypeEnum];
 
 /**
  * Model for testing model with \"_class\" property
@@ -483,19 +444,6 @@ export interface Dog extends Animal {
 /**
  * 
  * @export
- * @interface DogAllOf
- */
-export interface DogAllOf {
-    /**
-     * 
-     * @type {string}
-     * @memberof DogAllOf
-     */
-    'breed'?: string;
-}
-/**
- * 
- * @export
  * @interface Drawing
  */
 export interface Drawing {
@@ -512,7 +460,7 @@ export interface Drawing {
      * @type {ShapeOrNull}
      * @memberof Drawing
      */
-    'shapeOrNull'?: ShapeOrNull;
+    'shapeOrNull'?: ShapeOrNull | null;
     /**
      * 
      * @type {NullableShape}
@@ -846,7 +794,7 @@ export type Fruit = Apple | Banana;
  * @type FruitReq
  * @export
  */
-export type FruitReq = AppleReq | BananaReq | Null;
+export type FruitReq = AppleReq | BananaReq;
 
 /**
  * 
@@ -1520,7 +1468,7 @@ export interface ShapeInterface {
  * The value may be a shape or the \'null\' value. This is introduced in OAS schema >= 3.1.
  * @export
  */
-export type ShapeOrNull = Null | Quadrilateral | Triangle;
+export type ShapeOrNull = Quadrilateral | Triangle;
 
 /**
  * 
@@ -1840,6 +1788,7 @@ export class AnotherFakeApi extends BaseAPI {
 }
 
 
+
 /**
  * DefaultApi - axios parameter creator
  * @export
@@ -1932,6 +1881,7 @@ export class DefaultApi extends BaseAPI {
         return DefaultApiFp(this.configuration).fooGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 
 /**
@@ -2364,18 +2314,18 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * To test enum parameters
          * @summary To test enum parameters
-         * @param {Array<'>' | '$'>} [enumHeaderStringArray] Header parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumHeaderString] Header parameter enum test (string)
-         * @param {Array<'>' | '$'>} [enumQueryStringArray] Query parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumQueryString] Query parameter enum test (string)
-         * @param {1 | -2} [enumQueryInteger] Query parameter enum test (double)
-         * @param {1.1 | -1.2} [enumQueryDouble] Query parameter enum test (double)
-         * @param {Array<string>} [enumFormStringArray] Form parameter enum test (string array)
-         * @param {string} [enumFormString] Form parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumHeaderStringArrayEnum>} [enumHeaderStringArray] Header parameter enum test (string array)
+         * @param {TestEnumParametersEnumHeaderStringEnum} [enumHeaderString] Header parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumQueryStringArrayEnum>} [enumQueryStringArray] Query parameter enum test (string array)
+         * @param {TestEnumParametersEnumQueryStringEnum} [enumQueryString] Query parameter enum test (string)
+         * @param {TestEnumParametersEnumQueryIntegerEnum} [enumQueryInteger] Query parameter enum test (double)
+         * @param {TestEnumParametersEnumQueryDoubleEnum} [enumQueryDouble] Query parameter enum test (double)
+         * @param {Array<TestEnumParametersEnumFormStringArrayEnum>} [enumFormStringArray] Form parameter enum test (string array)
+         * @param {TestEnumParametersEnumFormStringEnum} [enumFormString] Form parameter enum test (string)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testEnumParameters: async (enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumFormStringArray?: Array<string>, enumFormString?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        testEnumParameters: async (enumHeaderStringArray?: Array<TestEnumParametersEnumHeaderStringArrayEnum>, enumHeaderString?: TestEnumParametersEnumHeaderStringEnum, enumQueryStringArray?: Array<TestEnumParametersEnumQueryStringArrayEnum>, enumQueryString?: TestEnumParametersEnumQueryStringEnum, enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum, enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum, enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>, enumFormString?: TestEnumParametersEnumFormStringEnum, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/fake`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2488,14 +2438,14 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
             if (requiredBooleanGroup != null) {
-                localVarHeaderParameter['required_boolean_group'] = typeof requiredBooleanGroup === 'string' 
-                    ? requiredBooleanGroup 
+                localVarHeaderParameter['required_boolean_group'] = typeof requiredBooleanGroup === 'string'
+                    ? requiredBooleanGroup
                     : JSON.stringify(requiredBooleanGroup);
             }
 
             if (booleanGroup != null) {
-                localVarHeaderParameter['boolean_group'] = typeof booleanGroup === 'string' 
-                    ? booleanGroup 
+                localVarHeaderParameter['boolean_group'] = typeof booleanGroup === 'string'
+                    ? booleanGroup
                     : JSON.stringify(booleanGroup);
             }
 
@@ -2787,18 +2737,18 @@ export const FakeApiFp = function(configuration?: Configuration) {
         /**
          * To test enum parameters
          * @summary To test enum parameters
-         * @param {Array<'>' | '$'>} [enumHeaderStringArray] Header parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumHeaderString] Header parameter enum test (string)
-         * @param {Array<'>' | '$'>} [enumQueryStringArray] Query parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumQueryString] Query parameter enum test (string)
-         * @param {1 | -2} [enumQueryInteger] Query parameter enum test (double)
-         * @param {1.1 | -1.2} [enumQueryDouble] Query parameter enum test (double)
-         * @param {Array<string>} [enumFormStringArray] Form parameter enum test (string array)
-         * @param {string} [enumFormString] Form parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumHeaderStringArrayEnum>} [enumHeaderStringArray] Header parameter enum test (string array)
+         * @param {TestEnumParametersEnumHeaderStringEnum} [enumHeaderString] Header parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumQueryStringArrayEnum>} [enumQueryStringArray] Query parameter enum test (string array)
+         * @param {TestEnumParametersEnumQueryStringEnum} [enumQueryString] Query parameter enum test (string)
+         * @param {TestEnumParametersEnumQueryIntegerEnum} [enumQueryInteger] Query parameter enum test (double)
+         * @param {TestEnumParametersEnumQueryDoubleEnum} [enumQueryDouble] Query parameter enum test (double)
+         * @param {Array<TestEnumParametersEnumFormStringArrayEnum>} [enumFormStringArray] Form parameter enum test (string array)
+         * @param {TestEnumParametersEnumFormStringEnum} [enumFormString] Form parameter enum test (string)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumFormStringArray?: Array<string>, enumFormString?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async testEnumParameters(enumHeaderStringArray?: Array<TestEnumParametersEnumHeaderStringArrayEnum>, enumHeaderString?: TestEnumParametersEnumHeaderStringEnum, enumQueryStringArray?: Array<TestEnumParametersEnumQueryStringArrayEnum>, enumQueryString?: TestEnumParametersEnumQueryStringEnum, enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum, enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum, enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>, enumFormString?: TestEnumParametersEnumFormStringEnum, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2974,18 +2924,18 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
         /**
          * To test enum parameters
          * @summary To test enum parameters
-         * @param {Array<'>' | '$'>} [enumHeaderStringArray] Header parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumHeaderString] Header parameter enum test (string)
-         * @param {Array<'>' | '$'>} [enumQueryStringArray] Query parameter enum test (string array)
-         * @param {'_abc' | '-efg' | '(xyz)'} [enumQueryString] Query parameter enum test (string)
-         * @param {1 | -2} [enumQueryInteger] Query parameter enum test (double)
-         * @param {1.1 | -1.2} [enumQueryDouble] Query parameter enum test (double)
-         * @param {Array<string>} [enumFormStringArray] Form parameter enum test (string array)
-         * @param {string} [enumFormString] Form parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumHeaderStringArrayEnum>} [enumHeaderStringArray] Header parameter enum test (string array)
+         * @param {TestEnumParametersEnumHeaderStringEnum} [enumHeaderString] Header parameter enum test (string)
+         * @param {Array<TestEnumParametersEnumQueryStringArrayEnum>} [enumQueryStringArray] Query parameter enum test (string array)
+         * @param {TestEnumParametersEnumQueryStringEnum} [enumQueryString] Query parameter enum test (string)
+         * @param {TestEnumParametersEnumQueryIntegerEnum} [enumQueryInteger] Query parameter enum test (double)
+         * @param {TestEnumParametersEnumQueryDoubleEnum} [enumQueryDouble] Query parameter enum test (double)
+         * @param {Array<TestEnumParametersEnumFormStringArrayEnum>} [enumFormStringArray] Form parameter enum test (string array)
+         * @param {TestEnumParametersEnumFormStringEnum} [enumFormString] Form parameter enum test (string)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumFormStringArray?: Array<string>, enumFormString?: string, options?: any): AxiosPromise<void> {
+        testEnumParameters(enumHeaderStringArray?: Array<TestEnumParametersEnumHeaderStringArrayEnum>, enumHeaderString?: TestEnumParametersEnumHeaderStringEnum, enumQueryStringArray?: Array<TestEnumParametersEnumQueryStringArrayEnum>, enumQueryString?: TestEnumParametersEnumQueryStringEnum, enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum, enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum, enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>, enumFormString?: TestEnumParametersEnumFormStringEnum, options?: any): AxiosPromise<void> {
             return localVarFp.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3176,19 +3126,19 @@ export class FakeApi extends BaseAPI {
     /**
      * To test enum parameters
      * @summary To test enum parameters
-     * @param {Array<'>' | '$'>} [enumHeaderStringArray] Header parameter enum test (string array)
-     * @param {'_abc' | '-efg' | '(xyz)'} [enumHeaderString] Header parameter enum test (string)
-     * @param {Array<'>' | '$'>} [enumQueryStringArray] Query parameter enum test (string array)
-     * @param {'_abc' | '-efg' | '(xyz)'} [enumQueryString] Query parameter enum test (string)
-     * @param {1 | -2} [enumQueryInteger] Query parameter enum test (double)
-     * @param {1.1 | -1.2} [enumQueryDouble] Query parameter enum test (double)
-     * @param {Array<string>} [enumFormStringArray] Form parameter enum test (string array)
-     * @param {string} [enumFormString] Form parameter enum test (string)
+     * @param {Array<TestEnumParametersEnumHeaderStringArrayEnum>} [enumHeaderStringArray] Header parameter enum test (string array)
+     * @param {TestEnumParametersEnumHeaderStringEnum} [enumHeaderString] Header parameter enum test (string)
+     * @param {Array<TestEnumParametersEnumQueryStringArrayEnum>} [enumQueryStringArray] Query parameter enum test (string array)
+     * @param {TestEnumParametersEnumQueryStringEnum} [enumQueryString] Query parameter enum test (string)
+     * @param {TestEnumParametersEnumQueryIntegerEnum} [enumQueryInteger] Query parameter enum test (double)
+     * @param {TestEnumParametersEnumQueryDoubleEnum} [enumQueryDouble] Query parameter enum test (double)
+     * @param {Array<TestEnumParametersEnumFormStringArrayEnum>} [enumFormStringArray] Form parameter enum test (string array)
+     * @param {TestEnumParametersEnumFormStringEnum} [enumFormString] Form parameter enum test (string)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof FakeApi
      */
-    public testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumFormStringArray?: Array<string>, enumFormString?: string, options?: AxiosRequestConfig) {
+    public testEnumParameters(enumHeaderStringArray?: Array<TestEnumParametersEnumHeaderStringArrayEnum>, enumHeaderString?: TestEnumParametersEnumHeaderStringEnum, enumQueryStringArray?: Array<TestEnumParametersEnumQueryStringArrayEnum>, enumQueryString?: TestEnumParametersEnumQueryStringEnum, enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum, enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum, enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>, enumFormString?: TestEnumParametersEnumFormStringEnum, options?: AxiosRequestConfig) {
         return FakeApiFp(this.configuration).testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -3249,6 +3199,74 @@ export class FakeApi extends BaseAPI {
         return FakeApiFp(this.configuration).testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
+/**
+ * @export
+ */
+export const TestEnumParametersEnumHeaderStringArrayEnum = {
+    GreaterThan: '>',
+    Dollar: '$'
+} as const;
+export type TestEnumParametersEnumHeaderStringArrayEnum = typeof TestEnumParametersEnumHeaderStringArrayEnum[keyof typeof TestEnumParametersEnumHeaderStringArrayEnum];
+/**
+ * @export
+ */
+export const TestEnumParametersEnumHeaderStringEnum = {
+    Abc: '_abc',
+    Efg: '-efg',
+    Xyz: '(xyz)'
+} as const;
+export type TestEnumParametersEnumHeaderStringEnum = typeof TestEnumParametersEnumHeaderStringEnum[keyof typeof TestEnumParametersEnumHeaderStringEnum];
+/**
+ * @export
+ */
+export const TestEnumParametersEnumQueryStringArrayEnum = {
+    GreaterThan: '>',
+    Dollar: '$'
+} as const;
+export type TestEnumParametersEnumQueryStringArrayEnum = typeof TestEnumParametersEnumQueryStringArrayEnum[keyof typeof TestEnumParametersEnumQueryStringArrayEnum];
+/**
+ * @export
+ */
+export const TestEnumParametersEnumQueryStringEnum = {
+    Abc: '_abc',
+    Efg: '-efg',
+    Xyz: '(xyz)'
+} as const;
+export type TestEnumParametersEnumQueryStringEnum = typeof TestEnumParametersEnumQueryStringEnum[keyof typeof TestEnumParametersEnumQueryStringEnum];
+/**
+ * @export
+ */
+export const TestEnumParametersEnumQueryIntegerEnum = {
+    NUMBER_1: 1,
+    NUMBER_MINUS_2: -2
+} as const;
+export type TestEnumParametersEnumQueryIntegerEnum = typeof TestEnumParametersEnumQueryIntegerEnum[keyof typeof TestEnumParametersEnumQueryIntegerEnum];
+/**
+ * @export
+ */
+export const TestEnumParametersEnumQueryDoubleEnum = {
+    NUMBER_1_DOT_1: 1.1,
+    NUMBER_MINUS_1_DOT_2: -1.2
+} as const;
+export type TestEnumParametersEnumQueryDoubleEnum = typeof TestEnumParametersEnumQueryDoubleEnum[keyof typeof TestEnumParametersEnumQueryDoubleEnum];
+/**
+ * @export
+ */
+export const TestEnumParametersEnumFormStringArrayEnum = {
+    GreaterThan: '>',
+    Dollar: '$'
+} as const;
+export type TestEnumParametersEnumFormStringArrayEnum = typeof TestEnumParametersEnumFormStringArrayEnum[keyof typeof TestEnumParametersEnumFormStringArrayEnum];
+/**
+ * @export
+ */
+export const TestEnumParametersEnumFormStringEnum = {
+    Abc: '_abc',
+    Efg: '-efg',
+    Xyz: '(xyz)'
+} as const;
+export type TestEnumParametersEnumFormStringEnum = typeof TestEnumParametersEnumFormStringEnum[keyof typeof TestEnumParametersEnumFormStringEnum];
 
 
 /**
@@ -3361,6 +3379,7 @@ export class FakeClassnameTags123Api extends BaseAPI {
 }
 
 
+
 /**
  * PetApi - axios parameter creator
  * @export
@@ -3455,11 +3474,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
         /**
          * Multiple status values can be provided with comma separated strings
          * @summary Finds Pets by status
-         * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+         * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByStatus: async (status: Array<'available' | 'pending' | 'sold'>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        findPetsByStatus: async (status: Array<FindPetsByStatusStatusEnum>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'status' is not null or undefined
             assertParamExists('findPetsByStatus', 'status', status)
             const localVarPath = `/pet/findByStatus`;
@@ -3812,11 +3831,11 @@ export const PetApiFp = function(configuration?: Configuration) {
         /**
          * Multiple status values can be provided with comma separated strings
          * @summary Finds Pets by status
-         * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+         * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
+        async findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.findPetsByStatus(status, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -3927,11 +3946,11 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
         /**
          * Multiple status values can be provided with comma separated strings
          * @summary Finds Pets by status
-         * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+         * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: any): AxiosPromise<Array<Pet>> {
+        findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: any): AxiosPromise<Array<Pet>> {
             return localVarFp.findPetsByStatus(status, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4039,12 +4058,12 @@ export class PetApi extends BaseAPI {
     /**
      * Multiple status values can be provided with comma separated strings
      * @summary Finds Pets by status
-     * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+     * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: AxiosRequestConfig) {
+    public findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: AxiosRequestConfig) {
         return PetApiFp(this.configuration).findPetsByStatus(status, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -4127,6 +4146,16 @@ export class PetApi extends BaseAPI {
         return PetApiFp(this.configuration).uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
+/**
+ * @export
+ */
+export const FindPetsByStatusStatusEnum = {
+    Available: 'available',
+    Pending: 'pending',
+    Sold: 'sold'
+} as const;
+export type FindPetsByStatusStatusEnum = typeof FindPetsByStatusStatusEnum[keyof typeof FindPetsByStatusStatusEnum];
 
 
 /**
@@ -4431,6 +4460,7 @@ export class StoreApi extends BaseAPI {
         return StoreApiFp(this.configuration).placeOrder(order, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 
 /**
@@ -5026,5 +5056,6 @@ export class UserApi extends BaseAPI {
         return UserApiFp(this.configuration).updateUser(username, user, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 

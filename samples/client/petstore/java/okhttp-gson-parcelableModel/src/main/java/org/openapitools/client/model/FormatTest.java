@@ -39,6 +39,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -127,7 +131,6 @@ public class FormatTest implements Parcelable {
    * @return integer
   **/
   @javax.annotation.Nullable
-
   public Integer getInteger() {
     return integer;
   }
@@ -151,7 +154,6 @@ public class FormatTest implements Parcelable {
    * @return int32
   **/
   @javax.annotation.Nullable
-
   public Integer getInt32() {
     return int32;
   }
@@ -173,7 +175,6 @@ public class FormatTest implements Parcelable {
    * @return int64
   **/
   @javax.annotation.Nullable
-
   public Long getInt64() {
     return int64;
   }
@@ -197,7 +198,6 @@ public class FormatTest implements Parcelable {
    * @return number
   **/
   @javax.annotation.Nonnull
-
   public BigDecimal getNumber() {
     return number;
   }
@@ -221,7 +221,6 @@ public class FormatTest implements Parcelable {
    * @return _float
   **/
   @javax.annotation.Nullable
-
   public Float getFloat() {
     return _float;
   }
@@ -245,7 +244,6 @@ public class FormatTest implements Parcelable {
    * @return _double
   **/
   @javax.annotation.Nullable
-
   public Double getDouble() {
     return _double;
   }
@@ -267,7 +265,6 @@ public class FormatTest implements Parcelable {
    * @return string
   **/
   @javax.annotation.Nullable
-
   public String getString() {
     return string;
   }
@@ -289,7 +286,6 @@ public class FormatTest implements Parcelable {
    * @return _byte
   **/
   @javax.annotation.Nonnull
-
   public byte[] getByte() {
     return _byte;
   }
@@ -311,7 +307,6 @@ public class FormatTest implements Parcelable {
    * @return binary
   **/
   @javax.annotation.Nullable
-
   public File getBinary() {
     return binary;
   }
@@ -333,7 +328,6 @@ public class FormatTest implements Parcelable {
    * @return date
   **/
   @javax.annotation.Nonnull
-
   public LocalDate getDate() {
     return date;
   }
@@ -355,7 +349,6 @@ public class FormatTest implements Parcelable {
    * @return dateTime
   **/
   @javax.annotation.Nullable
-
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -377,7 +370,6 @@ public class FormatTest implements Parcelable {
    * @return uuid
   **/
   @javax.annotation.Nullable
-
   public UUID getUuid() {
     return uuid;
   }
@@ -399,7 +391,6 @@ public class FormatTest implements Parcelable {
    * @return password
   **/
   @javax.annotation.Nonnull
-
   public String getPassword() {
     return password;
   }
@@ -421,7 +412,6 @@ public class FormatTest implements Parcelable {
    * @return bigDecimal
   **/
   @javax.annotation.Nullable
-
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }
@@ -518,7 +508,7 @@ public class FormatTest implements Parcelable {
     integer = (Integer)in.readValue(null);
     int32 = (Integer)in.readValue(null);
     int64 = (Long)in.readValue(null);
-    number = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
+    number = (BigDecimal)in.readValue(null);
     _float = (Float)in.readValue(null);
     _double = (Double)in.readValue(null);
     string = (String)in.readValue(null);
@@ -528,7 +518,7 @@ public class FormatTest implements Parcelable {
     dateTime = (OffsetDateTime)in.readValue(OffsetDateTime.class.getClassLoader());
     uuid = (UUID)in.readValue(UUID.class.getClassLoader());
     password = (String)in.readValue(null);
-    bigDecimal = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
+    bigDecimal = (BigDecimal)in.readValue(null);
   }
 
   public int describeContents() {
@@ -574,32 +564,33 @@ public class FormatTest implements Parcelable {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to FormatTest
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to FormatTest
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!FormatTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!FormatTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in FormatTest is not found in the empty JSON string", FormatTest.openapiRequiredFields.toString()));
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
       for (Entry<String, JsonElement> entry : entries) {
         if (!FormatTest.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `FormatTest` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `FormatTest` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : FormatTest.openapiRequiredFields) {
-        if (jsonObj.get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
+        if (jsonElement.getAsJsonObject().get(requiredField) == null) {
+          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("string") != null && !jsonObj.get("string").isJsonNull()) && !jsonObj.get("string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string").toString()));
       }
@@ -631,9 +622,9 @@ public class FormatTest implements Parcelable {
 
            @Override
            public FormatTest read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
-             return thisAdapter.fromJsonTree(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             return thisAdapter.fromJsonTree(jsonElement);
            }
 
        }.nullSafe();

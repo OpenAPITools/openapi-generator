@@ -9,6 +9,13 @@
 
 package petstoreserver
 
+
+import (
+	"encoding/json"
+)
+
+
+
 // Category - A category for a pet
 type Category struct {
 
@@ -17,19 +24,19 @@ type Category struct {
 	Name string `json:"name,omitempty"`
 }
 
+// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
+func (m *Category) UnmarshalJSON(data []byte) error {
+
+	type Alias Category // To avoid infinite recursion
+    return json.Unmarshal(data, (*Alias)(m))
+}
+
 // AssertCategoryRequired checks if the required fields are not zero-ed
 func AssertCategoryRequired(obj Category) error {
 	return nil
 }
 
-// AssertRecurseCategoryRequired recursively checks if required fields are not zero-ed in a nested slice.
-// Accepts only nested slice of Category (e.g. [][]Category), otherwise ErrTypeAssertionError is thrown.
-func AssertRecurseCategoryRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
-		aCategory, ok := obj.(Category)
-		if !ok {
-			return ErrTypeAssertionError
-		}
-		return AssertCategoryRequired(aCategory)
-	})
+// AssertCategoryConstraints checks if the values respects the defined constraints
+func AssertCategoryConstraints(obj Category) error {
+	return nil
 }

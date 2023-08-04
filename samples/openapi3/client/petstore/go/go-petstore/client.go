@@ -50,19 +50,19 @@ type APIClient struct {
 
 	// API Services
 
-	AnotherFakeApi AnotherFakeApi
+	AnotherFakeAPI AnotherFakeAPI
 
-	DefaultApi DefaultApi
+	DefaultAPI DefaultAPI
 
-	FakeApi FakeApi
+	FakeAPI FakeAPI
 
-	FakeClassnameTags123Api FakeClassnameTags123Api
+	FakeClassnameTags123API FakeClassnameTags123API
 
-	PetApi PetApi
+	PetAPI PetAPI
 
-	StoreApi StoreApi
+	StoreAPI StoreAPI
 
-	UserApi UserApi
+	UserAPI UserAPI
 }
 
 type service struct {
@@ -81,13 +81,13 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
-	c.AnotherFakeApi = (*AnotherFakeApiService)(&c.common)
-	c.DefaultApi = (*DefaultApiService)(&c.common)
-	c.FakeApi = (*FakeApiService)(&c.common)
-	c.FakeClassnameTags123Api = (*FakeClassnameTags123ApiService)(&c.common)
-	c.PetApi = (*PetApiService)(&c.common)
-	c.StoreApi = (*StoreApiService)(&c.common)
-	c.UserApi = (*UserApiService)(&c.common)
+	c.AnotherFakeAPI = (*AnotherFakeAPIService)(&c.common)
+	c.DefaultAPI = (*DefaultAPIService)(&c.common)
+	c.FakeAPI = (*FakeAPIService)(&c.common)
+	c.FakeClassnameTags123API = (*FakeClassnameTags123APIService)(&c.common)
+	c.PetAPI = (*PetAPIService)(&c.common)
+	c.StoreAPI = (*StoreAPIService)(&c.common)
+	c.UserAPI = (*UserAPIService)(&c.common)
 
 	return c
 }
@@ -574,7 +574,11 @@ func setBody(body interface{}, contentType string) (bodyBuf *bytes.Buffer, err e
 	} else if jsonCheck.MatchString(contentType) {
 		err = json.NewEncoder(bodyBuf).Encode(body)
 	} else if xmlCheck.MatchString(contentType) {
-		err = xml.NewEncoder(bodyBuf).Encode(body)
+		var bs []byte
+		bs, err = xml.Marshal(body)
+		if err == nil {
+			bodyBuf.Write(bs)
+		}
 	}
 
 	if err != nil {

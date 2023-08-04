@@ -28,11 +28,6 @@ public class CategoryDto {
 
   private String name = "default-name";
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link CategoryDto#CategoryDto(String)}
-   */
-  @Deprecated
   public CategoryDto() {
     super();
   }

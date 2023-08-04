@@ -49,7 +49,7 @@ type APIClient struct {
 
 	// API Services
 
-	UsageApi *UsageApiService
+	UsageAPI *UsageAPIService
 }
 
 type service struct {
@@ -68,7 +68,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
-	c.UsageApi = (*UsageApiService)(&c.common)
+	c.UsageAPI = (*UsageAPIService)(&c.common)
 
 	return c
 }
@@ -524,7 +524,11 @@ func setBody(body interface{}, contentType string) (bodyBuf *bytes.Buffer, err e
 	} else if jsonCheck.MatchString(contentType) {
 		err = json.NewEncoder(bodyBuf).Encode(body)
 	} else if xmlCheck.MatchString(contentType) {
-		err = xml.NewEncoder(bodyBuf).Encode(body)
+		var bs []byte
+		bs, err = xml.Marshal(body)
+		if err == nil {
+			bodyBuf.Write(bs)
+		}
 	}
 
 	if err != nil {

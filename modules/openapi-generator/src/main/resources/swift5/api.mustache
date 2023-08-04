@@ -257,7 +257,7 @@ extension {{projectName}}API {
      subresourceOperation: {{.}}{{/subresourceOperation}}{{#defaultResponse}}
      defaultResponse: {{.}}{{/defaultResponse}}
      {{#authMethods}}
-     - {{#isBasic}}BASIC{{/isBasic}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
+     - {{#isBasicBasic}}BASIC{{/isBasicBasic}}{{#isBasicBearer}}Bearer Token{{/isBasicBearer}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
        - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeader}}(HEADER){{/isKeyInHeader}}{{/keyParamName}}
        - name: {{name}}
        {{/authMethods}}
@@ -337,7 +337,7 @@ extension {{projectName}}API {
      subresourceOperation: {{.}}{{/subresourceOperation}}{{#defaultResponse}}
      defaultResponse: {{.}}{{/defaultResponse}}
      {{#authMethods}}
-     - {{#isBasic}}BASIC{{/isBasic}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
+     - {{#isBasicBasic}}BASIC{{/isBasicBasic}}{{#isBasicBearer}}Bearer Token{{/isBasicBearer}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
        - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeader}}(HEADER){{/isKeyInHeader}}{{/keyParamName}}
        - name: {{name}}
        {{/authMethods}}
@@ -381,7 +381,7 @@ extension {{projectName}}API {
      - subresourceOperation: {{.}}{{/subresourceOperation}}{{#defaultResponse}}
      - defaultResponse: {{.}}{{/defaultResponse}}
      {{#authMethods}}
-     - {{#isBasic}}BASIC{{/isBasic}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
+     - {{#isBasicBasic}}BASIC{{/isBasicBasic}}{{#isBasicBearer}}Bearer Token{{/isBasicBearer}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
        - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeader}}(HEADER){{/isKeyInHeader}}{{/keyParamName}}
        - name: {{name}}
        {{/authMethods}}

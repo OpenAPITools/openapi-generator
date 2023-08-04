@@ -4,7 +4,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>6.6.0-SNAPSHOT</version>
+        <version>7.0.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
@@ -60,7 +60,7 @@
                     <generateGitPropertiesFilename>${project.build.outputDirectory}/openapi-generator-git.properties</generateGitPropertiesFilename>
                     <!-- REVIEWER NOTE: Never allow external contributors to change these without full clarification. -->
                     <includeOnlyProperties>
-                        <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.build.version$</includeOnlyProperty>
                         <includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
                     </includeOnlyProperties>
                     <commitIdGenerationMode>full</commitIdGenerationMode>
@@ -217,10 +217,6 @@
                 <version>${maven-javadoc-plugin.version}</version>
                 <configuration>
                     <debug>true</debug>
-                    <links>
-                        <link>http://java.sun.com/javaee/5/docs/api</link>
-                        <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
-                    </links>
                     <excludePackageNames/>
                 </configuration>
             </plugin>
@@ -438,6 +434,12 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.23.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

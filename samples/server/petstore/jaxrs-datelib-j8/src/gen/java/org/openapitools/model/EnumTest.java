@@ -296,11 +296,11 @@ public class EnumTest  implements Serializable {
       return false;
     }
     EnumTest enumTest = (EnumTest) o;
-    return Objects.equals(this.enumString, enumTest.enumString) &&
-        Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
-        Objects.equals(this.enumInteger, enumTest.enumInteger) &&
-        Objects.equals(this.enumNumber, enumTest.enumNumber) &&
-        Objects.equals(this.outerEnum, enumTest.outerEnum);
+    return Objects.equals(enumString, enumTest.enumString) &&
+        Objects.equals(enumStringRequired, enumTest.enumStringRequired) &&
+        Objects.equals(enumInteger, enumTest.enumInteger) &&
+        Objects.equals(enumNumber, enumTest.enumNumber) &&
+        Objects.equals(outerEnum, enumTest.outerEnum);
   }
 
   @Override

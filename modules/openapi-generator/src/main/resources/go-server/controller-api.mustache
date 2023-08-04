@@ -48,13 +48,16 @@ func New{{classname}}Controller(s {{classname}}Servicer, opts ...{{classname}}Op
 
 // Routes returns all the api routes for the {{classname}}Controller
 func (c *{{classname}}Controller) Routes() Routes {
-	return Routes{ {{#operations}}{{#operation}}
-		{
-			"{{operationId}}",
+	return Routes{
+{{#operations}}
+	{{#operation}}
+		"{{operationId}}": Route{
 			strings.ToUpper("{{httpMethod}}"),
 			"{{{basePathWithoutHost}}}{{{path}}}",
 			c.{{operationId}},
-		},{{/operation}}{{/operations}}
+		},
+	{{/operation}}
+{{/operations}}
 	}
 }{{#operations}}{{#operation}}
 
@@ -90,35 +93,70 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{#allParams}}
 	{{#isPathParam}}
 	{{#isNumber}}
-	{{paramName}}Param, err := parseFloat32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
-		if err != nil {
+	{{paramName}}Param, err := parseNumericParameter[float32](
+		{{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}},{{#defaultValue}}
+		WithDefaultOrParse[float32]({{defaultValue}}, parseFloat32),{{/defaultValue}}{{^defaultValue}}{{#required}}
+		WithRequire[float32](parseFloat32),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
+		WithParse[float32](parseFloat32),{{/required}}{{/defaultValue}}{{#minimum}}
+		WithMinimum[float32]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[float32]({{maximum}}),{{/maximum}}
+	)
+	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isNumber}}
 	{{#isFloat}}
-	{{paramName}}Param, err := parseFloat32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+	{{paramName}}Param, err := parseNumericParameter[float32](
+		{{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}},{{#defaultValue}}
+		WithDefaultOrParse[float32]({{defaultValue}}, parseFloat32),{{/defaultValue}}{{^defaultValue}}{{#required}}
+		WithRequire[float32](parseFloat32),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
+		WithParse[float32](parseFloat32),{{/required}}{{/defaultValue}}{{#minimum}}
+		WithMinimum[float32]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[float32]({{maximum}}),{{/maximum}}
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isFloat}}
 	{{#isDouble}}
-	{{paramName}}Param, err := parseFloat64Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+	{{paramName}}Param, err := parseNumericParameter[float64](
+		{{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}},{{#defaultValue}}
+		WithDefaultOrParse[float64]({{defaultValue}}, parseFloat64),{{/defaultValue}}{{^defaultValue}}{{#required}}
+		WithRequire[float64](parseFloat64),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
+		WithParse[float64](parseFloat64),{{/required}}{{/defaultValue}}{{#minimum}}
+		WithMinimum[float64]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[float64]({{maximum}}),{{/maximum}}
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isDouble}}
 	{{#isLong}}
-	{{paramName}}Param, err := parseInt64Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+	{{paramName}}Param, err := parseNumericParameter[int64](
+		{{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}},{{#defaultValue}}
+		WithDefaultOrParse[int64]({{defaultValue}}, parseInt64),{{/defaultValue}}{{^defaultValue}}{{#required}}
+		WithRequire[int64](parseInt64),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
+		WithParse[int64](parseInt64),{{/required}}{{/defaultValue}}{{#minimum}}
+		WithMinimum[int64]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[int64]({{maximum}}),{{/maximum}}
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isLong}}
 	{{#isInteger}}
-	{{paramName}}Param, err := parseInt32Parameter({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}, {{required}})
+	{{paramName}}Param, err := parseNumericParameter[int32](
+		{{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}},{{#defaultValue}}
+		WithDefaultOrParse[int32]({{defaultValue}}, parseInt32),{{/defaultValue}}{{^defaultValue}}{{#required}}
+		WithRequire[int32](parseInt32),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
+		WithParse[int32](parseInt32),{{/required}}{{/defaultValue}}{{#minimum}}
+		WithMinimum[int32]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[int32]({{maximum}}),{{/maximum}}
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -138,42 +176,82 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isPathParam}}
 	{{#isQueryParam}}
 	{{#isNumber}}
-	{{paramName}}Param, err := parseFloat32Parameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseNumericParameter[float32](
+		query.Get("{{baseName}}"),{{#defaultValue}}
+		WithDefaultOrParse[float32]({{defaultValue}}, parseFloat32),{{/defaultValue}}{{^defaultValue}}{{#required}}
+		WithRequire[float32](parseFloat32),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
+		WithParse[float32](parseFloat32),{{/required}}{{/defaultValue}}{{#minimum}}
+		WithMinimum[float32]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[float32]({{maximum}}),{{/maximum}}
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isNumber}}
 	{{#isFloat}}
-	{{paramName}}Param, err := parseFloat32Parameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseNumericParameter[float32](
+		query.Get("{{baseName}}"),{{#defaultValue}}
+		WithDefaultOrParse[float32]({{defaultValue}}, parseFloat32),{{/defaultValue}}{{^defaultValue}}{{#required}}
+		WithRequire[float32](parseFloat32),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
+		WithParse[float32](parseFloat32),{{/required}}{{/defaultValue}}{{#minimum}}
+		WithMinimum[float32]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[float32]({{maximum}}),{{/maximum}}
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isFloat}}
 	{{#isDouble}}
-	{{paramName}}Param, err := parseFloat64Parameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseNumericParameter[float64](
+		query.Get("{{baseName}}"),{{#defaultValue}}
+		WithDefaultOrParse[float64]({{defaultValue}}, parseFloat64),{{/defaultValue}}{{^defaultValue}}{{#required}}
+		WithRequire[float64](parseFloat64),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
+		WithParse[float64](parseFloat64),{{/required}}{{/defaultValue}}{{#minimum}}
+		WithMinimum[float64]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[float64]({{maximum}}),{{/maximum}}
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isDouble}}
 	{{#isLong}}
-	{{paramName}}Param, err := parseInt64Parameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseNumericParameter[int64](
+		query.Get("{{baseName}}"),{{#defaultValue}}
+		WithDefaultOrParse[int64]({{defaultValue}}, parseInt64),{{/defaultValue}}{{^defaultValue}}{{#required}}
+		WithRequire[int64](parseInt64),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
+		WithParse[int64](parseInt64),{{/required}}{{/defaultValue}}{{#minimum}}
+		WithMinimum[int64]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[int64]({{maximum}}),{{/maximum}}
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isLong}}
 	{{#isInteger}}
-	{{paramName}}Param, err := parseInt32Parameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseNumericParameter[int32](
+		query.Get("{{baseName}}"),{{#defaultValue}}
+		WithDefaultOrParse[int32]({{defaultValue}}, parseInt32),{{/defaultValue}}{{^defaultValue}}{{#required}}
+		WithRequire[int32](parseInt32),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
+		WithParse[int32](parseInt32),{{/required}}{{/defaultValue}}{{#minimum}}
+		WithMinimum[int32]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[int32]({{maximum}}),{{/maximum}}
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isInteger}}
 	{{#isBoolean}}
-	{{paramName}}Param, err := parseBoolParameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseBoolParameter(
+		query.Get("{{baseName}}"),{{#defaultValue}}
+		WithDefaultOrParse[bool]({{defaultValue}}, parseBool),{{/defaultValue}}{{^defaultValue}}{{#required}}
+		WithRequire[bool](parseBool),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
+		WithParse[bool](parseBool),{{/required}}{{/defaultValue}}
+	)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -181,35 +259,60 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isBoolean}}
 	{{#isArray}}
 	{{#items.isNumber}}
-	{{paramName}}Param, err := parseFloat32ArrayParameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseNumericArrayParameter[float32](
+		query.Get("{{baseName}}"), ",", {{required}},
+		WithParse[float32](parseFloat32),{{#minimum}}
+		WithMinimum[float32]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[float32]({{maximum}}),{{/maximum}}
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/items.isNumber}}
 	{{#items.isFloat}}
-	{{paramName}}Param, err := parseFloat32ArrayParameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseNumericArrayParameter[float32](
+		query.Get("{{baseName}}"), ",", {{required}},
+		WithParse[float32](parseFloat32),{{#minimum}}
+		WithMinimum[float32]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[float32]({{maximum}}),{{/maximum}}
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 	return
 	}
 	{{/items.isFloat}}
 	{{#items.isDouble}}
-	{{paramName}}Param, err := parseFloat64ArrayParameter(query.Get("{{baseName}}"), {{required}})
+	{{paramName}}Param, err := parseNumericArrayParameter[float64](
+		query.Get("{{baseName}}"), ",", {{required}},
+		WithParse[float64](parseFloat64),{{#minimum}}
+		WithMinimum[float64]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[float64]({{maximum}}),{{/maximum}}
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/items.isDouble}}
 	{{#items.isLong}}
-	{{paramName}}Param, err := parseInt64ArrayParameter(query.Get("{{baseName}}"), ",", {{required}})
+	{{paramName}}Param, err := parseNumericArrayParameter[int64](
+		query.Get("{{baseName}}"), ",", {{required}},
+		WithParse[int64](parseInt64),{{#minimum}}
+		WithMinimum[int64]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[int64]({{maximum}}),{{/maximum}}
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/items.isLong}}
 	{{#items.isInteger}}
-	{{paramName}}Param, err := parseInt32ArrayParameter(query.Get("{{baseName}}"), ",", {{required}})
+	{{paramName}}Param, err := parseNumericArrayParameter[int32](
+		query.Get("{{baseName}}"), ",", {{required}},
+		WithParse[int32](parseInt32),{{#minimum}}
+		WithMinimum[int32]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[int32]({{maximum}}),{{/maximum}}
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -234,7 +337,15 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isInteger}}
 	{{^isBoolean}}
 	{{^isArray}}
+	{{#defaultValue}}
+	{{paramName}}Param := "{{defaultValue}}"
+	if query.Has("{{baseName}}") {
+		{{paramName}}Param = query.Get("{{baseName}}")
+	}
+	{{/defaultValue}}
+	{{^defaultValue}}
 	{{paramName}}Param := query.Get("{{baseName}}")
+	{{/defaultValue}}
 	{{/isArray}}
 	{{/isBoolean}}
 	{{/isInteger}}
@@ -254,21 +365,29 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	{{/isFile}}
 	{{#isLong}}{{#isArray}}
-	{{paramName}}Param, err := parseInt64ArrayParameter(r.FormValue("{{baseName}}"), ",", {{required}}){{/isArray}}{{^isArray}}
-	{{paramName}}Param, err := parseInt64Parameter(r.FormValue("{{baseName}}"), {{required}}){{/isArray}}
+	{{paramName}}Param, err := parseNumericArrayParameter[int64](
+		r.FormValue("{{baseName}}"), ",", {{required}},
+		WithParse[int64](parseInt64),{{#minimum}}
+		WithMinimum[int64]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[int64]({{maximum}}),{{/maximum}}
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	{{/isLong}}
+	{{/isArray}}{{/isLong}}
 	{{#isInteger}}{{#isArray}}
-	{{paramName}}Param, err := parseInt32ArrayParameter(r.FormValue("{{baseName}}"), ",", {{required}}){{/isArray}}{{^isArray}}
-	{{paramName}}Param, err := parseInt32Parameter(r.FormValue("{{baseName}}"), {{required}}){{/isArray}}
+	{{paramName}}Param, err := parseNumericArrayParameter[int32](
+		r.FormValue("{{baseName}}"), ",", {{required}},
+		WithParse[int32](parseInt32),{{#minimum}}
+		WithMinimum[int32]({{minimum}}),{{/minimum}}{{#maximum}}
+		WithMaximum[int32]({{maximum}}),{{/maximum}}
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	{{/isInteger}}
+	{{/isArray}}{{/isInteger}}
 	{{^isFile}}
 	{{^isLong}}
 	{{paramName}}Param := r.FormValue("{{baseName}}")
@@ -304,6 +423,10 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		c.errorHandler(w, r, err, nil)
 		return
 	}
+	if err := Assert{{baseType}}Constraints({{paramName}}Param); err != nil {
+		c.errorHandler(w, r, err, nil)
+		return
+	}
 		{{/isModel}}
 	{{/isArray}}
 	{{/isBodyParam}}
@@ -316,5 +439,4 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code,{{#addResponseHeaders}} result.Headers,{{/addResponseHeaders}} w)
-
 }{{/operation}}{{/operations}}

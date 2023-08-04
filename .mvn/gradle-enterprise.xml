@@ -27,5 +27,26 @@
     <backgroundBuildScanUpload>#{isFalse(env['CI'])}</backgroundBuildScanUpload> <!-- adjust to your CI provider -->
     <publish>ALWAYS</publish>
     <publishIfAuthenticated>true</publishIfAuthenticated>
+    <obfuscation>
+      <!-- Use a redacted value.-->
+      <ipAddresses>#{{'0.0.0.0'}}</ipAddresses>
+    </obfuscation>
   </buildScan>
+  <buildCache>
+    <local>
+      <enabled>false</enabled>
+    </local>
+    <remote>
+      <server>
+        <url>https://ge.openapi-generator.tech/cache/exp3/</url>           <!-- adjust to your GE hostname, and note the trailing slash -->
+        <allowUntrusted>true</allowUntrusted>                   <!-- set to false if a trusted certificate is configured for the GE server -->
+        <credentials>
+          <username>${env.GRADLE_ENTERPRISE_CACHE_USERNAME}</username>
+          <password>${env.GRADLE_ENTERPRISE_CACHE_PASSWORD}</password>
+        </credentials>
+      </server>
+      <enabled>true</enabled>                                   <!-- must be true for this experiment -->
+      <storeEnabled>#{env['CI'] != null}</storeEnabled>  <!-- adjust to an env var that is always present only in your CI environment -->
+    </remote>
+  </buildCache>
 </gradleEnterprise>

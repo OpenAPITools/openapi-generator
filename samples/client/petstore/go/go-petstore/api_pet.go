@@ -21,7 +21,7 @@ import (
 )
 
 
-type PetApi interface {
+type PetAPI interface {
 
 	/*
 	AddPet Add a new pet to the store
@@ -142,12 +142,12 @@ type PetApi interface {
 	UploadFileWithRequiredFileExecute(r ApiUploadFileWithRequiredFileRequest) (*ApiResponse, *http.Response, error)
 }
 
-// PetApiService PetApi service
-type PetApiService service
+// PetAPIService PetAPI service
+type PetAPIService service
 
 type ApiAddPetRequest struct {
 	ctx context.Context
-	ApiService PetApi
+	ApiService PetAPI
 	body *Pet
 }
 
@@ -167,7 +167,7 @@ AddPet Add a new pet to the store
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiAddPetRequest
 */
-func (a *PetApiService) AddPet(ctx context.Context) ApiAddPetRequest {
+func (a *PetAPIService) AddPet(ctx context.Context) ApiAddPetRequest {
 	return ApiAddPetRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -175,14 +175,14 @@ func (a *PetApiService) AddPet(ctx context.Context) ApiAddPetRequest {
 }
 
 // Execute executes the request
-func (a *PetApiService) AddPetExecute(r ApiAddPetRequest) (*http.Response, error) {
+func (a *PetAPIService) AddPetExecute(r ApiAddPetRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.AddPet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetAPIService.AddPet")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -245,7 +245,7 @@ func (a *PetApiService) AddPetExecute(r ApiAddPetRequest) (*http.Response, error
 
 type ApiDeletePetRequest struct {
 	ctx context.Context
-	ApiService PetApi
+	ApiService PetAPI
 	petId int64
 	apiKey *string
 }
@@ -266,7 +266,7 @@ DeletePet Deletes a pet
  @param petId Pet id to delete
  @return ApiDeletePetRequest
 */
-func (a *PetApiService) DeletePet(ctx context.Context, petId int64) ApiDeletePetRequest {
+func (a *PetAPIService) DeletePet(ctx context.Context, petId int64) ApiDeletePetRequest {
 	return ApiDeletePetRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -275,14 +275,14 @@ func (a *PetApiService) DeletePet(ctx context.Context, petId int64) ApiDeletePet
 }
 
 // Execute executes the request
-func (a *PetApiService) DeletePetExecute(r ApiDeletePetRequest) (*http.Response, error) {
+func (a *PetAPIService) DeletePetExecute(r ApiDeletePetRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.DeletePet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetAPIService.DeletePet")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -344,7 +344,7 @@ func (a *PetApiService) DeletePetExecute(r ApiDeletePetRequest) (*http.Response,
 
 type ApiFindPetsByStatusRequest struct {
 	ctx context.Context
-	ApiService PetApi
+	ApiService PetAPI
 	status *[]string
 }
 
@@ -366,7 +366,7 @@ Multiple status values can be provided with comma separated strings
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiFindPetsByStatusRequest
 */
-func (a *PetApiService) FindPetsByStatus(ctx context.Context) ApiFindPetsByStatusRequest {
+func (a *PetAPIService) FindPetsByStatus(ctx context.Context) ApiFindPetsByStatusRequest {
 	return ApiFindPetsByStatusRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -375,7 +375,7 @@ func (a *PetApiService) FindPetsByStatus(ctx context.Context) ApiFindPetsByStatu
 
 // Execute executes the request
 //  @return []Pet
-func (a *PetApiService) FindPetsByStatusExecute(r ApiFindPetsByStatusRequest) ([]Pet, *http.Response, error) {
+func (a *PetAPIService) FindPetsByStatusExecute(r ApiFindPetsByStatusRequest) ([]Pet, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -383,7 +383,7 @@ func (a *PetApiService) FindPetsByStatusExecute(r ApiFindPetsByStatusRequest) ([
 		localVarReturnValue  []Pet
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.FindPetsByStatus")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetAPIService.FindPetsByStatus")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -454,7 +454,7 @@ func (a *PetApiService) FindPetsByStatusExecute(r ApiFindPetsByStatusRequest) ([
 
 type ApiFindPetsByTagsRequest struct {
 	ctx context.Context
-	ApiService PetApi
+	ApiService PetAPI
 	tags *[]string
 }
 
@@ -478,7 +478,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 Deprecated
 */
-func (a *PetApiService) FindPetsByTags(ctx context.Context) ApiFindPetsByTagsRequest {
+func (a *PetAPIService) FindPetsByTags(ctx context.Context) ApiFindPetsByTagsRequest {
 	return ApiFindPetsByTagsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -488,7 +488,7 @@ func (a *PetApiService) FindPetsByTags(ctx context.Context) ApiFindPetsByTagsReq
 // Execute executes the request
 //  @return []Pet
 // Deprecated
-func (a *PetApiService) FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) ([]Pet, *http.Response, error) {
+func (a *PetAPIService) FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) ([]Pet, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -496,7 +496,7 @@ func (a *PetApiService) FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) ([]Pet
 		localVarReturnValue  []Pet
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.FindPetsByTags")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetAPIService.FindPetsByTags")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -567,7 +567,7 @@ func (a *PetApiService) FindPetsByTagsExecute(r ApiFindPetsByTagsRequest) ([]Pet
 
 type ApiGetPetByIdRequest struct {
 	ctx context.Context
-	ApiService PetApi
+	ApiService PetAPI
 	petId int64
 }
 
@@ -584,7 +584,7 @@ Returns a single pet
  @param petId ID of pet to return
  @return ApiGetPetByIdRequest
 */
-func (a *PetApiService) GetPetById(ctx context.Context, petId int64) ApiGetPetByIdRequest {
+func (a *PetAPIService) GetPetById(ctx context.Context, petId int64) ApiGetPetByIdRequest {
 	return ApiGetPetByIdRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -594,7 +594,7 @@ func (a *PetApiService) GetPetById(ctx context.Context, petId int64) ApiGetPetBy
 
 // Execute executes the request
 //  @return Pet
-func (a *PetApiService) GetPetByIdExecute(r ApiGetPetByIdRequest) (*Pet, *http.Response, error) {
+func (a *PetAPIService) GetPetByIdExecute(r ApiGetPetByIdRequest) (*Pet, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -602,7 +602,7 @@ func (a *PetApiService) GetPetByIdExecute(r ApiGetPetByIdRequest) (*Pet, *http.R
 		localVarReturnValue  *Pet
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.GetPetById")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetAPIService.GetPetById")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -684,7 +684,7 @@ func (a *PetApiService) GetPetByIdExecute(r ApiGetPetByIdRequest) (*Pet, *http.R
 
 type ApiUpdatePetRequest struct {
 	ctx context.Context
-	ApiService PetApi
+	ApiService PetAPI
 	body *Pet
 }
 
@@ -704,7 +704,7 @@ UpdatePet Update an existing pet
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiUpdatePetRequest
 */
-func (a *PetApiService) UpdatePet(ctx context.Context) ApiUpdatePetRequest {
+func (a *PetAPIService) UpdatePet(ctx context.Context) ApiUpdatePetRequest {
 	return ApiUpdatePetRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -712,14 +712,14 @@ func (a *PetApiService) UpdatePet(ctx context.Context) ApiUpdatePetRequest {
 }
 
 // Execute executes the request
-func (a *PetApiService) UpdatePetExecute(r ApiUpdatePetRequest) (*http.Response, error) {
+func (a *PetAPIService) UpdatePetExecute(r ApiUpdatePetRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPut
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.UpdatePet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetAPIService.UpdatePet")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -782,7 +782,7 @@ func (a *PetApiService) UpdatePetExecute(r ApiUpdatePetRequest) (*http.Response,
 
 type ApiUpdatePetWithFormRequest struct {
 	ctx context.Context
-	ApiService PetApi
+	ApiService PetAPI
 	petId int64
 	name *string
 	status *string
@@ -811,7 +811,7 @@ UpdatePetWithForm Updates a pet in the store with form data
  @param petId ID of pet that needs to be updated
  @return ApiUpdatePetWithFormRequest
 */
-func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64) ApiUpdatePetWithFormRequest {
+func (a *PetAPIService) UpdatePetWithForm(ctx context.Context, petId int64) ApiUpdatePetWithFormRequest {
 	return ApiUpdatePetWithFormRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -820,14 +820,14 @@ func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64) ApiU
 }
 
 // Execute executes the request
-func (a *PetApiService) UpdatePetWithFormExecute(r ApiUpdatePetWithFormRequest) (*http.Response, error) {
+func (a *PetAPIService) UpdatePetWithFormExecute(r ApiUpdatePetWithFormRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.UpdatePetWithForm")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetAPIService.UpdatePetWithForm")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -892,7 +892,7 @@ func (a *PetApiService) UpdatePetWithFormExecute(r ApiUpdatePetWithFormRequest) 
 
 type ApiUploadFileRequest struct {
 	ctx context.Context
-	ApiService PetApi
+	ApiService PetAPI
 	petId int64
 	additionalMetadata *string
 	file *os.File
@@ -921,7 +921,7 @@ UploadFile uploads an image
  @param petId ID of pet to update
  @return ApiUploadFileRequest
 */
-func (a *PetApiService) UploadFile(ctx context.Context, petId int64) ApiUploadFileRequest {
+func (a *PetAPIService) UploadFile(ctx context.Context, petId int64) ApiUploadFileRequest {
 	return ApiUploadFileRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -931,7 +931,7 @@ func (a *PetApiService) UploadFile(ctx context.Context, petId int64) ApiUploadFi
 
 // Execute executes the request
 //  @return ApiResponse
-func (a *PetApiService) UploadFileExecute(r ApiUploadFileRequest) (*ApiResponse, *http.Response, error) {
+func (a *PetAPIService) UploadFileExecute(r ApiUploadFileRequest) (*ApiResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -939,7 +939,7 @@ func (a *PetApiService) UploadFileExecute(r ApiUploadFileRequest) (*ApiResponse,
 		localVarReturnValue  *ApiResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.UploadFile")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetAPIService.UploadFile")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1027,7 +1027,7 @@ func (a *PetApiService) UploadFileExecute(r ApiUploadFileRequest) (*ApiResponse,
 
 type ApiUploadFileWithRequiredFileRequest struct {
 	ctx context.Context
-	ApiService PetApi
+	ApiService PetAPI
 	petId int64
 	requiredFile *os.File
 	additionalMetadata *string
@@ -1056,7 +1056,7 @@ UploadFileWithRequiredFile uploads an image (required)
  @param petId ID of pet to update
  @return ApiUploadFileWithRequiredFileRequest
 */
-func (a *PetApiService) UploadFileWithRequiredFile(ctx context.Context, petId int64) ApiUploadFileWithRequiredFileRequest {
+func (a *PetAPIService) UploadFileWithRequiredFile(ctx context.Context, petId int64) ApiUploadFileWithRequiredFileRequest {
 	return ApiUploadFileWithRequiredFileRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1066,7 +1066,7 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx context.Context, petId in
 
 // Execute executes the request
 //  @return ApiResponse
-func (a *PetApiService) UploadFileWithRequiredFileExecute(r ApiUploadFileWithRequiredFileRequest) (*ApiResponse, *http.Response, error) {
+func (a *PetAPIService) UploadFileWithRequiredFileExecute(r ApiUploadFileWithRequiredFileRequest) (*ApiResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -1074,7 +1074,7 @@ func (a *PetApiService) UploadFileWithRequiredFileExecute(r ApiUploadFileWithReq
 		localVarReturnValue  *ApiResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.UploadFileWithRequiredFile")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PetAPIService.UploadFileWithRequiredFile")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

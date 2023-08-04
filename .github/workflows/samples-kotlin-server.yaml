@@ -29,6 +29,7 @@ jobs:
           - samples/server/petstore/kotlin-springboot-springfox
           - samples/server/petstore/kotlin-server/ktor
           - samples/server/petstore/kotlin-server/jaxrs-spec
+          - samples/server/petstore/kotlin-server/jaxrs-spec-mutiny
           - samples/server/petstore/kotlin-server-modelMutable
           # no build.gradle file
           #- samples/server/petstore/kotlin-vertx-modelMutable

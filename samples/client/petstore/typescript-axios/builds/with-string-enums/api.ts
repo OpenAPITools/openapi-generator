@@ -342,11 +342,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
         /**
          * Multiple status values can be provided with comma separated strings
          * @summary Finds Pets by status
-         * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+         * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByStatus: async (status: Array<'available' | 'pending' | 'sold'>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        findPetsByStatus: async (status: Array<FindPetsByStatusStatusEnum>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'status' is not null or undefined
             assertParamExists('findPetsByStatus', 'status', status)
             const localVarPath = `/pet/findByStatus`;
@@ -639,11 +639,11 @@ export const PetApiFp = function(configuration?: Configuration) {
         /**
          * Multiple status values can be provided with comma separated strings
          * @summary Finds Pets by status
-         * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+         * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
+        async findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.findPetsByStatus(status, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -741,11 +741,11 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
         /**
          * Multiple status values can be provided with comma separated strings
          * @summary Finds Pets by status
-         * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+         * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: any): AxiosPromise<Array<Pet>> {
+        findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: any): AxiosPromise<Array<Pet>> {
             return localVarFp.findPetsByStatus(status, options).then((request) => request(axios, basePath));
         },
         /**
@@ -841,12 +841,12 @@ export class PetApi extends BaseAPI {
     /**
      * Multiple status values can be provided with comma separated strings
      * @summary Finds Pets by status
-     * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+     * @param {Array<FindPetsByStatusStatusEnum>} status Status values that need to be considered for filter
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: AxiosRequestConfig) {
+    public findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: AxiosRequestConfig) {
         return PetApiFp(this.configuration).findPetsByStatus(status, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -914,6 +914,16 @@ export class PetApi extends BaseAPI {
     public uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: AxiosRequestConfig) {
         return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
     }
+}
+
+/**
+  * @export
+  * @enum {string}
+  */
+export enum FindPetsByStatusStatusEnum {
+    Available = 'available',
+    Pending = 'pending',
+    Sold = 'sold'
 }
 
 
@@ -1219,6 +1229,7 @@ export class StoreApi extends BaseAPI {
         return StoreApiFp(this.configuration).placeOrder(body, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 
 /**
@@ -1814,5 +1825,6 @@ export class UserApi extends BaseAPI {
         return UserApiFp(this.configuration).updateUser(username, body, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 
 

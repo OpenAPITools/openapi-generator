@@ -60,11 +60,6 @@ public class FormatTestDto {
 
   private BigDecimal bigDecimal;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link FormatTestDto#FormatTestDto(BigDecimal, byte[], LocalDate, String)}
-   */
-  @Deprecated
   public FormatTestDto() {
     super();
   }

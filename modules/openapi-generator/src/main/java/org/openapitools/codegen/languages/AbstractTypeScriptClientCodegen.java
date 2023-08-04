@@ -229,6 +229,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     public static final String MODEL_PROPERTY_NAMING_DESC_WITH_WARNING = CodegenConstants.MODEL_PROPERTY_NAMING_DESC
             + ". Only change it if you provide your own run-time code for (de-)serialization of models";
+    public static final String ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR = "enumPropertyNamingReplaceSpecialChar";
+    public static final String ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_DESC = "Set to true to replace '-' and '+' symbols with 'minus_' and 'plus_' in enum of type string";
+
 
     public static final String NULL_SAFE_ADDITIONAL_PROPS = "nullSafeAdditionalProps";
     public static final String NULL_SAFE_ADDITIONAL_PROPS_DESC = "Set to make additional properties types declare that their indexer may return undefined";
@@ -240,6 +243,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     protected MODEL_PROPERTY_NAMING_TYPE modelPropertyNaming = MODEL_PROPERTY_NAMING_TYPE.original;
     protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
     protected PARAM_NAMING_TYPE paramNaming = PARAM_NAMING_TYPE.camelCase;
+    protected boolean enumPropertyNamingReplaceSpecialChar = false;
     protected Boolean supportsES6 = false;
     protected Boolean nullSafeAdditionalProps = false;
     protected HashSet<String> languageGenericTypes;
@@ -256,8 +260,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.noneOf(
-                        SecurityFeature.class
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.OAuth2_Implicit
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
@@ -359,6 +365,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "When setting this property to true, the version will be suffixed with -SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.get().toPattern(),
                 false));
         this.cliOptions.add(new CliOption(NULL_SAFE_ADDITIONAL_PROPS, NULL_SAFE_ADDITIONAL_PROPS_DESC).defaultValue(String.valueOf(this.getNullSafeAdditionalProps())));
+        this.cliOptions.add(CliOption.newBoolean(ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR, ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_DESC, false));
     }
 
     protected void supportModelPropertyNaming(MODEL_PROPERTY_NAMING_TYPE defaultModelPropertyNaming) {
@@ -383,6 +390,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
         if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
             setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
+        }
+        if (additionalProperties.containsKey(ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR)) {
+            setEnumPropertyNamingReplaceSpecialChar(Boolean.valueOf(additionalProperties.get(ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
@@ -502,6 +512,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         name = sanitizeName(name, "[^\\w$]");
 
         if ("_".equals(name)) {
@@ -516,6 +531,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         name = sanitizeName(name, "[^\\w$]");
 
         if ("_".equals(name)) {
@@ -622,7 +642,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             inner = mp1.getItems();
             return this.getSchemaType(p) + "<" + this.getParameterDataType(parameter, inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            inner = getAdditionalProperties(p);
+            inner = ModelUtils.getAdditionalProperties(p);
             return "{ [key: string]: " + this.getParameterDataType(parameter, inner) + "; }";
         } else if (ModelUtils.isStringSchema(p)) {
             // Handle string enums
@@ -857,9 +877,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return getNameUsingEnumPropertyNaming(getSymbolName(name));
         }
 
+        String varName = name;
+
         // number
         if ("number".equals(datatype)) {
-            String varName = "NUMBER_" + name;
+            varName = "NUMBER_" + varName;
 
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
@@ -868,16 +890,21 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
         // string
-        String enumName = sanitizeName(name);
-        enumName = enumName.replaceFirst("^_", "");
-        enumName = enumName.replaceFirst("_$", "");
+        if (isEnumPropertyNamingReplaceSpecialChar()) {
+            varName = varName.replaceAll("-", "_minus_");
+            varName = varName.replaceAll("\\+", "_plus_");
+            varName = varName.replaceAll("_+", "_");
+        }
+        varName = sanitizeName(varName);
+        varName = varName.replaceFirst("^_", "");
+        varName = varName.replaceFirst("_$", "");
 
-        enumName = getNameUsingEnumPropertyNaming(enumName);
+        varName = getNameUsingEnumPropertyNaming(varName);
 
-        if (enumName.matches("\\d.*")) { // starts with number
-            return "_" + enumName;
+        if (varName.matches("\\d.*")) { // starts with number
+            return "_" + varName;
         } else {
-            return enumName;
+            return varName;
         }
     }
 
@@ -903,6 +930,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     protected ENUM_PROPERTY_NAMING_TYPE getEnumPropertyNaming() {
         return enumPropertyNaming;
+    }
+
+    protected void setEnumPropertyNamingReplaceSpecialChar(boolean replaceSpecialChars) {
+        enumPropertyNamingReplaceSpecialChar = replaceSpecialChars;
+    }
+
+    protected boolean isEnumPropertyNamingReplaceSpecialChar() {
+        return enumPropertyNamingReplaceSpecialChar;
     }
 
     private String getNameUsingEnumPropertyNaming(String name) {

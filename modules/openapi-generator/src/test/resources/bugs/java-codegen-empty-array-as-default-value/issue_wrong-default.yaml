@@ -1,0 +1,45 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Subfile-Defaults
+
+paths:
+  "/dummy":
+    post:
+      operationId: doSomething
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseRequest'
+      responses:
+        "200":
+          description: Successful Operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+
+
+components:
+
+  schemas:
+    BaseRequest:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          $ref: './baseType.yaml'
+    BaseResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+
+    Status:
+      type: string
+      enum:
+        - GOOD
+        - BAD

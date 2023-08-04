@@ -5,10 +5,12 @@ on:
     paths:
       - 'samples/server/petstore/go-echo-server/**'
       - 'samples/server/petstore/go-api-server/**'
+      - 'samples/server/petstore/go-chi-server/**'
   pull_request:
     paths:
       - 'samples/server/petstore/go-echo-server/**'
       - 'samples/server/petstore/go-api-server/**'
+      - 'samples/server/petstore/go-chi-server/**'
 
 jobs:
   build:
@@ -20,17 +22,13 @@ jobs:
         sample:
           - samples/server/petstore/go-echo-server/
           - samples/server/petstore/go-api-server/
+          - samples/server/petstore/go-chi-server/
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
         with:
-          go-version: '>=1.17.0'
+          go-version: "stable"
       - run: go version
-      - name: Install
+      - name: Run test
         working-directory: ${{ matrix.sample }}
-        run: |
-          go get github.com/labstack/echo/v4/middleware@v4.9.0
-          go get github.com/labstack/echo/v4@v4.9.0
-      - name: Build
-        working-directory: ${{ matrix.sample }}
-        run: go test -v
+        run: go test -mod=mod -v

@@ -109,12 +109,10 @@ Class | Method | HTTP request | Description
  - [AnyOfPrimitiveTypeTest](docs/AnyOfPrimitiveTypeTest.md)
  - [BasquePig](docs/BasquePig.md)
  - [Cat](docs/Cat.md)
- - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [DanishPig](docs/DanishPig.md)
  - [Date](docs/Date.md)
  - [Dog](docs/Dog.md)
- - [DogAllOf](docs/DogAllOf.md)
  - [FormatTest](docs/FormatTest.md)
  - [Mammal](docs/Mammal.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
@@ -134,6 +132,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Authorization
 
 
+Authentication schemes defined for the API:
 ### http_auth
 
 - **Type**: HTTP basic authentication

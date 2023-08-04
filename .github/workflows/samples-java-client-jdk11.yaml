@@ -8,6 +8,7 @@ on:
       - samples/client/petstore/java-micronaut-client/**
       - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
+      - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/**
       - samples/openapi3/client/petstore/java/native**
   pull_request:
     paths:
@@ -16,6 +17,7 @@ on:
       - samples/client/petstore/java-micronaut-client/**
       - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
+      - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/**
       - samples/openapi3/client/petstore/java/native**
 jobs:
   build:
@@ -38,6 +40,7 @@ jobs:
           - samples/client/petstore/java/resttemplate-withXml
           - samples/client/petstore/java/webclient
           - samples/client/petstore/java/webclient-nullable-arrays
+          - samples/client/petstore/java/webclient-swagger2
           - samples/client/petstore/java/vertx
           - samples/client/petstore/java/jersey2-java8-localdatetime
           - samples/client/petstore/java/resteasy
@@ -54,6 +57,9 @@ jobs:
           - samples/client/petstore/java/okhttp-gson-swagger1/
           - samples/client/petstore/java/resttemplate-swagger1/
           - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/
+          - samples/client/petstore/java/okhttp-gson-swagger2/
+          - samples/client/petstore/java/resttemplate-swagger2/
+          - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3

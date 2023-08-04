@@ -182,11 +182,32 @@ public class Generate extends OpenApiGeneratorCommand {
     private List<String> inlineSchemaNameMappings = new ArrayList<>();
 
     @Option(
-            name = {"--inline-schema-name-defaults"},
-            title = "inline schema name defaults",
-            description = "specifies the default values used when naming inline schema as such array items in the format of arrayItemSuffix=_inner,mapItemSuffix=_value. "
-                    + " ONLY arrayItemSuffix, mapItemSuffix are supported at the moment. `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas.")
-    private List<String> inlineSchemaNameDefaults = new ArrayList<>();
+            name = {"--inline-schema-options"},
+            title = "inline schema options",
+            description = "specifies the options for handling inline schemas in the inline model resolver."
+                    + " Please refer to https://github.com/OpenAPITools/openapi-generator/blob/master/docs/customization.md for a list of options.")
+    private List<String> inlineSchemaOptions = new ArrayList<>();
+
+    @Option(
+            name = {"--name-mappings"},
+            title = "property name mappings",
+            description = "specifies mappings between the property name and the new name in the format of prop_name=PropName,prop_name2=PropName2."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> nameMappings = new ArrayList<>();
+
+    @Option(
+            name = {"--parameter-name-mappings"},
+            title = "parameter name mappings",
+            description = "specifies mappings between the parameter name and the new name in the format of param_name=paramName,param_name2=paramName2."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> parameterNameMappings = new ArrayList<>();
+
+    @Option(
+            name = {"--model-name-mappings"},
+            title = "model name mappings",
+            description = "specifies mappings between the model name and the new name in the format of model_name=AnotherName,model_name2=OtherName2."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> modelNameMappings = new ArrayList<>();
 
     @Option(
             name = {"--openapi-normalizer"},
@@ -467,7 +488,10 @@ public class Generate extends OpenApiGeneratorCommand {
         applyImportMappingsKvpList(importMappings, configurator);
         applySchemaMappingsKvpList(schemaMappings, configurator);
         applyInlineSchemaNameMappingsKvpList(inlineSchemaNameMappings, configurator);
-        applyInlineSchemaNameDefaultsKvpList(inlineSchemaNameDefaults, configurator);
+        applyInlineSchemaOptionsKvpList(inlineSchemaOptions, configurator);
+        applyNameMappingsKvpList(nameMappings, configurator);
+        applyParameterNameMappingsKvpList(parameterNameMappings, configurator);
+        applyModelNameMappingsKvpList(modelNameMappings, configurator);
         applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);

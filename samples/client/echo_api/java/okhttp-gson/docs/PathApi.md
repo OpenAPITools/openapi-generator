@@ -7,7 +7,7 @@ All URIs are relative to *http://localhost:3000*
 | [**testsPathStringPathStringIntegerPathInteger**](PathApi.md#testsPathStringPathStringIntegerPathInteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s) |
 
 
-<a name="testsPathStringPathStringIntegerPathInteger"></a>
+<a id="testsPathStringPathStringIntegerPathInteger"></a>
 # **testsPathStringPathStringIntegerPathInteger**
 > String testsPathStringPathStringIntegerPathInteger(pathString, pathInteger)
 

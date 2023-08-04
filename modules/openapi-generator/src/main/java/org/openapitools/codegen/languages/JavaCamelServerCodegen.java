@@ -144,12 +144,6 @@ public class JavaCamelServerCodegen extends SpringCodegen implements BeanValidat
                 if (!APPLICATION_JSON.equals(mediaType) && !APPLICATION_XML.equals(mediaType)) {
                     bindingModeOff = true;
                 }
-                if (APPLICATION_JSON.equals(mediaType)) {
-                    produces.put("isJson", "true");
-                }
-                if (APPLICATION_XML.equals(mediaType)) {
-                    produces.put("isXml", "true");
-                }
             }
         }
         if (co.hasConsumes) {
@@ -157,12 +151,6 @@ public class JavaCamelServerCodegen extends SpringCodegen implements BeanValidat
                 String mediaType = consumes.get("mediaType");
                 if (!APPLICATION_JSON.equals(mediaType) && !APPLICATION_XML.equals(mediaType)) {
                     bindingModeOff = true;
-                }
-                if (APPLICATION_JSON.equals(mediaType)) {
-                    consumes.put("isJson", "true");
-                }
-                if (APPLICATION_XML.equals(mediaType)) {
-                    consumes.put("isXml", "true");
                 }
             }
         }

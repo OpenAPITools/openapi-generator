@@ -36,7 +36,7 @@ class OuterEnumIntegerDefaultValue {
 
   static OuterEnumIntegerDefaultValue? fromJson(dynamic value) => OuterEnumIntegerDefaultValueTypeTransformer().decode(value);
 
-  static List<OuterEnumIntegerDefaultValue>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<OuterEnumIntegerDefaultValue> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <OuterEnumIntegerDefaultValue>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {

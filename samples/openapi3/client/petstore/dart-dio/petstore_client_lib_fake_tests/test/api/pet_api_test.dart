@@ -198,6 +198,7 @@ void main() {
         );
 
         final response = await client.getPetApi().findPetsByStatus(
+              // ignore: deprecated_member_use
               status: ListBuilder<String>(<String>[
                 PetStatusEnum.available.name,
                 PetStatusEnum.sold.name,

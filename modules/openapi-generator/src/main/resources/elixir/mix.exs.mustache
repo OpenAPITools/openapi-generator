@@ -9,7 +9,9 @@ defmodule {{moduleName}}.Mixfile do
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       package: package(),
-      description: "{{appDescription}}",
+      description: """
+      {{appDescription}}
+      """,
       deps: deps()
     ]
   end

@@ -363,7 +363,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         }
 
         if (ModelUtils.isMapSchema(p)) {
-            Schema ap = getAdditionalProperties(p);
+            Schema ap = ModelUtils.getAdditionalProperties(p);
             String inner = getSchemaType(ap);
             return "Map.empty[String, " + inner + "]";
         }

@@ -105,6 +105,31 @@ import { BASE_PATH } from '@openapitools/typescript-nestjs-petstore';
 export class AppModule {}
 ```
 
+### Configuring the module with `forRootAsync`
+
+You can also use the Nestjs Config Module/Service to configure your app with `forRootAsync`.
+
+```
+@Module({
+    imports: [
+      ApiModule.forRootAsync({
+        imports: [ConfigModule],
+        inject: [ConfigService],
+        useFactory: (config: ConfigService): Configuration => {
+          const params: ConfigurationParameters = {
+            // set configuration parameters here.
+            basePath: config.get('API_URL'),
+          };
+          return new Configuration(params);
+        },
+      })
+    ],
+    declarations: [ AppComponent ],
+    providers: [],
+    bootstrap: [ AppComponent ]
+})
+export class AppModule {}
+```
 
 #### Using @nestjs/cli
 First extend your `src/environments/*.ts` files by adding the corresponding base path:

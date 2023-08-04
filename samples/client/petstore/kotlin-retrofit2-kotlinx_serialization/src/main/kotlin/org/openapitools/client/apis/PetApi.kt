@@ -42,7 +42,7 @@ interface PetApi {
     /**
     * enum for parameter status
     */
-    enum class Status_findPetsByStatus(val value: kotlin.String) {
+    enum class StatusFindPetsByStatus(val value: kotlin.String) {
         @SerialName(value = "available") AVAILABLE("available"),
         @SerialName(value = "pending") PENDING("pending"),
         @SerialName(value = "sold") SOLD("sold")
