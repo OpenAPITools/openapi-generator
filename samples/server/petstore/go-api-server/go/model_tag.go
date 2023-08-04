@@ -10,10 +10,6 @@
 package petstoreserver
 
 
-import (
-	"encoding/json"
-)
-
 
 
 // Tag - A tag for a pet

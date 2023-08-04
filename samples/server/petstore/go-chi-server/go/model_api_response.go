@@ -10,10 +10,6 @@
 package petstoreserver
 
 
-import (
-	"encoding/json"
-)
-
 
 
 // ApiResponse - Describes the result of uploading an image resource

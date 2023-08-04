@@ -10,10 +10,6 @@
 package petstoreserver
 
 
-import (
-	"encoding/json"
-)
-
 
 
 // SpecialInfo - An order info for a pets from the pet store

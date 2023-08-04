@@ -10,10 +10,6 @@
 package petstoreserver
 
 
-import (
-	"encoding/json"
-)
-
 
 
 // Pet - A pet for sale in the pet store

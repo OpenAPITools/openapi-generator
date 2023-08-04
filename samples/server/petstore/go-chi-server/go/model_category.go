@@ -10,10 +10,6 @@
 package petstoreserver
 
 
-import (
-	"encoding/json"
-)
-
 
 
 // Category - A category for a pet
