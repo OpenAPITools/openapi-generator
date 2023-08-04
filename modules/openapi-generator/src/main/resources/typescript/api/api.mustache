@@ -213,7 +213,7 @@ export class {{classname}}ResponseProcessor {
             {{/dataType}}
             {{^dataType}}
             {{#is2xx}}
-            return;
+            return new ApiResponse(response.httpStatusCode, response.headers, response.body, undefined);
             {{/is2xx}}
             {{^is2xx}}
             throw new ApiException<undefined>(response.httpStatusCode, "{{message}}", undefined, response.headers);
@@ -237,7 +237,7 @@ export class {{classname}}ResponseProcessor {
             return new ApiResponse(response.httpStatusCode, response.headers, response.body, body);
             {{/returnType}}
             {{^returnType}}
-            return;
+            return new ApiResponse(response.httpStatusCode, response.headers, response.body, undefined);
             {{/returnType}}
         }
 
