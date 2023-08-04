@@ -207,9 +207,6 @@ public class DefaultCodegen implements CodegenConfig {
     protected String removeOperationIdPrefixDelimiter = "_";
     protected int removeOperationIdPrefixCount = 1;
     protected boolean skipOperationExample;
-    protected boolean skipUnsupportedAuthMethods = false;//TODO: make this a cli option?
-    protected boolean failGenerationIfUnsupportedAuthMethods = false;//TODO: make this a cli option? combine with above cli option?
-    protected boolean failExecutionIfUnsupportedAuthMethods = false;//TODO: make this a generator feature or combine with above cli options?
 
     protected final static Pattern XML_MIME_PATTERN = Pattern.compile("(?i)application\\/(.*)[+]?xml(;.*)?");
     protected final static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");
@@ -5406,111 +5403,104 @@ public class DefaultCodegen implements CodegenConfig {
         for (String key : securitySchemeMap.keySet()) {
             final SecurityScheme securityScheme = securitySchemeMap.get(key);
             boolean unsupported = !supportsSecurityScheme(securityScheme);
-            if (unsupported && skipUnsupportedAuthMethods) {
-                once(LOGGER).warn("Unsupported type `{}` and scheme/flows `{}` found in the security definition `{}`. Skipping it during code generation because skipUnsupportedAuthMethods=true.", securityScheme.getType(), securityScheme.getScheme() != null ? securityScheme.getScheme() : (securityScheme.getFlows() == null ? null : (securityScheme.getFlows().getImplicit() != null ? "-implicit-" : "")+(securityScheme.getFlows().getAuthorizationCode() != null ? "-accessCode-" : "")+(securityScheme.getFlows().getPassword() != null ? "-password-" : "")+(securityScheme.getFlows().getClientCredentials() != null ? "-application-" : "")), key);
-            } else {
-                if (unsupported && failGenerationIfUnsupportedAuthMethods) {
-                    throw new RuntimeException("Unsupported type `"+securityScheme.getType()+"` and scheme/flows `"+(securityScheme.getScheme() != null ? securityScheme.getScheme() : (securityScheme.getFlows() == null ? null : (securityScheme.getFlows().getImplicit() != null ? "-implicit-" : "")+(securityScheme.getFlows().getAuthorizationCode() != null ? "-accessCode-" : "")+(securityScheme.getFlows().getPassword() != null ? "-password-" : "")+(securityScheme.getFlows().getClientCredentials() != null ? "-application-" : "")))+"` found in the security definition `"+key+"`. Aborting code generation because failGenerationIfUnsupportedAuthMethods=true."); 
-                }
-                if (SecurityScheme.Type.APIKEY.equals(securityScheme.getType())) {
-                    final CodegenSecurity cs = defaultCodegenSecurity(key, securityScheme);
-                    cs.isUnsupported = unsupported;
-                    cs.isBasic = cs.isOAuth = cs.isOpenId = false;
-                    cs.isApiKey = true;
-                    cs.keyParamName = securityScheme.getName();
-                    cs.isKeyInHeader = securityScheme.getIn() == SecurityScheme.In.HEADER;
-                    cs.isKeyInQuery = securityScheme.getIn() == SecurityScheme.In.QUERY;
-                    cs.isKeyInCookie = securityScheme.getIn() == SecurityScheme.In.COOKIE;  //it assumes a validation step prior to generation. (cookie-auth supported from OpenAPI 3.0.0)
-                    cs.typeDescription = cs.type+"/"+securityScheme.getIn()+"["+cs.keyParamName+"]";
-                    codegenSecurities.add(cs);
-                } else if (SecurityScheme.Type.HTTP.equals(securityScheme.getType())) {
-                    final CodegenSecurity cs = defaultCodegenSecurity(key, securityScheme);
-                    cs.isUnsupported = unsupported;
-                    cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isOAuth = cs.isOpenId = false;
-                    cs.typeDescription = cs.type+"/"+cs.scheme;
-                    cs.isBasic = true;
-                    if ("basic".equalsIgnoreCase(securityScheme.getScheme())) {
-                        cs.isBasicBasic = true;
-                    } else if ("bearer".equalsIgnoreCase(securityScheme.getScheme())) {
-                        cs.isBasicBearer = true;
-                        cs.bearerFormat = securityScheme.getBearerFormat();
-                        cs.typeDescription += "["+cs.bearerFormat+"]";
-                    } else if ("signature".equalsIgnoreCase(securityScheme.getScheme())) {
-                        // HTTP signature as defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
-                        // The registry of security schemes is maintained by IANA.
-                        // https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml
-                        // As of January 2020, the "signature" scheme has not been registered with IANA yet.
-                        // This scheme may have to be changed when it is officially registered with IANA.
-                        cs.isHttpSignature = true;
-                        once(LOGGER).warn("Security scheme 'HTTP signature' is a draft IETF RFC and subject to change.");
-                    } else {
-                        once(LOGGER).warn("Unknown scheme `{}` found in the HTTP security definition.", securityScheme.getScheme());
-                    }
-                    codegenSecurities.add(cs);
-                } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
-                    final OAuthFlows flows = securityScheme.getFlows();
-                    boolean isFlowEmpty = true;
-                    if (securityScheme.getFlows() == null) {
-                        throw new RuntimeException("missing oauth flow in " + key);
-                    }
-                    if (flows.getPassword() != null) {
-                        final CodegenSecurity cs = defaultOauthCodegenSecurity(key, securityScheme);
-                        cs.isUnsupported = unsupported;
-                        setOauth2Info(cs, flows.getPassword());
-                        cs.isPassword = true;
-                        cs.flow = "password";
-                        cs.typeDescription = cs.type+"/"+cs.flow;
-                        codegenSecurities.add(cs);
-                        isFlowEmpty = false;
-                    }
-                    if (flows.getImplicit() != null) {
-                        final CodegenSecurity cs = defaultOauthCodegenSecurity(key, securityScheme);
-                        cs.isUnsupported = unsupported;
-                        setOauth2Info(cs, flows.getImplicit());
-                        cs.isImplicit = true;
-                        cs.flow = "implicit";
-                        cs.typeDescription = cs.type+"/"+cs.flow;
-                        codegenSecurities.add(cs);
-                        isFlowEmpty = false;
-                    }
-                    if (flows.getClientCredentials() != null) {
-                        final CodegenSecurity cs = defaultOauthCodegenSecurity(key, securityScheme);
-                        cs.isUnsupported = unsupported;
-                        setOauth2Info(cs, flows.getClientCredentials());
-                        cs.isApplication = true;
-                        cs.flow = "application";
-                        cs.typeDescription = cs.type+"/"+cs.flow;
-                        codegenSecurities.add(cs);
-                        isFlowEmpty = false;
-                    }
-                    if (flows.getAuthorizationCode() != null) {
-                        final CodegenSecurity cs = defaultOauthCodegenSecurity(key, securityScheme);
-                        cs.isUnsupported = unsupported;
-                        setOauth2Info(cs, flows.getAuthorizationCode());
-                        cs.isCode = true;
-                        cs.flow = "accessCode";
-                        cs.typeDescription = cs.type+"/"+cs.flow;
-                        codegenSecurities.add(cs);
-                        isFlowEmpty = false;
-                    }
-
-                    if (isFlowEmpty) {
-                        once(LOGGER).error("Invalid flow definition defined in the security scheme: {}", flows);
-                    }
-                } else if (SecurityScheme.Type.OPENIDCONNECT.equals(securityScheme.getType())) {
-                    final CodegenSecurity cs = defaultCodegenSecurity(key, securityScheme);
-                    cs.isUnsupported = unsupported;
-                    cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
-                    cs.isOpenId = true;
-                    cs.openIdConnectUrl = securityScheme.getOpenIdConnectUrl();
-                    if (securityScheme.getFlows() != null) {
-                        setOpenIdConnectInfo(cs, securityScheme.getFlows().getAuthorizationCode());
-                    }
-                    cs.typeDescription = cs.type+"/"+cs.scopes;
-                    codegenSecurities.add(cs);
+            if (SecurityScheme.Type.APIKEY.equals(securityScheme.getType())) {
+                final CodegenSecurity cs = defaultCodegenSecurity(key, securityScheme);
+                cs.isUnsupported = unsupported;
+                cs.isBasic = cs.isOAuth = cs.isOpenId = false;
+                cs.isApiKey = true;
+                cs.keyParamName = securityScheme.getName();
+                cs.isKeyInHeader = securityScheme.getIn() == SecurityScheme.In.HEADER;
+                cs.isKeyInQuery = securityScheme.getIn() == SecurityScheme.In.QUERY;
+                cs.isKeyInCookie = securityScheme.getIn() == SecurityScheme.In.COOKIE;  //it assumes a validation step prior to generation. (cookie-auth supported from OpenAPI 3.0.0)
+                cs.typeDescription = cs.type+"/"+securityScheme.getIn()+"["+cs.keyParamName+"]";
+                codegenSecurities.add(cs);
+            } else if (SecurityScheme.Type.HTTP.equals(securityScheme.getType())) {
+                final CodegenSecurity cs = defaultCodegenSecurity(key, securityScheme);
+                cs.isUnsupported = unsupported;
+                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isOAuth = cs.isOpenId = false;
+                cs.typeDescription = cs.type+"/"+cs.scheme;
+                cs.isBasic = true;
+                if ("basic".equalsIgnoreCase(securityScheme.getScheme())) {
+                    cs.isBasicBasic = true;
+                } else if ("bearer".equalsIgnoreCase(securityScheme.getScheme())) {
+                    cs.isBasicBearer = true;
+                    cs.bearerFormat = securityScheme.getBearerFormat();
+                    cs.typeDescription += "["+cs.bearerFormat+"]";
+                } else if ("signature".equalsIgnoreCase(securityScheme.getScheme())) {
+                    // HTTP signature as defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
+                    // The registry of security schemes is maintained by IANA.
+                    // https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml
+                    // As of January 2020, the "signature" scheme has not been registered with IANA yet.
+                    // This scheme may have to be changed when it is officially registered with IANA.
+                    cs.isHttpSignature = true;
+                    once(LOGGER).warn("Security scheme 'HTTP signature' is a draft IETF RFC and subject to change.");
                 } else {
-                    once(LOGGER).error("Unknown type `{}` found in the security definition `{}`.", securityScheme.getType(), securityScheme.getName());
+                    once(LOGGER).warn("Unknown scheme `{}` found in the HTTP security definition.", securityScheme.getScheme());
                 }
+                codegenSecurities.add(cs);
+            } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
+                final OAuthFlows flows = securityScheme.getFlows();
+                boolean isFlowEmpty = true;
+                if (securityScheme.getFlows() == null) {
+                    throw new RuntimeException("missing oauth flow in " + key);
+                }
+                if (flows.getPassword() != null) {
+                    final CodegenSecurity cs = defaultOauthCodegenSecurity(key, securityScheme);
+                    cs.isUnsupported = unsupported;
+                    setOauth2Info(cs, flows.getPassword());
+                    cs.isPassword = true;
+                    cs.flow = "password";
+                    cs.typeDescription = cs.type+"/"+cs.flow;
+                    codegenSecurities.add(cs);
+                    isFlowEmpty = false;
+                }
+                if (flows.getImplicit() != null) {
+                    final CodegenSecurity cs = defaultOauthCodegenSecurity(key, securityScheme);
+                    cs.isUnsupported = unsupported;
+                    setOauth2Info(cs, flows.getImplicit());
+                    cs.isImplicit = true;
+                    cs.flow = "implicit";
+                    cs.typeDescription = cs.type+"/"+cs.flow;
+                    codegenSecurities.add(cs);
+                    isFlowEmpty = false;
+                }
+                if (flows.getClientCredentials() != null) {
+                    final CodegenSecurity cs = defaultOauthCodegenSecurity(key, securityScheme);
+                    cs.isUnsupported = unsupported;
+                    setOauth2Info(cs, flows.getClientCredentials());
+                    cs.isApplication = true;
+                    cs.flow = "application";
+                    cs.typeDescription = cs.type+"/"+cs.flow;
+                    codegenSecurities.add(cs);
+                    isFlowEmpty = false;
+                }
+                if (flows.getAuthorizationCode() != null) {
+                    final CodegenSecurity cs = defaultOauthCodegenSecurity(key, securityScheme);
+                    cs.isUnsupported = unsupported;
+                    setOauth2Info(cs, flows.getAuthorizationCode());
+                    cs.isCode = true;
+                    cs.flow = "accessCode";
+                    cs.typeDescription = cs.type+"/"+cs.flow;
+                    codegenSecurities.add(cs);
+                    isFlowEmpty = false;
+                }
+
+                if (isFlowEmpty) {
+                    once(LOGGER).error("Invalid flow definition defined in the security scheme: {}", flows);
+                }
+            } else if (SecurityScheme.Type.OPENIDCONNECT.equals(securityScheme.getType())) {
+                final CodegenSecurity cs = defaultCodegenSecurity(key, securityScheme);
+                cs.isUnsupported = unsupported;
+                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
+                cs.isOpenId = true;
+                cs.openIdConnectUrl = securityScheme.getOpenIdConnectUrl();
+                if (securityScheme.getFlows() != null) {
+                    setOpenIdConnectInfo(cs, securityScheme.getFlows().getAuthorizationCode());
+                }
+                cs.typeDescription = cs.type+"/"+cs.scopes;
+                codegenSecurities.add(cs);
+            } else {
+                once(LOGGER).error("Unknown type `{}` found in the security definition `{}`.", securityScheme.getType(), securityScheme.getName());
             }
         }
 
@@ -6107,34 +6097,6 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public boolean isSkipOperationExample() {
         return skipOperationExample;
-    }
-
-    @Override
-    public boolean isSkipUnsupportedAuthMethods() {
-        return skipUnsupportedAuthMethods;
-    }
-
-    @Override
-    public void setSkipUnsupportedAuthMethods(boolean skipUnsupportedAuthMethods) {
-        this.skipUnsupportedAuthMethods = skipUnsupportedAuthMethods;
-    }
-
-    @Override
-    public boolean isFailExecutionIfUnsupportedAuthMethods() {
-        return failExecutionIfUnsupportedAuthMethods;
-    }
-
-    @Override
-    public void setFailExecutionIfUnsupportedAuthMethods(boolean failExecutionIfUnsupportedAuthMethods) {
-        this.failExecutionIfUnsupportedAuthMethods = failExecutionIfUnsupportedAuthMethods;
-    }
-
-    public boolean isFailGenerationIfUnsupportedAuthMethods() {
-        return failGenerationIfUnsupportedAuthMethods;
-    }
-
-    public void setFailGenerationIfUnsupportedAuthMethods(boolean failGenerationIfUnsupportedAuthMethods) {
-        this.failGenerationIfUnsupportedAuthMethods = failGenerationIfUnsupportedAuthMethods;
     }
 
     @Override

@@ -235,14 +235,6 @@ public interface CodegenConfig {
 
     boolean isRemoveOperationIdPrefix();
 
-    boolean isSkipUnsupportedAuthMethods();
-
-    void setSkipUnsupportedAuthMethods(boolean skipUnsupportedAuthMethods);
-
-    boolean isFailExecutionIfUnsupportedAuthMethods();
-
-    void setFailExecutionIfUnsupportedAuthMethods(boolean failExecutionIfUnsupportedAuthMethods);
-
     void setRemoveOperationIdPrefix(boolean removeOperationIdPrefix);
 
     boolean isSkipOperationExample();
