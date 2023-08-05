@@ -1,5 +1,5 @@
 import type { Configuration } from "../configuration";
-import type { HttpFile, RequestContext, ResponseContext } from "../http/http";
+import type { HttpFile, RequestContext, ResponseContext, HttpInfo } from "../http/http";
 
 import { ApiResponse } from "../models/ApiResponse";
 import { Pet } from "../models/Pet";
@@ -25,19 +25,35 @@ export abstract class AbstractPetApiRequestFactory {
 
 
 export abstract class AbstractPetApiResponseProcessor {
+     public abstract addPetWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Pet >>;
+
      public abstract addPet(response: ResponseContext): Promise<Pet >;
+
+     public abstract deletePetWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>>;
 
      public abstract deletePet(response: ResponseContext): Promise< void>;
 
+     public abstract findPetsByStatusWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Array<Pet> >>;
+
      public abstract findPetsByStatus(response: ResponseContext): Promise<Array<Pet> >;
+
+     public abstract findPetsByTagsWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Array<Pet> >>;
 
      public abstract findPetsByTags(response: ResponseContext): Promise<Array<Pet> >;
 
+     public abstract getPetByIdWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Pet >>;
+
      public abstract getPetById(response: ResponseContext): Promise<Pet >;
+
+     public abstract updatePetWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Pet >>;
 
      public abstract updatePet(response: ResponseContext): Promise<Pet >;
 
+     public abstract updatePetWithFormWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>>;
+
      public abstract updatePetWithForm(response: ResponseContext): Promise< void>;
+
+     public abstract uploadFileWithHttpInfo(response: ResponseContext): Promise<HttpInfo<ApiResponse >>;
 
      public abstract uploadFile(response: ResponseContext): Promise<ApiResponse >;
 
