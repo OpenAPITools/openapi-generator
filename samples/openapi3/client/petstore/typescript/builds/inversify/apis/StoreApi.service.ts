@@ -18,18 +18,10 @@ export abstract class AbstractStoreApiRequestFactory {
 export abstract class AbstractStoreApiResponseProcessor {
      public abstract deleteOrderWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>>;
 
-     public abstract deleteOrder(response: ResponseContext): Promise< void>;
-
      public abstract getInventoryWithHttpInfo(response: ResponseContext): Promise<HttpInfo<{ [key: string]: number; } >>;
-
-     public abstract getInventory(response: ResponseContext): Promise<{ [key: string]: number; } >;
 
      public abstract getOrderByIdWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Order >>;
 
-     public abstract getOrderById(response: ResponseContext): Promise<Order >;
-
      public abstract placeOrderWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Order >>;
-
-     public abstract placeOrder(response: ResponseContext): Promise<Order >;
 
 }

@@ -18,8 +18,6 @@ export abstract class Abstract{{classname}}ResponseProcessor {
     {{#operation}}
      public abstract {{nickname}}WithHttpInfo(response: ResponseContext): Promise<HttpInfo<{{{returnType}}} {{^returnType}}void{{/returnType}}>>;
 
-     public abstract {{nickname}}(response: ResponseContext): Promise<{{{returnType}}} {{^returnType}}void{{/returnType}}>;
-
     {{/operation}}
 }
 {{/operations}}

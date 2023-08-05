@@ -26,34 +26,18 @@ export abstract class AbstractUserApiRequestFactory {
 export abstract class AbstractUserApiResponseProcessor {
      public abstract createUserWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>>;
 
-     public abstract createUser(response: ResponseContext): Promise< void>;
-
      public abstract createUsersWithArrayInputWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>>;
-
-     public abstract createUsersWithArrayInput(response: ResponseContext): Promise< void>;
 
      public abstract createUsersWithListInputWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>>;
 
-     public abstract createUsersWithListInput(response: ResponseContext): Promise< void>;
-
      public abstract deleteUserWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>>;
-
-     public abstract deleteUser(response: ResponseContext): Promise< void>;
 
      public abstract getUserByNameWithHttpInfo(response: ResponseContext): Promise<HttpInfo<User >>;
 
-     public abstract getUserByName(response: ResponseContext): Promise<User >;
-
      public abstract loginUserWithHttpInfo(response: ResponseContext): Promise<HttpInfo<string >>;
-
-     public abstract loginUser(response: ResponseContext): Promise<string >;
 
      public abstract logoutUserWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>>;
 
-     public abstract logoutUser(response: ResponseContext): Promise< void>;
-
      public abstract updateUserWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>>;
-
-     public abstract updateUser(response: ResponseContext): Promise< void>;
 
 }
