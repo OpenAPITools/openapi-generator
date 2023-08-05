@@ -59,12 +59,12 @@ class NullableClass {
     other.stringProp == stringProp &&
     other.dateProp == dateProp &&
     other.datetimeProp == datetimeProp &&
-    deepEquality.equals(other.arrayNullableProp, arrayNullableProp) &&
-    deepEquality.equals(other.arrayAndItemsNullableProp, arrayAndItemsNullableProp) &&
-    deepEquality.equals(other.arrayItemsNullable, arrayItemsNullable) &&
-    deepEquality.equals(other.objectNullableProp, objectNullableProp) &&
-    deepEquality.equals(other.objectAndItemsNullableProp, objectAndItemsNullableProp) &&
-    deepEquality.equals(other.objectItemsNullable, objectItemsNullable);
+    _deepEquality.equals(other.arrayNullableProp, arrayNullableProp) &&
+    _deepEquality.equals(other.arrayAndItemsNullableProp, arrayAndItemsNullableProp) &&
+    _deepEquality.equals(other.arrayItemsNullable, arrayItemsNullable) &&
+    _deepEquality.equals(other.objectNullableProp, objectNullableProp) &&
+    _deepEquality.equals(other.objectAndItemsNullableProp, objectAndItemsNullableProp) &&
+    _deepEquality.equals(other.objectItemsNullable, objectItemsNullable);
 
   @override
   int get hashCode =>

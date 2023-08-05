@@ -29,10 +29,10 @@ class MapTest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is MapTest &&
-    deepEquality.equals(other.mapMapOfString, mapMapOfString) &&
-    deepEquality.equals(other.mapOfEnumString, mapOfEnumString) &&
-    deepEquality.equals(other.directMap, directMap) &&
-    deepEquality.equals(other.indirectMap, indirectMap);
+    _deepEquality.equals(other.mapMapOfString, mapMapOfString) &&
+    _deepEquality.equals(other.mapOfEnumString, mapOfEnumString) &&
+    _deepEquality.equals(other.directMap, directMap) &&
+    _deepEquality.equals(other.indirectMap, indirectMap);
 
   @override
   int get hashCode =>
