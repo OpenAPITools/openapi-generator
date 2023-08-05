@@ -471,7 +471,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             for (Map.Entry<String, SecurityScheme> securitySchemesEntry : securitySchemes.entrySet()) {
                 String securityName = securitySchemesEntry.getKey();
                 SecurityScheme securityScheme = securitySchemesEntry.getValue();
-                String baseFunctionName = controllerPackage + ".security_controller_.";
+                String baseFunctionName = controllerPackage + ".security_controller.";
                 switch (securityScheme.getType()) {
                     case APIKEY:
                         addSecurityExtension(securityScheme, "x-apikeyInfoFunc", baseFunctionName + "info_from_" + securityName);
