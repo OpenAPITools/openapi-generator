@@ -5,7 +5,7 @@ from datetime import date, datetime  # noqa: F401
 
 from typing import List, Dict  # noqa: F401
 
-from openapi_server.models.base_model_ import Model
+from openapi_server.models.base_model import Model
 from openapi_server.models.category import Category
 from openapi_server.models.tag import Tag
 from openapi_server import util
@@ -23,7 +23,7 @@ class Pet(Model):
         """Pet - a model defined in OpenAPI
 
         :param id: The id of this Pet.  # noqa: E501
-        :type id: long
+        :type id: int
         :param category: The category of this Pet.  # noqa: E501
         :type category: Category
         :param name: The name of this Pet.  # noqa: E501
@@ -36,7 +36,7 @@ class Pet(Model):
         :type status: str
         """
         self.openapi_types = {
-            'id': long,
+            'id': int,
             'category': Category,
             'name': str,
             'photo_urls': List[str],
@@ -61,7 +61,7 @@ class Pet(Model):
         self._status = status
 
     @classmethod
-    def from_dict(cls, dikt):
+    def from_dict(cls, dikt) -> 'Pet':
         """Returns the dict as a model
 
         :param dikt: A dict.
@@ -77,7 +77,7 @@ class Pet(Model):
 
 
         :return: The id of this Pet.
-        :rtype: long
+        :rtype: int
         """
         return self._id
 
@@ -87,7 +87,7 @@ class Pet(Model):
 
 
         :param id: The id of this Pet.
-        :type id: long
+        :type id: int
         """
 
         self._id = id

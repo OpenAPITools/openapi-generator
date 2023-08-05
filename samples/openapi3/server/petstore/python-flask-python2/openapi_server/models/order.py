@@ -5,7 +5,7 @@ from datetime import date, datetime  # noqa: F401
 
 from typing import List, Dict  # noqa: F401
 
-from openapi_server.models.base_model_ import Model
+from openapi_server.models.base_model import Model
 from openapi_server import util
 
 
@@ -19,9 +19,9 @@ class Order(Model):
         """Order - a model defined in OpenAPI
 
         :param id: The id of this Order.  # noqa: E501
-        :type id: long
+        :type id: int
         :param pet_id: The pet_id of this Order.  # noqa: E501
-        :type pet_id: long
+        :type pet_id: int
         :param quantity: The quantity of this Order.  # noqa: E501
         :type quantity: int
         :param ship_date: The ship_date of this Order.  # noqa: E501
@@ -32,8 +32,8 @@ class Order(Model):
         :type complete: bool
         """
         self.openapi_types = {
-            'id': long,
-            'pet_id': long,
+            'id': int,
+            'pet_id': int,
             'quantity': int,
             'ship_date': datetime,
             'status': str,
@@ -57,7 +57,7 @@ class Order(Model):
         self._complete = complete
 
     @classmethod
-    def from_dict(cls, dikt):
+    def from_dict(cls, dikt) -> 'Order':
         """Returns the dict as a model
 
         :param dikt: A dict.
@@ -73,7 +73,7 @@ class Order(Model):
 
 
         :return: The id of this Order.
-        :rtype: long
+        :rtype: int
         """
         return self._id
 
@@ -83,7 +83,7 @@ class Order(Model):
 
 
         :param id: The id of this Order.
-        :type id: long
+        :type id: int
         """
 
         self._id = id
@@ -94,7 +94,7 @@ class Order(Model):
 
 
         :return: The pet_id of this Order.
-        :rtype: long
+        :rtype: int
         """
         return self._pet_id
 
@@ -104,7 +104,7 @@ class Order(Model):
 
 
         :param pet_id: The pet_id of this Order.
-        :type pet_id: long
+        :type pet_id: int
         """
 
         self._pet_id = pet_id

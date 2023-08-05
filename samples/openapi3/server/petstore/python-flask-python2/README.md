@@ -8,14 +8,14 @@ is an example of building a OpenAPI-enabled Flask server.
 This example uses the [Connexion](https://github.com/zalando/connexion) library on top of Flask.
 
 ## Requirements
-Python 2.7+
+Python 3.5.2+
 
 ## Usage
 To run the server, please execute the following from the root directory:
 
 ```
-pip install -r requirements.txt
-python -m openapi_server
+pip3 install -r requirements.txt
+python3 -m openapi_server
 ```
 
 and open your browser to here:
