@@ -6,7 +6,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 
-import io.swagger.annotations.*;
 
 
 import java.io.InputStream;
@@ -55,7 +54,6 @@ import javax.validation.Valid;
          scheme = "basic"
     )
 })
-@Api(description = "the another-fake API")
 @Path("/another-fake/dummy")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class AnotherFakeApi {
@@ -63,10 +61,6 @@ public class AnotherFakeApi {
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @ApiOperation(value = "To test special tags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class)
-    })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "call123testSpecialTags", summary = "To test special tags", description = "To test special tags and operation ID starting with number")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="$another-fake?")

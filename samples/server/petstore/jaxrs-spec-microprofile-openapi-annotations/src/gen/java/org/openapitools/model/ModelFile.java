@@ -1,13 +1,10 @@
 package org.openapitools.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -17,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 /**
  * Must be named &#x60;File&#x60; for test.
  **/
-@ApiModel(description = "Must be named `File` for test.")
+
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="Must be named `File` for test.")
 @JsonTypeName("File")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
@@ -40,7 +37,6 @@ public class ModelFile  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "Test capitalization")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "Test capitalization")
   @JsonProperty("sourceURI")
   public String getSourceURI() {
