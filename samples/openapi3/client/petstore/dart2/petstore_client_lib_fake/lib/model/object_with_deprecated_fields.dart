@@ -50,7 +50,7 @@ class ObjectWithDeprecatedFields {
     other.uuid == uuid &&
     other.id == id &&
     other.deprecatedRef == deprecatedRef &&
-    _deepEquality.equals(other.bars, bars);
+    deepEquality.equals(other.bars, bars);
 
   @override
   int get hashCode =>

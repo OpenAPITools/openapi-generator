@@ -51,8 +51,8 @@ class Pet {
     other.id == id &&
     other.category == category &&
     other.name == name &&
-    _deepEquality.equals(other.photoUrls, photoUrls) &&
-    _deepEquality.equals(other.tags, tags) &&
+    deepEquality.equals(other.photoUrls, photoUrls) &&
+    deepEquality.equals(other.tags, tags) &&
     other.status == status;
 
   @override

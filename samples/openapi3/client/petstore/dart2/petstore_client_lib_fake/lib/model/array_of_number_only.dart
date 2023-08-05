@@ -20,7 +20,7 @@ class ArrayOfNumberOnly {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayOfNumberOnly &&
-    _deepEquality.equals(other.arrayNumber, arrayNumber);
+    deepEquality.equals(other.arrayNumber, arrayNumber);
 
   @override
   int get hashCode =>

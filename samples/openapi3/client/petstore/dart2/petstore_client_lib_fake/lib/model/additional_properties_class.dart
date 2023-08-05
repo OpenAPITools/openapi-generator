@@ -23,8 +23,8 @@ class AdditionalPropertiesClass {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is AdditionalPropertiesClass &&
-    _deepEquality.equals(other.mapProperty, mapProperty) &&
-    _deepEquality.equals(other.mapOfMapProperty, mapOfMapProperty);
+    deepEquality.equals(other.mapProperty, mapProperty) &&
+    deepEquality.equals(other.mapOfMapProperty, mapOfMapProperty);
 
   @override
   int get hashCode =>

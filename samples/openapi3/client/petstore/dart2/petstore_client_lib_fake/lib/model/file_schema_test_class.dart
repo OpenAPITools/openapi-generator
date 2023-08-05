@@ -30,7 +30,7 @@ class FileSchemaTestClass {
   @override
   bool operator ==(Object other) => identical(this, other) || other is FileSchemaTestClass &&
     other.file == file &&
-    _deepEquality.equals(other.files, files);
+    deepEquality.equals(other.files, files);
 
   @override
   int get hashCode =>
