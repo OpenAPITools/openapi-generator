@@ -669,7 +669,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 } else if (c == 'l'){
                     modifiers.remove("CultureInvariant");
                 } else {
-                    vendorExtensions.put("x-unhandled-modifier-" + c, c);
+                    vendorExtensions.put("x-modifier-" + c, c);
                 }
             }
 
