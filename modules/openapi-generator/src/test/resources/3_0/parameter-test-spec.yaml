@@ -69,6 +69,11 @@ paths:
           schema:
             nullable: true
             type: string
+        - name: $query-$dollar-sign
+          in: query
+          description: query parameter with dollar sign
+          schema:
+            type: string
       responses:
         '200':
           description: successful operation
