@@ -37,6 +37,7 @@ import java.io.File;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -643,9 +644,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
      */
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
-            int end = pattern.contains("/")
+            // check if the pattern has any ECMA modifiers
+            // there does not appear to be an official l regex option
+            // leaving this legacy option here as a way for users to opt out of culture invariant
+            Pattern hasModifiers = Pattern.compile(".*/[gmisxuUl]+$");
+
+            int end = hasModifiers.matcher(pattern).find()
                 ? pattern.lastIndexOf('/')
-                : pattern.length();
+                : pattern.length() - 1;
 
             int start = pattern.startsWith("/")
                 ? 1
@@ -661,8 +667,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     String modifier = regexModifiers.get(c);
                     modifiers.add(modifier);
                 } else if (c == 'l') {
-                    // there does not appear to be an official l regex option
-                    // leaving it here as a way for users to opt out of culture invariant
                     modifiers.remove("CultureInvariant");
                 }
             }
