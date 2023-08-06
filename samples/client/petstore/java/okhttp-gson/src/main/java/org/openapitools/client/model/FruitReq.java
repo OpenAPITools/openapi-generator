@@ -177,7 +177,6 @@ public class FruitReq extends AbstractOpenApiSchema {
      * AppleReq, BananaReq
      *
      * It could be an instance of the 'oneOf' schemas.
-     * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
      */
     @Override
     public void setActualInstance(Object instance) {

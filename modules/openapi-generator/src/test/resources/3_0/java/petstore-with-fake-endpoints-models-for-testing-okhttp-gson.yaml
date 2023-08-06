@@ -2308,6 +2308,13 @@ components:
           maxLength: 1089
         - type: number
         - type: boolean
+    ScalarAnyOf:
+      description: Values of scalar type using anyOf
+      anyOf:
+        - type: string
+          maxLength: 1089
+        - type: number
+        - type: boolean
     Array:
       description: Values of array type
       type: array
