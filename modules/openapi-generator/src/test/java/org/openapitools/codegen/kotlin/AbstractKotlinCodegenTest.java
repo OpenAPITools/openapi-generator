@@ -126,7 +126,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toModelName("Pony?"), "PonyQuestionMark");
         assertEquals(codegen.toModelName("$name"), "DollarName");
         assertEquals(codegen.toModelName("nam#e"), "NamHashE");
-        assertEquals(codegen.toModelName("$another-fake?"), "DollarAnotherMinusFakeQuestionMark");
+        assertEquals(codegen.toModelName("$another-fake?"), "DollarAnotherFakeQuestionMark");
         assertEquals(codegen.toModelName("Pony>=>="), "PonyGreaterThanEqualGreaterThanEqual");
     }
 
