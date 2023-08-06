@@ -91,7 +91,8 @@ namespace Org.OpenAPITools.Model
                 if (!regexCultivar.Match(this.Cultivar).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
-                }            }
+                }
+            }
 
             if (this.Origin != null) {
                 // Origin (string) pattern
@@ -99,7 +100,8 @@ namespace Org.OpenAPITools.Model
                 if (!regexOrigin.Match(this.Origin).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });
-                }            }
+                }
+            }
 
             yield break;
         }
