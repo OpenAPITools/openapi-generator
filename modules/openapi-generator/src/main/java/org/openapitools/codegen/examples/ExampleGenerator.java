@@ -38,6 +38,7 @@ public class ExampleGenerator {
 
     private static final String EXAMPLE = "example";
     private static final String CONTENT_TYPE = "contentType";
+    private static final String GENERATED_CONTENT_TYPE = "generatedContentType";
     private static final String OUTPUT = "output";
     private static final String NONE = "none";
     private static final String URL = "url";
@@ -157,6 +158,7 @@ public class ExampleGenerator {
 
                         if (example != null) {
                             kv.put(EXAMPLE, example);
+                            kv.put(GENERATED_CONTENT_TYPE, MIME_TYPE_JSON);
                             output.add(kv);
                         }
                     }
@@ -165,6 +167,7 @@ public class ExampleGenerator {
                     String example = new XmlExampleGenerator(this.examples).toXml(schema, 0, Collections.emptySet());
                     if (example != null) {
                         kv.put(EXAMPLE, example);
+                        kv.put(GENERATED_CONTENT_TYPE, MIME_TYPE_XML);
                         output.add(kv);
                     }
                 } else {
