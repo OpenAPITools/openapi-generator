@@ -640,7 +640,7 @@ public class Example {
 
 ### Return type
 
-CompletableFuture<**BigDecimal**>
+CompletableFuture<[**BigDecimal**](BigDecimal.md)>
 
 
 ### Authorization
@@ -716,7 +716,7 @@ public class Example {
 
 ### Return type
 
-CompletableFuture<ApiResponse<**BigDecimal**>>
+CompletableFuture<ApiResponse<[**BigDecimal**](BigDecimal.md)>>
 
 
 ### Authorization

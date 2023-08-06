@@ -86,6 +86,9 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     @Option(name = {"--parameter-name-mappings"}, title = "parameter name mappings", description = "displays the parameter name mappings (none)")
     private Boolean parameterNameMappings;
 
+    @Option(name = {"--model-name-mappings"}, title = "model name mappings", description = "displays the model name mappings (none)")
+    private Boolean modelNameMappings;
+
     @Option(name = {"--openapi-normalizer"}, title = "openapi normalizer rules", description = "displays the OpenAPI normalizer rules (none)")
     private Boolean openapiNormalizer;
 
@@ -524,6 +527,18 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
                         throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
                     }, TreeMap::new));
             writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "parameter name", "Mapped to");
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(modelNameMappings)) {
+            sb.append(newline).append("MODEL NAME MAPPING").append(newline).append(newline);
+            Map<String, String> map = config.modelNameMapping()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "model name", "Mapped to");
             sb.append(newline);
         }
 

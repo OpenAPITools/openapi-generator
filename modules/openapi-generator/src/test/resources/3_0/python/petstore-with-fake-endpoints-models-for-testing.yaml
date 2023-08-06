@@ -2272,4 +2272,23 @@ components:
           properties:
             skill:
               type: string
-
+    AdditionalPropertiesObject:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: object
+    AdditionalPropertiesAnyType:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties: {}
+    AdditionalPropertiesWithDescriptionOnly:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        description: This is what the additional property is

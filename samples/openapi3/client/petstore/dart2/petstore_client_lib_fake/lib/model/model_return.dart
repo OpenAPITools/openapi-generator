@@ -26,7 +26,7 @@ class ModelReturn {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelReturn &&
-     other.return_ == return_;
+    other.return_ == return_;
 
   @override
   int get hashCode =>

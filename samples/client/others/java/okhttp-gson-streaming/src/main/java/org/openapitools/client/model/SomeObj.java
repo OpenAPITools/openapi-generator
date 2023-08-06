@@ -21,6 +21,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.io.Serializable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -51,7 +52,9 @@ import org.openapitools.client.JSON;
  * SomeObj
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class SomeObj {
+public class SomeObj implements Serializable {
+  private static final long serialVersionUID = 1L;
+
   /**
    * Gets or Sets $type
    */

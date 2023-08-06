@@ -48,12 +48,22 @@ paths:
         style: form
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
           description: OK
       summary: parameter name mapping test
       tags:
       - fake
 components:
   schemas:
+    Environment:
+      example:
+        dummy: dummy
+      properties:
+        dummy:
+          type: string
     PropertyNameMapping:
       properties:
         http_debug_operation:

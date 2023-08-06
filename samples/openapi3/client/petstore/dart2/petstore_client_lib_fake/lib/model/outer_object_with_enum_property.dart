@@ -20,7 +20,7 @@ class OuterObjectWithEnumProperty {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is OuterObjectWithEnumProperty &&
-     other.value == value;
+    other.value == value;
 
   @override
   int get hashCode =>

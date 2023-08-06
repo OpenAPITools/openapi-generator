@@ -1138,6 +1138,23 @@ paths:
       responses:
         200:
           description: OK
+  /fake/parameter-string-number:
+    get:
+      tags:
+        - another_fake
+      summary: parameter string number
+      operationId: getParameterStringNumber
+      parameters:
+        - name: string_number
+          in: header 
+          description: string number
+          required: true
+          schema:
+            type: string
+            format: number
+      responses:
+        200:
+          description: OK
   /values:
     get:
       tags:
@@ -2287,6 +2304,13 @@ components:
     Scalar:
       description: Values of scalar type
       oneOf:
+        - type: string
+          maxLength: 1089
+        - type: number
+        - type: boolean
+    ScalarAnyOf:
+      description: Values of scalar type using anyOf
+      anyOf:
         - type: string
           maxLength: 1089
         - type: number

@@ -27,6 +27,7 @@ jobs:
           - samples/server/petstore/scala-lagom-server
           - samples/server/petstore/scala-play-server
           - samples/server/petstore/scala-akka-http-server
+          - samples/server/petstore/scala-pekko-http-server
           - samples/server/petstore/scalatra
           - samples/server/petstore/scala-finch # cannot be tested with jdk11
     steps:

@@ -190,7 +190,7 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
  - [OpenApiPetstore.FormatTest](docs/FormatTest.md)
  - [OpenApiPetstore.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
- - [OpenApiPetstore.HealthCheckResult](docs/HealthCheckResult.md)
+ - [OpenApiPetstore.HealthCheckStatus](docs/HealthCheckStatus.md)
  - [OpenApiPetstore.List](docs/List.md)
  - [OpenApiPetstore.MapTest](docs/MapTest.md)
  - [OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)

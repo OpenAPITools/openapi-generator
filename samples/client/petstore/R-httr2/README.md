@@ -114,6 +114,7 @@ Class | Method | HTTP request | Description
  - [Date](docs/Date.md)
  - [Dog](docs/Dog.md)
  - [FormatTest](docs/FormatTest.md)
+ - [JustModel](docs/JustModel.md)
  - [Mammal](docs/Mammal.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [NestedOneOf](docs/NestedOneOf.md)
