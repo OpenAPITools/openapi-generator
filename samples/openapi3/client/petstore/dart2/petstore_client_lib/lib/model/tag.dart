@@ -35,8 +35,8 @@ class Tag {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Tag &&
-     other.id == id &&
-     other.name == name;
+    other.id == id &&
+    other.name == name;
 
   @override
   int get hashCode =>

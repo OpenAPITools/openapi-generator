@@ -35,8 +35,8 @@ class AllOfWithSingleRef {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is AllOfWithSingleRef &&
-     other.username == username &&
-     other.singleRefType == singleRefType;
+    other.username == username &&
+    other.singleRefType == singleRefType;
 
   @override
   int get hashCode =>

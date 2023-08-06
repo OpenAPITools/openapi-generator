@@ -44,9 +44,9 @@ class OuterComposite {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is OuterComposite &&
-     other.myNumber == myNumber &&
-     other.myString == myString &&
-     other.myBoolean == myBoolean;
+    other.myNumber == myNumber &&
+    other.myString == myString &&
+    other.myBoolean == myBoolean;
 
   @override
   int get hashCode =>

@@ -53,18 +53,18 @@ class NullableClass {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is NullableClass &&
-     other.integerProp == integerProp &&
-     other.numberProp == numberProp &&
-     other.booleanProp == booleanProp &&
-     other.stringProp == stringProp &&
-     other.dateProp == dateProp &&
-     other.datetimeProp == datetimeProp &&
-     other.arrayNullableProp == arrayNullableProp &&
-     other.arrayAndItemsNullableProp == arrayAndItemsNullableProp &&
-     other.arrayItemsNullable == arrayItemsNullable &&
-     other.objectNullableProp == objectNullableProp &&
-     other.objectAndItemsNullableProp == objectAndItemsNullableProp &&
-     other.objectItemsNullable == objectItemsNullable;
+    other.integerProp == integerProp &&
+    other.numberProp == numberProp &&
+    other.booleanProp == booleanProp &&
+    other.stringProp == stringProp &&
+    other.dateProp == dateProp &&
+    other.datetimeProp == datetimeProp &&
+    _deepEquality.equals(other.arrayNullableProp, arrayNullableProp) &&
+    _deepEquality.equals(other.arrayAndItemsNullableProp, arrayAndItemsNullableProp) &&
+    _deepEquality.equals(other.arrayItemsNullable, arrayItemsNullable) &&
+    _deepEquality.equals(other.objectNullableProp, objectNullableProp) &&
+    _deepEquality.equals(other.objectAndItemsNullableProp, objectAndItemsNullableProp) &&
+    _deepEquality.equals(other.objectItemsNullable, objectItemsNullable);
 
   @override
   int get hashCode =>

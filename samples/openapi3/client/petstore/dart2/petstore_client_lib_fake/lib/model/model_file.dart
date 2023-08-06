@@ -27,7 +27,7 @@ class ModelFile {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelFile &&
-     other.sourceURI == sourceURI;
+    other.sourceURI == sourceURI;
 
   @override
   int get hashCode =>

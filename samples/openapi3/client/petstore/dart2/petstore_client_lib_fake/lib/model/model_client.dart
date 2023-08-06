@@ -26,7 +26,7 @@ class ModelClient {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelClient &&
-     other.client == client;
+    other.client == client;
 
   @override
   int get hashCode =>
