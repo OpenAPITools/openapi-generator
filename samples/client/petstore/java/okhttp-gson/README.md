@@ -229,6 +229,7 @@ Class | Method | HTTP request | Description
  - [QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Scalar](docs/Scalar.md)
+ - [ScalarAnyOf](docs/ScalarAnyOf.md)
  - [ScaleneTriangle](docs/ScaleneTriangle.md)
  - [Shape](docs/Shape.md)
  - [ShapeInterface](docs/ShapeInterface.md)

@@ -228,7 +228,6 @@ public class Triangle extends AbstractOpenApiSchema {
      * EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle
      *
      * It could be an instance of the 'oneOf' schemas.
-     * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
      */
     @Override
     public void setActualInstance(Object instance) {

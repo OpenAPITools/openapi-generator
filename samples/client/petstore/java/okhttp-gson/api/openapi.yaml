@@ -2315,6 +2315,13 @@ components:
         type: string
       - type: number
       - type: boolean
+    ScalarAnyOf:
+      anyOf:
+      - maxLength: 1089
+        type: string
+      - type: number
+      - type: boolean
+      description: Values of scalar type using anyOf
     Array:
       description: Values of array type
       items:
