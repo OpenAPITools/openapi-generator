@@ -137,7 +137,7 @@ public class ArrayOfNumberOnly implements Parcelable {
   }
 
   ArrayOfNumberOnly(Parcel in) {
-    arrayNumber = (List<BigDecimal>)in.readValue(null);
+    arrayNumber = (List<BigDecimal>)in.readValue(BigDecimal.class.getClassLoader());
   }
 
   public int describeContents() {
