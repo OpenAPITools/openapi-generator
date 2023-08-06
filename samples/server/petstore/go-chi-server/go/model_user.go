@@ -27,14 +27,37 @@ type User struct {
 
 	Password string `json:"password,omitempty"`
 
-	Phone string `json:"phone,omitempty"`
+	Phone *string `json:"phone,omitempty"`
 
 	// User Status
 	UserStatus int32 `json:"userStatus,omitempty"`
+
+	// An array 1-deep.
+	DeepSliceModel *[][][]Tag `json:"deepSliceModel"`
+
+	// An array 1-deep.
+	DeepSliceMap [][]AnObject `json:"deepSliceMap,omitempty"`
 }
 
 // AssertUserRequired checks if the required fields are not zero-ed
 func AssertUserRequired(obj User) error {
+	elements := map[string]interface{}{
+		"deepSliceModel": obj.DeepSliceModel,
+	}
+	for name, el := range elements {
+		if isZero := IsZeroValue(el); isZero {
+			return &RequiredError{Field: name}
+		}
+	}
+
+	if obj.DeepSliceModel != nil {
+		if err := AssertRecurseInterfaceRequired(*obj.DeepSliceModel, AssertTagRequired); err != nil {
+			return err
+		}
+	}
+	if err := AssertRecurseInterfaceRequired(obj.DeepSliceMap, AssertAnObjectRequired); err != nil {
+		return err
+	}
 	return nil
 }
 

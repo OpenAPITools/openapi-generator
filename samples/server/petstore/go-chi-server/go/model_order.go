@@ -18,6 +18,7 @@ import (
 
 // Order - An order for a pets from the pet store
 type Order struct {
+	SpecialInfo
 
 	Id int64 `json:"id,omitempty"`
 
@@ -31,10 +32,25 @@ type Order struct {
 	Status string `json:"status,omitempty"`
 
 	Complete bool `json:"complete,omitempty"`
+
+	Comment *string `json:"comment"`
 }
 
 // AssertOrderRequired checks if the required fields are not zero-ed
 func AssertOrderRequired(obj Order) error {
+	elements := map[string]interface{}{
+		"comment": obj.Comment,
+	}
+	for name, el := range elements {
+		if isZero := IsZeroValue(el); isZero {
+			return &RequiredError{Field: name}
+		}
+	}
+
+	if err := AssertSpecialInfoRequired(obj.SpecialInfo); err != nil {
+		return err
+	}
+
 	return nil
 }
 
