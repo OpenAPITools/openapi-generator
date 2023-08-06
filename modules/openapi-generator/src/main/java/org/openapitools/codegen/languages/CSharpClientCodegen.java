@@ -116,7 +116,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     protected boolean validatable = Boolean.TRUE;
     protected boolean equatable = Boolean.TRUE;
-    protected Map<Character, String> regexModifiers;
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
 
@@ -323,12 +322,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.EQUATABLE,
                 CodegenConstants.EQUATABLE_DESC,
                 this.equatable);
-
-        regexModifiers = new HashMap<>();
-        regexModifiers.put('i', "IgnoreCase");
-        regexModifiers.put('m', "Multiline");
-        regexModifiers.put('s', "Singleline");
-        regexModifiers.put('x', "IgnorePatternWhitespace");
 
         supportedLibraries.put(GENERICHOST, "HttpClient with Generic Host dependency injection (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host) "
                 + "(Experimental. Subject to breaking changes without notice.)");
@@ -644,10 +637,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
      */
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
-            // check if the pattern has any ECMA modifiers
-            // there does not appear to be an official l regex option
-            // leaving this legacy option here as a way for users to opt out of culture invariant
-            Pattern hasModifiers = Pattern.compile(".*/[gmisxuUl]+$");
+            // check if the pattern has any modifiers
+            // gmiyuvsd - ecma modifiers
+            // l - legacy modifier provided by this libray, provides a way to opt out of culture invariant
+            // nx - c# modifiers https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-options
+            Pattern hasModifiers = Pattern.compile(".*/[gmiyuvsdlnx]+$");
 
             int end = hasModifiers.matcher(pattern).find()
                 ? pattern.lastIndexOf('/')
@@ -658,16 +652,24 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 : 0;
 
             String regex = pattern.substring(start, end).replace("'", "\'").replace("\"", "\"\"");
-            List<String> modifiers = new ArrayList<String>();
 
+            Map<Character, String> optionsMap = new HashMap();
+            optionsMap.put('i', "IgnoreCase");
+            optionsMap.put('m', "Multiline");
+            optionsMap.put('s', "SingleLine");
+            optionsMap.put('n', "ExplicitCapture");
+            optionsMap.put('x', "IgnorePatternWhitespace");
+
+            List<String> modifiers = new ArrayList<String>();
             modifiers.add("CultureInvariant");
 
             for (char c : pattern.substring(end).toCharArray()) {
-                if (regexModifiers.containsKey(c)) {
-                    String modifier = regexModifiers.get(c);
-                    modifiers.add(modifier);
-                } else if (c == 'l') {
+                if (optionsMap.containsKey(c)) {
+                    modifiers.add(optionsMap.get(c));
+                } else if (c == 'l'){
                     modifiers.remove("CultureInvariant");
+                } else {
+                    vendorExtensions.put("x-unhandled-modifier-" + c, c);
                 }
             }
 
