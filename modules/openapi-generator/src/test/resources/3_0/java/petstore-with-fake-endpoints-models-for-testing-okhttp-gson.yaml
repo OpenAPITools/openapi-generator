@@ -1138,6 +1138,23 @@ paths:
       responses:
         200:
           description: OK
+  /fake/parameter-string-number:
+    get:
+      tags:
+        - another_fake
+      summary: parameter string number
+      operationId: getParameterStringNumber
+      parameters:
+        - name: string_number
+          in: header 
+          description: string number
+          required: true
+          schema:
+            type: string
+            format: number
+      responses:
+        200:
+          description: OK
   /values:
     get:
       tags:
