@@ -88,7 +88,7 @@ public interface FakeApiDelegate {
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
                 String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("*/*"), exampleString);
+                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
                 break;
             }
         }
