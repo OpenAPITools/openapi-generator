@@ -651,8 +651,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 ? 1
                 : 0;
 
-            String regex = pattern.substring(start, end).replace("'", "\'").replace("\"", "\"\"");
-
             Map<Character, String> optionsMap = new HashMap();
             optionsMap.put('i', "IgnoreCase");
             optionsMap.put('m', "Multiline");
@@ -673,6 +671,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 }
             }
 
+            String regex = pattern.substring(start, end).replace("'", "\'").replace("\"", "\"\"");
             vendorExtensions.put("x-regex", regex);
             vendorExtensions.put("x-modifiers", modifiers);
         }
