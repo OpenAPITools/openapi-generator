@@ -52,7 +52,7 @@ func TestPlaceOrderOK(t *testing.T) {
 		assert.Equal(t, int32(1), order.Quantity)
 		assert.Equal(t, &comment, order.Comment)
 		assert.Equal(t, int64(0), order.Id)
-		// assert.Equal(t, time.Time, order.ShipDate) // TODO: Fix datetime
+		// assert.Equal(t, time.Time, order.ShipDate) // TODO: Fix datetime test
 		assert.False(t, order.Complete)
 		assert.Equal(t, "placed", order.Status)
 		assert.Equal(t, "required", order.RequireTest)
@@ -152,7 +152,7 @@ func TestPlaceOrderOKNullableComment(t *testing.T) {
 		assert.Equal(t, int32(1), order.Quantity)
 		assert.Nil(t, order.Comment)
 		assert.Equal(t, int64(0), order.Id)
-		// assert.Equal(t, time.Time, order.ShipDate) // TODO: Fix datetime
+		// assert.Equal(t, time.Time, order.ShipDate) // TODO: Fix datetime test
 		assert.False(t, order.Complete)
 		assert.Equal(t, "placed", order.Status)
 
