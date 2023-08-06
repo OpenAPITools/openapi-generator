@@ -639,32 +639,30 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     /*
-     * The pattern spec follows the Perl convention and style of modifiers. .NET
-     * does not support this syntax directly so we need to convert the pattern to a .NET compatible
-     * format and apply modifiers in a compatible way.
      * See https://msdn.microsoft.com/en-us/library/yd1hzczs(v=vs.110).aspx for .NET options.
      */
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
-            int i = pattern.lastIndexOf('/');
+            int end = pattern.contains("/")
+                ? pattern.lastIndexOf('/')
+                : pattern.length();
 
-            //Must follow Perl /pattern/modifiers convention
-            if (pattern.charAt(0) != '/' || i < 2) {
-                throw new IllegalArgumentException("Pattern must follow the Perl "
-                        + "/pattern/modifiers convention. " + pattern + " is not valid.");
-            }
+            int start = pattern.startsWith("/")
+                ? 1
+                : 0;
 
-            String regex = pattern.substring(1, i).replace("'", "\'").replace("\"", "\"\"");
+            String regex = pattern.substring(start, end).replace("'", "\'").replace("\"", "\"\"");
             List<String> modifiers = new ArrayList<String>();
 
-            // perl requires an explicit modifier to be culture specific and .NET is the reverse.
             modifiers.add("CultureInvariant");
 
-            for (char c : pattern.substring(i).toCharArray()) {
+            for (char c : pattern.substring(end).toCharArray()) {
                 if (regexModifiers.containsKey(c)) {
                     String modifier = regexModifiers.get(c);
                     modifiers.add(modifier);
                 } else if (c == 'l') {
+                    // there does not appear to be an official l regex option
+                    // leaving it here as a way for users to opt out of culture invariant
                     modifiers.remove("CultureInvariant");
                 }
             }
