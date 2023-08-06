@@ -33,6 +33,7 @@ jobs:
           - samples/server/petstore/springboot-beanvalidation
           - samples/server/petstore/springboot-useoptional
           - samples/server/petstore/springboot-reactive
+          - samples/server/petstore/springboot-reactive-noResponseEntity
           - samples/server/petstore/springboot-implicitHeaders
           - samples/openapi3/server/petstore/springboot-implicitHeaders
           - samples/server/petstore/springboot-delegate
