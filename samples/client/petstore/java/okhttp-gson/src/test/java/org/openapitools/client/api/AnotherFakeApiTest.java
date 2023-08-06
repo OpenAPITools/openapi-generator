@@ -14,6 +14,7 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
+import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
