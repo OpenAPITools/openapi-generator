@@ -210,6 +210,38 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	usernameParam := query.Get("username")
 	passwordParam := query.Get("password")
+	int32TestParam, err := parseNumericParameter[int32](
+		query.Get("int32_test"),
+		WithParse[int32](parseInt32),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	int64TestParam, err := parseNumericParameter[int64](
+		query.Get("int64_test"),
+		WithParse[int64](parseInt64),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	float32TestParam, err := parseNumericParameter[float32](
+		query.Get("float32_test"),
+		WithParse[float32](parseFloat32),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	float64TestParam, err := parseNumericParameter[float64](
+		query.Get("float64_test"),
+		WithParse[float64](parseFloat64),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
 	booleanTestParam, err := parseBoolParameter(
 		query.Get("boolean_test"),
 		WithParse[bool](parseBool),
@@ -218,7 +250,7 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(500)
 		return
 	}
-	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam, booleanTestParam)
+	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam, int32TestParam, int64TestParam, float32TestParam, float64TestParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

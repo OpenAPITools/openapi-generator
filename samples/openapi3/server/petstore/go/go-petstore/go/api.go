@@ -94,7 +94,7 @@ type UserAPIServicer interface {
 	CreateUsersWithListInput(context.Context, []User) (ImplResponse, error)
 	DeleteUser(context.Context, string, bool) (ImplResponse, error)
 	GetUserByName(context.Context, string) (ImplResponse, error)
-	LoginUser(context.Context, string, string, bool) (ImplResponse, error)
+	LoginUser(context.Context, string, string, int32, int64, float32, float64, bool) (ImplResponse, error)
 	LogoutUser(context.Context) (ImplResponse, error)
 	UpdateUser(context.Context, string, User) (ImplResponse, error)
 }

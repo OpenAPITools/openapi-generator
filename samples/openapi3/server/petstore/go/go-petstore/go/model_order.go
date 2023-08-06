@@ -40,6 +40,7 @@ type Order struct {
 func AssertOrderRequired(obj Order) error {
 	elements := map[string]interface{}{
 		"comment": obj.Comment,
+		"requireTest": obj.RequireTest,
 	}
 	for name, el := range elements {
 		if isZero := IsZeroValue(el); isZero {

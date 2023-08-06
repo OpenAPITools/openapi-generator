@@ -452,6 +452,29 @@ paths:
           required: true
           schema:
             type: string
+        - name: int32_test
+          in: query
+          description: The password for login in clear text
+          schema:
+            type: integer
+            format: int32
+        - name: int64_test
+          in: query
+          description: The password for login in clear text
+          schema:
+            type: integer
+            format: int64
+        - name: float32_test
+          in: query
+          description: The password for login in clear text
+          schema:
+            type: number
+        - name: float64_test
+          in: query
+          description: The password for login in clear text
+          schema:
+            type: number
+            format: double
         - name: boolean_test
           in: query
           description: The password for login in clear text
@@ -642,8 +665,12 @@ components:
       properties:
         promotion:
           type: boolean
+        requireTest:
+          type: string
         type:
           type: string
+      required:
+        - requireTest
       xml:
         name: OrderInfo
     Order:

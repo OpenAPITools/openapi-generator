@@ -17,11 +17,22 @@ type SpecialInfo struct {
 
 	Promotion bool `json:"promotion,omitempty"`
 
+	RequireTest string `json:"requireTest"`
+
 	Type string `json:"type,omitempty"`
 }
 
 // AssertSpecialInfoRequired checks if the required fields are not zero-ed
 func AssertSpecialInfoRequired(obj SpecialInfo) error {
+	elements := map[string]interface{}{
+		"requireTest": obj.RequireTest,
+	}
+	for name, el := range elements {
+		if isZero := IsZeroValue(el); isZero {
+			return &RequiredError{Field: name}
+		}
+	}
+
 	return nil
 }
 

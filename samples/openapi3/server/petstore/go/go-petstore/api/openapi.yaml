@@ -454,6 +454,41 @@ paths:
       - description: The password for login in clear text
         explode: true
         in: query
+        name: int32_test
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      - description: The password for login in clear text
+        explode: true
+        in: query
+        name: int64_test
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - description: The password for login in clear text
+        explode: true
+        in: query
+        name: float32_test
+        required: false
+        schema:
+          type: number
+        style: form
+      - description: The password for login in clear text
+        explode: true
+        in: query
+        name: float64_test
+        required: false
+        schema:
+          format: double
+          type: number
+        style: form
+      - description: The password for login in clear text
+        explode: true
+        in: query
         name: boolean_test
         required: false
         schema:
@@ -643,8 +678,12 @@ components:
       properties:
         promotion:
           type: boolean
+        requireTest:
+          type: string
         type:
           type: string
+      required:
+      - requireTest
       title: Pet Order Info
       type: object
       xml:
