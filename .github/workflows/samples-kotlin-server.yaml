@@ -3,9 +3,11 @@ name: Samples Kotlin server
 on:
   push:
     branches:
+      - samples/server/others/kotlin-server/jaxrs-spec/**
       - 'samples/server/petstore/kotlin*/**'
   pull_request:
     paths:
+      - samples/server/others/kotlin-server/jaxrs-spec/**
       - 'samples/server/petstore/kotlin*/**'
 
 env:
@@ -31,6 +33,7 @@ jobs:
           - samples/server/petstore/kotlin-server/jaxrs-spec
           - samples/server/petstore/kotlin-server/jaxrs-spec-mutiny
           - samples/server/petstore/kotlin-server-modelMutable
+          - samples/server/others/kotlin-server/jaxrs-spec
           # no build.gradle file
           #- samples/server/petstore/kotlin-vertx-modelMutable
     steps:
