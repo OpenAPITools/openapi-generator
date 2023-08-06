@@ -168,6 +168,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> nameMapping = new HashMap<>();
     // a map to store the mapping between parameter name and the name provided by the user
     protected Map<String, String> parameterNameMapping = new HashMap<>();
+    // a map to store the mapping between model name and the name provided by the user
+    protected Map<String, String> modelNameMapping = new HashMap<>();
     // a map to store the rules in OpenAPI Normalizer
     protected Map<String, String> openapiNormalizer = new HashMap<>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
@@ -1211,6 +1213,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, String> parameterNameMapping() {
         return parameterNameMapping;
+    }
+
+    @Override
+    public Map<String, String> modelNameMapping() {
+        return modelNameMapping;
     }
 
     @Override
@@ -2616,6 +2623,11 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String toModelName(final String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         if (schemaKeyToModelNameCache.containsKey(name)) {
             return schemaKeyToModelNameCache.get(name);
         }
@@ -3167,6 +3179,9 @@ public class DefaultCodegen implements CodegenConfig {
             // if we are trying to set additionalProperties on an empty schema stop recursing
             return;
         }
+        // Note: This flag is set to true if additioanl properties
+        // is set (any type, free form object, boolean true, string, etc).
+        // The variable name may be renamed later to avoid confusion.
         boolean additionalPropertiesIsAnyType = false;
         CodegenModel m = null;
         if (property instanceof CodegenModel) {
@@ -3187,15 +3202,14 @@ public class DefaultCodegen implements CodegenConfig {
                 additionalPropertiesIsAnyType = true;
             }
         } else {
+            // if additioanl properties is set (e.g. free form object, any type, string, etc)
             addPropProp = fromProperty(getAdditionalPropertiesName(), (Schema) schema.getAdditionalProperties(), false);
-            if (ModelUtils.isAnyType((Schema) schema.getAdditionalProperties())) {
-                additionalPropertiesIsAnyType = true;
-            }
+            additionalPropertiesIsAnyType = true;
         }
         if (additionalPropertiesIsAnyType) {
             property.setAdditionalPropertiesIsAnyType(true);
         }
-        if (m != null && isAdditionalPropertiesTrue) {
+        if (m != null && (isAdditionalPropertiesTrue || additionalPropertiesIsAnyType)) {
             m.isAdditionalPropertiesTrue = true;
         }
         if (ModelUtils.isComposedSchema(schema) && !supportsAdditionalPropertiesWithComposedSchema) {

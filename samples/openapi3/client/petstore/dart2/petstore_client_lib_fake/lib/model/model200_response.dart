@@ -35,8 +35,8 @@ class Model200Response {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Model200Response &&
-     other.name == name &&
-     other.class_ == class_;
+    other.name == name &&
+    other.class_ == class_;
 
   @override
   int get hashCode =>

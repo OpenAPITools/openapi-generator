@@ -248,7 +248,7 @@ public class Example {
 
 ### Return type
 
-**BigDecimal**
+[**BigDecimal**](BigDecimal.md)
 
 ### Authorization
 

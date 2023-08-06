@@ -521,10 +521,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             // GrandparentAnimal has a discriminator, but no oneOf nor anyOf
             // modules\openapi-generator\src\test\resources\3_0\csharp\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
             model.setHasDiscriminatorWithNonEmptyMapping(
-                    ((model.anyOf != null && model.anyOf.size() > 0) || (model.anyOf != null &&model.oneOf.size() > 0)) &&
-                    model.discriminator != null &&
-                    model.discriminator.getMappedModels() != null &&
-                    model.discriminator.getMappedModels().size() > 0);
+                    ((model.anyOf != null && model.anyOf.size() > 0) || (model.anyOf != null && model.oneOf.size() > 0)) &&
+                            model.discriminator != null &&
+                            model.discriminator.getMappedModels() != null &&
+                            model.discriminator.getMappedModels().size() > 0);
 
             if (model.isEnum) {
                 enumRefs.put(model.getClassname(), model);
@@ -539,7 +539,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             if (composedSchemas != null) {
                 List<CodegenProperty> allOf = composedSchemas.getAllOf();
                 if (allOf != null) {
-                    for(CodegenProperty property : allOf) {
+                    for (CodegenProperty property : allOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         patchPropertyVendorExtensinos(property);
                     }
@@ -548,7 +548,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
                 if (anyOf != null) {
                     removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
-                    for(CodegenProperty property : anyOf) {
+                    for (CodegenProperty property : anyOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
                         patchPropertyVendorExtensinos(property);
@@ -558,7 +558,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 List<CodegenProperty> oneOf = composedSchemas.getOneOf();
                 if (oneOf != null) {
                     removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
-                    for(CodegenProperty property : oneOf) {
+                    for (CodegenProperty property : oneOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
                         patchPropertyVendorExtensinos(property);
@@ -598,10 +598,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     /**
-     *  Returns true if the model contains any properties with a public setter
-     *  If true, the model's constructor accessor should be made public to ensure end users
-     *  can instantiate the object. If false, then the model is only ever given
-     *  to us by the server, so we do not need a public constructor
+     * Returns true if the model contains any properties with a public setter
+     * If true, the model's constructor accessor should be made public to ensure end users
+     * can instantiate the object. If false, then the model is only ever given
+     * to us by the server, so we do not need a public constructor
      */
     private boolean modelIsMutatable(CodegenModel model, Set<String> processed) {
         if (processed == null) {
@@ -850,14 +850,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
     }
 
-    /** Returns the model related to the given parameter */
+    /**
+     * Returns the model related to the given parameter
+     */
     private CodegenModel getModelFromParameter(List<ModelMap> allModels, CodegenParameter parameter) {
         return parameter.isModel
-            ? allModels.stream().map(m -> m.getModel()).filter(m -> m.getClassname().equals(parameter.dataType)).findFirst().orElse(null)
-            : null;
+                ? allModels.stream().map(m -> m.getModel()).filter(m -> m.getClassname().equals(parameter.dataType)).findFirst().orElse(null)
+                : null;
     }
 
-    /** This is the same as patchVendorExtensionNullableValueType except it uses the deprecated getNullableTypes property */
+    /**
+     * This is the same as patchVendorExtensionNullableValueType except it uses the deprecated getNullableTypes property
+     */
     protected void patchVendorExtensionNullableValueTypeLegacy(CodegenParameter parameter) {
         if (parameter.isNullable && !parameter.isContainer && (this.getNullableTypes().contains(parameter.dataType) || parameter.isEnum)) {
             parameter.vendorExtensions.put("x-nullable-value-type", true);
@@ -1021,8 +1025,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         name = this.escapeReservedWord(name);
 
         return name.equalsIgnoreCase(model.getClassname())
-            ? this.invalidNamePrefix + camelize(name)
-            : name;
+                ? this.invalidNamePrefix + camelize(name)
+                : name;
     }
 
     @Override
@@ -1046,8 +1050,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public String toExampleValue(Schema p) {
         return p.getExample() == null
-            ? null
-            : p.getExample().toString();
+                ? null
+                : p.getExample().toString();
     }
 
     /**
@@ -1176,6 +1180,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toModelName(String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         // We need to check if schema-mapping has a different model for this class, so we use it
         // instead of the auto-generated one.
         if (schemaMapping.containsKey(name)) {

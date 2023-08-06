@@ -9,15 +9,6 @@ set -e
 
 export NODE_ENV=test
 
-function cleanup {
-  # Show logs of 'petstore.swagger' container to troubleshoot Unit Test failures, if any.
-  if [ "$NODE_INDEX" != "4" ]; then
-    docker logs petstore.swagger # container name specified in circle.yml
-  fi
-}
-
-trap cleanup EXIT
-
 if [ "$NODE_INDEX" = "1" ]; then
   echo "Running node $NODE_INDEX to test 'samples.circleci' defined in pom.xml ..."
   java -version

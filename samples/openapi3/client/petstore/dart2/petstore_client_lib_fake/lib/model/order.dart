@@ -60,12 +60,12 @@ class Order {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Order &&
-     other.id == id &&
-     other.petId == petId &&
-     other.quantity == quantity &&
-     other.shipDate == shipDate &&
-     other.status == status &&
-     other.complete == complete;
+    other.id == id &&
+    other.petId == petId &&
+    other.quantity == quantity &&
+    other.shipDate == shipDate &&
+    other.status == status &&
+    other.complete == complete;
 
   @override
   int get hashCode =>

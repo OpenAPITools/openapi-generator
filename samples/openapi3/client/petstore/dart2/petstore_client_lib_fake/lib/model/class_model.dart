@@ -26,7 +26,7 @@ class ClassModel {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ClassModel &&
-     other.class_ == class_;
+    other.class_ == class_;
 
   @override
   int get hashCode =>

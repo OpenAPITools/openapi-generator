@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a id="getParameterNameMapping"></a>
 # **getParameterNameMapping**
-> getParameterNameMapping(underscoreType, type, typeWithUnderscore, httpDebugOption)
+> Environment getParameterNameMapping(underscoreType, type, typeWithUnderscore, httpDebugOption)
 
 parameter name mapping test
 
@@ -25,7 +25,8 @@ val type : kotlin.String = type_example // kotlin.String | type
 val typeWithUnderscore : kotlin.String = typeWithUnderscore_example // kotlin.String | type_
 val httpDebugOption : kotlin.String = httpDebugOption_example // kotlin.String | http debug option (to test parameter naming option)
 try {
-    apiInstance.getParameterNameMapping(underscoreType, type, typeWithUnderscore, httpDebugOption)
+    val result : Environment = apiInstance.getParameterNameMapping(underscoreType, type, typeWithUnderscore, httpDebugOption)
+    println(result)
 } catch (e: ClientException) {
     println("4xx response calling FakeApi#getParameterNameMapping")
     e.printStackTrace()
@@ -46,7 +47,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+[**Environment**](Environment.md)
 
 ### Authorization
 
@@ -55,5 +56,5 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 

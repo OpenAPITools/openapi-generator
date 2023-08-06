@@ -35,8 +35,8 @@ class Category {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Category &&
-     other.id == id &&
-     other.name == name;
+    other.id == id &&
+    other.name == name;
 
   @override
   int get hashCode =>

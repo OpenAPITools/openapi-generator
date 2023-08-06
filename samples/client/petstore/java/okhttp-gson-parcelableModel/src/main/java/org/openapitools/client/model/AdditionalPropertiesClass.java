@@ -475,7 +475,7 @@ public class AdditionalPropertiesClass implements Parcelable {
 
   AdditionalPropertiesClass(Parcel in) {
     mapString = (Map<String, String>)in.readValue(null);
-    mapNumber = (Map<String, BigDecimal>)in.readValue(null);
+    mapNumber = (Map<String, BigDecimal>)in.readValue(BigDecimal.class.getClassLoader());
     mapInteger = (Map<String, Integer>)in.readValue(null);
     mapBoolean = (Map<String, Boolean>)in.readValue(null);
     mapArrayInteger = (Map<String, List<Integer>>)in.readValue(List.class.getClassLoader());

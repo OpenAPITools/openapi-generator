@@ -508,7 +508,7 @@ public class FormatTest implements Parcelable {
     integer = (Integer)in.readValue(null);
     int32 = (Integer)in.readValue(null);
     int64 = (Long)in.readValue(null);
-    number = (BigDecimal)in.readValue(null);
+    number = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
     _float = (Float)in.readValue(null);
     _double = (Double)in.readValue(null);
     string = (String)in.readValue(null);
@@ -518,7 +518,7 @@ public class FormatTest implements Parcelable {
     dateTime = (OffsetDateTime)in.readValue(OffsetDateTime.class.getClassLoader());
     uuid = (UUID)in.readValue(UUID.class.getClassLoader());
     password = (String)in.readValue(null);
-    bigDecimal = (BigDecimal)in.readValue(null);
+    bigDecimal = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
   }
 
   public int describeContents() {

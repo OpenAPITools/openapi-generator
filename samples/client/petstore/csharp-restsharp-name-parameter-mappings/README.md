@@ -94,7 +94,8 @@ namespace Example
             try
             {
                 // parameter name mapping test
-                apiInstance.GetParameterNameMapping(UnderscoreType, type, TypeWithUnderscore, httpDebugOption);
+                Env result = apiInstance.GetParameterNameMapping(UnderscoreType, type, TypeWithUnderscore, httpDebugOption);
+                Debug.WriteLine(result);
             }
             catch (ApiException e)
             {
@@ -121,6 +122,7 @@ Class | Method | HTTP request | Description
 <a id="documentation-for-models"></a>
 ## Documentation for Models
 
+ - [Model.Env](docs/Env.md)
  - [Model.PropertyNameMapping](docs/PropertyNameMapping.md)
 
 

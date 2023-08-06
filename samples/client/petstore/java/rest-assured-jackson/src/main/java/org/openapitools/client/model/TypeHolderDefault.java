@@ -99,6 +99,7 @@ public class TypeHolderDefault {
   **/
   @javax.annotation.Nonnull
   @NotNull
+  @Valid
 
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

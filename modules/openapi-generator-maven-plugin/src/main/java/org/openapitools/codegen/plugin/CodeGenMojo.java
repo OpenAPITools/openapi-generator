@@ -345,6 +345,12 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> parameterNameMappings;
 
     /**
+     * A map of model names and the new names
+     */
+    @Parameter(name = "modelNameMappings", property = "openapi.generator.maven.plugin.modelNameMappings")
+    private List<String> modelNameMappings;
+
+    /**
      * A set of rules for OpenAPI normalizer
      */
     @Parameter(name = "openapiNormalizer", property = "openapi.generator.maven.plugin.openapiNormalizer")
@@ -821,6 +827,11 @@ public class CodeGenMojo extends AbstractMojo {
             // Apply Parameter Name Mappings
             if (parameterNameMappings != null && (configOptions == null || !configOptions.containsKey("paramter-name-mappings"))) {
                 applyParameterNameMappingsKvpList(parameterNameMappings, configurator);
+            }
+
+            // Apply Model Name Mappings
+            if (modelNameMappings != null && (configOptions == null || !configOptions.containsKey("model-name-mappings"))) {
+                applyModelNameMappingsKvpList(modelNameMappings, configurator);
             }
 
             // Apply OpenAPI normalizer rules
