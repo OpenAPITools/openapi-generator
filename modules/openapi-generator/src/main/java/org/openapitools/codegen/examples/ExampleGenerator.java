@@ -113,12 +113,14 @@ public class ExampleGenerator {
                     String example = Json.pretty(resolvePropertyToExample("", mediaType, property, processedModels));
                     if (example != null) {
                         kv.put(EXAMPLE, example);
+                        kv.put(GENERATED_CONTENT_TYPE, MIME_TYPE_JSON);
                         output.add(kv);
                     }
                 } else if (property != null && mediaType.startsWith(MIME_TYPE_XML)) {
                     String example = new XmlExampleGenerator(this.examples).toXml(property);
                     if (example != null) {
                         kv.put(EXAMPLE, example);
+                        kv.put(GENERATED_CONTENT_TYPE, MIME_TYPE_XML);
                         output.add(kv);
                     }
                 }
@@ -204,6 +206,7 @@ public class ExampleGenerator {
                 kv.put(CONTENT_TYPE, mediaType);
                 if ((mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
                     kv.put(EXAMPLE, Json.pretty(example));
+                    kv.put(GENERATED_CONTENT_TYPE, MIME_TYPE_JSON);
                     output.add(kv);
                 } else if (mediaType.startsWith(MIME_TYPE_XML)) {
                     // TODO
