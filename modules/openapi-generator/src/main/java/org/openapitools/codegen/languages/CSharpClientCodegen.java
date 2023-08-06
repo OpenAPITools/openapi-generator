@@ -639,7 +639,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         if (pattern != null) {
             // check if the pattern has any modifiers
             // gmiyuvsd - ecma modifiers
-            // l - legacy modifier provided by this libray, provides a way to opt out of culture invariant
+            // l - legacy modifier provided by this library, provides a way to opt out of culture invariant
             // nx - c# modifiers https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-options
             Pattern hasModifiers = Pattern.compile(".*/[gmiyuvsdlnx]+$");
 
