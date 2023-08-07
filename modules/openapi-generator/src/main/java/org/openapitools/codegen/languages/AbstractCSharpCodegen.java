@@ -146,7 +146,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "foreach", "goto", "if", "implicit", "in", "int", "interface", "internal", "is", "lock",
                         "long", "namespace", "new", "null", "object", "operator", "out", "override", "params",
                         "private", "protected", "public", "readonly", "ref", "return", "sbyte", "sealed",
-                        "short", "sizeof", "stackalloc", "static", "string", "struct", "switch", "this", "throw",
+                        "short", "sizeof", "stackalloc", "static", "string", "struct", "switch", "system", "this", "throw",
                         "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort", "using",
                         "virtual", "void", "volatile", "while")
         );
