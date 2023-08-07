@@ -55,6 +55,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      * @param queryNullable query nullable (optional)
      * @param headerNullable header nullable (optional)
      * @param cookieNullable cookie_nullable (optional)
+     * @param dollarQueryDollarDollarSign query parameter with dollar sign (optional)
      * @return void
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -63,8 +64,8 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun findPetsByStatus(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String? = "available", headerDefault: kotlin.String? = "available", cookieDefault: kotlin.String? = "available", queryNullable: kotlin.String? = null, headerNullable: kotlin.String? = null, cookieNullable: kotlin.String? = null) : Unit {
-        val localVarResponse = findPetsByStatusWithHttpInfo(pathDefault = pathDefault, pathNullable = pathNullable, queryDefault = queryDefault, headerDefault = headerDefault, cookieDefault = cookieDefault, queryNullable = queryNullable, headerNullable = headerNullable, cookieNullable = cookieNullable)
+    fun findPetsByStatus(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String? = "available", headerDefault: kotlin.String? = "available", cookieDefault: kotlin.String? = "available", queryNullable: kotlin.String? = null, headerNullable: kotlin.String? = null, cookieNullable: kotlin.String? = null, dollarQueryDollarDollarSign: kotlin.String? = null) : Unit {
+        val localVarResponse = findPetsByStatusWithHttpInfo(pathDefault = pathDefault, pathNullable = pathNullable, queryDefault = queryDefault, headerDefault = headerDefault, cookieDefault = cookieDefault, queryNullable = queryNullable, headerNullable = headerNullable, cookieNullable = cookieNullable, dollarQueryDollarDollarSign = dollarQueryDollarDollarSign)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -92,13 +93,14 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      * @param queryNullable query nullable (optional)
      * @param headerNullable header nullable (optional)
      * @param cookieNullable cookie_nullable (optional)
+     * @param dollarQueryDollarDollarSign query parameter with dollar sign (optional)
      * @return ApiResponse<Unit?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun findPetsByStatusWithHttpInfo(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String?, headerDefault: kotlin.String?, cookieDefault: kotlin.String?, queryNullable: kotlin.String?, headerNullable: kotlin.String?, cookieNullable: kotlin.String?) : ApiResponse<Unit?> {
-        val localVariableConfig = findPetsByStatusRequestConfig(pathDefault = pathDefault, pathNullable = pathNullable, queryDefault = queryDefault, headerDefault = headerDefault, cookieDefault = cookieDefault, queryNullable = queryNullable, headerNullable = headerNullable, cookieNullable = cookieNullable)
+    fun findPetsByStatusWithHttpInfo(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String?, headerDefault: kotlin.String?, cookieDefault: kotlin.String?, queryNullable: kotlin.String?, headerNullable: kotlin.String?, cookieNullable: kotlin.String?, dollarQueryDollarDollarSign: kotlin.String?) : ApiResponse<Unit?> {
+        val localVariableConfig = findPetsByStatusRequestConfig(pathDefault = pathDefault, pathNullable = pathNullable, queryDefault = queryDefault, headerDefault = headerDefault, cookieDefault = cookieDefault, queryNullable = queryNullable, headerNullable = headerNullable, cookieNullable = cookieNullable, dollarQueryDollarDollarSign = dollarQueryDollarDollarSign)
 
         return request<Unit, Unit>(
             localVariableConfig
@@ -116,9 +118,10 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
      * @param queryNullable query nullable (optional)
      * @param headerNullable header nullable (optional)
      * @param cookieNullable cookie_nullable (optional)
+     * @param dollarQueryDollarDollarSign query parameter with dollar sign (optional)
      * @return RequestConfig
      */
-    fun findPetsByStatusRequestConfig(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String?, headerDefault: kotlin.String?, cookieDefault: kotlin.String?, queryNullable: kotlin.String?, headerNullable: kotlin.String?, cookieNullable: kotlin.String?) : RequestConfig<Unit> {
+    fun findPetsByStatusRequestConfig(pathDefault: kotlin.String, pathNullable: kotlin.String, queryDefault: kotlin.String?, headerDefault: kotlin.String?, cookieDefault: kotlin.String?, queryNullable: kotlin.String?, headerNullable: kotlin.String?, cookieNullable: kotlin.String?, dollarQueryDollarDollarSign: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -127,6 +130,9 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient
                 }
                 if (queryNullable != null) {
                     put("query_nullable", listOf(queryNullable.toString()))
+                }
+                if (dollarQueryDollarDollarSign != null) {
+                    put("\$query-\$dollar-sign", listOf(dollarQueryDollarDollarSign.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

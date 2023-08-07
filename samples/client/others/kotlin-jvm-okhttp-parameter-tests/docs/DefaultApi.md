@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a id="findPetsByStatus"></a>
 # **findPetsByStatus**
-> findPetsByStatus(pathDefault, pathNullable, queryDefault, headerDefault, cookieDefault, queryNullable, headerNullable, cookieNullable)
+> findPetsByStatus(pathDefault, pathNullable, queryDefault, headerDefault, cookieDefault, queryNullable, headerNullable, cookieNullable, dollarQueryDollarDollarSign)
 
 Finds Pets by status
 
@@ -30,8 +30,9 @@ val cookieDefault : kotlin.String = cookieDefault_example // kotlin.String | coo
 val queryNullable : kotlin.String = queryNullable_example // kotlin.String | query nullable
 val headerNullable : kotlin.String = headerNullable_example // kotlin.String | header nullable
 val cookieNullable : kotlin.String = cookieNullable_example // kotlin.String | cookie_nullable
+val dollarQueryDollarDollarSign : kotlin.String = dollarQueryDollarDollarSign_example // kotlin.String | query parameter with dollar sign
 try {
-    apiInstance.findPetsByStatus(pathDefault, pathNullable, queryDefault, headerDefault, cookieDefault, queryNullable, headerNullable, cookieNullable)
+    apiInstance.findPetsByStatus(pathDefault, pathNullable, queryDefault, headerDefault, cookieDefault, queryNullable, headerNullable, cookieNullable, dollarQueryDollarDollarSign)
 } catch (e: ClientException) {
     println("4xx response calling DefaultApi#findPetsByStatus")
     e.printStackTrace()
@@ -53,6 +54,7 @@ Name | Type | Description  | Notes
  **queryNullable** | **kotlin.String**| query nullable | [optional]
  **headerNullable** | **kotlin.String**| header nullable | [optional]
  **cookieNullable** | **kotlin.String**| cookie_nullable | [optional]
+ **dollarQueryDollarDollarSign** | **kotlin.String**| query parameter with dollar sign | [optional]
 
 ### Return type
 
