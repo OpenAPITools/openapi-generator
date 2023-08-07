@@ -37,7 +37,7 @@ import java.util.*;
 
 import static java.util.UUID.randomUUID;
 
-public class AspNetServerCodegen extends AbstractCSharpCodegen {
+public class AspNetServerCodegen extends AbstractCSharpCodegen {".$_-0/abst_c"".$-#"
 
     public static final String USE_SWASHBUCKLE = "useSwashbuckle";
     public static final String MODEL_POCOMODE = "pocoModels";
