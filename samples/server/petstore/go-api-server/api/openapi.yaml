@@ -620,11 +620,44 @@ components:
       description: Pet object that needs to be added to the store
       required: true
   schemas:
+    OrderInfo:
+      description: An order info for a pets from the pet store
+      properties:
+        petId:
+          format: int64
+          type: integer
+        quantity:
+          format: int32
+          type: integer
+        shipDate:
+          format: date-time
+          type: string
+      title: Pet Order Info
+      type: object
+      xml:
+        name: OrderInfo
+    SpecialInfo:
+      description: An order info for a pets from the pet store
+      discriminator:
+        propertyName: type
+      properties:
+        promotion:
+          type: boolean
+        type:
+          type: string
+      title: Pet Order Info
+      type: object
+      xml:
+        name: OrderInfo
     Order:
+      allOf:
+      - $ref: '#/components/schemas/OrderInfo'
+      - $ref: '#/components/schemas/SpecialInfo'
       description: An order for a pets from the pet store
       example:
         petId: 6
         quantity: 1
+        comment: comment
         id: 0
         shipDate: 2000-01-23T04:56:07.000+00:00
         complete: false
@@ -652,6 +685,11 @@ components:
         complete:
           default: false
           type: boolean
+        comment:
+          nullable: true
+          type: string
+      required:
+      - comment
       title: Pet Order
       type: object
       xml:
@@ -661,6 +699,7 @@ components:
       example:
         name: name
         id: 6
+      nullable: true
       properties:
         id:
           format: int64
@@ -680,7 +719,153 @@ components:
         password: password
         userStatus: 6
         phone: phone
+        deepSliceModel:
+        - - - name: name
+              id: 1
+            - name: name
+              id: 1
+          - - name: name
+              id: 1
+            - name: name
+              id: 1
+        - - - name: name
+              id: 1
+            - name: name
+              id: 1
+          - - name: name
+              id: 1
+            - name: name
+              id: 1
         id: 0
+        deepSliceMap:
+        - - tag:
+              name: name
+              id: 1
+            Pet:
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+          - tag:
+              name: name
+              id: 1
+            Pet:
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+        - - tag:
+              name: name
+              id: 1
+            Pet:
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+          - tag:
+              name: name
+              id: 1
+            Pet:
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
         email: email
         username: username
       properties:
@@ -698,11 +883,34 @@ components:
         password:
           type: string
         phone:
+          nullable: true
           type: string
         userStatus:
           description: User Status
           format: int32
           type: integer
+        deepSliceModel:
+          description: An array 1-deep.
+          items:
+            description: An array 2-deep.
+            items:
+              description: An array 3-deep.
+              items:
+                $ref: '#/components/schemas/Tag'
+              type: array
+            type: array
+          nullable: true
+          type: array
+        deepSliceMap:
+          description: An array 1-deep.
+          items:
+            description: An array 2-deep.
+            items:
+              $ref: '#/components/schemas/an_Object'
+            type: array
+          type: array
+      required:
+      - deepSliceModel
       title: a User
       type: object
       xml:
@@ -751,6 +959,7 @@ components:
         photoUrls:
           items:
             type: string
+          nullable: true
           type: array
           xml:
             name: photoUrl
@@ -758,6 +967,7 @@ components:
         tags:
           items:
             $ref: '#/components/schemas/Tag'
+          nullable: true
           type: array
           xml:
             name: tag
@@ -811,6 +1021,51 @@ components:
           description: file to upload
           format: binary
           type: string
+      type: object
+    an_Object:
+      description: An array 3-deep.
+      example:
+        tag:
+          name: name
+          id: 1
+        Pet:
+        - photoUrls:
+          - photoUrls
+          - photoUrls
+          name: doggie
+          id: 0
+          category:
+            name: name
+            id: 6
+          tags:
+          - name: name
+            id: 1
+          - name: name
+            id: 1
+          status: available
+        - photoUrls:
+          - photoUrls
+          - photoUrls
+          name: doggie
+          id: 0
+          category:
+            name: name
+            id: 6
+          tags:
+          - name: name
+            id: 1
+          - name: name
+            id: 1
+          status: available
+      properties:
+        tag:
+          $ref: '#/components/schemas/Tag'
+        Pet:
+          description: An array of pet.
+          items:
+            $ref: '#/components/schemas/Pet'
+          type: array
+      title: an Object
       type: object
   securitySchemes:
     petstore_auth:
