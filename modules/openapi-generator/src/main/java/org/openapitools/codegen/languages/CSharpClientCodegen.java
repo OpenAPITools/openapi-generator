@@ -99,8 +99,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Client";
     protected String authFolder = "Auth";
-    protected String apiDocPath = "docs" + File.separator;
-    protected String modelDocPath = "docs" + File.separator;
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     // Defines TargetFrameworkVersion in csproj files
     protected String targetFramework = latestFramework.name;
