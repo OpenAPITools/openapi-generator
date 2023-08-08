@@ -75,6 +75,13 @@
             <artifactId>maven-plugin-testing-harness</artifactId>
             <version>3.3.0</version>
             <scope>test</scope>
+            <exclusions>
+                <!-- excludes due to https://devhub.checkmarx.com/cve-details/CVE-2018-1002200 -->
+                <exclusion>
+                    <groupId>org.codehaus.plexus</groupId>
+                    <artifactId>plexus-archiver</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
@@ -82,6 +89,14 @@
             <version>3.5.1</version>
             <scope>test</scope>
         </dependency>
+        <!-- explicit dependency due to https://devhub.checkmarx.com/cve-details/CVE-2018-1002200 (see exclusion in maven-plugin-testing-harness) -->
+        <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-archiver</artifactId>
+            <version>4.8.0</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
     <build>
         <pluginManagement>
