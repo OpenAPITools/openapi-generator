@@ -193,9 +193,15 @@ class {{classname}}(object):
         if _params.get('{{paramName}}') is not None:  # noqa: E501
             {{#isDateTime}}
             if isinstance(_params['{{paramName}}'], datetime):
-                _query_params.append(('{{baseName}}', _params['{{paramName}}'].strftime(self.api_client.configuration.datetime_format)))
+                if self.api_client.configuration.datetime_isoformat:
+                    d = _params['{{paramName}}'].isoformat(timespec=self.api_client.configuration.datetime_isoformat_timespec)
+                else:
+                    d = _params['{{paramName}}'].strftime(self.api_client.configuration.datetime_format)
+                if self.api_client.configuration.datetime_utc_designator and d.endswith('+00:00'):
+                    d = d[:-6] + 'Z'
+                _query_params.append('{{baseName}}', d)
             else:
-                _query_params.append(('{{baseName}}', _params['{{paramName}}']))
+                _query_params.append('{{baseName}}', _params['{{paramName}}'])
             {{/isDateTime}}
             {{^isDateTime}}
             {{#isDate}}
@@ -240,9 +246,32 @@ class {{classname}}(object):
 
 {{/formParams}}
         # process the body parameter
-        _body_params = None
+        _body_params = []
 {{#bodyParam}}
         if _params['{{paramName}}'] is not None:
+            {{#isDateTime}}
+            if isinstance(_params['{{paramName}}'], datetime):
+                if self.api_client.configuration.datetime_isoformat:
+                    d = _params['{{paramName}}'].isoformat(timespec=self.api_client.configuration.datetime_isoformat_timespec))
+                else:
+                    d = _params['{{paramName}}'].strftime(self.api_client.configuration.datetime_format))
+                if self.api_client.configuration.datetime_utc_designator and d.endswith('+00:00'):
+                    d = d[:-6] + 'Z'
+                _body_params.append(('{{baseName}}', d)
+            else:
+                _body_params.append(('{{baseName}}', _params['{{paramName}}']))
+            {{/isDateTime}}
+            {{^isDateTime}}
+            {{#isDate}}
+            if isinstance(_params['{{paramName}}'], date):
+                _body_params.append(('{{baseName}}', _params['{{paramName}}'].strftime(self.api_client.configuration.date_format)))
+            else:
+                _body_params.append(('{{baseName}}', _params['{{paramName}}']))
+            {{/isDate}}
+            {{^isDate}}
+            _body_params.append(('{{baseName}}', _params['{{paramName}}']{{#isEnumRef}}.value{{/isEnumRef}}))
+            {{/isDate}}
+            {{/isDateTime}}
             _body_params = _params['{{paramName}}']
             {{#isBinary}}
             # convert to byte array if the input is a file name (str)

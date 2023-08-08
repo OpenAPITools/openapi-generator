@@ -261,6 +261,18 @@ conf = petstore_api.Configuration(
         """datetime format
         """
 
+        self.datetime_isoformat = "true"
+        """datetime ISO-8601 format (replaces datetimeFormat)
+        """
+
+        self.datetime_isoformat_timespec = ""
+        """timespec to use if datetime_isoformat is True
+        """
+
+        self.datetime_utc_designator = ""
+        """replaces `+00:00` with `Z` if true and substring is found
+        """
+
         self.date_format = "%Y-%m-%d"
         """date format
         """

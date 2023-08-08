@@ -159,8 +159,9 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['body'] is not None:
+            _body_params.append(('body', _params['body']))
             _body_params = _params['body']
 
         # set the HTTP header `Content-Type`
@@ -300,7 +301,7 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # authentication setting
         _auth_settings = []  # noqa: E501
 
@@ -423,7 +424,7 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
@@ -573,8 +574,9 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['pet'] is not None:
+            _body_params.append(('Pet', _params['pet']))
             _body_params = _params['pet']
 
         # set the HTTP header `Content-Type`
@@ -713,8 +715,9 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['body'] is not None:
+            _body_params.append(('body', _params['body']))
             _body_params = _params['body']
 
         # set the HTTP header `Accept`
@@ -859,8 +862,9 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['outer_composite'] is not None:
+            _body_params.append(('OuterComposite', _params['outer_composite']))
             _body_params = _params['outer_composite']
 
         # set the HTTP header `Accept`
@@ -1005,8 +1009,9 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['body'] is not None:
+            _body_params.append(('body', _params['body']))
             _body_params = _params['body']
 
         # set the HTTP header `Accept`
@@ -1151,8 +1156,9 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['body'] is not None:
+            _body_params.append(('body', _params['body']))
             _body_params = _params['body']
 
         # set the HTTP header `Accept`
@@ -1297,8 +1303,9 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['outer_object_with_enum_property'] is not None:
+            _body_params.append(('OuterObjectWithEnumProperty', _params['outer_object_with_enum_property']))
             _body_params = _params['outer_object_with_enum_property']
 
         # set the HTTP header `Accept`
@@ -1443,8 +1450,9 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['body'] is not None:
+            _body_params.append(('body', _params['body']))
             _body_params = _params['body']
             # convert to byte array if the input is a file name (str)
             if isinstance(_body_params, str):
@@ -1588,8 +1596,9 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['file_schema_test_class'] is not None:
+            _body_params.append(('FileSchemaTestClass', _params['file_schema_test_class']))
             _body_params = _params['file_schema_test_class']
 
         # set the HTTP header `Content-Type`
@@ -1734,8 +1743,9 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['user'] is not None:
+            _body_params.append(('User', _params['user']))
             _body_params = _params['user']
 
         # set the HTTP header `Content-Type`
@@ -1874,8 +1884,9 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['client'] is not None:
+            _body_params.append(('Client', _params['client']))
             _body_params = _params['client']
 
         # set the HTTP header `Accept`
@@ -2019,9 +2030,15 @@ class FakeApi(object):
         _query_params = []
         if _params.get('date_time_query') is not None:  # noqa: E501
             if isinstance(_params['date_time_query'], datetime):
-                _query_params.append(('date_time_query', _params['date_time_query'].strftime(self.api_client.configuration.datetime_format)))
+                if self.api_client.configuration.datetime_isoformat:
+                    d = _params['date_time_query'].isoformat(timespec=self.api_client.configuration.datetime_isoformat_timespec)
+                else:
+                    d = _params['date_time_query'].strftime(self.api_client.configuration.datetime_format)
+                if self.api_client.configuration.datetime_utc_designator and d.endswith('+00:00'):
+                    d = d[:-6] + 'Z'
+                _query_params.append('date_time_query', d)
             else:
-                _query_params.append(('date_time_query', _params['date_time_query']))
+                _query_params.append('date_time_query', _params['date_time_query'])
 
         if _params.get('str_query') is not None:  # noqa: E501
             _query_params.append(('str_query', _params['str_query']))
@@ -2032,7 +2049,7 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # authentication setting
         _auth_settings = []  # noqa: E501
 
@@ -2277,7 +2294,7 @@ class FakeApi(object):
             _form_params.append(('callback', _params['param_callback']))
 
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -2457,7 +2474,7 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # authentication setting
         _auth_settings = ['bearer_test']  # noqa: E501
 
@@ -2587,8 +2604,9 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['request_body'] is not None:
+            _body_params.append(('request_body', _params['request_body']))
             _body_params = _params['request_body']
 
         # set the HTTP header `Content-Type`
@@ -2738,7 +2756,7 @@ class FakeApi(object):
             _form_params.append(('param2', _params['param2']))
 
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -2931,7 +2949,7 @@ class FakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # authentication setting
         _auth_settings = []  # noqa: E501
 

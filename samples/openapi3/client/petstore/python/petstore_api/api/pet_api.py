@@ -153,8 +153,9 @@ class PetApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['pet'] is not None:
+            _body_params.append(('Pet', _params['pet']))
             _body_params = _params['pet']
 
         # set the HTTP header `Content-Type`
@@ -304,7 +305,7 @@ class PetApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # authentication setting
         _auth_settings = ['petstore_auth']  # noqa: E501
 
@@ -438,7 +439,7 @@ class PetApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -581,7 +582,7 @@ class PetApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -721,7 +722,7 @@ class PetApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -859,8 +860,9 @@ class PetApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['pet'] is not None:
+            _body_params.append(('Pet', _params['pet']))
             _body_params = _params['pet']
 
         # set the HTTP header `Content-Type`
@@ -1018,7 +1020,7 @@ class PetApi(object):
             _form_params.append(('status', _params['status']))
 
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # set the HTTP header `Content-Type`
         _content_types_list = _params.get('_content_type',
             self.api_client.select_header_content_type(
@@ -1174,7 +1176,7 @@ class PetApi(object):
             _files['file'] = _params['file']
 
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
@@ -1336,7 +1338,7 @@ class PetApi(object):
             _files['requiredFile'] = _params['required_file']
 
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501

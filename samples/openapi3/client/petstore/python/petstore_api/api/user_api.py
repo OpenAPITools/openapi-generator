@@ -164,8 +164,9 @@ class UserApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['user'] is not None:
+            _body_params.append(('User', _params['user']))
             _body_params = _params['user']
 
         # set the HTTP header `Content-Type`
@@ -305,8 +306,9 @@ class UserApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['user'] is not None:
+            _body_params.append(('User', _params['user']))
             _body_params = _params['user']
 
         # set the HTTP header `Content-Type`
@@ -445,8 +447,9 @@ class UserApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['user'] is not None:
+            _body_params.append(('User', _params['user']))
             _body_params = _params['user']
 
         # set the HTTP header `Content-Type`
@@ -588,7 +591,7 @@ class UserApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # authentication setting
         _auth_settings = []  # noqa: E501
 
@@ -721,7 +724,7 @@ class UserApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -870,7 +873,7 @@ class UserApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -1002,7 +1005,7 @@ class UserApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # authentication setting
         _auth_settings = []  # noqa: E501
 
@@ -1140,8 +1143,9 @@ class UserApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['user'] is not None:
+            _body_params.append(('User', _params['user']))
             _body_params = _params['user']
 
         # set the HTTP header `Content-Type`

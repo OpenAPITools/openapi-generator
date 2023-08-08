@@ -155,7 +155,7 @@ class StoreApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # authentication setting
         _auth_settings = []  # noqa: E501
 
@@ -280,7 +280,7 @@ class StoreApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
@@ -419,7 +419,7 @@ class StoreApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -557,8 +557,9 @@ class StoreApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['order'] is not None:
+            _body_params.append(('Order', _params['order']))
             _body_params = _params['order']
 
         # set the HTTP header `Accept`

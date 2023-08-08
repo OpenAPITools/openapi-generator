@@ -275,6 +275,18 @@ conf = {{{packageName}}}.Configuration(
         """datetime format
         """
 
+        self.datetime_isoformat = "{{{datetimeIsoformat}}}"
+        """datetime ISO-8601 format (replaces datetimeFormat)
+        """
+
+        self.datetime_isoformat_timespec = "{{{datetimeIsoformatTimespec}}}"
+        """timespec to use if datetime_isoformat is True
+        """
+
+        self.datetime_utc_designator = "{{{datetimeUTCDesignator}}}"
+        """replaces `+00:00` with `Z` if true and substring is found
+        """
+
         self.date_format = "{{{dateFormat}}}"
         """date format
         """

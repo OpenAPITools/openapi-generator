@@ -150,8 +150,9 @@ class AnotherFakeApi(object):
         _form_params = []
         _files = {}
         # process the body parameter
-        _body_params = None
+        _body_params = []
         if _params['client'] is not None:
+            _body_params.append(('Client', _params['client']))
             _body_params = _params['client']
 
         # set the HTTP header `Accept`
