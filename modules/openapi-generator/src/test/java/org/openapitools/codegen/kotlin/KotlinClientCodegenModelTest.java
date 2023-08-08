@@ -343,6 +343,7 @@ public class KotlinClientCodegenModelTest {
                 {"$", new ModelNameTest("$", "Dollar")},
                 {"for", new ModelNameTest("`for`", "For")},
                 {"One<Two", new ModelNameTest("One<Two", "OneLessThanTwo")},
+                {"One-Two", new ModelNameTest("One-Two", "OneTwo")},
                 {"this is a test", new ModelNameTest("this is a test", "ThisIsATest")}
         };
     }

@@ -319,6 +319,27 @@ public interface FakeApiDelegate {
     }
 
     /**
+     * GET /fake/response-with-example
+     * This endpoint defines an example value for its response schema.
+     *
+     * @return Success (status code 200)
+     * @see FakeApi#testWithResultExample
+     */
+    default ResponseEntity<Integer> testWithResultExample() {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "42";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+    /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
      * 
      *

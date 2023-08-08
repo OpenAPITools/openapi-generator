@@ -278,7 +278,7 @@ public class TypeHolderExample implements Parcelable {
 
   TypeHolderExample(Parcel in) {
     stringItem = (String)in.readValue(null);
-    numberItem = (BigDecimal)in.readValue(null);
+    numberItem = (BigDecimal)in.readValue(BigDecimal.class.getClassLoader());
     floatItem = (Float)in.readValue(null);
     integerItem = (Integer)in.readValue(null);
     boolItem = (Boolean)in.readValue(null);

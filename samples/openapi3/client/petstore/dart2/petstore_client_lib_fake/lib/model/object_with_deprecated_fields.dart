@@ -47,10 +47,10 @@ class ObjectWithDeprecatedFields {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ObjectWithDeprecatedFields &&
-     other.uuid == uuid &&
-     other.id == id &&
-     other.deprecatedRef == deprecatedRef &&
-     other.bars == bars;
+    other.uuid == uuid &&
+    other.id == id &&
+    other.deprecatedRef == deprecatedRef &&
+    _deepEquality.equals(other.bars, bars);
 
   @override
   int get hashCode =>

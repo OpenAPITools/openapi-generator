@@ -533,6 +533,34 @@ public interface FakeApi {
 
 
     /**
+     * GET /fake/response-with-example
+     * This endpoint defines an example value for its response schema.
+     *
+     * @return Success (status code 200)
+     */
+    @ApiOperation(
+        tags = { "fake" },
+        value = "",
+        nickname = "testWithResultExample",
+        notes = "This endpoint defines an example value for its response schema.",
+        response = Integer.class
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = Integer.class)
+    })
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/fake/response-with-example",
+        produces = { "application/json" }
+    )
+    default ResponseEntity<Integer> testWithResultExample(
+        
+    ) {
+        return getDelegate().testWithResultExample();
+    }
+
+
+    /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
      * 
      *

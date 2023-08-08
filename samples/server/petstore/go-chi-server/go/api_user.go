@@ -172,8 +172,17 @@ func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 
 // DeleteUser - Delete user
 func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
 	usernameParam := chi.URLParam(r, "username")
-	result, err := c.service.DeleteUser(r.Context(), usernameParam)
+	booleanTestParam, err := parseBoolParameter(
+		query.Get("boolean_test"),
+		WithParse[bool](parseBool),
+	)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	result, err := c.service.DeleteUser(r.Context(), usernameParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -201,7 +210,15 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	usernameParam := query.Get("username")
 	passwordParam := query.Get("password")
-	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam)
+	booleanTestParam, err := parseBoolParameter(
+		query.Get("boolean_test"),
+		WithParse[bool](parseBool),
+	)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

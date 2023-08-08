@@ -1,8 +1,6 @@
 package org.openapitools.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -13,7 +11,6 @@ import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -100,7 +97,6 @@ public class Pet  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("id")
   public Long getId() {
@@ -120,7 +116,6 @@ public class Pet  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("category")
   public Category getCategory() {
@@ -140,7 +135,6 @@ public class Pet  implements Serializable {
   }
 
   
-  @ApiModelProperty(example = "doggie", required = true, value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(example = "doggie", required = true, description = "")
   @JsonProperty("name")
   @NotNull
@@ -161,7 +155,6 @@ public class Pet  implements Serializable {
   }
 
   
-  @ApiModelProperty(required = true, value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("photoUrls")
   @NotNull
@@ -199,7 +192,6 @@ public class Pet  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("tags")
   public List<Tag> getTags() {
@@ -236,7 +228,6 @@ public class Pet  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "pet status in the store")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "pet status in the store")
   @JsonProperty("status")
   public StatusEnum getStatus() {

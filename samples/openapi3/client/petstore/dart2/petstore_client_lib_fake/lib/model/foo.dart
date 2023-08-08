@@ -20,7 +20,7 @@ class Foo {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Foo &&
-     other.bar == bar;
+    other.bar == bar;
 
   @override
   int get hashCode =>

@@ -72,6 +72,12 @@ namespace Org.OpenAPITools.Model
         public ShapeOrNull ShapeOrNull { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -84,6 +90,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Shapes: ").Append(Shapes).Append("\n");
             sb.Append("  NullableShape: ").Append(NullableShape).Append("\n");
             sb.Append("  ShapeOrNull: ").Append(ShapeOrNull).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

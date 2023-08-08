@@ -26,7 +26,7 @@ class ModelList {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ModelList &&
-     other.n123list == n123list;
+    other.n123list == n123list;
 
   @override
   int get hashCode =>

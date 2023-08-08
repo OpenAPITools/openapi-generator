@@ -339,4 +339,20 @@ public interface FakeApi {
          @RequestParam(value = "context", required = true) List<String> context
     );
 
+
+    /**
+     * GET /fake/response-with-example
+     * This endpoint defines an example value for its response schema.
+     *
+     * @return Success (status code 200)
+     */
+    @HttpExchange(
+        method = "GET",
+        value = "/fake/response-with-example",
+        accept = "application/json"
+    )
+    ResponseEntity<Integer> testWithResultExample(
+        
+    );
+
 }
