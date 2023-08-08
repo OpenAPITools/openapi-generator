@@ -7,7 +7,7 @@ wrapper {
 }
 
 buildscript {
-    ext.kotlin_version = '1.7.21'
+    ext.kotlin_version = '1.8.10'
     ext.spring_boot_version = "3.1.0"
     ext.reactor_version = "3.5.6"
 
@@ -39,8 +39,8 @@ kotlin {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.14.3"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.3"
     implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
     implementation "io.projectreactor:reactor-core:$reactor_version"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"

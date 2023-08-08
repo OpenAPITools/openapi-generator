@@ -7,7 +7,7 @@ wrapper {
 }
 
 buildscript {
-    ext.kotlin_version = '1.7.21'
+    ext.kotlin_version = '1.8.10'
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -31,9 +31,9 @@ test {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "com.squareup.moshi:moshi-kotlin:1.13.0"
-    implementation "com.squareup.moshi:moshi-adapters:1.13.0"
-    implementation "com.squareup.okhttp3:okhttp:4.10.0"
-    implementation "org.threeten:threetenbp:1.5.1"
+    implementation "com.squareup.moshi:moshi-kotlin:1.14.0"
+    implementation "com.squareup.moshi:moshi-adapters:1.14.0"
+    implementation "com.squareup.okhttp3:okhttp:4.11.0"
+    implementation "org.threeten:threetenbp:1.6.8"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }
