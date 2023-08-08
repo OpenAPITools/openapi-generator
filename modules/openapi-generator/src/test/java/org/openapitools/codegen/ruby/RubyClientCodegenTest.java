@@ -388,8 +388,6 @@ public class RubyClientCodegenTest {
         Set<CodegenDiscriminator.MappedModel> mappedModels = new LinkedHashSet<CodegenDiscriminator.MappedModel>();
         mappedModels.add(new CodegenDiscriminator.MappedModel("a", "Adult"));
         mappedModels.add(new CodegenDiscriminator.MappedModel("c", "Child"));
-        mappedModels.add(new CodegenDiscriminator.MappedModel("Adult", "Adult"));
-        mappedModels.add(new CodegenDiscriminator.MappedModel("Child", "Child"));
         Assert.assertEquals(codegenDiscriminator.getMappedModels(), mappedModels);
     }
 

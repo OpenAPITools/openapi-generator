@@ -21,7 +21,11 @@ import org.openapitools.client.model.*;
 import org.junit.Test;
 import org.junit.Ignore;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 
 /**
@@ -88,7 +92,7 @@ public class CustomTest {
 
         String response = api.testQueryStyleFormExplodeTrueObjectAllOf(queryObject);
         org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
-        Assert.assertEquals("/query/style_form/explode_true/object/allOf?text=Hello%20World&id=3487&outcomes=SKIPPED&outcomes=FAILURE", p.path);
+        Assert.assertEquals("/query/style_form/explode_true/object/allOf?id=3487&outcomes=SKIPPED&outcomes=FAILURE&text=Hello%20World", p.path);
     }
 
     /**
@@ -278,5 +282,34 @@ public class CustomTest {
         org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
         Assert.assertEquals("/form/integer/boolean/string", p.path);
         Assert.assertEquals("3b\ninteger_form=1337&boolean_form=true&string_form=Hello+World\n0\n\n", p.body);
+    }
+
+    @Test
+    public void testBodyMultipartFormdataArrayOfBinary() throws ApiException {
+        File file1 = Objects.requireNonNull(getFile("Hello"));
+        File file2 = Objects.requireNonNull(getFile("World"));
+
+        String response = bodyApi.testBodyMultipartFormdataArrayOfBinary(List.of(file1, file2));
+        org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
+
+        Assert.assertEquals("/body/application/octetstream/array_of_binary", p.path);
+
+        Assert.assertTrue(p.body.contains(file1.getName()));
+        Assert.assertTrue(p.body.contains("Hello"));
+        Assert.assertTrue(p.body.contains(file2.getName()));
+        Assert.assertTrue(p.body.contains("World"));
+    }
+
+    private File getFile(String content) {
+        try {
+            File tempFile = Files.createTempFile("tempFile", ".txt").toFile();
+            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+            writer.write(content);
+            writer.close();
+
+            return tempFile;
+        } catch (IOException e) {
+            return null;
+        }
     }
 }

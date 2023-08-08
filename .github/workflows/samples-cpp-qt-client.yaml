@@ -23,12 +23,16 @@ jobs:
           - ubuntu-latest
           - macOS-latest
           - windows-latest
+        include:
+          - os: windows-latest
+            tools: 'tools_openssl_x64'
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
       - uses: jurplel/install-qt-action@v3
         with:
           version: ${{ matrix.qt-version }}
+          tools: ${{ matrix.tools }}
       - name: Build
         working-directory: "samples/client/petstore/cpp-qt"
-        run: ./build-and-test.bash
+        run: cmake . && cmake --build .

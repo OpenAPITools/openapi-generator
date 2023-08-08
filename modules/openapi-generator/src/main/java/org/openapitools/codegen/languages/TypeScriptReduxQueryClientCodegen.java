@@ -20,6 +20,8 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
@@ -44,6 +46,8 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
 
     public TypeScriptReduxQueryClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features.includeSecurityFeatures(SecurityFeature.BearerToken));
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
@@ -119,7 +123,7 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 

@@ -7,7 +7,7 @@ wrapper {
 }
 
 buildscript {
-    ext.kotlin_version = '1.7.21'
+    ext.kotlin_version = '1.8.10'
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -31,8 +31,8 @@ test {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3"
-    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.14.3"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.3"
+    implementation "com.squareup.okhttp3:okhttp:4.11.0"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }

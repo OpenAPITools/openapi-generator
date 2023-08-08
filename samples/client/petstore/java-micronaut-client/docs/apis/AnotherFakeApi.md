@@ -35,7 +35,7 @@ Note that the class needs to be annotated with one of Micronaut's [scope annotat
 
 More information can be found inside [Inversion of Control guide section](https://docs.micronaut.io/latest/guide/#ioc).
 
-<a name="call123testSpecialTags"></a>
+<a id="call123testSpecialTags"></a>
 # **call123testSpecialTags**
 ```java
 Mono<ModelClient> AnotherFakeApi.call123testSpecialTags(_body)

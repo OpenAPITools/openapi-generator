@@ -67,14 +67,8 @@ public class BigCat extends Cat {
     }
   }
 
-  @JsonProperty("kind")
   private KindEnum kind;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link BigCat#BigCat(String)}
-   */
-  @Deprecated
   public BigCat() {
     super();
   }
@@ -97,6 +91,7 @@ public class BigCat extends Cat {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("kind")
   public KindEnum getKind() {
     return kind;
   }
@@ -104,6 +99,7 @@ public class BigCat extends Cat {
   public void setKind(KindEnum kind) {
     this.kind = kind;
   }
+
 
   public BigCat declawed(Boolean declawed) {
     super.setDeclawed(declawed);
@@ -119,7 +115,6 @@ public class BigCat extends Cat {
     super.setColor(color);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

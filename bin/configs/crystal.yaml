@@ -7,3 +7,12 @@ additionalProperties:
   moduleName: Petstore
   shardName: petstore
 strictSpecBehavior: false
+modelNameMappings:
+  PropertyNameMapping: AnotherPropertyNameMapping
+nameMappings:
+  _type: underscore_type
+  type_: type_with_underscore
+  type-: type_with_dash
+parameterNameMappings:
+  _type: underscore_type
+  type_: type_with_underscore

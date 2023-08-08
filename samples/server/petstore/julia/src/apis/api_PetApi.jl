@@ -175,9 +175,10 @@ function update_pet_with_form_read(handler)
         openapi_params = Dict{String,Any}()
         path_params = HTTP.getparams(req)
         openapi_params["petId"] = OpenAPI.Servers.to_param(Int64, path_params, "petId", required=true, )
-        form_data =  HTTP.parse_multipart_form(req)
-        openapi_params["name"] = OpenAPI.Servers.to_param(String, form_data, "name"; multipart=true, isfile=false, )
-        openapi_params["status"] = OpenAPI.Servers.to_param(String, form_data, "status"; multipart=true, isfile=false, )
+        ismultipart = false
+        form_data = ismultipart ? HTTP.parse_multipart_form(req) : HTTP.queryparams(String(copy(req.body)))
+        openapi_params["name"] = OpenAPI.Servers.to_param(String, form_data, "name"; multipart=ismultipart, isfile=false, )
+        openapi_params["status"] = OpenAPI.Servers.to_param(String, form_data, "status"; multipart=ismultipart, isfile=false, )
         req.context[:openapi_params] = openapi_params
 
         return handler(req)
@@ -206,9 +207,10 @@ function upload_file_read(handler)
         openapi_params = Dict{String,Any}()
         path_params = HTTP.getparams(req)
         openapi_params["petId"] = OpenAPI.Servers.to_param(Int64, path_params, "petId", required=true, )
-        form_data =  HTTP.parse_multipart_form(req)
-        openapi_params["additionalMetadata"] = OpenAPI.Servers.to_param(String, form_data, "additionalMetadata"; multipart=true, isfile=false, )
-        openapi_params["file"] = OpenAPI.Servers.to_param(String, form_data, "file"; multipart=true, isfile=true, )
+        ismultipart = true
+        form_data = ismultipart ? HTTP.parse_multipart_form(req) : HTTP.queryparams(String(copy(req.body)))
+        openapi_params["additionalMetadata"] = OpenAPI.Servers.to_param(String, form_data, "additionalMetadata"; multipart=ismultipart, isfile=false, )
+        openapi_params["file"] = OpenAPI.Servers.to_param(Vector{UInt8}, form_data, "file"; multipart=ismultipart, isfile=true, )
         req.context[:openapi_params] = openapi_params
 
         return handler(req)

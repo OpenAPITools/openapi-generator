@@ -15,9 +15,11 @@ package org.openapitools.server.api;
 import java.math.BigDecimal;
 import org.openapitools.server.model.Client;
 import org.openapitools.server.model.EnumClass;
+import org.openapitools.server.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.server.model.FileSchemaTestClass;
 import org.openapitools.server.model.HealthCheckResult;
+import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
 import java.time.OffsetDateTime;
@@ -38,6 +40,14 @@ import jakarta.validation.Valid;
 @Path("/fake")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen")
 public class FakeServiceImpl implements FakeService {
+
+    @GET
+    @Path("/BigDecimalMap")
+    @Produces({ "*/*" })
+    public FakeBigDecimalMap200Response fakeBigDecimalMap() {
+        FakeBigDecimalMap200Response result = null; // Replace with correct business logic.
+        return result;
+    }
 
     @GET
     @Path("/health")

@@ -1,0 +1,27 @@
+name: Python Server
+
+on:
+  push:
+    paths:
+      - samples/server/petstore/python-aiohttp/**
+  pull_request:
+    paths:
+      - samples/server/petstore/python-aiohttp/**
+jobs:
+  build:
+    name: Test Python server
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # servers
+          - samples/server/petstore/python-aiohttp/
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.7'
+      - name: Test
+        working-directory: ${{ matrix.sample }}
+        run: make test-all

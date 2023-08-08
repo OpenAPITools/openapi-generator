@@ -55,7 +55,6 @@ public class ModelList {
     this._123list = _123list;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

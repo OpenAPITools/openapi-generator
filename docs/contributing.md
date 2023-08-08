@@ -77,6 +77,7 @@ Code change should conform to the programming style guide of the respective lang
 - Scala: http://docs.scala-lang.org/style/
 - Swift: [Apple Developer](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html)
 - TypeScript: https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines
+- Xojo: https://documentation.xojo.com/topics/code_management/coding_guidelines.html
 
 For other languages, feel free to suggest.
 

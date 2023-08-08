@@ -99,7 +99,6 @@ public class FileSchemaTestClass {
     this.files = files;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

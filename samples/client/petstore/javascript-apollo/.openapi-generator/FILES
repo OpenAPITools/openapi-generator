@@ -12,7 +12,6 @@ docs/ArrayTest.md
 docs/BasquePig.md
 docs/Capitalization.md
 docs/Cat.md
-docs/CatAllOf.md
 docs/Category.md
 docs/ClassModel.md
 docs/Client.md
@@ -21,7 +20,6 @@ docs/DanishPig.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
 docs/Dog.md
-docs/DogAllOf.md
 docs/EnumArrays.md
 docs/EnumClass.md
 docs/EnumTest.md
@@ -83,7 +81,6 @@ src/model/ArrayTest.js
 src/model/BasquePig.js
 src/model/Capitalization.js
 src/model/Cat.js
-src/model/CatAllOf.js
 src/model/Category.js
 src/model/ClassModel.js
 src/model/Client.js
@@ -91,7 +88,6 @@ src/model/Color.js
 src/model/DanishPig.js
 src/model/DeprecatedObject.js
 src/model/Dog.js
-src/model/DogAllOf.js
 src/model/EnumArrays.js
 src/model/EnumClass.js
 src/model/EnumTest.js

@@ -35,6 +35,8 @@ packages/
 nbproject/
 nbactions.xml
 nb-configuration.xml
+.direnv/
+**/:w
 
 .settings
 

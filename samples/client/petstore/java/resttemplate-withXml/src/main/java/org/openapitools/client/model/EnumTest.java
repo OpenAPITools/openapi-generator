@@ -368,7 +368,6 @@ public class EnumTest {
     this.outerEnum = outerEnum;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

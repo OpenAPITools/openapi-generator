@@ -28,6 +28,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
@@ -47,6 +48,11 @@ import org.openapitools.client.model.User;
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/fake")
 public interface FakeApi  {
+
+    @GET
+    @Path("/BigDecimalMap")
+    @Produces({ "*/*" })
+    FakeBigDecimalMap200Response fakeBigDecimalMap() throws ApiException, ProcessingException;
 
     /**
      * Health check endpoint

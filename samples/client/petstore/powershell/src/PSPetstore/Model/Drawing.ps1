@@ -89,12 +89,14 @@ function ConvertFrom-PSJsonToDrawing {
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $JsonParameters = ConvertFrom-Json -InputObject $Json
+        $PSDrawingAdditionalProperties = @{}
 
         # check if Json contains properties not defined in PSDrawing
         $AllProperties = ("mainShape", "shapeOrNull", "nullableShape", "shapes")
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
+            # store undefined properties in additionalProperties
             if (!($AllProperties.Contains($name))) {
-                throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
+                $PSDrawingAdditionalProperties[$name] = $JsonParameters.PSobject.Properties[$name].value
             }
         }
 
@@ -127,6 +129,7 @@ function ConvertFrom-PSJsonToDrawing {
             "shapeOrNull" = ${ShapeOrNull}
             "nullableShape" = ${NullableShape}
             "shapes" = ${Shapes}
+            "AdditionalProperties" = $PSDrawingAdditionalProperties
         }
 
         return $PSO

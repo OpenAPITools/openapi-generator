@@ -26,45 +26,34 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesClass {
 
-  @JsonProperty("map_string")
   
   private Map<String, String> mapString = new HashMap<>();
 
-  @JsonProperty("map_number")
   
   private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
-  @JsonProperty("map_integer")
   
   private Map<String, Integer> mapInteger = new HashMap<>();
 
-  @JsonProperty("map_boolean")
   
   private Map<String, Boolean> mapBoolean = new HashMap<>();
 
-  @JsonProperty("map_array_integer")
   
   private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
-  @JsonProperty("map_array_anytype")
   
   private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
-  @JsonProperty("map_map_string")
   
   private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
-  @JsonProperty("map_map_anytype")
   
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
-  @JsonProperty("anytype_1")
   private Object anytype1;
 
-  @JsonProperty("anytype_2")
   private JsonNullable<Object> anytype2 = JsonNullable.undefined();
 
-  @JsonProperty("anytype_3")
   private Object anytype3;
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
@@ -85,6 +74,7 @@ public class AdditionalPropertiesClass {
    * @return mapString
   */
   
+  @JsonProperty("map_string")
   public Map<String, String> getMapString() {
     return mapString;
   }
@@ -111,6 +101,7 @@ public class AdditionalPropertiesClass {
    * @return mapNumber
   */
   
+  @JsonProperty("map_number")
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
@@ -137,6 +128,7 @@ public class AdditionalPropertiesClass {
    * @return mapInteger
   */
   
+  @JsonProperty("map_integer")
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
   }
@@ -163,6 +155,7 @@ public class AdditionalPropertiesClass {
    * @return mapBoolean
   */
   
+  @JsonProperty("map_boolean")
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
   }
@@ -189,6 +182,7 @@ public class AdditionalPropertiesClass {
    * @return mapArrayInteger
   */
   
+  @JsonProperty("map_array_integer")
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
@@ -215,6 +209,7 @@ public class AdditionalPropertiesClass {
    * @return mapArrayAnytype
   */
   
+  @JsonProperty("map_array_anytype")
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
@@ -241,6 +236,7 @@ public class AdditionalPropertiesClass {
    * @return mapMapString
   */
   
+  @JsonProperty("map_map_string")
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
@@ -267,6 +263,7 @@ public class AdditionalPropertiesClass {
    * @return mapMapAnytype
   */
   
+  @JsonProperty("map_map_anytype")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }
@@ -285,6 +282,7 @@ public class AdditionalPropertiesClass {
    * @return anytype1
   */
   
+  @JsonProperty("anytype_1")
   public Object getAnytype1() {
     return anytype1;
   }
@@ -303,6 +301,7 @@ public class AdditionalPropertiesClass {
    * @return anytype2
   */
   
+  @JsonProperty("anytype_2")
   public JsonNullable<Object> getAnytype2() {
     return anytype2;
   }
@@ -321,6 +320,7 @@ public class AdditionalPropertiesClass {
    * @return anytype3
   */
   
+  @JsonProperty("anytype_3")
   public Object getAnytype3() {
     return anytype3;
   }

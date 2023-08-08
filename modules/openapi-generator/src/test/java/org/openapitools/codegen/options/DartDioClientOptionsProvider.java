@@ -37,6 +37,8 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
     public static final String PUB_AUTHOR_VALUE = "Author";
     public static final String PUB_AUTHOR_EMAIL_VALUE = "author@homepage";
     public static final String PUB_HOMEPAGE_VALUE = "Homepage";
+    public static final String PUB_REPOSITORY_VALUE = "Repository";
+    public static final String PUB_PUBLISH_TO_VALUE = "Publish to";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
 
     @Override
@@ -57,6 +59,8 @@ public class DartDioClientOptionsProvider implements OptionsProvider {
                 .put(DartDioClientCodegen.PUB_AUTHOR, PUB_AUTHOR_VALUE)
                 .put(DartDioClientCodegen.PUB_AUTHOR_EMAIL, PUB_AUTHOR_EMAIL_VALUE)
                 .put(DartDioClientCodegen.PUB_HOMEPAGE, PUB_HOMEPAGE_VALUE)
+                .put(DartDioClientCodegen.PUB_REPOSITORY, PUB_REPOSITORY_VALUE)
+                .put(DartDioClientCodegen.PUB_PUBLISH_TO, PUB_PUBLISH_TO_VALUE)
                 .put(CodegenConstants.SERIALIZATION_LIBRARY, DartDioClientCodegen.SERIALIZATION_LIBRARY_DEFAULT)
                 .put(DartDioClientCodegen.DATE_LIBRARY, DartDioClientCodegen.DATE_LIBRARY_DEFAULT)
                 .put(DartDioClientCodegen.FINAL_PROPERTIES, DartDioClientCodegen.FINAL_PROPERTIES_DEFAULT_VALUE)

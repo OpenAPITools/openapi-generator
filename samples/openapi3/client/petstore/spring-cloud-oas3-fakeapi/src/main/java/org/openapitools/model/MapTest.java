@@ -24,7 +24,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class MapTest {
 
-  @JsonProperty("map_map_of_string")
   @Valid
   private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
@@ -63,15 +62,12 @@ public class MapTest {
     }
   }
 
-  @JsonProperty("map_of_enum_string")
   @Valid
   private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
-  @JsonProperty("direct_map")
   @Valid
   private Map<String, Boolean> directMap = new HashMap<>();
 
-  @JsonProperty("indirect_map")
   @Valid
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
@@ -94,6 +90,7 @@ public class MapTest {
   */
   @Valid 
   @Schema(name = "map_map_of_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -121,6 +118,7 @@ public class MapTest {
   */
   
   @Schema(name = "map_of_enum_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("map_of_enum_string")
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
@@ -148,6 +146,7 @@ public class MapTest {
   */
   
   @Schema(name = "direct_map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("direct_map")
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
@@ -175,6 +174,7 @@ public class MapTest {
   */
   
   @Schema(name = "indirect_map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("indirect_map")
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }

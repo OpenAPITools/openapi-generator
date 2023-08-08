@@ -66,7 +66,6 @@ public class BigCatDto extends CatDto {
     }
   }
 
-  @JsonProperty("kind")
   private KindEnum kind;
 
   public BigCatDto kind(KindEnum kind) {
@@ -79,6 +78,7 @@ public class BigCatDto extends CatDto {
    * @return kind
   */
   
+  @JsonProperty("kind")
   public KindEnum getKind() {
     return kind;
   }
@@ -86,6 +86,7 @@ public class BigCatDto extends CatDto {
   public void setKind(KindEnum kind) {
     this.kind = kind;
   }
+
 
   public BigCatDto declawed(Boolean declawed) {
     super.setDeclawed(declawed);
@@ -101,7 +102,6 @@ public class BigCatDto extends CatDto {
     super.setColor(color);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

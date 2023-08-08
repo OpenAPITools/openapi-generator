@@ -5,8 +5,8 @@
         {{#description}}
         /// <value>{{{.}}}</value>
         {{/description}}
-        {{#allowableValues}}{{#enumVars}}{{#-first}}{{#isString}}[TypeConverter(typeof(CustomEnumConverter<{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}>))]
-        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]{{/isString}}{{/-first}}{{/enumVars}}{{/allowableValues}}
+        {{#allowableValues}}{{#enumVars}}{{#-first}}{{#isString}}{{#useNewtonsoft}}[TypeConverter(typeof(CustomEnumConverter<{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}>))]
+        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]{{/useNewtonsoft}}{{/isString}}{{/-first}}{{/enumVars}}{{/allowableValues}}
         public enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
         {
             {{#allowableValues}}{{#enumVars}}

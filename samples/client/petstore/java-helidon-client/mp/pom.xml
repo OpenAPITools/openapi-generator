@@ -16,6 +16,10 @@
     <description>OpenAPI Java</description>
     <packaging>jar</packaging>
 
+    <properties>
+            <version.jackson.databind.nullable>0.2.6</version.jackson.databind.nullable>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>io.helidon.microprofile.rest-client</groupId>
@@ -38,13 +42,13 @@
             <artifactId>jakarta.json-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-json-jackson</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.6</version>
+            <version>${version.jackson.databind.nullable}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

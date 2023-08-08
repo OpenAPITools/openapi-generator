@@ -20,8 +20,8 @@ import io.smallrye.mutiny.Uni;
 {{/microprofileMutiny}}
 
 {{#useBeanValidation}}
-import {{javaxPackage}}.validation.constraints.*;
-import {{javaxPackage}}.validation.Valid;
+import {{rootJavaEEPackage}}.validation.constraints.*;
+import {{rootJavaEEPackage}}.validation.Valid;
 {{/useBeanValidation}}
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;

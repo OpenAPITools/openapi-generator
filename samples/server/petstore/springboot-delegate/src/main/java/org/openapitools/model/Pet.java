@@ -30,20 +30,15 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("category")
   private Category category;
 
-  @JsonProperty("name")
   private String name;
 
-  @JsonProperty("photoUrls")
   @Valid
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  @JsonProperty("tags")
   @Valid
   private List<@Valid Tag> tags;
 
@@ -84,14 +79,8 @@ public class Pet {
     }
   }
 
-  @JsonProperty("status")
   private StatusEnum status;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Pet#Pet(String, Set<String>)}
-   */
-  @Deprecated
   public Pet() {
     super();
   }
@@ -115,6 +104,7 @@ public class Pet {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -134,6 +124,7 @@ public class Pet {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("category")
   public Category getCategory() {
     return category;
   }
@@ -153,6 +144,7 @@ public class Pet {
   */
   @NotNull 
   @ApiModelProperty(example = "doggie", required = true, value = "")
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -180,6 +172,7 @@ public class Pet {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -208,6 +201,7 @@ public class Pet {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("tags")
   public List<@Valid Tag> getTags() {
     return tags;
   }
@@ -227,6 +221,7 @@ public class Pet {
   */
   
   @ApiModelProperty(value = "pet status in the store")
+  @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }

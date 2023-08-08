@@ -1,0 +1,100 @@
+openapi: 3.0.1
+info:
+  title: MultipartFile test
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /multipart-array:
+    post:
+      description: MultipartFile array test
+      operationId: multipartArray
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/multipartArray_request'
+      responses:
+        "204":
+          description: Successful operation
+      tags:
+      - multipart
+  /multipart-single:
+    post:
+      description: Single MultipartFile test
+      operationId: multipartSingle
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/multipartSingle_request'
+      responses:
+        "204":
+          description: Successful operation
+      tags:
+      - multipart
+  /multipart-mixed:
+    post:
+      description: Mixed MultipartFile test
+      operationId: multipartMixed
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/multipartMixed_request'
+      responses:
+        "204":
+          description: Successful operation
+      tags:
+      - multipart
+components:
+  schemas:
+    MultipartMixedStatus:
+      description: additional field as Enum
+      enum:
+      - ALLOWED
+      - IN_PROGRESS
+      - REJECTED
+      example: REJECTED
+      type: string
+    multipartArray_request:
+      properties:
+        files:
+          description: Many files
+          items:
+            format: binary
+            type: string
+          type: array
+      type: object
+    multipartSingle_request:
+      properties:
+        file:
+          description: One file
+          format: binary
+          type: string
+      type: object
+    multipartMixed_request_marker:
+      description: additional object
+      properties:
+        name:
+          type: string
+      type: object
+    multipartMixed_request:
+      properties:
+        status:
+          $ref: '#/components/schemas/MultipartMixedStatus'
+        marker:
+          $ref: '#/components/schemas/multipartMixed_request_marker'
+        file:
+          description: a file
+          format: binary
+          type: string
+        statusArray:
+          items:
+            $ref: '#/components/schemas/MultipartMixedStatus'
+          type: array
+      required:
+      - file
+      - status
+      type: object
+

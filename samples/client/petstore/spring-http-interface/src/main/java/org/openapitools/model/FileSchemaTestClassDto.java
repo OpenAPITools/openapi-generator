@@ -24,10 +24,8 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FileSchemaTestClassDto {
 
-  @JsonProperty("file")
   private FileDto file;
 
-  @JsonProperty("files")
   
   private List<FileDto> files;
 
@@ -41,6 +39,7 @@ public class FileSchemaTestClassDto {
    * @return file
   */
   
+  @JsonProperty("file")
   public FileDto getFile() {
     return file;
   }
@@ -67,6 +66,7 @@ public class FileSchemaTestClassDto {
    * @return files
   */
   
+  @JsonProperty("files")
   public List<FileDto> getFiles() {
     return files;
   }

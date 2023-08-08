@@ -27,55 +27,36 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FormatTest {
 
-  @JsonProperty("integer")
   private Integer integer;
 
-  @JsonProperty("int32")
   private Integer int32;
 
-  @JsonProperty("int64")
   private Long int64;
 
-  @JsonProperty("number")
   private BigDecimal number;
 
-  @JsonProperty("float")
   private Float _float;
 
-  @JsonProperty("double")
   private Double _double;
 
-  @JsonProperty("string")
   private String string;
 
-  @JsonProperty("byte")
   private byte[] _byte;
 
-  @JsonProperty("binary")
   private org.springframework.core.io.Resource binary;
 
-  @JsonProperty("date")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
-  @JsonProperty("dateTime")
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime dateTime;
 
-  @JsonProperty("uuid")
   private UUID uuid;
 
-  @JsonProperty("password")
   private String password;
 
-  @JsonProperty("BigDecimal")
   private BigDecimal bigDecimal;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link FormatTest#FormatTest(BigDecimal, byte[], LocalDate, String)}
-   */
-  @Deprecated
   public FormatTest() {
     super();
   }
@@ -102,6 +83,7 @@ public class FormatTest {
    * @return integer
   */
   
+  @JsonProperty("integer")
   public Integer getInteger() {
     return integer;
   }
@@ -122,6 +104,7 @@ public class FormatTest {
    * @return int32
   */
   
+  @JsonProperty("int32")
   public Integer getInt32() {
     return int32;
   }
@@ -140,6 +123,7 @@ public class FormatTest {
    * @return int64
   */
   
+  @JsonProperty("int64")
   public Long getInt64() {
     return int64;
   }
@@ -160,6 +144,7 @@ public class FormatTest {
    * @return number
   */
   @NotNull
+  @JsonProperty("number")
   public BigDecimal getNumber() {
     return number;
   }
@@ -180,6 +165,7 @@ public class FormatTest {
    * @return _float
   */
   
+  @JsonProperty("float")
   public Float getFloat() {
     return _float;
   }
@@ -200,6 +186,7 @@ public class FormatTest {
    * @return _double
   */
   
+  @JsonProperty("double")
   public Double getDouble() {
     return _double;
   }
@@ -218,6 +205,7 @@ public class FormatTest {
    * @return string
   */
   
+  @JsonProperty("string")
   public String getString() {
     return string;
   }
@@ -236,6 +224,7 @@ public class FormatTest {
    * @return _byte
   */
   @NotNull
+  @JsonProperty("byte")
   public byte[] getByte() {
     return _byte;
   }
@@ -254,6 +243,7 @@ public class FormatTest {
    * @return binary
   */
   
+  @JsonProperty("binary")
   public org.springframework.core.io.Resource getBinary() {
     return binary;
   }
@@ -272,6 +262,7 @@ public class FormatTest {
    * @return date
   */
   @NotNull
+  @JsonProperty("date")
   public LocalDate getDate() {
     return date;
   }
@@ -290,6 +281,7 @@ public class FormatTest {
    * @return dateTime
   */
   
+  @JsonProperty("dateTime")
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -308,6 +300,7 @@ public class FormatTest {
    * @return uuid
   */
   
+  @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;
   }
@@ -326,6 +319,7 @@ public class FormatTest {
    * @return password
   */
   @NotNull
+  @JsonProperty("password")
   public String getPassword() {
     return password;
   }
@@ -344,6 +338,7 @@ public class FormatTest {
    * @return bigDecimal
   */
   
+  @JsonProperty("BigDecimal")
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }

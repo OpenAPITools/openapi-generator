@@ -24,30 +24,19 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TypeHolderExample {
 
-  @JsonProperty("string_item")
   private String stringItem;
 
-  @JsonProperty("number_item")
   private BigDecimal numberItem;
 
-  @JsonProperty("float_item")
   private Float floatItem;
 
-  @JsonProperty("integer_item")
   private Integer integerItem;
 
-  @JsonProperty("bool_item")
   private Boolean boolItem;
 
-  @JsonProperty("array_item")
   @Valid
   private List<Integer> arrayItem = new ArrayList<>();
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link TypeHolderExample#TypeHolderExample(String, BigDecimal, Float, Integer, Boolean, List<Integer>)}
-   */
-  @Deprecated
   public TypeHolderExample() {
     super();
   }
@@ -75,6 +64,7 @@ public class TypeHolderExample {
   */
   @NotNull 
   @ApiModelProperty(example = "what", required = true, value = "")
+  @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
   }
@@ -94,6 +84,7 @@ public class TypeHolderExample {
   */
   @NotNull @Valid 
   @ApiModelProperty(example = "1.234", required = true, value = "")
+  @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -113,6 +104,7 @@ public class TypeHolderExample {
   */
   @NotNull 
   @ApiModelProperty(example = "1.234", required = true, value = "")
+  @JsonProperty("float_item")
   public Float getFloatItem() {
     return floatItem;
   }
@@ -132,6 +124,7 @@ public class TypeHolderExample {
   */
   @NotNull 
   @ApiModelProperty(example = "-2", required = true, value = "")
+  @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -151,6 +144,7 @@ public class TypeHolderExample {
   */
   @NotNull 
   @ApiModelProperty(example = "true", required = true, value = "")
+  @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -178,6 +172,7 @@ public class TypeHolderExample {
   */
   @NotNull 
   @ApiModelProperty(example = "[0,1,2,3]", required = true, value = "")
+  @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

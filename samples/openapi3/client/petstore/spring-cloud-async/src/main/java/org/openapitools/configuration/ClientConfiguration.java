@@ -1,41 +1,45 @@
 package org.openapitools.configuration;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
+
 import org.springframework.context.annotation.Configuration;
-import org.springframework.cloud.openfeign.security.OAuth2FeignRequestInterceptor;
-import org.springframework.security.oauth2.client.DefaultOAuth2ClientContext;
-import org.springframework.security.oauth2.client.OAuth2ClientContext;
-import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitResourceDetails;
+
 
 @Configuration
-@EnableConfigurationProperties
 public class ClientConfiguration {
 
+  private static final String CLIENT_PRINCIPAL_IMPLICIT = "oauth2FeignClient";
+
   @Bean
-  @ConditionalOnProperty("openapipetstore.security.petstoreAuth.client-id")
-  public OAuth2FeignRequestInterceptor petstoreAuthRequestInterceptor(OAuth2ClientContext oAuth2ClientContext) {
-    return new OAuth2FeignRequestInterceptor(oAuth2ClientContext, petstoreAuthResourceDetails());
+  @ConditionalOnProperty( prefix = "spring.security.oauth2.client.registration.petstoreAuthImplicit", name = "enabled", havingValue = "true" )
+  public OAuth2RequestInterceptor implicitOAuth2RequestInterceptor(final OAuth2AuthorizedClientManager implicitAuthorizedClientManager ) {
+     return new OAuth2RequestInterceptor(OAuth2AuthorizeRequest.withClientRegistrationId("petstoreAuthImplicit")
+            .principal( new AnonymousAuthenticationToken( CLIENT_PRINCIPAL_IMPLICIT, CLIENT_PRINCIPAL_IMPLICIT, AuthorityUtils.createAuthorityList( "ROLE_ANONYMOUS" ) ) )
+            .build(), implicitAuthorizedClientManager );
   }
 
   @Bean
-  @ConditionalOnProperty("openapipetstore.security.petstoreAuth.client-id")
-  public OAuth2ClientContext oAuth2ClientContext() {
-    return new DefaultOAuth2ClientContext();
+  @ConditionalOnProperty( prefix = "spring.security.oauth2.client.registration.petstoreAuthImplicit", name = "enabled", havingValue = "true" )
+  public OAuth2AuthorizedClientManager implicitAuthorizedClientManager(ClientRegistrationRepository clientRegistrationRepository,
+        OAuth2AuthorizedClientService authorizedClientService ) {
+    return new AuthorizedClientServiceOAuth2AuthorizedClientManager( clientRegistrationRepository, authorizedClientService );
   }
-
-  @Bean
-  @ConditionalOnProperty("openapipetstore.security.petstoreAuth.client-id")
-  @ConfigurationProperties("openapipetstore.security.petstoreAuth")
-  public ImplicitResourceDetails petstoreAuthResourceDetails() {
-    ImplicitResourceDetails details = new ImplicitResourceDetails();
-    details.setUserAuthorizationUri("http://petstore.swagger.io/api/oauth/dialog");
-    return details;
-  }
-
   @Value("${openapipetstore.security.apiKey.key:}")
   private String apiKeyKey;
 
@@ -43,6 +47,35 @@ public class ClientConfiguration {
   @ConditionalOnProperty(name = "openapipetstore.security.apiKey.key")
   public ApiKeyRequestInterceptor apiKeyRequestInterceptor() {
     return new ApiKeyRequestInterceptor("header", "api_key", this.apiKeyKey);
+  }
+
+  public static class OAuth2RequestInterceptor implements RequestInterceptor {
+
+    private final OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager;
+    private final OAuth2AuthorizeRequest oAuth2AuthorizeRequest;
+
+    public OAuth2RequestInterceptor(OAuth2AuthorizeRequest oAuth2AuthorizeRequest,OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager){
+      this.oAuth2AuthorizeRequest = oAuth2AuthorizeRequest;
+      this.oAuth2AuthorizedClientManager = oAuth2AuthorizedClientManager;
+    }
+
+    @Override
+    public void apply( final RequestTemplate template ) {
+      template.header( HttpHeaders.AUTHORIZATION, getBearerToken() );
+    }
+
+    public OAuth2AccessToken getAccessToken() {
+      final OAuth2AuthorizedClient authorizedClient = oAuth2AuthorizedClientManager.authorize(oAuth2AuthorizeRequest);
+      if (authorizedClient == null) {
+        throw new OAuth2AuthenticationException( "Client failed to authenticate");
+      }
+     return authorizedClient.getAccessToken();
+    }
+
+    public String getBearerToken() {
+      final OAuth2AccessToken accessToken = getAccessToken();
+      return String.format( "%s %s", accessToken.getTokenType().getValue(), accessToken.getTokenValue() );
+    }
   }
 
 }

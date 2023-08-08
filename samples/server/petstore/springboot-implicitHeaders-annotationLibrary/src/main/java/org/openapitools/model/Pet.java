@@ -25,20 +25,15 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("category")
   private Category category;
 
-  @JsonProperty("name")
   private String name;
 
-  @JsonProperty("photoUrls")
   @Valid
   private List<String> photoUrls = new ArrayList<>();
 
-  @JsonProperty("tags")
   @Valid
   private List<@Valid Tag> tags;
 
@@ -79,14 +74,8 @@ public class Pet {
     }
   }
 
-  @JsonProperty("status")
   private StatusEnum status;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Pet#Pet(String, List<String>)}
-   */
-  @Deprecated
   public Pet() {
     super();
   }
@@ -109,6 +98,7 @@ public class Pet {
    * @return id
   */
   
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -127,6 +117,7 @@ public class Pet {
    * @return category
   */
   @Valid 
+  @JsonProperty("category")
   public Category getCategory() {
     return category;
   }
@@ -145,6 +136,7 @@ public class Pet {
    * @return name
   */
   @NotNull 
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -171,6 +163,7 @@ public class Pet {
    * @return photoUrls
   */
   @NotNull 
+  @JsonProperty("photoUrls")
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -197,6 +190,7 @@ public class Pet {
    * @return tags
   */
   @Valid 
+  @JsonProperty("tags")
   public List<@Valid Tag> getTags() {
     return tags;
   }
@@ -215,6 +209,7 @@ public class Pet {
    * @return status
   */
   
+  @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }

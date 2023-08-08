@@ -548,7 +548,6 @@ public class NullableClass extends HashMap<String, Object> {
     this.objectItemsNullable = objectItemsNullable;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

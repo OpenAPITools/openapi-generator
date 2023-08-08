@@ -8,6 +8,11 @@
 @ApiModel(description = "{{{.}}}")
 {{/description}}
 {{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+{{#description}}
+@Schema(description = "{{{.}}}")
+{{/description}}
+{{/swagger2AnnotationLibrary}}
 {{#jackson}}
 @JsonPropertyOrder({
 {{#vars}}
@@ -222,6 +227,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
 {{#swagger1AnnotationLibrary}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
 {{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+  @Schema({{#example}}example = "{{{.}}}", {{/example}}requiredMode = {{#required}}Schema.RequiredMode.REQUIRED{{/required}}{{^required}}Schema.RequiredMode.NOT_REQUIRED{{/required}}, description = "{{{description}}}")
+{{/swagger2AnnotationLibrary}}
 {{#vendorExtensions.x-extra-annotation}}
   {{{vendorExtensions.x-extra-annotation}}}
 {{/vendorExtensions.x-extra-annotation}}
@@ -270,7 +278,23 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/isReadOnly}}
 
   {{/vars}}
+  {{#parent}}
+  {{#allVars}}
+  {{#isOverridden}}
+  @Override
+  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    this.{{setter}}(JsonNullable.<{{{datatypeWithEnum}}}>of({{name}}));
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
+    this.{{setter}}({{name}});
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    return this;
+  }
 
+  {{/isOverridden}}
+  {{/allVars}}
+  {{/parent}}
   @Override
   public boolean equals(Object o) {
   {{#useReflectionEqualsHashCode}}
@@ -377,7 +401,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{#uniqueItems}}
     if ({{getter}}() != null) {
       int i = 0;
-      for ({{items.dataType}} _item : {{getter}}()) {
+      for ({{{items.dataType}}} _item : {{getter}}()) {
         try {
           joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
@@ -410,7 +434,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{#uniqueItems}}
     if ({{getter}}() != null) {
       int i = 0;
-      for ({{items.dataType}} _item : {{getter}}()) {
+      for ({{{items.dataType}}} _item : {{getter}}()) {
         if (_item != null) {
           joiner.add(_item.toUrlQueryString(String.format("%s{{baseName}}%s%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix))));
@@ -434,7 +458,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{#uniqueItems}}
     if ({{getter}}() != null) {
       int i = 0;
-      for ({{items.dataType}} _item : {{getter}}()) {
+      for ({{{items.dataType}}} _item : {{getter}}()) {
         if (_item != null) {
           try {
             joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
@@ -470,7 +494,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/isArray}}
     {{^isArray}}
     {{#isMap}}
-    {{#items.isPrimitiveType}}
+    {{^items.isModel}}
     if ({{getter}}() != null) {
       for (String _key : {{getter}}().keySet()) {
         try {
@@ -483,8 +507,8 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         }
       }
     }
-    {{/items.isPrimitiveType}}
-    {{^items.isPrimitiveType}}
+    {{/items.isModel}}
+    {{#items.isModel}}
     if ({{getter}}() != null) {
       for (String _key : {{getter}}().keySet()) {
         if ({{getter}}().get(_key) != null) {
@@ -493,7 +517,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         }
       }
     }
-    {{/items.isPrimitiveType}}
+    {{/items.isModel}}
     {{/isMap}}
     {{^isMap}}
     {{#isPrimitiveType}}

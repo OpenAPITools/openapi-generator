@@ -1091,6 +1091,26 @@ paths:
         - petstore_auth:
             - write:pets
             - read:pets
+  /fake/{petId}/response-object-different-names:
+    get:
+      tags:
+        - pet
+      operationId: responseObjectDifferentNames
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseObjectWithDifferentFieldNames"
 servers:
   - url: http://petstore.swagger.io:80/v2
 components:
@@ -2006,3 +2026,14 @@ components:
           items:
             type: string
           default: ["foo", "bar"]
+    ResponseObjectWithDifferentFieldNames:
+      type: object
+      properties:
+        normalPropertyName:
+          type: string
+        UPPER_CASE_PROPERTY_SNAKE:
+          type: string
+        lower-case-property-dashes:
+          type: string
+        property name with spaces:
+          type: string

@@ -27,6 +27,7 @@ import org.openapitools.codegen.languages.features.GzipFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -38,6 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -99,6 +101,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
     public static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
 
+    public static final String GENERATE_CLIENT_AS_BEAN = "generateClientAsBean";
+
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean useRxJava = false;
     protected boolean useRxJava2 = false;
@@ -132,6 +136,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected Map<String, MpRestClientVersion> mpRestClientVersions = new HashMap<>();
     protected boolean useSingleRequestParameter = false;
     protected boolean webclientBlockingOperations = false;
+    protected boolean generateClientAsBean = false;
 
     private static class MpRestClientVersion {
         public final String rootPackage;
@@ -161,6 +166,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         List<AnnotationLibrary> annotationLibraries = new ArrayList<>();
         annotationLibraries.add(AnnotationLibrary.NONE);
         annotationLibraries.add(AnnotationLibrary.SWAGGER1);
+        annotationLibraries.add(AnnotationLibrary.SWAGGER2);
         return annotationLibraries;
     }
 
@@ -171,6 +177,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .includeGlobalFeatures(GlobalFeature.ParameterizedServer)
+                .includeSecurityFeatures(SecurityFeature.OAuth2_AuthorizationCode,
+                SecurityFeature.OAuth2_ClientCredentials,
+                SecurityFeature.OAuth2_Password,
+                SecurityFeature.SignatureAuth)//jersey only
         );
 
         outputFolder = "generated-code" + File.separator + "java";
@@ -213,6 +223,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(MICROPROFILE_REST_CLIENT_VERSION, "Version of MicroProfile Rest Client API."));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson support this option."));
         cliOptions.add(CliOption.newBoolean(WEBCLIENT_BLOCKING_OPERATIONS, "Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync", this.webclientBlockingOperations));
+        cliOptions.add(CliOption.newBoolean(GENERATE_CLIENT_AS_BEAN, "For resttemplate, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).", this.generateClientAsBean));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey3' or other HTTP libraries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
@@ -443,6 +455,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         } else {
             additionalProperties.put(SUPPORT_URL_QUERY, Boolean.parseBoolean(additionalProperties.get(SUPPORT_URL_QUERY).toString()));
+        }
+
+        if (additionalProperties.containsKey(GENERATE_CLIENT_AS_BEAN)) {
+            this.setGenerateClientAsBean(convertPropertyToBooleanAndWriteBack(GENERATE_CLIENT_AS_BEAN));
         }
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
@@ -847,7 +863,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 // add extension to indicate content type is `text/plain` and the response type is `String`
                 if (op.produces != null) {
                     for (Map<String, String> produce : op.produces) {
-                        if ("text/plain".equalsIgnoreCase(produce.get("mediaType"))
+                        if ("text/plain".equalsIgnoreCase(produce.get("mediaType").split(";")[0].trim())
                                 && "String".equals(op.returnType)) {
                             op.vendorExtensions.put("x-java-text-plain-string", true);
                             continue;
@@ -965,6 +981,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             model.imports.remove("ToStringSerializer");
         }
 
+        if (!BooleanUtils.toBoolean(model.isEnum)) {
+            // needed by all pojos, but not enums
+            if (AnnotationLibrary.SWAGGER2.equals(getAnnotationLibrary())) {
+                model.imports.add("Schema");
+            }
+        }
+
         if ("set".equals(property.containerType) && !JACKSON.equals(serializationLibrary)) {
             // clean-up
             model.imports.remove("JsonDeserialize");
@@ -987,6 +1010,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             // Remove io.swagger.annotations.* imports
             codegenModel.imports.remove("ApiModel");
             codegenModel.imports.remove("ApiModelProperty");
+        }
+
+        if (codegenModel.description != null) {
+            if (AnnotationLibrary.SWAGGER2.equals(getAnnotationLibrary())) {
+                codegenModel.imports.add("Schema");
+            }
         }
 
         return codegenModel;
@@ -1193,6 +1222,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setErrorObjectType(final String errorObjectType) {
         this.errorObjectType = errorObjectType;
+    }
+
+    public void setGenerateClientAsBean(boolean generateClientAsBean) {
+        this.generateClientAsBean = generateClientAsBean;
     }
 
     /**

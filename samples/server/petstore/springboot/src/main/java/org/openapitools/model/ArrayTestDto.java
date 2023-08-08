@@ -27,15 +27,12 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayTestDto {
 
-  @JsonProperty("array_of_string")
   @Valid
   private List<String> arrayOfString;
 
-  @JsonProperty("array_array_of_integer")
   @Valid
   private List<List<Long>> arrayArrayOfInteger;
 
-  @JsonProperty("array_array_of_model")
   @Valid
   private List<List<ReadOnlyFirstDto>> arrayArrayOfModel;
 
@@ -58,6 +55,7 @@ public class ArrayTestDto {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("array_of_string")
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -85,6 +83,7 @@ public class ArrayTestDto {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -112,6 +111,7 @@ public class ArrayTestDto {
   */
   @Valid 
   @ApiModelProperty(value = "")
+  @JsonProperty("array_array_of_model")
   public List<List<ReadOnlyFirstDto>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }

@@ -27,27 +27,17 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TypeHolderDefaultDto {
 
-  @JsonProperty("string_item")
   private String stringItem = "what";
 
-  @JsonProperty("number_item")
   private BigDecimal numberItem = new BigDecimal("1.234");
 
-  @JsonProperty("integer_item")
   private Integer integerItem = -2;
 
-  @JsonProperty("bool_item")
   private Boolean boolItem = true;
 
-  @JsonProperty("array_item")
   @Valid
   private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link TypeHolderDefaultDto#TypeHolderDefaultDto(String, BigDecimal, Integer, Boolean, List<Integer>)}
-   */
-  @Deprecated
   public TypeHolderDefaultDto() {
     super();
   }
@@ -74,6 +64,7 @@ public class TypeHolderDefaultDto {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
   }
@@ -93,6 +84,7 @@ public class TypeHolderDefaultDto {
   */
   @NotNull @Valid 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -112,6 +104,7 @@ public class TypeHolderDefaultDto {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -131,6 +124,7 @@ public class TypeHolderDefaultDto {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -158,6 +152,7 @@ public class TypeHolderDefaultDto {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

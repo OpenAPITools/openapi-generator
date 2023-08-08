@@ -88,7 +88,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.Authorizations,
                         ClientModificationFeature.UserAgent
-                ).includeSchemaSupportFeatures(                    
+                ).includeSchemaSupportFeatures(
                     SchemaSupportFeature.Polymorphism,
                     SchemaSupportFeature.Union,
                     SchemaSupportFeature.Composite,
@@ -97,7 +97,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                     SchemaSupportFeature.anyOf
                 )
         );
-        generatorMetadata = GeneratorMetadata.newBuilder()
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.STABLE)
                 .build();
 
@@ -296,7 +296,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("serialization/freezed/build.yaml.mustache", "" /* main project dir */, "build.yaml"));
         supportingFiles.add(new SupportingFile("serialization/freezed/models.dart.mustache", srcFolder + File.separator + modelPackage, "models.dart"));
         supportingFiles.add(new SupportingFile("serialization/freezed/primitive_union_types.mustache", srcFolder + File.separator + modelPackage, "primitive_union_types.dart"));
-        if(((boolean) additionalProperties.getOrDefault(FREEZED_UNION_RESPONSE, false))){            
+        if(((boolean) additionalProperties.getOrDefault(FREEZED_UNION_RESPONSE, false))){
             supportingFiles.add(new SupportingFile("serialization/freezed/response_models.mustache", srcFolder + File.separator + modelPackage, "response_models.dart"));
         }
         // most of these are defined in AbstractDartCodegen, we are overriding
@@ -427,12 +427,6 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         objs = super.postProcessModels(objs);
         List<ModelMap> models = objs.getModels();
         ProcessUtils.addIndexToProperties(models, 1);
-
-        for (ModelMap mo : models) {
-            CodegenModel cm = mo.getModel();
-            cm.imports = rewriteImports(cm.imports, true);
-            cm.vendorExtensions.put("x-has-vars", !cm.vars.isEmpty());
-        }
         return objs;
     }
 
@@ -460,12 +454,12 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             }
         }
 
-        for (CodegenModel model : allModels.values()) {            
+        for (CodegenModel model : allModels.values()) {
             syncRootTypesWithInnerVars(allModels, model);
         }
     }
     private void syncRootTypesWithInnerVars(Map<String, CodegenModel> objs, CodegenModel model) {
-        List<CodegenProperty> allVars = new ArrayList<>();        
+        List<CodegenProperty> allVars = new ArrayList<>();
         allVars.addAll(((Collection<CodegenProperty>) model.vendorExtensions.get(kSelfAndAncestorOnlyProps)));
         allVars.addAll(((Collection<CodegenProperty>) model.vendorExtensions.get(kSelfOnlyProps)));
         allVars.addAll(((Collection<CodegenProperty>) model.vendorExtensions.get(kAncestorOnlyProps)));
@@ -479,8 +473,8 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 //fill the property's VendorExtensions with the type's VendorExtensions
                 prop.getVendorExtensions().put(kIsParent, relatedModel.getVendorExtensions().get(kIsParent));
                 prop.isEnum = relatedModel.isEnum;
-                
-            }            
+
+            }
         }
     }
     private final String kIsChild = "x-is-child";
@@ -521,7 +515,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             allAncestorsForAllModelsFlat.addAll(allAncestors);
         }
 
-        
+
 
         Set<String> allPureClasses = new HashSet<>();
         // set isChild,isParent,isPure
@@ -646,8 +640,8 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     /// to remove extra mappings added as a side effect of setLegacyDiscriminatorBehavior(false)
     /// this ensures 1-1 schema mapping instead of 1-many
     @Override
-    protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema, OpenAPI openAPI) {
-        CodegenDiscriminator sub = super.createDiscriminator(schemaName, schema, openAPI);
+    protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
+        CodegenDiscriminator sub = super.createDiscriminator(schemaName, schema);
         Discriminator originalDiscriminator = schema.getDiscriminator();
         if (originalDiscriminator!=null) {
             Map<String,String> originalMapping = originalDiscriminator.getMapping();
@@ -673,6 +667,16 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             adaptToDartInheritance(objs);
             syncRootTypesWithInnerVars(objs);
         }
+
+        // loop through models to update the imports
+        for (ModelsMap entry : objs.values()) {
+            for (ModelMap mo : entry.getModels()) {
+                CodegenModel cm = mo.getModel();
+                cm.imports = rewriteImports(cm.imports, true);
+                cm.vendorExtensions.put("x-has-vars", !cm.vars.isEmpty());
+            }
+        }
+
         return objs;
     }
 
@@ -760,7 +764,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 }
             }
 
-            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library) && (op.getHasFormParams() || op.getHasQueryParams())) {
+            if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library) && (op.getHasFormParams() || op.getHasQueryParams() || op.getHasPathParams())) {
                 resultImports.add("package:" + pubName + "/" + sourceFolder + "/api_util.dart");
             }
 
@@ -820,6 +824,10 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                 resultImports.add(i);
             } else if (importMapping().containsKey(modelImport)) {
                 resultImports.add(importMapping().get(modelImport));
+            } else if (modelImport.startsWith("dart:")) { // import dart:* directly
+                resultImports.add(modelImport);
+            } else if (modelImport.startsWith("package:")) { // e.g. package:openapi/src/model/child.dart
+                resultImports.add(modelImport);
             } else {
                 resultImports.add("package:" + pubName + "/" + sourceFolder + "/" + modelPackage() + "/" + underscore(modelImport) + ".dart");
             }

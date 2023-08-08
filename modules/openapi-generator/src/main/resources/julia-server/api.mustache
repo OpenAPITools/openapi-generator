@@ -12,8 +12,9 @@ function {{operationId}}_read(handler)
         headers = Dict{String,String}(HTTP.headers(req)){{#headerParams}}
         openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = OpenAPI.Servers.to_param({{dataType}}, headers, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#required}}required=true, {{/required}}{{#isListContainer}}collection_format="{{collectionFormat}}", {{/isListContainer}}){{/headerParams}}{{/hasHeaderParams}}{{#hasBodyParam}}{{#bodyParams}}
         openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = OpenAPI.Servers.to_param_type({{dataType}}, String(req.body)){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}
-        form_data =  HTTP.parse_multipart_form(req){{#formParams}}
-        openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = OpenAPI.Servers.to_param({{dataType}}, form_data, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"; multipart=true, isfile={{#isFile}}true{{/isFile}}{{^isFile}}false{{/isFile}}, {{#required}}required=true, {{/required}}{{#isListContainer}}collection_format="{{collectionFormat}}", {{/isListContainer}}){{/formParams}}{{/hasFormParams}}
+        ismultipart = {{#isMultipart}}true{{/isMultipart}}{{^isMultipart}}false{{/isMultipart}}
+        form_data = ismultipart ? HTTP.parse_multipart_form(req) : HTTP.queryparams(String(copy(req.body))){{#formParams}}
+        openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = OpenAPI.Servers.to_param({{#dataType}}{{#isBinary}}Vector{UInt8}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}{{/dataType}}, form_data, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"; multipart=ismultipart, isfile={{#isFile}}true{{/isFile}}{{^isFile}}false{{/isFile}}, {{#required}}required=true, {{/required}}{{#isListContainer}}collection_format="{{collectionFormat}}", {{/isListContainer}}){{/formParams}}{{/hasFormParams}}
         req.context[:openapi_params] = openapi_params
 
         return handler(req)

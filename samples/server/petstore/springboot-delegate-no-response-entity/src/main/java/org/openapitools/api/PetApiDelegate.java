@@ -7,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -60,7 +62,7 @@ public interface PetApiDelegate {
      * @return Invalid pet value (status code 400)
      * @see PetApi#deletePet
      */
-    default Void deletePet(Long petId,
+    default void deletePet(Long petId,
         String apiKey) {
         throw new IllegalArgumentException("Not implemented");
 
@@ -195,7 +197,7 @@ public interface PetApiDelegate {
      * @return Invalid input (status code 405)
      * @see PetApi#updatePetWithForm
      */
-    default Void updatePetWithForm(Long petId,
+    default void updatePetWithForm(Long petId,
         String name,
         String status) {
         throw new IllegalArgumentException("Not implemented");

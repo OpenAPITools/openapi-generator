@@ -26,19 +26,15 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ContainerDefaultValueDto {
 
-  @JsonProperty("nullable_array")
   
   private JsonNullable<List<String>> nullableArray = JsonNullable.undefined();
 
-  @JsonProperty("nullable_required_array")
   
   private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.undefined();
 
-  @JsonProperty("required_array")
   
   private List<String> requiredArray = new ArrayList<>();
 
-  @JsonProperty("nullable_array_with_default")
   
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.undefined();
 
@@ -60,6 +56,7 @@ public class ContainerDefaultValueDto {
    * @return nullableArray
   */
   
+  @JsonProperty("nullable_array")
   public JsonNullable<List<String>> getNullableArray() {
     return nullableArray;
   }
@@ -86,6 +83,7 @@ public class ContainerDefaultValueDto {
    * @return nullableRequiredArray
   */
   @NotNull
+  @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {
     return nullableRequiredArray;
   }
@@ -112,6 +110,7 @@ public class ContainerDefaultValueDto {
    * @return requiredArray
   */
   @NotNull
+  @JsonProperty("required_array")
   public List<String> getRequiredArray() {
     return requiredArray;
   }
@@ -138,6 +137,7 @@ public class ContainerDefaultValueDto {
    * @return nullableArrayWithDefault
   */
   
+  @JsonProperty("nullable_array_with_default")
   public JsonNullable<List<String>> getNullableArrayWithDefault() {
     return nullableArrayWithDefault;
   }

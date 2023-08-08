@@ -14,7 +14,7 @@ Method | HTTP request | Description
 [**Update-PSUser**](PSUserApi.md#Update-PSUser) | **PUT** /user/{username} | Updated user
 
 
-<a name="New-PSUser"></a>
+<a id="New-PSUser"></a>
 # **New-PSUser**
 > void New-PSUser<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-User] <PSCustomObject><br>
@@ -57,7 +57,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="New-PSUsersWithArrayInput"></a>
+<a id="New-PSUsersWithArrayInput"></a>
 # **New-PSUsersWithArrayInput**
 > void New-PSUsersWithArrayInput<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-User] <PSCustomObject[]><br>
@@ -100,7 +100,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="New-PSUsersWithListInput"></a>
+<a id="New-PSUsersWithListInput"></a>
 # **New-PSUsersWithListInput**
 > void New-PSUsersWithListInput<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-User] <PSCustomObject[]><br>
@@ -143,7 +143,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Remove-PSUser"></a>
+<a id="Remove-PSUser"></a>
 # **Remove-PSUser**
 > void Remove-PSUser<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Username] <String><br>
@@ -186,7 +186,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Get-PSUserByName"></a>
+<a id="Get-PSUserByName"></a>
 # **Get-PSUserByName**
 > User Get-PSUserByName<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Username] <String><br>
@@ -229,7 +229,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Invoke-PSLoginUser"></a>
+<a id="Invoke-PSLoginUser"></a>
 # **Invoke-PSLoginUser**
 > String Invoke-PSLoginUser<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Username] <String><br>
@@ -275,7 +275,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Invoke-PSLogoutUser"></a>
+<a id="Invoke-PSLogoutUser"></a>
 # **Invoke-PSLogoutUser**
 > void Invoke-PSLogoutUser<br>
 
@@ -313,7 +313,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Update-PSUser"></a>
+<a id="Update-PSUser"></a>
 # **Update-PSUser**
 > void Update-PSUser<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Username] <String><br>

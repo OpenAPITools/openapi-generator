@@ -646,8 +646,12 @@ public class PetApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     List<NameValuePair> formValues = new ArrayList<>();
-    formValues.add(new BasicNameValuePair("name", name.toString()));
-    formValues.add(new BasicNameValuePair("status", status.toString()));
+    if (name != null) {
+        formValues.add(new BasicNameValuePair("name", name.toString()));
+    }
+    if (status != null) {
+        formValues.add(new BasicNameValuePair("status", status.toString()));
+    }
     HttpEntity entity = new UrlEncodedFormEntity(formValues, java.nio.charset.StandardCharsets.UTF_8);
     ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
     try {

@@ -9,3 +9,10 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   modelNameSuffix: 'Dto'
   generatedConstructorWithRequiredArgs: "false"
+  # documentation provider should be ignored
+  documentationProvider: "springdoc"
+  # annotation provider should be ignored
+  annotationLibrary: "swagger2"
+  # validation should be ignored
+  useBeanValidation: "true"
+  performBeanValidation: "true"

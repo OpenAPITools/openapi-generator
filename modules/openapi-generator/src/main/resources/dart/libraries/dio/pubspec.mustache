@@ -2,6 +2,12 @@ name: {{pubName}}
 version: {{pubVersion}}
 description: {{pubDescription}}
 homepage: {{pubHomepage}}
+{{#pubRepository}}
+repository: {{.}}
+{{/pubRepository}}
+{{#pubPublishTo}}
+publish_to: {{.}}
+{{/pubPublishTo}}
 
 environment:
   {{^useFreezed}}
@@ -12,7 +18,7 @@ environment:
   {{/useFreezed}}
 
 dependencies:
-  dio: '^5.0.0'
+  dio: '^5.2.0'
 {{#useBuiltValue}}
   one_of: '>=1.5.0 <2.0.0'
   one_of_serializer: '>=1.5.0 <2.0.0'

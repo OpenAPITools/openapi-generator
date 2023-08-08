@@ -49,6 +49,55 @@ sub new {
 
 
 #
+# fake_big_decimal_map
+#
+# 
+#
+{
+    my $params = {
+    };
+    __PACKAGE__->method_documentation->{ 'fake_big_decimal_map' } = {
+        summary => '',
+        params => $params,
+        returns => 'FakeBigDecimalMap200Response',
+        };
+}
+# @return FakeBigDecimalMap200Response
+#
+sub fake_big_decimal_map {
+    my ($self, %args) = @_;
+
+    # parse inputs
+    my $_resource_path = '/fake/BigDecimalMap';
+
+    my $_method = 'GET';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('*/*');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+
+    my $_body_data;
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('FakeBigDecimalMap200Response', $response);
+    return $_response_object;
+}
+
+#
 # fake_health_get
 #
 # Health check endpoint

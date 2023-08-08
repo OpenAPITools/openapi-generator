@@ -26,7 +26,7 @@ public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
     public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
             returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
-            isArray, isMultipart,
+            isArray, isMultipart, isVoid = false,
             hasVersionHeaders = false, hasVersionQueryParams = false,
             isResponseBinary = false, isResponseFile = false, isResponseOptional = false, hasReference = false, defaultReturnType = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
@@ -50,6 +50,7 @@ public class CodegenOperation {
     public List<CodegenParameter> requiredParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> optionalParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> requiredAndNotNullableParams = new ArrayList<CodegenParameter>();
+    public List<CodegenParameter> notNullableParams = new ArrayList<CodegenParameter>();
     public List<CodegenSecurity> authMethods;
     public List<Tag> tags;
     public List<CodegenResponse> responses = new ArrayList<CodegenResponse>();
@@ -161,6 +162,10 @@ public class CodegenOperation {
 
     public boolean getHasRequiredAndNotNullableParams() {
         return nonEmpty(requiredAndNotNullableParams);
+    }
+
+    public boolean getHasNotNullableParams() {
+        return nonEmpty(notNullableParams);
     }
 
     /**
@@ -329,6 +334,7 @@ public class CodegenOperation {
         sb.append(", returnProperty=").append(returnProperty);
         sb.append(", isArray=").append(isArray);
         sb.append(", isMultipart=").append(isMultipart);
+        sb.append(", isVoid=").append(isVoid);
         sb.append(", isResponseBinary=").append(isResponseBinary);
         sb.append(", isResponseFile=").append(isResponseFile);
         sb.append(", isResponseFile=").append(isResponseOptional);
@@ -371,6 +377,7 @@ public class CodegenOperation {
         sb.append(", requiredParams=").append(requiredParams);
         sb.append(", optionalParams=").append(optionalParams);
         sb.append(", requiredAndNotNullableParams=").append(requiredAndNotNullableParams);
+        sb.append(", notNullableParams=").append(notNullableParams);
         sb.append(", authMethods=").append(authMethods);
         sb.append(", tags=").append(tags);
         sb.append(", responses=").append(responses);
@@ -406,6 +413,7 @@ public class CodegenOperation {
                 isMap == that.isMap &&
                 isArray == that.isArray &&
                 isMultipart == that.isMultipart &&
+                isVoid == that.isVoid &&
                 isResponseBinary == that.isResponseBinary &&
                 isResponseFile == that.isResponseFile &&
                 isResponseOptional == that.isResponseOptional &&
@@ -450,6 +458,7 @@ public class CodegenOperation {
                 Objects.equals(requiredParams, that.requiredParams) &&
                 Objects.equals(optionalParams, that.optionalParams) &&
                 Objects.equals(requiredAndNotNullableParams, that.requiredAndNotNullableParams) &&
+                Objects.equals(notNullableParams, that.notNullableParams) &&
                 Objects.equals(authMethods, that.authMethods) &&
                 Objects.equals(tags, that.tags) &&
                 Objects.equals(responses, that.responses) &&
@@ -471,7 +480,7 @@ public class CodegenOperation {
 
         return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams,
                 hasRequiredParams, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
-                isArray, isMultipart, isResponseBinary, isResponseFile, isResponseOptional, hasReference,
+                isArray, isMultipart, isVoid, isResponseBinary, isResponseFile, isResponseOptional, hasReference,
                 hasDefaultResponse, isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
                 isRestful, isDeprecated, isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod,
                 returnBaseType, returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse,
@@ -479,6 +488,6 @@ public class CodegenOperation {
                 pathParams, queryParams, headerParams, formParams, cookieParams, requiredParams, returnProperty, optionalParams,
                 authMethods, tags, responses, callbacks, imports, examples, requestBodyExamples, externalDocs,
                 vendorExtensions, nickname, operationIdOriginal, operationIdLowerCase, operationIdCamelCase,
-                operationIdSnakeCase, hasErrorResponseObject, requiredAndNotNullableParams);
+                operationIdSnakeCase, hasErrorResponseObject, requiredAndNotNullableParams, notNullableParams);
     }
 }

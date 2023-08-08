@@ -19,17 +19,10 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Category {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("name")
   private String name = "default-name";
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Category#Category(String)}
-   */
-  @Deprecated
   public Category() {
     super();
   }
@@ -51,6 +44,7 @@ public class Category {
    * @return id
   */
   
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -69,6 +63,7 @@ public class Category {
    * @return name
   */
   @NotNull
+  @JsonProperty("name")
   public String getName() {
     return name;
   }

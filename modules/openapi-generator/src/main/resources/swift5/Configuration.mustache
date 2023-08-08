@@ -18,10 +18,6 @@ extension {{projectName}}API {
     {{#useVapor}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static var apiClient: Vapor.Client? = nil
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static var apiWrapper: (inout Vapor.ClientRequest) throws -> () = { _ in }
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static var contentConfiguration = ContentConfiguration.default(){{/useVapor}}{{^useVapor}}
-    // This value is used to configure the date formatter that is used to serialize dates into JSON format.
-    // You must set it prior to encoding any dates, and it will only be read once.
-    @available(*, unavailable, message: "To set a different date format, use CodableHelper.dateFormatter instead.")
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static var dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
     /// Configures the range of HTTP status codes that will result in a successful response
     ///
     /// If a HTTP status code is outside of this range the response will be interpreted as failed.

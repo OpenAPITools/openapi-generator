@@ -15,7 +15,7 @@ Method | HTTP request | Description
 [**logoutUser**](#logoutUser) | **GET** /user/logout | Logs out current logged in user session
 [**updateUser**](#updateUser) | **PUT** /user/{username} | Updated user
 
-<a name="createUser"></a>
+<a id="createUser"></a>
 # **createUser**
 ```java
 Mono<Object> UserController.createUser(user)
@@ -38,7 +38,7 @@ Name | Type | Description  | Notes
  - **Accepts Content-Type**: `application/json`
  - **Produces Content-Type**: Not defined
 
-<a name="createUsersWithArrayInput"></a>
+<a id="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
 ```java
 Mono<Object> UserController.createUsersWithArrayInput(user)
@@ -61,7 +61,7 @@ Name | Type | Description  | Notes
  - **Accepts Content-Type**: `application/json`
  - **Produces Content-Type**: Not defined
 
-<a name="createUsersWithListInput"></a>
+<a id="createUsersWithListInput"></a>
 # **createUsersWithListInput**
 ```java
 Mono<Object> UserController.createUsersWithListInput(user)
@@ -84,7 +84,7 @@ Name | Type | Description  | Notes
  - **Accepts Content-Type**: `application/json`
  - **Produces Content-Type**: Not defined
 
-<a name="deleteUser"></a>
+<a id="deleteUser"></a>
 # **deleteUser**
 ```java
 Mono<Object> UserController.deleteUser(username)
@@ -107,7 +107,7 @@ Name | Type | Description  | Notes
  - **Accepts Content-Type**: Not defined
  - **Produces Content-Type**: Not defined
 
-<a name="getUserByName"></a>
+<a id="getUserByName"></a>
 # **getUserByName**
 ```java
 Mono<User> UserController.getUserByName(username)
@@ -130,7 +130,7 @@ Name | Type | Description  | Notes
  - **Accepts Content-Type**: Not defined
  - **Produces Content-Type**: `application/xml`, `application/json`
 
-<a name="loginUser"></a>
+<a id="loginUser"></a>
 # **loginUser**
 ```java
 Mono<String> UserController.loginUser(usernamepassword)
@@ -154,7 +154,7 @@ Name | Type | Description  | Notes
  - **Accepts Content-Type**: Not defined
  - **Produces Content-Type**: `application/xml`, `application/json`
 
-<a name="logoutUser"></a>
+<a id="logoutUser"></a>
 # **logoutUser**
 ```java
 Mono<Object> UserController.logoutUser()
@@ -173,7 +173,7 @@ Logs out current logged in user session
  - **Accepts Content-Type**: Not defined
  - **Produces Content-Type**: Not defined
 
-<a name="updateUser"></a>
+<a id="updateUser"></a>
 # **updateUser**
 ```java
 Mono<Object> UserController.updateUser(usernameuser)

@@ -60,7 +60,7 @@ public:
 private:
     void initializeModel();
 {{^isEnum}}{{#vars}}
-    {{{dataType}}} {{name}};
+    {{{dataType}}} m_{{name}};
     bool m_{{name}}_isSet;
     bool m_{{name}}_isValid;
 {{/vars}}{{/isEnum}}{{#isEnum}}
