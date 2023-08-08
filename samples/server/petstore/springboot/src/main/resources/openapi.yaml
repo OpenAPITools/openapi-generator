@@ -1088,6 +1088,23 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: fake
+  /fake/response-with-example:
+    get:
+      description: This endpoint defines an example value for its response schema.
+      operationId: testWithResultExample
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example: 42
+                type: integer
+          description: Success
+      tags:
+      - fake
+      x-accepts: application/json
+      x-tags:
+      - tag: fake
   /fake/test-query-parameters:
     put:
       description: To test the collection format in query parameters
