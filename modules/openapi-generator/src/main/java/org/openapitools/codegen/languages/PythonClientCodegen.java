@@ -57,7 +57,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
     protected String dateFormat = "%Y-%m-%d";
 
-    protected Map<Character, String> regexModifiers;
 
     private String testFolder;
 
@@ -145,14 +144,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
                         "print", "class", "exec", "in", "raise", "continue", "finally", "is",
                         "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True",
                         "False", "async", "await"));
-
-        regexModifiers = new HashMap<Character, String>();
-        regexModifiers.put('i', "IGNORECASE");
-        regexModifiers.put('l', "LOCALE");
-        regexModifiers.put('m', "MULTILINE");
-        regexModifiers.put('s', "DOTALL");
-        regexModifiers.put('u', "UNICODE");
-        regexModifiers.put('x', "VERBOSE");
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
@@ -394,58 +385,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
-    }
-
-
-
-
-    @Override
-    public void postProcessParameter(CodegenParameter parameter) {
-        postProcessPattern(parameter.pattern, parameter.vendorExtensions);
-    }
-
-    @Override
-    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        postProcessPattern(property.pattern, property.vendorExtensions);
-    }
-
-    /*
-     * The OpenAPI pattern spec follows the Perl convention and style of modifiers. Python
-     * does not support this in as natural a way so it needs to convert it. See
-     * https://docs.python.org/2/howto/regex.html#compilation-flags for details.
-     *
-     * @param pattern (the String pattern to convert from python to Perl convention)
-     * @param vendorExtensions (list of custom x-* properties for extra functionality-see https://swagger.io/docs/specification/openapi-extensions/)
-     * @return void
-     * @throws IllegalArgumentException if pattern does not follow the Perl /pattern/modifiers convention
-     *
-     * Includes fix for issue #6675
-     */
-    public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
-        if (pattern != null) {
-            int i = pattern.lastIndexOf('/');
-
-            // TOOD update the check below follow python convention
-            //Must follow Perl /pattern/modifiers convention
-            if (pattern.charAt(0) != '/' || i < 2) {
-                throw new IllegalArgumentException("Pattern must follow the Perl "
-                        + "/pattern/modifiers convention. " + pattern + " is not valid.");
-            }
-
-            String regex = pattern.substring(1, i).replace("'", "\\'");
-            List<String> modifiers = new ArrayList<String>();
-
-            for (char c : pattern.substring(i).toCharArray()) {
-                if (regexModifiers.containsKey(c)) {
-                    String modifier = regexModifiers.get(c);
-                    modifiers.add(modifier);
-                }
-            }
-
-            vendorExtensions.put("x-regex", regex.replace("\"", "\\\""));
-            vendorExtensions.put("x-pattern", pattern.replace("\"", "\\\""));
-            vendorExtensions.put("x-modifiers", modifiers);
-        }
     }
 
     @Override
