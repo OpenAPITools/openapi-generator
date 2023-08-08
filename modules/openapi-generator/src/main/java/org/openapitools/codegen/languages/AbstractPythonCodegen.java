@@ -1892,4 +1892,24 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             vendorExtensions.put("x-modifiers", modifiers);
         }
     }
+
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        if (StringUtils.isEmpty(pattern)) {
+            return pattern;
+        }
+
+        if (!pattern.matches("^/.*")) {
+            // Perform a negative lookbehind on each `/` to ensure that it is escaped.
+            return "/" + pattern.replaceAll("(?<!\\\\)\\/", "\\\\/") + "/";
+        }
+
+        return pattern;
+    }
+
+    @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        // process enum in models
+        return postProcessModelsEnum(objs);
+    }
 }

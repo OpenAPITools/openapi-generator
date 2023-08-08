@@ -423,20 +423,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     }
 
     @Override
-    public String addRegularExpressionDelimiter(String pattern) {
-        if (StringUtils.isEmpty(pattern)) {
-            return pattern;
-        }
-
-        if (!pattern.matches("^/.*")) {
-            // Perform a negative lookbehind on each `/` to ensure that it is escaped.
-            return "/" + pattern.replaceAll("(?<!\\\\)\\/", "\\\\/") + "/";
-        }
-
-        return pattern;
-    }
-
-    @Override
     public String apiFileFolder() {
         return outputFolder + File.separatorChar + apiPackage().replace('.', File.separatorChar);
     }
@@ -544,9 +530,5 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         this.dateFormat = dateFormat;
     }
 
-    @Override
-    public ModelsMap postProcessModels(ModelsMap objs) {
-        // process enum in models
-        return postProcessModelsEnum(objs);
-    }
+
 }
