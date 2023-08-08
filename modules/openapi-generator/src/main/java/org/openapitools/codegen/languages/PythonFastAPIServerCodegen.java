@@ -322,11 +322,5 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     }
 
     @Override
-    public String toRegularExpression(String pattern) {
-        String regex = super.toRegularExpression(pattern);
-        return StringUtils.substring(regex, 1, -1);
-    }
-
-    @Override
     public String generatorLanguageVersion() { return "3.7"; };
 }
