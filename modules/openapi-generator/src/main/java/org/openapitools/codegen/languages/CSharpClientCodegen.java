@@ -37,6 +37,7 @@ import java.io.File;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -115,7 +116,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     protected boolean validatable = Boolean.TRUE;
     protected boolean equatable = Boolean.TRUE;
-    protected Map<Character, String> regexModifiers;
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
 
@@ -322,12 +322,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.EQUATABLE,
                 CodegenConstants.EQUATABLE_DESC,
                 this.equatable);
-
-        regexModifiers = new HashMap<>();
-        regexModifiers.put('i', "IgnoreCase");
-        regexModifiers.put('m', "Multiline");
-        regexModifiers.put('s', "Singleline");
-        regexModifiers.put('x', "IgnorePatternWhitespace");
 
         supportedLibraries.put(GENERICHOST, "HttpClient with Generic Host dependency injection (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host) "
                 + "(Experimental. Subject to breaking changes without notice.)");
@@ -639,36 +633,45 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     /*
-     * The pattern spec follows the Perl convention and style of modifiers. .NET
-     * does not support this syntax directly so we need to convert the pattern to a .NET compatible
-     * format and apply modifiers in a compatible way.
      * See https://msdn.microsoft.com/en-us/library/yd1hzczs(v=vs.110).aspx for .NET options.
      */
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
-            int i = pattern.lastIndexOf('/');
+            // check if the pattern has any modifiers
+            // gmiyuvsd - ecma modifiers
+            // l - legacy modifier provided by this library, provides a way to opt out of culture invariant
+            // nx - c# modifiers https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-options
+            Pattern hasModifiers = Pattern.compile(".*/[gmiyuvsdlnx]+$");
 
-            //Must follow Perl /pattern/modifiers convention
-            if (pattern.charAt(0) != '/' || i < 2) {
-                throw new IllegalArgumentException("Pattern must follow the Perl "
-                        + "/pattern/modifiers convention. " + pattern + " is not valid.");
-            }
+            int end = hasModifiers.matcher(pattern).find()
+                ? pattern.lastIndexOf('/')
+                : pattern.length() - 1;
 
-            String regex = pattern.substring(1, i).replace("'", "\'").replace("\"", "\"\"");
+            int start = pattern.startsWith("/")
+                ? 1
+                : 0;
+
+            Map<Character, String> optionsMap = new HashMap();
+            optionsMap.put('i', "IgnoreCase");
+            optionsMap.put('m', "Multiline");
+            optionsMap.put('s', "SingleLine");
+            optionsMap.put('n', "ExplicitCapture");
+            optionsMap.put('x', "IgnorePatternWhitespace");
+
             List<String> modifiers = new ArrayList<String>();
-
-            // perl requires an explicit modifier to be culture specific and .NET is the reverse.
             modifiers.add("CultureInvariant");
 
-            for (char c : pattern.substring(i).toCharArray()) {
-                if (regexModifiers.containsKey(c)) {
-                    String modifier = regexModifiers.get(c);
-                    modifiers.add(modifier);
-                } else if (c == 'l') {
+            for (char c : pattern.substring(end).toCharArray()) {
+                if (optionsMap.containsKey(c)) {
+                    modifiers.add(optionsMap.get(c));
+                } else if (c == 'l'){
                     modifiers.remove("CultureInvariant");
+                } else {
+                    vendorExtensions.put("x-modifier-" + c, c);
                 }
             }
 
+            String regex = pattern.substring(start, end).replace("'", "\'").replace("\"", "\"\"");
             vendorExtensions.put("x-regex", regex);
             vendorExtensions.put("x-modifiers", modifiers);
         }

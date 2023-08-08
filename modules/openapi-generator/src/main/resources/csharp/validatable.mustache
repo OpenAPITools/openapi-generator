@@ -97,24 +97,32 @@
             {{#vendorExtensions.x-is-value-type}}
             {{#isNullable}}
             if (this.{{{name}}} != null){
+                {{#lambda.trimTrailingWhiteSpace}}
                 {{#lambda.indent4}}
                 {{>ValidateRegex}}
                 {{/lambda.indent4}}
+
+                {{/lambda.trimTrailingWhiteSpace}}
             }
 
             {{/isNullable}}
             {{^isNullable}}
+            {{#lambda.trimTrailingWhiteSpace}}
             {{#lambda.indent3}}
             {{>ValidateRegex}}
-
             {{/lambda.indent3}}
+
+            {{/lambda.trimTrailingWhiteSpace}}
             {{/isNullable}}
             {{/vendorExtensions.x-is-value-type}}
             {{^vendorExtensions.x-is-value-type}}
             if (this.{{{name}}} != null) {
+                {{#lambda.trimTrailingWhiteSpace}}
                 {{#lambda.indent4}}
                 {{>ValidateRegex}}
                 {{/lambda.indent4}}
+
+                {{/lambda.trimTrailingWhiteSpace}}
             }
 
             {{/vendorExtensions.x-is-value-type}}

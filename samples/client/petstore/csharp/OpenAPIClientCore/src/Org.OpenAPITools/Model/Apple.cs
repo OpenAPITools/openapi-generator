@@ -37,10 +37,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="cultivar">cultivar.</param>
         /// <param name="origin">origin.</param>
-        public Apple(string cultivar = default(string), string origin = default(string))
+        /// <param name="colorCode">colorCode.</param>
+        public Apple(string cultivar = default(string), string origin = default(string), string colorCode = default(string))
         {
             this.Cultivar = cultivar;
             this.Origin = origin;
+            this.ColorCode = colorCode;
         }
 
         /// <summary>
@@ -56,6 +58,12 @@ namespace Org.OpenAPITools.Model
         public string Origin { get; set; }
 
         /// <summary>
+        /// Gets or Sets ColorCode
+        /// </summary>
+        [DataMember(Name = "color_code", EmitDefaultValue = false)]
+        public string ColorCode { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -65,6 +73,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class Apple {\n");
             sb.Append("  Cultivar: ").Append(Cultivar).Append("\n");
             sb.Append("  Origin: ").Append(Origin).Append("\n");
+            sb.Append("  ColorCode: ").Append(ColorCode).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -115,6 +124,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.Origin.GetHashCode();
                 }
+                if (this.ColorCode != null)
+                {
+                    hashCode = (hashCode * 59) + this.ColorCode.GetHashCode();
+                }
                 return hashCode;
             }
         }
@@ -132,7 +145,8 @@ namespace Org.OpenAPITools.Model
                 if (!regexCultivar.Match(this.Cultivar).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
-                }            }
+                }
+            }
 
             if (this.Origin != null) {
                 // Origin (string) pattern
@@ -140,7 +154,17 @@ namespace Org.OpenAPITools.Model
                 if (!regexOrigin.Match(this.Origin).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });
-                }            }
+                }
+            }
+
+            if (this.ColorCode != null) {
+                // ColorCode (string) pattern
+                Regex regexColorCode = new Regex(@"^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$", RegexOptions.CultureInvariant);
+                if (!regexColorCode.Match(this.ColorCode).Success)
+                {
+                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ColorCode, must match a pattern of " + regexColorCode, new [] { "ColorCode" });
+                }
+            }
 
             yield break;
         }

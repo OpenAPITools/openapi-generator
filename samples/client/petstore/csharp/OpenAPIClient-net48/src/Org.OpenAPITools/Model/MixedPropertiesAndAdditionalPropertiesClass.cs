@@ -170,7 +170,8 @@ namespace Org.OpenAPITools.Model
                 if (!regexUuidWithPattern.Match(this.UuidWithPattern.ToString()).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UuidWithPattern, must match a pattern of " + regexUuidWithPattern, new [] { "UuidWithPattern" });
-                }            }
+                }
+            }
 
             yield break;
         }

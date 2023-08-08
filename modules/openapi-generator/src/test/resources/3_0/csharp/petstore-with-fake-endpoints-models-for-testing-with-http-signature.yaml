@@ -1979,6 +1979,9 @@ components:
         origin:
           type: string
           pattern: /^[A-Z\s]*$/i
+        color_code:
+          type: string
+          pattern: ^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$
       nullable: true
     banana:
       type: object
