@@ -1912,4 +1912,27 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         // process enum in models
         return postProcessModelsEnum(objs);
     }
+
+    @Override
+    public String toEnumVarName(String name, String datatype) {
+        if ("int".equals(datatype) || "float".equals(datatype)) {
+            return name;
+        } else {
+            return "\'" + name + "\'";
+        }
+    }
+
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("int".equals(datatype) || "float".equals(datatype)) {
+            return value;
+        } else {
+            return "\'" + escapeText(value) + "\'";
+        }
+    }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        return value;
+    }
 }

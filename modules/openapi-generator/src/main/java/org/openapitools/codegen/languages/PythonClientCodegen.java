@@ -478,28 +478,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         }
     }
 
-    @Override
-    public String toEnumVarName(String name, String datatype) {
-        if ("int".equals(datatype) || "float".equals(datatype)) {
-            return name;
-        } else {
-            return "\'" + name + "\'";
-        }
-    }
-
-    @Override
-    public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "float".equals(datatype)) {
-            return value;
-        } else {
-            return "\'" + escapeText(value) + "\'";
-        }
-    }
-
-    @Override
-    public String toEnumDefaultValue(String value, String datatype) {
-        return value;
-    }
 
     /**
      * checks if the data should be classified as "string" in enum
