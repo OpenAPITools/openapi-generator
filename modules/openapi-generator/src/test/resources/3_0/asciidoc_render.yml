@@ -1,0 +1,108 @@
+openapi: 3.0.0
+info:
+  description: |
+    Asciidoc Conversion Test
+    This is a description of the end point
+    * unorder one
+    * two
+
+    You can link like [this](/somepage.html) and an inline block `hi`lo`
+
+        #this should be code
+        cd /some/path
+        for (i in 1 to 10)
+          do_something();
+
+        // some comment in our code
+        exit();
+
+    Should be a **bold** new paragraph after the code followed by a horizontal rule
+    ____________________
+    Other Inline tests
+    `
+    a = b
+    b = c
+    `
+    A Line\
+    Break
+
+    ``` foo\+bar
+    foo
+    sldkfj
+    dslkfj
+    these should render  ```
+    // comment
+    # comment
+    *not bold*
+    _no emph_
+    ```
+    The Rule
+    _________________
+    Now we will test headings
+    # foo
+    Level 1
+    ## foo
+    Level 2
+    ### foo
+    Level 3
+    #### foo
+    Level 4
+    ##### foo
+    Level 5
+    ###### foo
+    Level 6
+
+    This should be the last paragraph
+  version: 1.0.0
+  title: OpenAPI
+paths:
+  /foo:
+    post:
+      description: |
+        This is a description of the end point
+        * unorder one
+        * two
+
+        You can link like [this](/somepage.html)
+
+            #this should be code
+            cd /some/path
+            for (i in 1 to 10)
+              do_something();
+
+            // some comment in our code
+            exit();
+
+        Should be a new paragraph after the code followed by a horizontal rule
+        _____________________________________
+        Now we will test headings
+        # foo
+        Level 1
+        ## foo
+        Level 2
+        ### foo
+        Level 3
+        #### foo
+        Level 4
+        ##### foo
+        Level 5
+        ###### foo
+        Level 6
+
+        This should be the last paragraph
+
+      responses:
+        '200':
+          description: Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Foo'
+components:
+  schemas:
+    Foo:
+      type: object
+      properties:
+        foo:
+          type: string
+          description: "This is a simpler asciidoc with `in line` and a list\n- some item\n- another item"
