@@ -88,7 +88,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>List</li>
 <li>Object</li>
 <li>String</li>
-<li>System</li>
 <li>System.IO.Stream</li>
 <li>bool</li>
 <li>bool?</li>
@@ -193,6 +192,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>string</li>
 <li>struct</li>
 <li>switch</li>
+<li>system</li>
 <li>this</li>
 <li>throw</li>
 <li>true</li>
