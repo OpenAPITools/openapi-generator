@@ -15,13 +15,21 @@
   ],
   "license": "Unlicense",
   "main": "./dist/index.js",
-  {{#supportTypeModule}}
+  {{#supportsES6}}
   "type": "module",
   "module": "./dist/index.js",
-  {{/supportTypeModule}}
+  {{/supportsES6}}
+  {{^supportsES6}}
+  "type": "commonjs",
+  {{/supportsES6}}
   "exports": {
     ".": {
+      {{#supportsES6}}
       "import": "./dist/index.js",
+      {{/supportsES6}}
+      {{^supportsES6}}
+      "require": "./dist/index.js",
+      {{/supportsES6}}
       "types": "./dist/index.d.js"
     }
   },

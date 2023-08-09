@@ -4,7 +4,7 @@ import {Configuration} from '../configuration{{importFileExtension}}';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http{{importFileExtension}}';
 {{#platforms}}
 {{#node}}
-import FormData from "form-data";
+import {{^supportsES6}}* as{{/supportsES6}} FormData from "form-data";
 import { URLSearchParams } from 'url';
 {{/node}}
 {{/platforms}}
