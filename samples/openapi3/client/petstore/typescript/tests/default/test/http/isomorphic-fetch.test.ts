@@ -1,7 +1,7 @@
 import * as petstore from "ts-petstore-client";
 
 import { expect} from "chai";
-import * as FormData from "form-data";
+import FormData from "form-data";
 
 let libs: { [key: string]: petstore.HttpLibrary } = {
     "isomorphic-fetch": new petstore.IsomorphicFetchHttpLibrary()
