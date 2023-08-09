@@ -15,8 +15,10 @@
   ],
   "license": "Unlicense",
   "main": "./dist/index.js",
+  {{#supportTypeModule}}
   "type": "module",
   "module": "./dist/index.js",
+  {{/supportTypeModule}}
   "exports": {
     ".": {
       "import": "./dist/index.js",
