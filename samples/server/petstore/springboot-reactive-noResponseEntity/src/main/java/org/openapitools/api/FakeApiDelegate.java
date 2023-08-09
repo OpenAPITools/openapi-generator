@@ -87,7 +87,7 @@ public interface FakeApiDelegate {
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
                 String exampleString = "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
-                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
                 break;
             }
         }
@@ -141,7 +141,7 @@ public interface FakeApiDelegate {
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"UPPER_CASE_PROPERTY_SNAKE\" : \"UPPER_CASE_PROPERTY_SNAKE\", \"lower-case-property-dashes\" : \"lower-case-property-dashes\", \"property name with spaces\" : \"property name with spaces\", \"normalPropertyName\" : \"normalPropertyName\" }";
-                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
                 break;
             }
         }
@@ -197,7 +197,7 @@ public interface FakeApiDelegate {
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"client\" : \"client\" }";
-                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
                 break;
             }
         }
@@ -362,6 +362,27 @@ public interface FakeApiDelegate {
     }
 
     /**
+     * GET /fake/response-with-example
+     * This endpoint defines an example value for its response schema.
+     *
+     * @return Success (status code 200)
+     * @see FakeApi#testWithResultExample
+     */
+    default Mono<Integer> testWithResultExample(ServerWebExchange exchange) {
+        Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                String exampleString = "42";
+                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
+                break;
+            }
+        }
+        return result.then(Mono.empty());
+
+    }
+
+    /**
      * POST /fake/{petId}/uploadImageWithRequiredFile : uploads an image (required)
      * 
      *
@@ -380,7 +401,7 @@ public interface FakeApiDelegate {
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
-                result = ApiUtil.getExampleResponse(exchange, mediaType, exampleString);
+                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
                 break;
             }
         }
