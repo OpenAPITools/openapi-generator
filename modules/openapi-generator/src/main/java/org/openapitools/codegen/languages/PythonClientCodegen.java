@@ -51,8 +51,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     public static final String DATE_FORMAT = "dateFormat";
 
     protected String packageUrl;
-    protected String apiDocPath = "docs" + File.separator;
-    protected String modelDocPath = "docs" + File.separator;
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected String datetimeFormat = "%Y-%m-%dT%H:%M:%S.%f%z";
     protected String dateFormat = "%Y-%m-%d";
@@ -236,8 +236,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             // tests in <package>/test
             testFolder = packagePath() + File.separatorChar + testFolder;
             // api/model docs in <package>/docs
-            apiDocPath = packagePath() + File.separatorChar + apiDocPath;
-            modelDocPath = packagePath() + File.separatorChar + modelDocPath;
+            apiDocPath = packagePath() + "/" + apiDocPath;
+            modelDocPath = packagePath() + "/" + modelDocPath;
         }
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
