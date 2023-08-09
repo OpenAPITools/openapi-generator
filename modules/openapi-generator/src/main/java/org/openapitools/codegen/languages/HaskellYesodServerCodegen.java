@@ -108,12 +108,6 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
         specialCharReplacements.put(">", "GreaterThan");
         specialCharReplacements.put("<", "LessThan");
 
-        // backslash and double quote need double the escapement for both Java and Haskell
-        specialCharReplacements.remove("\\");
-        specialCharReplacements.remove("\"");
-        specialCharReplacements.put("\\\\", "Back_Slash");
-        specialCharReplacements.put("\\\"", "Double_Quote");
-
         outputFolder = "generated-code" + File.separator + "haskell-yesod";
         apiTemplateFiles.put("api.mustache", ".hs");
         apiTestTemplateFiles.put("api_test.mustache", ".hs");
