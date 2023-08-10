@@ -775,4 +775,20 @@ public class JSONTest {
             ScalarAnyOf s = json.getGson().fromJson(str, ScalarAnyOf.class);
         });
     }
+
+    /**
+     * Test array of number in a model's property
+     */
+    @Test
+    public void testArrayOfNumber() throws Exception {
+        // no exception should be thrown
+        String str = "{\"ArrayNumber\": null}";
+        ArrayOfNumberOnly s = json.getGson().fromJson(str, ArrayOfNumberOnly.class);
+
+        str = "{}";
+        s = json.getGson().fromJson(str, ArrayOfNumberOnly.class);
+
+        str = "{\"ArrayNumber\": [1,2,3]}";
+        s = json.getGson().fromJson(str, ArrayOfNumberOnly.class);
+    }
 }
