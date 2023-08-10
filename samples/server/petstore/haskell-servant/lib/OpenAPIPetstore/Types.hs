@@ -8,6 +8,7 @@ module OpenAPIPetstore.Types (
   Category (..),
   Order (..),
   Pet (..),
+  SpecialCharacters (..),
   Tag (..),
   User (..),
   ) where
@@ -156,6 +157,34 @@ optionsPet =
       , ("petPhotoUrls", "photoUrls")
       , ("petTags", "tags")
       , ("petStatus", "status")
+      ]
+
+
+-- | description
+data SpecialCharacters = SpecialCharacters
+  { specialCharactersDoubleQuote :: Text -- ^ double quote
+  , specialCharactersBackSlash :: Text -- ^ backslash
+  } deriving (Show, Eq, Generic, Data)
+
+instance FromJSON SpecialCharacters where
+  parseJSON = genericParseJSON optionsSpecialCharacters
+instance ToJSON SpecialCharacters where
+  toJSON = genericToJSON optionsSpecialCharacters
+instance ToSchema SpecialCharacters where
+  declareNamedSchema = Swagger.genericDeclareNamedSchema
+    $ Swagger.fromAesonOptions
+    $ optionsSpecialCharacters
+
+optionsSpecialCharacters :: Options
+optionsSpecialCharacters =
+  defaultOptions
+    { omitNothingFields  = True
+    , fieldLabelModifier = \s -> fromMaybe ("did not find JSON field name for " ++ show s) $ lookup s table
+    }
+  where
+    table =
+      [ ("specialCharactersDoubleQuote", "\"")
+      , ("specialCharactersBackSlash", "\\")
       ]
 
 
