@@ -1266,8 +1266,23 @@ paths:
           schema:
             $ref: '#/components/schemas/EnumClass'
       responses:
+        "200":
+          description: Get successful
+  /fake/return_list_of_object:
+    get:
+      tags:
+        - fake
+      summary: test returning list of objects
+      operationId: fake_return_list_of_objects
+      responses:
         200:
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ListOfObjects"
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2292,3 +2307,8 @@ components:
           type: string
       additionalProperties:
         description: This is what the additional property is
+    ListOfObjects:
+      type: array
+      title: ListOfObjects
+      items:
+        $ref: "#/components/schemas/Tag"
