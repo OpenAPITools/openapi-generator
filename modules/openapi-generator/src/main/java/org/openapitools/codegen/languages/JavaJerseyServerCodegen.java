@@ -85,7 +85,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
             property.example = null;
         }
 
-        //Add imports for Jackson
+        // --- Add imports for Jackson ----------
         if (!BooleanUtils.toBoolean(model.isEnum)) {
             model.imports.add("JsonProperty");
 
@@ -93,6 +93,12 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 model.imports.add("JsonValue");
             }
         }
+        
+        // --- Imports for Swagger2 ------------- 
+        if (this.isLibrary(LIBRARY_JERSEY3)) {
+        	model.imports.add("Schema");
+        }
+        
     }
 
     @Override
@@ -101,9 +107,18 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         // use default library if unset
         if (StringUtils.isEmpty(library)) {
-            setLibrary(DEFAULT_JERSEY_LIBRARY);
+            this.setLibrary(DEFAULT_JERSEY_LIBRARY);
+            
+        } else if (this.isLibrary(LIBRARY_JERSEY3)) {
+        	// --- Ensure to use Jakarta for jersey3 ----
+        	this.setUseJakartaEe(true);
+        	additionalProperties.put(USE_JAKARTA_EE, true);
+        	this.applyJakartaPackage();
+        	// --- Set Swagger2 annotations ---------------   
+        	annotationLibrary = AnnotationLibrary.SWAGGER2;
+        	
         }
-
+        
         if (additionalProperties.containsKey(CodegenConstants.IMPL_FOLDER)) {
             implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
         }
