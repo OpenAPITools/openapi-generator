@@ -650,23 +650,59 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    public String getTypeDeclaration(Schema p) {
+        p = ModelUtils.unaliasSchema(openAPI, p);
+
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = ModelUtils.getAdditionalProperties(p);
+            return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
+        }
+
+        String openAPIType = getSchemaType(p);
+        if (typeMapping.containsKey(openAPIType)) {
+            return typeMapping.get(openAPIType);
+        }
+
+        if (languageSpecificPrimitives.contains(openAPIType)) {
+            return openAPIType;
+        }
+
+        return toModelName(openAPIType);
+    }
+
+    @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
-        String type = null;
+        String type;
+
+        if (openAPIType == null) {
+            LOGGER.error("OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.", p.getName());
+            openAPIType = "UNKNOWN_OPENAPI_TYPE";
+        }
+
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type)) {
+            if (type != null) {
                 return type;
             }
         } else {
-            type = toModelName(openAPIType);
+            type = openAPIType;
         }
-        return type;
-    }
 
+        return toModelName(type);
+    }
 
     @Override
     public String toModelName(String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         // check if schema-mapping has a different model for this class, so we can use it
         // instead of the auto-generated one.
         if (schemaMapping.containsKey(name)) {
