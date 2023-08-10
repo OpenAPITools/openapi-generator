@@ -14,7 +14,7 @@ import java.io.InputStream
 class DefaultApi {
 
     @GET
-    suspend fun findPetsByStatus(@PathParam("path_default") pathDefault: kotlin.String,@PathParam("path_nullable") pathNullable: kotlin.String,@QueryParam("query_default") @DefaultValue("available")   queryDefault: kotlin.String,@HeaderParam("header_default")  @DefaultValue("available")  headerDefault: kotlin.String,@CookieParam("cookie_default") @DefaultValue("available")  cookieDefault: kotlin.String,@QueryParam("query_nullable")   queryNullable: kotlin.String?,@HeaderParam("header_nullable")   headerNullable: kotlin.String?,@CookieParam("cookie_nullable")  cookieNullable: kotlin.String?): Response {
+    suspend fun findPetsByStatus(@PathParam("path_default") pathDefault: kotlin.String,@PathParam("path_nullable") pathNullable: kotlin.String,@QueryParam("query_default") @DefaultValue("available")   queryDefault: kotlin.String,@HeaderParam("header_default")  @DefaultValue("available")  headerDefault: kotlin.String,@CookieParam("cookie_default") @DefaultValue("available")  cookieDefault: kotlin.String,@QueryParam("query_nullable")   queryNullable: kotlin.String?,@HeaderParam("header_nullable")   headerNullable: kotlin.String?,@CookieParam("cookie_nullable")  cookieNullable: kotlin.String?,@QueryParam("\$query-\$dollar-sign")   dollarQueryDollarDollarSign: kotlin.String?): Response {
         return Response.ok().entity("magic!").build();
     }
 }

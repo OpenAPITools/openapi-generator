@@ -178,28 +178,48 @@ type ParseString[T Number | string | bool] func(v string) (T, error)
 
 // parseFloat64 parses a string parameter to an float64.
 func parseFloat64(param string) (float64, error) {
+	if param == "" {
+		return 0, nil
+	}
+
 	return strconv.ParseFloat(param, 64)
 }
 
 // parseFloat32 parses a string parameter to an float32.
 func parseFloat32(param string) (float32, error) {
+	if param == "" {
+		return 0, nil
+	}
+
 	v, err := strconv.ParseFloat(param, 32)
 	return float32(v), err
 }
 
 // parseInt64 parses a string parameter to an int64.
 func parseInt64(param string) (int64, error) {
+	if param == "" {
+		return 0, nil
+	}
+
 	return strconv.ParseInt(param, 10, 64)
 }
 
 // parseInt32 parses a string parameter to an int32.
 func parseInt32(param string) (int32, error) {
+	if param == "" {
+		return 0, nil
+	}
+
 	val, err := strconv.ParseInt(param, 10, 32)
 	return int32(val), err
 }
 
 // parseBool parses a string parameter to an bool.
 func parseBool(param string) (bool, error) {
+	if param == "" {
+		return false, nil
+	}
+
 	return strconv.ParseBool(param)
 }
 

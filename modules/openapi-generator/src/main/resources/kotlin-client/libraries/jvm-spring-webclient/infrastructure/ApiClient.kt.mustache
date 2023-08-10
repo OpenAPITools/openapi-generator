@@ -1,5 +1,6 @@
 package {{packageName}}.infrastructure;
 
+import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
@@ -13,7 +14,7 @@ open class ApiClient(protected val client: WebClient) {
     protected inline fun <reified I : Any, reified T: Any?> request(requestConfig: RequestConfig<I>): Mono<ResponseEntity<T>> {
         return prepare(defaults(requestConfig))
             .retrieve()
-            .toEntity(T::class.java)
+            .toEntity(object : ParameterizedTypeReference<T>() {})
     }
 
     protected fun <I : Any> prepare(requestConfig: RequestConfig<I>) =

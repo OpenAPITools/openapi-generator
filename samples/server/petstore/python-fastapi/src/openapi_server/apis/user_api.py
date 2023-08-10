@@ -138,7 +138,7 @@ async def get_user_by_name(
     response_model_by_alias=True,
 )
 async def login_user(
-    username: str = Query(None, description="The user name for login", regex=r"^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$"),
+    username: str = Query(None, description="The user name for login", regex=r"/^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$/"),
     password: str = Query(None, description="The password for login in clear text"),
 ) -> str:
     """"""

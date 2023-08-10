@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - 'samples/client/petstore/kotlin*/**'
+      - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
   pull_request:
     paths:
       - 'samples/client/petstore/kotlin*/**'
+      - 'samples/client/others/kotlin-jvm-okhttp-parameter-tests/**'
 
 env:
   GRADLE_VERSION: 6.9
@@ -60,6 +62,7 @@ jobs:
           - samples/client/petstore/kotlin-jvm-spring-3-webclient
           - samples/client/petstore/kotlin-spring-cloud
           - samples/client/petstore/kotlin-name-parameter-mappings
+          - samples/client/others/kotlin-jvm-okhttp-parameter-tests
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
