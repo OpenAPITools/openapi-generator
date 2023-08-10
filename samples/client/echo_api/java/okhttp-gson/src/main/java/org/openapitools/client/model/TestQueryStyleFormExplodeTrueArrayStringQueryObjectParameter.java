@@ -163,7 +163,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // ensure the optional json data is an array if present
-      if (jsonObj.get("values") != null && !jsonObj.get("values").isJsonArray()) {
+      if (jsonObj.get("values") != null && !jsonObj.get("values").isJsonNull() && !jsonObj.get("values").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `values` to be an array in the JSON string but got `%s`", jsonObj.get("values").toString()));
       }
   }
