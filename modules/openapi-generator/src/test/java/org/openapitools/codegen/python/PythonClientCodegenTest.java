@@ -484,4 +484,21 @@ public class PythonClientCodegenTest {
         Assert.assertEquals(op.allParams.get(0).containerTypeMapped, "Dict");
         Assert.assertEquals(op.allParams.get(0).baseName, "dict_string_integer");
     }
+
+    @Test(description = "convert a model with dollar signs")
+    public void modelTestDollarSign() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/dollar-in-names-pull14359.yaml");
+        final DefaultCodegen codegen = new PythonClientCodegen();
+
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel simpleName = codegen.fromModel("$DollarModel$", openAPI.getComponents().getSchemas().get("$DollarModel$"));
+        Assert.assertEquals(simpleName.name, "$DollarModel$");
+        Assert.assertEquals(simpleName.classname, "DollarModel");
+        Assert.assertEquals(simpleName.classVarName, "dollar_model");
+
+        List<CodegenProperty> vars = simpleName.getVars();
+        Assert.assertEquals(vars.size(), 1);
+        CodegenProperty property = vars.get(0);
+        Assert.assertEquals(property.name, "dollar_value");
+    }
 }
