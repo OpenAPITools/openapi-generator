@@ -124,6 +124,8 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
                 encoding = FormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
             } else if contentType.hasPrefix("application/x-www-form-urlencoded") {
                 encoding = FormURLEncoding()
+            } else if contentType.hasPrefix("application/octet-stream"){
+                encoding = OctetStreamEncoding()
             } else {
                 fatalError("Unsupported Media Type - \(contentType)")
             }
@@ -587,6 +589,24 @@ private class FormURLEncoding: ParameterEncoding {
 
         if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
             urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        }
+
+        urlRequest.httpBody = requestBodyComponents.query?.data(using: .utf8)
+
+        return urlRequest
+    }
+}
+
+private class OctetStreamEncoding: ParameterEncoding {
+    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+
+        var urlRequest = urlRequest
+
+        var requestBodyComponents = URLComponents()
+        requestBodyComponents.queryItems = APIHelper.mapValuesToQueryItems(parameters ?? [:])
+
+        if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
+            urlRequest.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
         }
 
         urlRequest.httpBody = requestBodyComponents.query?.data(using: .utf8)
