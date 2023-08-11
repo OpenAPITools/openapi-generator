@@ -215,7 +215,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // remove dollar sign
-        name = name.replaceAll("$", "");
+        name = name.replace("$", "");
 
         // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
@@ -717,7 +717,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         String sanitizedName = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         // remove dollar sign
-        sanitizedName = sanitizedName.replaceAll("$", "");
+        sanitizedName = sanitizedName.replace("$", "");
         // remove whitespace
         sanitizedName = sanitizedName.replaceAll("\\s+", "");
 
