@@ -47,7 +47,7 @@ module.exports = {
             'category': utils.removeIfEmpty(Category.mapping(bundle, `${keyPrefix}category`)),
             'name': bundle.inputData?.[`${keyPrefix}name`],
             'photoUrls': bundle.inputData?.[`${keyPrefix}photoUrls`],
-            'tags': utils.removeKeyPrefixes(bundle.inputData?.[`${keyPrefix}tags`]),
+            'tags': utils.removeKeyPrefixes(bundle.inputData?.[`${keyPrefix}tags`], `${keyPrefix}tags`),
             'status': bundle.inputData?.[`${keyPrefix}status`],
         }
     },
